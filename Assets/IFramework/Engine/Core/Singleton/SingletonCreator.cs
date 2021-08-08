@@ -23,9 +23,7 @@
  *****************************************************************************/
 
 using System;
-using System.Reflection;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
@@ -70,7 +68,7 @@ namespace IFramework.Engine
             if (!Application.isPlaying) return instance;
             
             // 1、判断当前场景中是否存在T实例，有则返回
-            instance = Object.FindObjectOfType(type) as T;
+            instance = UnityEngine.Object.FindObjectOfType(type) as T;
             if (instance != null)
             {
                 instance.OnInit();
@@ -123,7 +121,7 @@ namespace IFramework.Engine
 
                 if (dontDestroy)
                 {
-                    Object.DontDestroyOnLoad(gameObject);
+                    GameObject.DontDestroyOnLoad(gameObject);
                 }
             }
             // 附加组件并返回

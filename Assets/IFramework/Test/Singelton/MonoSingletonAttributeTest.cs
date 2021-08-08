@@ -37,7 +37,8 @@ namespace IFramework.Test.Singelton
         }
     }
     
-    [MonoSingleton("[UI]Root/StartGame")]
+    [MonoSingleton("")]
+    // [MonoSingleton("[UI]Root/StartGame")]
     public class MonoSingletonAttributeTestDemo: MonoSingleton<MonoSingletonAttributeTestDemo>
     {
         private MonoSingletonAttributeTestDemo(){}
