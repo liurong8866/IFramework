@@ -26,15 +26,17 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
-    public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
+    /// <summary>
+    /// Mono属性单例，支持继承类的单例实例化
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public static class MonoSingletonProperty<T> where T : MonoBehaviour, ISingleton
     {
         // 静态实例
-        protected static T instance;
+        private static T instance;
         
         // 对象锁
-        static object locker = new object();
-
-        protected static bool isApplicationQuit = false;
+        private static readonly object locker = new object();
 
         /// <summary>
         /// 双重锁，线程安全
@@ -43,11 +45,11 @@ namespace IFramework.Engine
         {
             get
             {
-                if (instance == null && !isApplicationQuit)
+                if (instance == null)
                 {
                     lock (locker)
                     {
-                        if (instance == null && !isApplicationQuit)
+                        if (instance == null)
                         {
                             instance = SingletonCreator.CreateMonoSingleton<T>();
                         }
@@ -56,49 +58,17 @@ namespace IFramework.Engine
                 return instance;
             }
         }
-
-        /// <summary>
-        /// 单例初始化
-        /// </summary>
-        public virtual void OnInit() { }
-
+        
         /// <summary>
         /// 资源释放
         /// </summary>
-        public virtual void Dispose()
+        public static void Dispose()
         {
-            instance = null;
-            Destroy(gameObject);
-        }
-
-        /// <summary>
-        /// 应用程序退出：释放当前对象并销毁相关GameObject
-        /// </summary>
-        protected virtual void OnApplicationQuit()
-        {
-            isApplicationQuit = true;
-            
-            if(instance == null) return;
-            
-            Destroy(instance.gameObject);
-            
-            instance = null;
-        }
-        
-        /// <summary>
-        /// 释放当前对象
-        /// </summary>
-        protected virtual void OnDestroy()
-        {
-            instance = null;
-        }
-
-        /// <summary>
-        /// 判断当前应用程序是否退出
-        /// </summary>
-        public static bool IsApplicationQuit
-        {
-            get => isApplicationQuit;
+            if (instance != null)
+            {
+                Object.Destroy(instance.gameObject);
+                instance = null;
+            }
         }
     }
 }
