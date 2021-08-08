@@ -23,30 +23,39 @@
  *****************************************************************************/
 
 using System;
-using System.Reflection;
+using IFramework.Engine;
+using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Test.Singelton
 {
-    /// <summary>
-    /// 没有公共构造函数的类实例工厂
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class NoPublicConstructorFactory<T> : IFactory<T> where T : class
+    public class MonoSingletonTest : MonoBehaviour
     {
-        public T Create()
+        private void Start()
         {
-            // 找到所有私有构造函数
-            ConstructorInfo[] constructors = typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
+            MonoSingletonTestDemo1 a = MonoSingletonTestDemo1.Instance; 
+            MonoSingletonTestDemo1 b = MonoSingletonTestDemo1.Instance;
+            
+            Debug.Log(a == b);
+            Debug.Log(a.GetHashCode());
+            Debug.Log(b.GetHashCode());
+            
+            MonoSingletonTestDemo1.Instance.Say();
+        }
+    }
 
-            // 找到无参数的私有构造函数
-            ConstructorInfo constructor = Array.Find(constructors, c => c.GetParameters().Length == 0);
-
-            if (constructor == null)
-            {
-                throw new Exception("未找到无参私有构造函数: " + typeof(T));
-            }
-
-            return constructor.Invoke(null) as T;
+    public class MonoSingletonTestDemo1 : MonoSingleton<MonoSingletonTestDemo1>
+    {
+        // 私有化构造函数，防止外部New创建
+        private MonoSingletonTestDemo1(){}
+        
+        public void Say()
+        {
+            Debug.Log("hello world");
+        }
+        
+        public override void OnInit()
+        {
+            Debug.Log("这是单例初始化");
         }
     }
 }

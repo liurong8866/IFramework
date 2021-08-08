@@ -47,7 +47,7 @@ namespace IFramework.Engine
             // 如果是不是MonoBehaviour类型的类，则为通用实例方法
             if (!typeof(MonoBehaviour).IsAssignableFrom(typeof(T)))
             {
-                T instance = ObjectFactory.Create<T>();
+                T instance = ObjectFactory.CreateNoPublicConstructor<T>();
                 instance.OnInit();
                 return instance;
             }
@@ -86,7 +86,7 @@ namespace IFramework.Engine
 
                 if (custom != null)
                 {
-                    instance = AttachComponent<T>(custom.PathInHierarchy, true);
+                    instance = AttachComponent<T>(custom.PathInHierarchy, custom.DontDestroy);
                     break;
                 }
             }
@@ -166,6 +166,12 @@ namespace IFramework.Engine
             if (root == null)
             {
                 client = GameObject.Find(subPath[index]);
+                
+                // 在根节点标记 DontDestroy 标记
+                if (client != null && dontDestroy)
+                {
+                    GameObject.DontDestroyOnLoad(client);
+                }
             }
             // 如果是二级、三级等子路径，则在父路径下查找
             else
@@ -206,7 +212,7 @@ namespace IFramework.Engine
             else
             {
                 // 递归调用，当前节点作为父节点，查询
-                return FindGameObject(client, subPath, index++, build, dontDestroy);
+                return FindGameObject(client, subPath, ++index, build, dontDestroy);
             }
         }
         

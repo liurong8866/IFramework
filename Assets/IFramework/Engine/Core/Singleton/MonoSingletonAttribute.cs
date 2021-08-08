@@ -35,6 +35,9 @@ namespace IFramework.Engine
         // 在Hierarchy中的全路径
         private string pathInHierarchy;
 
+        // 标记不销毁
+        private bool dontDestroy = true;
+
         /// <summary>
         /// 单例特性构造函数
         /// </summary>
@@ -46,5 +49,12 @@ namespace IFramework.Engine
 
         // 获取Hierarchy中的全路径
         public string PathInHierarchy => pathInHierarchy;
+
+        // 标记不销毁
+        public bool DontDestroy
+        {
+            get => dontDestroy;
+            set => dontDestroy = value;
+        }
     }
 }
