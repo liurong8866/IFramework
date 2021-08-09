@@ -31,6 +31,7 @@ namespace IFramework.Engine
 {
     public static class GameObjectExtention
     {
+        /* Example
         public static void Example()
         {
             var gameObject = new GameObject();
@@ -52,17 +53,9 @@ namespace IFramework.Engine
             boxCollider.DestroyGameObject();
             transform.DestroyGameObject();
 
-            selfScript.DestroyGameObjGracefully();
-            boxCollider.DestroyGameObjGracefully();
-            transform.DestroyGameObjGracefully();
-
-            selfScript.DestroyGameObjAfterDelay(1.0f);
-            boxCollider.DestroyGameObjAfterDelay(1.0f);
-            transform.DestroyGameObjAfterDelay(1.0f);
-
-            selfScript.DestroyGameObjAfterDelayGracefully(1.0f);
-            boxCollider.DestroyGameObjAfterDelayGracefully(1.0f);
-            transform.DestroyGameObjAfterDelayGracefully(1.0f);
+            selfScript.DestroyGameObjectDelay(1.0f);
+            boxCollider.DestroyGameObjectDelay(1.0f);
+            transform.DestroySelf();
 
             gameObject.Layer(0);
             selfScript.Layer(0);
@@ -74,12 +67,38 @@ namespace IFramework.Engine
             boxCollider.Layer("Default");
             transform.Layer("Default");
         }
+        */
         
-        #region Show/Hide
+        /* Show & Hide */
 
         public static GameObject Show(this GameObject self)
         {
-            self.SetActive(true);
+            if (self)
+            {
+                self.SetActive(true);
+            }
+            return self;
+        }
+
+        public static GameObject Hide(this GameObject self)
+        {
+            if (self)
+            {
+                self.SetActive(false);
+            }
+            
+            return self;
+        }
+        
+        public static Behaviour Enable(this Behaviour self) 
+        {
+            self.enabled = true;
+            return self;
+        }
+
+        public static Behaviour Disable(this Behaviour self)
+        {
+            self.enabled = false;
             return self;
         }
 
@@ -88,172 +107,97 @@ namespace IFramework.Engine
             self.gameObject.Show();
             return self;
         }
-        
-        public static GameObject Hide(this GameObject self)
-        {
-            self.SetActive(false);
-            return self;
-        }
-        
+
         public static T Hide<T>(this T self) where T : Component
         {
             self.gameObject.Hide();
             return self;
         }
         
-        public static T Enable<T>(this T selfBehaviour) where T : Behaviour
+        public static T Enable<T>(this T self) where T : Behaviour
         {
-            selfBehaviour.enabled = true;
-            return selfBehaviour;
+            self.enabled = true;
+            return self;
         }
 
-        public static T Disable<T>(this T selfBehaviour) where T : Behaviour
+        public static T Disable<T>(this T self) where T : Behaviour
         {
-            selfBehaviour.enabled = false;
-            return selfBehaviour;
+            self.enabled = false;
+            return self;
         }
+         
+        /* Destroy */
         
-        #endregion
-
-        #region Destroy
-
         public static void DestroyGameObject<T>(this T self) where T : Component
         {
-            self.gameObject.DestroySelf();
+            if (self && self.gameObject)
+            {
+                self.gameObject.DestroySelf();
+            }
         }
         
-        public static void DestroyGameObjGracefully<T>(this T selfBehaviour) where T : Component
+        public static void DestroyGameObjectImmediate<T>(this T self) where T : Component
         {
-            if (selfBehaviour && selfBehaviour.gameObject)
+            if (self && self.gameObject)
             {
-                selfBehaviour.gameObject.DestroySelfGracefully();
+                self.gameObject.DestroySelfImmediate();
             }
         }
 
-        public static T DestroyGameObjAfterDelay<T>(this T selfBehaviour, float delay) where T : Component
+        public static T DestroyGameObjectDelay<T>(this T self, float delay) where T : Component
         {
-            selfBehaviour.gameObject.DestroySelfAfterDelay(delay);
-            return selfBehaviour;
-        }
-
-        public static T DestroyGameObjAfterDelayGracefully<T>(this T selfBehaviour, float delay) where T : Component
-        {
-            if (selfBehaviour && selfBehaviour.gameObject)
+            if (self && self.gameObject)
             {
-                selfBehaviour.gameObject.DestroySelfAfterDelay(delay);
+                self.gameObject.DestroySelfDelay(delay);
             }
 
-            return selfBehaviour;
+            return self;
         }
 
-        #endregion
-
-        #region Layer
+        /* Layer */
         
-        public static GameObject Layer(this GameObject selfObj, int layer)
+        public static GameObject Layer(this GameObject self, int layer)
         {
-            selfObj.layer = layer;
-            return selfObj;
+            self.layer = layer;
+            return self;
         }
 
-        public static T Layer<T>(this T selfComponent, int layer) where T : Component
+        public static GameObject Layer(this GameObject self, string layerName)
         {
-            selfComponent.gameObject.layer = layer;
-            return selfComponent;
+            self.layer = LayerMask.NameToLayer(layerName);
+            return self;
         }
 
-        public static GameObject Layer(this GameObject selfObj, string layerName)
+        public static T Layer<T>(this T self, int layer) where T : Component
         {
-            selfObj.layer = LayerMask.NameToLayer(layerName);
-            return selfObj;
+            self.gameObject.layer = layer;
+            return self;
         }
 
-        public static T Layer<T>(this T selfComponent, string layerName) where T : Component
+        public static T Layer<T>(this T self, string layerName) where T : Component
         {
-            selfComponent.gameObject.layer = LayerMask.NameToLayer(layerName);
-            return selfComponent;
+            self.gameObject.layer = LayerMask.NameToLayer(layerName);
+            return self;
         }
         
-        #endregion
+        /* Component */
 
-        #region Component
-
-        
-        public static T GetOrAddComponent<T>(this GameObject selfComponent) where T : Component
+        public static T AddComponentSafe<T>(this GameObject self) where T : Component
         {
-            var comp = selfComponent.gameObject.GetComponent<T>();
-            return comp ? comp : selfComponent.gameObject.AddComponent<T>();
+            var component = self.gameObject.GetComponent<T>();
+            return component ? component : self.gameObject.AddComponent<T>();
         }
 
-        public static T GetOrAddComponent<T>(this Component component) where T : Component
+        public static T AddComponentSafe<T>(this Component component) where T : Component
         {
-            return component.gameObject.GetOrAddComponent<T>();
+            return component.gameObject.AddComponentSafe<T>();
         }
 
-        public static Component GetOrAddComponent(this GameObject selfComponent, Type type)
+        public static Component AddComponentSafe(this GameObject self, Type type)
         {
-            var comp = selfComponent.gameObject.GetComponent(type);
-            return comp ? comp : selfComponent.gameObject.AddComponent(type);
+            var component = self.gameObject.GetComponent(type);
+            return component ? component : self.gameObject.AddComponent(type);
         }
 
-        #endregion
-
-        #region Camera
-
-        // var screenshotTexture2D = Camera.main.CaptureCamera(new Rect(0, 0, Screen.width, Screen.height));
-        // Log.I(screenshotTexture2D.width);
-        public static Texture2D CaptureCamera(this Camera camera, Rect rect)
-        {
-            var renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
-            camera.targetTexture = renderTexture;
-            camera.Render();
-
-            RenderTexture.active = renderTexture;
-
-            var screenShot = new Texture2D((int) rect.width, (int) rect.height, TextureFormat.RGB24, false);
-            screenShot.ReadPixels(rect, 0, 0);
-            screenShot.Apply();
-
-            camera.targetTexture = null;
-            RenderTexture.active = null;
-            Object.Destroy(renderTexture);
-
-            return screenShot;
-        }
-
-        #endregion
-
-        #region Color
-
-        // private static void Example()
-        // {
-        //     var color = "#C5563CFF".HtmlStringToColor();
-        //     Log.I(color);
-        //     
-        //     var gameObject = new GameObject();
-        //     var image = gameObject.AddComponent<Image>();
-        //     var rawImage = gameObject.AddComponent<RawImage>();
-        //
-        //     // image.color = new Color(image.color.r,image.color.g,image.color.b,1.0f);
-        //     image.ColorAlpha(1.0f);
-        //     rawImage.ColorAlpha(1.0f);
-        // }
-        
-        public static Color HtmlStringToColor(this string htmlString)
-        {
-            Color retColor;
-            var parseSucceed = ColorUtility.TryParseHtmlString(htmlString, out retColor);
-            return parseSucceed ? retColor : Color.black;
-        }
-        
-        public static T ColorAlpha<T>(this T selfGraphic, float alpha) where T : Graphic
-        {
-            var color = selfGraphic.color;
-            color.a = alpha;
-            selfGraphic.color = color;
-            return selfGraphic;
-        }
-
-        #endregion
     }
 }

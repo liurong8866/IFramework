@@ -450,7 +450,7 @@ namespace IFramework.Engine
 
             for (var i = 0; i < childCount; i++)
             {
-                selfComponent.transform.GetChild(i).DestroyGameObjGracefully();
+                selfComponent.transform.GetChild(i).DestroySelf();
             }
 
             return selfComponent;
@@ -462,7 +462,7 @@ namespace IFramework.Engine
 
             for (var i = 0; i < childCount; i++)
             {
-                selfGameObj.transform.GetChild(i).DestroyGameObjGracefully();
+                selfGameObj.transform.GetChild(i).DestroySelf();
             }
 
             return selfGameObj;

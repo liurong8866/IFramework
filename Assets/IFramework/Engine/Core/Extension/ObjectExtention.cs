@@ -30,182 +30,162 @@ namespace IFramework.Engine
 {
     public static class ObjectExtention
     {
+        /* Example
+        public delegate void DD();
+        
+        public static void Example()
+        {
+            Object gameObject = new GameObject();
+            gameObject
+                .As<Transform>()
+                .Identity()
+                .Name("test")
+                .Instantiate()
+                .DontDestroyOnLoad()
+                .DestroySelf();
+        
+            Action action1 = () => { Debug.Log("hello world"); };
+            action1.InvokeSafe();
+            
+            Action<int> action2 = (a) => { Debug.Log("hello world"); };
+            action2.InvokeSafe<int>(2);
+            
+            Action<int, string> action3 = (a, b) => { Debug.Log("hello world"); };
+            action3.InvokeSafe<int, string>( 2, "cat");
+            
+            DD dd = () => { Debug.Log("hello world"); };
+            dd.InvokeSafe();
+            
+            Func<int> func = ()=> 1;
+            func.InvokeSafe();
+        
+            gameObject.InvokeAction<Object>( (a)=>
+            {
+                a.DestroySelf();
+            });
+        
+        }
+        */
+        
+        /* Basic Method */
+        
+        // 用于支持链式调用中类型转换
         public static T As<T>(this object self) where T : class
         {
             return self as T;
         }
         
-        public static T Instantiate<T>(this T selfObj) where T : Object
+        public static T Name<T>(this T self, string name) where T : Object
         {
-            return Object.Instantiate(selfObj);
+            self.name = name;
+            return self;
         }
         
-        public static T Name<T>(this T selfObj, string name) where T : Object
+        public static T Instantiate<T>(this T self) where T : Object
         {
-            selfObj.name = name;
-            return selfObj;
+            return Object.Instantiate(self);
         }
+
+        /* Invoke */
         
-
-        #region Destroy/DontDestroy GameObject
-
-        public static void DestroySelf<T>(this T selfObj) where T : Object
+        public static bool InvokeSafe(this Action action)
         {
-            Object.Destroy(selfObj);
-        }
-
-        public static T DestroySelfGracefully<T>(this T selfObj) where T : Object
-        {
-            if (selfObj)
+            if (action != null)
             {
-                Object.Destroy(selfObj);
+                action();
+                return true;
             }
 
-            return selfObj;
+            return false;
         }
         
-        public static T DestroySelfAfterDelay<T>(this T selfObj, float afterDelay) where T : Object
+        public static bool InvokeSafe<T>(this Action<T> action, T t)
         {
-            Object.Destroy(selfObj, afterDelay);
-            return selfObj;
-        }
-
-        public static T DestroySelfAfterDelayGracefully<T>(this T selfObj, float delay) where T : Object
-        {
-            if (selfObj)
+            if (action != null)
             {
-                Object.Destroy(selfObj, delay);
-            }
-
-            return selfObj;
-        }
-
-        public static T DontDestroyOnLoad<T>(this T selfObj) where T : Object
-        {
-            Object.DontDestroyOnLoad(selfObj);
-            return selfObj;
-        }
-
-        #endregion
-        
-        #region Invoke Action Delegate
-
-        /// <summary>
-        /// 功能：不为空则调用 Func
-        /// 
-        /// 示例:
-        /// <code>
-        /// Func<int> func = ()=> 1;
-        /// var number = func.InvokeGracefully(); // 等价于 if (func != null) number = func();
-        /// </code>
-        /// </summary>
-        /// <param name="selfFunc"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static T InvokeGracefully<T>(this Func<T> selfFunc)
-        {
-            return null != selfFunc ? selfFunc() : default(T);
-        }
-        
-        /// <summary>
-        /// 功能：不为空则调用 Action
-        /// 
-        /// 示例:
-        /// <code>
-        /// System.Action action = () => Log.I("action called");
-        /// action.InvokeGracefully(); // if (action != null) action();
-        /// </code>
-        /// </summary>
-        /// <param name="selfAction"> action 对象 </param>
-        /// <returns> 是否调用成功 </returns>
-        public static bool InvokeGracefully(this Action selfAction)
-        {
-            if (null != selfAction)
-            {
-                selfAction();
+                action(t);
                 return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// 不为空则调用 Action<T>
-        /// 
-        /// 示例:
-        /// <code>
-        /// System.Action<int> action = (number) => Log.I("action called" + number);
-        /// action.InvokeGracefully(10); // if (action != null) action(10);
-        /// </code>
-        /// </summary>
-        /// <param name="selfAction"> action 对象</param>
-        /// <typeparam name="T">参数</typeparam>
-        /// <returns> 是否调用成功</returns>
-        public static bool InvokeGracefully<T>(this Action<T> selfAction, T t)
+        public static bool InvokeSafe<T, TK>(this Action<T, TK> action, T t, TK k)
         {
-            if (null != selfAction)
+            if (action != null)
             {
-                selfAction(t);
+                action(t, k);
                 return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// 不为空则调用 Action<T,K>
-        ///
-        /// 示例
-        /// <code>
-        /// System.Action<int,string> action = (number,name) => Log.I("action called" + number + name);
-        /// action.InvokeGracefully(10,"qframework"); // if (action != null) action(10,"qframework");
-        /// </code>
-        /// </summary>
-        /// <param name="selfAction"></param>
-        /// <returns> call succeed</returns>
-        public static bool InvokeGracefully<T, K>(this Action<T, K> selfAction, T t, K k)
+        public static bool InvokeSafe(this Delegate action, params object[] param)
         {
-            if (null != selfAction)
+            if (action != null)
             {
-                selfAction(t, k);
+                action.DynamicInvoke(param);
                 return true;
             }
 
             return false;
         }
-
-        /// <summary>
-        /// 不为空则调用委托
-        ///
-        /// 示例：
-        /// <code>
-        /// // delegate
-        /// TestDelegate testDelegate = () => { };
-        /// testDelegate.InvokeGracefully();
-        /// </code>
-        /// </summary>
-        /// <param name="selfAction"></param>
-        /// <returns> call suceed </returns>
-        public static bool InvokeGracefully(this Delegate selfAction, params object[] args)
+        
+        public static T InvokeSafe<T>(this Func<T> function)
         {
-            if (null != selfAction)
+            return function != null ? function() : default(T);
+        }
+
+        public static T InvokeAction<T>(this T self, Action<T> action) where T : Object
+        {
+            action.InvokeSafe(self);
+            return self;
+        }
+
+        /* Destroy */
+        
+        public static void DestroySelf<T>(this T self) where T : Object
+        {
+            if (self)
             {
-                selfAction.DynamicInvoke(args);
-                return true;
+                if (!(self is Transform))
+                {
+                    Object.Destroy(self);
+                }
+                else
+                {
+                    Object.Destroy((self as Transform).gameObject);
+                }
+                
             }
-
-            return false;
         }
 
-        /// <summary>
-        /// 调用自己
-        /// </summary>
-        public static T InvokeSelf<T>(this T selfObj, System.Action<T> toFunction) where T : Object
+        public static void DestroySelfImmediate<T>(this T self) where T : Object
         {
-            toFunction.InvokeGracefully(selfObj);
-            return selfObj;
+            if (self)
+            {
+                Object.DestroyImmediate(self);
+            }
+        }
+        
+        public static void DestroySelfDelay<T>(this T self, float delay) where T : Object
+        {
+            if (self)
+            {
+                Object.Destroy(self, delay);
+            }
         }
 
-        #endregion
+        public static T DontDestroyOnLoad<T>(this T self) where T : Object
+        {
+            if (self)
+            {
+                Object.DontDestroyOnLoad(self);
+            }
+            
+            return self;
+        }
+
     }
 }
