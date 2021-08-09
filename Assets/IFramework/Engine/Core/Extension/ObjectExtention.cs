@@ -28,6 +28,9 @@ using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// Unity Object 扩展方法
+    /// </summary>
     public static class ObjectExtention
     {
         /* Example
@@ -149,15 +152,7 @@ namespace IFramework.Engine
         {
             if (self)
             {
-                if (!(self is Transform))
-                {
-                    Object.Destroy(self);
-                }
-                else
-                {
-                    Object.Destroy((self as Transform).gameObject);
-                }
-                
+                Object.Destroy(self);
             }
         }
 

@@ -29,6 +29,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// C# 基础类型扩展方法
+    /// </summary>
     public static class BaseExtention
     {
         #region object 扩展

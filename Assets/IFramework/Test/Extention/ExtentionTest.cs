@@ -36,7 +36,9 @@ namespace IFramework.Test.Extention
         {
             // ObjectExtentionTest();
 
-            GameObjectExtentionTest();
+            // GameObjectExtentionTest();
+
+            TransformExtentiontest();
         }
 
         private void ObjectExtentionTest()
@@ -115,6 +117,19 @@ namespace IFramework.Test.Extention
             // selfScript.Layer("Default");
             // boxCollider.Layer("Default");
             // transform.Layer("Default");
+        }
+
+        private void TransformExtentiontest()
+        {
+            GameObject obj = new GameObject();
+
+            obj.transform
+                // .Parent(transform.FindRecursion("AAA"))
+                .Name("Hello")
+                .LocalIdentity()
+                .Identity(transform.FindRecursion("AAA"));
+
+            Debug.Log(obj.transform.Path()); 
         }
     }
     

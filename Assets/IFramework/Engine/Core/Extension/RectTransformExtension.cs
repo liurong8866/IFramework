@@ -26,6 +26,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// RectTransform 扩展方法
+    /// </summary>
     public static class RectTransformExtension
     {
         public static Vector2 GetPosInRootTrans(this RectTransform selfRectTransform, Transform rootTrans)

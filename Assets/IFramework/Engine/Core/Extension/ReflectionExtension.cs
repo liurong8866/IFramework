@@ -27,6 +27,9 @@ using System.Reflection;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// C# 反射类扩展方法
+    /// </summary>
     public static class ReflectionExtension
     {
         public static void Example()

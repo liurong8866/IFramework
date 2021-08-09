@@ -27,6 +27,9 @@ using UnityEngine.UI;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// Texture图片扩展方法
+    /// </summary>
     public static class TextureExtention
     {
         

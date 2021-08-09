@@ -27,6 +27,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// Transform 扩展方法
+    /// </summary>
     public static class TransformExtension
     {
         /* Example
@@ -96,12 +99,18 @@ namespace IFramework.Engine
 
         */
         
+        /// <summary>
+        /// 设置父节点
+        /// </summary>
         public static T Parent<T>(this T self, Component parent) where T : Component
         {
             self.transform.SetParent(parent == null ? null : parent.transform);
             return self;
         }
 
+        /// <summary>
+        /// 设置为根节点
+        /// </summary> 
         public static T AsRoot<T>(this T self) where T : Component
         {
             self.transform.SetParent(null);
@@ -117,7 +126,7 @@ namespace IFramework.Engine
             self.transform.localScale = Vector3.one;
             return self;
         }
-
+        
         /* LocalPosition */
         
         public static T LocalPosition<T>(this T self, Vector3 position) where T : Component
@@ -243,8 +252,7 @@ namespace IFramework.Engine
             self.transform.localScale = Vector3.one;
             return self;
         }
-
-
+        
         /* Identity */
 
         public static T Identity<T>(this T self) where T : Component
@@ -252,6 +260,16 @@ namespace IFramework.Engine
             self.transform.position = Vector3.zero;
             self.transform.rotation = Quaternion.identity;
             self.transform.localScale = Vector3.one;
+            return self;
+        }
+        
+        public static T Identity<T>(this T self, Transform transform) where T : Component
+        {
+            self.transform.SetParent(transform.parent);
+            self.transform.localPosition = transform.localPosition;
+            self.transform.localRotation = transform.localRotation;
+            self.transform.localScale = transform.localScale;
+
             return self;
         }
 
@@ -346,21 +364,29 @@ namespace IFramework.Engine
             return self;
         }
         
-
         /* Sibling */
 
+        /// <summary>
+        /// 设置为最底层
+        /// </summary>
         public static T AsLastSibling<T>(this T self) where T : Component
         {
             self.transform.SetAsLastSibling();
             return self;
         }
 
+        /// <summary>
+        /// 设置为最顶层
+        /// </summary>
         public static T AsFirstSibling<T>(this T self) where T : Component
         {
             self.transform.SetAsFirstSibling();
             return self;
         }
 
+        /// <summary>
+        /// 设置某一层级
+        /// </summary>
         public static T SiblingIndex<T>(this T self, int index) where T : Component
         {
             self.transform.SetSiblingIndex(index);
@@ -369,44 +395,67 @@ namespace IFramework.Engine
 
         /* Children */
 
-        public static T ShowChildTransByPath<T>(this T self, string path) where T : Component
+        /// <summary>
+        /// 显示指定子物体
+        /// </summary>
+        public static T ShowChild<T>(this T self, string path) where T : Component
         {
             self.transform.Find(path).gameObject.Show();
             return self;
         }
 
-        public static T HideChildTransByPath<T>(this T self, string path) where T : Component
+        /// <summary>
+        /// 隐藏指定子物体
+        /// </summary>
+        public static T HideChild<T>(this T self, string path) where T : Component
         {
             self.transform.Find(path).Hide();
             return self;
         }
 
-        public static void CopyDataFromTrans(this Transform self, Transform transform)
-        {
-            self.SetParent(transform.parent);
-            self.localPosition = transform.localPosition;
-            self.localRotation = transform.localRotation;
-            self.localScale = transform.localScale;
-        }
-
         /* Find Path */
         
-        public static Transform FindByPath(this Transform self, string path)
+        /// <summary>
+        /// 递归遍历查找指定的名字的子物体
+        /// </summary>
+        /// <param name="self">当前Transform</param>
+        /// <param name="findName">目标名</param>
+        /// <param name="stringComparison">字符串比较规则</param>
+        /// <returns></returns>
+        public static Transform FindRecursion(this Transform self, string findName, StringComparison stringComparison = StringComparison.Ordinal)
         {
-            return self.Find(path.Replace(".", "/"));
+            if (self.name.Equals(findName, stringComparison))
+            {
+                return self;
+            }
+
+            foreach (Transform child in self)
+            {
+                Transform find = child.FindRecursion(findName, stringComparison);
+                
+                if (find) return find;
+            }
+
+            return null;
         }
 
-        public static Transform SeekTrans(this Transform self, string uniqueName)
+        /// <summary>
+        /// 递归遍历查找相应条件的子物体
+        /// </summary>
+        public static Transform FindRecursion(this Transform self, Func<Transform, bool> function)
         {
-            var childTrans = self.Find(uniqueName);
-
-            if (childTrans != null)  return childTrans;
-
-            foreach (Transform trans in self)
+            if (function(self))
             {
-                childTrans = trans.SeekTrans(uniqueName);
+                return self;
+            }
 
-                if (childTrans != null)  return childTrans;
+            foreach (Transform child in self)
+            {
+                Transform find = child.FindRecursion(function);
+                if (find)
+                {
+                    return find;
+                }
             }
 
             return null;
@@ -423,61 +472,16 @@ namespace IFramework.Engine
                 child.ActionRecursion(action);
             }
         }
-
-        /// <summary>
-        /// 递归遍历查找指定的名字的子物体
-        /// </summary>
-        /// <param name="self">当前Transform</param>
-        /// <param name="findName">目标名</param>
-        /// <param name="stringComparison">字符串比较规则</param>
-        /// <returns></returns>
-        public static Transform FindChildRecursion(this Transform self, string findName, StringComparison stringComparison = StringComparison.Ordinal)
-        {
-            if (self.name.Equals(findName, stringComparison))
-            {
-                return self;
-            }
-
-            foreach (Transform child in self)
-            {
-                Transform find = child.FindChildRecursion(findName, stringComparison);
-                
-                if (find) return find;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// 递归遍历查找相应条件的子物体
-        /// </summary>
-        public static Transform FindChildRecursion(this Transform self, Func<Transform, bool> function)
-        {
-            if (function(self))
-            {
-                return self;
-            }
-
-            foreach (Transform child in self)
-            {
-                Transform find = child.FindChildRecursion(function);
-                if (find)
-                {
-                    return find;
-                }
-            }
-
-            return null;
-        }
-
+        
         /// <summary>
         /// 显示当前Transform路径
         /// </summary>
         public static string Path(this Transform transform)
         {
-            var sb = new System.Text.StringBuilder();
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
             
             Transform tran = transform;
+            
             while (true)
             {
                 sb.Insert(0, tran.name);
@@ -503,6 +507,9 @@ namespace IFramework.Engine
             }
         }
         
+        /// <summary>
+        /// 销毁所有子物体
+        /// </summary>
         public static Transform DestroyChildren(this Transform self)
         {
             var childCount = self.childCount;
@@ -514,7 +521,10 @@ namespace IFramework.Engine
             
             return self;
         }
-            
+        
+        /// <summary>
+        /// 销毁所有子物体
+        /// </summary>
         public static T DestroyChildren<T>(this T self) where T : Component
         {
             var childCount = self.transform.childCount;
@@ -526,7 +536,6 @@ namespace IFramework.Engine
 
             return self;
         }
-
-
+        
     }
 }

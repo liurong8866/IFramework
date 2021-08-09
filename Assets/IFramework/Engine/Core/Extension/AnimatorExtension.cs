@@ -28,6 +28,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 动画类扩展方法
+    /// </summary>
     public static class AnimatorExtension
     {
         public static void AddAnimatorParameterIfExists(this Animator animator, string parameterName, AnimatorControllerParameterType type, List<string> parameterList)

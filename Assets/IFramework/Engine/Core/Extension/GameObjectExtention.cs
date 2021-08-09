@@ -29,6 +29,9 @@ using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// GameObject 扩展方法
+    /// </summary>
     public static class GameObjectExtention
     {
         /* Example

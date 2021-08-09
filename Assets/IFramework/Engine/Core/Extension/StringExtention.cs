@@ -29,6 +29,9 @@ using System.Text.RegularExpressions;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// C# 字符串扩展方法
+    /// </summary>
     public static class StringExtention
     {
         /// <summary>
