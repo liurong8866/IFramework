@@ -22,17 +22,187 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
+using System.Collections.Generic;
+
 namespace IFramework.Engine.Core.Event
 {
+    // 事件代理
     public delegate void OnEvent(int key, params object[] param);
     
+    /// <summary>
+    /// 基于枚举类型的消息事件
+    /// </summary>
     public class EnumEvent : Singleton<EnumEvent>, IPoolable
     {
+        // 全局监听事件字典
+        private readonly Dictionary<int, EventListener> listenerMap = new Dictionary<int, EventListener>(50);
+        
+        // 单例私有构造函数
+        private EnumEvent() {}
+
+        /// <summary>
+        /// 注册事件
+        /// </summary>
+        public bool Register<T>(T key, OnEvent action) where T : IConvertible
+        {
+            var keyValue = key.ToInt32(null);
+
+            if (!listenerMap.TryGetValue(keyValue, out var listener))
+            {
+                listener = new EventListener();
+                listenerMap.Add(keyValue, listener);
+            }
+
+            return listener.Add(action);
+        }
+
+        /// <summary>
+        /// 取消注册某一事件
+        /// </summary>
+        public void UnRegister<T>(T key, OnEvent action) where T : IConvertible
+        {
+            if (listenerMap.TryGetValue(key.ToInt32(null), out var listener))
+            {
+                listener?.Remove(action);
+            }
+        }
+        
+        /// <summary>
+        /// 取消注册某一类型事件
+        /// </summary>
+        public void UnRegister<T>(T key) where T : IConvertible
+        {
+            var keyValue = key.ToInt32(null);
+            
+            if (listenerMap.TryGetValue(keyValue, out var listener))
+            {
+                listener?.Clear();
+                listener = null;
+                
+                listenerMap.Remove(keyValue);
+            }
+        }
+        
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        public bool Send<T>(T key, params object[] param) where T : IConvertible
+        {
+            int keyValue = key.ToInt32(null);
+            
+            if (listenerMap.TryGetValue(keyValue, out var listener))
+            {
+                if (listener != null)
+                {
+                    return listener.Invoke(keyValue, param);
+                }
+            }
+            return false;
+        }
+        
+        
         public void OnRecycled()
         {
-            throw new System.NotImplementedException();
+            listenerMap.Clear();
         }
 
         public bool IsRecycled { get; set; }
+        
+        
+        
+        /* 静态方法调用单例方法 */
+        
+        public static bool SendEvent<T>(T key, params object[] param) where T : IConvertible
+        {
+            return Instance.Send(key, param);
+        }
+
+        public static bool RegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        {
+            return Instance.Register(key, action);
+        }
+
+        public static void UnRegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        {
+            Instance.UnRegister(key, action);
+        }
+        
+        public static void UnRegisterEvent<T>(T key) where T : IConvertible
+        {
+            Instance.UnRegister(key);
+        }
+
+    }
+
+    /// <summary>
+    /// 事件监听消息列表
+    /// </summary>
+    class EventListener
+    {
+        private LinkedList<OnEvent> eventList;
+
+        // 调用方法
+        public bool Invoke(int key, params object[] param)
+        {
+            if (eventList == null || eventList.Count == 0)
+            {
+                return false;
+            }
+
+            OnEvent action = null;
+            LinkedListNode<OnEvent> next = eventList.First;
+            LinkedListNode<OnEvent> nextCache = null;
+
+            // 依次执行所有监听的方法
+            while (next != null)
+            {
+                // 取得当前事件
+                action = next.Value;
+                // 先于事件执行，记录下一级事件，避免在运行事件时取消注册事件（猜测）
+                nextCache = next.Next;
+                // 执行事件
+                action(key, param);
+                // 如果next事件丢失，可以使用缓存的指针指向该事件
+                next = next.Next ?? nextCache;
+            }
+
+            return true;
+        }
+        
+        // 添加监听消息
+        public bool Add(OnEvent listener)
+        {
+            if (eventList == null)
+            {
+                eventList = new LinkedList<OnEvent>();
+            }
+
+            if (eventList.Contains(listener))
+            {
+                return false;
+            }
+            
+            eventList.AddLast(listener);
+            return true;
+        }
+
+        // 移除监听消息
+        public void Remove(OnEvent listener)
+        {
+            if (eventList != null && eventList.Count > 0)
+            {
+                eventList.Remove(listener);
+            }
+        }
+        
+        // 清空所有监听消息
+        public void Clear()
+        {
+            if (eventList != null && eventList.Count > 0)
+            {
+                eventList.Clear();
+            }
+        }
     }
 }

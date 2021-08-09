@@ -34,8 +34,6 @@ namespace IFramework.Engine
     /// </summary>
     public static class BaseExtention
     {
-        #region object 扩展
-
         /// <summary>
         /// 转换字符串
         /// </summary>
@@ -410,7 +408,27 @@ namespace IFramework.Engine
                 return (T)formatter.Deserialize(objectStream);
             }
         }
+        
+        //如果为真，执行，并返回真
+        public static bool IfTrue(this bool boolean, Action action)
+        {
+            if (boolean)
+            {
+                action.Invoke();
+            }
 
-        #endregion
+            return boolean;
+        }
+        
+        //如果为假，执行，并返回假
+        public static bool IfFalse(this bool boolean, Action action)
+        {
+            if (!boolean)
+            {
+                action.Invoke();
+            }
+
+            return boolean;
+        }
     }
 }

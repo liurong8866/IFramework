@@ -22,16 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
+namespace IFramework.Engine.Core.Event
 {
-    /// <summary>
-    /// 可回收的
-    /// </summary>
-    public interface IRecycle
+    public class TypeEvent
     {
-        /// <summary>
-        /// 回收对象
-        /// </summary>
-        void Recycle();
+        
     }
 }
