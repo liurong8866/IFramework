@@ -44,6 +44,9 @@ public class IOTest : MonoBehaviour
         // DirectoryUtility.Clear("test1/test2");
         
         // DirectoryUtility.Copy("test1", "test2", true);
+        
+        
+        
     }
 
 }

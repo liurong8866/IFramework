@@ -29,6 +29,7 @@ namespace IFramework.Engine
 {
     public static class TransformExtension
     {
+        /* Example
         public static void Example()
         {
             var selfScript = new GameObject().AddComponent<MonoBehaviour>();
@@ -93,487 +94,355 @@ namespace IFramework.Engine
                 .SiblingIndex(0);
         }
 
-
-        /// <summary>
-        /// 缓存的一些变量,免得每次声明
-        /// </summary>
-        private static Vector3 mLocalPos;
-
-        private static Vector3 mScale;
-        private static Vector3 mPos;
-
-        #region CETR001 Parent
-
-        public static T Parent<T>(this T selfComponent, Component parentComponent) where T : Component
+        */
+        
+        public static T Parent<T>(this T self, Component parent) where T : Component
         {
-            selfComponent.transform.SetParent(parentComponent == null ? null : parentComponent.transform);
-            return selfComponent;
+            self.transform.SetParent(parent == null ? null : parent.transform);
+            return self;
         }
 
-        /// <summary>
-        /// 设置成为顶端 Transform
-        /// </summary>
-        /// <returns>The root transform.</returns>
-        /// <param name="selfComponent">Self component.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static T AsRootTransform<T>(this T selfComponent) where T : Component
+        public static T AsRoot<T>(this T self) where T : Component
         {
-            selfComponent.transform.SetParent(null);
-            return selfComponent;
+            self.transform.SetParent(null);
+            return self;
+        }
+        
+        /* LocalIdentity */
+        
+        public static T LocalIdentity<T>(this T self) where T : Component
+        {
+            self.transform.localPosition = Vector3.zero;
+            self.transform.localRotation = Quaternion.identity;
+            self.transform.localScale = Vector3.one;
+            return self;
         }
 
-        #endregion
-
-        #region CETR002 LocalIdentity
-
-        public static T LocalIdentity<T>(this T selfComponent) where T : Component
+        /* LocalPosition */
+        
+        public static T LocalPosition<T>(this T self, Vector3 position) where T : Component
         {
-            selfComponent.transform.localPosition = Vector3.zero;
-            selfComponent.transform.localRotation = Quaternion.identity;
-            selfComponent.transform.localScale = Vector3.one;
-            return selfComponent;
+            self.transform.localPosition = position;
+            return self;
         }
 
-        #endregion
-
-        #region CETR003 LocalPosition
-
-        public static T LocalPosition<T>(this T selfComponent, Vector3 localPos) where T : Component
+        public static T LocalPosition<T>(this T self, float x, float y, float z) where T : Component
         {
-            selfComponent.transform.localPosition = localPos;
-            return selfComponent;
+            self.transform.localPosition = new Vector3(x, y, z);
+            return self;
         }
 
-        public static Vector3 GetLocalPosition<T>(this T selfComponent) where T : Component
+        public static T LocalPosition<T>(this T self, float x, float y) where T : Component
         {
-            return selfComponent.transform.localPosition;
+            Vector3 position = self.transform.localPosition;
+            position.x = x;
+            position.y = y;
+            self.transform.localPosition = position;
+            return self;
+        }
+
+        public static T LocalPositionX<T>(this T self, float x) where T : Component
+        {
+            Vector3 position = self.transform.localPosition;
+            position.x = x;
+            self.transform.localPosition = position;
+            return self;
+        }
+
+        public static T LocalPositionY<T>(this T self, float y) where T : Component
+        {
+            Vector3 position = self.transform.localPosition;
+            position.y = y;
+            self.transform.localPosition = position;
+            return self;
+        }
+
+        public static T LocalPositionZ<T>(this T self, float z) where T : Component
+        {
+            Vector3 position = self.transform.localPosition;
+            position.z = z;
+            self.transform.localPosition = position;
+            return self;
+        }
+        
+        public static T LocalPositionIdentity<T>(this T self) where T : Component
+        {
+            self.transform.localPosition = Vector3.zero;
+            return self;
+        }
+
+        /* LocalRotation */
+
+        public static T LocalRotation<T>(this T self, Quaternion localRotation) where T : Component
+        {
+            self.transform.localRotation = localRotation;
+            return self;
+        }
+
+        public static T LocalRotationIdentity<T>(this T self) where T : Component
+        {
+            self.transform.localRotation = Quaternion.identity;
+            return self;
+        }
+
+        /* LocalScale */
+
+        public static T LocalScale<T>(this T self, Vector3 scale) where T : Component
+        {
+            self.transform.localScale = scale;
+            return self;
+        }
+
+        public static T LocalScale<T>(this T self, float scale) where T : Component
+        {
+            self.transform.localScale = Vector3.one * scale;
+            return self;
+        }
+
+        public static T LocalScale<T>(this T self, float x, float y, float z) where T : Component
+        {
+            self.transform.localScale = new Vector3(x, y, z);
+            return self;
+        }
+
+        public static T LocalScale<T>(this T self, float x, float y) where T : Component
+        {
+            Vector3 scale = self.transform.localScale;
+            scale.x = x;
+            scale.y = y;
+            self.transform.localScale = scale;
+            return self;
+        }
+
+        public static T LocalScaleX<T>(this T self, float x) where T : Component
+        {
+            Vector3 scale = self.transform.localScale;
+            scale.x = x;
+            self.transform.localScale = scale;
+            return self;
+        }
+
+        public static T LocalScaleY<T>(this T self, float y) where T : Component
+        {
+            Vector3 scale = self.transform.localScale;
+            scale.y = y;
+            self.transform.localScale = scale;
+            return self;
+        }
+
+        public static T LocalScaleZ<T>(this T self, float z) where T : Component
+        {
+            Vector3 scale = self.transform.localScale;
+            scale.z = z;
+            self.transform.localScale = scale;
+            return self;
+        }
+
+        public static T LocalScaleIdentity<T>(this T self) where T : Component
+        {
+            self.transform.localScale = Vector3.one;
+            return self;
         }
 
 
-        public static T LocalPosition<T>(this T selfComponent, float x, float y, float z) where T : Component
+        /* Identity */
+
+        public static T Identity<T>(this T self) where T : Component
         {
-            selfComponent.transform.localPosition = new Vector3(x, y, z);
-            return selfComponent;
+            self.transform.position = Vector3.zero;
+            self.transform.rotation = Quaternion.identity;
+            self.transform.localScale = Vector3.one;
+            return self;
         }
 
-        public static T LocalPosition<T>(this T selfComponent, float x, float y) where T : Component
+        /* Position */
+        
+        public static T Position<T>(this T self, Vector3 position) where T : Component
         {
-            mLocalPos = selfComponent.transform.localPosition;
-            mLocalPos.x = x;
-            mLocalPos.y = y;
-            selfComponent.transform.localPosition = mLocalPos;
-            return selfComponent;
+            self.transform.position = position;
+            return self;
         }
 
-        public static T LocalPositionX<T>(this T selfComponent, float x) where T : Component
+        public static T Position<T>(this T self, float x, float y, float z) where T : Component
         {
-            mLocalPos = selfComponent.transform.localPosition;
-            mLocalPos.x = x;
-            selfComponent.transform.localPosition = mLocalPos;
-            return selfComponent;
+            self.transform.position = new Vector3(x, y, z);
+            return self;
         }
 
-        public static T LocalPositionY<T>(this T selfComponent, float y) where T : Component
+        public static T Position<T>(this T self, float x, float y) where T : Component
         {
-            mLocalPos = selfComponent.transform.localPosition;
-            mLocalPos.y = y;
-            selfComponent.transform.localPosition = mLocalPos;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.x = x;
+            position.y = y;
+            self.transform.position = position;
+            return self;
         }
 
-        public static T LocalPositionZ<T>(this T selfComponent, float z) where T : Component
+        public static T PositionX<T>(this T self, float x) where T : Component
         {
-            mLocalPos = selfComponent.transform.localPosition;
-            mLocalPos.z = z;
-            selfComponent.transform.localPosition = mLocalPos;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.x = x;
+            self.transform.position = position;
+            return self;
         }
 
-
-        public static T LocalPositionIdentity<T>(this T selfComponent) where T : Component
+        public static T PositionX<T>(this T self, Func<float, float> xSetter) where T : Component
         {
-            selfComponent.transform.localPosition = Vector3.zero;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.x = xSetter(position.x);
+            self.transform.position = position;
+            return self;
         }
 
-        #endregion
-
-        #region CETR004 LocalRotation
-
-        public static Quaternion GetLocalRotation<T>(this T selfComponent) where T : Component
+        public static T PositionY<T>(this T self, float y) where T : Component
         {
-            return selfComponent.transform.localRotation;
+            Vector3 position = self.transform.position;
+            position.y = y;
+            self.transform.position = position;
+            return self;
         }
 
-        public static T LocalRotation<T>(this T selfComponent, Quaternion localRotation) where T : Component
+        public static T PositionY<T>(this T self, Func<float, float> ySetter) where T : Component
         {
-            selfComponent.transform.localRotation = localRotation;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.y = ySetter(position.y);
+            self.transform.position = position;
+            return self;
         }
 
-        public static T LocalRotationIdentity<T>(this T selfComponent) where T : Component
+        public static T PositionZ<T>(this T self, float z) where T : Component
         {
-            selfComponent.transform.localRotation = Quaternion.identity;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.z = z;
+            self.transform.position = position;
+            return self;
         }
 
-        #endregion
-
-        #region CETR005 LocalScale
-
-        public static T LocalScale<T>(this T selfComponent, Vector3 scale) where T : Component
+        public static T PositionZ<T>(this T self, Func<float, float> zSetter) where T : Component
         {
-            selfComponent.transform.localScale = scale;
-            return selfComponent;
+            Vector3 position = self.transform.position;
+            position.z = zSetter(position.z);
+            self.transform.position = position;
+            return self;
         }
 
-        public static Vector3 GetLocalScale<T>(this T selfComponent) where T : Component
+        public static T PositionIdentity<T>(this T self) where T : Component
         {
-            return selfComponent.transform.localScale;
+            self.transform.position = Vector3.zero;
+            return self;
         }
 
-        public static T LocalScale<T>(this T selfComponent, float xyz) where T : Component
+        /* Rotation */
+        
+        public static T Rotation<T>(this T self, Quaternion rotation) where T : Component
         {
-            selfComponent.transform.localScale = Vector3.one * xyz;
-            return selfComponent;
+            self.transform.rotation = rotation;
+            return self;
+        }
+        
+        public static T RotationIdentity<T>(this T self) where T : Component
+        {
+            self.transform.rotation = Quaternion.identity;
+            return self;
+        }
+        
+
+        /* Sibling */
+
+        public static T AsLastSibling<T>(this T self) where T : Component
+        {
+            self.transform.SetAsLastSibling();
+            return self;
         }
 
-        public static T LocalScale<T>(this T selfComponent, float x, float y, float z) where T : Component
+        public static T AsFirstSibling<T>(this T self) where T : Component
         {
-            mScale = selfComponent.transform.localScale;
-            mScale.x = x;
-            mScale.y = y;
-            mScale.z = z;
-            selfComponent.transform.localScale = mScale;
-            return selfComponent;
+            self.transform.SetAsFirstSibling();
+            return self;
         }
 
-        public static T LocalScale<T>(this T selfComponent, float x, float y) where T : Component
+        public static T SiblingIndex<T>(this T self, int index) where T : Component
         {
-            mScale = selfComponent.transform.localScale;
-            mScale.x = x;
-            mScale.y = y;
-            selfComponent.transform.localScale = mScale;
-            return selfComponent;
+            self.transform.SetSiblingIndex(index);
+            return self;
         }
 
-        public static T LocalScaleX<T>(this T selfComponent, float x) where T : Component
+        /* Children */
+
+        public static T ShowChildTransByPath<T>(this T self, string path) where T : Component
         {
-            mScale = selfComponent.transform.localScale;
-            mScale.x = x;
-            selfComponent.transform.localScale = mScale;
-            return selfComponent;
+            self.transform.Find(path).gameObject.Show();
+            return self;
         }
 
-        public static T LocalScaleY<T>(this T selfComponent, float y) where T : Component
+        public static T HideChildTransByPath<T>(this T self, string path) where T : Component
         {
-            mScale = selfComponent.transform.localScale;
-            mScale.y = y;
-            selfComponent.transform.localScale = mScale;
-            return selfComponent;
+            self.transform.Find(path).Hide();
+            return self;
         }
 
-        public static T LocalScaleZ<T>(this T selfComponent, float z) where T : Component
+        public static void CopyDataFromTrans(this Transform self, Transform transform)
         {
-            mScale = selfComponent.transform.localScale;
-            mScale.z = z;
-            selfComponent.transform.localScale = mScale;
-            return selfComponent;
+            self.SetParent(transform.parent);
+            self.localPosition = transform.localPosition;
+            self.localRotation = transform.localRotation;
+            self.localScale = transform.localScale;
         }
 
-        public static T LocalScaleIdentity<T>(this T selfComponent) where T : Component
+        /* Find Path */
+        
+        public static Transform FindByPath(this Transform self, string path)
         {
-            selfComponent.transform.localScale = Vector3.one;
-            return selfComponent;
+            return self.Find(path.Replace(".", "/"));
         }
 
-        #endregion
-
-        #region CETR006 Identity
-
-        public static T Identity<T>(this T selfComponent) where T : Component
+        public static Transform SeekTrans(this Transform self, string uniqueName)
         {
-            selfComponent.transform.position = Vector3.zero;
-            selfComponent.transform.rotation = Quaternion.identity;
-            selfComponent.transform.localScale = Vector3.one;
-            return selfComponent;
-        }
+            var childTrans = self.Find(uniqueName);
 
-        #endregion
+            if (childTrans != null)  return childTrans;
 
-        #region CETR007 Position
-
-        public static T Position<T>(this T selfComponent, Vector3 position) where T : Component
-        {
-            selfComponent.transform.position = position;
-            return selfComponent;
-        }
-
-        public static Vector3 GetPosition<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.position;
-        }
-
-        public static T Position<T>(this T selfComponent, float x, float y, float z) where T : Component
-        {
-            selfComponent.transform.position = new Vector3(x, y, z);
-            return selfComponent;
-        }
-
-        public static T Position<T>(this T selfComponent, float x, float y) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.x = x;
-            mPos.y = y;
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionIdentity<T>(this T selfComponent) where T : Component
-        {
-            selfComponent.transform.position = Vector3.zero;
-            return selfComponent;
-        }
-
-        public static T PositionX<T>(this T selfComponent, float x) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.x = x;
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionX<T>(this T selfComponent, Func<float, float> xSetter) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.x = xSetter(mPos.x);
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionY<T>(this T selfComponent, float y) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.y = y;
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionY<T>(this T selfComponent, Func<float, float> ySetter) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.y = ySetter(mPos.y);
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionZ<T>(this T selfComponent, float z) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.z = z;
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        public static T PositionZ<T>(this T selfComponent, Func<float, float> zSetter) where T : Component
-        {
-            mPos = selfComponent.transform.position;
-            mPos.z = zSetter(mPos.z);
-            selfComponent.transform.position = mPos;
-            return selfComponent;
-        }
-
-        #endregion
-
-        #region CETR008 Rotation
-
-        public static T RotationIdentity<T>(this T selfComponent) where T : Component
-        {
-            selfComponent.transform.rotation = Quaternion.identity;
-            return selfComponent;
-        }
-
-        public static T Rotation<T>(this T selfComponent, Quaternion rotation) where T : Component
-        {
-            selfComponent.transform.rotation = rotation;
-            return selfComponent;
-        }
-
-        public static Quaternion GetRotation<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.rotation;
-        }
-
-        #endregion
-
-        #region CETR009 WorldScale/LossyScale/GlobalScale/Scale
-
-        public static Vector3 GetGlobalScale<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.lossyScale;
-        }
-
-        public static Vector3 GetScale<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.lossyScale;
-        }
-
-        public static Vector3 GetWorldScale<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.lossyScale;
-        }
-
-        public static Vector3 GetLossyScale<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.transform.lossyScale;
-        }
-
-        #endregion
-
-        #region CETR010 Destroy All Child
-
-        [Obsolete("弃用啦 请使用 DestroyChildren")]
-        public static T DestroyAllChild<T>(this T selfComponent) where T : Component
-        {
-            return selfComponent.DestroyChildren();
-        }
-
-        [Obsolete("弃用啦 请使用 DestroyChildren")]
-        public static GameObject DestroyAllChild(this GameObject selfGameObj)
-        {
-            return selfGameObj.DestroyChildren();
-        }
-
-        public static T DestroyChildren<T>(this T selfComponent) where T : Component
-        {
-            var childCount = selfComponent.transform.childCount;
-
-            for (var i = 0; i < childCount; i++)
-            {
-                selfComponent.transform.GetChild(i).DestroySelf();
-            }
-
-            return selfComponent;
-        }
-
-        public static GameObject DestroyChildren(this GameObject selfGameObj)
-        {
-            var childCount = selfGameObj.transform.childCount;
-
-            for (var i = 0; i < childCount; i++)
-            {
-                selfGameObj.transform.GetChild(i).DestroySelf();
-            }
-
-            return selfGameObj;
-        }
-
-        #endregion
-
-        #region CETR011 Sibling Index
-
-        public static T AsLastSibling<T>(this T selfComponent) where T : Component
-        {
-            selfComponent.transform.SetAsLastSibling();
-            return selfComponent;
-        }
-
-        public static T AsFirstSibling<T>(this T selfComponent) where T : Component
-        {
-            selfComponent.transform.SetAsFirstSibling();
-            return selfComponent;
-        }
-
-        public static T SiblingIndex<T>(this T selfComponent, int index) where T : Component
-        {
-            selfComponent.transform.SetSiblingIndex(index);
-            return selfComponent;
-        }
-
-        #endregion
-
-
-        public static Transform FindByPath(this Transform selfTrans, string path)
-        {
-            return selfTrans.Find(path.Replace(".", "/"));
-        }
-
-        public static Transform SeekTrans(this Transform selfTransform, string uniqueName)
-        {
-            var childTrans = selfTransform.Find(uniqueName);
-
-            if (null != childTrans)
-                return childTrans;
-
-            foreach (Transform trans in selfTransform)
+            foreach (Transform trans in self)
             {
                 childTrans = trans.SeekTrans(uniqueName);
 
-                if (null != childTrans)
-                    return childTrans;
+                if (childTrans != null)  return childTrans;
             }
 
             return null;
         }
 
-        public static T ShowChildTransByPath<T>(this T selfComponent, string tranformPath) where T : Component
-        {
-            selfComponent.transform.Find(tranformPath).gameObject.Show();
-            return selfComponent;
-        }
-
-        public static T HideChildTransByPath<T>(this T selfComponent, string tranformPath) where T : Component
-        {
-            selfComponent.transform.Find(tranformPath).Hide();
-            return selfComponent;
-        }
-
-        public static void CopyDataFromTrans(this Transform selfTrans, Transform fromTrans)
-        {
-            selfTrans.SetParent(fromTrans.parent);
-            selfTrans.localPosition = fromTrans.localPosition;
-            selfTrans.localRotation = fromTrans.localRotation;
-            selfTrans.localScale = fromTrans.localScale;
-        }
-
         /// <summary>
         /// 递归遍历子物体，并调用函数
         /// </summary>
-        /// <param name="tfParent"></param>
-        /// <param name="action"></param>
-        public static void ActionRecursion(this Transform tfParent, Action<Transform> action)
+        public static void ActionRecursion(this Transform transform, Action<Transform> action)
         {
-            action(tfParent);
-            foreach (Transform tfChild in tfParent)
+            action(transform);
+            foreach (Transform child in transform)
             {
-                tfChild.ActionRecursion(action);
+                child.ActionRecursion(action);
             }
         }
 
         /// <summary>
         /// 递归遍历查找指定的名字的子物体
         /// </summary>
-        /// <param name="tfParent">当前Transform</param>
-        /// <param name="name">目标名</param>
+        /// <param name="self">当前Transform</param>
+        /// <param name="findName">目标名</param>
         /// <param name="stringComparison">字符串比较规则</param>
         /// <returns></returns>
-        public static Transform FindChildRecursion(this Transform tfParent, string name,
-            StringComparison stringComparison = StringComparison.Ordinal)
+        public static Transform FindChildRecursion(this Transform self, string findName, StringComparison stringComparison = StringComparison.Ordinal)
         {
-            if (tfParent.name.Equals(name, stringComparison))
+            if (self.name.Equals(findName, stringComparison))
             {
-                //Debug.Log("Hit " + tfParent.name);
-                return tfParent;
+                return self;
             }
 
-            foreach (Transform tfChild in tfParent)
+            foreach (Transform child in self)
             {
-                Transform tfFinal = null;
-                tfFinal = tfChild.FindChildRecursion(name, stringComparison);
-                if (tfFinal)
-                {
-                    return tfFinal;
-                }
+                Transform find = child.FindChildRecursion(findName, stringComparison);
+                
+                if (find) return find;
             }
 
             return null;
@@ -582,39 +451,38 @@ namespace IFramework.Engine
         /// <summary>
         /// 递归遍历查找相应条件的子物体
         /// </summary>
-        /// <param name="tfParent">当前Transform</param>
-        /// <param name="predicate">条件</param>
-        /// <returns></returns>
-        public static Transform FindChildRecursion(this Transform tfParent, Func<Transform, bool> predicate)
+        public static Transform FindChildRecursion(this Transform self, Func<Transform, bool> function)
         {
-            if (predicate(tfParent))
+            if (function(self))
             {
-                Debug.Log("Hit " + tfParent.name);
-                return tfParent;
+                return self;
             }
 
-            foreach (Transform tfChild in tfParent)
+            foreach (Transform child in self)
             {
-                Transform tfFinal = null;
-                tfFinal = tfChild.FindChildRecursion(predicate);
-                if (tfFinal)
+                Transform find = child.FindChildRecursion(function);
+                if (find)
                 {
-                    return tfFinal;
+                    return find;
                 }
             }
 
             return null;
         }
 
-        public static string GetPath(this Transform transform)
+        /// <summary>
+        /// 显示当前Transform路径
+        /// </summary>
+        public static string Path(this Transform transform)
         {
             var sb = new System.Text.StringBuilder();
-            var t = transform;
+            
+            Transform tran = transform;
             while (true)
             {
-                sb.Insert(0, t.name);
-                t = t.parent;
-                if (t)
+                sb.Insert(0, tran.name);
+                tran = tran.parent;
+                if (tran)
                 {
                     sb.Insert(0, "/");
                 }
@@ -624,5 +492,41 @@ namespace IFramework.Engine
                 }
             }
         }
+        
+        /* Destroy */
+        
+        public static void DestroySelf(this Transform self)
+        {
+            if (self)
+            {
+                UnityEngine.Object.Destroy(self.gameObject);
+            }
+        }
+        
+        public static Transform DestroyChildren(this Transform self)
+        {
+            var childCount = self.childCount;
+
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                self.transform.GetChild(i).DestroySelf();
+            }
+            
+            return self;
+        }
+            
+        public static T DestroyChildren<T>(this T self) where T : Component
+        {
+            var childCount = self.transform.childCount;
+
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                self.transform.GetChild(i).DestroySelf();
+            }
+
+            return self;
+        }
+
+
     }
 }

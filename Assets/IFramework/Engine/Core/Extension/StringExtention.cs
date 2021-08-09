@@ -31,233 +31,242 @@ namespace IFramework.Engine
 {
     public static class StringExtention
     {
-        public static void Example()
-        {
-            var emptyStr = string.Empty;
-            emptyStr.IsNotNullAndEmpty();
-            emptyStr.IsNullOrEmpty();
-            emptyStr = emptyStr.Append("appended").Append("1").ToString();
-            emptyStr.IsNullOrEmpty();
-        }
-
         /// <summary>
-        /// Check Whether string is null or empty
+        /// 判断是否为空
         /// </summary>
-        /// <param name="selfStr"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty(this string selfStr)
+        public static bool IsNullOrEmpty(this string value)
         {
-            return string.IsNullOrEmpty(selfStr);
+            return string.IsNullOrEmpty(value);
         }
 
         /// <summary>
-        /// Check Whether string is null or empty
+        /// 截取字符串左面
         /// </summary>
-        /// <param name="selfStr"></param>
+        /// <param name="value">数据源</param>
+        /// <param name="length">截取长度</param>
         /// <returns></returns>
-        public static bool IsNotNullAndEmpty(this string selfStr)
+        public static string Left(this string value, int length)
         {
-            return !string.IsNullOrEmpty(selfStr);
+            //返回非贪婪数据
+            return Left(value, length, false);
         }
 
         /// <summary>
-        /// Check Whether string trim is null or empty
+        /// 截取字符串左面
         /// </summary>
-        /// <param name="selfStr"></param>
+        /// <param name="value">数据源</param>
+        /// <param name="length">截取长度</param>
+        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
         /// <returns></returns>
-        public static bool IsTrimNotNullAndEmpty(this string selfStr)
+        public static string Left(this string value, int length, bool greedy)
         {
-            return selfStr != null && !string.IsNullOrEmpty(selfStr.Trim());
-        }
+            string result = "";
 
-        public static bool IsTrimNullOrEmpty(this string selfStr)
-        {
-            return selfStr == null || string.IsNullOrEmpty(selfStr.Trim());
-        }
-
-        /// <summary>
-        /// 缓存
-        /// </summary>
-        private static readonly char[] mCachedSplitCharArray = {'.'};
-
-        /// <summary>
-        /// Split
-        /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="splitSymbol"></param>
-        /// <returns></returns>
-        public static string[] Split(this string selfStr, char splitSymbol)
-        {
-            mCachedSplitCharArray[0] = splitSymbol;
-            return selfStr.Split(mCachedSplitCharArray);
-        }
-
-        /// <summary>
-        /// 首字母大写
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string UppercaseFirst(this string str)
-        {
-            return char.ToUpper(str[0]) + str.Substring(1);
-        }
-
-        /// <summary>
-        /// 首字母小写
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string LowercaseFirst(this string str)
-        {
-            return char.ToLower(str[0]) + str.Substring(1);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string ToUnixLineEndings(this string str)
-        {
-            return str.Replace("\r\n", "\n").Replace("\r", "\n");
-        }
-
-        /// <summary>
-        /// 转换成 CSV
-        /// </summary>
-        /// <param name="values"></param>
-        /// <returns></returns>
-        public static string ToCSV(this string[] values)
-        {
-            return string.Join(", ", values
-                .Where(value => !string.IsNullOrEmpty(value))
-                .Select(value => value.Trim())
-                .ToArray()
-            );
-        }
-
-        public static string[] ArrayFromCSV(this string values)
-        {
-            return values
-                .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(value => value.Trim())
-                .ToArray();
-        }
-
-        public static string ToSpacedCamelCase(this string text)
-        {
-            var sb = new StringBuilder(text.Length * 2);
-            sb.Append(char.ToUpper(text[0]));
-            for (var i = 1; i < text.Length; i++)
+            //如果不为空则
+            if (!value.IsNullOrEmpty())
             {
-                if (char.IsUpper(text[i]) && text[i - 1] != ' ')
-                {
-                    sb.Append(' ');
-                }
+                int len = value.Length;
 
-                sb.Append(text[i]);
+                //如果大于截取长度则
+                if (len > length)
+                {
+                    result = value.Substring(0, length);
+                }
+                else
+                {
+                    //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
+                    result = greedy ? value : "";
+                }
+            }
+            else
+            {
+                result = "";
             }
 
-            return sb.ToString();
+            return result;
         }
 
         /// <summary>
-        /// 有点不安全,编译器不会帮你排查错误。
+        /// 截取字符串右面
         /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="args"></param>
+        /// <param name="value">数据源</param>
+        /// <param name="length">截取长度</param>
         /// <returns></returns>
-        public static string FillFormat(this string selfStr, params object[] args)
+        public static string Right(this string value, int length)
         {
-            return string.Format(selfStr, args);
+            //返回非贪婪数据
+            return Right(value, length, false);
+        }
+
+        /// <summary>
+        /// 截取字符串右面
+        /// </summary>
+        /// <param name="value">数据源</param>
+        /// <param name="length">截取长度</param>
+        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
+        /// <returns></returns>
+        public static string Right(this string value, int length, bool greedy)
+        {
+            string result = "";
+
+            //如果不为空则
+            if (!value.IsNullOrEmpty())
+            {
+                int len = value.Length;
+
+                //如果大于截取长度则
+                if (len > length)
+                {
+                    result = value.Substring(len - length);
+                }
+                else
+                {
+                    //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
+                    result = greedy ? value : "";
+                }
+            }
+            else
+            {
+                result = "";
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 截取字符串中间
+        /// </summary>
+        /// <param name="value">数据源</param>
+        /// <param name="startIndex">开始位置(从1开始)</param>
+        /// <param name="length">截取长度</param>
+        /// <returns></returns>
+        public static string Middle(this string value, int startIndex, int length)
+        {
+            //返回非贪婪数据
+            return Middle(value, startIndex, length, false);
+        }
+
+        /// <summary>
+        /// 截取字符串右面
+        /// </summary>
+        /// <param name="value">数据源</param>
+        /// <param name="startIndex">开始位置()</param>
+        /// <param name="length">截取长度</param>
+        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
+        /// <returns></returns>
+        public static string Middle(this string value, int startIndex, int length, bool greedy)
+        {
+            string result = "";
+
+            //如果不为空则
+            if (!value.IsNullOrEmpty())
+            {
+                int len = value.Length;
+
+                //如果开始位置不正确,返回""
+                if (startIndex < 1 || startIndex > len)
+                {
+                    result = "";
+                }
+                else
+                {
+                    //如果大于截取长度则
+                    if (len - startIndex > length)
+                    {
+                        result = value.Substring((startIndex - 1), length);
+                    }
+                    else
+                    {
+                        //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
+                        result = greedy ? value : "";
+                    }
+                }
+            }
+            else
+            {
+                result = "";
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// 取得骆驼命名方式
+        /// </summary>
+        public static string ToCamel(this string value)
+        {
+            string result = "";
+
+            //如果不为空则
+            if (!value.IsNullOrEmpty())
+            {
+                result = value[0].ToString().ToLower() + value.Substring(1);
+            }
+            else
+            {
+                result = "";
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得帕斯卡
+        /// </summary>
+        public static string ToPascal(this string value)
+        {
+            string result = "";
+
+            //如果不为空则
+            if (!value.IsNullOrEmpty())
+            {
+                result = value[0].ToString().ToUpper() + value.Substring(1);
+            }
+            else
+            {
+                result = "";
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Windows转Linux回车换行符
+        /// </summary>
+        public static string ToUnixLineEndings(this string value)
+        {
+            return value.Replace("\r\n", "\n").Replace("\r", "\n");
+        }
+        
+        /// <summary>
+        /// 添加后缀
+        /// </summary>
+        public static string Append(this string value, string content)
+        {
+            return new StringBuilder(value).Append(content).ToString();
         }
 
         /// <summary>
         /// 添加前缀
         /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="toAppend"></param>
-        /// <returns></returns>
-        public static StringBuilder Append(this string selfStr, string toAppend)
+        public static string AppendPrefix(this string value, string content)
         {
-            return new StringBuilder(selfStr).Append(toAppend);
+            return new StringBuilder(content).Append(value).ToString();
         }
 
         /// <summary>
-        /// 添加后缀
+        /// 格式化字符串
         /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="toPrefix"></param>
-        /// <returns></returns>
-        public static string AddPrefix(this string selfStr, string toPrefix)
+        public static string Format(this string value, params object[] args)
         {
-            return new StringBuilder(toPrefix).Append(selfStr).ToString();
-        }
-
-        /// <summary>
-        /// 格式化
-        /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="toAppend"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static StringBuilder AppendFormat(this string selfStr, string toAppend, params object[] args)
-        {
-            return new StringBuilder(selfStr).AppendFormat(toAppend, args);
-        }
-
-        /// <summary>
-        /// 最后一个单词
-        /// </summary>
-        /// <param name="selfUrl"></param>
-        /// <returns></returns>
-        public static string LastWord(this string selfUrl)
-        {
-            return selfUrl.Split('/').Last();
-        }
-
-        /// <summary>
-        /// 解析成数字类型
-        /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="defaulValue"></param>
-        /// <returns></returns>
-        public static int ToInt(this string selfStr, int defaulValue = 0)
-        {
-            var retValue = defaulValue;
-            return int.TryParse(selfStr, out retValue) ? retValue : defaulValue;
-        }
-
-        /// <summary>
-        /// 解析到时间类型
-        /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static DateTime ToDateTime(this string selfStr, DateTime defaultValue = default(DateTime))
-        {
-            var retValue = defaultValue;
-            return DateTime.TryParse(selfStr, out retValue) ? retValue : defaultValue;
-        }
-
-
-        /// <summary>
-        /// 解析 Float 类型
-        /// </summary>
-        /// <param name="selfStr"></param>
-        /// <param name="defaulValue"></param>
-        /// <returns></returns>
-        public static float ToFloat(this string selfStr, float defaulValue = 0)
-        {
-            var retValue = defaulValue;
-            return float.TryParse(selfStr, out retValue) ? retValue : defaulValue;
+            return string.Format(value, args);
         }
 
         /// <summary>
         /// 是否存在中文字符
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public static bool HasChinese(this string input)
         {
             return Regex.IsMatch(input, @"[\u4e00-\u9fa5]");
@@ -266,8 +275,6 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否存在空格
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public static bool HasSpace(this string input)
         {
             return input.Contains(" ");
@@ -276,9 +283,6 @@ namespace IFramework.Engine
         /// <summary>
         /// 删除特定字符
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
         public static string RemoveString(this string str, params string[] targets)
         {
             return targets.Aggregate(str, (current, t) => current.Replace(t, string.Empty));
