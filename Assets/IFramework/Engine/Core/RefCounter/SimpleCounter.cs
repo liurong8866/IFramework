@@ -24,15 +24,36 @@
 
 namespace IFramework.Engine
 {
-    public interface IRefCounter
+    public class SimpleCounter : ICounter
     {
-        // 数量
-        int Count { get; }
+        public SimpleCounter()
+        {
+            Count = 0;
+        }
 
-        // 记录
-        void Retain(object owner = null);
+        public int Count { get; private set; }
+        
+        public void Retain(object owner = null)
+        {
+            Count++;
+        }
 
-        // 释放
-        void Release(object owner = null);
+        public void Release(object owner = null)
+        {
+            Count--;
+            if (Count == 0)
+            {
+                OnZero();
+            }
+        }
+
+        /// <summary>
+        /// 当释放动作后，数量为0时的事件
+        /// </summary>
+        protected virtual void OnZero()
+        {
+            "0了".LogInfo();
+        }
+        
     }
 }

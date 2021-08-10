@@ -22,38 +22,17 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections.Generic;
-
 namespace IFramework.Engine
 {
-    public class SafeRefCounter : IRefCounter
+    public interface ICounter
     {
-        private readonly HashSet<object> owners = new HashSet<object>();
-        
-        public int Count
-        {
-            get { return owners.Count; }
-        }
+        // 数量
+        int Count { get; }
 
-        public HashSet<object> Owners
-        {
-            get { return owners; }
-        }
+        // 记录
+        void Retain(object owner = null);
 
-        public void Retain(object owner)
-        {
-            if (!owners.Add(owner))
-            {
-                "对象已经被记忆过".LogWarning();
-            }
-        }
-
-        public void Release(object owner)
-        {
-            if (!owners.Remove(owner))
-            {
-                "没有找到要释放的对象".LogWarning();
-            }
-        }
+        // 释放
+        void Release(object owner = null);
     }
 }

@@ -22,35 +22,52 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
+using System;
+using IFramework.Engine;
+using IFramework.Test.Model;
+using UnityEngine;
+
+namespace IFramework.Test.RefCounter
 {
-    public class SimpleRefCounter : IRefCounter
+    public class RefCounterTest : MonoBehaviour
     {
-        public SimpleRefCounter()
+        private void Start()
         {
-            Count = 0;
+            // SimpleCounterTest();
+
+            SafeCounterTest();
         }
 
-        public int Count { get; private set; }
-        
-        public void Retain(object owner = null)
+        public void SimpleCounterTest()
         {
-            Count++;
+            
+            SimpleCounter simpleRefCounter = new SimpleCounter();
+        
+            simpleRefCounter.Retain();
+            simpleRefCounter.Retain();
+            simpleRefCounter.Retain();
+            simpleRefCounter.Count.LogInfo();
+            
+            simpleRefCounter.Release();
+            simpleRefCounter.Release();
+            simpleRefCounter.Release();
+            
+            simpleRefCounter.Count.LogInfo();
+            
         }
 
-        public void Release(object owner = null)
+        public void SafeCounterTest()
         {
-            Count--;
-            if (Count == 0)
-            {
-                OnZero();
-            }
+            SafeCounter safeCounter = new SafeCounter();
+            
+            UserInfo user = new UserInfo();
+            
+            safeCounter.Retain(new UserInfo());
+            safeCounter.Retain(new UserInfo());
+            safeCounter.Retain(user);
+            safeCounter.Retain(user);
+            
         }
-        
-        /// <summary>
-        /// 当释放动作后，数量为0时的事件
-        /// </summary>
-        protected virtual void OnZero() { }
         
     }
 }
