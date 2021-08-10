@@ -22,10 +22,24 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine.Core.Event
+using System;
+using IFramework.Engine;
+using IFramework.Test.Model;
+using UnityEngine;
+
+namespace IFramework.Test.Event
 {
-    public class TypeEvent
+    public class EventTest : MonoBehaviour
     {
+        void Start()
+        {
+            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
+
+            Debug.Log("发送事件");
+            EnumEvent.Send(100, userInfo);
+            
+        }
         
     }
+    
 }

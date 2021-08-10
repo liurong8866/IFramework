@@ -25,13 +25,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace IFramework.Engine.Core.Event
+namespace IFramework.Engine
 {
     // 事件代理
     public delegate void OnEvent(int key, params object[] param);
     
     /// <summary>
-    /// 基于枚举类型的消息事件
+    /// 基于字典的消息事件
     /// </summary>
     public class EnumEvent : Singleton<EnumEvent>, IPoolable
     {
@@ -44,7 +44,7 @@ namespace IFramework.Engine.Core.Event
         /// <summary>
         /// 注册事件
         /// </summary>
-        public bool Register<T>(T key, OnEvent action) where T : IConvertible
+        public bool RegisterEvent<T>(T key, OnEvent action) where T : IConvertible
         {
             var keyValue = key.ToInt32(null);
 
@@ -60,7 +60,7 @@ namespace IFramework.Engine.Core.Event
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public void UnRegister<T>(T key, OnEvent action) where T : IConvertible
+        public void UnRegisterEvent<T>(T key, OnEvent action) where T : IConvertible
         {
             if (listenerMap.TryGetValue(key.ToInt32(null), out var listener))
             {
@@ -71,7 +71,7 @@ namespace IFramework.Engine.Core.Event
         /// <summary>
         /// 取消注册某一类型事件
         /// </summary>
-        public void UnRegister<T>(T key) where T : IConvertible
+        public void UnRegisterEvent<T>(T key) where T : IConvertible
         {
             var keyValue = key.ToInt32(null);
             
@@ -87,7 +87,7 @@ namespace IFramework.Engine.Core.Event
         /// <summary>
         /// 发送消息
         /// </summary>
-        public bool Send<T>(T key, params object[] param) where T : IConvertible
+        public bool SendEvent<T>(T key, params object[] param) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
             
@@ -101,7 +101,6 @@ namespace IFramework.Engine.Core.Event
             return false;
         }
         
-        
         public void OnRecycled()
         {
             listenerMap.Clear();
@@ -109,34 +108,31 @@ namespace IFramework.Engine.Core.Event
 
         public bool IsRecycled { get; set; }
         
-        
-        
         /* 静态方法调用单例方法 */
         
-        public static bool SendEvent<T>(T key, params object[] param) where T : IConvertible
+        public static bool Send<T>(T key, params object[] param) where T : IConvertible
         {
-            return Instance.Send(key, param);
+            return Instance.SendEvent(key, param);
         }
 
-        public static bool RegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        public static bool Register<T>(T key, OnEvent action) where T : IConvertible
         {
-            return Instance.Register(key, action);
+            return Instance.RegisterEvent(key, action);
         }
 
-        public static void UnRegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        public static void UnRegister<T>(T key, OnEvent action) where T : IConvertible
         {
-            Instance.UnRegister(key, action);
+            Instance.UnRegisterEvent(key, action);
         }
         
-        public static void UnRegisterEvent<T>(T key) where T : IConvertible
+        public static void UnRegister<T>(T key) where T : IConvertible
         {
-            Instance.UnRegister(key);
+            Instance.UnRegisterEvent(key);
         }
-
     }
 
     /// <summary>
-    /// 事件监听消息列表
+    /// 事件监听消息
     /// </summary>
     class EventListener
     {
