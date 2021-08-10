@@ -22,52 +22,32 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-
-namespace IFramework.Test.RefCounter
+namespace IFramework.Engine
 {
-    public class RefCounterTest : MonoBehaviour
+    public class Counter : ICounter
     {
-        private void Start()
+        public Counter()
         {
-            // SimpleCounterTest();
-
-            SafeCounterTest();
+            Count = 0;
         }
 
-        public void SimpleCounterTest()
-        {
-            
-            Counter simpleRefCounter = new Counter();
+        public int Count { get; private set; }
         
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Count.LogInfo();
-            
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
-            
-            simpleRefCounter.Count.LogInfo();
-            
+        public void Retain(object owner = null)
+        {
+            Count++;
         }
 
-        public void SafeCounterTest()
+        public void Release(object owner = null)
         {
-            SafeCounter safeCounter = new SafeCounter();
-            
-            UserInfo user = new UserInfo();
-            
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(user);
-            safeCounter.Retain(user);
-            
+            Count--;
+            if (Count == 0)
+            {
+                OnEmpty();
+            }
         }
+
+        protected virtual void OnEmpty(){}
         
     }
 }

@@ -141,7 +141,6 @@ namespace IFramework.Engine
             return method.GetCustomAttributes(attributeType, inherit).Length > 0;
         }
 
-
         /// <summary>
         /// 获取第一个特性
         /// </summary>

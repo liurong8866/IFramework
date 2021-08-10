@@ -70,8 +70,10 @@ namespace IFramework.Engine
         }
         */
         
-        /* Basic Method */
-        
+        /*----------------------------*/
+        /* Basic Method               */
+        /*----------------------------*/
+
         // 用于支持链式调用中类型转换
         public static T As<T>(this object self) where T : class
         {
@@ -89,7 +91,9 @@ namespace IFramework.Engine
             return Object.Instantiate(self);
         }
 
-        /* Invoke */
+        /*----------------------------*/
+        /* Invoke                     */
+        /*----------------------------*/
         
         public static bool InvokeSafe(this Action action)
         {
@@ -146,7 +150,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Destroy */
+        /*----------------------------*/
+        /* Destroy                    */
+        /*----------------------------*/
         
         public static void DestroySelf<T>(this T self) where T : Object
         {
@@ -182,7 +188,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* JSON */
+        /*----------------------------*/
+        /* Json                       */
+        /*----------------------------*/
         
         public static string ToJson<T>(this T self) where T : class
         {

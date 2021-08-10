@@ -117,7 +117,9 @@ namespace IFramework.Engine
             return self;
         }
         
-        /* LocalIdentity */
+        /*----------------------------*/
+        /* LocalIdentity              */
+        /*----------------------------*/
         
         public static T LocalIdentity<T>(this T self) where T : Component
         {
@@ -127,7 +129,9 @@ namespace IFramework.Engine
             return self;
         }
         
-        /* LocalPosition */
+        /*----------------------------*/
+        /* LocalPosition              */
+        /*----------------------------*/
         
         public static T LocalPosition<T>(this T self, Vector3 position) where T : Component
         {
@@ -180,7 +184,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* LocalRotation */
+        /*----------------------------*/
+        /* LocalRotation              */
+        /*----------------------------*/
 
         public static T LocalRotation<T>(this T self, Quaternion localRotation) where T : Component
         {
@@ -194,7 +200,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* LocalScale */
+        /*----------------------------*/
+        /* LocalScale                 */
+        /*----------------------------*/
 
         public static T LocalScale<T>(this T self, Vector3 scale) where T : Component
         {
@@ -253,7 +261,9 @@ namespace IFramework.Engine
             return self;
         }
         
-        /* Identity */
+        /*----------------------------*/
+        /* Identity                   */
+        /*----------------------------*/
 
         public static T Identity<T>(this T self) where T : Component
         {
@@ -273,7 +283,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Position */
+        /*----------------------------*/
+        /* Position                   */
+        /*----------------------------*/
         
         public static T Position<T>(this T self, Vector3 position) where T : Component
         {
@@ -350,7 +362,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Rotation */
+        /*----------------------------*/
+        /* Rotation                   */
+        /*----------------------------*/
         
         public static T Rotation<T>(this T self, Quaternion rotation) where T : Component
         {
@@ -364,7 +378,9 @@ namespace IFramework.Engine
             return self;
         }
         
-        /* Sibling */
+        /*----------------------------*/
+        /* Sibling                    */
+        /*----------------------------*/
 
         /// <summary>
         /// 设置为最底层
@@ -393,7 +409,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Children */
+        /*----------------------------*/
+        /* Children                   */
+        /*----------------------------*/
 
         /// <summary>
         /// 显示指定子物体
@@ -413,7 +431,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Find Path */
+        /*----------------------------*/
+        /* Find Path                  */
+        /*----------------------------*/
         
         /// <summary>
         /// 递归遍历查找指定的名字的子物体
@@ -497,7 +517,9 @@ namespace IFramework.Engine
             }
         }
         
-        /* Destroy */
+        /*----------------------------*/
+        /* Destroy                    */
+        /*----------------------------*/
         
         public static void DestroySelf(this Transform self)
         {

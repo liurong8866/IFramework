@@ -22,52 +22,15 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-
-namespace IFramework.Test.RefCounter
+namespace IFramework.Engine
 {
-    public class RefCounterTest : MonoBehaviour
+    public static class ResourceLoadType
     {
-        private void Start()
-        {
-            // SimpleCounterTest();
-
-            SafeCounterTest();
-        }
-
-        public void SimpleCounterTest()
-        {
-            
-            Counter simpleRefCounter = new Counter();
-        
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Count.LogInfo();
-            
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
-            
-            simpleRefCounter.Count.LogInfo();
-            
-        }
-
-        public void SafeCounterTest()
-        {
-            SafeCounter safeCounter = new SafeCounter();
-            
-            UserInfo user = new UserInfo();
-            
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(user);
-            safeCounter.Retain(user);
-            
-        }
-        
+        public const short AssetBundle = 0;
+        public const short ABAsset = 1;
+        public const short ABScene = 2;
+        public const short Internal = 3;
+        public const short NetImageRes = 4;
+        public const short LocalImageRes = 5;
     }
 }

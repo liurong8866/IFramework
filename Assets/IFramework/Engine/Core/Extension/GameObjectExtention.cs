@@ -72,7 +72,9 @@ namespace IFramework.Engine
         }
         */
         
-        /* Show & Hide */
+        /*-----------------------------*/
+        /* Show & Hide                 */
+        /*-----------------------------*/
 
         public static GameObject Show(this GameObject self)
         {
@@ -129,7 +131,9 @@ namespace IFramework.Engine
             return self;
         }
          
-        /* Destroy */
+        /*----------------------------*/
+        /* Destroy                    */
+        /*----------------------------*/
         
         public static void DestroyGameObject<T>(this T self) where T : Component
         {
@@ -157,7 +161,9 @@ namespace IFramework.Engine
             return self;
         }
 
-        /* Layer */
+        /*----------------------------*/
+        /* Layer                      */
+        /*----------------------------*/
         
         public static GameObject Layer(this GameObject self, int layer)
         {
@@ -183,7 +189,9 @@ namespace IFramework.Engine
             return self;
         }
         
-        /* Component */
+        /*----------------------------*/
+        /* Component                  */
+        /*----------------------------*/
 
         public static T AddComponentSafe<T>(this GameObject self) where T : Component
         {

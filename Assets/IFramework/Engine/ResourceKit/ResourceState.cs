@@ -24,36 +24,10 @@
 
 namespace IFramework.Engine
 {
-    public class SimpleCounter : ICounter
+    public enum ResourceState
     {
-        public SimpleCounter()
-        {
-            Count = 0;
-        }
-
-        public int Count { get; private set; }
-        
-        public void Retain(object owner = null)
-        {
-            Count++;
-        }
-
-        public void Release(object owner = null)
-        {
-            Count--;
-            if (Count == 0)
-            {
-                OnZero();
-            }
-        }
-
-        /// <summary>
-        /// 当释放动作后，数量为0时的事件
-        /// </summary>
-        protected virtual void OnZero()
-        {
-            "0了".LogInfo();
-        }
-        
+        Waiting = 0,
+        Loading = 1,
+        Ready = 2
     }
 }
