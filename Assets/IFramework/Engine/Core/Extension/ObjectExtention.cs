@@ -182,5 +182,16 @@ namespace IFramework.Engine
             return self;
         }
 
+        /* JSON */
+        
+        public static string ToJson<T>(this T self) where T : class
+        {
+            return JsonUtility.ToJson(self, true);
+        }
+
+        public static T FromJson<T>(this string json) where T : class
+        {
+            return JsonUtility.FromJson<T>(json);
+        }
     }
 }

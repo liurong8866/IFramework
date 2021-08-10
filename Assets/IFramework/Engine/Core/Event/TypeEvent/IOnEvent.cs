@@ -23,27 +23,25 @@
  *****************************************************************************/
 
 using System;
-using System.Diagnostics;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventTest : MonoBehaviour
+    public interface IOnEvent<T>
     {
-        void Start()
+        void OnEvent(T t);
+    }
+
+    public static class OnEventExtension
+    {
+        public static IDisposable RegisterEvent<T>(this IOnEvent<T> self) where T : struct
         {
-
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
-
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
+            return TypeEvent.Register<T>(self.OnEvent);
         }
         
+        public static void UnRegisterEvent<T>(this IOnEvent<T> self) where T : struct
+        {
+            TypeEvent.UnRegister<T>(self.OnEvent);
+        }
     }
     
 }

@@ -22,28 +22,17 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventTest : MonoBehaviour
+    public interface IRefCounter
     {
-        void Start()
-        {
+        // 数量
+        int Count { get; }
 
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
+        // 记录
+        void Retain(object owner = null);
 
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
-        }
-        
+        // 释放
+        void Release(object owner = null);
     }
-    
 }

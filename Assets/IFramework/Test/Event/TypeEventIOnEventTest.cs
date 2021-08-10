@@ -23,27 +23,52 @@
  *****************************************************************************/
 
 using System;
-using System.Diagnostics;
 using IFramework.Engine;
 using IFramework.Test.Model;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
+using UnityEngine.UIElements;
 
 namespace IFramework.Test.Event
 {
-    public class EventTest : MonoBehaviour
+    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
     {
-        void Start()
+        private void Start()
         {
-
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
-
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
+            this.RegisterEvent<OnLeftMouseClickEvent>();
+            this.RegisterEvent<OnRightMouseClickEvent>();
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetMouseButton(0))
+            {
+                TypeEvent.Send(new OnLeftMouseClickEvent());
+            }
+            else if (Input.GetMouseButton(1))
+            {
+                TypeEvent.Send(new OnRightMouseClickEvent());
+            }
+        }
+
+        public void OnEvent(OnLeftMouseClickEvent t)
+        {
+            "点击左键".LogInfo();
+        }
+
+        public void OnEvent(OnRightMouseClickEvent t)
+        {
+            "点击右键".LogInfo();
+        }
+
+        private void OnDisable()
+        {
+            this.UnRegisterEvent<OnLeftMouseClickEvent>();
+            this.UnRegisterEvent<OnRightMouseClickEvent>();
+        }
     }
+    
+    public struct OnLeftMouseClickEvent {}
+    
+    public struct OnRightMouseClickEvent {}
     
 }

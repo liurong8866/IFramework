@@ -22,28 +22,38 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
+using System.Collections.Generic;
 
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventTest : MonoBehaviour
+    public class SafeRefCounter : IRefCounter
     {
-        void Start()
-        {
-
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
-
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
-        }
+        private readonly HashSet<object> owners = new HashSet<object>();
         
+        public int Count
+        {
+            get { return owners.Count; }
+        }
+
+        public HashSet<object> Owners
+        {
+            get { return owners; }
+        }
+
+        public void Retain(object owner)
+        {
+            if (!owners.Add(owner))
+            {
+                "对象已经被记忆过".LogWarning();
+            }
+        }
+
+        public void Release(object owner)
+        {
+            if (!owners.Remove(owner))
+            {
+                "没有找到要释放的对象".LogWarning();
+            }
+        }
     }
-    
 }

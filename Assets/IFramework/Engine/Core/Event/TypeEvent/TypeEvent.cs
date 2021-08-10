@@ -116,10 +116,10 @@ namespace IFramework.Engine
             typeEventDict.Clear();
         }
 
-        public void Dispose()
-        {
-            Debug.Log("dispose");
-        }
+        /// <summary>
+        /// 回收
+        /// </summary>
+        public void Dispose(){ }
         
         
         /* 静态方法调用单例方法 */

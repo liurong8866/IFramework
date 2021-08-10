@@ -22,28 +22,51 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
-using IFramework.Engine;
-using IFramework.Test.Model;
+using System.ComponentModel;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventTest : MonoBehaviour
+    public enum LogLevel
     {
-        void Start()
-        {
-
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
-
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
-        }
-        
+        None = 0,
+        Error = 1,
+        Warning = 2,
+        Info = 3
     }
     
+    public static class Log
+    {
+        private static LogLevel logLevel = LogLevel.Info;
+        
+        public static LogLevel Level
+        {
+            get { return logLevel; }
+            set { logLevel = value; }
+        }
+
+        public static void LogInfo(this object self)
+        {
+            if (logLevel == LogLevel.Info)
+            {
+                Debug.Log(self);
+            }
+        }
+        
+        public static void LogWarning(this object self)
+        {
+            if (logLevel >= LogLevel.Warning)
+            {
+                Debug.LogWarning(self);
+            }
+        }
+        
+        public static void LogError(this object self)
+        {
+            if (logLevel >= LogLevel.Error)
+            {
+                Debug.LogError(self);
+            }
+        }
+    }
 }

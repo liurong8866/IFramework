@@ -22,28 +22,35 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventTest : MonoBehaviour
+    public class SimpleRefCounter : IRefCounter
     {
-        void Start()
+        public SimpleRefCounter()
         {
+            Count = 0;
+        }
 
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
+        public int Count { get; private set; }
+        
+        public void Retain(object owner = null)
+        {
+            Count++;
+        }
 
-            Debug.Log("发送事件");
-
-            EnumEvent.Send(100, userInfo);
-            
+        public void Release(object owner = null)
+        {
+            Count--;
+            if (Count == 0)
+            {
+                OnZero();
+            }
         }
         
+        /// <summary>
+        /// 当释放动作后，数量为0时的事件
+        /// </summary>
+        protected virtual void OnZero() { }
+        
     }
-    
 }
