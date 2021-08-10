@@ -33,9 +33,13 @@ namespace IFramework.Engine
     /// </summary>
     public abstract class AbstractResource : Counter, IResource, IPoolable
     {
+        // 资源名称
         protected string assetName;
+        // 资源实体
         protected UnityEngine.Object asset;
+        // 加载状态
         protected ResourceState state = ResourceState.Waiting;
+        // 资源加载完毕事件
         private event Action<bool, IResource> onResourceLoadDone;
         
         
@@ -68,10 +72,24 @@ namespace IFramework.Engine
         
         /// <summary>
         /// 加载进度
-        /// TODO
         /// </summary>
-        [Obsolete]
-        public float Progress { get; }
+        public float Progress { 
+            get
+            {
+                switch (state)
+                {
+                    case ResourceState.Loading: return CalculateProgress();
+                    case ResourceState.Ready: return 1;
+                }
+
+                return 0;
+            } 
+        }
+        
+        protected virtual float CalculateProgress()
+        {
+            return 0;
+        }
         
         /// <summary>
         /// 资源加载状态
@@ -93,7 +111,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否可以加载 state == ResourceState.Waiting
         /// </summary>
-        protected bool CanLoadAble
+        protected bool IsLoadable
         {
             get{ return state == ResourceState.Waiting; }
         }
@@ -177,18 +195,74 @@ namespace IFramework.Engine
         }
 
         /// <summary>
+        /// 记录依赖资源
+        /// </summary>
+        protected void HoldDependResource()
+        {
+            string[] depends = GetDependResourceList();
+            
+            if (depends.IsNullOrEmpty()) return;
+            
+            for (int i = depends.Length - 1; i >= 0; i--)
+            {
+                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+
+                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                
+                searchRule.Recycle();
+
+                resource?.Retain();
+            }
+        }
+        
+        /// <summary>
+        /// 释放依赖资源
+        /// </summary>
+        protected void UnHoldDependResource()
+        {
+            string[] depends = GetDependResourceList();
+            
+            if (depends.IsNullOrEmpty()) return;
+            
+            for (int i = depends.Length - 1; i >= 0; i--)
+            {
+                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+
+                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                
+                searchRule.Recycle();
+
+                resource?.Release();
+            }
+        }
+        
+        /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
         public bool IsDependResourceLoadFinish()
         {
-            //TODO
-            return false;
+            string[] depends = GetDependResourceList();
+
+            if (depends.IsNullOrEmpty()) return true;
+
+            for (int i = depends.Length - 1; i >= 0; i--)
+            {
+                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+
+                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                
+                searchRule.Recycle();
+
+                if (resource == null || resource.State != ResourceState.Ready) return false;
+            }
+
+            return true;
         }
 
         /// <summary>
         /// 注册资源加载完毕事件
         /// </summary>
-        public void RegisterOnLoadDoneEvent(Action<bool, IResource> listener)
+        public void RegisterOnLoadedEvent(Action<bool, IResource> listener)
         {
             if (listener == null) return;
 
@@ -204,7 +278,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 注销资源加载完毕事件
         /// </summary>
-        public void UnRegisterOnLoadDoneEvent(Action<bool, IResource> listener)
+        public void UnRegisterOnLoadedEvent(Action<bool, IResource> listener)
         {
             if (listener == null) return;
 
@@ -235,7 +309,7 @@ namespace IFramework.Engine
         }
         
         /*-----------------------------*/
-        /* IPoolable 接口实现           */
+        /* IPoolable 接口实现            */
         /*-----------------------------*/
         
         public bool IsRecycled { get; set; }
@@ -265,12 +339,8 @@ namespace IFramework.Engine
         /*-----------------------------*/
         /* IEnumeratorTask 接口实现      */
         /*-----------------------------*/
-        
-        public virtual IEnumerator DoLoadAsync(Action action)
-        {
-            action();
-            yield break;
-        }
+
+        public abstract IEnumerator LoadAsync(Action callback);
         
         public override string ToString()
         {

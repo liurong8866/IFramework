@@ -22,6 +22,8 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -30,8 +32,11 @@ namespace IFramework.Engine
     {
         private string path;
         
-        private ResourceRequest request;
+        private ResourceRequest resourceRequest;
         
+        /// <summary>
+        /// 从缓冲池获取对象
+        /// </summary>
         public static Resource Allocate(string name, ResourcesUrlType urlType)
         {
             var resource = ObjectPool<Resource>.Instance.Allocate();
@@ -53,10 +58,12 @@ namespace IFramework.Engine
             return resource;
         }
         
-        
+        /// <summary>
+        /// 同步加载资源
+        /// </summary>
         public override bool LoadSync()
         {
-            if (!CanLoadAble) return false;
+            if (!IsLoadable) return false;
 
             if (AssetName.IsNullOrEmpty()) return false;
 
@@ -73,7 +80,7 @@ namespace IFramework.Engine
 
             if (asset == null)
             {
-                ("资源加载失败：" + path).LogError();
+                Log.Error("资源加载失败：" + path);
                 OnResourceLoadFailed();
                 return false;
             }
@@ -82,20 +89,76 @@ namespace IFramework.Engine
             return true;
         }
 
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
         public override void LoadASync()
         {
-            if (!CanLoadAble) return;
+            if (!IsLoadable) return;
 
             if (AssetName.IsNullOrEmpty()) return;
 
             State = ResourceState.Loading;
+
+            ResourceManager.Instance.AddResourceLoadTask(this);
+        }
+        
+        /// <summary>
+        /// 重写异步加载方法
+        /// </summary>
+        public override IEnumerator LoadAsync(Action callback)
+        {
+            if (Count <= 0)
+            {
+                OnResourceLoadFailed();
+                callback();
+                yield break;
+            }
+
+            ResourceRequest request = null;
+
+            if (AssetType != null)
+            {
+                request = Resources.LoadAsync(path, AssetType);
+            }
+            else
+            {
+                request = Resources.LoadAsync(path);
+            }
+
+            resourceRequest = request;
+            yield return request;
+            resourceRequest = null;
+
+            if (!request.isDone)
+            {
+                Log.Error("资源加载失败：" + assetName);
+                OnResourceLoadFailed();
+                callback();
+                yield break;
+            }
+
+            asset = request.asset;
+
+            State = ResourceState.Ready;
             
-            //TODO
+            callback();
         }
 
+        /// <summary>
+        /// 回收资源到缓冲池
+        /// </summary>
         public override void Recycle()
         {
             ObjectPool<Resource>.Instance.Recycle(this);
+        }
+        
+        /// <summary>
+        /// 计算进度
+        /// </summary>
+        protected override float CalculateProgress()
+        {
+            return resourceRequest?.progress ?? 0;
         }
     }
 }

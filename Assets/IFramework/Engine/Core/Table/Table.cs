@@ -22,12 +22,43 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace IFramework.Engine
 {
-    public interface IEnumeratorTask
+    public abstract class Table<T> : IEnumerable<T>, IDisposable
     {
-        IEnumerator DoLoadAsync(System.Action action);
+        public void Add(T t)
+        {
+            OnAdd(t);
+        }
+        
+        public void Remove(T t)
+        {
+            OnRemove(t);
+        }
+        
+        public void Clear()
+        {
+            OnClear();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Dispose()
+        {
+            OnDispose();
+        }
+        
+        public abstract IEnumerator<T> GetEnumerator();
+        protected abstract void OnAdd(T t);
+        protected abstract void OnRemove(T t);
+        protected abstract void OnClear();
+        protected abstract void OnDispose();
     }
 }

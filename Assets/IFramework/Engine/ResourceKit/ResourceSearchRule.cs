@@ -41,7 +41,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源类型
         /// </summary>
-        Type AssetType { get; set; }
+        public Type AssetType { get; set; }
 
         /// <summary>
         /// 静态方法生成实例

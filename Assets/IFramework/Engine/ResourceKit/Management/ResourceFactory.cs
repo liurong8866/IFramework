@@ -22,25 +22,51 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace IFramework.Engine
 {
-    public class ResourceCreator : IResourceCreator
+    public static class ResourceFactory
     {
-        public bool Match(ResourceSearchRule rule)
+        private static List<IResourceCreator> creators = new List<IResourceCreator>()
         {
-            return rule.AssetName.StartsWith("resources/") ||
-                   rule.AssetName.StartsWith("resources://");
-        }
+            new ResourceCreator()
+        };
 
-        public IResource Create(ResourceSearchRule rule)
+        /// <summary>
+        /// Resource 生产方法
+        /// </summary>
+        public static IResource Create(ResourceSearchRule rule)
         {
-            IResource resource = Resource.Allocate(rule.AssetName,
-                rule.AssetName.StartsWith("resources://")
-                    ? ResourcesUrlType.Url
-                    : ResourcesUrlType.Folder);
+            IResource resource = creators
+                .Where(c => c.Match(rule))
+                .Select(c => c.Create(rule))
+                .FirstOrDefault();
 
-            resource.AssetType = rule.AssetType;
+            if (resource == null)
+            {
+                Log.Error("没有找到相关资源，创建资源失败!");
+            }
+
             return resource;
         }
+        
+        public static void AddCreator(IResourceCreator creator)
+        {
+            creators.Add(creator);
+        }
+        
+        public static void AddCreator<T>() where T : IResourceCreator, new()
+        {
+            creators.Add(new T());
+        }
+        
+        public static void RemoveCreator<T>() where T : IResourceCreator, new()
+        {
+            creators.RemoveAll(t => t.GetType() == typeof(T));
+        }
+        
+        
     }
 }

@@ -22,25 +22,12 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.Collections;
+
 namespace IFramework.Engine
 {
-    public class ResourceCreator : IResourceCreator
+    public interface IResourceLoadTask
     {
-        public bool Match(ResourceSearchRule rule)
-        {
-            return rule.AssetName.StartsWith("resources/") ||
-                   rule.AssetName.StartsWith("resources://");
-        }
-
-        public IResource Create(ResourceSearchRule rule)
-        {
-            IResource resource = Resource.Allocate(rule.AssetName,
-                rule.AssetName.StartsWith("resources://")
-                    ? ResourcesUrlType.Url
-                    : ResourcesUrlType.Folder);
-
-            resource.AssetType = rule.AssetType;
-            return resource;
-        }
+        IEnumerator LoadAsync(System.Action callback);
     }
 }

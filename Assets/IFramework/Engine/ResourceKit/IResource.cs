@@ -26,7 +26,7 @@ using System;
 
 namespace IFramework.Engine
 {
-    public interface IResource : ICounter, IRecyclable, IEnumeratorTask
+    public interface IResource : ICounter, IRecyclable, IResourceLoadTask
     {
         /// <summary>
         /// 资源名称
@@ -91,12 +91,12 @@ namespace IFramework.Engine
         /// <summary>
         /// 注册资源加载完毕事件
         /// </summary>
-        void RegisterOnLoadDoneEvent(Action<bool, IResource> listener);
+        void RegisterOnLoadedEvent(Action<bool, IResource> listener);
         
         /// <summary>
         /// 注销资源加载完毕事件
         /// </summary>
-        void UnRegisterOnLoadDoneEvent(Action<bool, IResource> listener);
+        void UnRegisterOnLoadedEvent(Action<bool, IResource> listener);
 
     }
 }

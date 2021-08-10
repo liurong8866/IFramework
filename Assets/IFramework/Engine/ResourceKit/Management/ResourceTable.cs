@@ -22,82 +22,57 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.ComponentModel;
-using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using IFramework.Engine.Core.Table;
 
 namespace IFramework.Engine
 {
-    public enum LogLevel
+    public class ResourceTable : Table<IResource>
     {
-        None = 0,
-        Exception = 1,
-        Error = 2,
-        Warning = 3,
-        Info = 4,
-        All =5
-    }
-    
-    public static class Log
-    {
-        private static LogLevel logLevel = LogLevel.All;
+        public TableIndex<string, IResource> NameIndex = new TableIndex<string, IResource>( 
+            res=> res.AssetName.ToLower()
+            );
         
-        public static LogLevel Level
+        public IResource GetResource(ResourceSearchRule rule)
         {
-            get { return logLevel; }
-            set { logLevel = value; }
+            string assetName = rule.AssetName;
+
+            var resources = NameIndex.Get(assetName);
+
+            if (rule.AssetType != null)
+            {
+                resources = resources.Where(res => res.AssetType == rule.AssetType);
+            }
+            
+            if (rule.AssetBundleName != null)
+            {
+                resources = resources.Where(res => res.AssetBundleName == rule.AssetBundleName);
+            }
+
+            return resources.FirstOrDefault();
         }
 
-        public static void Info(object self)
+        public override IEnumerator<IResource> GetEnumerator()
         {
-            if (logLevel == LogLevel.Info)
-            {
-                Debug.Log(self);
-            }
-        }
-        
-        public static void LogInfo(this object self)
-        {
-            Info(self);
-        }
-        
-        public static void Warning(object self)
-        {
-            if (logLevel >= LogLevel.Warning)
-            {
-                Debug.LogWarning(self);
-            }
+            return NameIndex.Dictionary.SelectMany(d => d.Value).GetEnumerator();
         }
 
-        public static void LogWarning(this object self)
+        protected override void OnAdd(IResource resource)
         {
-            Warning(self);
+            NameIndex.Add(resource);
         }
-        
-        public static void Error(object self)
+
+        protected override void OnRemove(IResource resource)
         {
-            if (logLevel >= LogLevel.Error)
-            {
-                Debug.LogError(self);
-            }
+            NameIndex.Remove(resource);
         }
-        
-        public static void LogError(this object self)
+
+        protected override void OnClear()
         {
-            Error(self);
+            NameIndex.Clear();
         }
-        
-        public static void Exception(Exception self)
-        {
-            if (logLevel >= LogLevel.Error)
-            {
-                Debug.LogException(self);
-            }
-        }
-        
-        public static void LogException(this Exception self)
-        {
-            LogException(self);
-        }
+
+        protected override void OnDispose() { }
     }
 }

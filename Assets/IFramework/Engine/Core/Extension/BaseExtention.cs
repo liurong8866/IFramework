@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -34,6 +35,49 @@ namespace IFramework.Engine
     /// </summary>
     public static class BaseExtention
     {
+        
+        /// <summary>
+        /// 判断是否为空
+        /// </summary>
+        public static bool IsNullOrEmpty(this object value)
+        {
+            bool result;
+
+            if (value == null)
+            {
+                result = true;
+            }
+            else
+            {
+                result = String.IsNullOrEmpty(value.ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 判断是否不为空
+        /// </summary>
+        public static bool IsNullOrEmpty(this ICollection value)
+        {
+            return (value != null && value.Count > 0) ? true : false;
+        }
+        
+        /// <summary>
+        /// 判断是否不为空
+        /// </summary>
+        public static bool IsNotNullOrEmpty(this object value)
+        {
+            return !IsNullOrEmpty(value);
+        }
+        
+        /// <summary>
+        /// 判断是否不为空
+        /// </summary>
+        public static bool IsNotNullOrEmpty(this ICollection value)
+        {
+            return !IsNullOrEmpty(value);
+        }
+        
         /// <summary>
         /// 转换字符串
         /// </summary>
@@ -278,36 +322,6 @@ namespace IFramework.Engine
             return result;
         }
 
-        /// <summary>
-        /// 判断是否为空
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool IsNullOrEmpty(this object value)
-        {
-            bool result;
-
-            if (value == null)
-            {
-                result = true;
-            }
-            else
-            {
-                result = String.IsNullOrEmpty(value.ToString());
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 判断是否不为空
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool IsNotNullOrEmpty(this object value)
-        {
-            return !IsNullOrEmpty(value);
-        }
-        
         /// <summary>
         /// 是否为整型数值
         /// </summary>

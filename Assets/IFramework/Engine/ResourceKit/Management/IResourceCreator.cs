@@ -24,23 +24,10 @@
 
 namespace IFramework.Engine
 {
-    public class ResourceCreator : IResourceCreator
+    public interface IResourceCreator
     {
-        public bool Match(ResourceSearchRule rule)
-        {
-            return rule.AssetName.StartsWith("resources/") ||
-                   rule.AssetName.StartsWith("resources://");
-        }
+        bool Match(ResourceSearchRule rule);
 
-        public IResource Create(ResourceSearchRule rule)
-        {
-            IResource resource = Resource.Allocate(rule.AssetName,
-                rule.AssetName.StartsWith("resources://")
-                    ? ResourcesUrlType.Url
-                    : ResourcesUrlType.Folder);
-
-            resource.AssetType = rule.AssetType;
-            return resource;
-        }
+        IResource Create(ResourceSearchRule rule);
     }
 }
