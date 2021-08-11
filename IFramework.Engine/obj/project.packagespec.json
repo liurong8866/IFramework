@@ -1,0 +1,35 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/IFramework.Engine.csproj",
+    "projectName": "IFramework.Engine",
+    "projectPath": "/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/IFramework.Engine.csproj",
+    "outputPath": "/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "net48"
+    ],
+    "sources": {
+      "https://api.nuget.org/v3/index.json": {}
+    },
+    "frameworks": {
+      "net48": {
+        "projectReferences": {
+          "/Volumes/Gamespace/Workspace/IFramework/IFramework.Core/IFramework.Core.csproj": {
+            "projectPath": "/Volumes/Gamespace/Workspace/IFramework/IFramework.Core/IFramework.Core.csproj"
+          }
+        }
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "net48": {
+      "runtimeIdentifierGraphPath": "/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/RuntimeIdentifierGraph.json"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/IFramework.Engine.dll
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/IFramework.Engine.pdb
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/IFramework.Core.dll
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/UnityEditor.dll
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/UnityEngine.dll
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/IFramework.Core.pdb
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/UnityEditor.pdb
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/bin/Debug/net48/UnityEngine.pdb
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.csprojAssemblyReference.cache
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.AssemblyInfoInputs.cache
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.AssemblyInfo.cs
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.csproj.CoreCompileInputs.cache
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.csproj.CopyComplete
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll
+/Volumes/Gamespace/Workspace/IFramework/IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb
