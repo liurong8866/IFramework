@@ -22,36 +22,12 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
 using UnityEngine;
 
-namespace IFramework.Test.Event
+namespace IFramework.Engine.Core.Attribute
 {
-    public class EventReceiver : MonoBehaviour
-    {
-        void Awake()
-        {
-            Debug.Log("注册事件");
-            EnumEvent.Register(100, Action);
-        }
-
-        private void Start() { }
-
-        private void Action(int key, object[] param)
-        {
-            switch (key)
-            {
-                case 100:
-                    Debug.Log(param);
-                    break;
-                default: break;
-            }
-        }
-
-        private void OnDestroy()
-        {
-            EnumEvent.UnRegister(100, Action);
-        }
-    }
+    /// <summary>
+    /// 让公共变量当数据在Inspector中只读
+    /// </summary>
+    public class ReadOnlyAttribute : PropertyAttribute { }
 }

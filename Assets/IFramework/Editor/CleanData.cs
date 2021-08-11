@@ -22,36 +22,33 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Test.Event
+namespace IFramework.Editor
 {
-    public class EventReceiver : MonoBehaviour
+    public class ClearData
     {
-        void Awake()
+        [MenuItem("IFramework/ClearData")]
+        private static void Clear()
         {
-            Debug.Log("注册事件");
-            EnumEvent.Register(100, Action);
-        }
-
-        private void Start() { }
-
-        private void Action(int key, object[] param)
-        {
-            switch (key)
+            PlayerPrefs.DeleteAll();
+            Directory.Delete(Application.persistentDataPath, true);
+            if (EditorApplication.isPlaying)
             {
-                case 100:
-                    Debug.Log(param);
-                    break;
-                default: break;
+                EditorApplication.isPlaying = false;
             }
         }
-
-        private void OnDestroy()
-        {
-            EnumEvent.UnRegister(100, Action);
-        }
     }
+
+
+    // public class ReopenProject
+    // {
+    //     [MenuItem("IFramework/Reopen Project")]
+    //     private static void Reopen()
+    //     {
+    //         EditorApplication.OpenProject(Path.Combine(Application.dataPath, "../"));
+    //     }
+    // }
 }

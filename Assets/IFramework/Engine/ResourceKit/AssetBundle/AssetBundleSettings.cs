@@ -22,36 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
-using UnityEngine;
-
-namespace IFramework.Test.Event
+namespace IFramework.Engine
 {
-    public class EventReceiver : MonoBehaviour
+    public class AssetBundleSettings
     {
-        void Awake()
-        {
-            Debug.Log("注册事件");
-            EnumEvent.Register(100, Action);
-        }
-
-        private void Start() { }
-
-        private void Action(int key, object[] param)
-        {
-            switch (key)
-            {
-                case 100:
-                    Debug.Log(param);
-                    break;
-                default: break;
-            }
-        }
-
-        private void OnDestroy()
-        {
-            EnumEvent.UnRegister(100, Action);
-        }
+        
     }
 }

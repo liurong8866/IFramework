@@ -34,7 +34,7 @@ namespace IFramework.Engine
     {
         public static void Example()
         {
-            // var selfType = ReflectionExtension.GetAssemblyCSharp().GetType("QFramework.ReflectionExtension");
+            // var selfType = ReflectionExtension.GetAssemblyCSharp().GetType("IFramework.Editor.ReflectionExtension");
             // selfType.LogInfo();
         }
 
