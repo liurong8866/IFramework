@@ -22,7 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 单例模式

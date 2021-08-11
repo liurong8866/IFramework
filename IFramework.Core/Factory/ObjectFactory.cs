@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public class ObjectFactory
     {

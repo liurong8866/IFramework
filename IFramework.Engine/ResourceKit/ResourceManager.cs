@@ -24,6 +24,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using IFramework.Core;
 using UnityEngine;
 
 namespace IFramework.Engine

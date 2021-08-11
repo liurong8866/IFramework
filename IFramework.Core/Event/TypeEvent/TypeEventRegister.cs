@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 消息注册类

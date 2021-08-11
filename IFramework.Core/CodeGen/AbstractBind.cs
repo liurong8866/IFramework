@@ -22,11 +22,11 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Engine;
+using IFramework.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IFramework.Engine.CodeGen
+namespace IFramework.Core
 {
     public abstract class AbstractBind : MonoBehaviour, IBind
     {

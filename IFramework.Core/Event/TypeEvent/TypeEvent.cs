@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public class TypeEvent : ITypeEvent
     {

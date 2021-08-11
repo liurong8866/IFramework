@@ -22,8 +22,8 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using IFramework.Core;
 using UnityEditor;
-using IFramework.Engine.CodeGen;
 
 namespace IFramework.Editor
 {

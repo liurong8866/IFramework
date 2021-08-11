@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 动画类扩展方法

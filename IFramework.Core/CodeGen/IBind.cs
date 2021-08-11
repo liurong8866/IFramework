@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine.CodeGen
+namespace IFramework.Core
 {
     
     

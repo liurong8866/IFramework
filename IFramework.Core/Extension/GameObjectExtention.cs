@@ -27,7 +27,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// GameObject 扩展方法

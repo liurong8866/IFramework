@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// RectTransform 扩展方法

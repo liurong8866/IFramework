@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 没有公共构造函数的类实例工厂

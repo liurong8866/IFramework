@@ -26,7 +26,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public abstract class Table<T> : IEnumerable<T>, IDisposable
     {

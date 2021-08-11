@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// Texture图片扩展方法

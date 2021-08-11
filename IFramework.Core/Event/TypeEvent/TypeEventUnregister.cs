@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public class TypeEventUnregister<T> : IDisposable
     {

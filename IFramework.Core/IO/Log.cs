@@ -26,7 +26,7 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public enum LogLevel
     {

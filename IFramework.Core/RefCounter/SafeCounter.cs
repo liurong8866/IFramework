@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public class SafeCounter : ICounter
     {

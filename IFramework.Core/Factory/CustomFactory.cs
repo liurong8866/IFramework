@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 自定义对象工厂

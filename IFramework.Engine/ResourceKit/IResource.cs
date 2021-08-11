@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System;
+using IFramework.Core;
 
 namespace IFramework.Engine
 {

@@ -22,7 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 对象池接口

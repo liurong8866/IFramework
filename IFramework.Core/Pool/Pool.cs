@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 对象池

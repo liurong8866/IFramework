@@ -25,7 +25,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     // 事件代理
     public delegate void OnEvent(int key, params object[] param);

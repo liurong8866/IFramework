@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// C# 反射类扩展方法

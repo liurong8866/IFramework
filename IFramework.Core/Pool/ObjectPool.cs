@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 对象池实现类

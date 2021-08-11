@@ -22,7 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine.CodeGen
+namespace IFramework.Core
 {
     public enum BindType
     {

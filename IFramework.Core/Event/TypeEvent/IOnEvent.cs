@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public interface IOnEvent<T>
     {

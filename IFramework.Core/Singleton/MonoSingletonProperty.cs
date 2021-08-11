@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// Mono属性单例，支持继承类的单例实例化

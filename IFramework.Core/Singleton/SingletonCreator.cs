@@ -25,7 +25,7 @@
 using System;
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 单例实例创建类

@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// MonoBehaviour单例特性，标记在需要单例的MonoBehaviour的类上

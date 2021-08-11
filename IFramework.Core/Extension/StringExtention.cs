@@ -27,7 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// C# 字符串扩展方法

@@ -28,7 +28,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// C# 基础类型扩展方法

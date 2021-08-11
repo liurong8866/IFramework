@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IFramework.Engine.Core.Table
+namespace IFramework.Core
 {
     public class TableIndex<TKey, TData> : IDisposable
     {

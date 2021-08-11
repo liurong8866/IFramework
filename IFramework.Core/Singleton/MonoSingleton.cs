@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
     {

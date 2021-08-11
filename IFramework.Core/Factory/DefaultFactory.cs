@@ -22,7 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     /// <summary>
     /// 有无参数构造函数的类实例工厂

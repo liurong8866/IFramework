@@ -24,7 +24,7 @@
 
 using UnityEngine;
 
-namespace IFramework.Engine.CodeGen
+namespace IFramework.Core
 {
     [AddComponentMenu("IFramework/Bind")]
     public class Bind: AbstractBind

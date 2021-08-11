@@ -25,7 +25,7 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public class DictionaryPool<TKey, TValue>
     {

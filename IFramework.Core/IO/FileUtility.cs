@@ -28,7 +28,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace IFramework.Engine
+namespace IFramework.Core
 {
     public static class FileUtility
     {

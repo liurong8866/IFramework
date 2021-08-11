@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using IFramework.Engine.Core.Table;
+using IFramework.Core;
 
 namespace IFramework.Engine
 {
