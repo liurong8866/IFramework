@@ -32,15 +32,15 @@ namespace IFramework.Core
         // 变量值
         protected T value;
 
-        // 解决因其他原因导致值未设置，而不触发事件问题
-        protected bool setted = false;
-        
-        public Property () { }
+        public Property(){}
         
         public Property(T value)
         {
             this.value = value;
         }
+        
+        // 解决因其他原因导致值未设置，而不触发事件问题
+        protected bool setted = false;
 
         public T Value
         {

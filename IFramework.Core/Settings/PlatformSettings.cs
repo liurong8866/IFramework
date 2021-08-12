@@ -104,7 +104,7 @@ namespace IFramework.Core
             }
             catch (Exception e)
             {
-                // e.LogException();
+                e.LogException();
                 Log.LogError("未安装当前平台包:" + GetPlatformName(platformIndex));
             }
             

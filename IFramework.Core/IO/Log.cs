@@ -50,7 +50,7 @@ namespace IFramework.Core
 
         public static void Info(object self)
         {
-            if (logLevel == LogLevel.Info)
+            if (logLevel >= LogLevel.Info)
             {
                 Debug.Log(self);
             }
@@ -58,7 +58,18 @@ namespace IFramework.Core
         
         public static void LogInfo(this object self)
         {
-            Info(self);
+            if (logLevel >= LogLevel.Info)
+            {
+                Debug.Log(self);
+            }
+        }
+        
+        public static void LogInfo(this object self, string format)
+        {
+            if (logLevel >= LogLevel.Info)
+            {
+                Debug.LogFormat(format, self);
+            }
         }
         
         public static void Warning(object self)
@@ -71,7 +82,18 @@ namespace IFramework.Core
 
         public static void LogWarning(this object self)
         {
-            Warning(self);
+            if (logLevel >= LogLevel.Warning)
+            {
+                Debug.LogWarning(self);
+            }
+        }
+        
+        public static void LogWarning(this object self, string format)
+        {
+            if (logLevel >= LogLevel.Warning)
+            {
+                Debug.LogWarningFormat(format,self);
+            }
         }
         
         public static void Error(object self)
@@ -84,7 +106,18 @@ namespace IFramework.Core
         
         public static void LogError(this object self)
         {
-            Error(self);
+            if (logLevel >= LogLevel.Error)
+            {
+                Debug.LogError(self);
+            }
+        }
+        
+        public static void LogError(this object self, string format)
+        {
+            if (logLevel >= LogLevel.Error)
+            {
+                Debug.LogErrorFormat(format, self);
+            }
         }
         
         public static void Exception(Exception self)

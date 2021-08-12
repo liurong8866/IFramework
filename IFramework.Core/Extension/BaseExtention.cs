@@ -219,7 +219,7 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 字符串转换Float
+        /// 字符串转换Double
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -244,6 +244,32 @@ namespace IFramework.Core
             return result;
         }
 
+        /// <summary>
+        /// 字符串转换Decimal
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static decimal ToDecimal(this object value)
+        {
+            decimal result;
+
+            if (!value.IsNullOrEmpty())
+            {
+                bool parse = decimal.TryParse(value.ToString(), out result);
+
+                if (parse != true)
+                {
+                    result = default(decimal);
+                }
+            }
+            else
+            {
+                result = default(decimal);
+            }
+
+            return result;
+        }
+        
         /// <summary>
         /// 转换为DateTime型
         /// </summary>

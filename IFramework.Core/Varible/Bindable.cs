@@ -31,20 +31,24 @@ namespace IFramework.Core
     /// </summary>
     public class Bindable<T> : Property<T>
     {
-        public Action<T> OnChanged;
-
+        public Action<T> OnChange;
+        
+        public Bindable(){}
+        
+        public Bindable(T value) : base(value){ }
+        
         protected override T GetValue()
         {
             return value;
         }
-
+        
         protected override void SetValue(T value)
         {
-            if (IsValueChanged(this.value))
+            if (IsValueChanged(value))
             {
                 this.value = value;
 
-                OnChanged?.Invoke(value);
+                OnChange?.Invoke(value);
                 
                 this.setted = true;
             }
@@ -58,9 +62,126 @@ namespace IFramework.Core
             return value == null || !value.Equals(this.value) || !this.setted;
         }
 
+        /// <summary>
+        /// 注销事件
+        /// </summary>
         public override void Dispose()
         {
-            OnChanged = null;
+            OnChange = null;
         }
+        
+        //重载运算符"=="
+        public static bool operator == (Bindable<T> a, Bindable<T> b)
+        {
+            return Compare(a, b);
+        }
+        public static bool operator != (Bindable<T> a, Bindable<T> b)
+        {
+            return !Compare(a, b);
+        }
+        private static bool Compare(Bindable<T> a, Bindable<T> b)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+            else if (a == null || b == null)
+            {
+                return false;
+            }
+            else
+            {
+                return a.Value.Equals(b.Value);
+            }
+        }
+        
+        
+        public static bool operator == (Bindable<T> a, T b)
+        {
+            return Compare(a, b);
+        }
+        public static bool operator != (Bindable<T> a, T b)
+        {
+            return !Compare(a, b);
+        }
+        private static bool Compare(Bindable<T> a, T b)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+            else if (a == null || b == null)
+            {
+                return false;
+            }
+            else
+            {
+                return a.Value.Equals(b);
+            }
+        }
+        
+        
+        public static bool operator == (T a, Bindable<T> b)
+        {
+            return Compare(a, b);
+        }
+        public static bool operator != (T a, Bindable<T> b)
+        {
+            return !Compare(a, b);
+        }
+        private static bool Compare(T a, Bindable<T> b)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+            else if (a == null || b == null)
+            {
+                return false;
+            }
+            else
+            {
+                return a.Equals(b.Value);
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            Type type = obj.GetType();
+            
+            if (obj == null) return false;
+
+            if (type == typeof(Bindable<T>))
+            {
+                Bindable<T> compareObj = obj as Bindable<T>;
+                return this.Value.Equals(compareObj.Value);
+            }
+            
+            if (type == typeof(T))
+            {
+                T compareObj = (T) obj;
+                return this.Value.Equals(compareObj);
+            }
+            
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+    }
+    
+    public class BindBool : Bindable<bool>{
+        public BindBool(){}
+        public BindBool(bool value) : base(value){ }
+    }
+    public class BindString : Bindable<string>{
+        public BindString(){}
+        public BindString(string value) : base(value){ }
+    }
+    public class BindChar : Bindable<char>{
+        public BindChar(){}
+        public BindChar(char value) : base(value){ }
     }
 }
