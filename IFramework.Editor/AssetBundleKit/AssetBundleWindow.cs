@@ -30,7 +30,8 @@ namespace IFramework.Editor
 {
     public class AssetBundleWindow : EditorWindow
     {
-        private int platformIndex = 0;
+        private int platformIndex;
+        // private ConfigInt platformIndex = new ConfigInt("platformIndex", -1);
         private bool autoGenerateName = true;
         private bool isSimulation = true;
         
@@ -60,7 +61,7 @@ namespace IFramework.Editor
             }
             
             // 当前平台
-            platformIndex = PlatformSettings.GetCurrentPlatform();
+            // platformIndex = PlatformSettings.GetCurrentPlatform();
         }
  
         //绘制窗口时调用
