@@ -78,7 +78,7 @@ namespace IFramework.Editor
         /// <param name="outputPath">输出目录</param>
         /// <param name="package">待打包资源</param>
         /// <param name="buildTarget">目标平台</param>
-        public static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
+        private static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
         {
             // 没有则创建
             DirectoryUtils.Create(outputPath);
@@ -100,6 +100,16 @@ namespace IFramework.Editor
             // AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray());
         }
         
-        
+        /// <summary>
+        /// 强制清除所有AssetBundles
+        /// </summary>
+        public static void ForceClearAssetBundles()
+        {
+            DirectoryUtils.Remove(AssetBundleKit.AssetBundleOutputPath);
+            
+            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, AssetBundleKit.AssetBundleOutputPath));
+
+            AssetDatabase.Refresh();
+        }
     }
 }

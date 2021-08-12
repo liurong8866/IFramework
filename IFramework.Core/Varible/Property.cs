@@ -22,29 +22,44 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Editor;
-using UnityEditor;
+using System;
 
-namespace IFramework.Test.Editor
+namespace IFramework.Core
 {
-    public static class AbundleMarkTest
+    [Serializable]
+    public abstract class Property<T> : IDisposable
     {
-        [MenuItem("IFramework/Test/AssetBundle Test", false, 120)]
-        private static void AssetBundle()
+        // 变量值
+        protected T value;
+
+        // 解决因其他原因导致值未设置，而不触发事件问题
+        protected bool setted = false;
+        
+        public Property () { }
+        
+        public Property(T value)
         {
-            AssetBundleKit.OpenAssetBundleWindow();
+            this.value = value;
         }
 
-        [MenuItem("Assets/Test/I Kit - Mark AssetBundle Test", false, 120)]
-        private static void UiKitBind()
+        public T Value
         {
-            AssetBundleKit.MarkAssetBundle();
+            get => GetValue();
+            set => SetValue(value);
         }
+
+        public override string ToString()
+        {
+            return GetValue().ToString();
+        }
+
+        public virtual void Dispose() {}
         
-        // [MenuItem("Assets/I Kit - Generate Abundle", false, 120)]
-        // private static void GenerateAbundle()
-        // {
-        //     ResKit.MarkAssetBundle();
-        // }
+        // 子类需要实现的抽象方法
+        
+        protected abstract T GetValue();
+
+        protected abstract void SetValue(T value);
+        
     }
 }

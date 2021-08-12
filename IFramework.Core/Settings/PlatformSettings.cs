@@ -22,6 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using UnityEditor;
 
 namespace IFramework.Core
@@ -68,35 +69,60 @@ namespace IFramework.Core
 
         public static void SetCurrentPlatform(int platformIndex)
         {
+            try
+            {
+                switch (platformIndex)
+                {
+                    case 0:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
+                        break;
+                    case 1:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX);
+                        break;
+                    case 2:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+                        break;
+                    case 3:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+                        break;
+                    case 4:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+                        break;
+                    case 5:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS4, BuildTarget.PS4);
+                        break;
+                    case 6:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS5, BuildTarget.PS5);
+                        break;
+                    case 7:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
+                        break;
+                    default:
+                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                // e.LogException();
+                Log.LogError("未安装当前平台包:" + GetPlatformName(platformIndex));
+            }
+            
+        }
+        
+        public static string GetPlatformName(int platformIndex)
+        {
             switch (platformIndex)
             {
-                case 0:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
-                    break;
-                case 1:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX);
-                    break;
-                case 2:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
-                    break;
-                case 3:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
-                    break;
-                case 4:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
-                    break;
-                case 5:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS4, BuildTarget.PS4);
-                    break;
-                case 6:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS5, BuildTarget.PS5);
-                    break;
-                case 7:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
-                    break;
-                default:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
-                    break;
+                case 0: return BuildTarget.StandaloneWindows.ToString();
+                case 1: return BuildTarget.StandaloneOSX.ToString();
+                case 2: return BuildTarget.iOS.ToString();
+                case 3: return BuildTarget.Android.ToString();
+                case 4: return BuildTarget.WebGL.ToString();
+                case 5: return BuildTarget.PS4.ToString();
+                case 6: return BuildTarget.PS5.ToString();
+                case 7: return BuildTarget.XboxOne.ToString();
+                default: return BuildTarget.StandaloneWindows.ToString();
             }
         }
 

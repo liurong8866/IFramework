@@ -22,29 +22,45 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Editor;
-using UnityEditor;
+using System;
 
-namespace IFramework.Test.Editor
+namespace IFramework.Core
 {
-    public static class AbundleMarkTest
+    /// <summary>
+    /// 可绑定事件的变量
+    /// </summary>
+    public class Bindable<T> : Property<T>
     {
-        [MenuItem("IFramework/Test/AssetBundle Test", false, 120)]
-        private static void AssetBundle()
+        public Action<T> OnChanged;
+
+        protected override T GetValue()
         {
-            AssetBundleKit.OpenAssetBundleWindow();
+            return value;
         }
 
-        [MenuItem("Assets/Test/I Kit - Mark AssetBundle Test", false, 120)]
-        private static void UiKitBind()
+        protected override void SetValue(T value)
         {
-            AssetBundleKit.MarkAssetBundle();
+            if (IsValueChanged(this.value))
+            {
+                this.value = value;
+
+                OnChanged?.Invoke(value);
+                
+                this.setted = true;
+            }
         }
-        
-        // [MenuItem("Assets/I Kit - Generate Abundle", false, 120)]
-        // private static void GenerateAbundle()
-        // {
-        //     ResKit.MarkAssetBundle();
-        // }
+
+        /// <summary>
+        /// 判断是否值改变
+        /// </summary>
+        protected virtual bool IsValueChanged(T value)
+        {
+            return value == null || !value.Equals(this.value) || !this.setted;
+        }
+
+        public override void Dispose()
+        {
+            OnChanged = null;
+        }
     }
 }

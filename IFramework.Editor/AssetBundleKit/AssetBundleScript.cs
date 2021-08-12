@@ -22,29 +22,22 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Editor;
+using System.IO;
 using UnityEditor;
+using UnityEngine;
 
-namespace IFramework.Test.Editor
+namespace IFramework.Editor
 {
-    public static class AbundleMarkTest
+    public class AssetBundleScript
     {
-        [MenuItem("IFramework/Test/AssetBundle Test", false, 120)]
-        private static void AssetBundle()
+        public static void GenerateConstScript()
         {
-            AssetBundleKit.OpenAssetBundleWindow();
+            // var path = Path.GetFullPath(
+            //     Application.dataPath + Path.DirectorySeparatorChar + "QFrameworkData/QAssets.cs");
+            // var writer = new StreamWriter(File.Open(path, FileMode.Create));
+            // ResDataCodeGenerator.WriteClass(writer, "QAssetBundle");
+            // writer.Close();
+            // AssetDatabase.Refresh();
         }
-
-        [MenuItem("Assets/Test/I Kit - Mark AssetBundle Test", false, 120)]
-        private static void UiKitBind()
-        {
-            AssetBundleKit.MarkAssetBundle();
-        }
-        
-        // [MenuItem("Assets/I Kit - Generate Abundle", false, 120)]
-        // private static void GenerateAbundle()
-        // {
-        //     ResKit.MarkAssetBundle();
-        // }
     }
 }

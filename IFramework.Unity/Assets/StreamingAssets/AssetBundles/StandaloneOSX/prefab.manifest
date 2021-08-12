@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 2736037235
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4be82fd568b04c24b19e468cda98e3cf
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 14ed1ce0ba659d230b08390d2846d09d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 282b06f63f0b448a93536552c21989e6, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/IFramework/Test/Prefab/Test.prefab
+Dependencies: []

@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 793201935
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: prefab
+      Dependencies: {}
+    Info_1:
+      Name: gameobject_prefab
+      Dependencies: {}

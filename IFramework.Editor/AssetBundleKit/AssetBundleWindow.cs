@@ -44,6 +44,11 @@ namespace IFramework.Editor
         
         public void Awake ()
         {
+            if(PlayerPrefs.HasKey("platformIndex"))
+            {
+                platformIndex = PlayerPrefs.GetInt("platformIndex");
+            }
+            
             if(PlayerPrefs.HasKey("autoGenerateName"))
             {
                 autoGenerateName = PlayerPrefs.GetInt("autoGenerateName") ==1;
@@ -78,16 +83,18 @@ namespace IFramework.Editor
             GUILayout.Space(10);
             
             // 选择平台
-            platformIndex = GUILayout.Toolbar(platformIndex, new[] {"Window", "MacOS", "iOS", "Android", "WebGL", "PS4", "PS5", "XboxOne"});
-            
-            //切换当前平台
-            PlatformSettings.SetCurrentPlatform(platformIndex);
+            int index = GUILayout.Toolbar(platformIndex, new[] {"Window", "MacOS", "iOS", "Android", "WebGL", "PS4", "PS5", "XboxOne"});
+            if (index != platformIndex)
+            {
+                platformIndex = index;
+                PlayerPrefs.SetInt("platformIndex", platformIndex);
+            }
             
             GUILayout.Space(10);
             
             // 是否自动生成常量
             bool generateName = GUILayout.Toggle(autoGenerateName, "打 AB 包时，自动生成资源名常量代码");
-            if (autoGenerateName != generateName)
+            if (generateName != autoGenerateName)
             {
                 autoGenerateName = generateName;
                 PlayerPrefs.SetInt("autoGenerateName", autoGenerateName?1:0);
@@ -118,7 +125,7 @@ namespace IFramework.Editor
             }
             if(GUILayout.Button("清空已生成的 AB 包"))
             {
-                
+                AssetBundleBuilder.ForceClearAssetBundles();
             }
             
             EditorGUILayout.EndHorizontal();
