@@ -55,14 +55,6 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 判断是否值改变
-        /// </summary>
-        protected virtual bool IsValueChanged(T value)
-        {
-            return value == null || !value.Equals(this.value) || !this.setted;
-        }
-
-        /// <summary>
         /// 注销事件
         /// </summary>
         public override void Dispose()
@@ -175,15 +167,18 @@ namespace IFramework.Core
         }
     }
     
-    public class BindBool : Bindable<bool>{
+    public class BindBool : Bindable<bool>
+    {
         public BindBool(){}
         public BindBool(bool value) : base(value){ }
     }
-    public class BindString : Bindable<string>{
+    public class BindString : Bindable<string>
+    {
         public BindString(){}
         public BindString(string value) : base(value){ }
     }
-    public class BindChar : Bindable<char>{
+    public class BindChar : Bindable<char>
+    {
         public BindChar(){}
         public BindChar(char value) : base(value){ }
     }

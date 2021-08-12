@@ -599,6 +599,57 @@ namespace IFramework.Test.Viarable
            
 
         }
+
+        private void testBool()
+        {
+            BindBool bindBool = new BindBool(true);
+            BindBool bindBool2 = new BindBool(true);
+            BindBool bindBool3 = new BindBool(false);
+
+            if (bindBool)
+            {
+                
+            }
+            
+
+            if (bindBool == true)
+            {
+                Debug.Log("1");
+            }
+            if (bindBool == false)
+            {
+                Debug.Log("2");
+            }
+            
+            if (true == bindBool)
+            {
+                Debug.Log("3");
+            }
+            if (false == bindBool)
+            {
+                Debug.Log("4");
+            }
+            
+            if (bindBool == bindBool2)
+            {
+                Debug.Log("5");
+            }
+            
+            if (bindBool == bindBool3)
+            {
+                Debug.Log("6");
+            }
+
+            if (bindBool.Equals(true))
+            {
+                Debug.Log("7");
+            }
+            
+            if (true.Equals(bindBool))
+            {
+                Debug.Log("8");
+            }
+        }
         
         
         private void testConfigNumber()

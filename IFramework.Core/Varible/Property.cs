@@ -48,6 +48,14 @@ namespace IFramework.Core
             set => SetValue(value);
         }
 
+        /// <summary>
+        /// 判断是否值改变
+        /// </summary>
+        protected virtual bool IsValueChanged(T value)
+        {
+            return value == null || !value.Equals(this.value) || !this.setted;
+        }
+        
         public override string ToString()
         {
             return GetValue().ToString();

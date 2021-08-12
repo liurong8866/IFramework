@@ -30,7 +30,7 @@ namespace IFramework.Core
     /// <summary>
     /// 可持久化的变量
     /// </summary>
-    public abstract class Persistable<T> : Property<T> where T : IConvertible, IComparable
+    public abstract class Persistable<T> : Property<T> where T : IConvertible
     {
         protected string key;
         
@@ -103,11 +103,16 @@ namespace IFramework.Core
         // 设置值
         protected override void SetValue(T value)
         {
+            if (!IsValueChanged(value)) return;
+
+            setted = true;
+            
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
                 PlayerPrefs.SetInt(key, value.ToInt());
+                
             }
             else if (type == typeof(float))
             {
@@ -123,6 +128,7 @@ namespace IFramework.Core
             }
             else
             {
+                setted = false;
                 Log.Error("保存失败：仅支持 Int， Float， String 类型的持久化");
             }
         }
