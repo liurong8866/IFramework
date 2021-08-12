@@ -34,12 +34,12 @@ namespace IFramework.Test.Viarable
     {
         private Bindable<int> health = new Bindable<int>();
 
-        private BindInt opratorInt = new BindInt();
-        private BindFloat opratorFloat = new BindFloat();
-        private BindShort opratorShort = new BindShort();
-        private BindLong opratorLong = new BindLong();
-        private BindDouble opratorDouble = new BindDouble();
-        private BindDecimal opratorDecimal = new BindDecimal();
+        private BindInt bindInt = new BindInt();
+        private BindFloat bindFloat = new BindFloat();
+        private BindShort bindShort = new BindShort();
+        private BindLong bindLong = new BindLong();
+        private BindDouble bindDouble = new BindDouble();
+        private BindDecimal bindDecimal = new BindDecimal();
         
         private BindString bindString = new BindString();
         private BindBool bindBool = new BindBool();
@@ -49,46 +49,46 @@ namespace IFramework.Test.Viarable
         private ConfigInt loginNum = new ConfigInt("loginNum");
         private ConfigInt taobaoNum = new ConfigInt("taobaoNum");
         private ConfigFloat money = new ConfigFloat("money");
-        private ConfigBool isOpen = new ConfigBool("isOpen");
+        private ConfigBool isOpen = new ConfigBool("isOpen", true);
         
         private void Start()
         {
-            
-            // opratorInt.OnChange += i => { opratorInt.LogInfo("opratorInt运算符重载{0}"); };
-            // opratorFloat.OnChange += i => { opratorFloat.LogInfo("opratorFloat运算符重载{0}"); };
-            // opratorShort.OnChange += i => { opratorShort.LogInfo("opratorShort运算符重载{0}"); };
-            // opratorLong.OnChange += i => { opratorLong.LogInfo("opratorLong运算符重载{0}"); };
-            // opratorDouble.OnChange += i => { opratorDouble.LogInfo("opratorDouble运算符重载{0}"); };
-            // opratorDecimal.OnChange += i => { opratorDecimal.LogInfo("opratorDecimal运算符重载{0}"); };
-            // bindString.OnChange += i => { bindString.LogInfo("bindString运算符重载{0}"); };
-            // bindBool.OnChange += i => { bindBool.LogInfo("bindBool运算符重载{0}"); };
-            // bindChar.OnChange += i => { bindChar.LogInfo("bindChar运算符重载{0}"); };
-            
-            
+            ConfigTest();
+
             // 奇怪的是 float equals检查 int类型 true
-            int aa = 2;
-            Log.Info(aa.Equals(2.0f));
-            
-            float bb = 2.0f;
-            Log.Info(bb.Equals(2));
-            
-            Log.Info(bb.Equals(2.0d));
-            
-            Log.Info(bb.Equals(2f));
-            
-            
-            
+            // int aa = 2;
+            // Log.Info(aa.Equals(2.0f));
+            //
+            // float bb = 2.0f;
+            // Log.Info(bb.Equals(2));
+            //
+            // Log.Info(bb.Equals(2.0d));
+            //
+            // Log.Info(bb.Equals(2f))
             
             // teatInt();
             // testIntCompare();
-
-            
             // teatFloat();
             // testFloatCompare();
+            // testString();
+            // testBool();
 
-            testString();
         }
 
+        private void ConfigTest()
+        {
+            loginNum.Value = 1;
+
+            AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
+            AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2");
+            
+            
+            intNum.Value = 100;
+            intNum = intNum + intNum2;
+            intNum = intNum + 10;
+            intNum = 10 + intNum;
+
+        }
 
         private void teatInt()
         {
@@ -162,6 +162,8 @@ namespace IFramework.Test.Viarable
             bindInt2.Value = 0;
             bindInt.Value = bindInt / bindInt2;
             Log.Info(bindInt);
+            
+            
         }
 
         private void testIntCompare()
@@ -420,7 +422,7 @@ namespace IFramework.Test.Viarable
             Log.Info(bindFloat == 2);
             Log.Info(comp == 2);
             
-            // TODO
+            // TODO  奇怪的是 float equals检查 int类型 true, 源码逻辑不一样！！
             Log.Info(bindFloat.Equals(2));
             Log.Info(comp.Equals(2));
             Log.Info("------------------");
@@ -559,7 +561,7 @@ namespace IFramework.Test.Viarable
             
             BindString bindString1 = new BindString("hello world");
             BindString bindString2 = new BindString("hello world");
-            
+
             Log.Info("1--------------");
             Log.Info(a == b);
             Log.Info(bindString1 == b);
@@ -603,14 +605,9 @@ namespace IFramework.Test.Viarable
         private void testBool()
         {
             BindBool bindBool = new BindBool(true);
+            
             BindBool bindBool2 = new BindBool(true);
             BindBool bindBool3 = new BindBool(false);
-
-            if (bindBool)
-            {
-                
-            }
-            
 
             if (bindBool == true)
             {

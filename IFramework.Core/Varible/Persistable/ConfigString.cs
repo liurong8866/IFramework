@@ -22,52 +22,24 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
+using UnityEngine;
 
 namespace IFramework.Core
 {
-    [Serializable]
-    public abstract class Property<T> : IDisposable
+    public sealed class ConfigString : AbstractConfigNumeric<string>
     {
-        // 变量值
-        protected T value;
+        public ConfigString(string key) : base(key, ""){}
 
-        public Property(){}
-        
-        public Property(T value)
-        {
-            this.value = value;
-        }
-        
-        // 解决因其他原因导致值未设置，而不触发事件问题
-        protected bool setted = false;
+        public ConfigString(string key, string value) : base(key, value){}
 
-        public T Value
+        public override string Get()
         {
-            get => GetValue();
-            set => SetValue(value);
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetString(key) : Value;
         }
 
-        /// <summary>
-        /// 判断是否值改变
-        /// </summary>
-        protected virtual bool IsValueChanged(T value)
+        public override void Save(string value)
         {
-            return value == null || !value.Equals(this.value) || !this.setted;
+            PlayerPrefs.SetString(key, value);
         }
-        
-        public override string ToString()
-        {
-            return GetValue().ToString();
-        }
-
-        public virtual void Dispose() {}
-        
-        // 子类需要实现的抽象方法
-        
-        protected abstract T GetValue();
-
-        protected abstract void SetValue(T value);
-        
     }
 }

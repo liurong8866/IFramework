@@ -23,20 +23,47 @@
  *****************************************************************************/
 
 using System;
-using System.Globalization;
-using UnityEditor;
+using UnityEngine;
 
 namespace IFramework.Core
 {
-    public abstract class BindBaseType<T> : Bindable<T> where T : IConvertible, IComparable
+    /// <summary>
+    /// 可持久化的数字类型抽象类
+    /// </summary>
+    public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : IConvertible, IComparable
     {
-        public BindBaseType(){}
+        protected string key;
         
-        public BindBaseType(T value) : base(value){ }
+        public AbstractConfigNumeric(string key, T value)
+        {
+            this.key = key;
+            this.value = value;
+        }
+
+        protected override T GetValue()
+        {
+            return Get();
+        }
+
+        protected override void SetValue(T value)
+        {
+            if (IsValueChanged(value))
+            {
+                Value = value;
+
+                Save(value);
+                
+                setted = true;
+            }
+        }
+
+        public abstract T Get();
+
+        public abstract void Save(T value);
         
         
         //重载运算符"+"
-        public static T operator + (BindBaseType<T> a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -70,11 +97,13 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
+
+            a.value = result;
             
-            return result;
+            return a;
         }
         
-        public static T operator + (BindBaseType<T> a, T b)
+        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, T b)
         {
             T result = default(T);
             
@@ -108,10 +137,13 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator + (T a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator + (T a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -145,11 +177,14 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            
+            b.value = result;
+            
+            return b;
         }
         
         //重载运算符"-"
-        public static T operator - (BindBaseType<T> a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -184,10 +219,12 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
             
-            return result;
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator - (BindBaseType<T> a, T b)
+        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, T b)
         {
             T result = default(T);
             
@@ -221,10 +258,13 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator - (T a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator - (T a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -258,11 +298,14 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+           
+            b.value = result;
+            
+            return b;
         }
         
         //重载运算符"*"
-        public static T operator * (BindBaseType<T> a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -297,10 +340,12 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
             
-            return result;
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator * (BindBaseType<T> a, T b)
+        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, T b)
         {
             T result = default(T);
             
@@ -334,10 +379,12 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator * (T a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator * (T a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -371,11 +418,13 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            b.value = result;
+            
+            return b;
         }
         
         //重载运算符"/"
-        public static T operator / (BindBaseType<T> a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -412,10 +461,12 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
             
-            return result;
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator / (BindBaseType<T> a, T b)
+        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, T b)
         {
             T result = default(T);
             
@@ -451,10 +502,12 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
+            a.value = result;
+            
+            return a;
         }
         
-        public static T operator / (T a, BindBaseType<T> b)
+        public static AbstractConfigNumeric<T> operator / (T a, AbstractConfigNumeric<T> b)
         {
             T result = default(T);
             
@@ -490,201 +543,10 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            return result;
-        }
-        
-        
-        
-        //重载运算符"=="
-        public static bool operator == (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
+            b.value = result;
             
-            return a.Value.ToDouble() == b.Value.ToDouble();
+            return b;
         }
         
-        public static bool operator == (BindBaseType<T> a, object b)
-        {
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-            return a.Value.ToDouble()==b.ToDouble();
-        }
-        
-        public static bool operator == (object a, BindBaseType<T> b)
-        {
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-            return a.ToDouble() == b.Value.ToDouble();
-        }
-
-        //重载运算符"!="
-        public static bool operator != (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            return !(a==b);
-        }
-        
-        public static bool operator != (BindBaseType<T> a, object b)
-        {
-            return !(a==b);
-        }
-        
-        public static bool operator != (object a, BindBaseType<T> b)
-        {
-            return !(a==b);
-        }
-        
-        //重载运算符">"
-        public static bool operator > (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            return a.Value.ToDouble() > b.Value.ToDouble();
-        }
-        
-        public static bool operator > (BindBaseType<T> a, object b)
-        {
-            return a.Value.ToDouble() > b.ToDouble();
-        }
-        
-        public static bool operator > (object a, BindBaseType<T> b)
-        {
-            return a.ToDouble() > b.Value.ToDouble();
-        }
-        
-        //重载运算符"<"
-        public static bool operator < (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            return a.Value.ToDouble() < b.Value.ToDouble();
-        }
-        
-        public static bool operator < (BindBaseType<T> a, object b)
-        {
-            return a.Value.ToDouble() < b.ToDouble();
-        }
-        
-        public static bool operator < (object a, BindBaseType<T> b)
-        {
-            return a.ToDouble() < b.Value.ToDouble();
-        }
-        
-        //重载运算符">="
-        public static bool operator >= (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            return a.Value.ToDouble() >= b.Value.ToDouble();
-        }
-        
-        public static bool operator >= (BindBaseType<T> a, object b)
-        {
-            return a.Value.ToDouble() >= b.ToDouble();
-        }
-        
-        public static bool operator >= (object a, BindBaseType<T> b)
-        {
-            return a.ToDouble() >= b.Value.ToDouble();
-        }
-        
-        //重载运算符"<="
-        public static bool operator <= (BindBaseType<T> a, BindBaseType<T> b)
-        {
-            return a.Value.ToDouble() <= b.Value.ToDouble();
-        }
-        
-        public static bool operator <= (BindBaseType<T> a, object b)
-        {
-            return a.Value.ToDouble() <= b.ToDouble();
-        }
-        
-        public static bool operator <= (object a, BindBaseType<T> b)
-        {
-            return a.ToDouble() <= b.Value.ToDouble();
-        }
-        
-        //重写Equals方法
-        public override bool Equals(System.Object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-            
-            if(obj.GetType() == typeof(BindBaseType<T>))
-            {
-                BindBaseType<T> bindable = obj as BindBaseType<T>;
-                return Equals(bindable);
-            }
-            
-            // 判断类型Value是否一致
-            if (obj.GetType() != typeof(T))
-            {
-                return false;
-            }
-
-            return this.Value.Equals(obj) ;
-        }
-        
-        public bool Equals(BindBaseType<T> bindable)
-        {
-            if ((object)bindable == null)
-            {
-                return false;
-            }
-        
-            return this.Value.Equals(bindable.Value) ;
-        }
-        
-        public override int GetHashCode()
-        {
-            return this.Value.GetHashCode();
-        }
     }
-    
-
-    // 基础类型扩展
-    
-    public class BindInt : BindBaseType<int>
-    {
-        public BindInt(){}
-        public BindInt(int value) : base(value){ }
-    }
-    public class BindShort : BindBaseType<short> {
-        public BindShort(){}
-        public BindShort(short value) : base(value){ }
-    }
-    public class BindLong : BindBaseType<long>{
-        public BindLong(){}
-        public BindLong(long value) : base(value){ }
-    }
-    public class BindFloat : BindBaseType<float>{
-        public BindFloat(){}
-        public BindFloat(float value) : base(value){ }
-    }
-    public class BindDouble : BindBaseType<double>{
-        public BindDouble(){}
-        public BindDouble(double value) : base(value){ }
-    }
-    public class BindDecimal : BindBaseType<decimal>{
-        public BindDecimal(){}
-        public BindDecimal(decimal value) : base(value){ }
-    }
-    
 }

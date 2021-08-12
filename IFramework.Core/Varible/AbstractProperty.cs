@@ -27,43 +27,52 @@ using System;
 namespace IFramework.Core
 {
     /// <summary>
-    /// 可绑定事件的变量
+    /// 变量自定义基础类
     /// </summary>
-    public class Bindable<T> : Property<T>
+    [Serializable]
+    public abstract class AbstractProperty<T> : IDisposable
     {
-        public Action<T> OnChange;
+        // 变量值
+        protected T value;
+
+        public AbstractProperty(){}
         
-        public Bindable(){}
-        
-        public Bindable(T value) : base(value){ }
-        
-        protected override T GetValue()
+        public AbstractProperty(T value)
         {
-            return value;
+            this.value = value;
         }
         
-        protected override void SetValue(T value)
-        {
-            if (IsValueChanged(value))
-            {
-                this.value = value;
+        // 解决因其他原因导致值未设置，而不触发事件问题
+        protected bool setted = false;
 
-                OnChange?.Invoke(value);
-                
-                this.setted = true;
-            }
+        public T Value
+        {
+            get => GetValue();
+            set => SetValue(value);
         }
 
         /// <summary>
-        /// 注销事件
+        /// 判断是否值改变
         /// </summary>
-        public override void Dispose()
+        protected virtual bool IsValueChanged(T value)
         {
-            OnChange = null;
+            return value == null || !value.Equals(this.value) || !this.setted;
         }
         
+        public override string ToString()
+        {
+            return GetValue().ToString();
+        }
+
+        public virtual void Dispose() {}
+        
+        // 子类需要实现的抽象方法
+        protected abstract T GetValue();
+        protected abstract void SetValue(T value);
+        
+        
         //重载运算符"=="
-        public static bool operator == (Bindable<T> a, Bindable<T> b)
+        public static bool operator == (AbstractProperty<T> a, AbstractProperty<T> b)
         {
             if (ReferenceEquals(a, b))
             {
@@ -78,7 +87,7 @@ namespace IFramework.Core
             return a.Value.Equals(b.Value);
         }
                
-        public static bool operator == (Bindable<T> a, T b)
+        public static bool operator == (AbstractProperty<T> a, T b)
         {
             if (ReferenceEquals(a, b))
             {
@@ -93,7 +102,7 @@ namespace IFramework.Core
             return a.Value.Equals(b);
         }
      
-        public static bool operator == (T a, Bindable<T> b)
+        public static bool operator == (T a, AbstractProperty<T> b)
         {
             if (ReferenceEquals(a, b))
             {
@@ -108,24 +117,23 @@ namespace IFramework.Core
             return a.Equals(b.Value);
         }
 
-        public static bool operator != (Bindable<T> a, Bindable<T> b)
+        public static bool operator != (AbstractProperty<T> a, AbstractProperty<T> b)
         {
             return !(a==b);
         }
  
-        public static bool operator != (Bindable<T> a, T b)
+        public static bool operator != (AbstractProperty<T> a, T b)
         {
             return !(a==b);
         }
    
-        public static bool operator != (T a, Bindable<T> b)
+        public static bool operator != (T a, AbstractProperty<T> b)
         {
             return !(a==b);
         }
         
         public override bool Equals(System.Object obj)
         {
-            
             if (obj == null)
             {
                 return false;
@@ -136,10 +144,10 @@ namespace IFramework.Core
                 return false;
             }
             
-            if(obj.GetType() == typeof(Bindable<T>))
+            if(obj.GetType() == typeof(AbstractProperty<T>))
             {
-                Bindable<T> bindable = obj as Bindable<T>;
-                return Equals(bindable);
+                AbstractProperty<T> abstractProperty = obj as AbstractProperty<T>;
+                return Equals(abstractProperty);
             }
             
             // 判断类型Value是否一致
@@ -151,35 +159,19 @@ namespace IFramework.Core
             return this.Value.Equals(obj) ;
         }
         
-        public bool Equals(Bindable<T> bindable)
+        public bool Equals(AbstractProperty<T> abstractProperty)
         {
-            if ((object)bindable == null)
+            if ((object)abstractProperty == null)
             {
                 return false;
             }
 
-            return this.Value.Equals(bindable.Value) ;
+            return this.Value.Equals(abstractProperty.Value) ;
         }
         
         public override int GetHashCode()
         {
             return this.Value.GetHashCode();
         }
-    }
-    
-    public class BindBool : Bindable<bool>
-    {
-        public BindBool(){}
-        public BindBool(bool value) : base(value){ }
-    }
-    public class BindString : Bindable<string>
-    {
-        public BindString(){}
-        public BindString(string value) : base(value){ }
-    }
-    public class BindChar : Bindable<char>
-    {
-        public BindChar(){}
-        public BindChar(char value) : base(value){ }
     }
 }
