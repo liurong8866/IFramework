@@ -206,7 +206,7 @@ namespace IFramework.Core
                 path = fileName.Substring(0, fileName.LastIndexOf('\\'));
 
                 //如果不存在路径 则需要创建
-                DirectoryUtils.New(path);
+                DirectoryUtils.Create(path);
 
                 //创建文件
                 File.Create(fileName);

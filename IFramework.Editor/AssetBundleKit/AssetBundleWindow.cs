@@ -22,7 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
+using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -53,6 +53,9 @@ namespace IFramework.Editor
             {
                 isSimulation = PlayerPrefs.GetInt("isSimulation") == 1;
             }
+            
+            // 当前平台
+            platformIndex = PlatformSettings.GetCurrentPlatform();
         }
  
         //绘制窗口时调用
@@ -75,7 +78,10 @@ namespace IFramework.Editor
             GUILayout.Space(10);
             
             // 选择平台
-            platformIndex = GUILayout.Toolbar(platformIndex, new[] {"Window/MacOS", "iOS", "Android", "WebGL", "WSAPlayer"});
+            platformIndex = GUILayout.Toolbar(platformIndex, new[] {"Window", "MacOS", "iOS", "Android", "WebGL", "PS4", "PS5", "XboxOne"});
+            
+            //切换当前平台
+            PlatformSettings.SetCurrentPlatform(platformIndex);
             
             GUILayout.Space(10);
             

@@ -103,5 +103,11 @@ namespace IFramework.Editor
         {
             return false;
         }
+        
+        [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
+        private static void OPGUIWindowLifeCircle()
+        {
+            GUIWindowLifeCircle.Open();
+        }
     }
 }

@@ -22,31 +22,19 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+using UnityEngine;
 
-namespace IFramework.Editor
+namespace IFramework.Core
 {
-    public class AssetBundleSubPackage
+    /// <summary>
+    /// 包管理，Package.asset所在目录下被标记的资源，打包为一个单独目录，可用于升级包
+    /// </summary>
+    [CreateAssetMenu]
+    public class Package : ScriptableObject
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public string Folder { get; set; }
-        
-        public List<AssetBundleBuild> Builds = new List<AssetBundleBuild>();
-
-        public static List<AssetBundleBuild> FindAllInProject()
-        {
-            // AssetDatabase.GetAllAssetPaths()
-            //     .Where(path => path.EndsWith(".asset"))
-            //     .Select(path =>
-            //     {
-            //         AssetDatabase.LoadAssetAtPath<>()
-            //     })
-            return null;
-            //TODO
-        }
-        
+        /// <summary>
+        /// 命名空间
+        /// </summary>
+        public string NameSpace;
     }
 }

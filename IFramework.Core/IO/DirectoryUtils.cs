@@ -34,7 +34,7 @@ namespace IFramework.Core
         /// <summary>
         /// 创建目录,如果存在则不动作，支持创建多级路径
         /// </summary>
-        public static void New(string path)
+        public static void Create(string path)
         {
             if (!Exists(path))
             {
@@ -45,19 +45,19 @@ namespace IFramework.Core
         /// <summary>
         /// 创建路径
         /// </summary>
-        public static void NewPath(string path)
-        {
-            string subPath = "";
-
-            string[] direactor = path.Split(Path.PathSeparator);
-            
-            foreach(string dir in direactor)
-            {
-                subPath = subPath + (subPath==""?"": Path.PathSeparator.ToString()) + dir;
-
-                New(subPath);
-            }
-        }
+        // public static void CreatPath(string path)
+        // {
+        //     string subPath = "";
+        //
+        //     string[] direactor = path.Split(Path.PathSeparator);
+        //     
+        //     foreach(string dir in direactor)
+        //     {
+        //         subPath = subPath + (subPath==""?"": Path.PathSeparator.ToString()) + dir;
+        //
+        //         Create(subPath);
+        //     }
+        // }
 
         /// <summary>
         /// 删除文件夹，包括其中的文件

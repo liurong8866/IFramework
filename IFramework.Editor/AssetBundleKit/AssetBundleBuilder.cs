@@ -22,8 +22,11 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Data.Common;
+using System.Collections.Generic;
+using System.IO;
+using IFramework.Core;
 using UnityEditor;
+using UnityEngine;
 
 namespace IFramework.Editor
 {
@@ -31,15 +34,70 @@ namespace IFramework.Editor
     {
         public static void BuildAssetBundles()
         {
+            BuildAssetBundles(EditorUserBuildSettings.activeBuildTarget);
+        }
+
+        /// <summary>
+        /// 打包 AssetBundle
+        /// </summary>
+        /// <param name="buildTarget">目标平台</param>
+        public static void BuildAssetBundles(BuildTarget buildTarget)
+        {            
             AssetDatabase.RemoveUnusedAssetBundleNames();
             
             AssetDatabase.Refresh();
             
+            // 默认包
+            AssetBundlePackage defaultPackage = new AssetBundlePackage();
+
+            // 子包
+            List<AssetBundlePackage> subPackages = AssetBundlePackage.GetPackageList();
+
+            // 划分默认包、子包
+            AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
+
+            string outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, PlatformSettings.CurrentPlatformName);
+
+            // 打包
+            Build(outputPath, defaultPackage, buildTarget);
+
+            // 打包 - 子包
+            foreach (AssetBundlePackage subPackage in subPackages)
+            {
+                outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, subPackage.NameSpace, subPackage.Name, PlatformSettings.CurrentPlatformName);
+                
+                Build(outputPath, subPackage, buildTarget);
+            }
             
+            AssetDatabase.Refresh();
         }
 
-        public static void BuildAssetBundles(BuildTarget buildTarget)
+        /// <summary>
+        /// 打包
+        /// </summary>
+        /// <param name="outputPath">输出目录</param>
+        /// <param name="package">待打包资源</param>
+        /// <param name="buildTarget">目标平台</param>
+        public static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
         {
+            // 没有则创建
+            DirectoryUtils.Create(outputPath);
+            
+            // 打包 - 默认包
+            BuildPipeline.BuildAssetBundles(outputPath, package.packages.ToArray(),
+                BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+
+            // streamingAssets 路径
+            string streamPath = Path.Combine(Application.streamingAssetsPath, outputPath);
+            
+            // 清空或创建目录
+            DirectoryUtils.Clear(streamPath);
+            
+            // 覆盖目录
+            FileUtil.ReplaceDirectory(outputPath, streamPath);
+            
+            //TODO 
+            // AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray());
         }
         
         

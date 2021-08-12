@@ -30,9 +30,9 @@ namespace IFramework.Editor
     /// <summary>
     /// GUI生命周期展示
     /// </summary>
-    public class GUIWindowLiftCircle : EditorWindow
+    public class GUIWindowLifeCircle : EditorWindow
     {
-        static void Open()
+        public static void Open()
         {
             //创建窗口
             Rect wr = new Rect(0, 0, 500, 500);
@@ -48,7 +48,7 @@ namespace IFramework.Editor
 
         private Vector3 startPoint; //起点
         private Vector3 endPoint; //终点
-        private float distance = 0f; //起点到终点的距离
+        // private float distance = 0f; //起点到终点的距离
 
         private bool val;
         private Color color = Color.red;
