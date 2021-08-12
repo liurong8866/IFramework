@@ -22,54 +22,23 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Core;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using UnityEngine.UIElements;
+using IFramework.Editor;
+using UnityEditor;
 
-namespace IFramework.Test.Event
+namespace IFramework.Test.Editor
 {
-    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
+    public static class AbundleMarkTest
     {
-        private void Start()
-        {
-            this.RegisterEvent<OnLeftMouseClickEvent>();
-            this.RegisterEvent<OnRightMouseClickEvent>();
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButton(0))
-            {
-                TypeEvent.Send(new OnLeftMouseClickEvent());
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                TypeEvent.Send(new OnRightMouseClickEvent());
-            }
-        }
-
-        public void OnEvent(OnLeftMouseClickEvent t)
-        {
-            "点击左键".LogInfo();
-        }
-
-        public void OnEvent(OnRightMouseClickEvent t)
-        {
-            "点击右键".LogInfo();
-        }
-
-        private void OnDisable()
-        {
-            this.UnRegisterEvent<OnLeftMouseClickEvent>();
-            this.UnRegisterEvent<OnRightMouseClickEvent>();
-        }
+        // [MenuItem("Assets/I Kit - Mark AssetBundle Test", false, 120)]
+        // private static void UiKitBind()
+        // {
+        //     ResKit.MarkAssetBundle();
+        // }
+        
+        // [MenuItem("Assets/I Kit - Generate Abundle", false, 120)]
+        // private static void GenerateAbundle()
+        // {
+        //     ResKit.MarkAssetBundle();
+        // }
     }
-    
-    public struct OnLeftMouseClickEvent {}
-    
-    public struct OnRightMouseClickEvent {}
-    
 }

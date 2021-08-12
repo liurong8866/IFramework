@@ -25,6 +25,7 @@
 using System;
 using IFramework.Engine;
 using UnityEngine;
+using IFramework.Core;
 
 namespace IFramework.Test.Event
 {

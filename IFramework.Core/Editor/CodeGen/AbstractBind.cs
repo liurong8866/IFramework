@@ -30,7 +30,8 @@ namespace IFramework.Core
 {
     public abstract class AbstractBind : MonoBehaviour, IBind
     {
-        public BindType bindType = BindType.DefaultElement;
+        [SerializeField]
+        protected BindType bindType = BindType.DefaultElement;
         
         public string Comment
         {

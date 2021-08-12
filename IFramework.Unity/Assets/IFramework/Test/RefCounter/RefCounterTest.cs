@@ -26,6 +26,7 @@ using System;
 using IFramework.Engine;
 using IFramework.Test.Model;
 using UnityEngine;
+using IFramework.Core;
 
 namespace IFramework.Test.RefCounter
 {

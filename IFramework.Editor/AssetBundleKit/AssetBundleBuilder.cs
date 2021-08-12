@@ -22,43 +22,26 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.Data.Common;
 using UnityEditor;
 
 namespace IFramework.Editor
 {
-    public class Menu
+    public class AssetBundleBuilder
     {
-        [MenuItem("GameObject/I Kit - Bind", false, 30)]
-        private static void UiKitBind()
+        public static void BuildAssetBundles()
         {
-            UIKit.BindScript();
-        }
-        [MenuItem("GameObject/I Kit - Add View", false, 31)]
-        private static void UiKitAddView()
-        {
+            AssetDatabase.RemoveUnusedAssetBundleNames();
+            
+            AssetDatabase.Refresh();
+            
             
         }
-        [MenuItem("GameObject/I Kit - Generate Code", false, 32)]
-        private static void UiKitCreateCode()
-        {
-            
-        }
-        
-        [MenuItem("Assets/I Kit - AssetBundle Mark", false, 120)]
-        private static void AssetBundleMark()
+
+        public static void BuildAssetBundles(BuildTarget buildTarget)
         {
         }
         
-        [MenuItem("Assets/I Kit - Generate Code", true, 121)]
-        private static void AssetCreateCode()
-        {
-            
-        }
-        // 控制是否可用
-        [MenuItem("Assets/I Kit - Generate Code", false, 121)]
-        private static bool AssetCreateCodeValidate()
-        {
-            return false;
-        }
+        
     }
 }

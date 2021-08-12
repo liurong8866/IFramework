@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using IFramework.Engine;
 using UnityEngine;
+using IFramework.Core;
 
 namespace IFramework.Test.Singelton
 {

@@ -30,7 +30,7 @@ using System.Text;
 
 namespace IFramework.Core
 {
-    public static class FileUtility
+    public static class FileUtils
     {
         #region 文件读操作
 
@@ -206,7 +206,7 @@ namespace IFramework.Core
                 path = fileName.Substring(0, fileName.LastIndexOf('\\'));
 
                 //如果不存在路径 则需要创建
-                DirectoryUtility.New(path);
+                DirectoryUtils.New(path);
 
                 //创建文件
                 File.Create(fileName);

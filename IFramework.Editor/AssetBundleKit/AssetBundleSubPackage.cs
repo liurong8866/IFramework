@@ -22,54 +22,31 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Core;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 
-namespace IFramework.Test.Event
+namespace IFramework.Editor
 {
-    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
+    public class AssetBundleSubPackage
     {
-        private void Start()
-        {
-            this.RegisterEvent<OnLeftMouseClickEvent>();
-            this.RegisterEvent<OnRightMouseClickEvent>();
-        }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public string Folder { get; set; }
+        
+        public List<AssetBundleBuild> Builds = new List<AssetBundleBuild>();
 
-        private void Update()
+        public static List<AssetBundleBuild> FindAllInProject()
         {
-            if (Input.GetMouseButton(0))
-            {
-                TypeEvent.Send(new OnLeftMouseClickEvent());
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                TypeEvent.Send(new OnRightMouseClickEvent());
-            }
+            // AssetDatabase.GetAllAssetPaths()
+            //     .Where(path => path.EndsWith(".asset"))
+            //     .Select(path =>
+            //     {
+            //         AssetDatabase.LoadAssetAtPath<>()
+            //     })
+            return null;
+            //TODO
         }
-
-        public void OnEvent(OnLeftMouseClickEvent t)
-        {
-            "点击左键".LogInfo();
-        }
-
-        public void OnEvent(OnRightMouseClickEvent t)
-        {
-            "点击右键".LogInfo();
-        }
-
-        private void OnDisable()
-        {
-            this.UnRegisterEvent<OnLeftMouseClickEvent>();
-            this.UnRegisterEvent<OnRightMouseClickEvent>();
-        }
+        
     }
-    
-    public struct OnLeftMouseClickEvent {}
-    
-    public struct OnRightMouseClickEvent {}
-    
 }

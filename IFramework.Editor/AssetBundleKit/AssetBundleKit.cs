@@ -22,54 +22,20 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Core;
-using IFramework.Engine;
-using IFramework.Test.Model;
-using UnityEngine;
-using UnityEngine.UIElements;
-
-namespace IFramework.Test.Event
+namespace IFramework.Editor
 {
-    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
+    public class AssetBundleKit
     {
-        private void Start()
+        //标记AssetBundle
+        public static void MarkAssetBundle()
         {
-            this.RegisterEvent<OnLeftMouseClickEvent>();
-            this.RegisterEvent<OnRightMouseClickEvent>();
+            AssetBundleMark.MarkAssetBundle();
         }
 
-        private void Update()
+        public static void OpenAssetBundleWindow()
         {
-            if (Input.GetMouseButton(0))
-            {
-                TypeEvent.Send(new OnLeftMouseClickEvent());
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                TypeEvent.Send(new OnRightMouseClickEvent());
-            }
+            AssetBundleWindow.Open();
         }
-
-        public void OnEvent(OnLeftMouseClickEvent t)
-        {
-            "点击左键".LogInfo();
-        }
-
-        public void OnEvent(OnRightMouseClickEvent t)
-        {
-            "点击右键".LogInfo();
-        }
-
-        private void OnDisable()
-        {
-            this.UnRegisterEvent<OnLeftMouseClickEvent>();
-            this.UnRegisterEvent<OnRightMouseClickEvent>();
-        }
+        
     }
-    
-    public struct OnLeftMouseClickEvent {}
-    
-    public struct OnRightMouseClickEvent {}
-    
 }

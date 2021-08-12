@@ -24,30 +24,27 @@
 
 using System.IO;
 using UnityEditor;
-using UnityEngine;
 
-namespace IFramework.Editor
+namespace IFramework.Core
 {
-    public class ClearData
+    public static class EditorUtils
     {
-        [MenuItem("IFramework/Clear Data")]
-        private static void Clear()
+        public static string GetSelectedPath()
         {
-            PlayerPrefs.DeleteAll();
-            Directory.Delete(Application.persistentDataPath, true);
-            if (EditorApplication.isPlaying)
+            string path = string.Empty;
+            
+            foreach (var obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets))
             {
-                EditorApplication.isPlaying = false;
+                path = AssetDatabase.GetAssetPath(obj);
+
+                if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                {
+                    return path;
+                }
             }
+
+            return path;
         }
-        
-        // public class ReopenProject
-        // {
-        //     [MenuItem("IFramework/Reopen Project")]
-        //     private static void Reopen()
-        //     {
-        //         EditorApplication.OpenProject(Path.Combine(Application.dataPath, "../"));
-        //     }
-        // }
     }
+    
 }

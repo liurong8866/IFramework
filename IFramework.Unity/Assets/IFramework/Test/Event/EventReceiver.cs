@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System;
+using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 

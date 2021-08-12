@@ -22,12 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
-using IFramework.Engine;
 using IFramework.Test.Model;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using IFramework.Core;
 
 namespace IFramework.Test.Event
 {

@@ -29,7 +29,7 @@ using System.Linq;
 
 namespace IFramework.Core
 {
-    public static class DirectoryUtility
+    public static class DirectoryUtils
     {
         /// <summary>
         /// 创建目录,如果存在则不动作，支持创建多级路径

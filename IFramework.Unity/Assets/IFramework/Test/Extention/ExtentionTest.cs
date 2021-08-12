@@ -26,6 +26,7 @@ using System;
 using IFramework.Engine;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using IFramework.Core;
 
 namespace IFramework.Test.Extention
 {
