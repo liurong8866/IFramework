@@ -45,6 +45,7 @@ namespace IFramework.Core
             this.value = value;
         }
         
+        // 获得值
         protected override T GetValue()
         {
             T result = default(T);
@@ -99,6 +100,7 @@ namespace IFramework.Core
             return result;
         }
 
+        // 设置值
         protected override void SetValue(T value)
         {
             Type type = typeof(T);

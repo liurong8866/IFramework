@@ -73,99 +73,102 @@ namespace IFramework.Core
         //重载运算符"=="
         public static bool operator == (Bindable<T> a, Bindable<T> b)
         {
-            return Compare(a, b);
-        }
-        public static bool operator != (Bindable<T> a, Bindable<T> b)
-        {
-            return !Compare(a, b);
-        }
-        private static bool Compare(Bindable<T> a, Bindable<T> b)
-        {
-            if (a == null && b == null)
+            if (ReferenceEquals(a, b))
             {
                 return true;
             }
-            else if (a == null || b == null)
+
+            if (((object)a == null) || ((object)b == null))
             {
                 return false;
             }
-            else
-            {
-                return a.Value.Equals(b.Value);
-            }
+
+            return a.Value.Equals(b.Value);
         }
-        
-        
+               
         public static bool operator == (Bindable<T> a, T b)
         {
-            return Compare(a, b);
-        }
-        public static bool operator != (Bindable<T> a, T b)
-        {
-            return !Compare(a, b);
-        }
-        private static bool Compare(Bindable<T> a, T b)
-        {
-            if (a == null && b == null)
+            if (ReferenceEquals(a, b))
             {
                 return true;
             }
-            else if (a == null || b == null)
+
+            if (((object)a == null) || ((object)b == null))
             {
                 return false;
             }
-            else
-            {
-                return a.Value.Equals(b);
-            }
+
+            return a.Value.Equals(b);
         }
-        
-        
+     
         public static bool operator == (T a, Bindable<T> b)
         {
-            return Compare(a, b);
-        }
-        public static bool operator != (T a, Bindable<T> b)
-        {
-            return !Compare(a, b);
-        }
-        private static bool Compare(T a, Bindable<T> b)
-        {
-            if (a == null && b == null)
+            if (ReferenceEquals(a, b))
             {
                 return true;
             }
-            else if (a == null || b == null)
+
+            if (((object)a == null) || ((object)b == null))
             {
                 return false;
             }
-            else
-            {
-                return a.Equals(b.Value);
-            }
+
+            return a.Equals(b.Value);
         }
 
-        public override bool Equals(object obj)
+        public static bool operator != (Bindable<T> a, Bindable<T> b)
         {
-            Type type = obj.GetType();
-            
-            if (obj == null) return false;
-
-            if (type == typeof(Bindable<T>))
-            {
-                Bindable<T> compareObj = obj as Bindable<T>;
-                return this.Value.Equals(compareObj.Value);
-            }
-            
-            if (type == typeof(T))
-            {
-                T compareObj = (T) obj;
-                return this.Value.Equals(compareObj);
-            }
-            
-            return false;
+            return !(a==b);
         }
+ 
+        public static bool operator != (Bindable<T> a, T b)
+        {
+            return !(a==b);
+        }
+   
+        public static bool operator != (T a, Bindable<T> b)
+        {
+            return !(a==b);
+        }
+        
+        public override bool Equals(System.Object obj)
+        {
+            
+            if (obj == null)
+            {
+                return false;
+            }
+            // 引用地址如果不同，则返回false
+            if (!ReferenceEquals(this, obj))
+            {
+                return false;
+            }
+            
+            if(obj.GetType() == typeof(Bindable<T>))
+            {
+                Bindable<T> bindable = obj as Bindable<T>;
+                return Equals(bindable);
+            }
+            
+            // 判断类型Value是否一致
+            if (obj.GetType() != typeof(T))
+            {
+                return false;
+            }
+            
+            return this.Value.Equals(obj) ;
+        }
+        
+        public bool Equals(Bindable<T> bindable)
+        {
+            if ((object)bindable == null)
+            {
+                return false;
+            }
 
+            return this.Value.Equals(bindable.Value) ;
+        }
+        
         public override int GetHashCode()
         {
             return this.Value.GetHashCode();

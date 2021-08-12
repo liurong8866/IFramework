@@ -34,6 +34,7 @@ namespace IFramework.Core
         
         public BindBaseType(T value) : base(value){ }
         
+        
         //重载运算符"+"
         public static T operator + (BindBaseType<T> a, BindBaseType<T> b)
         {
@@ -43,27 +44,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() > b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));;
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() > b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));;
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() > b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() + b.Value.ToLong(), typeof(T));;
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() > b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));;
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() > b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));;
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() > b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
             }
             else
             {
@@ -81,27 +82,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() > b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));;
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() > b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));;
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() > b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));;
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() > b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));;
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() > b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));;
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() > b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));;
             }
             else
             {
@@ -118,27 +119,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() > b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));;
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() > b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));;
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() > b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));;
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() > b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));;
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() > b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));;
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() > b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
             }
             else
             {
@@ -492,18 +493,80 @@ namespace IFramework.Core
             return result;
         }
         
+        
+        
+        //重载运算符"=="
+        public static bool operator == (BindBaseType<T> a, BindBaseType<T> b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+            
+            return a.Value.ToDouble() == b.Value.ToDouble();
+        }
+        
+        public static bool operator == (BindBaseType<T> a, object b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+            return a.Value.ToDouble()==b.ToDouble();
+        }
+        
+        public static bool operator == (object a, BindBaseType<T> b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+            return a.ToDouble() == b.Value.ToDouble();
+        }
+
+        //重载运算符"!="
+        public static bool operator != (BindBaseType<T> a, BindBaseType<T> b)
+        {
+            return !(a==b);
+        }
+        
+        public static bool operator != (BindBaseType<T> a, object b)
+        {
+            return !(a==b);
+        }
+        
+        public static bool operator != (object a, BindBaseType<T> b)
+        {
+            return !(a==b);
+        }
+        
         //重载运算符">"
         public static bool operator > (BindBaseType<T> a, BindBaseType<T> b)
         {
             return a.Value.ToDouble() > b.Value.ToDouble();
         }
         
-        public static bool operator > (BindBaseType<T> a, T b)
+        public static bool operator > (BindBaseType<T> a, object b)
         {
             return a.Value.ToDouble() > b.ToDouble();
         }
         
-        public static bool operator > (T a, BindBaseType<T> b)
+        public static bool operator > (object a, BindBaseType<T> b)
         {
             return a.ToDouble() > b.Value.ToDouble();
         }
@@ -514,12 +577,12 @@ namespace IFramework.Core
             return a.Value.ToDouble() < b.Value.ToDouble();
         }
         
-        public static bool operator < (BindBaseType<T> a, T b)
+        public static bool operator < (BindBaseType<T> a, object b)
         {
             return a.Value.ToDouble() < b.ToDouble();
         }
         
-        public static bool operator < (T a, BindBaseType<T> b)
+        public static bool operator < (object a, BindBaseType<T> b)
         {
             return a.ToDouble() < b.Value.ToDouble();
         }
@@ -530,12 +593,12 @@ namespace IFramework.Core
             return a.Value.ToDouble() >= b.Value.ToDouble();
         }
         
-        public static bool operator >= (BindBaseType<T> a, T b)
+        public static bool operator >= (BindBaseType<T> a, object b)
         {
             return a.Value.ToDouble() >= b.ToDouble();
         }
         
-        public static bool operator >= (T a, BindBaseType<T> b)
+        public static bool operator >= (object a, BindBaseType<T> b)
         {
             return a.ToDouble() >= b.Value.ToDouble();
         }
@@ -546,14 +609,52 @@ namespace IFramework.Core
             return a.Value.ToDouble() <= b.Value.ToDouble();
         }
         
-        public static bool operator <= (BindBaseType<T> a, T b)
+        public static bool operator <= (BindBaseType<T> a, object b)
         {
             return a.Value.ToDouble() <= b.ToDouble();
         }
         
-        public static bool operator <= (T a, BindBaseType<T> b)
+        public static bool operator <= (object a, BindBaseType<T> b)
         {
             return a.ToDouble() <= b.Value.ToDouble();
+        }
+        
+        //重写Equals方法
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            
+            if(obj.GetType() == typeof(BindBaseType<T>))
+            {
+                BindBaseType<T> bindable = obj as BindBaseType<T>;
+                return Equals(bindable);
+            }
+            
+            // 判断类型Value是否一致
+            if (obj.GetType() != typeof(T))
+            {
+                return false;
+            }
+
+            return this.Value.Equals(obj) ;
+        }
+        
+        public bool Equals(BindBaseType<T> bindable)
+        {
+            if ((object)bindable == null)
+            {
+                return false;
+            }
+        
+            return this.Value.Equals(bindable.Value) ;
+        }
+        
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
         }
     }
     
