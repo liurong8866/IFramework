@@ -37,7 +37,7 @@ namespace IFramework.Core
 
         public override float Get()
         {
-            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : Value;
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : this.value;
         }
 
         public override void Save(float value)

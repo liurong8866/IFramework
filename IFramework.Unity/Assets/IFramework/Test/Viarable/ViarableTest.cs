@@ -55,6 +55,14 @@ namespace IFramework.Test.Viarable
         {
             ConfigTest();
 
+            // teatInt();
+            // testIntCompare();
+            // teatFloat();
+            // testFloatCompare();
+            // testString();
+            // testBool();
+            
+            
             // 奇怪的是 float equals检查 int类型 true
             // int aa = 2;
             // Log.Info(aa.Equals(2.0f));
@@ -66,12 +74,6 @@ namespace IFramework.Test.Viarable
             //
             // Log.Info(bb.Equals(2f))
             
-            // teatInt();
-            // testIntCompare();
-            // teatFloat();
-            // testFloatCompare();
-            // testString();
-            // testBool();
 
         }
 
@@ -80,17 +82,32 @@ namespace IFramework.Test.Viarable
             loginNum.Value = 1;
 
             AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
-            AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2");
-            
+            AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
             
             intNum.Value = 100;
-            // intNum = intNum + intNum2;
+            intNum = intNum + intNum2;
             intNum = intNum2 + 10;
             intNum = 10 + intNum2;
-
+            
+            intNum.Value = 100;
+            intNum = intNum - intNum2;
+            intNum = intNum2 - 10;
+            intNum = 10 - intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum * intNum2;
+            intNum = intNum2 * 10;
+            intNum = 10 * intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum / intNum2;
+            intNum = intNum2 / 10;
+            intNum = 10 / intNum2;
+            
+            
         }
 
-        private void teatInt()
+        private void TeatInt()
         {
             BindInt bindInt = new BindInt(100);
             BindInt bindInt2 = new BindInt(100);
@@ -166,7 +183,7 @@ namespace IFramework.Test.Viarable
             
         }
 
-        private void testIntCompare()
+        private void TestIntCompare()
         {
             BindInt opratorInt = new BindInt();
             int comp = 2;  // 采用基础类型 用于对比
@@ -305,7 +322,7 @@ namespace IFramework.Test.Viarable
             
         }
 
-        private void teatFloat()
+        private void TeatFloat()
         {
             BindFloat bindFloat = new BindFloat(100.00f);
             BindFloat bindFloat2 = new BindFloat(100.00f);
@@ -397,7 +414,7 @@ namespace IFramework.Test.Viarable
             Log.Info(bindFloat);
         }
 
-        private void testFloatCompare()
+        private void TestFloatCompare()
         {
             BindFloat bindFloat = new BindFloat();
             float comp = 2;  // 采用基础类型 用于对比
@@ -551,7 +568,7 @@ namespace IFramework.Test.Viarable
             
         }
 
-        private void testString()
+        private void TestString()
         {
             string a = "hello world";
             string b = "hello world";
@@ -602,7 +619,7 @@ namespace IFramework.Test.Viarable
 
         }
 
-        private void testBool()
+        private void TestBool()
         {
             BindBool bindBool = new BindBool(true);
             
@@ -648,8 +665,7 @@ namespace IFramework.Test.Viarable
             }
         }
         
-        
-        private void testConfigNumber()
+        private void TestConfigNumber()
         {
             
             
@@ -680,8 +696,6 @@ namespace IFramework.Test.Viarable
             isOpen.Value = true;
             isOpen.Value.LogInfo();
         }
-
-        // Bindable<UserInfo> userinfo = new Bindable<UserInfo>();
 
     }
     

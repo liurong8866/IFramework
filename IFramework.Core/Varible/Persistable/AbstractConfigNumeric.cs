@@ -47,7 +47,7 @@ namespace IFramework.Core
         {
             if (IsValueChanged(value))
             {
-                Value = value;
+                this.value = value;
 
                 Save(value);
                 
@@ -96,7 +96,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
 
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -136,7 +136,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
             
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -176,7 +176,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
             
-            n.value = result;
+            n.Value = result;
             
             return n;
         }
@@ -217,7 +217,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
             
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -257,7 +257,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
             
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -297,7 +297,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
            
-            n.value = result;
+            n.Value = result;
             
             return n;
         }
@@ -338,7 +338,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
             
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -377,7 +377,7 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -416,7 +416,7 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            n.value = result;
+            n.Value = result;
             
             return n;
         }
@@ -459,7 +459,7 @@ namespace IFramework.Core
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
             
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -500,7 +500,7 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            m.value = result;
+            m.Value = result;
             
             return m;
         }
@@ -541,7 +541,7 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            n.value = result;
+            n.Value = result;
             
             return n;
         }

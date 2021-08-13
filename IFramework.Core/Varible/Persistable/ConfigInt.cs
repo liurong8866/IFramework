@@ -37,7 +37,7 @@ namespace IFramework.Core
 
         public override int Get()
         {
-            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : Value;
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : this.value;
         }
 
         public override void Save(int value)
