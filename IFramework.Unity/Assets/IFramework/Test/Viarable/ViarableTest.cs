@@ -56,10 +56,12 @@ namespace IFramework.Test.Viarable
         
         private void Start()
         {
-            ConverterTest();
-            // ConfigIntTest();
-            // ConfigFloatTest();
-            // ConfigBoolTest();
+            // ConverterTest();
+            
+            
+            ConfigIntTest();
+            ConfigFloatTest();
+            ConfigBoolTest();
 
             // TeatInt();
             // TestIntCompare();
@@ -249,28 +251,36 @@ namespace IFramework.Test.Viarable
 
             intNum2.Value++;
             intNum2.LogInfo();
+            // intNum2.Value = 2;
             
             Log.Info(intNum % intNum2);
             Log.Info(20 % intNum);
-            // intNum = intNum + intNum2;
-            // intNum = intNum2 + 10;
-            // intNum = 10 + intNum2;
-            //
-            // intNum.Value = 100;
-            // intNum = intNum - intNum2;
-            // intNum = intNum2 - 10;
-            // intNum = 10 - intNum2;
-            //
-            // intNum.Value = 100;
-            // intNum = intNum * intNum2;
-            // intNum = intNum2 * 10;
-            // intNum = 10 * intNum2;
-            //
-            // intNum.Value = 100;
-            // intNum = intNum / intNum2;
-            // intNum = intNum2 / 10;
-            // intNum = 10 / intNum2;
             
+            
+            intNum = intNum + intNum2;
+            intNum = intNum2 + 10;
+            intNum = 10 + intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum - intNum2;
+            intNum = intNum2 - 10;
+            intNum = 10 - intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum * intNum2;
+            intNum = intNum2 * 10;
+            intNum = 10 * intNum2;
+
+            
+            intNum.Value = 100;
+            intNum = intNum / intNum2;
+            intNum = intNum2 / 10;
+            intNum = 10 / intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum % intNum2;
+            intNum = intNum2 % 10;
+            intNum = 10 % intNum2;
             
         }
         
@@ -301,6 +311,12 @@ namespace IFramework.Test.Viarable
             intNum = intNum / intNum2;
             intNum = intNum2 / 10;
             intNum = 10 / intNum2;
+            
+            intNum.Value = 100;
+            intNum = intNum % intNum2;
+            intNum = intNum2 % 10;
+            intNum = 10 % intNum2;
+
         }
 
         private void ConfigBoolTest()

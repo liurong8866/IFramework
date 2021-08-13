@@ -250,7 +250,6 @@ namespace IFramework.Core
             return Addition(m, n.Value);
         }
         
-        
         //重载运算符"-"
         public static T operator - (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {

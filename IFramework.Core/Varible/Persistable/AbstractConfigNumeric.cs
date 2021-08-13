@@ -60,100 +60,100 @@ namespace IFramework.Core
 
         public abstract void Save(T value);
         
-        //重载运算符"+"
-        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
-        {
-            m.Value =  Addition(m.Value, n.Value);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, T n)
-        {
-            m.Value =  Addition(m.Value, n);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator + (T m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Addition(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"-"
-        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Subtraction(m.Value, n.Value);
-            return n;
-        }
-        
-        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, T n)
-        {
-            m.Value =  Subtraction(m.Value, n);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator - (T m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Subtraction(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"*"
-        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
-        {
-            m.Value =  Multiply(m.Value, n.Value);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, T n)
-        {
-            m.Value =  Multiply(m.Value, n);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator * (T m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Multiply(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"/"
-        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
-        {
-            m.Value =  Division(m.Value, n.Value);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, T n)
-        {
-            m.Value =  Division(m.Value, n);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator / (T m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Division(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"%"
-        public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
-        {
-            m.Value =  Module(m.Value, n.Value);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, T n)
-        {
-            m.Value =  Module(m.Value, n);
-            return m;
-        }
-        
-        public static AbstractConfigNumeric<T> operator % (T m, AbstractConfigNumeric<T> n)
-        {
-            n.Value =  Module(m, n.Value);
-            return n;
-        }
+        // //重载运算符"+"
+        // public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        // {
+        //     m.Value =  Addition(m.Value, n.Value);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, T n)
+        // {
+        //     m.Value =  Addition(m.Value, n);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator + (T m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Addition(m, n.Value);
+        //     return n;
+        // }
+        //
+        // //重载运算符"-"
+        // public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Subtraction(m.Value, n.Value);
+        //     return n;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, T n)
+        // {
+        //     m.Value =  Subtraction(m.Value, n);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator - (T m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Subtraction(m, n.Value);
+        //     return n;
+        // }
+        //
+        // //重载运算符"*"
+        // public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        // {
+        //     m.Value =  Multiply(m.Value, n.Value);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, T n)
+        // {
+        //     m.Value =  Multiply(m.Value, n);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator * (T m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Multiply(m, n.Value);
+        //     return n;
+        // }
+        //
+        // //重载运算符"/"
+        // public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        // {
+        //     m.Value =  Division(m.Value, n.Value);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, T n)
+        // {
+        //     m.Value =  Division(m.Value, n);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator / (T m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Division(m, n.Value);
+        //     return n;
+        // }
+        //
+        // //重载运算符"%"
+        // public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        // {
+        //     m.Value =  Module(m.Value, n.Value);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, T n)
+        // {
+        //     m.Value =  Module(m.Value, n);
+        //     return m;
+        // }
+        //
+        // public static AbstractConfigNumeric<T> operator % (T m, AbstractConfigNumeric<T> n)
+        // {
+        //     n.Value =  Module(m, n.Value);
+        //     return n;
+        // }
         
     }
 }
