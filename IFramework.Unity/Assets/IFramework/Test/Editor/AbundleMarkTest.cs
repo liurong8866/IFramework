@@ -41,10 +41,5 @@ namespace IFramework.Test.Editor
             AssetBundleKit.MarkAssetBundle();
         }
         
-        // [MenuItem("Assets/I Kit - Generate Abundle", false, 120)]
-        // private static void GenerateAbundle()
-        // {
-        //     ResKit.MarkAssetBundle();
-        // }
     }
 }

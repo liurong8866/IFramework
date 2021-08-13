@@ -46,7 +46,7 @@ namespace IFramework.Core
         {
             if (IsValueChanged(value))
             {
-                Value = value;
+                this.value = value;
 
                 Save(value);
                 

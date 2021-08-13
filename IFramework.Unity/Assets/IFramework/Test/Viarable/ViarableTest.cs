@@ -57,11 +57,11 @@ namespace IFramework.Test.Viarable
         private void Start()
         {
             // ConverterTest();
-            forAdd();
+            // forAdd();
 
             // ConfigIntTest();
             // ConfigFloatTest();
-            // ConfigBoolTest();
+            ConfigBoolTest();
 
             // TeatInt();
             // TestIntCompare();
@@ -354,9 +354,9 @@ namespace IFramework.Test.Viarable
             ConfigBool configBool = new ConfigBool("configBool", false);
             ConfigBool configBool2 = new ConfigBool("configBool", true);
 
-            configBool.LogInfo();
+            configBool.Value.LogInfo("设置前{0}");
             configBool.Value = false;
-            configBool.LogInfo();
+            configBool.Value.LogInfo("设置后{0}");
 
             if (configBool)
             {
@@ -921,6 +921,12 @@ namespace IFramework.Test.Viarable
             BindBool bindBool2 = new BindBool(true);
             BindBool bindBool3 = new BindBool(false);
 
+            bindBool.Value.LogInfo("设置前{0}");
+            
+            bindBool.Value = false;
+            
+            bindBool.Value.LogInfo("设置后{0}");
+            
             if (bindBool == true)
             {
                 Debug.Log("1");
@@ -948,7 +954,7 @@ namespace IFramework.Test.Viarable
             {
                 Debug.Log("6");
             }
-
+            
             if (bindBool.Equals(true))
             {
                 Debug.Log("7");

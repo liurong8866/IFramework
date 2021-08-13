@@ -43,7 +43,11 @@ namespace IFramework.Core
         
         public override bool Get()
         {
-            return PlayerPrefs.HasKey(key) && (PlayerPrefs.GetInt(key) == 1) || this.value;
+            if (PlayerPrefs.HasKey(key))
+            {
+                return PlayerPrefs.GetInt(key) == 1 ? true : false;
+            }
+            return this.value;
         }
 
         public override void Save(bool value)

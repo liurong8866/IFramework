@@ -22,44 +22,39 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor
+namespace IFramework.Test.Viarable
 {
-    public class AssetBundleWindow : EditorWindow
+    public class ViarableGui : EditorWindow
     {
-        private ConfigInt platformIndex = new ConfigInt("platformIndex");
-        private ConfigBool autoGenerateName = new ConfigBool("autoGenerateName", true);
-        private ConfigBool isSimulation = new ConfigBool("isSimulation", true);
-        
-        public static void Open ()
-        {       
-            //创建窗口
-            AssetBundleWindow window = GetWindow<AssetBundleWindow>(true, "资源管理器") ;
+        private ConfigInt platformIndex;
+        private ConfigBool autoGenerateName;
+        private ConfigBool isSimulation;
+        private bool aotuConst;
+
+        private void Awake()
+        {
+            
+            platformIndex  = new ConfigInt("platformIndex");
+            autoGenerateName   = new ConfigBool("autoGenerateName", true);
+            isSimulation= new ConfigBool("isSimulation", true);
+            aotuConst = autoGenerateName.Value;
+        }
+
+        [MenuItem("IFramework/Test/Window")]
+        public static void Open()
+        {
+            ViarableGui window = EditorWindow.GetWindow<ViarableGui>();
+            
             window.Show();
         }
         
-        //绘制窗口时调用
-        void OnGUI () 
+        private void OnGUI()
         {
-            
-            GUILayout.Space(20);
-
-            // PersistentPath
-            EditorGUILayout.BeginHorizontal();
-           
-            EditorGUILayout.TextField("PersistentPath:",Application.persistentDataPath);
-
-            if(GUILayout.Button("打开目录",GUILayout.Width(100)))
-            {
-                EditorUtility.RevealInFinder(Application.persistentDataPath);
-            }
-            EditorGUILayout.EndHorizontal();
-            
-            GUILayout.Space(10);
-            
             // 选择平台
             platformIndex.Value = GUILayout.Toolbar(platformIndex.Value, new[] {"Window", "MacOS", "iOS", "Android", "WebGL", "PS4", "PS5", "XboxOne"});
             
@@ -73,25 +68,6 @@ namespace IFramework.Editor
             isSimulation.Value = GUILayout.Toggle(isSimulation.Value, "模拟模式（勾选后每当资源修改时无需再打 AB 包，开发阶段建议勾选，打真机包时取消勾选并打一次 AB 包）");
             
             GUILayout.Space(10);
-            
-            if(GUILayout.Button("生成 AB 包"))
-            {
-                AssetBundleBuilder.BuildAssetBundles();
-            }
-            
-            EditorGUILayout.BeginHorizontal();
-            
-            if(GUILayout.Button("生成 AB 常量"))
-            {
-                
-            }
-            if(GUILayout.Button("清空已生成的 AB 包"))
-            {
-                AssetBundleBuilder.ForceClearAssetBundles();
-            }
-            
-            EditorGUILayout.EndHorizontal();
-            
 
         }
     }
