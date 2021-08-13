@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace IFramework.Core
 {
-    public sealed class ConfigString : AbstractConfigNumeric<string>
+    public sealed class ConfigString : AbstractConfig<string>
     {
         public ConfigString(string key) : base(key, ""){}
 

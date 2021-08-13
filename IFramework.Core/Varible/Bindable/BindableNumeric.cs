@@ -30,7 +30,7 @@ namespace IFramework.Core
     /// 可绑定事件的数字类型接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BindableNumeric<T> : AbstractPropertyNumeric<T>, IBindable<T> where T : IConvertible, IComparable
+    public class BindableNumeric<T> : AbstractPropertyNumeric<T>, IBindable<T> where T : struct, IConvertible, IComparable
     {
         public BindableNumeric(){}
         

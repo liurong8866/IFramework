@@ -29,7 +29,7 @@ namespace IFramework.Core
     /// <summary>
     /// 可持久化的数字类型抽象类
     /// </summary>
-    public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : IConvertible, IComparable
+    public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : struct, IConvertible, IComparable
     {
         protected string key;
         
@@ -63,95 +63,95 @@ namespace IFramework.Core
         //重载运算符"+"
         public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
-            m.Value =  Addition(m, n);
+            m.Value =  Addition(m.Value, n.Value);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, T n)
         {
-            m.Value =  Addition(m, n);
+            m.Value =  Addition(m.Value, n);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator + (T m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Addition(m, n);
+            n.Value =  Addition(m, n.Value);
             return n;
         }
         
         //重载运算符"-"
         public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Subtraction(m, n);
+            n.Value =  Subtraction(m.Value, n.Value);
             return n;
         }
         
         public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, T n)
         {
-            m.Value =  Subtraction(m, n);
+            m.Value =  Subtraction(m.Value, n);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator - (T m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Subtraction(m, n);
+            n.Value =  Subtraction(m, n.Value);
             return n;
         }
         
         //重载运算符"*"
         public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
-            m.Value =  Multiply(m, n);
+            m.Value =  Multiply(m.Value, n.Value);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, T n)
         {
-            m.Value =  Multiply(m, n);
+            m.Value =  Multiply(m.Value, n);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator * (T m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Multiply(m, n);
+            n.Value =  Multiply(m, n.Value);
             return n;
         }
         
         //重载运算符"/"
         public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
-            m.Value =  Division(m, n);
+            m.Value =  Division(m.Value, n.Value);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, T n)
         {
-            m.Value =  Division(m, n);
+            m.Value =  Division(m.Value, n);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator / (T m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Division(m, n);
+            n.Value =  Division(m, n.Value);
             return n;
         }
         
         //重载运算符"%"
         public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
-            m.Value =  Module(m, n);
+            m.Value =  Module(m.Value, n.Value);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, T n)
         {
-            m.Value =  Module(m, n);
+            m.Value =  Module(m.Value, n);
             return m;
         }
         
         public static AbstractConfigNumeric<T> operator % (T m, AbstractConfigNumeric<T> n)
         {
-            n.Value =  Module(m, n);
+            n.Value =  Module(m, n.Value);
             return n;
         }
         
