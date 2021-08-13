@@ -58,9 +58,12 @@ namespace IFramework.Editor
 
             string outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, buildTarget.ToString());
 
+            
             // 打包
             Build(outputPath, defaultPackage, buildTarget);
-
+            
+            Log.Info("打包完毕 " + buildTarget.ToString());
+            
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
@@ -80,6 +83,8 @@ namespace IFramework.Editor
         /// <param name="buildTarget">目标平台</param>
         private static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
         {
+            Log.Info("正在打包: " + buildTarget);
+
             // 没有则创建
             DirectoryUtils.Create(outputPath);
             
@@ -95,6 +100,8 @@ namespace IFramework.Editor
             
             // 覆盖目录
             FileUtil.ReplaceDirectory(outputPath, streamPath);
+            
+            Log.Info("打包完毕: " + buildTarget);
             
             //TODO 
             // AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray());
