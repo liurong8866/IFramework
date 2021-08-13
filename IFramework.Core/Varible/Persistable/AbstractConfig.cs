@@ -30,8 +30,8 @@ namespace IFramework.Core
     public abstract class AbstractConfig<T> : AbstractProperty<T>, IPersistable<T>
     {
         protected string key;
-        
-        public AbstractConfig(string key, T value)
+
+        protected AbstractConfig(string key, T value)
         {
             this.key = key;
             this.value = value;

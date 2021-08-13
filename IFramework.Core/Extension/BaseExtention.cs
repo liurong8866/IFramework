@@ -59,7 +59,7 @@ namespace IFramework.Core
         /// </summary>
         public static bool IsNullOrEmpty(this ICollection value)
         {
-            return (value != null && value.Count > 0) ? true : false;
+            return (value != null && value.Count > 0);
         }
         
         /// <summary>
@@ -81,9 +81,6 @@ namespace IFramework.Core
         /// <summary>
         /// 转换字符串
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="defaultvalue">默认值</param>
-        /// <returns></returns>
         public static string ToString(this object value)
         {
             string result = "";
@@ -99,9 +96,6 @@ namespace IFramework.Core
         /// <summary>
         /// 转换字符串
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="defaultvalue">默认值</param>
-        /// <returns></returns>
         public static string ToString(this object value, string defaultvalue)
         {
             string result = defaultvalue;
@@ -117,164 +111,54 @@ namespace IFramework.Core
         /// <summary>
         /// 对象转换Short
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static short ToShort(this object value)
         {
-            short result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = Int16.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(short);
-                }
-            }
-            else
-            {
-                result = default(short);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToInt16(value);
         }
 
         /// <summary>
         /// 对象转换Int
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static int ToInt(this object value)
         {
-            int result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = Int32.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(int);
-                }
-            }
-            else
-            {
-                result = default(int);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToInt32(value);
         }
 
         /// <summary>
         /// 对象转换Long
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static long ToLong(this object value)
         {
-            long result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = Int64.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(long);
-                }
-            }
-            else
-            {
-                result = default(long);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToInt64(value);
         }
 
         /// <summary>
         /// 字符串转换Float
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static float ToFloat(this object value)
         {
-            float result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = float.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(float);
-                }
-            }
-            else
-            {
-                result = default(float);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToSingle(value);
         }
 
         /// <summary>
         /// 字符串转换Double
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static double ToDouble(this object value)
         {
-            double result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = double.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(double);
-                }
-            }
-            else
-            {
-                result = default(double);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToDouble(value);
         }
 
         /// <summary>
         /// 字符串转换Decimal
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static decimal ToDecimal(this object value)
         {
-            decimal result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = decimal.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = default(decimal);
-                }
-            }
-            else
-            {
-                result = default(decimal);
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value);
         }
         
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static DateTime ToDateTime(this object value)
         {
             return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01"));
@@ -283,35 +167,15 @@ namespace IFramework.Core
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static DateTime ToDateTime(this object value, DateTime defaultValue)
         {
-            DateTime result;
-
-            if (!value.IsNullOrEmpty())
-            {
-                bool parse = DateTime.TryParse(value.ToString(), out result);
-
-                if (parse != true)
-                {
-                    result = defaultValue;
-                }
-            }
-            else
-            {
-                result = defaultValue;
-            }
-
-            return result;
+            return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value);
         }
 
         /// <summary>
         /// SQL 防止意外字符导致错误
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string ToSQLString(this object value)
+        public static string ToSqlString(this object value)
         {
             string result;
 
@@ -330,9 +194,7 @@ namespace IFramework.Core
         /// <summary>
         /// SQL 防止意外字符导致错误
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string ToSQLString2(this object value)
+        public static string ToSqlString2(this object value)
         {
             string result;
 
@@ -351,8 +213,6 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为整型数值
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool IsInteger(this object value)
         {
             return (value is SByte || value is Int16 || value is Int32
@@ -363,8 +223,6 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为浮点型
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool IsFloat(this object value)
         {
             return (value is float | value is double | value is Decimal);
@@ -373,8 +231,6 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为数字
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool IsNumeric(this object value)
         {
             if (!(value is Byte ||
@@ -434,9 +290,6 @@ namespace IFramework.Core
         /// <summary>
         /// 克隆对象
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static T Clone<T>(this T value)
         {
             using (Stream objectStream = new MemoryStream())
@@ -449,7 +302,9 @@ namespace IFramework.Core
             }
         }
         
-        //如果为真，执行，并返回真
+        /// <summary>
+        /// 如果为真，执行，并返回真
+        /// </summary>
         public static bool IfTrue(this bool boolean, Action action)
         {
             if (boolean)
@@ -460,7 +315,9 @@ namespace IFramework.Core
             return boolean;
         }
         
-        //如果为假，执行，并返回假
+        /// <summary>
+        /// 如果为假，执行，并返回假
+        /// </summary>
         public static bool IfFalse(this bool boolean, Action action)
         {
             if (!boolean)

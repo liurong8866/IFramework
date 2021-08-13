@@ -44,5 +44,82 @@ namespace IFramework.Core
         {
             PlayerPrefs.SetInt(key, value);
         }
+        
+        //重载运算符"+"
+        public static ConfigInt operator + (ConfigInt m, ConfigInt n)
+        {
+            m.Value =  Addition(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator + (ConfigInt m, int n)
+        {
+            m.Value =  Addition(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator + (int m, ConfigInt n)
+        {
+            n.Value =  Addition(m, n);
+            return n;
+        }
+        
+        //重载运算符"-"
+        public static ConfigInt operator - (ConfigInt m, ConfigInt n)
+        {
+            n.Value =  Subtraction(m, n);
+            return n;
+        }
+        
+        public static ConfigInt operator - (ConfigInt m, int n)
+        {
+            m.Value =  Subtraction(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator - (int m, ConfigInt n)
+        {
+            n.Value =  Subtraction(m, n);
+            return n;
+        }
+        
+        //重载运算符"*"
+        public static ConfigInt operator * (ConfigInt m, ConfigInt n)
+        {
+            m.Value =  Multiply(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator * (ConfigInt m, int n)
+        {
+            m.Value =  Multiply(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator * (int m, ConfigInt n)
+        {
+            n.Value =  Multiply(m, n);
+            return n;
+        }
+        
+        //重载运算符"/"
+        public static ConfigInt operator / (ConfigInt m, ConfigInt n)
+        {
+            m.Value =  Division(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator / (ConfigInt m, int n)
+        {
+            m.Value =  Division(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator / (int m, ConfigInt n)
+        {
+            n.Value =  Division(m, n);
+            return n;
+        }
+        
     }
 }

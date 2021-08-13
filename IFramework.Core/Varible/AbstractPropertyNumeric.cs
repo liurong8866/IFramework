@@ -38,8 +38,10 @@ namespace IFramework.Core
             this.value = value;
         }
         
-        //重载运算符"+"
-        public static T operator + (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        
+        
+        //"+"方法
+        public static T Addition (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -77,7 +79,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator + (AbstractPropertyNumeric<T> m, T n)
+        public static T Addition (AbstractPropertyNumeric<T> m, T n)
         {
             T result;
             
@@ -114,7 +116,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator + (T m, AbstractPropertyNumeric<T> n)
+        public static T Addition (T m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -151,8 +153,8 @@ namespace IFramework.Core
             return result;
         }
         
-        //重载运算符"-"
-        public static T operator - (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        //"-"方法
+        public static T Subtraction (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -190,7 +192,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator - (AbstractPropertyNumeric<T> m, T n)
+        public static T Subtraction (AbstractPropertyNumeric<T> m, T n)
         {
             T result;
             
@@ -227,7 +229,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator - (T m, AbstractPropertyNumeric<T> n)
+        public static T Subtraction (T m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -264,8 +266,8 @@ namespace IFramework.Core
             return result;
         }
         
-        //重载运算符"*"
-        public static T operator * (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        //"*"方法
+        public static T Multiply (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -303,7 +305,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator * (AbstractPropertyNumeric<T> m, T n)
+        public static T Multiply (AbstractPropertyNumeric<T> m, T n)
         {
             T result;
             
@@ -340,7 +342,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator * (T m, AbstractPropertyNumeric<T> n)
+        public static T Multiply (T m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -377,8 +379,8 @@ namespace IFramework.Core
             return result;
         }
         
-        //重载运算符"/"
-        public static T operator / (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        //"/"方法
+        public static T Division (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -418,7 +420,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator / (AbstractPropertyNumeric<T> m, T n)
+        public static T Division (AbstractPropertyNumeric<T> m, T n)
         {
             T result;
             
@@ -457,7 +459,7 @@ namespace IFramework.Core
             return result;
         }
         
-        public static T operator / (T m, AbstractPropertyNumeric<T> n)
+        public static T Division (T m, AbstractPropertyNumeric<T> n)
         {
             T result;
             
@@ -496,6 +498,70 @@ namespace IFramework.Core
             return result;
         }
         
+        
+        //重载运算符"+"
+        public static T operator + (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Addition(m, n);
+        }
+        
+        public static T operator + (AbstractPropertyNumeric<T> m, T n)
+        {
+            return Addition(m, n);
+        }
+        
+        public static T operator + (T m, AbstractPropertyNumeric<T> n)
+        {
+            return Addition(m, n);
+        }
+        
+        //重载运算符"-"
+        public static T operator - (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Subtraction(m, n);
+        }
+        
+        public static T operator - (AbstractPropertyNumeric<T> m, T n)
+        {
+            return Subtraction(m, n);
+        }
+        
+        public static T operator - (T m, AbstractPropertyNumeric<T> n)
+        {
+            return Subtraction(m, n);
+        }
+        
+        //重载运算符"*"
+        public static T operator * (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Multiply(m, n);
+        }
+        
+        public static T operator * (AbstractPropertyNumeric<T> m, T n)
+        {
+            return Multiply(m, n);
+        }
+        
+        public static T operator * (T m, AbstractPropertyNumeric<T> n)
+        {
+            return Multiply(m, n);
+        }
+        
+        //重载运算符"/"
+        public static T operator / (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Division(m, n);
+        }
+        
+        public static T operator / (AbstractPropertyNumeric<T> m, T n)
+        {
+            return Division(m, n);
+        }
+        
+        public static T operator / (T m, AbstractPropertyNumeric<T> n)
+        {
+            return Division(m, n);
+        }
         
         //重载运算符"=="
         public static bool operator == (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)

@@ -53,16 +53,19 @@ namespace IFramework.Test.Viarable
         
         private void Start()
         {
-            ConfigTest();
+            // ConverterTest();
+            // ConfigIntTest();
+            // ConfigFloatTest();
+            ConfigBoolTest();
 
-            // teatInt();
-            // testIntCompare();
-            // teatFloat();
-            // testFloatCompare();
-            // testString();
-            // testBool();
-            
-            
+            // TeatInt();
+            // TestIntCompare();
+            // TeatFloat();
+            // TestFloatCompare();
+            // TestString();
+            // TestBool();
+
+
             // 奇怪的是 float equals检查 int类型 true
             // int aa = 2;
             // Log.Info(aa.Equals(2.0f));
@@ -73,16 +76,101 @@ namespace IFramework.Test.Viarable
             // Log.Info(bb.Equals(2.0d));
             //
             // Log.Info(bb.Equals(2f))
-            
+
 
         }
 
-        private void ConfigTest()
+        /// <summary>
+        /// 高精度可以接收低精度 +；
+        /// </summary>
+        private void ConverterTest()
         {
-            loginNum.Value = 1;
+            {
+                decimal conv = 100.123456789012345678901234567890m;
+                float conv1 = 100.123456789012345678901234567890f;
+                double conv2 = 100.123456789012345678901234567890d;
+                decimal conv3 = 100.123456789012345678901234567890m;
 
-            AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
-            AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
+                int result1 = conv.ToInt();
+                short result2 = conv.ToShort();
+                long result3 = conv.ToLong();
+                float result4 = conv.ToFloat();
+                double result5 = conv.ToDouble();
+                decimal result6 = conv.ToDecimal();
+                
+                int result;
+                bool parse = Int32.TryParse(ToString(), out result);
+
+                if (parse != true)
+                {
+                    result = default(int);
+                }
+            }
+            
+            {
+                double d = 500;
+                double d1 = 233.84;
+                double d2 = d - d1;
+                //d2=266.15999999999997
+            }
+            {
+                double d = 0.4;
+                double d1 = d + d + d;
+                //d1=1.2000000000000002
+                double d2 = d * 3;
+                //d2=1.2000000000000002
+
+                bindDouble.Value = 1.2d;
+                bool aa = bindDouble == 1.2000000000000002d;
+            }
+            {
+                double d = 1.2;
+                double d1 = d / 0.4;
+                //d1=2.9999999999999996
+            }
+            
+            
+            int a = 10;
+            float b = 10.00001f;
+            double c = 10.000000001f;
+
+            // a = a + b;
+            // a = a + c;
+            b = b + a;
+            // b = b + c;
+            c = c + a;
+            c = c + b;
+            
+            // a = a - b;
+            // a = a - c;
+            b = b - a;
+            // b = b - c;
+            c = c - a;
+            c = c - b;
+            
+            // a = a * b;
+            // a = a * c;
+            b = b * a;
+            // b = b * c;
+            c = c * a;
+            c = c * b;
+            
+            
+            // a = a / b;
+            // a = a / c;
+            b = b / a;
+            // b = b / c;
+            c = c / a;
+            c = c / b;
+        }
+
+        private void ConfigIntTest()
+        {
+            // AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
+            // AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
+            
+            ConfigInt intNum = new ConfigInt("intNum");
+            ConfigInt intNum2 = new ConfigInt("intNum2", 10);
             
             intNum.Value = 100;
             intNum = intNum + intNum2;
@@ -106,7 +194,47 @@ namespace IFramework.Test.Viarable
             
             
         }
+        
+        private void ConfigFloatTest()
+        {
+            // AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
+            // AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
+            
+            ConfigFloat intNum = new ConfigFloat("ConfigFloat");
+            ConfigFloat intNum2 = new ConfigFloat("ConfigFloat", 10);
+            
+            intNum.Value = 100.1234f;
+            intNum = intNum + intNum2;
+            intNum = intNum2 + 10;
+            intNum = 10 + intNum2;
+            
+            intNum.Value = 100.1234f;
+            intNum = intNum - intNum2;
+            intNum = intNum2 - 10;
+            intNum = 10 - intNum2;
+            
+            intNum.Value = 100.1234f;
+            intNum = intNum * intNum2;
+            intNum = intNum2 * 10;
+            intNum = 10 * intNum2;
+            
+            intNum.Value = 100.1234f;
+            intNum = intNum / intNum2;
+            intNum = intNum2 / 10;
+            intNum = 10 / intNum2;
+        }
 
+        private void ConfigBoolTest()
+        {
+            
+            ConfigBool configBool = new ConfigBool("configBool", true);
+
+            configBool.LogInfo();
+            configBool.Value = false;
+            configBool.LogInfo();
+            
+        }
+        
         private void TeatInt()
         {
             BindInt bindInt = new BindInt(100);

@@ -44,5 +44,82 @@ namespace IFramework.Core
         {
             PlayerPrefs.SetFloat(key, value);
         }
+        
+        
+        //重载运算符"+"
+        public static ConfigFloat operator + (ConfigFloat m, ConfigFloat n)
+        {
+            m.Value =  Addition(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator + (ConfigFloat m, float n)
+        {
+            m.Value =  Addition(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator + (float m, ConfigFloat n)
+        {
+            n.Value =  Addition(m, n);
+            return n;
+        }
+        
+        //重载运算符"-"
+        public static ConfigFloat operator - (ConfigFloat m, ConfigFloat n)
+        {
+            n.Value =  Subtraction(m, n);
+            return n;
+        }
+        
+        public static ConfigFloat operator - (ConfigFloat m, float n)
+        {
+            m.Value =  Subtraction(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator - (float m, ConfigFloat n)
+        {
+            n.Value =  Subtraction(m, n);
+            return n;
+        }
+        
+        //重载运算符"*"
+        public static ConfigFloat operator * (ConfigFloat m, ConfigFloat n)
+        {
+            m.Value =  Multiply(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator * (ConfigFloat m, float n)
+        {
+            m.Value =  Multiply(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator * (float m, ConfigFloat n)
+        {
+            n.Value =  Multiply(m, n);
+            return n;
+        }
+        
+        //重载运算符"/"
+        public static ConfigFloat operator / (ConfigFloat m, ConfigFloat n)
+        {
+            m.Value =  Division(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator / (ConfigFloat m, float n)
+        {
+            m.Value =  Division(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator / (float m, ConfigFloat n)
+        {
+            n.Value =  Division(m, n);
+            return n;
+        }
     }
 }
