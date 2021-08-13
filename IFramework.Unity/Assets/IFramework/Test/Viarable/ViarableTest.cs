@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Text;
 using IFramework.Core;
 using IFramework.Test.Model;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -115,15 +116,15 @@ namespace IFramework.Test.Viarable
                 // aa1= 1 / a1.ToDecimal();
                 // aa1= 1 / a2.ToDecimal();
 
-                long aa22 = 0;
-                long aa2 = 10 % aa22;
+                // long aa22 = 0;
+                // long aa2 = 10 % aa22;
 
             };
             {
-                decimal conv = 100.123456789012345678901234567890m;
-                float conv1 = 100.123456789012345678901234567890f;
-                double conv2 = 100.123456789012345678901234567890d;
-                decimal conv3 = 100.123456789012345678901234567890m;
+                decimal conv = 1234.123456789012345678901234567890m;
+                float conv1 = 1234.123456789012345678901234567890f;
+                double conv2 = 1234.123456789012345678901234567890d;
+                decimal conv3 = 1234.123456789012345678901234567890m;
 
                 int result1 = conv.ToInt();
                 short result2 = conv.ToShort();
@@ -133,7 +134,43 @@ namespace IFramework.Test.Viarable
                 decimal result6 = conv.ToDecimal();
 
                 
-                result1 = (int)conv % 10;
+                int result11 = conv.ToInt();
+                short result22 = conv.ToShort();
+                long result33 = conv.ToLong();
+                float result44 = conv.ToFloat();
+                double result55 = conv.ToDouble();
+                decimal result66 = conv.ToDecimal();
+                
+
+                result11 = result1 % 10;
+                result11 = (int)(result1 % 10.0f);
+                result11 = (int)(result1 % 10.0d);
+                result11 = (int)(result1 % 10.0m);
+                
+                result22 = (short)(result2 % 10);
+                result22 = (short)(result2 % 10.10d);
+                result22 = (short)(result2 % 10.10d);
+                result22 = (short)(result2 % 10.10m);
+                
+                result33 = result3 % 10;
+                result33 = (long)(result3 % 10.0f);
+                result33 = (long)(result3 % 10.0d);
+                result33 = (long)(result3 % 10.0m);
+                
+                result44 = result4 % 10;
+                result44 = result4 % 10.0f;
+                result44 = (float)(result4 % 10.0d);
+                // result44 = (float)(result4 % 10.0m);  // 未实现 % 
+                
+                result55 = result5 % 10;
+                result55 = result5 % 10.0f;
+                result55 = result5 % 10.0d;
+                // result55 = (double)(result5 % 10.0m); // 未实现 % 
+                
+                result66 = result6 % 10;
+                // result66 = (decimal)(result6 % 10.0f); // 未实现 % 
+                // result66 = (decimal)(result6 % 10.0d); // 未实现 % 
+                result66 = result6 % 10.0m;
             }
             
             {
@@ -212,6 +249,9 @@ namespace IFramework.Test.Viarable
 
             intNum2.Value++;
             intNum2.LogInfo();
+            
+            Log.Info(intNum % intNum2);
+            Log.Info(20 % intNum);
             // intNum = intNum + intNum2;
             // intNum = intNum2 + 10;
             // intNum = 10 + intNum2;

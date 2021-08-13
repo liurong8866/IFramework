@@ -519,9 +519,17 @@ namespace IFramework.Core
             {
                 result = (T)Convert.ChangeType(m.Value.ToLong() % n.Value.ToLong(), typeof(T));
             }
-            else if (type == typeof(float) || type == typeof(double) || type ==typeof(decimal))
+            else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(m.Value.ToLong() / n.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToFloat() % n.Value.ToFloat(), typeof(T));
+            }
+            else if (type == typeof(double))
+            {
+                result = (T)Convert.ChangeType(m.ToDouble() % n.Value.ToDouble(), typeof(T));
+            }
+            else if (type == typeof(decimal))
+            {
+                result = (T)Convert.ChangeType(m.ToDecimal() % n.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -595,7 +603,7 @@ namespace IFramework.Core
             return result;
         }
         
-        
+
         //重载运算符"+"
         public static T operator + (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
@@ -676,6 +684,7 @@ namespace IFramework.Core
             return Module(m, n);
         }
         
+
         //重载运算符"=="
         public static bool operator == (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
