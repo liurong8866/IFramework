@@ -48,30 +48,34 @@ namespace IFramework.Core
             set { logLevel = value; }
         }
 
-        public static void Info(object self)
+        // INFO
+        public static void Info(object content)
         {
             if (logLevel >= LogLevel.Info)
             {
-                Debug.Log(self);
+                Debug.Log(content.ToString());
+            }
+        }
+
+        public static void Info(string format, params object[] param)
+        {
+            if (logLevel >= LogLevel.Info)
+            {
+                Debug.LogFormat(format, param); 
             }
         }
         
         public static void LogInfo(this object self)
         {
-            if (logLevel >= LogLevel.Info)
-            {
-                Debug.Log(self);
-            }
+            Info(self);
         }
         
         public static void LogInfo(this object self, string format)
         {
-            if (logLevel >= LogLevel.Info)
-            {
-                Debug.LogFormat(format, self);
-            }
+            Info(format, self);
         }
         
+        // WARNING
         public static void Warning(object self)
         {
             if (logLevel >= LogLevel.Warning)
@@ -79,23 +83,26 @@ namespace IFramework.Core
                 Debug.LogWarning(self);
             }
         }
-
-        public static void LogWarning(this object self)
+        
+        public static void Warning(string format, params object[] param)
         {
             if (logLevel >= LogLevel.Warning)
             {
-                Debug.LogWarning(self);
+                Debug.LogWarningFormat(format, param); 
             }
+        }
+
+        public static void LogWarning(this object self)
+        {
+            Warning(self);
         }
         
         public static void LogWarning(this object self, string format)
         {
-            if (logLevel >= LogLevel.Warning)
-            {
-                Debug.LogWarningFormat(format,self);
-            }
+            Warning(format, self);
         }
         
+        // ERROR
         public static void Error(object self)
         {
             if (logLevel >= LogLevel.Error)
@@ -104,25 +111,28 @@ namespace IFramework.Core
             }
         }
         
-        public static void LogError(this object self)
+        public static void Error(string format, params object[] param)
         {
             if (logLevel >= LogLevel.Error)
             {
-                Debug.LogError(self);
+                Debug.LogErrorFormat(format, param); 
             }
+        }
+        
+        public static void LogError(this object self)
+        {
+            Error(self);
         }
         
         public static void LogError(this object self, string format)
         {
-            if (logLevel >= LogLevel.Error)
-            {
-                Debug.LogErrorFormat(format, self);
-            }
+            Error(format, self);
         }
         
+        // EXCEPTION
         public static void Exception(Exception self)
         {
-            if (logLevel >= LogLevel.Error)
+            if (logLevel >= LogLevel.Exception)
             {
                 Debug.LogException(self);
             }
