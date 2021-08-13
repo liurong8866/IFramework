@@ -23,10 +23,12 @@
  *****************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using IFramework.Core;
 using IFramework.Test.Model;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace IFramework.Test.Viarable
 {
@@ -53,10 +55,10 @@ namespace IFramework.Test.Viarable
         
         private void Start()
         {
-            // ConverterTest();
+            ConverterTest();
             // ConfigIntTest();
             // ConfigFloatTest();
-            ConfigBoolTest();
+            // ConfigBoolTest();
 
             // TeatInt();
             // TestIntCompare();
@@ -85,6 +87,38 @@ namespace IFramework.Test.Viarable
         /// </summary>
         private void ConverterTest()
         {
+            
+            {
+                object a1 = 0.0f;
+                object a2 = 0.00000d;
+                object a3 = 0.000000001d;
+
+                a1.ToDecimal().LogInfo();
+                if (a1.ToDecimal() == 0)
+                {
+                    Log.Info("hehe");
+                }
+                
+                a2.ToDecimal().LogInfo();
+                if (a2.ToDecimal() == 0)
+                {
+                    Log.Info("hehe");
+                }
+                
+                a3.ToDecimal().LogInfo();
+                if (a3.ToDecimal() == 0)
+                {
+                    Log.Info("hehe");
+                }
+
+                decimal aa1= 1 / a3.ToDecimal();
+                // aa1= 1 / a1.ToDecimal();
+                // aa1= 1 / a2.ToDecimal();
+
+                long aa22 = 0;
+                long aa2 = 10 % aa22;
+
+            };
             {
                 decimal conv = 100.123456789012345678901234567890m;
                 float conv1 = 100.123456789012345678901234567890f;
@@ -97,14 +131,9 @@ namespace IFramework.Test.Viarable
                 float result4 = conv.ToFloat();
                 double result5 = conv.ToDouble();
                 decimal result6 = conv.ToDecimal();
-                
-                int result;
-                bool parse = Int32.TryParse(ToString(), out result);
 
-                if (parse != true)
-                {
-                    result = default(int);
-                }
+                
+                result1 = (int)conv % 10;
             }
             
             {
@@ -166,31 +195,41 @@ namespace IFramework.Test.Viarable
 
         private void ConfigIntTest()
         {
-            // AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
-            // AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
-            
             ConfigInt intNum = new ConfigInt("intNum");
-            ConfigInt intNum2 = new ConfigInt("intNum2", 10);
+            ConfigInt intNum2 = new ConfigInt("intNum2", 10, true);
+
+            intNum++;
+            intNum2++;
             
-            intNum.Value = 100;
-            intNum = intNum + intNum2;
-            intNum = intNum2 + 10;
-            intNum = 10 + intNum2;
+            intNum--;
+            intNum2--;
             
-            intNum.Value = 100;
-            intNum = intNum - intNum2;
-            intNum = intNum2 - 10;
-            intNum = 10 - intNum2;
+            intNum.Value++;
+            intNum = intNum + 10;
+            intNum += 10;
             
-            intNum.Value = 100;
-            intNum = intNum * intNum2;
-            intNum = intNum2 * 10;
-            intNum = 10 * intNum2;
-            
-            intNum.Value = 100;
-            intNum = intNum / intNum2;
-            intNum = intNum2 / 10;
-            intNum = 10 / intNum2;
+            intNum.LogInfo();
+
+            intNum2.Value++;
+            intNum2.LogInfo();
+            // intNum = intNum + intNum2;
+            // intNum = intNum2 + 10;
+            // intNum = 10 + intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum - intNum2;
+            // intNum = intNum2 - 10;
+            // intNum = 10 - intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum * intNum2;
+            // intNum = intNum2 * 10;
+            // intNum = 10 * intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum / intNum2;
+            // intNum = intNum2 / 10;
+            // intNum = 10 / intNum2;
             
             
         }
@@ -227,12 +266,49 @@ namespace IFramework.Test.Viarable
         private void ConfigBoolTest()
         {
             
-            ConfigBool configBool = new ConfigBool("configBool", true);
+            ConfigBool configBool = new ConfigBool("configBool", false);
+            ConfigBool configBool2 = new ConfigBool("configBool", true);
 
             configBool.LogInfo();
             configBool.Value = false;
             configBool.LogInfo();
+
+            if (configBool)
+            {
+                configBool.LogInfo();
+            }
+            if (!configBool)
+            {
+                configBool.LogInfo();
+            }
             
+            if (configBool & true)
+            {
+                configBool.LogInfo();
+            }
+            if (true & configBool)
+            {
+                configBool.LogInfo();
+            }
+            
+            if (configBool & configBool2)
+            {
+                configBool.LogInfo();
+            }
+            
+            if (configBool | true)
+            {
+                configBool.LogInfo();
+            }
+            if (true | configBool)
+            {
+                configBool.LogInfo();
+            }
+            
+            if (configBool | configBool2)
+            {
+                configBool.LogInfo();
+            }
         }
         
         private void TeatInt()

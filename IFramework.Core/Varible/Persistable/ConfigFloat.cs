@@ -35,6 +35,14 @@ namespace IFramework.Core
 
         public ConfigFloat(string key, float value) : base(key, value){}
 
+        public ConfigFloat(string key, float value, bool overwrite) : base(key, value)
+        {
+            if (overwrite)
+            {
+                Save(value);
+            }
+        }
+        
         public override float Get()
         {
             return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : this.value;
@@ -121,5 +129,39 @@ namespace IFramework.Core
             n.Value =  Division(m, n);
             return n;
         }
+        
+        //重载运算符"%"
+        public static ConfigFloat operator % (ConfigFloat m, ConfigFloat n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator % (ConfigFloat m, float n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static ConfigFloat operator % (float m, ConfigFloat n)
+        {
+            n.Value =  Module(m, n);
+            return n;
+        }
+        
+        //重载运算符"++"
+        public static ConfigFloat operator ++ (ConfigFloat m)
+        {
+            m.Value =  Addition(m, 1.0f);
+            return m;
+        }
+        
+        //重载运算符"--"
+        public static ConfigFloat operator -- (ConfigFloat m)
+        {
+            m.Value =  Addition(m, -1.0f);
+            return m;
+        }
+
     }
 }

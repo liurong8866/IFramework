@@ -136,5 +136,24 @@ namespace IFramework.Core
             return n;
         }
         
+        //重载运算符"%"
+        public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static AbstractConfigNumeric<T> operator % (AbstractConfigNumeric<T> m, T n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static AbstractConfigNumeric<T> operator % (T m, AbstractConfigNumeric<T> n)
+        {
+            n.Value =  Module(m, n);
+            return n;
+        }
+        
     }
 }

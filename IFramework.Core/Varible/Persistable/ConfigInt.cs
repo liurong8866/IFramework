@@ -35,10 +35,19 @@ namespace IFramework.Core
 
         public ConfigInt(string key, int value) : base(key, value){}
 
+        public ConfigInt(string key, int value, bool overwrite) : base(key, value)
+        {
+            if (overwrite)
+            {
+                Save(value);
+            }
+        }
+        
         public override int Get()
         {
             return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : this.value;
         }
+        
 
         public override void Save(int value)
         {
@@ -119,6 +128,39 @@ namespace IFramework.Core
         {
             n.Value =  Division(m, n);
             return n;
+        }
+        
+        //重载运算符"%"
+        public static ConfigInt operator % (ConfigInt m, ConfigInt n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator % (ConfigInt m, int n)
+        {
+            m.Value =  Module(m, n);
+            return m;
+        }
+        
+        public static ConfigInt operator % (int m, ConfigInt n)
+        {
+            n.Value =  Module(m, n);
+            return n;
+        }
+        
+        //重载运算符"++"
+        public static ConfigInt operator ++ (ConfigInt m)
+        {
+            m.Value =  Addition(m, 1);
+            return m;
+        }
+        
+        //重载运算符"--"
+        public static ConfigInt operator -- (ConfigInt m)
+        {
+            m.Value =  Addition(m, -1);
+            return m;
         }
         
     }

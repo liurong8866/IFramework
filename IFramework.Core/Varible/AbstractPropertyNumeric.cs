@@ -386,7 +386,7 @@ namespace IFramework.Core
             
             Type type = typeof(T);
             
-            if (n.Value.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.Value.ToDecimal() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
@@ -426,7 +426,7 @@ namespace IFramework.Core
             
             Type type = typeof(T);
             
-            if (n.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
@@ -465,7 +465,7 @@ namespace IFramework.Core
             
             Type type = typeof(T);
 
-            if (n.Value.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.Value.ToDecimal() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
@@ -495,6 +495,103 @@ namespace IFramework.Core
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
+            return result;
+        }
+        
+        //"%"方法
+        public static T Module (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            T result;
+            
+            Type type = typeof(T);
+            
+            if (n.Value.ToDecimal() == 0) throw new Exception("除数不能为0！");
+            
+            if (type == typeof(int))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToInt() % n.Value.ToInt(), typeof(T));
+            }
+            else if (type == typeof(short))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToShort() % n.Value.ToShort(), typeof(T));
+            }
+            else if (type == typeof(long))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToLong() % n.Value.ToLong(), typeof(T));
+            }
+            else if (type == typeof(float) || type == typeof(double) || type ==typeof(decimal))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToLong() / n.Value.ToLong(), typeof(T));
+            }
+            else
+            {
+                throw new Exception("未实现该类型的 \"%\" 运算符重载：" + typeof(T).Name);
+            }
+            
+            return result;
+        }
+        
+        public static T Module (AbstractPropertyNumeric<T> m, T n)
+        {
+            T result;
+            
+            Type type = typeof(T);
+            
+            if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
+            
+            if (type == typeof(int))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToInt() % n.ToInt(), typeof(T));
+            }
+            else if (type == typeof(short))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToShort() % n.ToShort(), typeof(T));
+            }
+            else if (type == typeof(long))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToLong() % n.ToLong(), typeof(T));
+            }
+            else if (type == typeof(float) || type == typeof(double) || type ==typeof(decimal))
+            {
+                result = (T)Convert.ChangeType(m.Value.ToLong() / n.ToLong(), typeof(T));
+            }
+            else
+            {
+                throw new Exception("未实现该类型的 \"%\" 运算符重载：" + typeof(T).Name);
+            }
+            
+            return result;
+        }
+        
+        public static T Module (T m, AbstractPropertyNumeric<T> n)
+        {
+            T result;
+            
+            Type type = typeof(T);
+            
+            if (n.Value.ToDecimal() == 0) throw new Exception("除数不能为0！");
+            
+            if (type == typeof(int))
+            {
+                result = (T)Convert.ChangeType(m.ToInt() % n.Value.ToInt(), typeof(T));
+            }
+            else if (type == typeof(short))
+            {
+                result = (T)Convert.ChangeType(m.ToShort() % n.Value.ToShort(), typeof(T));
+            }
+            else if (type == typeof(long))
+            {
+                result = (T)Convert.ChangeType(m.ToLong() % n.Value.ToLong(), typeof(T));
+            }
+            else if (type == typeof(float) || type == typeof(double) || type ==typeof(decimal))
+            {
+                result = (T)Convert.ChangeType(m.ToLong() / n.Value.ToLong(), typeof(T));
+            }
+            else
+            {
+                throw new Exception("未实现该类型的 \"%\" 运算符重载：" + typeof(T).Name);
+            }
+            
             return result;
         }
         
@@ -561,6 +658,22 @@ namespace IFramework.Core
         public static T operator / (T m, AbstractPropertyNumeric<T> n)
         {
             return Division(m, n);
+        }
+        
+        //重载运算符"%"
+        public static T operator % (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Module(m, n);
+        }
+        
+        public static T operator % (AbstractPropertyNumeric<T> m, T n)
+        {
+            return Module(m, n);
+        }
+        
+        public static T operator % (T m, AbstractPropertyNumeric<T> n)
+        {
+            return Module(m, n);
         }
         
         //重载运算符"=="
