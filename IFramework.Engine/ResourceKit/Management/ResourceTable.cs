@@ -34,20 +34,20 @@ namespace IFramework.Engine
             res=> res.AssetName.ToLower()
             );
         
-        public IResource GetResource(ResourceSearchRule rule)
+        public IResource GetResource(ResourceSearcher searcher)
         {
-            string assetName = rule.AssetName;
+            string assetName = searcher.AssetName;
 
             var resources = NameIndex.Get(assetName);
 
-            if (rule.AssetType != null)
+            if (searcher.AssetType != null)
             {
-                resources = resources.Where(res => res.AssetType == rule.AssetType);
+                resources = resources.Where(res => res.AssetType == searcher.AssetType);
             }
             
-            if (rule.AssetBundleName != null)
+            if (searcher.AssetBundleName != null)
             {
-                resources = resources.Where(res => res.AssetBundleName == rule.AssetBundleName);
+                resources = resources.Where(res => res.AssetBundleName == searcher.AssetBundleName);
             }
 
             return resources.FirstOrDefault();

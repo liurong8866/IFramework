@@ -26,8 +26,8 @@ namespace IFramework.Engine
 {
     public interface IResourceCreator
     {
-        bool Match(ResourceSearchRule rule);
+        bool Match(ResourceSearcher searcher);
 
-        IResource Create(ResourceSearchRule rule);
+        IResource Create(ResourceSearcher searcher);
     }
 }

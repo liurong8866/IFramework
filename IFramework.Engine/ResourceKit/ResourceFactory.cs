@@ -30,7 +30,7 @@ namespace IFramework.Engine
 {
     public static class ResourceFactory
     {
-        private static List<IResourceCreator> creators = new List<IResourceCreator>()
+        private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
         {
             new ResourceCreator()
         };
@@ -38,11 +38,11 @@ namespace IFramework.Engine
         /// <summary>
         /// Resource 生产方法
         /// </summary>
-        public static IResource Create(ResourceSearchRule rule)
+        public static IResource Create(ResourceSearcher searcher)
         {
             IResource resource = creators
-                .Where(c => c.Match(rule))
-                .Select(c => c.Create(rule))
+                .Where(c => c.Match(searcher))
+                .Select(c => c.Create(searcher))
                 .FirstOrDefault();
 
             if (resource == null)

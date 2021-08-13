@@ -184,11 +184,11 @@ namespace IFramework.Engine
             
             for (int i = depends.Length - 1; i >= 0; i--)
             {
-                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
 
-                IResource resource = ResourceManager.Instance.GetResource(searchRule);
+                IResource resource = ResourceManager.Instance.GetResource(searcher);
                 
-                searchRule.Recycle();
+                searcher.Recycle();
 
                 resource?.Retain();
             }
@@ -205,11 +205,11 @@ namespace IFramework.Engine
             
             for (int i = depends.Length - 1; i >= 0; i--)
             {
-                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
 
-                IResource resource = ResourceManager.Instance.GetResource(searchRule);
+                IResource resource = ResourceManager.Instance.GetResource(searcher);
                 
-                searchRule.Recycle();
+                searcher.Recycle();
 
                 resource?.Release();
             }
@@ -226,11 +226,11 @@ namespace IFramework.Engine
 
             for (int i = depends.Length - 1; i >= 0; i--)
             {
-                ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
+                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
 
-                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                IResource resource = ResourceManager.Instance.GetResource(searcher, false);
                 
-                searchRule.Recycle();
+                searcher.Recycle();
 
                 if (resource == null || resource.State != ResourceState.Ready) return false;
             }

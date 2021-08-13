@@ -27,7 +27,7 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
-    public class ResourceSearchRule : IPoolable, IRecyclable
+    public class ResourceSearcher : IPoolable, IRecyclable
     {
         /// <summary>
         /// 资源名称
@@ -47,31 +47,34 @@ namespace IFramework.Engine
         /// <summary>
         /// 静态方法生成实例
         /// </summary>
-        public static ResourceSearchRule Allocate(string assetName, string assetBundleName = null, Type assetType = null)
+        public static ResourceSearcher Allocate(string assetName, string assetBundleName = null, Type assetType = null)
         {
-            ResourceSearchRule searchRule = ObjectPool<ResourceSearchRule>.Instance.Allocate();
+            ResourceSearcher searcher = ObjectPool<ResourceSearcher>.Instance.Allocate();
 
-            searchRule.AssetName = assetName.ToLower();
-            searchRule.AssetBundleName = assetBundleName == null ? null : assetBundleName.ToLower();
-            searchRule.AssetType = assetType;
+            searcher.AssetName = assetName.ToLower();
+            searcher.AssetBundleName = assetBundleName?.ToLower();
+            searcher.AssetType = assetType;
             
-            return searchRule;
+            return searcher;
         }
 
         /// <summary>
-        /// 查找资源，根据资源名称、类型、所属AssetBundle包名称判断
+        /// 匹配资源
         /// </summary>
         public bool Match(IResource resource)
         {
+            // 判断名称相符
             if (resource.AssetName == AssetName)
             {
                 bool isMatch = true;
 
+                // 如果设置了类型，则判断类型相符
                 if (AssetType != null)
                 {
                     isMatch = resource.AssetType == AssetType;
                 }
 
+                // 如果设置了包名，则判断包相符
                 if (AssetBundleName != null)
                 {
                     isMatch = isMatch && resource.AssetBundleName == AssetBundleName;
@@ -94,13 +97,12 @@ namespace IFramework.Engine
         
         public void Recycle()
         {
-            ObjectPool<ResourceSearchRule>.Instance.Recycle(this);
+            ObjectPool<ResourceSearcher>.Instance.Recycle(this);
         }
         
         public override string ToString()
         {
-            return string.Format("AssetName:{0} AssetBundleName:{1} TypeName:{2}", AssetName, AssetBundleName,
-                AssetType);
+            return $"AssetName:{AssetName} AssetBundleName:{AssetBundleName} TypeName:{AssetType}";
         }
         
     }

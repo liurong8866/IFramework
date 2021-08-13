@@ -26,20 +26,17 @@ namespace IFramework.Engine
 {
     public class ResourceCreator : IResourceCreator
     {
-        public bool Match(ResourceSearchRule rule)
+        public bool Match(ResourceSearcher searcher)
         {
-            return rule.AssetName.StartsWith("resources/") ||
-                   rule.AssetName.StartsWith("resources://");
+            return searcher.AssetName.StartsWith("resources/") || searcher.AssetName.StartsWith("resources://");
         }
 
-        public IResource Create(ResourceSearchRule rule)
+        public IResource Create(ResourceSearcher searcher)
         {
-            IResource resource = Resource.Allocate(rule.AssetName,
-                rule.AssetName.StartsWith("resources://")
-                    ? ResourcesUrlType.Url
-                    : ResourcesUrlType.Folder);
+            IResource resource = Resource.Allocate(searcher.AssetName, searcher.AssetName.StartsWith("resources://") ? ResourcesUrlType.Url : ResourcesUrlType.Folder);
 
-            resource.AssetType = rule.AssetType;
+            resource.AssetType = searcher.AssetType;
+            
             return resource;
         }
     }

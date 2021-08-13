@@ -22,10 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using IFramework.Core;
+using UnityEditor;
+
 namespace IFramework.Engine
 {
-    public class ResourceKit
+    public sealed class ResourceKit : MonoSingleton<ResourceKit>
     {
-        
+
     }
 }

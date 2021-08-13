@@ -25,88 +25,121 @@
 using System.Collections;
 using System.Collections.Generic;
 using IFramework.Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Engine
 {
     [MonoSingleton("[Framework]/ResourceManager")]
-    public class ResourceManager : MonoSingleton<ResourceManager>
+    public sealed class ResourceManager : MonoSingleton<ResourceManager>
     {
+        // 是否被初始化
+        private static bool isInit = false;
+        // 当前协程数量
         [SerializeField] 
         private int currentCoroutineCount = 0;
-        private int maxCoroutineCount = 8; //最快协成大概在6到8之间
+        // 最大协程数量
+        private int maxCoroutineCount = 8; 
+        // 异步加载任务列表
         private readonly LinkedList<IResourceLoadTask> asyncLoadTasks = new LinkedList<IResourceLoadTask>();
-
+        // 资源表
         private ResourceTable resourceTable = new ResourceTable();
-
-        private static bool inited = false;
         
         /*-----------------------------*/
-        /* 初始化Manager                */
+        /* 初始化Manager 自动加载         */
         /*-----------------------------*/
         
+        /// <summary>
+        /// 全局自动加载一次，请不要手动调用
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod]
         public static void Init()
         {
-            if(inited) return;
-            inited = true;
-            
-            ObjectPool<Resource>.Instance.Init(40,20);
-
-            Instance.InitResourceManager();
+            // 初始化Manager自身
+            Instance.StartInitAsync();
+        }
+        
+        /// <summary>
+        /// 只是为了解决调用异步初始化方法问题
+        /// </summary>
+        private void StartInitAsync()
+        {
+            StartCoroutine(InitAsync());
         }
 
-        public static IEnumerator InitAsync()
+        /// <summary>
+        /// 异步初始化
+        /// </summary>
+        private static IEnumerator InitAsync()
         {
-            if(inited) yield break;
-            inited = true;
+            if(isInit) yield break;
             
-            ObjectPool<Resource>.Instance.Init(40,20);
+            isInit = true;
+            
+            Log.Info("正在初始化 Resource Manager");
+            
+            // 初始化各种对象池
+            Instance.InitPools();
 
+            // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
         }
-        
-        public void InitResourceManager()
+
+        /// <summary>
+        /// 初始化各种对象池
+        /// </summary>
+        private void InitPools()
         {
-            
+            // Resource 加载器
+            ObjectPool<Resource>.Instance.Init(40,20);
         }
-        
-        public IEnumerator InitResourceManagerAsync()
+
+        /// <summary>
+        /// 初始化Manager自身（异步）
+        /// </summary>
+        private IEnumerator InitResourceManagerAsync()
         {
             yield return null;
         }
-        
         
         /*-----------------------------*/
         /* 获取Resource资源管理          */
         /*-----------------------------*/
         
-        public IResource GetResource(ResourceSearchRule searchRule, bool create = false)
+        /// <summary>
+        /// 获取资源加载器
+        /// </summary>
+        /// <param name="searcher">查询器</param>
+        /// <param name="create">如果没有，是否创建加载器</param>
+        /// <returns></returns>
+        public IResource GetResource(ResourceSearcher searcher, bool create = false)
         {
-            IResource resource = resourceTable.GetResource(searchRule);
+            // 从资源表中获取资源
+            IResource resource = resourceTable.GetResource(searcher);
 
-            if (resource != null)
-            {
-                return resource;
-            }
+            if (resource != null) return resource;
 
+            // 如果资源为空，并需要创建资源，则创建并加入资源表
             if (create)
             {
-                resource = ResourceFactory.Create(searchRule);
+                resource = ResourceFactory.Create(searcher);
+                
+                if (resource != null)
+                {
+                    resourceTable.Add(resource);
+                }
             }
-
-            if (resource != null)
-            {
-                resourceTable.Add(resource);
-            }
-
+            
             return resource;
         }
 
-        public T GetResource<T>(ResourceSearchRule rule) where T : class, IResource
+        /// <summary>
+        /// 获取资源加载器
+        /// </summary>
+        public T GetResource<T>(ResourceSearcher searcher) where T : class, IResource
         {
-            return GetResource(rule) as T;
+            return GetResource(searcher) as T;
         }
-
         
         /*-----------------------------*/
         /* 异步加载资源                  */
@@ -118,9 +151,10 @@ namespace IFramework.Engine
         public void AddResourceLoadTask(IResourceLoadTask task)
         {
             if(task == null) return;
-
-            asyncLoadTasks.AddLast(task);
             
+            // 放置队列末尾
+            asyncLoadTasks.AddLast(task);
+            // 尝试加载下一个资源
             TryStartNextResourceLoadTask();
         }
         
@@ -129,16 +163,22 @@ namespace IFramework.Engine
         /// </summary>
         private void TryStartNextResourceLoadTask()
         {
+            // 任务列表空，不执行
             if (asyncLoadTasks.Count == 0) return;
 
+            // 达到最大协程数则暂时不执行
             if (currentCoroutineCount >= maxCoroutineCount) return;
 
+            // 从队列头部加载
             var task = asyncLoadTasks.First.Value;
             
+            // 删除列表中的任务，避免重复执行
             asyncLoadTasks.RemoveFirst();
-
+            
+            // 当前协程数+1
             currentCoroutineCount++;
             
+            // 启动协程
             StartCoroutine(task.LoadAsync(OnIEnumeratorTaskFinish));
         }
         
@@ -147,8 +187,10 @@ namespace IFramework.Engine
         /// </summary>
         private void OnIEnumeratorTaskFinish()
         {
+            // 执行完毕，当前协程数-1
             currentCoroutineCount--;
             
+            // 递归调用下一条加载任务
             TryStartNextResourceLoadTask();
         }
     }
