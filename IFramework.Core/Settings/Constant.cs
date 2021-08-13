@@ -22,10 +22,14 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
+
 namespace IFramework.Core
 {
     public struct Constant
     {
+        public const string CONF_ACTIVE_PLATFORM="CONF_ACTIVE_PLATFORM";
+        
         // double类型数据 == 时 精度
         public const double TOLERANCE = 1E-6;
     }

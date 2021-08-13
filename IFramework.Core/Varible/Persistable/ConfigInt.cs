@@ -52,6 +52,7 @@ namespace IFramework.Core
         public override void Save(int value)
         {
             PlayerPrefs.SetInt(key, value);
+            PlayerPrefs.Save();
         }
         
         //重载运算符"++"

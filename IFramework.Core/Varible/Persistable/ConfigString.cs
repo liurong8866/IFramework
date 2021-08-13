@@ -48,6 +48,7 @@ namespace IFramework.Core
         public override void Save(string value)
         {
             PlayerPrefs.SetString(key, value);
+            PlayerPrefs.Save();
         }
     }
 }

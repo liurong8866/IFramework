@@ -22,51 +22,18 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using UnityEngine;
-
 namespace IFramework.Core
 {
-    /// <summary>
-    /// 可持久化的Float类型
-    /// </summary>
-    public sealed class ConfigFloat : AbstractConfigNumeric<float>
+    public class Configure
     {
-        public ConfigFloat(string key) : base(key, 0.0f){}
-
-        public ConfigFloat(string key, float value) : base(key, value){}
-
-        public ConfigFloat(string key, float value, bool overwrite) : base(key, value)
-        {
-            if (overwrite)
-            {
-                Save(value);
-            }
-        }
+        // 当前平台
+        public static readonly ConfigInt CurrentPlatform = new ConfigInt("CurrentPlatform");
         
-        public override float Get()
-        {
-            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : this.value;
-        }
-
-        public override void Save(float value)
-        {
-            PlayerPrefs.SetFloat(key, value);
-            PlayerPrefs.Save();
-        }
+        // 自动生成名称
+        public static readonly ConfigBool AutoGenerateName = new ConfigBool("AutoGenerateName", true);
         
-        //重载运算符"++"
-        public static ConfigFloat operator ++ (ConfigFloat m)
-        {
-            m.Value =  Addition(m.Value, 1.0f);
-            return m;
-        }
+        // 是否模拟模式
+        public static readonly ConfigBool IsSimulation = new ConfigBool("IsSimulation", true);
         
-        //重载运算符"--"
-        public static ConfigFloat operator -- (ConfigFloat m)
-        {
-            m.Value =  Subtraction(m.Value, 1.0f);
-            return m;
-        }
-
     }
 }

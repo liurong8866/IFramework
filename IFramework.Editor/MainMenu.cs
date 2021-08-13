@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System.IO;
+using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -49,14 +50,15 @@ namespace IFramework.Editor
         [MenuItem(CON_MENU_TOOL_CLEAR, false, 31)]
         private static void Clear()
         {
+            Log.Info("缓存数据清理 开始！");
             PlayerPrefs.DeleteAll();
             Directory.Delete(Application.persistentDataPath, true);
             if (EditorApplication.isPlaying)
             {
                 EditorApplication.isPlaying = false;
             }
+            Log.Info("缓存数据清理 完成！");
         }
-
 
         // GameObject的右键菜单
         public const string CON_MENU_BIND = "GameObject/I Kit - Bind";

@@ -34,7 +34,7 @@ namespace IFramework.Editor
     {
         public static void BuildAssetBundles()
         {
-            BuildAssetBundles(EditorUserBuildSettings.activeBuildTarget);
+            BuildAssetBundles(PlatformSettings.CurrentBundlePlatform);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            string outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, PlatformSettings.CurrentPlatformName);
+            string outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, buildTarget.ToString());
 
             // 打包
             Build(outputPath, defaultPackage, buildTarget);
@@ -64,7 +64,7 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, subPackage.NameSpace, subPackage.Name, PlatformSettings.CurrentPlatformName);
+                outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
                 
                 Build(outputPath, subPackage, buildTarget);
             }

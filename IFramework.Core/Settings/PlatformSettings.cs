@@ -105,33 +105,32 @@ namespace IFramework.Core
             catch (Exception e)
             {
                 e.LogException();
-                Log.LogError("未安装当前平台包:" + GetPlatformName(platformIndex));
+                Log.LogError("未安装当前平台包:" + getBuildTargetByIndex(platformIndex).ToString());
             }
             
         }
         
-        public static string GetPlatformName(int platformIndex)
+        public static BuildTarget getBuildTargetByIndex(int platformIndex)
         {
             switch (platformIndex)
             {
-                case 0: return BuildTarget.StandaloneWindows.ToString();
-                case 1: return BuildTarget.StandaloneOSX.ToString();
-                case 2: return BuildTarget.iOS.ToString();
-                case 3: return BuildTarget.Android.ToString();
-                case 4: return BuildTarget.WebGL.ToString();
-                case 5: return BuildTarget.PS4.ToString();
-                case 6: return BuildTarget.PS5.ToString();
-                case 7: return BuildTarget.XboxOne.ToString();
-                default: return BuildTarget.StandaloneWindows.ToString();
+                case 0: return BuildTarget.StandaloneWindows;
+                case 1: return BuildTarget.StandaloneOSX;
+                case 2: return BuildTarget.iOS;
+                case 3: return BuildTarget.Android;
+                case 4: return BuildTarget.WebGL;
+                case 5: return BuildTarget.PS4;
+                case 6: return BuildTarget.PS5;
+                case 7: return BuildTarget.XboxOne;
+                default: return BuildTarget.StandaloneWindows;
             }
         }
 
-        public static string CurrentPlatformName
+        public static BuildTarget CurrentBundlePlatform
         {
             get
             {
-                string name = EditorUserBuildSettings.activeBuildTarget.ToString();
-                return name;
+                return getBuildTargetByIndex(Configure.CurrentPlatform.Value);
             }
         }
     }

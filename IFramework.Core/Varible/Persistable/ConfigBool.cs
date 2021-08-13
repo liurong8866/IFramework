@@ -22,6 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -46,6 +47,7 @@ namespace IFramework.Core
             if (PlayerPrefs.HasKey(key))
             {
                 return PlayerPrefs.GetInt(key) == 1 ? true : false;
+                
             }
             return this.value;
         }
@@ -53,6 +55,7 @@ namespace IFramework.Core
         public override void Save(bool value)
         {
             PlayerPrefs.SetInt(key, value ? 1 : 0);
+            PlayerPrefs.Save();
         }
         
         //重载运算符"true"
