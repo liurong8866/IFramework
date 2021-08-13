@@ -26,8 +26,6 @@ namespace IFramework.Editor
 {
     public class AssetBundleKit
     {
-        public const string AssetBundleOutputPath = "AssetBundles";
-        
         //标记AssetBundle
         public static void MarkAssetBundle()
         {

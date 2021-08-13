@@ -50,11 +50,6 @@ namespace IFramework.Engine
         UnityEngine.Object Asset { get; }
         
         /// <summary>
-        /// 加载进度
-        /// </summary>
-        float Progress { get; }
-        
-        /// <summary>
         /// 资源加载状态
         /// </summary>
         ResourceState State { get; }
@@ -72,7 +67,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 卸载图片资源
         /// </summary>
-        bool UnloadImage(bool flag);
+        bool IsUnloadImage(bool flag);
         
         /// <summary>
         /// 释放资源
@@ -87,7 +82,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
-        bool IsDependResourceLoadFinish();
+        bool IsDependResourceLoaded();
         
         /// <summary>
         /// 注册资源加载完毕事件

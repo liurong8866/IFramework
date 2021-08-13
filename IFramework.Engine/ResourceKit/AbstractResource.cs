@@ -41,9 +41,25 @@ namespace IFramework.Engine
         // 加载状态
         protected ResourceState state = ResourceState.Waiting;
         // 资源加载完毕事件
-        private event Action<bool, IResource> onResourceLoadDone;
+        private event Action<bool, IResource> OnResourceLoaded;
         
-        
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public AbstractResource()
+        {
+            IsRecycled = false;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        protected AbstractResource(string assetName)
+        {
+            IsRecycled = false;
+            this.assetName = assetName;
+        }
+
         /// <summary>
         /// 资源名称
         /// </summary>
@@ -70,28 +86,7 @@ namespace IFramework.Engine
         {
             get { return asset; }
         }
-        
-        /// <summary>
-        /// 加载进度
-        /// </summary>
-        public float Progress { 
-            get
-            {
-                switch (state)
-                {
-                    case ResourceState.Loading: return CalculateProgress();
-                    case ResourceState.Ready: return 1;
-                }
-
-                return 0;
-            } 
-        }
-        
-        protected virtual float CalculateProgress()
-        {
-            return 0;
-        }
-        
+  
         /// <summary>
         /// 资源加载状态
         /// </summary>
@@ -118,23 +113,6 @@ namespace IFramework.Engine
         }
         
         /// <summary>
-        /// 构造函数
-        /// </summary>
-        public AbstractResource()
-        {
-            IsRecycled = false;
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        protected AbstractResource(string assetName)
-        {
-            IsRecycled = false;
-            this.assetName = assetName;
-        }
-
-        /// <summary>
         /// 同步加载资源
         /// </summary>
         public abstract bool LoadSync();
@@ -147,7 +125,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 卸载图片资源
         /// </summary>
-        public virtual bool UnloadImage(bool flag)
+        public virtual bool IsUnloadImage(bool flag)
         {
             return false;
         }
@@ -166,7 +144,7 @@ namespace IFramework.Engine
             OnReleaseResource();
 
             state = ResourceState.Waiting;
-            onResourceLoadDone = null;
+            OnResourceLoaded = null;
             return true;
         }
 
@@ -194,7 +172,7 @@ namespace IFramework.Engine
         {
             return null;
         }
-
+        
         /// <summary>
         /// 记录依赖资源
         /// </summary>
@@ -240,7 +218,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
-        public bool IsDependResourceLoadFinish()
+        public bool IsDependResourceLoaded()
         {
             string[] depends = GetDependResourceList();
 
@@ -273,7 +251,7 @@ namespace IFramework.Engine
                 return;
             }
             
-            onResourceLoadDone += listener;
+            OnResourceLoaded += listener;
         }
 
         /// <summary>
@@ -283,9 +261,9 @@ namespace IFramework.Engine
         {
             if (listener == null) return;
 
-            if(onResourceLoadDone == null) return;
+            if(OnResourceLoaded == null) return;
             
-            onResourceLoadDone -= listener;
+            OnResourceLoaded -= listener;
         }
 
         /// <summary>
@@ -302,10 +280,10 @@ namespace IFramework.Engine
         /// </summary>
         private void NotifyResourceLoaded(bool result)
         {
-            if (onResourceLoadDone != null)
+            if (OnResourceLoaded != null)
             {
-                onResourceLoadDone(result, this);
-                onResourceLoadDone = null;
+                OnResourceLoaded(result, this);
+                OnResourceLoaded = null;
             }
         }
         
@@ -318,7 +296,7 @@ namespace IFramework.Engine
         public virtual void OnRecycled()
         {
             assetName = null;
-            onResourceLoadDone = null;
+            OnResourceLoaded = null;
         }
         
         /*-----------------------------*/

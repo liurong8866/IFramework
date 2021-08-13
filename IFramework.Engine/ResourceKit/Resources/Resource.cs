@@ -33,19 +33,16 @@ namespace IFramework.Engine
     {
         private string path;
         
-        private ResourceRequest resourceRequest;
-        
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
         public static Resource Allocate(string name, ResourcesUrlType urlType)
         {
-            var resource = ObjectPool<Resource>.Instance.Allocate();
+            Resource resource = ObjectPool<Resource>.Instance.Allocate();
+
+            if (resource == null) return null;
             
-            if (resource != null)
-            {
-                resource.AssetName = name;
-            }
+            resource.AssetName = name;
 
             if (urlType == ResourcesUrlType.Url)
             {
@@ -128,9 +125,7 @@ namespace IFramework.Engine
                 request = Resources.LoadAsync(path);
             }
 
-            resourceRequest = request;
             yield return request;
-            resourceRequest = null;
 
             if (!request.isDone)
             {
@@ -153,14 +148,6 @@ namespace IFramework.Engine
         public override void Recycle()
         {
             ObjectPool<Resource>.Instance.Recycle(this);
-        }
-        
-        /// <summary>
-        /// 计算进度
-        /// </summary>
-        protected override float CalculateProgress()
-        {
-            return resourceRequest?.progress ?? 0;
         }
     }
 }

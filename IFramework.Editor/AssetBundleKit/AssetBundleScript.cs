@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 using System.IO;
-using UnityEditor;
+using IFramework.Core;
 using UnityEngine;
 
 namespace IFramework.Editor
@@ -32,12 +32,18 @@ namespace IFramework.Editor
     {
         public static void GenerateConstScript()
         {
-            // var path = Path.GetFullPath(
-            //     Application.dataPath + Path.DirectorySeparatorChar + "QFrameworkData/QAssets.cs");
-            // var writer = new StreamWriter(File.Open(path, FileMode.Create));
-            // ResDataCodeGenerator.WriteClass(writer, "QAssetBundle");
-            // writer.Close();
-            // AssetDatabase.Refresh();
+            // 生成文件路径
+            var path = Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + Constant.ASSETBUNDLE_NAME);
+
+            string content = Generate();
+            
+            FileUtils.WriteStream(path, content, FileMode.CreateNew);
+        }
+
+        public static string Generate()
+        {
+            
+            return "";
         }
     }
 }

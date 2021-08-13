@@ -28,7 +28,14 @@ namespace IFramework.Core
 {
     public struct Constant
     {
-        public const string CONF_ACTIVE_PLATFORM="CONF_ACTIVE_PLATFORM";
+        // IFramework 目录
+        public const string IFRAMEWORK_PATH = "Assets/IFramework";
+        
+        // AssetBundles 生成目录
+        public const string ASSETBUNDLE_OUTPUT_PATH = "AssetBundles";
+        
+        // AssetBundles 生成的Const名称
+        public const string ASSETBUNDLE_NAME = "AssetBundleName.cs";
         
         // double类型数据 == 时 精度
         public const double TOLERANCE = 1E-6;

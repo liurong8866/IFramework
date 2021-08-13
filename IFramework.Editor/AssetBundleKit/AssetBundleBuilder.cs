@@ -35,7 +35,14 @@ namespace IFramework.Editor
     {
         public static void BuildAssetBundles()
         {
+            // 打包AssetBundle
             BuildAssetBundles(PlatformSettings.CurrentBundlePlatform);
+
+            // 自动生成包名常量
+            if (Configure.AutoGenerateName)
+            {
+                AssetBundleScript.GenerateConstScript();
+            }
         }
 
         /// <summary>
@@ -45,6 +52,7 @@ namespace IFramework.Editor
         public static void BuildAssetBundles(BuildTarget buildTarget)
         {   
             Log.Info("开始打包: [{0}]:", buildTarget);
+            
             AssetDatabase.RemoveUnusedAssetBundleNames();
             
             AssetDatabase.Refresh();
@@ -58,7 +66,7 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            string outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, buildTarget.ToString());
+            string outputPath = Path.Combine(Constant.ASSETBUNDLE_OUTPUT_PATH, buildTarget.ToString());
 
             Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
 
@@ -70,15 +78,16 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath = Path.Combine(AssetBundleKit.AssetBundleOutputPath, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
+                outputPath = Path.Combine(Constant.ASSETBUNDLE_OUTPUT_PATH, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
                 
                 Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
                 
                 Build(outputPath, subPackage, buildTarget);
             }
+            AssetDatabase.Refresh();
             
             Log.Info("打包完毕: [{0}]，共计{1}个主包，{2}个子包，耗时{3}秒", buildTarget, 1, subPackages.Count,  (DateTime.Now - start).TotalSeconds );
-            AssetDatabase.Refresh();
+            
         }
 
         /// <summary>
@@ -115,9 +124,9 @@ namespace IFramework.Editor
         /// </summary>
         public static void ForceClearAssetBundles()
         {
-            DirectoryUtils.Remove(AssetBundleKit.AssetBundleOutputPath);
+            DirectoryUtils.Remove(Constant.ASSETBUNDLE_OUTPUT_PATH);
             
-            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, AssetBundleKit.AssetBundleOutputPath));
+            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSETBUNDLE_OUTPUT_PATH));
 
             AssetDatabase.Refresh();
         }
