@@ -41,17 +41,17 @@ namespace IFramework.Core
         //重载运算符"+"
         public static T operator + (AbstractPropertyNumeric<T> a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
@@ -59,15 +59,15 @@ namespace IFramework.Core
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -79,33 +79,33 @@ namespace IFramework.Core
         
         public static T operator + (AbstractPropertyNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -116,33 +116,33 @@ namespace IFramework.Core
         
         public static T operator + (T a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -154,33 +154,33 @@ namespace IFramework.Core
         //重载运算符"-"
         public static T operator - (AbstractPropertyNumeric<T> a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() - b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() - b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() - b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -192,33 +192,33 @@ namespace IFramework.Core
         
         public static T operator - (AbstractPropertyNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() - b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() - b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() - b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -229,33 +229,33 @@ namespace IFramework.Core
         
         public static T operator - (T a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() - b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() - b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() - b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() - b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() - b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() - b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() - b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() - b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() - b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() - b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() - b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() - b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -267,33 +267,33 @@ namespace IFramework.Core
         //重载运算符"*"
         public static T operator * (AbstractPropertyNumeric<T> a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() * b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() * b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() * b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -305,33 +305,33 @@ namespace IFramework.Core
         
         public static T operator * (AbstractPropertyNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() * b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() * b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() * b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -342,33 +342,33 @@ namespace IFramework.Core
         
         public static T operator * (T a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() * b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() * b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() * b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() * b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() * b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() * b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() * b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() * b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() * b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() * b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() * b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() * b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -380,7 +380,7 @@ namespace IFramework.Core
         //重载运算符"/"
         public static T operator / (AbstractPropertyNumeric<T> a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
@@ -388,27 +388,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() / b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() / b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() / b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -420,7 +420,7 @@ namespace IFramework.Core
         
         public static T operator / (AbstractPropertyNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
@@ -428,27 +428,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() / b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() / b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() / b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -459,7 +459,7 @@ namespace IFramework.Core
         
         public static T operator / (T a, AbstractPropertyNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
 
@@ -467,27 +467,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() / b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() / b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() / b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() / b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() / b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() / b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() / b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() / b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() / b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() / b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() / b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() / b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -510,7 +510,7 @@ namespace IFramework.Core
                 return false;
             }
             
-            return a.Value.ToDouble() == b.Value.ToDouble();
+            return Math.Abs(a.Value.ToDouble() - b.Value.ToDouble()) < Constant.TOLERANCE;
         }
         
         public static bool operator == (AbstractPropertyNumeric<T> a, object b)
@@ -520,11 +520,12 @@ namespace IFramework.Core
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if (((object)a == null) || (b == null))
             {
                 return false;
             }
-            return a.Value.ToDouble()==b.ToDouble();
+            
+            return Math.Abs(a.ToDouble() - b.ToDouble()) < Constant.TOLERANCE;
         }
         
         public static bool operator == (object a, AbstractPropertyNumeric<T> b)
@@ -534,11 +535,12 @@ namespace IFramework.Core
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if ((a == null) || ((object)b == null))
             {
                 return false;
             }
-            return a.ToDouble() == b.Value.ToDouble();
+            
+            return Math.Abs(a.ToDouble() - b.Value.ToDouble()) < Constant.TOLERANCE;
         }
 
         //重载运算符"!="
@@ -622,7 +624,7 @@ namespace IFramework.Core
         }
         
         //重写Equals方法
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object obj)
         {
             if (obj == null)
             {
@@ -641,7 +643,7 @@ namespace IFramework.Core
                 return false;
             }
 
-            return this.Value.Equals(obj) ;
+            return Value.Equals(obj) ;
         }
         
         public bool Equals(AbstractPropertyNumeric<T> bindable)
@@ -651,12 +653,12 @@ namespace IFramework.Core
                 return false;
             }
         
-            return this.Value.Equals(bindable.Value) ;
+            return Value.Equals(bindable.Value) ;
         }
         
         public override int GetHashCode()
         {
-            return this.Value.GetHashCode();
+            return Value.GetHashCode();
         }
     }
 }

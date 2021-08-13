@@ -34,7 +34,7 @@ namespace IFramework.Core
     {
         protected string key;
         
-        public AbstractConfigNumeric(string key, T value)
+        protected AbstractConfigNumeric(string key, T value)
         {
             this.key = key;
             this.value = value;
@@ -65,33 +65,33 @@ namespace IFramework.Core
         //重载运算符"+"
         public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() + b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() + b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -105,33 +105,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -145,33 +145,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator + (T a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -186,33 +186,33 @@ namespace IFramework.Core
         //重载运算符"-"
         public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() - b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() - b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() - b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -226,33 +226,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() - b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() - b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() - b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -266,33 +266,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator - (T a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() - b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() - b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() - b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() - b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() - b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() - b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() - b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() - b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() - b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() - b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() - b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() - b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -307,33 +307,33 @@ namespace IFramework.Core
         //重载运算符"*"
         public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() * b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() * b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() * b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -347,33 +347,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() * b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() * b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() * b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -386,33 +386,33 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator * (T a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() * b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() * b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() * b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() * b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() * b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() * b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() * b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() * b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() * b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() * b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() * b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() * b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -426,7 +426,7 @@ namespace IFramework.Core
         //重载运算符"/"
         public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
@@ -434,27 +434,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() / b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() / b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() / b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.Value.ToDecimal(), typeof(T));
             }
             else
             {
@@ -468,7 +468,7 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, T b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
             
@@ -476,27 +476,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToInt() / b.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToShort() / b.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToLong() / b.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.ToDecimal(), typeof(T));
             }
             else
             {
@@ -509,7 +509,7 @@ namespace IFramework.Core
         
         public static AbstractConfigNumeric<T> operator / (T a, AbstractConfigNumeric<T> b)
         {
-            T result = default(T);
+            T result;
             
             Type type = typeof(T);
 
@@ -517,27 +517,27 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() / b.Value.ToInt(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToInt() / b.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() / b.Value.ToShort(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToShort() / b.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() / b.Value.ToLong(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToLong() / b.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() / b.Value.ToFloat(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToFloat() / b.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() / b.Value.ToDouble(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDouble() / b.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() / b.Value.ToDecimal(), typeof(T));;
+                result = (T)Convert.ChangeType(a.ToDecimal() / b.Value.ToDecimal(), typeof(T));
             }
             else
             {

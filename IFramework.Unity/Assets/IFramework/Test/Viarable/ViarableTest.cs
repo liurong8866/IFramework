@@ -84,9 +84,9 @@ namespace IFramework.Test.Viarable
             
             
             intNum.Value = 100;
-            intNum = intNum + intNum2;
-            intNum = intNum + 10;
-            intNum = 10 + intNum;
+            // intNum = intNum + intNum2;
+            intNum = intNum2 + 10;
+            intNum = 10 + intNum2;
 
         }
 
