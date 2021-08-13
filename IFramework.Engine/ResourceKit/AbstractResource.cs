@@ -208,7 +208,7 @@ namespace IFramework.Engine
             {
                 ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
 
-                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                IResource resource = ResourceManager.Instance.GetResource(searchRule);
                 
                 searchRule.Recycle();
 
@@ -229,7 +229,7 @@ namespace IFramework.Engine
             {
                 ResourceSearchRule searchRule = ResourceSearchRule.Allocate(depends[i]);
 
-                IResource resource = ResourceManager.Instance.GetResource(searchRule, false);
+                IResource resource = ResourceManager.Instance.GetResource(searchRule);
                 
                 searchRule.Recycle();
 

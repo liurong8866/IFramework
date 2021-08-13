@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using System;
-using UnityEngine;
 
 namespace IFramework.Core
 {
@@ -33,7 +32,6 @@ namespace IFramework.Core
     public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : IConvertible, IComparable
     {
         protected string key;
-        
         protected AbstractConfigNumeric(string key, T value)
         {
             this.key = key;
@@ -63,7 +61,7 @@ namespace IFramework.Core
         
         
         //重载运算符"+"
-        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -71,39 +69,39 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() + n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() + n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() + b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() + n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() + n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() + n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() + n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
 
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> a, T b)
+        public static AbstractConfigNumeric<T> operator + (AbstractConfigNumeric<T> m, T n)
         {
             T result;
             
@@ -111,39 +109,39 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() + b.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() + n.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() + b.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() + n.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() + b.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() + n.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() + b.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() + n.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() + b.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() + n.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() + b.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() + n.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
             
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator + (T a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator + (T m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -151,40 +149,40 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() + b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToInt() + n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() + b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToShort() + n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() + b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToLong() + n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() + b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToFloat() + n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() + b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDouble() + n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() + b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDecimal() + n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
             }
             
-            b.value = result;
+            n.value = result;
             
-            return b;
+            return n;
         }
         
         //重载运算符"-"
-        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -192,39 +190,39 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() - n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() - n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() - n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() - n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() - n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() - n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
             
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> a, T b)
+        public static AbstractConfigNumeric<T> operator - (AbstractConfigNumeric<T> m, T n)
         {
             T result;
             
@@ -232,39 +230,39 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() - b.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() - n.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() - b.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() - n.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() - b.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() - n.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() - b.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() - n.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() - b.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() - n.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() - b.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() - n.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
             
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator - (T a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator - (T m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -272,40 +270,40 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() - b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToInt() - n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() - b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToShort() - n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() - b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToLong() - n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() - b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToFloat() - n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() - b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDouble() - n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() - b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDecimal() - n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
             }
            
-            b.value = result;
+            n.value = result;
             
-            return b;
+            return n;
         }
         
         //重载运算符"*"
-        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -313,39 +311,39 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() * n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() * n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() * n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() * n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() * n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() * n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
             
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> a, T b)
+        public static AbstractConfigNumeric<T> operator * (AbstractConfigNumeric<T> m, T n)
         {
             T result;
             
@@ -353,38 +351,38 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() * b.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() * n.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() * b.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() * n.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() * b.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() * n.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() * b.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() * n.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() * b.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() * n.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() * b.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() * n.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator * (T a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator * (T m, AbstractConfigNumeric<T> n)
         {
             T result;
             
@@ -392,160 +390,160 @@ namespace IFramework.Core
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() * b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToInt() * n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() * b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToShort() * n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() * b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToLong() * n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() * b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToFloat() * n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() * b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDouble() * n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() * b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDecimal() * n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
             }
-            b.value = result;
+            n.value = result;
             
-            return b;
+            return n;
         }
         
         //重载运算符"/"
-        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, AbstractConfigNumeric<T> n)
         {
             T result;
             
             Type type = typeof(T);
             
-            if (b.Value.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.Value.ToInt() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() / n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() / n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() / n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() / n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() / n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() / n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
             
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> a, T b)
+        public static AbstractConfigNumeric<T> operator / (AbstractConfigNumeric<T> m, T n)
         {
             T result;
             
             Type type = typeof(T);
             
-            if (b.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.ToInt() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.Value.ToInt() / b.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToInt() / n.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.Value.ToShort() / b.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToShort() / n.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.Value.ToLong() / b.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToLong() / n.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.Value.ToFloat() / b.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToFloat() / n.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDouble() / b.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDouble() / n.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.Value.ToDecimal() / b.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.Value.ToDecimal() / n.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            a.value = result;
+            m.value = result;
             
-            return a;
+            return m;
         }
         
-        public static AbstractConfigNumeric<T> operator / (T a, AbstractConfigNumeric<T> b)
+        public static AbstractConfigNumeric<T> operator / (T m, AbstractConfigNumeric<T> n)
         {
             T result;
             
             Type type = typeof(T);
 
-            if (b.Value.ToInt() == 0) throw new Exception("除数不能为0！");
+            if (n.Value.ToInt() == 0) throw new Exception("除数不能为0！");
             
             if (type == typeof(int))
             {
-                result = (T)Convert.ChangeType(a.ToInt() / b.Value.ToInt(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToInt() / n.Value.ToInt(), typeof(T));
             }
             else if (type == typeof(short))
             {
-                result = (T)Convert.ChangeType(a.ToShort() / b.Value.ToShort(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToShort() / n.Value.ToShort(), typeof(T));
             }
             else if (type == typeof(long))
             {
-                result = (T)Convert.ChangeType(a.ToLong() / b.Value.ToLong(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToLong() / n.Value.ToLong(), typeof(T));
             }
             else if (type == typeof(float))
             {
-                result = (T)Convert.ChangeType(a.ToFloat() / b.Value.ToFloat(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToFloat() / n.Value.ToFloat(), typeof(T));
             }
             else if (type == typeof(double))
             {
-                result = (T)Convert.ChangeType(a.ToDouble() / b.Value.ToDouble(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDouble() / n.Value.ToDouble(), typeof(T));
             }
             else if (type == typeof(decimal))
             {
-                result = (T)Convert.ChangeType(a.ToDecimal() / b.Value.ToDecimal(), typeof(T));
+                result = (T)Convert.ChangeType(m.ToDecimal() / n.Value.ToDecimal(), typeof(T));
             }
             else
             {
                 throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
             }
-            b.value = result;
+            n.value = result;
             
-            return b;
+            return n;
         }
         
     }

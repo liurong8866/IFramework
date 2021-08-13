@@ -56,7 +56,7 @@ namespace IFramework.Core
         /// </summary>
         protected virtual bool IsValueChanged(T value)
         {
-            return value == null || !value.Equals(this.value) || !this.setted;
+            return value == null || !value.Equals(this.value) || !setted;
         }
         
         public override string ToString()
@@ -72,67 +72,67 @@ namespace IFramework.Core
         
         
         //重载运算符"=="
-        public static bool operator == (AbstractProperty<T> a, AbstractProperty<T> b)
+        public static bool operator == (AbstractProperty<T> m, AbstractProperty<T> n)
         {
-            if (ReferenceEquals(a, b))
+            if (ReferenceEquals(m, n))
             {
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if (((object)m == null) || ((object)n == null))
             {
                 return false;
             }
 
-            return a.Value.Equals(b.Value);
+            return m.Value.Equals(n.Value);
         }
                
-        public static bool operator == (AbstractProperty<T> a, T b)
+        public static bool operator == (AbstractProperty<T> m, T n)
         {
-            if (ReferenceEquals(a, b))
+            if (ReferenceEquals(m, n))
             {
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if (((object)m == null) || (n == null))
             {
                 return false;
             }
 
-            return a.Value.Equals(b);
+            return m.Value.Equals(n);
         }
      
-        public static bool operator == (T a, AbstractProperty<T> b)
+        public static bool operator == (T m, AbstractProperty<T> n)
         {
-            if (ReferenceEquals(a, b))
+            if (ReferenceEquals(m, n))
             {
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if ((m == null) || ((object)n == null))
             {
                 return false;
             }
 
-            return a.Equals(b.Value);
+            return m.Equals(n.Value);
         }
 
-        public static bool operator != (AbstractProperty<T> a, AbstractProperty<T> b)
+        public static bool operator != (AbstractProperty<T> m, AbstractProperty<T> n)
         {
-            return !(a==b);
+            return !(m==n);
         }
  
-        public static bool operator != (AbstractProperty<T> a, T b)
+        public static bool operator != (AbstractProperty<T> m, T n)
         {
-            return !(a==b);
+            return !(m==n);
         }
    
-        public static bool operator != (T a, AbstractProperty<T> b)
+        public static bool operator != (T m, AbstractProperty<T> n)
         {
-            return !(a==b);
+            return !(m==n);
         }
         
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object obj)
         {
             if (obj == null)
             {
@@ -156,7 +156,7 @@ namespace IFramework.Core
                 return false;
             }
             
-            return this.Value.Equals(obj) ;
+            return Value.Equals(obj) ;
         }
         
         public bool Equals(AbstractProperty<T> abstractProperty)
@@ -166,12 +166,12 @@ namespace IFramework.Core
                 return false;
             }
 
-            return this.Value.Equals(abstractProperty.Value) ;
+            return Value.Equals(abstractProperty.Value) ;
         }
         
         public override int GetHashCode()
         {
-            return this.Value.GetHashCode();
+            return Value.GetHashCode();
         }
     }
 }
