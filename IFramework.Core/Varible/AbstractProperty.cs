@@ -61,7 +61,7 @@ namespace IFramework.Core
         
         public override string ToString()
         {
-            return GetValue().ToString();
+            return Value.ToString();
         }
 
         public virtual void Dispose() {}

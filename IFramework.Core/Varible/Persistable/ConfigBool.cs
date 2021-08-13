@@ -29,7 +29,7 @@ namespace IFramework.Core
     /// <summary>
     /// 可持久化的Bool类型
     /// </summary>
-    public sealed class ConfigBool : AbstractConfigNumeric<bool>
+    public sealed class ConfigBool : AbstractConfig<bool>
     {
         public ConfigBool(string key, bool value) : base(key, value) { }
 

@@ -57,11 +57,11 @@ namespace IFramework.Test.Viarable
         private void Start()
         {
             // ConverterTest();
-            
-            
-            ConfigIntTest();
-            ConfigFloatTest();
-            ConfigBoolTest();
+            forAdd();
+
+            // ConfigIntTest();
+            // ConfigFloatTest();
+            // ConfigBoolTest();
 
             // TeatInt();
             // TestIntCompare();
@@ -85,6 +85,24 @@ namespace IFramework.Test.Viarable
 
         }
 
+        private void forAdd()
+        {
+            int a = 1;
+            BindInt b = new BindInt(1);
+
+            // Debug.Log(b++);
+            // Debug.Log(b--);
+            // Debug.Log(++b);
+            // Debug.Log(--b);
+
+            Debug.Log(a++);
+            Debug.Log(a--);
+            Debug.Log(++a);
+            Debug.Log(--a);
+
+            a= b.ToInt();
+        }
+        
         /// <summary>
         /// 高精度可以接收低精度 +；
         /// </summary>
@@ -244,8 +262,8 @@ namespace IFramework.Test.Viarable
             intNum2--;
             
             intNum.Value++;
-            intNum = intNum + 10;
-            intNum += 10;
+            // intNum = intNum + 10;
+            // intNum += 10;
             
             intNum.LogInfo();
 
@@ -257,30 +275,41 @@ namespace IFramework.Test.Viarable
             Log.Info(20 % intNum);
             
             
-            intNum = intNum + intNum2;
-            intNum = intNum2 + 10;
-            intNum = 10 + intNum2;
+            // intNum = intNum + intNum2;
+            // intNum = intNum2 + 10;
+            // intNum = 10 + intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum - intNum2;
+            // intNum = intNum2 - 10;
+            // intNum = 10 - intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum * intNum2;
+            // intNum = intNum2 * 10;
+            // intNum = 10 * intNum2;
+            //
+            //
+            // intNum.Value = 100;
+            // intNum = intNum / intNum2;
+            // intNum = intNum2 / 10;
+            // intNum = 10 / intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum % intNum2;
+            // intNum = intNum2 % 10;
+            // intNum = 10 % intNum2;
             
-            intNum.Value = 100;
-            intNum = intNum - intNum2;
-            intNum = intNum2 - 10;
-            intNum = 10 - intNum2;
             
-            intNum.Value = 100;
-            intNum = intNum * intNum2;
-            intNum = intNum2 * 10;
-            intNum = 10 * intNum2;
+            ConfigInt configInt = new ConfigInt("hh");
 
-            
-            intNum.Value = 100;
-            intNum = intNum / intNum2;
-            intNum = intNum2 / 10;
-            intNum = 10 / intNum2;
-            
-            intNum.Value = 100;
-            intNum = intNum % intNum2;
-            intNum = intNum2 % 10;
-            intNum = 10 % intNum2;
+            configInt.Add(10);
+            configInt++;
+
+            int a = configInt + 1;
+            int b = configInt + configInt;
+
+            configInt.Add(1).Sub(2).Mul(2).Div(10);
             
         }
         
@@ -293,29 +322,29 @@ namespace IFramework.Test.Viarable
             ConfigFloat intNum2 = new ConfigFloat("ConfigFloat", 10);
             
             intNum.Value = 100.1234f;
-            intNum = intNum + intNum2;
-            intNum = intNum2 + 10;
-            intNum = 10 + intNum2;
-            
-            intNum.Value = 100.1234f;
-            intNum = intNum - intNum2;
-            intNum = intNum2 - 10;
-            intNum = 10 - intNum2;
-            
-            intNum.Value = 100.1234f;
-            intNum = intNum * intNum2;
-            intNum = intNum2 * 10;
-            intNum = 10 * intNum2;
-            
-            intNum.Value = 100.1234f;
-            intNum = intNum / intNum2;
-            intNum = intNum2 / 10;
-            intNum = 10 / intNum2;
-            
-            intNum.Value = 100;
-            intNum = intNum % intNum2;
-            intNum = intNum2 % 10;
-            intNum = 10 % intNum2;
+            // intNum = intNum + intNum2;
+            // intNum = intNum2 + 10;
+            // intNum = 10 + intNum2;
+            //
+            // intNum.Value = 100.1234f;
+            // intNum = intNum - intNum2;
+            // intNum = intNum2 - 10;
+            // intNum = 10 - intNum2;
+            //
+            // intNum.Value = 100.1234f;
+            // intNum = intNum * intNum2;
+            // intNum = intNum2 * 10;
+            // intNum = 10 * intNum2;
+            //
+            // intNum.Value = 100.1234f;
+            // intNum = intNum / intNum2;
+            // intNum = intNum2 / 10;
+            // intNum = 10 / intNum2;
+            //
+            // intNum.Value = 100;
+            // intNum = intNum % intNum2;
+            // intNum = intNum2 % 10;
+            // intNum = 10 % intNum2;
 
         }
 
@@ -374,6 +403,13 @@ namespace IFramework.Test.Viarable
 
             Log.Info(bindInt);
             
+            Log.Info(bindInt++);
+            Log.Info(++bindInt);
+            
+            Log.Info(bindInt--);
+            Log.Info(--bindInt);
+            
+            
             Log.Info("--------1 + - * / ----------");
             bindInt.Value = 100;
             Log.Info("原数" + bindInt);
@@ -386,7 +422,6 @@ namespace IFramework.Test.Viarable
             bindInt.Value = bindInt / 10;
             Log.Info(bindInt);
             // bindInt.Value = bindInt / 0;
-            // Log.Info(bindInt);
             
             Log.Info("--------2 + - * / ----------");
             bindInt.Value = 100;

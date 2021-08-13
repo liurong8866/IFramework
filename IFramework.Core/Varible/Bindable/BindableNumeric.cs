@@ -32,9 +32,12 @@ namespace IFramework.Core
     /// <typeparam name="T"></typeparam>
     public class BindableNumeric<T> : AbstractPropertyNumeric<T>, IBindable<T> where T : struct, IConvertible, IComparable
     {
-        public BindableNumeric(){}
+        protected BindableNumeric(){}
         
-        public BindableNumeric(T value) : base(value){ }
+        protected BindableNumeric(T value)
+        {
+            this.value = value;
+        }
 
         // 绑定事件
         public Action<T> OnChange { get; set; }
@@ -65,6 +68,4 @@ namespace IFramework.Core
         }
         
     }
-
-
 }

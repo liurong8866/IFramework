@@ -54,114 +54,18 @@ namespace IFramework.Core
             PlayerPrefs.SetInt(key, value);
         }
         
-        //重载运算符"+"
-        public static ConfigInt operator + (ConfigInt m, ConfigInt n)
-        {
-            m.Value =  Addition(m.Value, n.Value);
-            return m;
-        }
-        
-        public static ConfigInt operator + (ConfigInt m, int n)
-        {
-            m.Value =  Addition(m.Value, n);
-            return m;
-        }
-        
-        public static ConfigInt operator + (int m, ConfigInt n)
-        {
-            n.Value =  Addition(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"-"
-        public static ConfigInt operator - (ConfigInt m, ConfigInt n)
-        {
-            n.Value =  Subtraction(m.Value, n.Value);
-            return n;
-        }
-        
-        public static ConfigInt operator - (ConfigInt m, int n)
-        {
-            m.Value =  Subtraction(m.Value, n);
-            return m;
-        }
-        
-        public static ConfigInt operator - (int m, ConfigInt n)
-        {
-            n.Value =  Subtraction(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"*"
-        public static ConfigInt operator * (ConfigInt m, ConfigInt n)
-        {
-            m.Value =  Multiply(m.Value, n.Value);
-            return m;
-        }
-        
-        public static ConfigInt operator * (ConfigInt m, int n)
-        {
-            m.Value =  Multiply(m.Value, n);
-            return m;
-        }
-        
-        public static ConfigInt operator * (int m, ConfigInt n)
-        {
-            n.Value =  Multiply(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"/"
-        public static ConfigInt operator / (ConfigInt m, ConfigInt n)
-        {
-            m.Value =  Division(m.Value, n.Value);
-            return m;
-        }
-        
-        public static ConfigInt operator / (ConfigInt m, int n)
-        {
-            m.Value =  Division(m.Value, n);
-            return m;
-        }
-        
-        public static ConfigInt operator / (int m, ConfigInt n)
-        {
-            n.Value =  Division(m, n.Value);
-            return n;
-        }
-        
-        //重载运算符"%"
-        public static ConfigInt operator % (ConfigInt m, ConfigInt n)
-        {
-            m.Value =  Module(m.Value, n.Value);
-            return m;
-        }
-        
-        public static ConfigInt operator % (ConfigInt m, int n)
-        {
-            m.Value =  Module(m.Value, n);
-            return m;
-        }
-        
-        public static ConfigInt operator % (int m, ConfigInt n)
-        {
-            n.Value =  Module(m, n.Value);
-            return n;
-        }
-        
         //重载运算符"++"
-        public static ConfigInt operator ++ (ConfigInt m)
+        public static ConfigInt operator ++ (ConfigInt self)
         {
-            m.Value =  Addition(m.Value, 1);
-            return m;
+            self.Value =  Addition(self.Value, 1);
+            return self;
         }
         
         //重载运算符"--"
-        public static ConfigInt operator -- (ConfigInt m)
+        public static ConfigInt operator -- (ConfigInt self)
         {
-            m.Value =  Addition(m.Value, -1);
-            return m;
+            self.Value =  Subtraction(self.Value, 1);
+            return self;
         }
-        
     }
 }

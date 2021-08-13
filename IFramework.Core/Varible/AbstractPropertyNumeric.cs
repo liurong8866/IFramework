@@ -31,16 +31,34 @@ namespace IFramework.Core
     /// </summary>
     public abstract class AbstractPropertyNumeric<T> : AbstractProperty<T> where T : struct, IConvertible, IComparable
     {
-        public AbstractPropertyNumeric(){}
-        
-        public AbstractPropertyNumeric(T value)
+
+        public int ToInt()
         {
-            this.value = value;
+            return Value.ToInt();
+        }
+        public long ToLong()
+        {
+            return Value.ToLong();
+        }
+        public short ToShort()
+        {
+            return Value.ToShort();
+        }
+        public float ToFloat()
+        {
+            return Value.ToFloat();
+        }
+        public double ToDouble()
+        {
+            return Value.ToDouble();
+        }
+        public decimal ToDecimal()
+        {
+            return Value.ToDecimal();
         }
         
-        
         //"+"方法
-        public static T Addition (T m, T n)
+        public static T Addition (object m, object n)
         {
             T result;
             
@@ -76,9 +94,9 @@ namespace IFramework.Core
             }
             return result;
         }
-        
+
         //"-"方法
-        public static T Subtraction (T m, T n)
+        public static T Subtraction (object m, object n)
         {
             T result;
             
@@ -116,7 +134,7 @@ namespace IFramework.Core
         }
         
         //"*"方法
-        public static T Multiply (T m, T n)
+        public static T Multiply (object m, object n)
         {
             T result;
             
@@ -154,7 +172,7 @@ namespace IFramework.Core
         }
         
         //"/"方法
-        public static T Division (T m, T n)
+        public static T Division (object m, object n)
         {
             T result;
             
@@ -194,7 +212,7 @@ namespace IFramework.Core
         }
         
         //"%"方法
-        public static T Module (T m, T n)
+        public static T Module (object m, object n)
         {
             T result;
             
@@ -232,7 +250,6 @@ namespace IFramework.Core
             }
             return result;
         }
-        
 
         //重载运算符"+"
         public static T operator + (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
@@ -314,7 +331,20 @@ namespace IFramework.Core
             return Module(m, n.Value);
         }
         
-
+        //重载运算符"++"
+        public static AbstractPropertyNumeric<T> operator ++ (AbstractPropertyNumeric<T> self)
+        {
+            self.Value =  Addition(self.Value, 1);
+            return self;
+        }
+        
+        //重载运算符"--"
+        public static AbstractPropertyNumeric<T> operator -- (AbstractPropertyNumeric<T> self)
+        {
+            self.Value =  Addition(self.Value, -1);
+            return self;
+        }
+        
         //重载运算符"=="
         public static bool operator == (AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
@@ -478,5 +508,6 @@ namespace IFramework.Core
         {
             return Value.GetHashCode();
         }
+        
     }
 }
