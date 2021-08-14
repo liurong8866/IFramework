@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using IFramework.Core;
 
 namespace IFramework.Engine
@@ -77,7 +78,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        string[] GetDependResourceList();
+        List<string> GetDependResourceList();
 
         /// <summary>
         /// 是否依赖资源加载完毕

@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
@@ -168,7 +169,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public virtual string[] GetDependResourceList()
+        public virtual List<string> GetDependResourceList()
         {
             return null;
         }
@@ -203,13 +204,13 @@ namespace IFramework.Engine
         
         private bool DoLoopDependResource(Func<IResource, bool> action)
         {
-            string[] depends = GetDependResourceList();
+            List<string> depends = GetDependResourceList();
             
             if (depends.IsNullOrEmpty()) return true;
-            
-            for (int i = depends.Length - 1; i >= 0; i--)
+
+            foreach (string depend in depends)
             {
-                using (ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]))
+                using (ResourceSearcher searcher = ResourceSearcher.Allocate(depend))
                 {
                     IResource resource = ResourceManager.Instance.GetResource(searcher);
                     return action.InvokeSafe(resource);
