@@ -14,7 +14,7 @@ namespace IFramework.Test.ResourceKit
         
         private void Start()
         {
-            ResourceManager.Init();
+            // ResourceManager.Init();
 
             resource = Resource.Allocate("Resources/Test", ResourcesUrlType.Folder);
 

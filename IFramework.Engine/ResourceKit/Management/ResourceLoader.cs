@@ -54,9 +54,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配资源函数
         /// </summary>
-        public static void Allocate()
+        public static ResourceLoader Allocate()
         {
-            ObjectPool<ResourceLoader>.Instance.Allocate();
+            return ObjectPool<ResourceLoader>.Instance.Allocate();
         }
 
         /*-----------------------------*/
