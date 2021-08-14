@@ -44,6 +44,10 @@ namespace IFramework.Engine
         // 资源列表
         private readonly ResourceTable resourceTable = new ResourceTable();
         
+        // Resource在ResourceManager中 删除的问题，定时收集列表中的Resource然后删除
+        private bool isDirty = false;
+        
+        
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
         /*-----------------------------*/
@@ -153,6 +157,7 @@ namespace IFramework.Engine
             
             // 放置队列末尾
             asyncLoadTasks.AddLast(task);
+            
             // 尝试加载下一个资源
             TryStartNextResourceLoadTask();
         }
@@ -191,6 +196,14 @@ namespace IFramework.Engine
             
             // 递归调用下一条加载任务
             TryStartNextResourceLoadTask();
+        }
+        
+        /// <summary>
+        /// 是否脏数据
+        /// </summary>
+        public void ClearOnUpdate()
+        {
+            isDirty = true;
         }
     }
 }

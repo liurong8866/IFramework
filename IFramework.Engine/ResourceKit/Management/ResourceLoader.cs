@@ -164,6 +164,9 @@ namespace IFramework.Engine
         /* 异步加载资源                     */
         /*-----------------------------*/
         
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
         public void LoadAsync(Action callback = null)
         {
             this.callback = callback;
@@ -174,6 +177,7 @@ namespace IFramework.Engine
 
         private void LoadAsync()
         {
+            // 如果当前没有加载数量，则调用回调函数
             if (loadingCount == 0)
             {
                 if (callback != null)
@@ -186,9 +190,34 @@ namespace IFramework.Engine
                 return;
             }
             
+            // 当前循环节
+            LinkedListNode<IResource> currentNode = waitForLoadList.First;
+            
+            // 遍历所有需要等待加载到资源
+            while (currentNode != null)
+            {
+                IResource resource = currentNode.Value;
+                
+                // 如果依赖资源加载完毕，则可以删除
+                if (resource.IsDependResourceLoaded())
+                {
+                    waitForLoadList.Remove(currentNode);
+                    
+                    if (resource.State != ResourceState.Ready)
+                    {
+                        resource.RegisterOnLoadedEvent(OnResourceLoaded);
+                        resource.LoadASync();
+                    }
+                    else
+                    {
+                        loadingCount--;
+                    }
+                }
+                
+                currentNode = currentNode.Next;
+            }
         }
-        
-        
+
         /*-----------------------------*/
         /* 添加资源到任务列表          */
         /*-----------------------------*/
@@ -409,15 +438,155 @@ namespace IFramework.Engine
         /*-----------------------------*/
         /* 释放资源                     */
         /*-----------------------------*/
+
+        private void OnResourceLoaded(bool result, IResource resource)
+        {
+            loadingCount--;
+            
+            // 在这里使用了递归调用
+            LoadAsync();
+            
+            if (loadingCount == 0)
+            {
+                RemoveAllCallbacks(false);
+                
+                callback?.Invoke();
+            }
+        }
+
+        private void RemoveAllCallbacks(bool release)
+        {
+            if (callbackCleanerList != null)
+            {
+                
+            }
+        }
+
+        private void RemoveCallback(IResource resource, bool release)
+        {
+            if (!callbackCleanerList.IsNullOrEmpty())
+            {
+                LinkedListNode<CallbackCleaner> currentNode = callbackCleanerList.First;
+
+                while (currentNode != null)
+                {
+                    CallbackCleaner cleaner = currentNode.Value;
+
+                    if (cleaner.Is(resource))
+                    {
+                        if(release) cleaner.Release();
+                    }
+
+                    callbackCleanerList.Remove(currentNode);
+                    
+                    currentNode = currentNode.Next;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void ReleaseResource(string assetName)
+        {
+            if(assetName.IsNullOrEmpty()) return;
+
+            // 清空模拟器模式下加载的资源
+            if (Configure.IsSimulation)
+            {
+                if (sprites.ContainsKey(assetName))
+                {
+                    Sprite sprite = sprites[assetName];
+                    sprite.DestroySelf();
+                    sprites.Remove(assetName);
+                }
+            }
+
+            using (ResourceSearcher searcher = ResourceSearcher.Allocate(assetName))
+            {
+                IResource resource = ResourceManager.Instance.GetResource((searcher));
+                
+                if (resource == null) return;
+
+                // 清除下载列表中的资源
+                if (waitForLoadList.Remove(resource))
+                {
+                    if (--loadingCount == 0)
+                    {
+                        callback = null;
+                    }
+                }
+
+                if (resources.Remove(resource))
+                {
+                    resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
+                    resource.Release();
+                    ResourceManager.Instance.ClearOnUpdate();
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void ReleaseResource(string[] assetNames)
+        {
+            if(assetNames.IsNullOrEmpty()) return;
+
+            foreach (string assetName in assetNames)
+            {
+                ReleaseResource(assetName);
+            }
+        }
+        
+        /// <summary>
+        /// 释放所有资源
+        /// </summary>
+        public void ReleaseAllResource()
+        {
+            // 释放模拟器模式资源
+            if (Configure.IsSimulation)
+            {
+                foreach (var sprite in sprites)
+                {
+                    sprite.Value.DestroySelf();
+                }
+                sprites.Clear();
+            }
+
+            callback = null;
+            loadingCount = 0;
+            waitForLoadList.Clear();
+
+            if (resources.Count > 0)
+            {
+                //确保首先删除的是AB，这样能对Asset的卸载做优化
+                resources.Reverse();
+
+                foreach (IResource resource in resources)
+                {
+                    resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
+                    resource.Release();
+                }
+                resources.Clear();
+                if (ResourceManager.IsApplicationQuit)
+                {
+                    ResourceManager.Instance.ClearOnUpdate();
+                }
+            }
+            RemoveAllCallbacks(true);
+        }
         
         protected override void DisposeManaged()
         {
-            throw new System.NotImplementedException();
+            ReleaseAllResource();
+            base.Dispose();
         }
         
         public void OnRecycled()
         {
-            throw new System.NotImplementedException();
+            ReleaseAllResource();
         }
         
         public bool IsRecycled { get; set; }
