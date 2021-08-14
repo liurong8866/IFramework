@@ -34,14 +34,15 @@ namespace IFramework.Engine
 {
     public class ResourceLoader : Disposeble, IPoolable, IRecyclable
     {
+        // 当前加载资源到数量
+        private int loadingCount = 0;
         // 资源列表
         private readonly List<IResource> resources = new List<IResource>();
         // 缓存到Sprite资源字典
         private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
         // 等待加载的资源
         private readonly LinkedList<IResource> waitForLoadList = new LinkedList<IResource>();
-        // 当前加载资源到数量
-        private int loadingCount = 0;
+        
         
         // 等待回收的对象
         private List<Object> tobeUnloadedObjects;
@@ -58,37 +59,6 @@ namespace IFramework.Engine
             ObjectPool<ResourceLoader>.Instance.Allocate();
         }
 
-        /// <summary>
-        /// 回收函数
-        /// </summary>
-        public void Recycle()
-        {
-            if (tobeUnloadedObjects.IsNullOrEmpty())
-            {
-                foreach (Object obj in tobeUnloadedObjects)
-                {
-                    obj.DestroySelf();
-                }
-                tobeUnloadedObjects.Clear();
-                tobeUnloadedObjects = null;
-            }
-
-            ObjectPool<ResourceLoader>.Instance.Recycle(this);
-        }
-        
-        /// <summary>
-        /// 回收资源时销毁
-        /// </summary>
-        public void DestroyOnRecycle(Object obj)
-        {
-            if (tobeUnloadedObjects == null)
-            {
-                tobeUnloadedObjects = new List<Object>();
-            }
-
-            tobeUnloadedObjects.Add(obj);
-        }
-        
         /*-----------------------------*/
         /* 同步加载资源                     */
         /*-----------------------------*/
@@ -436,9 +406,14 @@ namespace IFramework.Engine
         }
         
         /*-----------------------------*/
-        /* 释放资源                     */
+        /* 资源加载完毕后回               */
         /*-----------------------------*/
-
+        
+        /// <summary>
+        /// 资源加载完成回调
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="resource"></param>
         private void OnResourceLoaded(bool result, IResource resource)
         {
             loadingCount--;
@@ -484,6 +459,10 @@ namespace IFramework.Engine
             }
         }
         
+        /*-----------------------------*/
+        /* 释放资源                     */
+        /*-----------------------------*/
+
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -584,6 +563,40 @@ namespace IFramework.Engine
             base.Dispose();
         }
         
+        /// <summary>
+        /// 回收资源时销毁
+        /// </summary>
+        public void DestroyOnRecycle(Object obj)
+        {
+            if (tobeUnloadedObjects == null)
+            {
+                tobeUnloadedObjects = new List<Object>();
+            }
+
+            tobeUnloadedObjects.Add(obj);
+        }
+
+        /// <summary>
+        /// 回收函数
+        /// </summary>
+        public void Recycle()
+        {
+            if (tobeUnloadedObjects.IsNullOrEmpty())
+            {
+                foreach (Object obj in tobeUnloadedObjects)
+                {
+                    obj.DestroySelf();
+                }
+                tobeUnloadedObjects.Clear();
+                tobeUnloadedObjects = null;
+            }
+
+            ObjectPool<ResourceLoader>.Instance.Recycle(this);
+        }
+        
+        /// <summary>
+        /// 实现接口
+        /// </summary>
         public void OnRecycled()
         {
             ReleaseAllResource();
