@@ -14,6 +14,7 @@ obj/
 StreamingAssets/
 AssetBundles/
 
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
@@ -36,6 +37,7 @@ ExportedObj/
 IFramework.Unity/*.csproj
 IFramework.Unity/*.unityproj
 IFramework.Unity/*.sln
+IFramework.Unity/Assets/IFramework/*.meta
 *.suo
 *.tmp
 *.user

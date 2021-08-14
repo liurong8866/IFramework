@@ -59,7 +59,7 @@ namespace IFramework.Core
         /// </summary>
         public static bool IsNullOrEmpty(this ICollection value)
         {
-            return (value != null && value.Count > 0);
+            return (value == null || value.Count == 0);
         }
         
         /// <summary>
