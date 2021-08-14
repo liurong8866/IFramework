@@ -24,6 +24,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using IFramework.Core;
 using UnityEngine;
 
@@ -43,10 +44,8 @@ namespace IFramework.Engine
         private readonly LinkedList<IResourceLoadTask> asyncLoadTasks = new LinkedList<IResourceLoadTask>();
         // 资源列表
         private readonly ResourceTable resourceTable = new ResourceTable();
-        
         // Resource在ResourceManager中 删除的问题，定时收集列表中的Resource然后删除
         private bool isDirty = false;
-        
         
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
@@ -198,12 +197,47 @@ namespace IFramework.Engine
             TryStartNextResourceLoadTask();
         }
         
+        /*-----------------------------*/
+        /* 释放资源                     */
+        /*-----------------------------*/
+
+        private void Update()
+        {
+            if (isDirty)
+            {
+                RemoveUnusedResource();
+            }
+        }
+
         /// <summary>
         /// 是否脏数据
         /// </summary>
         public void ClearOnUpdate()
         {
             isDirty = true;
+        }
+
+        /// <summary>
+        /// 清除不在使用的资源
+        /// </summary>
+        private void RemoveUnusedResource()
+        {
+            if (!isDirty) return;
+
+            isDirty = false;
+
+            foreach (IResource resource in resourceTable.ToList())
+            {
+                if (resource.Count <= 0 && resource.State != ResourceState.Loading)
+                {
+                    if (resource.Release())
+                    {
+                        resourceTable.Remove(resource.AssetName.ToLower());
+                        resource.Recycle();
+                    }
+                }
+            }
+
         }
     }
 }
