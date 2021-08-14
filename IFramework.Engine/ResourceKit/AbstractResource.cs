@@ -178,20 +178,11 @@ namespace IFramework.Engine
         /// </summary>
         protected void HoldDependResource()
         {
-            string[] depends = GetDependResourceList();
-            
-            if (depends.IsNullOrEmpty()) return;
-            
-            for (int i = depends.Length - 1; i >= 0; i--)
+            DoLoopDependResource(resource =>
             {
-                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
-
-                IResource resource = ResourceManager.Instance.GetResource(searcher);
-                
-                searcher.Recycle();
-
                 resource?.Retain();
-            }
+                return true;
+            });
         }
         
         /// <summary>
@@ -199,20 +190,7 @@ namespace IFramework.Engine
         /// </summary>
         protected void UnHoldDependResource()
         {
-            string[] depends = GetDependResourceList();
-            
-            if (depends.IsNullOrEmpty()) return;
-            
-            for (int i = depends.Length - 1; i >= 0; i--)
-            {
-                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
-
-                IResource resource = ResourceManager.Instance.GetResource(searcher);
-                
-                searcher.Recycle();
-
-                resource?.Release();
-            }
+            DoLoopDependResource(resource =>resource.Release());
         }
         
         /// <summary>
@@ -220,19 +198,22 @@ namespace IFramework.Engine
         /// </summary>
         public bool IsDependResourceLoaded()
         {
+            return DoLoopDependResource(resource => (resource != null && resource.State == ResourceState.Ready));
+        }
+        
+        private bool DoLoopDependResource(Func<IResource, bool> action)
+        {
             string[] depends = GetDependResourceList();
-
+            
             if (depends.IsNullOrEmpty()) return true;
-
+            
             for (int i = depends.Length - 1; i >= 0; i--)
             {
-                ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]);
-
-                IResource resource = ResourceManager.Instance.GetResource(searcher, false);
-                
-                searcher.Recycle();
-
-                if (resource == null || resource.State != ResourceState.Ready) return false;
+                using (ResourceSearcher searcher = ResourceSearcher.Allocate(depends[i]))
+                {
+                    IResource resource = ResourceManager.Instance.GetResource(searcher);
+                    return action.InvokeSafe(resource);
+                }
             }
 
             return true;

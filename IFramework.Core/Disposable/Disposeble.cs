@@ -22,68 +22,67 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections.Generic;
-using System.Linq;
-using IFramework.Core;
+using System;
 
-namespace IFramework.Engine
+namespace IFramework
 {
     /// <summary>
-    /// 资源创建工厂
+    /// Dispose模式
     /// </summary>
-    public static class ResourceFactory
+    public abstract class Disposeble : IDisposable
     {
+        private bool disposed = false;
+        
         /// <summary>
-        /// 资源列表
+        /// 析构函数，以备程序员忘记了显式调用Dispose方法
         /// </summary>
-        private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
+        ~Disposeble()
         {
-            new ResourceCreator()
-        };
-
+            //必须为false
+            Dispose(false);
+        }
+        
         /// <summary>
-        /// 生产方法
+        /// 实现IDisposable中的Dispose方法
         /// </summary>
-        public static IResource Create(ResourceSearcher searcher)
+        public void Dispose()
         {
-            IResource resource = creators
-                // 找到对应资源的创建者
-                .Where(creator => creator.Match(searcher))
-                // 创建创建者（一般是从缓冲池分配获得）
-                .Select(creator => creator.Create(searcher))
-                // 如果有多个，取第一个
-                .FirstOrDefault();
-
-            if (resource == null)
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收机制不再调用终结器（析构器） 调用虚拟的Dispose方法。禁止Finalization（终结操作） 
+            GC.SuppressFinalize(this);
+        }
+        
+        /// <summary>
+        /// 非密封类修饰用
+        /// </summary>
+        /// <param name="disposing">是否注销托管资源</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            // 不要多次处理 
+            if (!disposed)
             {
-                Log.Error("没有找到相关资源，创建资源失败!");
+                if (disposing)
+                {
+                    // 清理托管资源
+                    DisposeManaged();
+                }
+                // 清理非托管资源
+                UnDisposeManaged();
+                
+                disposed = true;
             }
+        }
 
-            return resource;
-        }
+        /// <summary>
+        /// 托管资源：由CLR管理分配和释放的资源，即由CLR里new出来的对象；
+        /// </summary>
+        protected abstract void DisposeManaged();
         
         /// <summary>
-        /// 添加生产者
+        /// 非托管资源：不受CLR管理的对象，windows内核对象，如文件、数据库连接、套接字、COM对象等；
         /// </summary>
-        public static void AddCreator(IResourceCreator creator)
-        {
-            creators.Add(creator);
-        }
+        protected virtual void UnDisposeManaged(){}
         
-        /// <summary>
-        /// 添加生产者
-        /// </summary>
-        public static void AddCreator<T>() where T : IResourceCreator, new()
-        {
-            creators.Add(new T());
-        }
-        
-        /// <summary>
-        /// 删除生产者
-        /// </summary>
-        public static void RemoveCreator<T>() where T : IResourceCreator, new()
-        {
-            creators.RemoveAll(creator => creator.GetType() == typeof(T));
-        }
     }
 }

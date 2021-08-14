@@ -22,68 +22,71 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using IFramework.Core;
+using Object=UnityEngine.Object;
 
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 资源创建工厂
-    /// </summary>
-    public static class ResourceFactory
+    public class ResourceLoader : Disposeble, IPoolable, IRecyclable
     {
-        /// <summary>
-        /// 资源列表
-        /// </summary>
-        private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
-        {
-            new ResourceCreator()
-        };
+        // 资源列表
+        private readonly List<IResource> resources = new List<IResource>();
+        // 等待加载的资源
+        private readonly LinkedList<IResource> loadList = new LinkedList<IResource>();
+        // 等待回收的对象
+        private List<Object> tobeUnloadedObjects;
 
         /// <summary>
-        /// 生产方法
+        /// 回收函数
         /// </summary>
-        public static IResource Create(ResourceSearcher searcher)
+        public void Recycle()
         {
-            IResource resource = creators
-                // 找到对应资源的创建者
-                .Where(creator => creator.Match(searcher))
-                // 创建创建者（一般是从缓冲池分配获得）
-                .Select(creator => creator.Create(searcher))
-                // 如果有多个，取第一个
-                .FirstOrDefault();
-
-            if (resource == null)
+            if (tobeUnloadedObjects.IsNullOrEmpty())
             {
-                Log.Error("没有找到相关资源，创建资源失败!");
+                foreach (Object obj in tobeUnloadedObjects)
+                {
+                    obj.DestroySelf();
+                }
+                tobeUnloadedObjects.Clear();
+                tobeUnloadedObjects = null;
             }
 
-            return resource;
+            ObjectPool<ResourceLoader>.Instance.Recycle(this);
         }
         
         /// <summary>
-        /// 添加生产者
+        /// 回收资源时销毁
         /// </summary>
-        public static void AddCreator(IResourceCreator creator)
+        public void DestroyOnRecycle(Object obj)
         {
-            creators.Add(creator);
+            if (tobeUnloadedObjects == null)
+            {
+                tobeUnloadedObjects = new List<Object>();
+            }
+
+            tobeUnloadedObjects.Add(obj);
         }
         
-        /// <summary>
-        /// 添加生产者
-        /// </summary>
-        public static void AddCreator<T>() where T : IResourceCreator, new()
+        
+        private void AddToLoad(ResourceSearcher searcher, Action<bool, IResource> action, bool last = true)
         {
-            creators.Add(new T());
+            
         }
         
-        /// <summary>
-        /// 删除生产者
-        /// </summary>
-        public static void RemoveCreator<T>() where T : IResourceCreator, new()
+        protected override void DisposeManaged()
         {
-            creators.RemoveAll(creator => creator.GetType() == typeof(T));
+            throw new System.NotImplementedException();
         }
+
+        public void OnRecycled()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsRecycled { get; set; }
+        
+        
     }
 }

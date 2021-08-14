@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Disposable" />
       <Folder Include="Editor\AssetAbundle" />
     </ItemGroup>
 

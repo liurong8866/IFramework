@@ -41,17 +41,15 @@ namespace IFramework.Engine
         private int maxCoroutineCount = 8; 
         // 异步加载任务列表
         private readonly LinkedList<IResourceLoadTask> asyncLoadTasks = new LinkedList<IResourceLoadTask>();
-        
-        // 资源加载器列表
+        // 资源列表
         private readonly ResourceTable resourceTable = new ResourceTable();
-
         
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
         /*-----------------------------*/
         
         /// <summary>
-        /// 全局自动加载一次，请不要手动调用
+        /// 全局自动加载一次，请不要手动调用！！
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
         public static void Init()
@@ -91,7 +89,7 @@ namespace IFramework.Engine
         /// </summary>
         private void InitPools()
         {
-            // Resource 加载器
+            // Resource 
             ObjectPool<Resource>.Instance.Init(40,20);
         }
 
@@ -108,10 +106,10 @@ namespace IFramework.Engine
         /*-----------------------------*/
         
         /// <summary>
-        /// 获取资源加载器
+        /// 获取资源
         /// </summary>
         /// <param name="searcher">查询器</param>
-        /// <param name="create">如果没有，是否创建加载器</param>
+        /// <param name="create">如果没有，是否创建</param>
         /// <returns></returns>
         public IResource GetResource(ResourceSearcher searcher, bool create = false)
         {
@@ -135,7 +133,7 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 获取资源加载器
+        /// 获取资源
         /// </summary>
         public T GetResource<T>(ResourceSearcher searcher) where T : class, IResource
         {

@@ -27,7 +27,7 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
-    public class ResourceSearcher : IPoolable, IRecyclable
+    public class ResourceSearcher : Disposeble, IPoolable, IRecyclable
     {
         /// <summary>
         /// 资源名称
@@ -104,6 +104,10 @@ namespace IFramework.Engine
         {
             return $"AssetName:{AssetName} AssetBundleName:{AssetBundleName} TypeName:{AssetType}";
         }
-        
+
+        protected override void DisposeManaged()
+        {
+            Recycle();
+        }
     }
 }

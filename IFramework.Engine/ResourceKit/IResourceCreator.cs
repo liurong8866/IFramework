@@ -25,7 +25,7 @@
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 资源加载器创建者
+    /// 资源创建者
     /// </summary>
     public interface IResourceCreator
     {
@@ -35,7 +35,7 @@ namespace IFramework.Engine
         bool Match(ResourceSearcher searcher);
 
         /// <summary>
-        /// 创建加载器
+        /// 创建资源
         /// </summary>
         IResource Create(ResourceSearcher searcher);
     }

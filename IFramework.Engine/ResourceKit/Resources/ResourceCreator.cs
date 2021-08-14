@@ -35,7 +35,7 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 创建加载器
+        /// 创建资源
         /// </summary>
         public IResource Create(ResourceSearcher searcher)
         {
