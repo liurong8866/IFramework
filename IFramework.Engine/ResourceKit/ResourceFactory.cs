@@ -28,21 +28,30 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 资源创建工厂
+    /// </summary>
     public static class ResourceFactory
     {
+        /// <summary>
+        /// 资源加载器列表
+        /// </summary>
         private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
         {
             new ResourceCreator()
         };
 
         /// <summary>
-        /// Resource 生产方法
+        /// 生产加载器方法
         /// </summary>
         public static IResource Create(ResourceSearcher searcher)
         {
             IResource resource = creators
-                .Where(c => c.Match(searcher))
-                .Select(c => c.Create(searcher))
+                // 找到对应资源加载器的创建者
+                .Where(creator => creator.Match(searcher))
+                // 创建创建者（一般是从缓冲池分配获得）
+                .Select(creator => creator.Create(searcher))
+                // 如果有多个，取第一个
                 .FirstOrDefault();
 
             if (resource == null)
@@ -53,21 +62,28 @@ namespace IFramework.Engine
             return resource;
         }
         
+        /// <summary>
+        /// 添加加载器
+        /// </summary>
         public static void AddCreator(IResourceCreator creator)
         {
             creators.Add(creator);
         }
         
+        /// <summary>
+        /// 添加加载器
+        /// </summary>
         public static void AddCreator<T>() where T : IResourceCreator, new()
         {
             creators.Add(new T());
         }
         
+        /// <summary>
+        /// 删除对应类型加载器
+        /// </summary>
         public static void RemoveCreator<T>() where T : IResourceCreator, new()
         {
-            creators.RemoveAll(t => t.GetType() == typeof(T));
+            creators.RemoveAll(creator => creator.GetType() == typeof(T));
         }
-        
-        
     }
 }

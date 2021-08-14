@@ -56,9 +56,13 @@ namespace IFramework.Core
         }
         
         public abstract IEnumerator<T> GetEnumerator();
+        
         protected abstract void OnAdd(T t);
+        
         protected abstract void OnRemove(T t);
+        
         protected abstract void OnClear();
+        
         protected abstract void OnDispose();
     }
 }

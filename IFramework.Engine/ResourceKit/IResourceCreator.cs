@@ -24,10 +24,19 @@
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 资源加载器创建者
+    /// </summary>
     public interface IResourceCreator
     {
+        /// <summary>
+        /// 匹配方法
+        /// </summary>
         bool Match(ResourceSearcher searcher);
 
+        /// <summary>
+        /// 创建加载器
+        /// </summary>
         IResource Create(ResourceSearcher searcher);
     }
 }
