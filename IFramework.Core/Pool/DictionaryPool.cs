@@ -40,7 +40,7 @@ namespace IFramework.Core
         /// 出栈：从栈中获取某个字典数据
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<TKey, TValue> Get()
+        public static Dictionary<TKey, TValue> Allocate()
         {
             if (cache.Count == 0)
             {
@@ -61,18 +61,12 @@ namespace IFramework.Core
         }
     }
     
-    /// <summary>
-    /// 对象池字典 拓展方法类
-    /// </summary>
     public static class DictionaryPoolExtensions
     {
         /// <summary>
         /// 对字典拓展 自身入栈 的方法
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="self"></param>
-        public static void Release2Pool<TKey, TValue>(this Dictionary<TKey, TValue> self)
+        public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self)
         {
             DictionaryPool<TKey, TValue>.Release(self);
         }

@@ -25,7 +25,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using IFramework.Core;
-using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -42,8 +41,10 @@ namespace IFramework.Engine
         private int maxCoroutineCount = 8; 
         // 异步加载任务列表
         private readonly LinkedList<IResourceLoadTask> asyncLoadTasks = new LinkedList<IResourceLoadTask>();
-        // 资源表
-        private ResourceTable resourceTable = new ResourceTable();
+        
+        // 资源加载器列表
+        private readonly ResourceTable resourceTable = new ResourceTable();
+
         
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
@@ -126,7 +127,7 @@ namespace IFramework.Engine
                 
                 if (resource != null)
                 {
-                    resourceTable.Add(resource);
+                    resourceTable.Add(resource.AssetName, resource);
                 }
             }
             

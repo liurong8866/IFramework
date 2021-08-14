@@ -29,7 +29,6 @@ namespace IFramework.Core
     /// <summary>
     /// 链表对象池：存储相关对象
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public static class ListPool<T>
     {
         private static int capacity = 10;
@@ -42,8 +41,7 @@ namespace IFramework.Core
         /// <summary>
         /// 出栈：获取某个List对象
         /// </summary>
-        /// <returns></returns>
-        public static List<T> Get()
+        public static List<T> Allocate()
         {
             if (cache.Count == 0)
             {
@@ -56,7 +54,6 @@ namespace IFramework.Core
         /// <summary>
         /// 入栈：将List对象添加到栈中
         /// </summary>
-        /// <param name="release"></param>
         public static void Release(List<T> release)
         {
             release.Clear();
@@ -64,17 +61,12 @@ namespace IFramework.Core
         }
     }
 
-    /// <summary>
-    /// 链表对象池 拓展方法类
-    /// </summary>
     public static class ListPoolExtensions
     {
         /// <summary>
         /// 给List拓展 自身入栈 的方法
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        public static void Release2Pool<T>(this List<T> self)
+        public static void Recycle<T>(this List<T> self)
         {
             ListPool<T>.Release(self);
         }

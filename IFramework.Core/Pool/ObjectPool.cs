@@ -34,7 +34,9 @@ namespace IFramework.Core
         // 最大对象
         protected int maxCount = 0;
 
-        /* 实现对象池单例 */
+        /*-----------------------------*/
+        /* 实现对象池单例                */
+        /*-----------------------------*/
 
         protected ObjectPool()
         {
@@ -53,9 +55,10 @@ namespace IFramework.Core
             SingletonProperty<ObjectPool<T>>.Dispose();
         }
         
+        /*-----------------------------*/
+        /* 初始化对象池                  */
+        /*-----------------------------*/
         
-        /* 初始化对象池 */
-
         /// <summary>
         /// 初始化对象池
         /// </summary>

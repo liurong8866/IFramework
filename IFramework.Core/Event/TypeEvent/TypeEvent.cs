@@ -31,7 +31,7 @@ namespace IFramework.Core
     public class TypeEvent : ITypeEvent
     {
         // 事件字典
-        private readonly Dictionary<Type, ITypeEventRegister> typeEventDict = DictionaryPool<Type, ITypeEventRegister>.Get();
+        private readonly Dictionary<Type, ITypeEventRegister> typeEventDict = DictionaryPool<Type, ITypeEventRegister>.Allocate();
 
         /// <summary>
         /// 注册事件
@@ -117,7 +117,7 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 回收
+        /// 回收方法
         /// </summary>
         public void Dispose(){ }
         

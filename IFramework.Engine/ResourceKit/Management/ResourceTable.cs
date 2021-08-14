@@ -28,51 +28,25 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
-    public class ResourceTable : Table<IResource>
+    public sealed class ResourceTable : Table<IResource>
     {
-        public TableIndex<string, IResource> NameIndex = new TableIndex<string, IResource>( 
-            res=> res.AssetName.ToLower()
-            );
-        
         public IResource GetResource(ResourceSearcher searcher)
         {
             string assetName = searcher.AssetName;
 
-            var resources = NameIndex.Get(assetName);
+            var resources = Get(assetName.ToLower());
 
             if (searcher.AssetType != null)
             {
-                resources = resources.Where(res => res.AssetType == searcher.AssetType);
+                resources = resources.Where(res => res.AssetType == searcher.AssetType).ToList();
             }
             
             if (searcher.AssetBundleName != null)
             {
-                resources = resources.Where(res => res.AssetBundleName == searcher.AssetBundleName);
+                resources = resources.Where(res => res.AssetBundleName == searcher.AssetBundleName).ToList();
             }
 
             return resources.FirstOrDefault();
         }
-
-        public override IEnumerator<IResource> GetEnumerator()
-        {
-            return NameIndex.Dictionary.SelectMany(d => d.Value).GetEnumerator();
-        }
-
-        protected override void OnAdd(IResource resource)
-        {
-            NameIndex.Add(resource);
-        }
-
-        protected override void OnRemove(IResource resource)
-        {
-            NameIndex.Remove(resource);
-        }
-
-        protected override void OnClear()
-        {
-            NameIndex.Clear();
-        }
-
-        protected override void OnDispose() { }
     }
 }
