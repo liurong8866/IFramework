@@ -154,11 +154,14 @@ namespace IFramework.Engine
             
             // 当前循环节
             LinkedListNode<IResource> currentNode = waitForLoadList.First;
+            LinkedListNode<IResource> nextNode = null;
+            IResource resource;
             
             // 遍历所有需要等待加载到资源
             while (currentNode != null)
             {
-                IResource resource = currentNode.Value;
+                nextNode = currentNode.Next;
+                resource = currentNode.Value;
                 
                 // 如果依赖资源加载完毕，则可以删除
                 if (resource.IsDependResourceLoaded())
@@ -176,10 +179,10 @@ namespace IFramework.Engine
                     }
                 }
                 
-                currentNode = currentNode.Next;
+                currentNode = nextNode;
             }
         }
-
+        
         /*-----------------------------*/
         /* 添加资源到任务列表          */
         /*-----------------------------*/
@@ -539,7 +542,6 @@ namespace IFramework.Engine
         protected override void DisposeManaged()
         {
             ReleaseAllResource();
-            base.Dispose();
         }
         
         /// <summary>
@@ -560,7 +562,7 @@ namespace IFramework.Engine
         /// </summary>
         public void Recycle()
         {
-            if (tobeUnloadedObjects.IsNullOrEmpty())
+            if (tobeUnloadedObjects.IsNotNullOrEmpty())
             {
                 foreach (Object obj in tobeUnloadedObjects)
                 {

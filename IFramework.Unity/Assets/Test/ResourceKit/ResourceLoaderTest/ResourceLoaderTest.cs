@@ -14,7 +14,7 @@ namespace IFramework.Test.ResourceKit
         
         private void Start()
         {
-            ResourceLoader resourceLoader = ResourceLoader.Allocate();
+            using ResourceLoader resourceLoader = ResourceLoader.Allocate();
 
             // Object resource = resourceLoader.Load("Resources://Test");
             // resource.Instantiate().Name("这是Resource.Load加载");
@@ -25,30 +25,51 @@ namespace IFramework.Test.ResourceKit
             // Sprite resource3 = resourceLoader.LoadSprite("Resources://icon");
             // imag.sprite = resource3;
             
-            resourceLoader.AddToLoad("Resources://Test", (result, resource) =>
+            resourceLoader.AddToLoad("Resources://Lili", (result, resource) =>
             {
                 if (result)
                 {
-                    resource.Asset.Instantiate().Name("我是动态加载的");
-                }
-            });
-            resourceLoader.AddToLoad("Resources://Test", (result, resource) =>
-            {
-                if (result)
-                {
-                    resource.Asset.Instantiate().Name("我是动态加载的");
-                }
-            });
-            resourceLoader.AddToLoad("Resources://Test", (result, resource) =>
-            {
-                if (result)
-                {
-                    resource.Asset.Instantiate().Name("我是动态加载的");
+                    resource.Asset.Instantiate().Name("我是动态异步加载的");
                 }
             });
 
-            Object resource4 = resourceLoader.Load("Resources://Test");
-            resource4.Instantiate().Name("这是Resource.Load加载");
+            Object a = null;
+            
+            resourceLoader.AddToLoad("Resources://Jin", (result, resource) =>
+            {
+                if (result)
+                {
+                    a = resource.Asset.Instantiate().Name("我是动态异步加载的");
+                    resourceLoader.DestroyOnRecycle(a);
+                }
+            });
+
+            
+            resourceLoader.LoadAsync(() =>
+            {
+                Log.Info("异步加载完毕");
+                resourceLoader.Recycle();
+                
+            });
+
+
+
+
+
+            // resourceLoader.Recycle();
+            // resourceLoader.AddToLoad("Resources://Test", (result, resource) =>
+            // {
+            //     if (result)
+            //     {
+            //         resource.Asset.Instantiate().Name("我是动态加载的");
+            //     }
+            // });
+            //
+            // Object resource4 = resourceLoader.Load("Resources://Test");
+            // resource4.Instantiate().Name("这是Resource.Load加载");
+
+
+
         }
         
     }
