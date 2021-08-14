@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
+using IFramework.Engine.Management;
 using UnityEngine;
 using Object=UnityEngine.Object;
 
@@ -33,9 +34,10 @@ namespace IFramework.Engine
 {
     public class ResourceLoader : Disposeble, IPoolable, IRecyclable
     {
-        
         // 资源列表
         private readonly List<IResource> resources = new List<IResource>();
+        // 缓存到Sprite资源字典
+        private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
         // 等待加载的资源
         private readonly LinkedList<IResource> waitForLoadList = new LinkedList<IResource>();
         // 当前加载资源到数量
@@ -43,8 +45,18 @@ namespace IFramework.Engine
         
         // 等待回收的对象
         private List<Object> tobeUnloadedObjects;
-
-        // private LinkedList<CallbackMethod> callbackRecordList;
+        
+        private Action callback;
+        
+        private LinkedList<CallbackCleaner> callbackCleanerList;
+        
+        /// <summary>
+        /// 分配资源函数
+        /// </summary>
+        public static void Allocate()
+        {
+            ObjectPool<ResourceLoader>.Instance.Allocate();
+        }
 
         /// <summary>
         /// 回收函数
@@ -77,9 +89,8 @@ namespace IFramework.Engine
             tobeUnloadedObjects.Add(obj);
         }
         
-        
         /*-----------------------------*/
-        /* 加载资源                     */
+        /* 同步加载资源                     */
         /*-----------------------------*/
 
         /// <summary>
@@ -126,7 +137,7 @@ namespace IFramework.Engine
             // 添加到加载任务列表
             AddToLoad(searcher);
 
-            // 完全执行加载列表
+            // 完全加载等待加载到资源
             while (waitForLoadList.Count > 0)
             {
                 IResource first = waitForLoadList.First.Value;
@@ -150,11 +161,40 @@ namespace IFramework.Engine
         }
         
         /*-----------------------------*/
-        /* 加载资源到任务列表          */
+        /* 异步加载资源                     */
+        /*-----------------------------*/
+        
+        public void LoadAsync(Action callback = null)
+        {
+            this.callback = callback;
+            
+            // 异步加载
+            LoadAsync();
+        }
+
+        private void LoadAsync()
+        {
+            if (loadingCount == 0)
+            {
+                if (callback != null)
+                {
+                    Action action = callback;
+                    callback = null;
+                    action();
+                }
+
+                return;
+            }
+            
+        }
+        
+        
+        /*-----------------------------*/
+        /* 添加资源到任务列表          */
         /*-----------------------------*/
         
         /// <summary>
-        /// 加载资源到任务列表
+        /// 添加资源到任务列表
         /// </summary>
         public void AddToLoad(List<string> list)
         {
@@ -170,7 +210,7 @@ namespace IFramework.Engine
         } 
         
         /// <summary>
-        /// 加载资源到任务列表
+        /// 添加资源到任务列表
         /// </summary>
         public void AddToLoad(string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
@@ -181,7 +221,7 @@ namespace IFramework.Engine
         }
         
         /// <summary>
-        /// 加载资源到任务列表
+        /// 添加资源到任务列表
         /// </summary>
         public void AddToLoad<T>(string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
@@ -192,7 +232,7 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 加载资源到任务列表
+        /// 添加资源到任务列表
         /// </summary>
         public void AddToLoad(string bundleName, string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
@@ -203,7 +243,7 @@ namespace IFramework.Engine
         }
         
         /// <summary>
-        /// 加载资源任务列表
+        /// 添加资源到任务列表
         /// </summary>
         public void AddToLoad<T>(string bundleName, string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
@@ -212,9 +252,9 @@ namespace IFramework.Engine
                 AddToLoad(searcher, callback, last);
             }
         }
-
+        
         /// <summary>
-        /// 加载资源
+        /// 添加资源到任务列表
         /// </summary>
         /// <param name="searcher">查询器</param>
         /// <param name="callback">完成后</param>
@@ -224,20 +264,22 @@ namespace IFramework.Engine
             // 在缓存的资源中查找
             IResource resource = GetResourceInCache(searcher);
 
+            // 如果没有缓存资源，则加载
             if (resource == null)
             {
                 resource = ResourceManager.Instance.GetResource(searcher, true);
             }
-
+            
+            // 如果有回调，则注册回到方法
             if (callback != null)
             {
-                // TODO AddResListenerRecord(res, listener); 
-                // if (mCallbackRecordList == null)
-                // {
-                //     mCallbackRecordList = new LinkedList<CallBackWrap>();
-                // }
-                //
-                // mCallbackRecordList.AddLast(new CallBackWrap(res, listener));
+                if (callbackCleanerList == null)
+                {
+                    callbackCleanerList = new LinkedList<CallbackCleaner>();
+                }
+                // 加入清空清单
+                callbackCleanerList.AddLast(new CallbackCleaner(resource, callback));
+                // 注册加载完毕事件
                 resource.RegisterOnLoadedEvent(callback);
             }
 
@@ -246,6 +288,7 @@ namespace IFramework.Engine
 
             if (depends != null)
             {
+                // 遍历所有依赖并加载
                 foreach (string depend in depends)
                 {
                     using (ResourceSearcher searchRule = ResourceSearcher.Allocate(depend, null, typeof(AssetBundle)))
@@ -256,6 +299,7 @@ namespace IFramework.Engine
                 }
             }
             
+            // 将资源添加到加载任务列表
             AddToLoadList(resource, last);
         }
         
@@ -305,18 +349,80 @@ namespace IFramework.Engine
 
             return resources.FirstOrDefault(resource => searcher.Match(resource));
         }
+        
+        /*-----------------------------*/
+        /* 加载Sprite资源               */
+        /*-----------------------------*/
 
+        /// <summary>
+        /// 同步加载Sprite
+        /// </summary>
+        public Sprite LoadSprite(string spriteName)
+        {
+            // 如果是模拟器模式，直接加载Resources文件夹下到资源
+            if (Configure.IsSimulation)
+            {
+                // 如果未缓存，则缓存
+                if (!sprites.ContainsKey(spriteName))
+                {
+                    // 加载Texture资源
+                    Texture2D texture = Load<Texture2D>(spriteName);
+                    // 创建Sprite
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+                    // 添加到缓存
+                    sprites.Add(spriteName, sprite);
+                }
+                
+                return sprites[spriteName];
+            }
+
+            // 非模拟器模式，直接加载AssetBundle
+            return Load<Sprite>(spriteName);
+        }
+        
+        /// <summary>
+        /// 同步加载Sprite
+        /// </summary>
+        public Sprite LoadSprite(string bundleName, string spriteName)
+        {
+            // 如果是模拟器模式，直接加载Resources文件夹下到资源
+            if (Configure.IsSimulation)
+            {
+                // 如果未缓存，则缓存
+                if (!sprites.ContainsKey(spriteName))
+                {
+                    // 加载Texture资源
+                    Texture2D texture = Load<Texture2D>(bundleName, spriteName);
+                    // 创建Sprite
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+                    // 添加到缓存
+                    sprites.Add(spriteName, sprite);
+                }
+                
+                return sprites[spriteName];
+            }
+
+            // 非模拟器模式，直接加载AssetBundle
+            return Load<Sprite>(bundleName, spriteName);
+        }
+        
+        /*-----------------------------*/
+        /* 释放资源                     */
+        /*-----------------------------*/
+        
         protected override void DisposeManaged()
         {
             throw new System.NotImplementedException();
         }
-
+        
         public void OnRecycled()
         {
             throw new System.NotImplementedException();
         }
-
+        
         public bool IsRecycled { get; set; }
         
     }
+    
+
 }
