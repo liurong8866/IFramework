@@ -106,14 +106,6 @@ namespace IFramework.Engine
         /// </summary>
         public override IEnumerator LoadAsync(Action callback)
         {
-            // TODO 验证这里是否需要打开，源码中打开了
-            // if (Count <= 0)
-            // {
-            //     OnResourceLoadFailed();
-            //     callback();
-            //     yield break;
-            // }
-
             ResourceRequest request = null;
 
             if (AssetType != null)
