@@ -41,24 +41,7 @@ namespace IFramework.Core
                 Directory.CreateDirectory(path);
             }
         }
-
-        /// <summary>
-        /// 创建路径
-        /// </summary>
-        // public static void CreatPath(string path)
-        // {
-        //     string subPath = "";
-        //
-        //     string[] direactor = path.Split(Path.PathSeparator);
-        //     
-        //     foreach(string dir in direactor)
-        //     {
-        //         subPath = subPath + (subPath==""?"": Path.PathSeparator.ToString()) + dir;
-        //
-        //         Create(subPath);
-        //     }
-        // }
-
+        
         /// <summary>
         /// 删除文件夹，包括其中的文件
         /// </summary>

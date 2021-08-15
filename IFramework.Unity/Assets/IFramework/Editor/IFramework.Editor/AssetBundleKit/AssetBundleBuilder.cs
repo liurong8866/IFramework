@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IFramework.Core;
+using IFramework.Engine;
 using UnityEditor;
 using UnityEngine;
 
@@ -123,9 +124,15 @@ namespace IFramework.Editor
         /// <summary>
         /// 构建AssetBundle 关系配置文件
         /// </summary>
-        private static void BuildAssetRelationFile(string[] assetBundleNames = null, string outputPaht = null)
+        private static void BuildAssetRelationFile(string[] assetBundleNames = null, string outputPath = null)
         {
+            ResourceData resourceData = new ResourceData();
+
+            AddAssetBundleInfoToResourceData(resourceData, assetBundleNames);
+
+            string filePath = Path.Combine((outputPath?? PlatformSetting.AssetBundleBuildPath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             
+            resourceData.Save(filePath);
         }
         
         /// <summary>
@@ -139,5 +146,64 @@ namespace IFramework.Editor
 
             AssetDatabase.Refresh();
         }
+
+        /// <summary>
+        /// 将AssetBundle信息添加到关系配置表中
+        /// </summary>
+        /// <param name="resourceData"></param>
+        /// <param name="assetBundleName"></param>
+        private static void AddAssetBundleInfoToResourceData(ResourceData resourceData, string[] assetBundleName = null)
+        {
+#if UNITY_EDITOR
+            AssetDatabase.RemoveUnusedAssetBundleNames();
+
+            string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
+            
+            foreach (string name in assetBundleNames)
+            {
+                string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
+
+                int index = resourceData.AddAssetDependence(name, depends, out AssetGroup @group);
+                if (index < 0)
+                {
+                    continue;
+                }
+            
+                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(name);
+                foreach (string asset in assets)
+                {
+                    Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
+            
+                    short code = type.ToCode();
+
+                    string fileName = Path.GetFileName(asset);
+                    
+                    @group.AddAssetInfo(asset.EndsWith(".unity")
+                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
+                        : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
+                }
+            }
+#endif
+        }
+        
+        // /// <summary>
+        // /// 根据路径获取文件名
+        // /// </summary>
+        // /// <param name="assetPath"></param>
+        // /// <returns></returns>
+        // public static string GetAssetNameByPath(string assetPath)
+        // {
+        //     var startIndex = assetPath.LastIndexOf("/") + 1;
+        //
+        //     var endIndex = assetPath.LastIndexOf(".");
+        //     if (endIndex > 0)
+        //     {
+        //         var length = endIndex - startIndex;
+        //         return assetPath.Substring(startIndex, length).ToLower();
+        //     }
+        //
+        //     return assetPath.Substring(startIndex).ToLower();
+        // }
+
     }
 }

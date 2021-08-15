@@ -37,7 +37,7 @@ namespace IFramework.Editor
 
             string content = Generate();
             
-            SerializeUtils.SerializeObjectToFile(path, content);
+            SerializeUtils.SerializeToFile(path, content);
         }
 
         public static string Generate()

@@ -35,13 +35,13 @@ namespace IFramework.Core
         public const string ASSET_BUNDLE_OUTPUT_PATH = "AssetBundles";
         
         // AssetBundle 密钥
-        public const string ASSET_BUNDLE_KEY = "da0781d3-1601-4912-ba73-529359a0b5d0";
+        public const string ASSET_BUNDLE_KEY = "iT5jM9h+7zT1rZ6x";
         
         // AssetBundle 配置文件名称
         public const string ASSET_BUNDLE_CONFIG_FILE = "asset-bundle-config.bin";
         
         // AssetBundle 配置文件密钥
-        public const string ASSET_BUNDLE_CONFIG_FILE_KEY = "0b81fbe3-faee-4904-8b98-994b68bb3762";
+        public const string ASSET_BUNDLE_CONFIG_FILE_KEY = "AoGI+h3OEA4TcJ1H";
 
         // AssetBundles 生成的脚本文件名称
         public const string ASSET_BUNDLE_SCRIPT_FILE = "AssetBundleName.cs";

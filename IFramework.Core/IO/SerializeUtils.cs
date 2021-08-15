@@ -34,103 +34,97 @@ namespace IFramework.Core
         /// <summary>
         /// 把对象序列化为字节数组
         /// </summary>
-        public static byte[] SerializeObjectToBytes(object obj)
+        public static byte[] SerializeToBytes(object obj)
         {
-            if (obj == null)
-                return null;
-            MemoryStream ms = new MemoryStream();
+            if (obj == null) return null;
+
+            using MemoryStream memory = new MemoryStream();
+            
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(ms, obj);
-            byte[] bytes = ms.ToArray();
-            return bytes;
+            
+            formatter.Serialize(memory, obj);
+            
+            return memory.ToArray();
         }
 
         /// <summary>
         /// 把字节数组反序列化成对象
         /// </summary>
-        public static object DeserializeObjectFromBytes(byte[] bytes)
+        public static T DeserializeFromBytes<T>(byte[] bytes) where T : class
         {
-            object obj = null;
-            if (bytes == null)
-                return obj;
-            MemoryStream ms = new MemoryStream(bytes)
-            {
-                Position = 0
-            };
+            if (bytes == null) return null;
+            
+            using MemoryStream memory = new MemoryStream(bytes) { Position = 0 };
+            
             BinaryFormatter formatter = new BinaryFormatter();
-            obj = formatter.Deserialize(ms);
-            ms.Close();
-            return obj;
+            
+            return formatter.Deserialize(memory) as T;
         }
         
         /// <summary>
         /// 把文件序列化成对象
         /// </summary>
-        public static void SerializeObjectToFile(string fileName, object obj, FileMode fileMode = FileMode.Create) 
+        public static void SerializeToFile(string fileName, object obj, FileMode fileMode = FileMode.Create) 
         {
-            using (FileStream fs = new FileStream(fileName, fileMode))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(fs, obj);
-            }
+            using FileStream fileStream = new FileStream(fileName, fileMode);
+            
+            BinaryFormatter formatter = new BinaryFormatter();
+                
+            formatter.Serialize(fileStream, obj);
         }
 
         /// <summary>
         /// 把文件反序列化成对象
         /// </summary>
-        public static object DeserializeObjectFromFile(string fileName)
+        public static T DeserializeFromFile<T>(string fileName) where T : class
         {
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                object obj = formatter.Deserialize(fs);
-                return obj;
-            }
+            using FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                
+            BinaryFormatter formatter = new BinaryFormatter();
+            
+            return formatter.Deserialize(fs) as T;
         }
         
         /// <summary>
         /// 把对象序列化到文件(AES加密)
         /// </summary>
-        /// <param name="keyString">密钥(16位)</param>
-        public static void SerializeObjectToFile(string fileName, object obj, string keyString, FileMode fileMode = FileMode.Create)
+        /// <param name="fileName">文件名</param>
+        /// <param name="obj">待序列化的对象</param>
+        /// <param name="key">密钥(16位)</param>
+        /// <param name="fileMode"></param>
+        public static void SerializeToFile(string fileName, object obj, string key, FileMode fileMode = FileMode.Create)
         {
-            using (AesCryptoServiceProvider crypt = new AesCryptoServiceProvider())
-            {
-                crypt.Key = Encoding.ASCII.GetBytes(keyString);
-                crypt.IV = Encoding.ASCII.GetBytes(keyString);
-                using (ICryptoTransform transform = crypt.CreateEncryptor())
-                {
-                    FileStream fs = new FileStream(fileName, fileMode);
-                    using (CryptoStream cs = new CryptoStream(fs, transform, CryptoStreamMode.Write))
-                    {
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        formatter.Serialize(cs, obj);
-                    }
-                }
-            }
+            using AesCryptoServiceProvider crypt = new AesCryptoServiceProvider();
+            crypt.Key = Encoding.ASCII.GetBytes(key);
+            crypt.IV = Encoding.ASCII.GetBytes(key);
+            
+            using ICryptoTransform transform = crypt.CreateEncryptor();
+            FileStream fileStream = new FileStream(fileName, fileMode);
+            
+            using CryptoStream cryptoStream = new CryptoStream(fileStream, transform, CryptoStreamMode.Write);
+            BinaryFormatter formatter = new BinaryFormatter();
+            
+            formatter.Serialize(cryptoStream, obj);
         }
 
         /// <summary>
         /// 把文件反序列化成对象(AES加密)
         /// </summary>
-        /// <param name="keyString">密钥(16位)</param>
-        public static object DeserializeObjectFromFile(string fileName, string keyString)
+        /// <param name="fileName">待序列化的对象</param>
+        /// <param name="key">密钥(16位)</param>
+        public static T DeserializeFromFile<T>(string fileName, string key) where T : class
         {
-            using (AesCryptoServiceProvider crypt = new AesCryptoServiceProvider())
-            {
-                crypt.Key = Encoding.ASCII.GetBytes(keyString);
-                crypt.IV = Encoding.ASCII.GetBytes(keyString);
-                using (ICryptoTransform transform = crypt.CreateDecryptor())
-                {
-                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using (CryptoStream cs = new CryptoStream(fs, transform, CryptoStreamMode.Read))
-                    {
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        object obj = formatter.Deserialize(cs);
-                        return obj;
-                    }
-                }
-            }
+            using AesCryptoServiceProvider crypt = new AesCryptoServiceProvider();
+            crypt.Key = Encoding.ASCII.GetBytes(key);
+            crypt.IV = Encoding.ASCII.GetBytes(key);
+            
+            using ICryptoTransform transform = crypt.CreateDecryptor();
+            FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            
+            using CryptoStream cryptoStream = new CryptoStream(fileStream, transform, CryptoStreamMode.Read);
+            BinaryFormatter formatter = new BinaryFormatter();
+            
+            return formatter.Deserialize(cryptoStream) as T;
         }
     }
 }

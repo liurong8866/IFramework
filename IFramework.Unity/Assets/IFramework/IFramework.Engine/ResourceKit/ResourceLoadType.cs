@@ -27,8 +27,8 @@ namespace IFramework.Engine
     public static class ResourceLoadType
     {
         public const short AssetBundle = 0;
-        public const short ABAsset = 1;
-        public const short ABScene = 2;
+        public const short Asset = 1;
+        public const short Scene = 2;
         public const short Internal = 3;
         public const short NetImageRes = 4;
         public const short LocalImageRes = 5;

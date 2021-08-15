@@ -31,16 +31,13 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源数据管理类
     /// </summary>
-    public class ResourceData
+    public sealed class ResourceData
     {
-        private AssetTable assetTable = null;
+        private AssetTable assetTable;
 
         private readonly List<AssetGroup> assetGroupList= new List<AssetGroup>();
         
-        public List<AssetGroup> AssetGroups
-        {
-            get { return assetGroupList; }
-        }
+        public List<AssetGroup> AssetGroups => assetGroupList;
 
         public void Reset()
         {
@@ -87,7 +84,7 @@ namespace IFramework.Engine
         /// </summary>
         public string[] GetAllDependenciesByUrl(string url)
         {
-            var assetBundleName = url.Replace(PlatformSetting.StreamingAssetBundlePath, "")
+            string assetBundleName = url.Replace(PlatformSetting.StreamingAssetBundlePath, "")
                 .Replace(PlatformSetting.PersistentAssetBundlePath, "");
 
             string[] depends = null;
@@ -124,21 +121,37 @@ namespace IFramework.Engine
             return assetTable.GetAssetInfo(searcher);
         }
 
-
         /// <summary>
         /// 保存数据关系
         /// </summary>
         public void Save(string path)
         {
-            SerializeDataList data = new SerializeDataList
+            AssetGroupDatas data = new AssetGroupDatas
             {
-                AssetGroups = new SerializeData[assetGroupList.Count]
+                AssetGroups = new AssetGroupData[assetGroupList.Count]
             };
 
             for (int i = 0; i < assetGroupList.Count; i++)
             {
                 data.AssetGroups[i] = assetGroupList[i].GetSerializeData();
             }
+            
+            SerializeUtils.SerializeToFile(path, data);
+        }
+
+        /// <summary>
+        /// 加载后设置序列化数据
+        /// </summary>
+        private void SetSerializeData(AssetGroupDatas data)
+        {
+            if (data?.AssetGroups == null) return;
+
+            for (int i = data.AssetGroups.Length - 1; i >= 0; i--)
+            {
+                assetGroupList.Add(new AssetGroup(data.AssetGroups[i]));
+            }
+
+            assetTable ??= new AssetTable();
         }
     }
 }

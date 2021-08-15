@@ -27,13 +27,13 @@ using System;
 namespace IFramework.Engine
 {
     [Serializable]
-    public class SerializeDataList
+    public class AssetGroupDatas
     {
-        public SerializeData[] AssetGroups;
+        public AssetGroupData[] AssetGroups;
     }
     
     [Serializable]
-    public class SerializeData
+    public class AssetGroupData
     {
         public string Key;
         

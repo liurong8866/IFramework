@@ -58,7 +58,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AssetGroup(SerializeData data)
+        public AssetGroup(AssetGroupData data)
         {
             this.key = data.Key;
             SetSerializeData(data);
@@ -223,7 +223,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 设置序列化数据
         /// </summary>
-        private void SetSerializeData(SerializeData data)
+        private void SetSerializeData(AssetGroupData data)
         {
             if(data == null) return;
             
@@ -241,9 +241,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取序列化数据
         /// </summary>
-        public SerializeData GetSerializeData()
+        public AssetGroupData GetSerializeData()
         {
-            SerializeData data = new SerializeData();
+            AssetGroupData data = new AssetGroupData();
             data.Key = key;
             data.AssetDependencies = assetDepends.ToArray();
 
