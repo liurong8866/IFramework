@@ -40,20 +40,16 @@ namespace IFramework.Editor
         public static void Open ()
         {       
             //创建窗口
-            AssetBundleWindow window = GetWindow<AssetBundleWindow>(true, "资源管理器") ;
+            AssetBundleWindow window = GetWindow<AssetBundleWindow>(false, "资源管理器") ;
             window.Show();
-            
-            
         }
         
-        
-
         private void Awake()
         {
-            loadMarkedList();
+            LoadMarkedList();
         }
 
-        void loadMarkedList()
+        void LoadMarkedList()
         {
             signedList =AssetDatabase.GetAllAssetBundleNames()
                 .SelectMany(asset =>
@@ -140,7 +136,7 @@ namespace IFramework.Editor
                 {
                     AssetBundleMark.MarkAssetBundle(assetsName);
 
-                    loadMarkedList();
+                    LoadMarkedList();
                 }
                 GUILayout.EndHorizontal();
             }

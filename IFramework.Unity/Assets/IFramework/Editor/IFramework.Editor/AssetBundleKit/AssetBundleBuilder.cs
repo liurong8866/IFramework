@@ -117,36 +117,26 @@ namespace IFramework.Editor
             // 覆盖目录
             FileUtil.ReplaceDirectory(outputPath, streamPath);
             
-            //TODO 
-            BuildAssetRelationFile(package.packages.Select(b => b.assetBundleName).ToArray(), outputPath);
+            // 保存配置文件
+            BuildAssetConfigFile(package.packages.Select(b => b.assetBundleName).ToArray(), streamPath);
         }
 
         /// <summary>
         /// 构建AssetBundle 关系配置文件
         /// </summary>
-        private static void BuildAssetRelationFile(string[] assetBundleNames = null, string outputPath = null)
+        private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath=null)
         {
+            if(assetBundleNames.IsNullOrEmpty()) return;;
+            
             ResourceData resourceData = new ResourceData();
 
             AddAssetBundleInfoToResourceData(resourceData, assetBundleNames);
 
-            string filePath = Path.Combine((outputPath?? PlatformSetting.AssetBundleBuildPath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
+            string filePath = Path.Combine((outputPath?? PlatformSetting.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             
             resourceData.Save(filePath);
         }
         
-        /// <summary>
-        /// 强制清除所有AssetBundles
-        /// </summary>
-        public static void ForceClearAssetBundles()
-        {
-            DirectoryUtils.Remove(Constant.ASSET_BUNDLE_OUTPUT_PATH);
-            
-            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH));
-
-            AssetDatabase.Refresh();
-        }
-
         /// <summary>
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
@@ -155,6 +145,7 @@ namespace IFramework.Editor
         private static void AddAssetBundleInfoToResourceData(ResourceData resourceData, string[] assetBundleName = null)
         {
 #if UNITY_EDITOR
+            
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
             string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
@@ -186,24 +177,16 @@ namespace IFramework.Editor
 #endif
         }
         
-        // /// <summary>
-        // /// 根据路径获取文件名
-        // /// </summary>
-        // /// <param name="assetPath"></param>
-        // /// <returns></returns>
-        // public static string GetAssetNameByPath(string assetPath)
-        // {
-        //     var startIndex = assetPath.LastIndexOf("/") + 1;
-        //
-        //     var endIndex = assetPath.LastIndexOf(".");
-        //     if (endIndex > 0)
-        //     {
-        //         var length = endIndex - startIndex;
-        //         return assetPath.Substring(startIndex, length).ToLower();
-        //     }
-        //
-        //     return assetPath.Substring(startIndex).ToLower();
-        // }
+        /// <summary>
+        /// 强制清除所有AssetBundles
+        /// </summary>
+        public static void ForceClearAssetBundles()
+        {
+            DirectoryUtils.Remove(Constant.ASSET_BUNDLE_OUTPUT_PATH);
+            
+            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH));
 
+            AssetDatabase.Refresh();
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace IFramework.Engine
             if (key.IsNullOrEmpty()) return -1;
             
             // 根据Key获取group
-            group = assetGroupList.First(item => item.Key.Equals(key));
+            group = assetGroupList.FirstOrDefault(item => item.Key.Equals(key));
             
             // 如果没有group，就新增
             if (group == null)
