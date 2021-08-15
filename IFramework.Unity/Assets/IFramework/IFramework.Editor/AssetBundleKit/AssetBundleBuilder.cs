@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
@@ -98,7 +99,6 @@ namespace IFramework.Editor
         /// <param name="buildTarget">目标平台</param>
         private static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
         {
-            
             // 没有则创建
             DirectoryUtils.Create(outputPath);
             
@@ -116,7 +116,15 @@ namespace IFramework.Editor
             FileUtil.ReplaceDirectory(outputPath, streamPath);
             
             //TODO 
-            // AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray());
+            BuildAssetRelationFile(package.packages.Select(b => b.assetBundleName).ToArray(), outputPath);
+        }
+
+        /// <summary>
+        /// 构建AssetBundle 关系配置文件
+        /// </summary>
+        private static void BuildAssetRelationFile(string[] assetBundleNames = null, string outputPaht = null)
+        {
+            
         }
         
         /// <summary>

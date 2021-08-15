@@ -22,7 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Core

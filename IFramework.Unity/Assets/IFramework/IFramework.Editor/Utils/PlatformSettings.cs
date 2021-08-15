@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *****************************************************************************/
-
 using System;
+using IFramework.Core;
 using UnityEditor;
 
-namespace IFramework.Core
+namespace IFramework.Editor
 {
-    public class PlatformSettings
+    public static class PlatformSettings
     {
         public static int GetCurrentPlatform()
         {
@@ -105,33 +105,27 @@ namespace IFramework.Core
             catch (Exception e)
             {
                 e.LogException();
-                Log.LogError("未安装当前平台包:" + getBuildTargetByIndex(platformIndex).ToString());
+                Log.LogError("未安装当前平台包:" + GetBuildTargetByIndex(platformIndex).ToString());
             }
             
         }
         
-        public static BuildTarget getBuildTargetByIndex(int platformIndex)
+        public static BuildTarget GetBuildTargetByIndex(int platformIndex)
         {
-            switch (platformIndex)
+            return platformIndex switch
             {
-                case 0: return BuildTarget.StandaloneWindows;
-                case 1: return BuildTarget.StandaloneOSX;
-                case 2: return BuildTarget.iOS;
-                case 3: return BuildTarget.Android;
-                case 4: return BuildTarget.WebGL;
-                case 5: return BuildTarget.PS4;
-                case 6: return BuildTarget.PS5;
-                case 7: return BuildTarget.XboxOne;
-                default: return BuildTarget.StandaloneWindows;
-            }
+                0 => BuildTarget.StandaloneWindows,
+                1 => BuildTarget.StandaloneOSX,
+                2 => BuildTarget.iOS,
+                3 => BuildTarget.Android,
+                4 => BuildTarget.WebGL,
+                5 => BuildTarget.PS4,
+                6 => BuildTarget.PS5,
+                7 => BuildTarget.XboxOne,
+                _ => BuildTarget.StandaloneWindows
+            };
         }
 
-        public static BuildTarget CurrentBundlePlatform
-        {
-            get
-            {
-                return getBuildTargetByIndex(Configure.CurrentPlatform.Value);
-            }
-        }
+        public static BuildTarget CurrentBundlePlatform => GetBuildTargetByIndex(Configure.CurrentPlatform.Value);
     }
 }

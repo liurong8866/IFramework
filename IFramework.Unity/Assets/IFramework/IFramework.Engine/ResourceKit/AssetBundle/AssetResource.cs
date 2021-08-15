@@ -31,15 +31,18 @@ namespace IFramework.Engine
 {
     public class AssetResource : AbstractResource
     {
-        protected string assetBundleName;
-        protected string[] assetBundleNames;
         protected AssetBundleRequest assetBundleRequest;
 
-        public override string AssetBundleName
-        {
-            get => assetBundleName;
-            set => assetBundleName = value;
-        }
+        /// <summary>
+        /// 所属AssetBundle包名称
+        /// </summary>
+        public override string AssetBundleName { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public AssetResource() : base() {}
+        public AssetResource(string assetName) : base(assetName) {}
         
         /// <summary>
         /// 分配实例
@@ -53,11 +56,39 @@ namespace IFramework.Engine
                 resource.AssetBundleName = assetBundleName;
                 resource.AssetType = assetType;
             }
-
             return resource;
         }
         
-        // protected string AssetBundleName
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        protected void InitAssetBundleName()
+        {
+            // AssetBundleName = null;
+            //
+            // var resSearchKeys = ResSearchKeys.Allocate(mAssetName,mOwnerBundleName,AssetType);
+            //
+            // var config =  AssetBundleSettings.AssetBundleConfigFile.GetAssetData(resSearchKeys);
+            //
+            // resSearchKeys.Recycle2Cache();
+            //
+            // if (config == null)
+            // {
+            //     Log.E("Not Find AssetData For Asset:" + mAssetName);
+            //     return;
+            // }
+            //
+            // var assetBundleName = config.OwnerBundleName;
+            //
+            // if (string.IsNullOrEmpty(assetBundleName))
+            // {
+            //     Log.E("Not Find AssetBundle In Config:" + config.AssetBundleIndex + mOwnerBundleName);
+            //     return;
+            // }
+            //
+            // mAssetBundleArray = new string[1];
+            // mAssetBundleArray[0] = assetBundleName;
+        }
         
         /// <summary>
         /// 同步加载资源
@@ -65,8 +96,8 @@ namespace IFramework.Engine
         public override bool LoadSync()
         {
             if (!IsLoadable) return false;
-            
-            if()
+
+            return false;
         }
 
         public override void LoadASync()
@@ -76,12 +107,21 @@ namespace IFramework.Engine
 
         public override void Recycle()
         {
-            throw new NotImplementedException();
+            ObjectPool<AssetResource>.Instance.Recycle(this);
         }
 
         public override IEnumerator LoadAsync(Action callback)
         {
             throw new NotImplementedException();
         }
+        
+        
+        public override string ToString()
+        {
+            return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
+        }
+        
+        
+        
     }
 }

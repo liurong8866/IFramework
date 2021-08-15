@@ -22,23 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-
 namespace IFramework.Engine
 {
-    [Serializable]
-    public class SerializeDataList
+    /// <summary>
+    /// 资源数据管理类
+    /// </summary>
+    public class ResourceData
     {
-        public SerializeData[] Data;
-    }
-    
-    [Serializable]
-    public class SerializeData
-    {
-        public string Key;
         
-        public AssetInfo[] AssetInfos;
-
-        public AssetDependence[] AssetDependencies;
     }
 }

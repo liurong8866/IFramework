@@ -34,9 +34,12 @@ namespace IFramework.Engine
     {
         private string key;
         
+        // 资源依赖关系列表
         private List<AssetDependence> assetDepends;
-        private Dictionary<string, AssetInfo> assetInfoMap;
-        private Dictionary<string, AssetInfo> assetUUIDMap;
+        // AssetName作为Key的字典
+        private Dictionary<string, AssetInfo> assetNameMap;
+        // AssetName+AssetBundleName 作为Key的字典
+        private Dictionary<string, AssetInfo> assetBundleMap;
 
         /// <summary>
         /// 构造函数
@@ -55,17 +58,13 @@ namespace IFramework.Engine
             SetSerializeData(data);
         }
         
-        public string Key => key;
-        public List<AssetDependence> AssetDepends => assetDepends;
-        public Dictionary<string, AssetInfo> AssetInfoDict => assetInfoMap;
-
         /// <summary>
         /// 数据重置
         /// </summary>
         public void Reset()
         {
             assetDepends?.Clear();
-            assetInfoMap?.Clear();
+            assetNameMap?.Clear();
         }
 
         /// <summary>
@@ -91,11 +90,11 @@ namespace IFramework.Engine
         /// </summary>
         public bool AddAssetInfo(AssetInfo assetInfo)
         {
-            assetInfoMap ??= new Dictionary<string, AssetInfo>();
-            assetUUIDMap ??= new Dictionary<string, AssetInfo>();
+            assetNameMap ??= new Dictionary<string, AssetInfo>();
+            assetBundleMap ??= new Dictionary<string, AssetInfo>();
 
             // 添加到AssetInfo字典
-            if (assetInfoMap.ContainsKey(key))
+            if (assetNameMap.ContainsKey(key))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
@@ -111,14 +110,14 @@ namespace IFramework.Engine
             }
             else
             {
-                assetInfoMap.Add(key, assetInfo);
+                assetNameMap.Add(key, assetInfo);
             }
             
             // 添加到AssetUUID字典
             
             key = assetInfo.UUID;
             
-            if (assetUUIDMap.ContainsKey(key))
+            if (assetBundleMap.ContainsKey(key))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName, assetInfo.AssetBundleName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
@@ -134,7 +133,7 @@ namespace IFramework.Engine
             }
             else
             {
-                assetUUIDMap.Add(key, assetInfo);
+                assetBundleMap.Add(key, assetInfo);
             }
 
             return true;
@@ -149,11 +148,11 @@ namespace IFramework.Engine
 
             if (searcher.AssetBundleName != null)
             {
-                assetUUIDMap?.TryGetValue(searcher.AssetBundleName + searcher.AssetName, out assetInfo);
+                assetBundleMap?.TryGetValue(searcher.AssetBundleName + searcher.AssetName, out assetInfo);
             }
             else
             {
-                assetInfoMap?.TryGetValue(searcher.AssetName, out assetInfo);
+                assetNameMap?.TryGetValue(searcher.AssetName, out assetInfo);
             }
 
             return assetInfo;
@@ -195,7 +194,7 @@ namespace IFramework.Engine
 
             if (index > assetDepends.Count) return "";
 
-            if (assetInfoMap.ContainsKey(assetName))
+            if (assetNameMap.ContainsKey(assetName))
             {
                 return assetDepends[index].AssetBundleName;
             }
@@ -232,5 +231,12 @@ namespace IFramework.Engine
             
             return assetDepends.IsNullOrEmpty() ? null : assetDepends[assetInfo.AssetBundleIndex];
         }
+        
+        public string Key => key;
+        
+        public List<AssetDependence> AssetDepends => assetDepends;
+        
+        public Dictionary<string, AssetInfo> AssetNameDict => assetNameMap;
+
     }
 }

@@ -25,7 +25,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace IFramework.Core
+namespace IFramework.Editor.Utils
 {
     public static class EditorUtils
     {
@@ -46,5 +46,4 @@ namespace IFramework.Core
             return path;
         }
     }
-    
 }
