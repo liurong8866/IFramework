@@ -36,13 +36,13 @@ namespace IFramework.Engine
         // 当前加载资源到数量
         private int loadingCount;
         // 资源列表
-        private readonly List<IResource> resources = new List<IResource>();
+        private readonly List<IResource> resourceList = new List<IResource>();
         // 缓存到Sprite资源字典
-        private readonly Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
+        private readonly Dictionary<string, Sprite> spriteMap = new Dictionary<string, Sprite>();
         // 等待加载的资源
         private readonly LinkedList<IResource> waitForLoadList = new LinkedList<IResource>();
         // 等待回收的对象
-        private List<Object> unloadedObjects;
+        private List<Object> unloadObjectList;
         // 当前资源的回调
         private Action currentCallback;
         // 回调事件列表
@@ -292,7 +292,7 @@ namespace IFramework.Engine
             resource.Retain();
                 
             // 资源添加到缓存
-            this.resources.Add(resource);
+            this.resourceList.Add(resource);
 
             if (resource.State != ResourceState.Ready)
             {
@@ -314,7 +314,7 @@ namespace IFramework.Engine
         /// </summary>
         private IResource GetResourceInCache(ResourceSearcher searcher)
         {
-            return resources.IsNullOrEmpty() ? null : resources.FirstOrDefault(resource => searcher.Match(resource));
+            return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
         }
         
         /*-----------------------------*/
@@ -330,17 +330,17 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 // 如果未缓存，则缓存
-                if (!spriteDict.ContainsKey(spriteName))
+                if (!spriteMap.ContainsKey(spriteName))
                 {
                     // 加载Texture资源
                     Texture2D texture = Load<Texture2D>(spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存
-                    spriteDict.Add(spriteName, sprite);
+                    spriteMap.Add(spriteName, sprite);
                 }
                 
-                return spriteDict[spriteName];
+                return spriteMap[spriteName];
             }
 
             // 非模拟器模式，直接加载AssetBundle
@@ -356,17 +356,17 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 // 如果未缓存，则缓存
-                if (!spriteDict.ContainsKey(spriteName))
+                if (!spriteMap.ContainsKey(spriteName))
                 {
                     // 加载Texture资源
                     Texture2D texture = Load<Texture2D>(bundleName, spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存
-                    spriteDict.Add(spriteName, sprite);
+                    spriteMap.Add(spriteName, sprite);
                 }
                 
-                return spriteDict[spriteName];
+                return spriteMap[spriteName];
             }
 
             // 非模拟器模式，直接加载AssetBundle
@@ -411,11 +411,11 @@ namespace IFramework.Engine
             // 清空模拟器模式下加载的资源
             if (Configure.IsSimulation)
             {
-                if (spriteDict.ContainsKey(assetName))
+                if (spriteMap.ContainsKey(assetName))
                 {
-                    Sprite sprite = spriteDict[assetName];
+                    Sprite sprite = spriteMap[assetName];
                     sprite.DestroySelf();
-                    spriteDict.Remove(assetName);
+                    spriteMap.Remove(assetName);
                 }
             }
 
@@ -437,7 +437,7 @@ namespace IFramework.Engine
             }
 
             // 从缓存中删除，并释放资源
-            if (resources.Remove(resource))
+            if (resourceList.Remove(resource))
             {
                 // 先释放事件，再释放资源本身
                 resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
@@ -471,25 +471,25 @@ namespace IFramework.Engine
             // 释放模拟器模式资源
             if (Configure.IsSimulation)
             {
-                foreach (var sprite in spriteDict)
+                foreach (var sprite in spriteMap)
                 {
                     sprite.Value.DestroySelf();
                 }
-                spriteDict.Clear();
+                spriteMap.Clear();
             }
 
-            if (resources.Count > 0)
+            if (resourceList.Count > 0)
             {
                 //确保首先删除的是AB，这样能对Asset的卸载做优化
-                resources.Reverse();
+                resourceList.Reverse();
 
-                foreach (IResource resource in resources)
+                foreach (IResource resource in resourceList)
                 {
                     resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
                     resource.Release();
                 }
                 
-                resources.Clear();
+                resourceList.Clear();
                 
                 if (ResourceManager.IsApplicationQuit)
                 {
@@ -560,12 +560,12 @@ namespace IFramework.Engine
         /// </summary>
         public void DestroyOnRecycle(Object obj)
         {
-            if (unloadedObjects == null)
+            if (unloadObjectList == null)
             {
-                unloadedObjects = new List<Object>();
+                unloadObjectList = new List<Object>();
             }
 
-            unloadedObjects.Add(obj);
+            unloadObjectList.Add(obj);
         }
 
         /// <summary>
@@ -573,14 +573,14 @@ namespace IFramework.Engine
         /// </summary>
         public void Recycle()
         {
-            if (unloadedObjects.IsNotNullOrEmpty())
+            if (unloadObjectList.IsNotNullOrEmpty())
             {
-                foreach (Object obj in unloadedObjects)
+                foreach (Object obj in unloadObjectList)
                 {
                     obj.DestroySelf();
                 }
-                unloadedObjects.Clear();
-                unloadedObjects = null;
+                unloadObjectList.Clear();
+                unloadObjectList = null;
             }
 
             ObjectPool<ResourceLoader>.Instance.Recycle(this);

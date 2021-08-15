@@ -29,7 +29,7 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
-    public class Resource : AbstractResource
+    public sealed class Resource : AbstractResource
     {
         private string path;
         
@@ -40,19 +40,20 @@ namespace IFramework.Engine
         {
             Resource resource = ObjectPool<Resource>.Instance.Allocate();
 
-            if (resource == null) return null;
+            if (resource != null)
+            {
+                resource.AssetName = name;
+
+                if (urlType == ResourcesUrlType.Url)
+                {
+                    resource.path = name.Substring("resources://".Length);
+                }
+                else
+                {
+                    resource.path = name.Substring("Resources/".Length);
+                }
+            }
             
-            resource.AssetName = name;
-
-            if (urlType == ResourcesUrlType.Url)
-            {
-                resource.path = name.Substring("resources://".Length);
-            }
-            else
-            {
-                resource.path = name.Substring("Resources/".Length);
-            }
-
             return resource;
         }
         

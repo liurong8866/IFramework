@@ -47,7 +47,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AbstractResource()
+        protected AbstractResource()
         {
             IsRecycled = false;
             OnZero = OnEmpty;

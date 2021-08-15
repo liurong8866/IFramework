@@ -81,21 +81,14 @@ namespace IFramework.Engine
             Log.Info("正在初始化 Resource Manager");
             
             // 初始化各种对象池
-            Instance.InitPools();
+            ObjectPool<Resource>.Instance.Init(40,20);
+            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
+            ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
 
             // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
         }
-
-        /// <summary>
-        /// 初始化各种对象池
-        /// </summary>
-        private void InitPools()
-        {
-            // Resource 
-            ObjectPool<Resource>.Instance.Init(40,20);
-        }
-
+        
         /// <summary>
         /// 初始化Manager自身（异步）
         /// </summary>

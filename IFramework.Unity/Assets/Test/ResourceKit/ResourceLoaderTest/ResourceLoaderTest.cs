@@ -49,7 +49,7 @@ namespace IFramework.Test.ResourceKit
                 Log.Info("异步加载完毕");
                 
                 // resourceLoader.ReleaseResource("Resources://icon");
-                resourceLoader.ReleaseAllResource();
+                // resourceLoader.ReleaseAllResource();
                 // resourceLoader.Recycle();
                 
             });
