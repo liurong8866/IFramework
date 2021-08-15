@@ -22,21 +22,23 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IFramework.Core;
+using IFramework.Editor.Settings;
 using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Editor
 {
-    public class AssetBundleWindow : EditorWindow
+    public sealed class AssetBundleWindow : EditorWindow
     {
+        private bool isViewChanged = true;
         private Vector2 scrollPosition;
         private List<string> signedList;
-
+        
+        
         public static void Open ()
         {       
             //创建窗口
@@ -44,9 +46,12 @@ namespace IFramework.Editor
             window.Show();
         }
         
-        private void Awake()
+        private void OnEnable()
         {
-            LoadMarkedList();
+            EnumEvent.Register(EventEnums.AssetBundleMark, (key, param) =>
+            {
+                isViewChanged = true;
+            });
         }
 
         void LoadMarkedList()
@@ -70,10 +75,15 @@ namespace IFramework.Editor
                         .Distinct();
                 }).ToList();
         }
-        
+
         //绘制窗口时调用
         void OnGUI () 
         {
+            if (isViewChanged)
+            {
+                LoadMarkedList();
+                isViewChanged = false;
+            }
             
             GUILayout.Space(20);
 
@@ -135,8 +145,6 @@ namespace IFramework.Editor
                 if(GUILayout.Button("取消标记", GUILayout.Width(60)))
                 {
                     AssetBundleMark.MarkAssetBundle(assetsName);
-
-                    LoadMarkedList();
                 }
                 GUILayout.EndHorizontal();
             }
@@ -144,5 +152,6 @@ namespace IFramework.Editor
             GUILayout.Space(10);
 
         }
+
     }
 }

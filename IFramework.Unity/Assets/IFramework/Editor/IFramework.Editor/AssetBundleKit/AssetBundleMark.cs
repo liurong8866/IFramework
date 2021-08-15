@@ -24,6 +24,7 @@
 
 using System.IO;
 using IFramework.Core;
+using IFramework.Editor.Settings;
 using UnityEditor;
 
 namespace IFramework.Editor
@@ -77,6 +78,8 @@ namespace IFramework.Editor
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
                     ai.assetBundleName = dir.Name.Replace(".", "-");
                 }
+
+                EnumEvent.Send(EventEnums.AssetBundleMark);
             }
         }
 
