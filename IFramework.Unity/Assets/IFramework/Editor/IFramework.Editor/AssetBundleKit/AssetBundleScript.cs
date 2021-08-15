@@ -37,13 +37,13 @@ namespace IFramework.Editor
 
             string content = Generate();
             
-            FileUtils.WriteStream(path, content, FileMode.CreateNew);
+            SerializeUtils.SerializeObjectToFile(path, content);
         }
 
         public static string Generate()
         {
             
-            return "";
+            return "haha";
         }
     }
 }

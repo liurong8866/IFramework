@@ -21,14 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *****************************************************************************/
-using System;
-using IFramework.Core;
-using UnityEditor;
 
-namespace IFramework.Editor
+using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+
+namespace IFramework.Core
 {
-    public static class PlatformSettings
+    public class PlatformSetting
     {
+        /// <summary>
+        /// AssetBundle路径  AssetBundle/Platform
+        /// </summary>
+        public static string AssetBundlePath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, EditorUserBuildSettings.activeBuildTarget.ToString());
+        
+        /// <summary>
+        /// AssetBundle生成路径
+        /// </summary>
+        public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, CurrentBundlePlatform.ToString());
+        
+        /// <summary>
+        /// StreamingAssets文件夹下到AssetBundle包
+        /// </summary>
+        public static string StreamingAssetBundlePath => Path.Combine(Application.streamingAssetsPath, AssetBundlePath);
+        
+        /// <summary>
+        /// PersistentData 临时文件夹下到AssetBundle包
+        /// </summary>
+        public static string PersistentAssetBundlePath => Path.Combine(Application.persistentDataPath, AssetBundlePath);
+
+        /// <summary>
+        /// 打包平台索引
+        /// </summary>
         public static int GetCurrentPlatform()
         {
             int platformIndex = 0;
@@ -66,66 +91,39 @@ namespace IFramework.Editor
 
             return platformIndex;
         }
-
-        public static void SetCurrentPlatform(int platformIndex)
-        {
-            try
-            {
-                switch (platformIndex)
-                {
-                    case 0:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
-                        break;
-                    case 1:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX);
-                        break;
-                    case 2:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
-                        break;
-                    case 3:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
-                        break;
-                    case 4:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
-                        break;
-                    case 5:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS4, BuildTarget.PS4);
-                        break;
-                    case 6:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.PS5, BuildTarget.PS5);
-                        break;
-                    case 7:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
-                        break;
-                    default:
-                        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
-                        break;
-                }
-            }
-            catch (Exception e)
-            {
-                e.LogException();
-                Log.LogError("未安装当前平台包:" + GetBuildTargetByIndex(platformIndex).ToString());
-            }
-            
-        }
         
+        /// <summary>
+        /// 获得打包平台
+        /// </summary>
         public static BuildTarget GetBuildTargetByIndex(int platformIndex)
         {
-            return platformIndex switch
+            switch (platformIndex)
             {
-                0 => BuildTarget.StandaloneWindows,
-                1 => BuildTarget.StandaloneOSX,
-                2 => BuildTarget.iOS,
-                3 => BuildTarget.Android,
-                4 => BuildTarget.WebGL,
-                5 => BuildTarget.PS4,
-                6 => BuildTarget.PS5,
-                7 => BuildTarget.XboxOne,
-                _ => BuildTarget.StandaloneWindows
-            };
+                case 0:
+                    return BuildTarget.StandaloneWindows;
+                case 1:
+                    return BuildTarget.StandaloneOSX;
+                case 2:
+                    return BuildTarget.iOS;
+                case 3:
+                    return BuildTarget.Android;
+                case 4:
+                    return BuildTarget.WebGL;
+                case 5:
+                    return BuildTarget.PS4;
+                case 6:
+                    return BuildTarget.PS5;
+                case 7:
+                    return BuildTarget.XboxOne;
+                default:
+                    return BuildTarget.StandaloneWindows;
+            }
         }
 
+        /// <summary>
+        /// 根据当前配置列表获取打包平台
+        /// </summary>
         public static BuildTarget CurrentBundlePlatform => GetBuildTargetByIndex(Configure.CurrentPlatform.Value);
+
     }
 }

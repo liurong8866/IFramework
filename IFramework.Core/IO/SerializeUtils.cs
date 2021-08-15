@@ -1,0 +1,136 @@
+/*****************************************************************************
+ * MIT License
+ * 
+ * Copyright (c) 2021 liurong
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
+
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace IFramework.Core
+{
+    public static class SerializeUtils
+    {
+        /// <summary>
+        /// 把对象序列化为字节数组
+        /// </summary>
+        public static byte[] SerializeObjectToBytes(object obj)
+        {
+            if (obj == null)
+                return null;
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(ms, obj);
+            byte[] bytes = ms.ToArray();
+            return bytes;
+        }
+
+        /// <summary>
+        /// 把字节数组反序列化成对象
+        /// </summary>
+        public static object DeserializeObjectFromBytes(byte[] bytes)
+        {
+            object obj = null;
+            if (bytes == null)
+                return obj;
+            MemoryStream ms = new MemoryStream(bytes)
+            {
+                Position = 0
+            };
+            BinaryFormatter formatter = new BinaryFormatter();
+            obj = formatter.Deserialize(ms);
+            ms.Close();
+            return obj;
+        }
+        
+        /// <summary>
+        /// 把文件序列化成对象
+        /// </summary>
+        public static void SerializeObjectToFile(string fileName, object obj, FileMode fileMode = FileMode.Create) 
+        {
+            using (FileStream fs = new FileStream(fileName, fileMode))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(fs, obj);
+            }
+        }
+
+        /// <summary>
+        /// 把文件反序列化成对象
+        /// </summary>
+        public static object DeserializeObjectFromFile(string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                object obj = formatter.Deserialize(fs);
+                return obj;
+            }
+        }
+        
+        /// <summary>
+        /// 把对象序列化到文件(AES加密)
+        /// </summary>
+        /// <param name="keyString">密钥(16位)</param>
+        public static void SerializeObjectToFile(string fileName, object obj, string keyString, FileMode fileMode = FileMode.Create)
+        {
+            using (AesCryptoServiceProvider crypt = new AesCryptoServiceProvider())
+            {
+                crypt.Key = Encoding.ASCII.GetBytes(keyString);
+                crypt.IV = Encoding.ASCII.GetBytes(keyString);
+                using (ICryptoTransform transform = crypt.CreateEncryptor())
+                {
+                    FileStream fs = new FileStream(fileName, fileMode);
+                    using (CryptoStream cs = new CryptoStream(fs, transform, CryptoStreamMode.Write))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
+                        formatter.Serialize(cs, obj);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 把文件反序列化成对象(AES加密)
+        /// </summary>
+        /// <param name="keyString">密钥(16位)</param>
+        public static object DeserializeObjectFromFile(string fileName, string keyString)
+        {
+            using (AesCryptoServiceProvider crypt = new AesCryptoServiceProvider())
+            {
+                crypt.Key = Encoding.ASCII.GetBytes(keyString);
+                crypt.IV = Encoding.ASCII.GetBytes(keyString);
+                using (ICryptoTransform transform = crypt.CreateDecryptor())
+                {
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using (CryptoStream cs = new CryptoStream(fs, transform, CryptoStreamMode.Read))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
+                        object obj = formatter.Deserialize(cs);
+                        return obj;
+                    }
+                }
+            }
+        }
+    }
+}

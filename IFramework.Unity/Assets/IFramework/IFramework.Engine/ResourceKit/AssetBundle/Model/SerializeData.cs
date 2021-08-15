@@ -29,7 +29,7 @@ namespace IFramework.Engine
     [Serializable]
     public class SerializeDataList
     {
-        public SerializeData[] Data;
+        public SerializeData[] AssetGroups;
     }
     
     [Serializable]

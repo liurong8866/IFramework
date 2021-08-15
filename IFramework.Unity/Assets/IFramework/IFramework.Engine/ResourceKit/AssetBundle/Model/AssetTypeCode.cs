@@ -29,7 +29,7 @@ using UnityEngine.U2D;
 
 namespace IFramework.Engine
 {
-    public static class ObjectAssetTypeCode
+    public static class AssetTypeCode
     {
         public const short GameObject  = 1;
         public const short AudioClip   = 2;

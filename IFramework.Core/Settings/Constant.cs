@@ -31,17 +31,24 @@ namespace IFramework.Core
         // IFramework 目录
         public const string FRAMEWORK_PATH = "Assets/IFramework";
         
-        // AssetBundles 生成目录
+        // AssetBundle 生成目录
         public const string ASSET_BUNDLE_OUTPUT_PATH = "AssetBundles";
         
-        // AssetBundles 配置文件文件名称
-        public const string ASSET_BUNDLE_CONFIG_FILE = "asset_bundle_config.bin";
+        // AssetBundle 密钥
+        public const string ASSET_BUNDLE_KEY = "da0781d3-1601-4912-ba73-529359a0b5d0";
         
+        // AssetBundle 配置文件名称
+        public const string ASSET_BUNDLE_CONFIG_FILE = "asset-bundle-config.bin";
+        
+        // AssetBundle 配置文件密钥
+        public const string ASSET_BUNDLE_CONFIG_FILE_KEY = "0b81fbe3-faee-4904-8b98-994b68bb3762";
+
         // AssetBundles 生成的脚本文件名称
         public const string ASSET_BUNDLE_SCRIPT_FILE = "AssetBundleName.cs";
         
-        
-        // double类型数据 == 时 精度
+        // Double类型数据比较 == 时 精度保留0.000001 有效，超过则视为可接受误差，判断为：相等
         public const double TOLERANCE = 1E-6;
+
+        
     }
 }

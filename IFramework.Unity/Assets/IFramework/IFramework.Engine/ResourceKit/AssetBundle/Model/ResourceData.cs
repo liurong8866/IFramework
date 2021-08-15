@@ -22,6 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using IFramework.Core;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace IFramework.Engine
 {
     /// <summary>
@@ -29,6 +33,112 @@ namespace IFramework.Engine
     /// </summary>
     public class ResourceData
     {
+        private AssetTable assetTable = null;
+
+        private readonly List<AssetGroup> assetGroupList= new List<AssetGroup>();
         
+        public List<AssetGroup> AssetGroups
+        {
+            get { return assetGroupList; }
+        }
+
+        public void Reset()
+        {
+            foreach (AssetGroup assetGroup in assetGroupList)
+            {
+                assetGroup.Reset();
+            }
+            assetGroupList.Clear();
+            
+            assetTable?.Dispose();
+
+            assetTable = null;
+        }
+        
+        /// <summary>
+        /// 添加AssetBundle资源名
+        /// </summary>
+        public int AddAssetDependence(string assetName, string[] depends, out AssetGroup group)
+        {
+            group = null;
+
+            if (assetName.IsNullOrEmpty()) return -1;
+ 
+            string key = assetName.TrimEnd('/').TrimEnd('\\');
+
+            if (key.IsNullOrEmpty()) return -1;
+            
+            // 根据Key获取group
+            group = assetGroupList.First(item => item.Key.Equals(key));
+            
+            // 如果没有group，就新增
+            if (group == null)
+            {
+                group = new AssetGroup(key);
+                assetGroupList.Add(group);
+            }
+
+            // 添加资源关系信息到group
+            return group.AddAssetDependence(assetName, depends);
+        }
+        
+        /// <summary>
+        /// 通过URL找到所有依赖资源
+        /// </summary>
+        public string[] GetAllDependenciesByUrl(string url)
+        {
+            var assetBundleName = url.Replace(PlatformSetting.StreamingAssetBundlePath, "")
+                .Replace(PlatformSetting.PersistentAssetBundlePath, "");
+
+            string[] depends = null;
+            foreach (AssetGroup assetGroup in assetGroupList)
+            {
+                depends = assetGroup.GetAssetBundleDepends(assetBundleName);
+                if (depends != null)
+                {
+                    break;
+                }
+            }
+            return depends;
+        }
+
+        /// <summary>
+        /// 获取资源信息
+        /// </summary>
+        public AssetInfo GetAssetInfo(ResourceSearcher searcher)
+        {
+            // 如果assetTable为空，则初始化AssetTable
+            if (assetTable == null)
+            {
+                assetTable = new AssetTable();
+                
+                for (int i = assetGroupList.Count - 1; i >= 0; --i)
+                {
+                    foreach (AssetInfo assetInfo in assetGroupList[i].AssetInfos)
+                    {
+                        assetTable.Add(assetInfo.AssetName, assetInfo);
+                    }
+                }
+            }
+            // 从 AssetTable中获取数据
+            return assetTable.GetAssetInfo(searcher);
+        }
+
+
+        /// <summary>
+        /// 保存数据关系
+        /// </summary>
+        public void Save(string path)
+        {
+            SerializeDataList data = new SerializeDataList
+            {
+                AssetGroups = new SerializeData[assetGroupList.Count]
+            };
+
+            for (int i = 0; i < assetGroupList.Count; i++)
+            {
+                data.AssetGroups[i] = assetGroupList[i].GetSerializeData();
+            }
+        }
     }
 }

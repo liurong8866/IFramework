@@ -37,7 +37,7 @@ namespace IFramework.Editor
         public static void BuildAssetBundles()
         {
             // 打包AssetBundle
-            BuildAssetBundles(PlatformSettings.CurrentBundlePlatform);
+            BuildAssetBundles(PlatformSetting.CurrentBundlePlatform);
 
             // 自动生成包名常量
             if (Configure.AutoGenerateName)
@@ -67,8 +67,9 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, buildTarget.ToString());
-
+            // string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, buildTarget.ToString());
+            string outputPath = PlatformSetting.AssetBundleBuildPath;
+            
             Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
 
             DateTime start = DateTime.Now;
@@ -79,7 +80,7 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
+                outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
                 Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
                 

@@ -31,7 +31,7 @@ namespace IFramework.Engine
     /// <summary>
     /// Asset缓存表
     /// </summary>
-    public class AssetTable : Table<AssetInfo>
+    public sealed class AssetTable : Table<AssetInfo>
     {
         /// <summary>
         /// 获取资源
