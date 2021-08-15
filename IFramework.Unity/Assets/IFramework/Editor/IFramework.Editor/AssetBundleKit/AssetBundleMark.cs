@@ -38,6 +38,7 @@ namespace IFramework.Editor
         private static void SelectionChanged()
         {
             var path = EditorUtils.GetSelectedPath();
+            
             if (!string.IsNullOrEmpty(path))
             {
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
@@ -74,7 +75,7 @@ namespace IFramework.Editor
                 else
                 {
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
-                    ai.assetBundleName = dir.Name.Replace(".", "_");
+                    ai.assetBundleName = dir.Name.Replace(".", "-");
                 }
             }
         }
@@ -88,7 +89,7 @@ namespace IFramework.Editor
             
             DirectoryInfo dir = new DirectoryInfo(path);
 
-            return ai.assetBundleName.Equals(dir.Name.Replace(".", "_").ToLower());
+            return ai.assetBundleName.Equals(dir.Name.Replace(".", "-").ToLower());
         }
     }
 }

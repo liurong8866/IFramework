@@ -29,13 +29,17 @@ namespace IFramework.Core
     public struct Constant
     {
         // IFramework 目录
-        public const string IFRAMEWORK_PATH = "Assets/IFramework";
+        public const string FRAMEWORK_PATH = "Assets/IFramework";
         
         // AssetBundles 生成目录
-        public const string ASSETBUNDLE_OUTPUT_PATH = "AssetBundles";
+        public const string ASSET_BUNDLE_OUTPUT_PATH = "AssetBundles";
         
-        // AssetBundles 生成的Const名称
-        public const string ASSETBUNDLE_NAME = "AssetBundleName.cs";
+        // AssetBundles 配置文件文件名称
+        public const string ASSET_BUNDLE_CONFIG_FILE = "asset_bundle_config.bin";
+        
+        // AssetBundles 生成的脚本文件名称
+        public const string ASSET_BUNDLE_SCRIPT_FILE = "AssetBundleName.cs";
+        
         
         // double类型数据 == 时 精度
         public const double TOLERANCE = 1E-6;

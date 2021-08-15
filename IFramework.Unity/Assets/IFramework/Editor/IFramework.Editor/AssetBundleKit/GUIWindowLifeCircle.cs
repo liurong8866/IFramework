@@ -36,8 +36,8 @@ namespace IFramework.Editor
         public static void Open()
         {
             //创建窗口
-            Rect wr = new Rect(0, 0, 500, 500);
-            GUIWindowLifeCircle window = (GUIWindowLifeCircle) EditorWindow.GetWindowWithRect(typeof(GUIWindowLifeCircle), wr, true, "资源管理器");
+            // Rect wr = new Rect(0, 0, 500, 500);
+            GUIWindowLifeCircle window =GetWindow<GUIWindowLifeCircle>("资源管理器");
             window.Show();
         }
 

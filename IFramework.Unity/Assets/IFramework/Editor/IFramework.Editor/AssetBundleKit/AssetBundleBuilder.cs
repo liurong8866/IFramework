@@ -67,7 +67,7 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            string outputPath = Path.Combine(Constant.ASSETBUNDLE_OUTPUT_PATH, buildTarget.ToString());
+            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, buildTarget.ToString());
 
             Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
 
@@ -79,7 +79,7 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath = Path.Combine(Constant.ASSETBUNDLE_OUTPUT_PATH, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
+                outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, subPackage.NameSpace, subPackage.Name, buildTarget.ToString());
                 
                 Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
                 
@@ -132,9 +132,9 @@ namespace IFramework.Editor
         /// </summary>
         public static void ForceClearAssetBundles()
         {
-            DirectoryUtils.Remove(Constant.ASSETBUNDLE_OUTPUT_PATH);
+            DirectoryUtils.Remove(Constant.ASSET_BUNDLE_OUTPUT_PATH);
             
-            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSETBUNDLE_OUTPUT_PATH));
+            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH));
 
             AssetDatabase.Refresh();
         }

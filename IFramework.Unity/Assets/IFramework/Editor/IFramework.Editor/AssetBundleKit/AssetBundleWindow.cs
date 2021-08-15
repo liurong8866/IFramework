@@ -22,6 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
@@ -30,13 +34,45 @@ namespace IFramework.Editor
 {
     public class AssetBundleWindow : EditorWindow
     {
-        
-        
+        private Vector2 scrollPosition;
+        private List<string> signedList;
+
         public static void Open ()
         {       
             //创建窗口
             AssetBundleWindow window = GetWindow<AssetBundleWindow>(true, "资源管理器") ;
             window.Show();
+            
+            
+        }
+        
+        
+
+        private void Awake()
+        {
+            loadMarkedList();
+        }
+
+        void loadMarkedList()
+        {
+            signedList =AssetDatabase.GetAllAssetBundleNames()
+                .SelectMany(asset =>
+                {
+                    var result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
+                    return result.Select(assetName =>
+                        {
+                            if (AssetBundleMark.CheckMarked(assetName))
+                            {
+                                return assetName;
+                            }
+                            if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName)))
+                            {
+                                return Path.GetDirectoryName(assetName);
+                            }
+                            return null;
+                        }).Where(assetName => assetName != null)
+                        .Distinct();
+                }).ToList();
         }
         
         //绘制窗口时调用
@@ -70,26 +106,47 @@ namespace IFramework.Editor
             // 模拟模式
             Configure.IsSimulation.Value = GUILayout.Toggle(Configure.IsSimulation.Value, "模拟模式（勾选后每当资源修改时无需再打 AB 包，开发阶段建议勾选，打真机包时取消勾选并打一次 AB 包）");
             
+            // 操作按钮
             GUILayout.Space(10);
-            
             if(GUILayout.Button("生成 AB 包"))
             {
                 AssetBundleBuilder.BuildAssetBundles();
             }
-            
-            EditorGUILayout.BeginHorizontal();
-            
+            GUILayout.BeginHorizontal();
             if(GUILayout.Button("生成 AB 常量"))
             {
-                
             }
             if(GUILayout.Button("清空已生成的 AB 包"))
             {
                 AssetBundleBuilder.ForceClearAssetBundles();
             }
+            GUILayout.EndHorizontal();
             
-            EditorGUILayout.EndHorizontal();
-            
+            // 标记的资源
+            GUILayout.Label("已标记的资源:");
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
+            foreach (string assetsName in signedList)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(assetsName);
+                if(GUILayout.Button("选中", GUILayout.Width(60)))
+                {
+                    Selection.objects = new[]
+                    {
+                        AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetsName)
+                    };
+                }
+                if(GUILayout.Button("取消标记", GUILayout.Width(60)))
+                {
+                    AssetBundleMark.MarkAssetBundle(assetsName);
+
+                    loadMarkedList();
+                }
+                GUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndScrollView();
+            GUILayout.Space(10);
+
         }
     }
 }

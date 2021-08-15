@@ -25,7 +25,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace IFramework.Editor.Utils
+namespace IFramework.Editor
 {
     public static class EditorUtils
     {

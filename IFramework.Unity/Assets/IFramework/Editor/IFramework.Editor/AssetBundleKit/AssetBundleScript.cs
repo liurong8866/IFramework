@@ -33,7 +33,7 @@ namespace IFramework.Editor
         public static void GenerateConstScript()
         {
             // 生成文件路径
-            var path = Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + Constant.ASSETBUNDLE_NAME);
+            string path = Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + Constant.ASSET_BUNDLE_SCRIPT_FILE);
 
             string content = Generate();
             
