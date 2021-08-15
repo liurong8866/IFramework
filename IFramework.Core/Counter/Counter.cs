@@ -22,17 +22,30 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
+
 namespace IFramework.Core
 {
-    public class Counter : ICounter
+    /// <summary>
+    /// 简单当计数器
+    /// </summary>
+    public class Counter : ICounter, IDisposable
     {
         public Counter()
         {
             Count = 0;
         }
 
+        public Counter(Action onZero)
+        {
+            Count = 0;
+            this.OnZero = onZero;
+        }
+
+        public Action OnZero { get; set; }
+
         public int Count { get; private set; }
-        
+
         public void Retain(object owner = null)
         {
             Count++;
@@ -43,11 +56,18 @@ namespace IFramework.Core
             Count--;
             if (Count == 0)
             {
-                OnEmpty();
+                OnZero.InvokeSafe();
             }
         }
 
-        protected virtual void OnEmpty(){}
+        public void Reset()
+        {
+            Count = 0;
+        }
         
+        public void Dispose()
+        {
+            OnZero = null;
+        }
     }
 }

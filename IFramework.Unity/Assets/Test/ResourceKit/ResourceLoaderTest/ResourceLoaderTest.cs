@@ -14,16 +14,16 @@ namespace IFramework.Test.ResourceKit
         
         private void Start()
         {
-            using ResourceLoader resourceLoader = ResourceLoader.Allocate();
+            ResourceLoader resourceLoader = ResourceLoader.Allocate();
 
             // Object resource = resourceLoader.Load("Resources://Test");
             // resource.Instantiate().Name("这是Resource.Load加载");
             //
             // Object resource2 = resourceLoader.Load("Resources://Test");
             // resource2.Instantiate().Name("这是Resource加载");
-            //
-            // Sprite resource3 = resourceLoader.LoadSprite("Resources://icon");
-            // imag.sprite = resource3;
+            
+            Sprite resource3 = resourceLoader.LoadSprite("Resources://icon");
+            imag.sprite = resource3;
             
             resourceLoader.AddToLoad("Resources://Lili", (result, resource) =>
             {
@@ -32,7 +32,7 @@ namespace IFramework.Test.ResourceKit
                     resource.Asset.Instantiate().Name("我是动态异步加载的");
                 }
             });
-
+            
             Object a = null;
             
             resourceLoader.AddToLoad("Resources://Jin", (result, resource) =>
@@ -43,20 +43,20 @@ namespace IFramework.Test.ResourceKit
                     resourceLoader.DestroyOnRecycle(a);
                 }
             });
-
             
             resourceLoader.LoadAsync(() =>
             {
                 Log.Info("异步加载完毕");
+                
+                // resourceLoader.ReleaseResource("Resources://icon");
                 resourceLoader.Recycle();
                 
             });
 
-
-
-
-
             // resourceLoader.Recycle();
+            
+            // resourceLoader.Dispose();
+
             // resourceLoader.AddToLoad("Resources://Test", (result, resource) =>
             // {
             //     if (result)

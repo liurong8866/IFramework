@@ -68,7 +68,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 卸载图片资源
         /// </summary>
-        bool IsUnloadImage(bool flag);
+        bool UnloadImage(bool flag);
         
         /// <summary>
         /// 释放资源

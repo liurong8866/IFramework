@@ -50,6 +50,7 @@ namespace IFramework.Engine
         public AbstractResource()
         {
             IsRecycled = false;
+            OnZero = OnEmpty;
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace IFramework.Engine
         {
             IsRecycled = false;
             this.assetName = assetName;
+            OnZero = OnEmpty;
         }
 
         /// <summary>
@@ -126,7 +128,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 卸载图片资源
         /// </summary>
-        public virtual bool IsUnloadImage(bool flag)
+        public virtual bool UnloadImage(bool flag)
         {
             return false;
         }
@@ -158,6 +160,7 @@ namespace IFramework.Engine
             if (asset != null)
             {
                 // 如果不是场景中的GameObject，则释放资源,比如prefab
+                // TODO sprite也被释放了...
                 if (!(asset is GameObject))
                 {
                     Resources.UnloadAsset(asset);
@@ -288,7 +291,7 @@ namespace IFramework.Engine
         /* Counter 接口实现              */
         /*-----------------------------*/
 
-        protected override void OnEmpty()
+        protected void OnEmpty()
         {
             if(state == ResourceState.Loading) return;
 

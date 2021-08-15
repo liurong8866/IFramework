@@ -24,7 +24,7 @@
 
 using System;
 
-namespace IFramework.Engine.Management
+namespace IFramework.Engine
 {
     /// <summary>
     /// 用于清理回调事件到载体

@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
-using IFramework.Engine.Management;
 using UnityEngine;
 using Object=UnityEngine.Object;
 
@@ -35,17 +34,17 @@ namespace IFramework.Engine
     public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable
     {
         // 当前加载资源到数量
-        private int loadingCount = 0;
+        private int loadingCount;
         // 资源列表
         private readonly List<IResource> resources = new List<IResource>();
         // 缓存到Sprite资源字典
-        private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+        private readonly Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
         // 等待加载的资源
         private readonly LinkedList<IResource> waitForLoadList = new LinkedList<IResource>();
         // 等待回收的对象
-        private List<Object> tobeUnloadedObjects;
+        private List<Object> unloadedObjects;
         // 当前资源的回调
-        private Action callback;
+        private Action currentCallback;
         // 回调事件列表
         private LinkedList<CallbackCleaner> callbackCleanerList;
         
@@ -99,7 +98,7 @@ namespace IFramework.Engine
             // 添加到加载任务列表
             AddToLoad(searcher);
 
-            // 完全加载等待加载的资源
+            // 立即加载等待加载的资源
             while (waitForLoadList.Count > 0)
             {
                 IResource first = waitForLoadList.First.Value;
@@ -131,38 +130,30 @@ namespace IFramework.Engine
         /// </summary>
         public void LoadAsync(Action callback = null)
         {
-            this.callback = callback;
+            this.currentCallback = callback;
             
             // 异步加载
-            LoadAsync();
+            LoadAsyncMethod();
         }
 
-        private void LoadAsync()
+        private void LoadAsyncMethod()
         {
-            // 如果当前没有加载数量，则调用回调函数
-            if (loadingCount == 0)
+            if(loadingCount == 0)
             {
-                if (callback != null)
-                {
-                    Action action = callback;
-                    callback = null;
-                    action();
-                }
-
+                currentCallback.InvokeSafe();
+                currentCallback = null;
                 return;
             }
             
             // 当前循环节
             LinkedListNode<IResource> currentNode = waitForLoadList.First;
-            LinkedListNode<IResource> nextNode = null;
-            IResource resource;
-            
+
             // 遍历所有需要等待加载到资源
             while (currentNode != null)
             {
-                nextNode = currentNode.Next;
-                resource = currentNode.Value;
-                
+                IResource resource = currentNode.Value;
+                LinkedListNode<IResource> nextNode = currentNode.Next;
+
                 // 如果依赖资源加载完毕，则可以删除
                 if (resource.IsDependResourceLoaded())
                 {
@@ -339,17 +330,17 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 // 如果未缓存，则缓存
-                if (!sprites.ContainsKey(spriteName))
+                if (!spriteDict.ContainsKey(spriteName))
                 {
                     // 加载Texture资源
                     Texture2D texture = Load<Texture2D>(spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存
-                    sprites.Add(spriteName, sprite);
+                    spriteDict.Add(spriteName, sprite);
                 }
                 
-                return sprites[spriteName];
+                return spriteDict[spriteName];
             }
 
             // 非模拟器模式，直接加载AssetBundle
@@ -365,17 +356,17 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 // 如果未缓存，则缓存
-                if (!sprites.ContainsKey(spriteName))
+                if (!spriteDict.ContainsKey(spriteName))
                 {
                     // 加载Texture资源
                     Texture2D texture = Load<Texture2D>(bundleName, spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存
-                    sprites.Add(spriteName, sprite);
+                    spriteDict.Add(spriteName, sprite);
                 }
                 
-                return sprites[spriteName];
+                return spriteDict[spriteName];
             }
 
             // 非模拟器模式，直接加载AssetBundle
@@ -383,7 +374,7 @@ namespace IFramework.Engine
         }
         
         /*-----------------------------*/
-        /* 资源加载完毕后回               */
+        /* 资源加载完毕后回调              */
         /*-----------------------------*/
         
         /// <summary>
@@ -396,51 +387,13 @@ namespace IFramework.Engine
             loadingCount--;
             
             // 在这里使用了递归调用
-            LoadAsync();
+            LoadAsyncMethod();
             
             if (loadingCount == 0)
             {
                 RemoveAllCallbacks(false);
                 
-                callback?.Invoke();
-            }
-        }
-
-        private void RemoveAllCallbacks(bool release)
-        {
-            if (callbackCleanerList != null)
-            {
-                int count = callbackCleanerList.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    if (release)
-                    {
-                        callbackCleanerList.Last.Value.Release();
-                    }
-                    callbackCleanerList.RemoveLast();
-                }
-            }
-        }
-
-        private void RemoveCallback(IResource resource, bool release)
-        {
-            if (!callbackCleanerList.IsNullOrEmpty())
-            {
-                LinkedListNode<CallbackCleaner> currentNode = callbackCleanerList.First;
-
-                while (currentNode != null)
-                {
-                    CallbackCleaner cleaner = currentNode.Value;
-
-                    if (cleaner.Is(resource))
-                    {
-                        if(release) cleaner.Release();
-                    }
-
-                    callbackCleanerList.Remove(currentNode);
-                    
-                    currentNode = currentNode.Next;
-                }
+                currentCallback?.Invoke();
             }
         }
         
@@ -458,30 +411,35 @@ namespace IFramework.Engine
             // 清空模拟器模式下加载的资源
             if (Configure.IsSimulation)
             {
-                if (sprites.ContainsKey(assetName))
+                if (spriteDict.ContainsKey(assetName))
                 {
-                    Sprite sprite = sprites[assetName];
+                    Sprite sprite = spriteDict[assetName];
                     sprite.DestroySelf();
-                    sprites.Remove(assetName);
+                    spriteDict.Remove(assetName);
                 }
             }
 
+            // 在缓存中查找资源，如果没有则返回
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
+            
             IResource resource = ResourceManager.Instance.GetResource((searcher));
                 
             if (resource == null) return;
 
-            // 清除下载列表中的资源
+            // 清除待下载列表中的资源
             if (waitForLoadList.Remove(resource))
             {
-                if (--loadingCount == 0)
+                loadingCount--;
+                if (loadingCount == 0)
                 {
-                    callback = null;
+                    currentCallback = null;
                 }
             }
 
+            // 从缓存中删除，并释放资源
             if (resources.Remove(resource))
             {
+                // 先释放事件，再释放资源本身
                 resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
                 resource.Release();
                 ResourceManager.Instance.ClearOnUpdate();
@@ -506,19 +464,19 @@ namespace IFramework.Engine
         /// </summary>
         public void ReleaseAllResource()
         {
+            currentCallback = null;
+            loadingCount = 0;
+            waitForLoadList.Clear();
+
             // 释放模拟器模式资源
             if (Configure.IsSimulation)
             {
-                foreach (var sprite in sprites)
+                foreach (var sprite in spriteDict)
                 {
                     sprite.Value.DestroySelf();
                 }
-                sprites.Clear();
+                spriteDict.Clear();
             }
-
-            callback = null;
-            loadingCount = 0;
-            waitForLoadList.Clear();
 
             if (resources.Count > 0)
             {
@@ -530,15 +488,68 @@ namespace IFramework.Engine
                     resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
                     resource.Release();
                 }
+                
                 resources.Clear();
+                
                 if (ResourceManager.IsApplicationQuit)
                 {
                     ResourceManager.Instance.ClearOnUpdate();
                 }
             }
+            
+            // 释放所有回调事件
             RemoveAllCallbacks(true);
         }
         
+        /// <summary>
+        /// 释放某资源的回调事件
+        /// </summary>
+        private void RemoveCallback(IResource resource, bool release)
+        {
+            if (!callbackCleanerList.IsNullOrEmpty())
+            {
+                LinkedListNode<CallbackCleaner> currentNode = callbackCleanerList.First;
+
+                // 遍历所有需要释放的事件
+                while (currentNode != null)
+                {
+                    CallbackCleaner cleaner = currentNode.Value;
+                    LinkedListNode<CallbackCleaner> nextNode = currentNode.Next;
+
+                    if (cleaner.Is(resource))
+                    {
+                        if(release) cleaner.Release();
+                    }
+
+                    callbackCleanerList.Remove(currentNode);
+                    
+                    currentNode = nextNode;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 释放所有回调事件
+        /// </summary>
+        private void RemoveAllCallbacks(bool release)
+        {
+            if (callbackCleanerList != null)
+            {
+                int count = callbackCleanerList.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (release)
+                    {
+                        callbackCleanerList.Last.Value.Release();
+                    }
+                    callbackCleanerList.RemoveLast();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 实现Disposable接口
+        /// </summary>
         protected override void DisposeManaged()
         {
             ReleaseAllResource();
@@ -549,12 +560,12 @@ namespace IFramework.Engine
         /// </summary>
         public void DestroyOnRecycle(Object obj)
         {
-            if (tobeUnloadedObjects == null)
+            if (unloadedObjects == null)
             {
-                tobeUnloadedObjects = new List<Object>();
+                unloadedObjects = new List<Object>();
             }
 
-            tobeUnloadedObjects.Add(obj);
+            unloadedObjects.Add(obj);
         }
 
         /// <summary>
@@ -562,14 +573,14 @@ namespace IFramework.Engine
         /// </summary>
         public void Recycle()
         {
-            if (tobeUnloadedObjects.IsNotNullOrEmpty())
+            if (unloadedObjects.IsNotNullOrEmpty())
             {
-                foreach (Object obj in tobeUnloadedObjects)
+                foreach (Object obj in unloadedObjects)
                 {
                     obj.DestroySelf();
                 }
-                tobeUnloadedObjects.Clear();
-                tobeUnloadedObjects = null;
+                unloadedObjects.Clear();
+                unloadedObjects = null;
             }
 
             ObjectPool<ResourceLoader>.Instance.Recycle(this);

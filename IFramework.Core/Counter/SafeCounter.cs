@@ -22,18 +22,31 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using System.Collections.Generic;
 
 namespace IFramework.Core
 {
-    public class SafeCounter : ICounter
+    /// <summary>
+    /// 安全的计数器
+    /// </summary>
+    public class SafeCounter : ICounter, IDisposable
     {
         private readonly HashSet<object> owners = new HashSet<object>();
+
+        public SafeCounter() { }
+        
+        public SafeCounter(Action onZero)
+        {
+            this.OnZero = onZero;
+        }
         
         public int Count
         {
             get { return owners.Count; }
         }
+
+        public Action OnZero { get; set; }
 
         public HashSet<object> Owners
         {
@@ -54,6 +67,24 @@ namespace IFramework.Core
             {
                 "没有找到要释放的对象".LogWarning();
             }
+            else
+            {
+                if (Count == 0)
+                {
+                    OnZero.InvokeSafe();
+                }
+            }
+        }
+
+        
+        public void Reset()
+        {
+            owners.Clear();
+        }
+
+        public void Dispose()
+        {
+            OnZero = null;
         }
     }
 }
