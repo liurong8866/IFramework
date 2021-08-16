@@ -22,12 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.Diagnostics;
+
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace IFramework.Core
 {

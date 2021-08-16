@@ -207,6 +207,7 @@ namespace IFramework.Engine
         
         private bool DoLoopDependResource(Func<IResource, bool> action)
         {
+            // 获取依赖资源
             List<string> depends = GetDependResourceList();
             
             if (depends.IsNullOrEmpty()) return true;

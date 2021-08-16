@@ -27,6 +27,8 @@ using System.Collections;
 using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
+using Environment = IFramework.Core.Environment;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
@@ -71,21 +73,78 @@ namespace IFramework.Engine
             // 如果配置文件没有对应的Asset，则退出
             if (assetBundleNameConfig.IsNullOrEmpty()) return false;
 
+            Object obj = null;
+            
             // 如果是模拟模式，并且不是包信息资源
             if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
-                string assetPaths = PlatformSetting.AssetBundleBuildPath;
+                string[] assetPaths = Environment.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+
+                if (assetPaths.IsNullOrEmpty())
+                {
+                    Log.Error("加载资源失败: "+ assetName);
+                    OnResourceLoadFailed();
+                    return false;
+                }
                 
+                // 记录依赖资源
+                HoldDependResource();
+
+                state = ResourceState.Loading;
+
+                if (AssetType != null)
+                {
+                    obj = Environment.LoadAssetAtPath(assetPaths[0],AssetType);
+                }
+                else
+                {
+                    obj = Environment.LoadAssetAtPath<Object>(assetPaths[0]);
+                }
             }
             else
             {
+                using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
+                AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
+
+                if (resource == null || !resource.AssetBundle)
+                {
+                    Log.Error("加载资源失败，未能找到AssetBundleImage: "+ assetBundleNameConfig);
+                    // OnResourceLoadFailed();
+                    return false;
+                }
                 
+                // 记录依赖资源
+                HoldDependResource();
+
+                state = ResourceState.Loading;
+
+                if (AssetType != null)
+                {
+                    obj = Environment.LoadAssetAtPath(assetName,AssetType);
+                }
+                else
+                {
+                    obj = Environment.LoadAssetAtPath<Object>(assetName);
+                }
             }
-            return false;
+            
+            UnHoldDependResource();
+
+            if (obj == null)
+            {
+                Log.Error("加载资源失败: {0} : {1} : {2}"+ assetName, AssetType, assetBundleNameConfig);
+                OnResourceLoadFailed();
+                return false;
+            }
+
+            asset = obj;
+
+            state = ResourceState.Ready;
+            
+            return true;
         }
 
         /// <summary>
@@ -102,9 +161,99 @@ namespace IFramework.Engine
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
 
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
         public override IEnumerator LoadAsync(Action callback)
         {
-            throw new NotImplementedException();
+            // 如果没有等待加载的资源，则退出
+            if (Count <= 0)
+            {
+                OnResourceLoadFailed();
+                callback();
+                yield break;
+            }
+            
+            using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
+            AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
+            
+            
+            // 如果是模拟模式，并且不是包信息资源
+            if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
+            {
+                string[] assetPaths = Environment.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+
+                if (assetPaths.IsNullOrEmpty())
+                {
+                    Log.Error("加载资源失败: "+ assetName);
+                    OnResourceLoadFailed();
+                    callback();
+                    yield break;
+                }
+                
+                // 记录依赖资源
+                HoldDependResource();
+
+                state = ResourceState.Loading;
+
+                yield return new WaitForEndOfFrame();
+                
+                UnHoldDependResource();
+                
+                if (AssetType != null)
+                {
+                    asset = Environment.LoadAssetAtPath(assetPaths[0],AssetType);
+                }
+                else
+                {
+                    asset = Environment.LoadAssetAtPath<Object>(assetPaths[0]);
+                }
+            }
+            else
+            {
+                if (resource == null || !resource.AssetBundle == null)
+                {
+                    Log.Error("加载资源失败，未能找到AssetBundleImage: "+ assetBundleNameConfig);
+                    OnResourceLoadFailed();
+                    callback();
+                    yield break;
+                }
+                
+                // 记录依赖资源
+                HoldDependResource();
+
+                state = ResourceState.Loading;
+
+                AssetBundleRequest request;
+                
+                if (AssetType != null)
+                {
+                    request = resource.AssetBundle.LoadAssetAsync(assetName,AssetType);
+                    yield return request;
+                }
+                else
+                {
+                    request = resource.AssetBundle.LoadAssetAsync(assetName);
+                    yield return request;
+                }
+                
+                UnHoldDependResource();
+
+                if (request == null)
+                {
+                    Log.Error("加载资源失败: "+ assetName);
+                    OnResourceLoadFailed();
+                    callback();
+                    yield break;
+                }
+
+                asset = request.asset;
+            }
+            
+            
+            state = ResourceState.Ready;
+
+            callback();
         }
 
         /// <summary>

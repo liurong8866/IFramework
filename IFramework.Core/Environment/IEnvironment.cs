@@ -24,7 +24,7 @@
 
 namespace IFramework.Core
 {
-    public class IEnvironment
+    public interface IEnvironment
     {
         
     }
