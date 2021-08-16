@@ -22,45 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Test.Model
+namespace IFramework.Core
 {
-    public class UserInfo
+    public class IEnvironment
     {
-        private string userName;
-        private int age;
-        private string sex;
-
-        public UserInfo() { }
-
-        public UserInfo(string userName, string password, int age, string sex)
-        {
-            this.userName = userName;
-            this.age = age;
-            this.sex = sex;
-        }
-
-        public string UserName
-        {
-            get => userName;
-            set => userName = value;
-        }
-
-        public int Age
-        {
-            get => age;
-            set => age = value;
-        }
-
-        public string Sex
-        {
-            get => sex;
-            set => sex = value;
-        }
-
-        public override string ToString()
-        {
-            return $"username: {userName}, age: {age}, sex: {sex}";
-        }
         
     }
 }

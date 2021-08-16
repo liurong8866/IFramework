@@ -23,9 +23,11 @@
  *****************************************************************************/
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Core
 {
@@ -39,7 +41,7 @@ namespace IFramework.Core
         /// <summary>
         /// AssetBundle生成路径
         /// </summary>
-        public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, CurrentBundlePlatform.ToString());
+        public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, GetPlatformForAssetBundles(CurrentBundlePlatform));
         
         /// <summary>
         /// StreamingAssets文件夹下到AssetBundle包
@@ -50,7 +52,91 @@ namespace IFramework.Core
         /// PersistentData 临时文件夹下到AssetBundle包
         /// </summary>
         public static string PersistentAssetBundlePath => Path.Combine(Application.persistentDataPath, AssetBundlePath);
+        
+        /// <summary>
+        /// 获取Persistent 或者 Stream 路径
+        /// </summary>
+        public static string GetPersistentOrStreamPath(string relativePath)
+        {
+            string path = Path.Combine(Application.persistentDataPath, relativePath);
 
+            if (File.Exists(path))
+            {
+                return path;
+            }
+            else
+            {
+                return Path.Combine(Application.streamingAssetsPath, relativePath);
+            }
+        }
+        
+        /// <summary>
+        /// 运行时平台名称
+        /// </summary>
+        public static string GetPlatformForAssetBundles(RuntimePlatform platform)
+        {
+            switch (platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                    return "Windows";
+                case RuntimePlatform.OSXPlayer:
+                    return "MacOS";
+                case RuntimePlatform.LinuxPlayer:
+                    return "Linux";
+                case RuntimePlatform.IPhonePlayer:
+                    return "iOS";
+                case RuntimePlatform.Android:
+                    return "Android";
+                case RuntimePlatform.WebGLPlayer:
+                    return "WebGL";
+                case RuntimePlatform.PS4:
+                    return "PS4";
+                case RuntimePlatform.PS5:
+                    return "PS5";
+                case RuntimePlatform.XboxOne:
+                    return "XboxOne";
+                case RuntimePlatform.WSAPlayerARM:
+                case RuntimePlatform.WSAPlayerX64:
+                case RuntimePlatform.WSAPlayerX86:
+                    return "WSAPlayer";
+                default:
+                    return null;
+            }
+        }
+        
+        /// <summary>
+        /// 编辑器模式下
+        /// </summary>
+        public static string GetPlatformForAssetBundles(BuildTarget target)
+        {
+            switch (target)
+            { 
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    return "Windows";
+                case BuildTarget.StandaloneOSX:
+                    return "MacOS";
+                case BuildTarget.StandaloneLinux64:
+                    return "Linux";
+                case BuildTarget.iOS:
+                    return "iOS";
+                case BuildTarget.Android:
+                    return "Android";
+                case BuildTarget.WebGL:
+                    return "WebGL";
+                case BuildTarget.PS4:
+                    return "PS4";
+                case BuildTarget.PS5:
+                    return "PS5";
+                case BuildTarget.XboxOne:
+                    return "XboxOne";
+                case BuildTarget.WSAPlayer:
+                    return "WSAPlayer";
+                default:
+                    return null;
+            }
+        }
+        
         /// <summary>
         /// 打包平台索引
         /// </summary>
@@ -119,7 +205,7 @@ namespace IFramework.Core
                     return BuildTarget.StandaloneWindows;
             }
         }
-
+        
         /// <summary>
         /// 根据当前配置列表获取打包平台
         /// </summary>
@@ -154,5 +240,7 @@ namespace IFramework.Core
            
             return PlatformSetting.StreamingAssetBundlePath + "/" + name;
         }
+
+        
     }
 }

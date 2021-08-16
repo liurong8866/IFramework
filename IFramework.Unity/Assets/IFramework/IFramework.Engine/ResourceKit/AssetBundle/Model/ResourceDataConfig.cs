@@ -162,30 +162,20 @@ namespace IFramework.Engine
 
             yield return webRequest.SendWebRequest();
             
-            // 出错退出
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError||
-                webRequest.result == UnityWebRequest.Result.ProtocolError ||
-                webRequest.result == UnityWebRequest.Result.DataProcessingError){
-                Debug.Log(webRequest.error);
+            // 如果成功
+            if (!webRequest.isDone)
+            {
+                Log.Error("AssetBundle配置资源加载失败: " + path);
                 yield break;
             }
             
-            // 如果下载中，继续
-            if (webRequest.result == UnityWebRequest.Result.InProgress){
-                yield return webRequest.SendWebRequest();
-            }
-
-            // 如果成功
-            if (webRequest.isDone)
-            {
-                MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
+            MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
                 
-                AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
+            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
                 
-                if(groups == null) yield break;
+            if(groups == null) yield break;
                 
-                SetSerializeData(groups);
-            }
+            SetSerializeData(groups);
         }
         
         /// <summary>

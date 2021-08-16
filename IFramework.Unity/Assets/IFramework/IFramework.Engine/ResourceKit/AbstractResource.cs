@@ -136,7 +136,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放资源
         /// </summary>
-        public bool Release()
+        public virtual bool Release()
         {
             switch (state)
             {
@@ -308,5 +308,6 @@ namespace IFramework.Engine
         {
             return string.Format("Name:{0}\t State:{1}\t Count:{2}", AssetName, State, Count);
         }
+        
     }
 }

@@ -33,7 +33,6 @@ namespace IFramework.Engine
     public class AssetResource : AbstractResource
     {
         protected string assetBundleNameConfig;
-        protected AssetBundleRequest assetBundleRequest;
 
         /// <summary>
         /// 所属AssetBundle包名称
@@ -77,9 +76,10 @@ namespace IFramework.Engine
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
 
-                ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-                
+                AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
+                string assetPaths = PlatformSetting.AssetBundleBuildPath;
+                
             }
             else
             {
@@ -144,6 +144,11 @@ namespace IFramework.Engine
         public override void Recycle()
         {
             ObjectPool<AssetResource>.Instance.Recycle(this);
+        }
+
+        public override void OnRecycled()
+        {
+            assetBundleNameConfig = null;
         }
 
         public override string ToString()

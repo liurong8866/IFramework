@@ -25,6 +25,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using IFramework.Core;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -170,7 +171,7 @@ namespace IFramework.Engine
         /// </summary>
         public override List<string> GetDependResourceList()
         {
-            return dependResources;
+            return dependResources.ToList();
         }
 
         /// <summary>
@@ -201,7 +202,10 @@ namespace IFramework.Engine
             dependResources = null;
         }
 
-        public override void OnRelease()
+        /// <summary>
+        /// 释放资源时的事件
+        /// </summary>
+        protected override void OnReleaseResource()
         {
             if (AssetBundle != null)
             {
