@@ -81,12 +81,12 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
+                string path =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
                 // outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
                 Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
                 
-                Build(outputPath, subPackage, buildTarget);
+                Build(path, subPackage, buildTarget);
             }
             AssetDatabase.Refresh();
             
