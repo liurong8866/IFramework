@@ -35,7 +35,6 @@ namespace IFramework.Core
     /// </summary>
     public static class BaseExtention
     {
-        
         /// <summary>
         /// 判断是否为空
         /// </summary>
@@ -302,30 +301,5 @@ namespace IFramework.Core
             }
         }
         
-        /// <summary>
-        /// 如果为真，执行，并返回真
-        /// </summary>
-        public static bool IfTrue(this bool boolean, Action action)
-        {
-            if (boolean)
-            {
-                action.Invoke();
-            }
-
-            return boolean;
-        }
-        
-        /// <summary>
-        /// 如果为假，执行，并返回假
-        /// </summary>
-        public static bool IfFalse(this bool boolean, Action action)
-        {
-            if (!boolean)
-            {
-                action.Invoke();
-            }
-
-            return boolean;
-        }
     }
 }

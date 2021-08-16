@@ -23,36 +23,11 @@
  *****************************************************************************/
 
 using System;
-using IFramework.Core;
-using IFramework.Engine;
-using UnityEngine;
 
-namespace IFramework.Test.Event
+namespace IFramework.Core
 {
-    public class EventReceiver : MonoBehaviour
+    public class KeyEvent : CommonEvent<Action<int>>
     {
-        void Awake()
-        {
-            Debug.Log("注册事件");
-            DefaultEvent.Register(100, Action);
-        }
-
-        private void Start() { }
-
-        private void Action(int key, params object[] param)
-        {
-            switch (key)
-            {
-                case 100:
-                    Debug.Log(param);
-                    break;
-                default: break;
-            }
-        }
-
-        private void OnDestroy()
-        {
-            DefaultEvent.UnRegister(100, Action);
-        }
+        
     }
 }

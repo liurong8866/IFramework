@@ -79,7 +79,7 @@ namespace IFramework.Editor
                     ai.assetBundleName = dir.Name.Replace(".", "-");
                 }
 
-                EnumEvent.Send(EventEnums.AssetBundleMark);
+                KeyEvent.Send(EventEnums.AssetBundleMark);
             }
         }
 

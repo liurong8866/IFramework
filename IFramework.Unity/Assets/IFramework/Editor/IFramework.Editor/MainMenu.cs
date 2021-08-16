@@ -31,6 +31,14 @@ namespace IFramework.Editor
 {
     public class MainMenu
     {
+        // % - CTRL on Windows / CMD on OSX
+        // # - Shift
+        // & - Alt
+        // LEFT/RIGHT/UP/DOWN - Arrow keys
+        // F1 … F2 - F keys
+        // HOME,END,PGUP,PGDN 
+        // 字母键 - _ + 字母（如:_g代表按键）
+        
         // IFramework
         public const string CON_MENU_TOOL_RESKIT = "IFramework/AssetBundle";
         public const string CON_MENU_TOOL_UIKIT = "IFramework/UI Setting";
@@ -61,7 +69,7 @@ namespace IFramework.Editor
         }
 
         // GameObject的右键菜单
-        public const string CON_MENU_BIND = "GameObject/I Kit - Bind";
+        public const string CON_MENU_BIND = "GameObject/I Kit - Bind %b"; 
         public const string CON_MENU_VIEW = "GameObject/I Kit - Add View";
         public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
         
@@ -83,7 +91,6 @@ namespace IFramework.Editor
             
         }
         
-        
         // Asset的右键菜单
         public const string CON_MENU_ASSET_MARK = "Assets/I Kit - Mark AssetBundle";
         public const string CON_MENU_ASSET_GENCODE = "Assets/I Kit - Generate Code";
@@ -93,7 +100,7 @@ namespace IFramework.Editor
         {
             AssetBundleKit.MarkAssetBundle();
         }
-        
+
         [MenuItem(CON_MENU_ASSET_GENCODE, true, 121)]
         private static void AssetCreateCode()
         {

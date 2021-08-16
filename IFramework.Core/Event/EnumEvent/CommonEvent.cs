@@ -27,30 +27,28 @@ using System.Collections.Generic;
 
 namespace IFramework.Core
 {
-    // 事件代理
-    public delegate void OnEvent(int key, params object[] param);
-    
+
     /// <summary>
     /// 基于字典的消息事件
     /// </summary>
-    public class EnumEvent : Singleton<EnumEvent>, IPoolable
+    public class CommonEvent<TEvent> : Singleton<CommonEvent<TEvent>>, IPoolable where TEvent : Delegate
     {
         // 全局监听事件字典
-        private readonly Dictionary<int, EventListener> listenerMap = new Dictionary<int, EventListener>(50);
+        private readonly Dictionary<int, EventListener<TEvent>> listenerMap = new Dictionary<int, EventListener<TEvent>>(50);
         
         // 单例私有构造函数
-        private EnumEvent() {}
+        protected CommonEvent() {}
 
         /// <summary>
         /// 注册事件
         /// </summary>
-        public bool RegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        public bool RegisterEvent<T>(T key, TEvent action) where T : IConvertible
         {
-            var keyValue = key.ToInt32(null);
+            int keyValue = key.ToInt32(null);
 
-            if (!listenerMap.TryGetValue(keyValue, out var listener))
+            if (!listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener))
             {
-                listener = new EventListener();
+                listener = new EventListener<TEvent>();
                 listenerMap.Add(keyValue, listener);
             }
 
@@ -60,9 +58,9 @@ namespace IFramework.Core
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public void UnRegisterEvent<T>(T key, OnEvent action) where T : IConvertible
+        public void UnRegisterEvent<T>(T key, TEvent action) where T : IConvertible
         {
-            if (listenerMap.TryGetValue(key.ToInt32(null), out var listener))
+            if (listenerMap.TryGetValue(key.ToInt32(null), out EventListener<TEvent> listener))
             {
                 listener?.Remove(action);
             }
@@ -75,7 +73,7 @@ namespace IFramework.Core
         {
             var keyValue = key.ToInt32(null);
             
-            if (listenerMap.TryGetValue(keyValue, out var listener))
+            if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener))
             {
                 listener?.Clear();
                 listener = null;
@@ -87,11 +85,28 @@ namespace IFramework.Core
         /// <summary>
         /// 发送消息
         /// </summary>
+        public bool SendEvent<T>(T key) where T : IConvertible
+        {
+            int keyValue = key.ToInt32(null);
+            
+            if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener))
+            {
+                if (listener != null)
+                {
+                    return listener.Invoke(keyValue);
+                }
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// 发送消息
+        /// </summary>
         public bool SendEvent<T>(T key, params object[] param) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
             
-            if (listenerMap.TryGetValue(keyValue, out var listener))
+            if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener))
             {
                 if (listener != null)
                 {
@@ -101,6 +116,9 @@ namespace IFramework.Core
             return false;
         }
         
+        /// <summary>
+        /// 回收资源
+        /// </summary>
         public void OnRecycled()
         {
             listenerMap.Clear();
@@ -108,23 +126,45 @@ namespace IFramework.Core
 
         public bool IsRecycled { get; set; }
         
-        /* 静态方法调用单例方法 */
+        /*----------------------------*/
+        /* 静态方法调用单例方法           */
+        /*----------------------------*/
         
+        /// <summary>
+        /// 发送无参数消息
+        /// </summary>
+        public static bool Send<T>(T key) where T : IConvertible
+        {
+            return Instance.SendEvent(key);
+        }
+        
+        /// <summary>
+        /// 发送有参数消息
+        /// </summary>
         public static bool Send<T>(T key, params object[] param) where T : IConvertible
         {
             return Instance.SendEvent(key, param);
         }
 
-        public static bool Register<T>(T key, OnEvent action) where T : IConvertible
+        /// <summary>
+        /// 注册事件
+        /// </summary>
+        public static bool Register<T>(T key, TEvent action) where T : IConvertible
         {
             return Instance.RegisterEvent(key, action);
         }
 
-        public static void UnRegister<T>(T key, OnEvent action) where T : IConvertible
+        /// <summary>
+        /// 取消注册某一事件
+        /// </summary>
+        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible
         {
             Instance.UnRegisterEvent(key, action);
         }
         
+        /// <summary>
+        /// 取消注册某一类型事件
+        /// </summary>
         public static void UnRegister<T>(T key) where T : IConvertible
         {
             Instance.UnRegisterEvent(key);
@@ -134,9 +174,9 @@ namespace IFramework.Core
     /// <summary>
     /// 事件监听消息
     /// </summary>
-    class EventListener
+    sealed class EventListener<T> where T : Delegate
     {
-        private LinkedList<OnEvent> eventList;
+        private LinkedList<T> eventList;
 
         // 调用方法
         public bool Invoke(int key, params object[] param)
@@ -146,19 +186,20 @@ namespace IFramework.Core
                 return false;
             }
 
-            OnEvent action = null;
-            LinkedListNode<OnEvent> next = eventList.First;
-            LinkedListNode<OnEvent> nextCache = null;
+            LinkedListNode<T> next = eventList.First;
 
             // 依次执行所有监听的方法
             while (next != null)
             {
                 // 取得当前事件
-                action = next.Value;
+                T action = next.Value;
+                
                 // 先于事件执行，记录下一级事件，避免在运行事件时取消注册事件（猜测）
-                nextCache = next.Next;
+                LinkedListNode<T> nextCache = next.Next;
+                
                 // 执行事件
-                action(key, param);
+                (param.Length == 0).iif(()=>action.InvokeSafe(key), ()=>action.InvokeSafe(key, param));
+
                 // 如果next事件丢失，可以使用缓存的指针指向该事件
                 next = next.Next ?? nextCache;
             }
@@ -167,24 +208,19 @@ namespace IFramework.Core
         }
         
         // 添加监听消息
-        public bool Add(OnEvent listener)
+        public bool Add(T listener)
         {
-            if (eventList == null)
-            {
-                eventList = new LinkedList<OnEvent>();
-            }
+            eventList ??= new LinkedList<T>();
 
-            if (eventList.Contains(listener))
-            {
-                return false;
-            }
+            if (eventList.Contains(listener))  return false;
             
             eventList.AddLast(listener);
+            
             return true;
         }
 
         // 移除监听消息
-        public void Remove(OnEvent listener)
+        public void Remove(T listener)
         {
             if (eventList != null && eventList.Count > 0)
             {

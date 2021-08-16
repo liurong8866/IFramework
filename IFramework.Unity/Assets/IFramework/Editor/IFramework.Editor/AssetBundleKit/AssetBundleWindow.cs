@@ -48,10 +48,7 @@ namespace IFramework.Editor
         
         private void OnEnable()
         {
-            EnumEvent.Register(EventEnums.AssetBundleMark, (key, param) =>
-            {
-                isViewChanged = true;
-            });
+            KeyEvent.Register(EventEnums.AssetBundleMark, key=> isViewChanged = true);
         }
 
         void LoadMarkedList()

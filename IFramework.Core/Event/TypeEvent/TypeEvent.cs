@@ -121,9 +121,9 @@ namespace IFramework.Core
         /// </summary>
         public void Dispose(){ }
         
-        
-        /* 静态方法调用单例方法 */
-        
+        /*----------------------------*/
+        /* 静态方法调用单例方法           */
+        /*----------------------------*/
         
         // 全局注册事件
         private static readonly ITypeEvent eventer = new TypeEvent();

@@ -38,7 +38,7 @@ namespace IFramework.Test.Event
 
             Debug.Log("发送事件");
 
-            EnumEvent.Send(100, userInfo);
+            DefaultEvent.Send(100, userInfo);
             
         }
         
