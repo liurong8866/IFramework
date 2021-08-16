@@ -25,6 +25,7 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
@@ -41,7 +42,7 @@ namespace IFramework.Engine
         public static string GetPlatformName()
         {
 #if UNITY_EDITOR
-            return EditorUserBuildSettings.activeBuildTarget.ToString();
+            return GetPlatformForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
 #else
             return PlatformSetting.GetPlatformForAssetBundles(Application.platform);
 #endif
@@ -122,6 +123,43 @@ namespace IFramework.Engine
             }
 #endif
         }
+        
+        
+#if UNITY_EDITOR
+        /// <summary>
+        /// 编辑器模式下
+        /// </summary>
+        public static string GetPlatformForAssetBundles(BuildTarget target)
+        {
+            switch (target)
+            { 
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    return "Windows";
+                case BuildTarget.StandaloneOSX:
+                    return "MacOS";
+                case BuildTarget.StandaloneLinux64:
+                    return "Linux";
+                case BuildTarget.iOS:
+                    return "iOS";
+                case BuildTarget.Android:
+                    return "Android";
+                case BuildTarget.WebGL:
+                    return "WebGL";
+                case BuildTarget.PS4:
+                    return "PS4";
+                case BuildTarget.PS5:
+                    return "PS5";
+                case BuildTarget.XboxOne:
+                    return "XboxOne";
+                case BuildTarget.WSAPlayer:
+                    return "WSAPlayer";
+                default:
+                    return null;
+            }
+        }
+#endif
+        
     }
     
 }

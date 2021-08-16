@@ -142,9 +142,9 @@ namespace IFramework.Test.Viarable
             };
             {
                 decimal conv = 1234.123456789012345678901234567890m;
-                float conv1 = 1234.123456789012345678901234567890f;
-                double conv2 = 1234.123456789012345678901234567890d;
-                decimal conv3 = 1234.123456789012345678901234567890m;
+                // float conv1 = 1234.123456789012345678901234567890f;
+                // double conv2 = 1234.123456789012345678901234567890d;
+                // decimal conv3 = 1234.123456789012345678901234567890m;
 
                 int result1 = conv.ToInt();
                 short result2 = conv.ToShort();
@@ -901,9 +901,9 @@ namespace IFramework.Test.Viarable
             Log.Info(bindString1.Equals(bindString2));
             
             Log.Info("5--------------");
-            Log.Info(a == a);
-            Log.Info(bindString1 == bindString1);
-            Log.Info(a.Equals(a));
+            // Log.Info(a == a);
+            // Log.Info(bindString1 == bindString1);
+            // Log.Info(a.Equals(a));
             Log.Info(bindString1.Equals(bindString1));
             
             Log.Info("6--------------");

@@ -39,7 +39,7 @@ namespace IFramework.Core
         /// <summary>
         /// AssetBundle生成路径
         /// </summary>
-        public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, GetPlatformForAssetBundles(CurrentBundlePlatform));
+        // public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, IEnvironment.GetPlatformForAssetBundles(CurrentBundlePlatform));
         
         /// <summary>
         /// StreamingAssets文件夹下到AssetBundle包
@@ -96,39 +96,6 @@ namespace IFramework.Core
                 case RuntimePlatform.WSAPlayerARM:
                 case RuntimePlatform.WSAPlayerX64:
                 case RuntimePlatform.WSAPlayerX86:
-                    return "WSAPlayer";
-                default:
-                    return null;
-            }
-        }
-        
-        /// <summary>
-        /// 编辑器模式下
-        /// </summary>
-        public static string GetPlatformForAssetBundles(BuildTarget target)
-        {
-            switch (target)
-            { 
-                case BuildTarget.StandaloneWindows:
-                case BuildTarget.StandaloneWindows64:
-                    return "Windows";
-                case BuildTarget.StandaloneOSX:
-                    return "MacOS";
-                case BuildTarget.StandaloneLinux64:
-                    return "Linux";
-                case BuildTarget.iOS:
-                    return "iOS";
-                case BuildTarget.Android:
-                    return "Android";
-                case BuildTarget.WebGL:
-                    return "WebGL";
-                case BuildTarget.PS4:
-                    return "PS4";
-                case BuildTarget.PS5:
-                    return "PS5";
-                case BuildTarget.XboxOne:
-                    return "XboxOne";
-                case BuildTarget.WSAPlayer:
                     return "WSAPlayer";
                 default:
                     return null;

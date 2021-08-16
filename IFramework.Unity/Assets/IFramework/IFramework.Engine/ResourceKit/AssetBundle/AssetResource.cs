@@ -27,7 +27,6 @@ using System.Collections;
 using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
-using Environment = IFramework.Core.Environment;
 using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
@@ -211,7 +210,7 @@ namespace IFramework.Engine
             }
             else
             {
-                if (resource == null || !resource.AssetBundle == null)
+                if (resource == null || resource.AssetBundle == null)
                 {
                     Log.Error("加载资源失败，未能找到AssetBundleImage: "+ assetBundleNameConfig);
                     OnResourceLoadFailed();

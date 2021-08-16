@@ -30,6 +30,7 @@ using IFramework.Core;
 using IFramework.Engine;
 using UnityEditor;
 using UnityEngine;
+using Environment = IFramework.Engine.Environment;
 
 namespace IFramework.Editor
 {
@@ -68,8 +69,7 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            // string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, buildTarget.ToString());
-            string outputPath = PlatformSetting.AssetBundleBuildPath;
+            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, Environment.GetPlatformForAssetBundles(buildTarget));
             
             Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
 
@@ -81,7 +81,8 @@ namespace IFramework.Editor
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages)
             {
-                outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
+                outputPath =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
+                // outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
                 Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
                 
@@ -130,7 +131,7 @@ namespace IFramework.Editor
             
             AssetDataConfig assetDataConfig = new AssetDataConfig();
 
-            AddAssetBundleInfoToResourceData(assetDataConfig, assetBundleNames);
+            Environment.AddAssetBundleInfoToResourceData(assetDataConfig, assetBundleNames);
 
             string filePath = Path.Combine((outputPath?? PlatformSetting.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             

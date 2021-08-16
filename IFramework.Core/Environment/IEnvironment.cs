@@ -22,6 +22,8 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using UnityEditor;
+
 namespace IFramework.Core
 {
     /// <summary>
@@ -29,6 +31,7 @@ namespace IFramework.Core
     /// </summary>
     public interface IEnvironment
     {
+        // string GetPlatformForAssetBundles(BuildTarget target);
         
     }
 }
