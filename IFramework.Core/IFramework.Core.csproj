@@ -32,6 +32,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Environment\Environment.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Compile Remove="Environment\Environment.cs" />
       <Resource Include="Environment\Environment.cs">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>

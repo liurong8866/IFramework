@@ -23,11 +23,12 @@
  *****************************************************************************/
 
 using System;
-using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using Object = UnityEngine.Object;
+using IFramework.Core;
 
-namespace IFramework.Core
+namespace IFramework.Engine
 {
     /// <summary>
     /// 环境类，用于编译条件的类，本身不编译，继承自IEnvironment接口，生成后放在Unity3D中
@@ -79,6 +80,46 @@ namespace IFramework.Core
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
 #else
             return null;
+#endif
+        }
+        
+        /// <summary>
+        /// 将AssetBundle信息添加到关系配置表中
+        /// </summary>
+        /// <param name="assetDataConfig"></param>
+        /// <param name="assetBundleName"></param>
+        public static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
+        {
+#if UNITY_EDITOR
+            
+            AssetDatabase.RemoveUnusedAssetBundleNames();
+
+            string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
+            
+            foreach (string name in assetBundleNames)
+            {
+                string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
+
+                int index = assetDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
+                if (index < 0)
+                {
+                    continue;
+                }
+            
+                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(name);
+                foreach (string asset in assets)
+                {
+                    Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
+            
+                    short code = type.ToCode();
+
+                    string fileName = Path.GetFileName(asset);
+                    
+                    @group.AddAssetInfo(asset.EndsWith(".unity")
+                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
+                        : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
+                }
+            }
 #endif
         }
     }

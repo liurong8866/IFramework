@@ -22,11 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using System.Collections;
 using IFramework.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -193,6 +195,7 @@ namespace IFramework.Engine
             assetTable ??= new AssetTable();
         }
         
+        
         /// <summary>
         /// 获取自定义的 资源信息
         /// </summary>
@@ -204,5 +207,45 @@ namespace IFramework.Engine
         }
 
         private static AssetDataConfig configFile = null;
+        
+//         /// <summary>
+//         /// 将AssetBundle信息添加到关系配置表中
+//         /// </summary>
+//         /// <param name="assetDataConfig"></param>
+//         /// <param name="assetBundleName"></param>
+//         public static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
+//         {
+// #if UNITY_EDITOR
+//             
+//             AssetDatabase.RemoveUnusedAssetBundleNames();
+//
+//             string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
+//             
+//             foreach (string name in assetBundleNames)
+//             {
+//                 string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
+//
+//                 int index = assetDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
+//                 if (index < 0)
+//                 {
+//                     continue;
+//                 }
+//             
+//                 string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(name);
+//                 foreach (string asset in assets)
+//                 {
+//                     Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
+//             
+//                     short code = type.ToCode();
+//
+//                     string fileName = Path.GetFileName(asset);
+//                     
+//                     @group.AddAssetInfo(asset.EndsWith(".unity")
+//                         ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
+//                         : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
+//                 }
+//             }
+// #endif
+//         }
     }
 }

@@ -23,11 +23,12 @@
  *****************************************************************************/
 
 using System;
-using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using Object = UnityEngine.Object;
+using IFramework.Core;
 
-namespace IFramework.Core
+namespace IFramework.Engine
 {
     /// <summary>
     /// 环境类，用于编译条件的类，本身不编译，继承自IEnvironment接口，生成后放在Unity3D中
@@ -87,7 +88,7 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="assetDataConfig"></param>
         /// <param name="assetBundleName"></param>
-        private static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
+        public static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
         {
 #if UNITY_EDITOR
             
