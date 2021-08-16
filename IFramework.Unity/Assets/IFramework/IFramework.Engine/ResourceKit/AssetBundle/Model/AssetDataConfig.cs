@@ -35,7 +35,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源数据管理类
     /// </summary>
-    public sealed class ResourceDataConfig
+    public sealed class AssetDataConfig
     {
         private AssetTable assetTable;
 
@@ -197,12 +197,12 @@ namespace IFramework.Engine
         /// 获取自定义的 资源信息
         /// </summary>
         /// <returns></returns>
-        public static ResourceDataConfig ConfigFile
+        public static AssetDataConfig ConfigFile
         {
-            get => configFile??= new ResourceDataConfig();
+            get => configFile??= new AssetDataConfig();
             set => configFile = value;
         }
 
-        private static ResourceDataConfig configFile = null;
+        private static AssetDataConfig configFile = null;
     }
 }

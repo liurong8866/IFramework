@@ -128,21 +128,21 @@ namespace IFramework.Editor
         {
             if(assetBundleNames.IsNullOrEmpty()) return;;
             
-            ResourceDataConfig resourceDataConfig = new ResourceDataConfig();
+            AssetDataConfig assetDataConfig = new AssetDataConfig();
 
-            AddAssetBundleInfoToResourceData(resourceDataConfig, assetBundleNames);
+            AddAssetBundleInfoToResourceData(assetDataConfig, assetBundleNames);
 
             string filePath = Path.Combine((outputPath?? PlatformSetting.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             
-            resourceDataConfig.Save(filePath);
+            assetDataConfig.Save(filePath);
         }
         
         /// <summary>
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
-        /// <param name="resourceDataConfig"></param>
+        /// <param name="assetDataConfig"></param>
         /// <param name="assetBundleName"></param>
-        private static void AddAssetBundleInfoToResourceData(ResourceDataConfig resourceDataConfig, string[] assetBundleName = null)
+        private static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
         {
 #if UNITY_EDITOR
             
@@ -154,7 +154,7 @@ namespace IFramework.Editor
             {
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
 
-                int index = resourceDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
+                int index = assetDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
                 if (index < 0)
                 {
                     continue;

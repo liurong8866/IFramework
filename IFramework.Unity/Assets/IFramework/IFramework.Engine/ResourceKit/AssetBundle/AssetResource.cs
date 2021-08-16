@@ -273,7 +273,7 @@ namespace IFramework.Engine
             
             // 在config文件中查找资源
             using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
-            AssetInfo config = ResourceDataConfig.ConfigFile.GetAssetInfo(searcher);
+            AssetInfo config = AssetDataConfig.ConfigFile.GetAssetInfo(searcher);
 
             if (config == null)
             {

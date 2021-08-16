@@ -59,7 +59,7 @@ namespace IFramework.Engine
 
         private void InitAssetBundleName()
         {
-            dependResources = ResourceDataConfig.ConfigFile.GetAllDependenciesByUrl(AssetName);
+            dependResources = AssetDataConfig.ConfigFile.GetAllDependenciesByUrl(AssetName);
         }
         
         /// <summary>
