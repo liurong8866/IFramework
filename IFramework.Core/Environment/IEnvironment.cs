@@ -28,8 +28,4 @@ namespace IFramework.Core
     {
         
     }
-    
-    public interface IAssetDataConfig {
-    
-    }
 }

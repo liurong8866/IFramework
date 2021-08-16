@@ -24,7 +24,6 @@
 
 using System;
 using IFramework.Core;
-using UnityEngine.Serialization;
 
 namespace IFramework.Engine
 {
