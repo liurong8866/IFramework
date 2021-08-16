@@ -291,7 +291,7 @@ namespace IFramework.Engine
         /* Counter 接口实现              */
         /*-----------------------------*/
 
-        protected void OnEmpty()
+        protected virtual void OnEmpty()
         {
             if(state == ResourceState.Loading) return;
 

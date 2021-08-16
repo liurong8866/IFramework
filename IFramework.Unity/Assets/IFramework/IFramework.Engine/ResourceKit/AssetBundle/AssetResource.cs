@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace IFramework.Engine
 {
     public class AssetResource : AbstractResource
     {
+        protected string assetBundleNameConfig;
         protected AssetBundleRequest assetBundleRequest;
 
         /// <summary>
@@ -55,41 +57,11 @@ namespace IFramework.Engine
                 resource.AssetName = assetName;
                 resource.AssetBundleName = assetBundleName;
                 resource.AssetType = assetType;
+                resource.InitAssetBundleName();
             }
             return resource;
         }
-        
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        protected void InitAssetBundleName()
-        {
-            // AssetBundleName = null;
-            //
-            // var resSearchKeys = ResSearchKeys.Allocate(mAssetName,mOwnerBundleName,AssetType);
-            //
-            // var config =  AssetBundleSettings.AssetBundleConfigFile.GetAssetData(resSearchKeys);
-            //
-            // resSearchKeys.Recycle2Cache();
-            //
-            // if (config == null)
-            // {
-            //     Log.E("Not Find AssetData For Asset:" + mAssetName);
-            //     return;
-            // }
-            //
-            // var assetBundleName = config.OwnerBundleName;
-            //
-            // if (string.IsNullOrEmpty(assetBundleName))
-            // {
-            //     Log.E("Not Find AssetBundle In Config:" + config.AssetBundleIndex + mOwnerBundleName);
-            //     return;
-            // }
-            //
-            // mAssetBundleArray = new string[1];
-            // mAssetBundleArray[0] = assetBundleName;
-        }
-        
+
         /// <summary>
         /// 同步加载资源
         /// </summary>
@@ -97,31 +69,87 @@ namespace IFramework.Engine
         {
             if (!IsLoadable) return false;
 
+            // 如果配置文件没有对应的Asset，则退出
+            if (assetBundleNameConfig.IsNullOrEmpty()) return false;
+
+            // 如果是模拟模式，并且不是包信息资源
+            if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
+            {
+                using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
+
+                ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
+                
+
+            }
+            else
+            {
+                
+            }
             return false;
         }
 
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
         public override void LoadASync()
         {
-            throw new NotImplementedException();
-        }
+            if (!IsLoadable) return;
+            
+            if(AssetBundleName.IsNullOrEmpty()) return;
 
-        public override void Recycle()
-        {
-            ObjectPool<AssetResource>.Instance.Recycle(this);
+            state = ResourceState.Loading;
+            
+            ResourceManager.Instance.AddResourceLoadTask(this);
         }
 
         public override IEnumerator LoadAsync(Action callback)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// 获取资源依赖
+        /// </summary>
+        public override List<string> GetDependResourceList()
+        {
+            return new List<string>() { AssetBundleName };
+        }
+
+        /// <summary>
+        /// 初始化AssetBundleName
+        /// </summary>
+        protected void InitAssetBundleName()
+        {
+            assetBundleNameConfig = null;
+            
+            // 在config文件中查找资源
+            using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
+            AssetInfo config = ResourceDataConfig.ConfigFile.GetAssetInfo(searcher);
+
+            if (config == null)
+            {
+                Log.Error("未找到Asset的AssetInfo：{0}", assetName);
+                return;
+            }
+            
+            // 如果找到，则使用config的资源
+            assetBundleNameConfig = config.AssetBundleName;
+
+            if (assetBundleNameConfig.IsNullOrEmpty())
+            {
+                Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName);
+            }
+        }
         
-        
+        public override void Recycle()
+        {
+            ObjectPool<AssetResource>.Instance.Recycle(this);
+        }
+
         public override string ToString()
         {
             return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
         }
-        
-        
         
     }
 }

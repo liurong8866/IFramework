@@ -125,5 +125,34 @@ namespace IFramework.Core
         /// </summary>
         public static BuildTarget CurrentBundlePlatform => GetBuildTargetByIndex(Configure.CurrentPlatform.Value);
 
+        /// <summary>
+        /// 根据路径获得资源名
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string AssetBundleNameByUrl(string url)
+        {
+            string name = url.Replace(PlatformSetting.StreamingAssetBundlePath + "/", "")
+                .Replace(PlatformSetting.PersistentAssetBundlePath + "/", "");
+            return name;
+        }
+        
+        /// <summary>
+        /// 根据资源名获得资源路径
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string AssetBundleNameToUrl(string name)
+        {
+            // 优先返回PersistentAsset路径
+            string url = PlatformSetting.PersistentAssetBundlePath + "/" + name;
+
+            if (File.Exists(url))
+            {
+                return url;
+            }
+           
+            return PlatformSetting.StreamingAssetBundlePath + "/" + name;
+        }
     }
 }

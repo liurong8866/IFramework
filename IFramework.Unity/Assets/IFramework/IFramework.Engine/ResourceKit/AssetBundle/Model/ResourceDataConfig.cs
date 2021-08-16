@@ -22,16 +22,20 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.Collections;
 using IFramework.Core;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace IFramework.Engine
 {
     /// <summary>
     /// 资源数据管理类
     /// </summary>
-    public sealed class ResourceData
+    public sealed class ResourceDataConfig
     {
         private AssetTable assetTable;
 
@@ -84,10 +88,10 @@ namespace IFramework.Engine
         /// </summary>
         public string[] GetAllDependenciesByUrl(string url)
         {
-            string assetBundleName = url.Replace(PlatformSetting.StreamingAssetBundlePath, "")
-                .Replace(PlatformSetting.PersistentAssetBundlePath, "");
+            string assetBundleName = PlatformSetting.AssetBundleNameByUrl(url);
 
             string[] depends = null;
+            
             foreach (AssetGroup assetGroup in assetGroupList)
             {
                 depends = assetGroup.GetAssetBundleDepends(assetBundleName);
@@ -98,7 +102,7 @@ namespace IFramework.Engine
             }
             return depends;
         }
-
+        
         /// <summary>
         /// 获取资源信息
         /// </summary>
@@ -138,7 +142,52 @@ namespace IFramework.Engine
             
             SerializeUtils.SerializeToFile(path, data);
         }
+        
+        /// <summary>
+        /// 从配置文件加载关系
+        /// </summary>
+        public void LoadFromFile(string path)
+        {
+            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
+            
+            SetSerializeData(groups);
+        }
+        
+        /// <summary>
+        /// 从配置文件加载关系
+        /// </summary>
+        public IEnumerator LoadFromFileAsync(string path)
+        {
+            using UnityWebRequest webRequest = new UnityWebRequest(path);
 
+            yield return webRequest.SendWebRequest();
+            
+            // 出错退出
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError||
+                webRequest.result == UnityWebRequest.Result.ProtocolError ||
+                webRequest.result == UnityWebRequest.Result.DataProcessingError){
+                Debug.Log(webRequest.error);
+                yield break;
+            }
+            
+            // 如果下载中，继续
+            if (webRequest.result == UnityWebRequest.Result.InProgress){
+                yield return webRequest.SendWebRequest();
+            }
+
+            // 如果成功
+            if (webRequest.isDone)
+            {
+                MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
+                
+                AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
+                
+                if(groups == null) yield break;
+                
+                SetSerializeData(groups);
+            }
+        }
+        
         /// <summary>
         /// 加载后设置序列化数据
         /// </summary>
@@ -153,5 +202,17 @@ namespace IFramework.Engine
 
             assetTable ??= new AssetTable();
         }
+        
+        /// <summary>
+        /// 获取自定义的 资源信息
+        /// </summary>
+        /// <returns></returns>
+        public static ResourceDataConfig ConfigFile
+        {
+            get => configFile??= new ResourceDataConfig();
+            set => configFile = value;
+        }
+
+        private static ResourceDataConfig configFile = null;
     }
 }
