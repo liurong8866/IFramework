@@ -32,9 +32,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Environment\Environment.cs">
+      <Resource Include="Environment\Environment.cs">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      </Resource>
     </ItemGroup>
 
 </Project>

@@ -26,6 +26,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -81,9 +82,11 @@ namespace IFramework.Engine
             Log.Info("正在初始化 Resource Manager");
             
             // 初始化各种对象池
+            ObjectPool<AssetBundleResource>.Instance.Init(40,20);
+            ObjectPool<AssetResource>.Instance.Init(40,20);
             ObjectPool<Resource>.Instance.Init(40,20);
-            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
             ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
+            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
 
             // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
@@ -94,6 +97,10 @@ namespace IFramework.Engine
         /// </summary>
         private IEnumerator InitResourceManagerAsync()
         {
+            if (Configure.IsSimulation)
+            {
+                
+            }
             yield return null;
         }
         
