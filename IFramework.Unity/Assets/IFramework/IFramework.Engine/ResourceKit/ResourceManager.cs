@@ -24,8 +24,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using IFramework.Core;
+using IFramework.Core.Environment;
 using UnityEditor;
 using UnityEngine;
 
@@ -46,7 +48,7 @@ namespace IFramework.Engine
         // 资源列表
         private readonly ResourceTable resourceTable = new ResourceTable();
         // Resource在ResourceManager中 删除的问题，定时收集列表中的Resource然后删除
-        private bool isDirty = false;
+        private bool isResourceMapDirty = false;
         
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
@@ -130,11 +132,25 @@ namespace IFramework.Engine
             else
             {
                 AssetDataConfig.ConfigFile.Reset();
-                List<string> result = new List<string>();
+                List<string> configFiles = new List<string>();
 
+                // 未进行过热更新
                 if (Configure.LoadAssetFromStream)
                 {
+                    Zip zip = new Zip();
                     
+                    configFiles = zip.GetFileInInner(Constant.ASSET_BUNDLE_CONFIG_FILE);
+                }
+                // 进行过热更新
+                else
+                {
+                    configFiles = DirectoryUtils.GetFiles(PlatformSetting.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                }
+
+                foreach (string file in configFiles)
+                {
+                    file.LogInfo();
+                    AssetDataConfig.ConfigFile.LoadFromFile(file);
                 }
             }
         }
@@ -146,9 +162,37 @@ namespace IFramework.Engine
         {
             if (Configure.IsSimulation)
             {
-                
+                AssetDataConfig config = new AssetDataConfig();
+                Environment.AddAssetBundleInfoToResourceData(config);
+                AssetDataConfig.ConfigFile = config;
+                yield return null;
             }
-            yield return null;
+            else
+            {
+                AssetDataConfig.ConfigFile.Reset();
+                List<string> configFiles = new List<string>();
+
+                // 未进行过热更新
+                if (Configure.LoadAssetFromStream)
+                {
+                    string streamPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.PlatformName);
+                    configFiles.Add(Environment.FilePathPrefix + streamPath);
+                }
+                // 进行过热更新
+                else
+                {
+                    var persistentPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.PlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    configFiles.Add(Environment.FilePathPrefix + persistentPath);
+                    configFiles = DirectoryUtils.GetFiles(PlatformSetting.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                }
+
+                foreach (string file in configFiles)
+                {
+                    file.LogInfo();
+                    yield return AssetDataConfig.ConfigFile.LoadFromFileAsync(file);
+                }
+                yield return null;
+            }
         }
         
         /*-----------------------------*/
@@ -250,7 +294,7 @@ namespace IFramework.Engine
 
         private void Update()
         {
-            if (isDirty)
+            if (isResourceMapDirty)
             {
                 RemoveUnusedResource();
             }
@@ -261,7 +305,7 @@ namespace IFramework.Engine
         /// </summary>
         public void ClearOnUpdate()
         {
-            isDirty = true;
+            isResourceMapDirty = true;
         }
 
         /// <summary>
@@ -269,9 +313,9 @@ namespace IFramework.Engine
         /// </summary>
         private void RemoveUnusedResource()
         {
-            if (!isDirty) return;
+            if (!isResourceMapDirty) return;
 
-            isDirty = false;
+            isResourceMapDirty = false;
 
             foreach (IResource resource in resourceTable.ToList())
             {

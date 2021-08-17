@@ -117,7 +117,7 @@ namespace IFramework.Engine
                 yield break;
             }
 
-            if (Configure.IsSimulation)
+            if (Environment.IsSimulation)
             {
                 yield return null;
             }
