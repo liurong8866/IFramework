@@ -107,7 +107,7 @@ namespace IFramework.Engine
                 
                 loadingCount--;
                 
-                first?.LoadSync();
+                first?.Load();
             }
 
             // 从加载到资源中找到本次要打开到资源

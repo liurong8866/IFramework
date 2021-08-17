@@ -43,7 +43,7 @@ namespace IFramework.Engine
         public AssetBundleScene() {}
         public AssetBundleScene(string assetName) : base(assetName) {}
 
-        public override bool LoadSync()
+        public override bool Load()
         {
             if (!IsLoadable) return false;
             
@@ -65,7 +65,7 @@ namespace IFramework.Engine
 
         public override void LoadASync()
         {
-            LoadSync();
+            Load();
         }
 
         public override void Recycle()

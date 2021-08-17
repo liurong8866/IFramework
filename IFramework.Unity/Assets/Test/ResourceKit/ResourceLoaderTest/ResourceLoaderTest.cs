@@ -14,13 +14,21 @@ namespace IFramework.Test.ResourceKit
         
         private void Start()
         {
-            ResourceLoader resourceLoader = ResourceLoader.Allocate();
 
-            // Object resource = resourceLoader.Load("Resources://Test");
-            // resource.Instantiate().Name("这是Resource.Load加载");
-            //
-            // Object resource2 = resourceLoader.Load("Resources://Test");
-            // resource2.Instantiate().Name("这是Resource加载");
+            // ResourceTest();
+
+            AssetBundleTest();
+            
+        }
+
+        private void ResourceTest()
+        {
+            ResourceLoader resourceLoader = ResourceLoader.Allocate();
+            Object resource = resourceLoader.Load("Resources://Test");
+            resource.Instantiate().Name("这是Resource.Load加载");
+            
+            Object resource2 = resourceLoader.Load("Resources://Test");
+            resource2.Instantiate().Name("这是Resource加载");
             
             Sprite resource3 = resourceLoader.LoadSprite("Resources://icon");
             imag.sprite = resource3;
@@ -53,7 +61,8 @@ namespace IFramework.Test.ResourceKit
                 // resourceLoader.Recycle();
                 
             });
-
+            
+            
             // resourceLoader.Recycle();
             
             // resourceLoader.Dispose();
@@ -68,9 +77,17 @@ namespace IFramework.Test.ResourceKit
             //
             // Object resource4 = resourceLoader.Load("Resources://Test");
             // resource4.Instantiate().Name("这是Resource.Load加载");
+        }
 
+        private void AssetBundleTest()
+        {
+            ResourceLoader resourceLoader = ResourceLoader.Allocate();
 
-
+            Object resource = resourceLoader.Load("Lili");
+            resource.Instantiate().Name("这是Resource.Load加载");
+            
+            // Sprite resource3 = resourceLoader.LoadSprite("icon");
+            // imag.sprite = resource3;
         }
         
     }

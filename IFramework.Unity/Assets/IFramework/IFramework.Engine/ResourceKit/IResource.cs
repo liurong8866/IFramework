@@ -58,7 +58,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        bool LoadSync();
+        bool Load();
         
         /// <summary>
         /// 异步加载资源

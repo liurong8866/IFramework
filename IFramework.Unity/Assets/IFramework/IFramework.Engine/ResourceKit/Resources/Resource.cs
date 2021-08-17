@@ -60,7 +60,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool LoadSync()
+        public override bool Load()
         {
             if (!IsLoadable) return false;
 

@@ -53,33 +53,19 @@ namespace IFramework.Engine
         /*-----------------------------*/
         /* 初始化Manager 自动加载         */
         /*-----------------------------*/
-        
+
         /// <summary>
         /// 全局自动加载一次，请不要手动调用！！
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void Init()
+        static void OnLoad()
         {
             // 初始化Manager自身
-            Instance.StartInitAsync();
+            // Instance.StartInitAsync();
+            Init();
         }
         
-        /// <summary>
-        /// 初始化各种对象池
-        /// </summary>
-        private static void InitPool()
-        {
-            ObjectPool<AssetBundleResource>.Instance.Init(40,20);
-            ObjectPool<AssetResource>.Instance.Init(40,20);
-            ObjectPool<Resource>.Instance.Init(40,20);
-            ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
-            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
-        }
-
-        /// <summary>
-        /// 同步初始化
-        /// </summary>
-        private static void InitSync()
+        public static void Init()
         {
             if(isInit) return;
 
@@ -91,14 +77,6 @@ namespace IFramework.Engine
             
             // 初始化Manager自身
             Instance.InitResourceManager();
-        }
-        
-        /// <summary>
-        /// 只是为了解决调用异步初始化方法问题
-        /// </summary>
-        private void StartInitAsync()
-        {
-            StartCoroutine(InitAsync());
         }
 
         /// <summary>
@@ -116,6 +94,26 @@ namespace IFramework.Engine
             
             // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
+        }
+
+        /// <summary>
+        /// 只是为了解决调用异步初始化方法问题
+        /// </summary>
+        private void StartInitAsync()
+        {
+            StartCoroutine(InitAsync());
+        }
+
+        /// <summary>
+        /// 初始化各种对象池
+        /// </summary>
+        private static void InitPool()
+        {
+            ObjectPool<AssetBundleResource>.Instance.Init(40,20);
+            ObjectPool<AssetResource>.Instance.Init(40,20);
+            ObjectPool<Resource>.Instance.Init(40,20);
+            ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
+            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
         }
         
         /// <summary>
