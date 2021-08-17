@@ -61,7 +61,7 @@ namespace IFramework.Core.Zip.Tar
 		public TarEntry(TarHeader header)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			this.header = (TarHeader)header.Clone();
@@ -150,7 +150,7 @@ namespace IFramework.Core.Zip.Tar
 		public bool IsDescendent(TarEntry toTest)
 		{
 			if (toTest == null) {
-				throw new ArgumentNullException("nameof(toTest)");
+				throw new ArgumentNullException(nameof(toTest));
 			}
 
 			return toTest.Name.StartsWith(Name, StringComparison.Ordinal);
@@ -327,11 +327,11 @@ namespace IFramework.Core.Zip.Tar
 		public void GetFileTarHeader(TarHeader header, string file)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			if (file == null) {
-				throw new ArgumentNullException("nameof(file)");
+				throw new ArgumentNullException(nameof(file));
 			}
 
 			this.file = file;
@@ -454,11 +454,11 @@ namespace IFramework.Core.Zip.Tar
 		static public void NameTarHeader(TarHeader header, string name)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			if (name == null) {
-				throw new ArgumentNullException("nameof(name)");
+				throw new ArgumentNullException(nameof(name));
 			}
 
 			bool isDir = name.EndsWith("/", StringComparison.Ordinal);

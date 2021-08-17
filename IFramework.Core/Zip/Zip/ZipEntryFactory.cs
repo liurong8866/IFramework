@@ -117,7 +117,7 @@ namespace IFramework.Core.Zip.Zip
 			get { return fixedDateTime_; }
 			set {
 				if (value.Year < 1970) {
-					throw new ArgumentException("Value is too old to be valid", "nameof(value)");
+					throw new ArgumentException("Value is too old to be valid", nameof(value));
 				}
 				fixedDateTime_ = value;
 			}

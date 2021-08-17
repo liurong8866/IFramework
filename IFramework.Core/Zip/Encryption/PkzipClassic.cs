@@ -19,11 +19,11 @@ namespace IFramework.Core.Zip.Encryption
 		static public byte[] GenerateKeys(byte[] seed)
 		{
 			if (seed == null) {
-				throw new ArgumentNullException("nameof(seed)");
+				throw new ArgumentNullException(nameof(seed));
 			}
 
 			if (seed.Length == 0) {
-				throw new ArgumentException("Length is zero", "nameof(seed)");
+				throw new ArgumentException("Length is zero", nameof(seed));
 			}
 
 			uint[] newKeys = {
@@ -81,7 +81,7 @@ namespace IFramework.Core.Zip.Encryption
 		protected void SetKeys(byte[] keyData)
 		{
 			if (keyData == null) {
-				throw new ArgumentNullException("nameof(keyData)");
+				throw new ArgumentNullException(nameof(keyData));
 			}
 
 			if (keyData.Length != 12) {
@@ -389,7 +389,7 @@ namespace IFramework.Core.Zip.Encryption
 
 			set {
 				if (value == null) {
-					throw new ArgumentNullException("nameof(value)");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				if (value.Length != 12) {

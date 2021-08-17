@@ -100,7 +100,7 @@ namespace IFramework.Core.Zip.Zip
 			// TODO: Its not yet clear how to handle unicode comments here.
 			byte[] commentBytes = ZipConstants.ConvertToArray(comment);
 			if (commentBytes.Length > 0xffff) {
-				throw new ArgumentOutOfRangeException("nameof(comment)");
+				throw new ArgumentOutOfRangeException(nameof(comment));
 			}
 			zipComment = commentBytes;
 		}
@@ -201,7 +201,7 @@ namespace IFramework.Core.Zip.Zip
 		public void PutNextEntry(ZipEntry entry)
 		{
 			if (entry == null) {
-				throw new ArgumentNullException("nameof(entry)");
+				throw new ArgumentNullException(nameof(entry));
 			}
 
 			if (entries == null) {
@@ -571,15 +571,15 @@ namespace IFramework.Core.Zip.Zip
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException("nameof(offset)", "Cannot be negative");
+				throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException("nameof(count)", "Cannot be negative");
+				throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
 			}
 
 			if ((buffer.Length - offset) < count) {

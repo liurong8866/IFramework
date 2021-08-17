@@ -114,7 +114,7 @@ namespace IFramework.Core.Zip
 					} else if (original[endIndex] == escape) {
 						endIndex += 1;
 						if (endIndex >= original.Length) {
-							throw new ArgumentException("Missing terminating escape character", "nameof(original)");
+							throw new ArgumentException("Missing terminating escape character", nameof(original));
 						}
 						// include escape if this is not an escaped separator
 						if (Array.IndexOf(separators, original[endIndex]) < 0)

@@ -91,7 +91,7 @@ namespace IFramework.Core.Zip.GZip
 		public void SetLevel(int level)
 		{
 			if (level < Deflater.BEST_SPEED) {
-				throw new ArgumentOutOfRangeException("nameof(level)");
+				throw new ArgumentOutOfRangeException(nameof(level));
 			}
 			deflater_.SetLevel(level);
 		}

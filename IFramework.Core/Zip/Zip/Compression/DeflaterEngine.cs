@@ -122,15 +122,15 @@ namespace IFramework.Core.Zip.Zip.Compression
 		public void SetInput(byte[] buffer, int offset, int count)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException("nameof(offset)");
+				throw new ArgumentOutOfRangeException(nameof(offset));
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException("nameof(count)");
+				throw new ArgumentOutOfRangeException(nameof(count));
 			}
 
 			if (inputOff < inputEnd) {
@@ -143,7 +143,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			* check is very tricky: it also handles integer wrap around.
 			*/
 			if ((offset > end) || (end > buffer.Length)) {
-				throw new ArgumentOutOfRangeException("nameof(count)");
+				throw new ArgumentOutOfRangeException(nameof(count));
 			}
 
 			inputBuf = buffer;
@@ -263,7 +263,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		public void SetLevel(int level)
 		{
 			if ((level < 0) || (level > 9)) {
-				throw new ArgumentOutOfRangeException("nameof(level)");
+				throw new ArgumentOutOfRangeException(nameof(level));
 			}
 
 			goodLength = DeflaterConstants.GOOD_LENGTH[level];

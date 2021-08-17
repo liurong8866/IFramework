@@ -65,7 +65,7 @@ namespace IFramework.Core.Zip.Tar
 		protected TarArchive(TarInputStream stream)
 		{
 			if (stream == null) {
-				throw new ArgumentNullException("nameof(stream)");
+				throw new ArgumentNullException(nameof(stream));
 			}
 
 			tarIn = stream;
@@ -78,7 +78,7 @@ namespace IFramework.Core.Zip.Tar
 		protected TarArchive(TarOutputStream stream)
 		{
 			if (stream == null) {
-				throw new ArgumentNullException("nameof(stream)");
+				throw new ArgumentNullException(nameof(stream));
 			}
 
 			tarOut = stream;
@@ -97,7 +97,7 @@ namespace IFramework.Core.Zip.Tar
 		public static TarArchive CreateInputTarArchive(Stream inputStream)
 		{
 			if (inputStream == null) {
-				throw new ArgumentNullException("nameof(inputStream)");
+				throw new ArgumentNullException(nameof(inputStream));
 			}
 
 			var tarStream = inputStream as TarInputStream;
@@ -120,7 +120,7 @@ namespace IFramework.Core.Zip.Tar
 		public static TarArchive CreateInputTarArchive(Stream inputStream, int blockFactor)
 		{
 			if (inputStream == null) {
-				throw new ArgumentNullException("nameof(inputStream)");
+				throw new ArgumentNullException(nameof(inputStream));
 			}
 
 			if (inputStream is TarInputStream) {
@@ -138,7 +138,7 @@ namespace IFramework.Core.Zip.Tar
 		public static TarArchive CreateOutputTarArchive(Stream outputStream)
 		{
 			if (outputStream == null) {
-				throw new ArgumentNullException("nameof(outputStream)");
+				throw new ArgumentNullException(nameof(outputStream));
 			}
 
 			var tarStream = outputStream as TarOutputStream;
@@ -161,7 +161,7 @@ namespace IFramework.Core.Zip.Tar
 		public static TarArchive CreateOutputTarArchive(Stream outputStream, int blockFactor)
 		{
 			if (outputStream == null) {
-				throw new ArgumentNullException("nameof(outputStream)");
+				throw new ArgumentNullException(nameof(outputStream));
 			}
 
 			if (outputStream is TarOutputStream) {
@@ -604,7 +604,7 @@ namespace IFramework.Core.Zip.Tar
 		public void WriteEntry(TarEntry sourceEntry, bool recurse)
 		{
 			if (sourceEntry == null) {
-				throw new ArgumentNullException("nameof(sourceEntry)");
+				throw new ArgumentNullException(nameof(sourceEntry));
 			}
 
 			if (isDisposed) {

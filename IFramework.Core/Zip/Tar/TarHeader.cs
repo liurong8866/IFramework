@@ -269,7 +269,7 @@ namespace IFramework.Core.Zip.Tar
 			get { return name; }
 			set {
 				if (value == null) {
-					throw new ArgumentNullException("nameof(value)");
+					throw new ArgumentNullException(nameof(value));
 				}
 				name = value;
 			}
@@ -328,7 +328,7 @@ namespace IFramework.Core.Zip.Tar
 			get { return size; }
 			set {
 				if (value < 0) {
-					throw new ArgumentOutOfRangeException("nameof(value)", "Cannot be less than zero");
+					throw new ArgumentOutOfRangeException(nameof(value), "Cannot be less than zero");
 				}
 				size = value;
 			}
@@ -346,7 +346,7 @@ namespace IFramework.Core.Zip.Tar
 			get { return modTime; }
 			set {
 				if (value < dateTime1970) {
-					throw new ArgumentOutOfRangeException("nameof(value)", "ModTime cannot be before Jan 1st 1970");
+					throw new ArgumentOutOfRangeException(nameof(value), "ModTime cannot be before Jan 1st 1970");
 				}
 				modTime = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
 			}
@@ -386,7 +386,7 @@ namespace IFramework.Core.Zip.Tar
 			get { return linkName; }
 			set {
 				if (value == null) {
-					throw new ArgumentNullException("nameof(value)");
+					throw new ArgumentNullException(nameof(value));
 				}
 				linkName = value;
 			}
@@ -401,7 +401,7 @@ namespace IFramework.Core.Zip.Tar
 			get { return magic; }
 			set {
 				if (value == null) {
-					throw new ArgumentNullException("nameof(value)");
+					throw new ArgumentNullException(nameof(value));
 				}
 				magic = value;
 			}
@@ -419,7 +419,7 @@ namespace IFramework.Core.Zip.Tar
 
 			set {
 				if (value == null) {
-					throw new ArgumentNullException("nameof(value)");
+					throw new ArgumentNullException(nameof(value));
 				}
 				version = value;
 			}
@@ -502,7 +502,7 @@ namespace IFramework.Core.Zip.Tar
 		public void ParseBuffer(byte[] header)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			int offset = 0;
@@ -567,7 +567,7 @@ namespace IFramework.Core.Zip.Tar
 		public void WriteHeader(byte[] outBuffer)
 		{
 			if (outBuffer == null) {
-				throw new ArgumentNullException("nameof(outBuffer)");
+				throw new ArgumentNullException(nameof(outBuffer));
 			}
 
 			int offset = 0;
@@ -697,7 +697,7 @@ namespace IFramework.Core.Zip.Tar
 		static public long ParseOctal(byte[] header, int offset, int length)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			long result = 0;
@@ -745,19 +745,19 @@ namespace IFramework.Core.Zip.Tar
 		static public StringBuilder ParseName(byte[] header, int offset, int length)
 		{
 			if (header == null) {
-				throw new ArgumentNullException("nameof(header)");
+				throw new ArgumentNullException(nameof(header));
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException("nameof(offset)", "Cannot be less than zero");
+				throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be less than zero");
 			}
 
 			if (length < 0) {
-				throw new ArgumentOutOfRangeException("nameof(length)", "Cannot be less than zero");
+				throw new ArgumentOutOfRangeException(nameof(length), "Cannot be less than zero");
 			}
 
 			if (offset + length > header.Length) {
-				throw new ArgumentException("Exceeds header size", "nameof(length)");
+				throw new ArgumentException("Exceeds header size", nameof(length));
 			}
 
 			var result = new StringBuilder(length);
@@ -784,11 +784,11 @@ namespace IFramework.Core.Zip.Tar
 		public static int GetNameBytes(StringBuilder name, int nameOffset, byte[] buffer, int bufferOffset, int length)
 		{
 			if (name == null) {
-				throw new ArgumentNullException("nameof(name)");
+				throw new ArgumentNullException(nameof(name));
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			return GetNameBytes(name.ToString(), nameOffset, buffer, bufferOffset, length);
@@ -806,11 +806,11 @@ namespace IFramework.Core.Zip.Tar
 		public static int GetNameBytes(string name, int nameOffset, byte[] buffer, int bufferOffset, int length)
 		{
 			if (name == null) {
-				throw new ArgumentNullException("nameof(name)");
+				throw new ArgumentNullException(nameof(name));
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			int i;
@@ -848,11 +848,11 @@ namespace IFramework.Core.Zip.Tar
 		{
 
 			if (name == null) {
-				throw new ArgumentNullException("nameof(name)");
+				throw new ArgumentNullException(nameof(name));
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			return GetNameBytes(name.ToString(), 0, buffer, offset, length);
@@ -870,11 +870,11 @@ namespace IFramework.Core.Zip.Tar
 		{
 
 			if (name == null) {
-				throw new ArgumentNullException("nameof(name)");
+				throw new ArgumentNullException(nameof(name));
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			return GetNameBytes(name, 0, buffer, offset, length);
@@ -892,11 +892,11 @@ namespace IFramework.Core.Zip.Tar
 		public static int GetAsciiBytes(string toAdd, int nameOffset, byte[] buffer, int bufferOffset, int length)
 		{
 			if (toAdd == null) {
-				throw new ArgumentNullException("nameof(toAdd)");
+				throw new ArgumentNullException(nameof(toAdd));
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			int i;
@@ -930,7 +930,7 @@ namespace IFramework.Core.Zip.Tar
 		public static int GetOctalBytes(long value, byte[] buffer, int offset, int length)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			int localIndex = length - 1;

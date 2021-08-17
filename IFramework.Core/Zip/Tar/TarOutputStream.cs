@@ -29,7 +29,7 @@ namespace IFramework.Core.Zip.Tar
 		public TarOutputStream(Stream outputStream, int blockFactor)
 		{
 			if (outputStream == null) {
-				throw new ArgumentNullException("nameof(outputStream)");
+				throw new ArgumentNullException(nameof(outputStream));
 			}
 
 			this.outputStream = outputStream;
@@ -219,7 +219,7 @@ namespace IFramework.Core.Zip.Tar
 		public void PutNextEntry(TarEntry entry)
 		{
 			if (entry == null) {
-				throw new ArgumentNullException("nameof(entry)");
+				throw new ArgumentNullException(nameof(entry));
 			}
 
 			if (entry.TarHeader.Name.Length > TarHeader.NAMELEN) {
@@ -316,11 +316,11 @@ namespace IFramework.Core.Zip.Tar
 		public override void Write(byte[] buffer, int offset, int count)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException("nameof(buffer)");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException("nameof(offset)", "Cannot be negative");
+				throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
 			}
 
 			if (buffer.Length - offset < count) {
@@ -328,13 +328,13 @@ namespace IFramework.Core.Zip.Tar
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException("nameof(count)", "Cannot be negative");
+				throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
 			}
 
 			if ((currBytes + count) > currSize) {
 				string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes",
 					count, this.currSize);
-				throw new ArgumentOutOfRangeException("nameof(count)", errorText);
+				throw new ArgumentOutOfRangeException(nameof(count), errorText);
 			}
 
 			//

@@ -1,5 +1,4 @@
 using System;
-
 namespace IFramework.Core.Zip
 {
     /// <summary>
