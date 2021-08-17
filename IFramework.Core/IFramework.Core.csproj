@@ -37,6 +37,10 @@
       <Content Include="Environment\Environment.cs">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Compile Remove="Environment\ZipUtils.cs" />
+      <Content Include="Environment\Zip.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

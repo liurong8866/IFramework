@@ -63,6 +63,35 @@ namespace IFramework.Engine
         }
         
         /// <summary>
+        /// 初始化各种对象池
+        /// </summary>
+        private static void InitPool()
+        {
+            ObjectPool<AssetBundleResource>.Instance.Init(40,20);
+            ObjectPool<AssetResource>.Instance.Init(40,20);
+            ObjectPool<Resource>.Instance.Init(40,20);
+            ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
+            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
+        }
+
+        /// <summary>
+        /// 同步初始化
+        /// </summary>
+        private static void InitSync()
+        {
+            if(isInit) return;
+
+            isInit = true;
+            
+            Log.Info("正在初始化 Resource Manager");
+
+            InitPool();
+            
+            // 初始化Manager自身
+            Instance.InitResourceManager();
+        }
+        
+        /// <summary>
         /// 只是为了解决调用异步初始化方法问题
         /// </summary>
         private void StartInitAsync()
@@ -80,16 +109,34 @@ namespace IFramework.Engine
             isInit = true;
             
             Log.Info("正在初始化 Resource Manager");
-            
-            // 初始化各种对象池
-            ObjectPool<AssetBundleResource>.Instance.Init(40,20);
-            ObjectPool<AssetResource>.Instance.Init(40,20);
-            ObjectPool<Resource>.Instance.Init(40,20);
-            ObjectPool<ResourceSearcher>.Instance.Init(40, 20);
-            ObjectPool<ResourceLoader>.Instance.Init(40, 20);
 
+            InitPool();
+            
             // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
+        }
+        
+        /// <summary>
+        /// 初始化Manager自身（异步）
+        /// </summary>
+        private void InitResourceManager()
+        {
+            if (Configure.IsSimulation)
+            {
+                AssetDataConfig config = new AssetDataConfig();
+                Environment.AddAssetBundleInfoToResourceData(config);
+                AssetDataConfig.ConfigFile = config;
+            }
+            else
+            {
+                AssetDataConfig.ConfigFile.Reset();
+                List<string> result = new List<string>();
+
+                if (Configure.LoadAssetFromStream)
+                {
+                    
+                }
+            }
         }
         
         /// <summary>

@@ -35,5 +35,8 @@ namespace IFramework.Core
         // 是否模拟模式
         public static readonly ConfigBool IsSimulation = new ConfigBool("IsSimulation", true);
         
+        // 是否从StreamingAssets加载资源
+        public static readonly ConfigBool LoadAssetFromStream = new ConfigBool("LoadAssetFromStream", true);
+        
     }
 }

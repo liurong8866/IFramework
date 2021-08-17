@@ -23,40 +23,88 @@
  *****************************************************************************/
 
 
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Core
 {
-    public class PlatformSetting
+    /// <summary>
+    /// 平台配置相关方法
+    /// </summary>
+    public static class PlatformSetting
     {
+        
+        /// <summary>
+        /// 内部目录 StreamingAssets文件夹路径
+        /// </summary>
+        public static string StreamingAssetsPath => Application.streamingAssetsPath;
+        
+        /// <summary>
+        /// 外部目录 PersistentDataPath文件夹路径
+        /// </summary>
+        public static string PersistentDataPath => Application.persistentDataPath;
+
+        /// <summary>
+        /// 外部资源路径 PersistentDataPath/Resource
+        /// </summary>
+        public static string PersistentDataResourcePath
+        {
+            get
+            {
+                if (persistentDataResourcePath == null)
+                {
+                    persistentDataResourcePath = Path.Combine(PersistentDataPath, "Resource");
+                    DirectoryUtils.Create(persistentDataResourcePath);
+                }
+
+                return persistentDataResourcePath;
+            }
+        }
+        private static string persistentDataResourcePath;
+        
+        /// <summary>
+        /// 外部头像路径 PersistentDataPath/Resource
+        /// </summary>
+        public static string PersistentDataPhotoPath
+        {
+            get
+            {
+                if (persistentDataPhotoPath == null)
+                {
+                    persistentDataPhotoPath = Path.Combine(PersistentDataPath, "Photo");
+                    DirectoryUtils.Create(persistentDataPhotoPath);
+                }
+
+                return persistentDataPhotoPath;
+            }
+        }
+        private static string persistentDataPhotoPath;
+
         /// <summary>
         /// AssetBundle路径  AssetBundle/Platform
         /// </summary>
         public static string AssetBundlePath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, EditorUserBuildSettings.activeBuildTarget.ToString());
-        
-        /// <summary>
-        /// AssetBundle生成路径
-        /// </summary>
-        // public static string AssetBundleBuildPath => Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, IEnvironment.GetPlatformForAssetBundles(CurrentBundlePlatform));
-        
+
         /// <summary>
         /// StreamingAssets文件夹下到AssetBundle包
         /// </summary>
-        public static string StreamingAssetBundlePath => Path.Combine(Application.streamingAssetsPath, AssetBundlePath);
+        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, AssetBundlePath);
         
         /// <summary>
         /// PersistentData 临时文件夹下到AssetBundle包
         /// </summary>
-        public static string PersistentAssetBundlePath => Path.Combine(Application.persistentDataPath, AssetBundlePath);
+        public static string PersistentAssetBundlePath => Path.Combine(PersistentDataPath, AssetBundlePath);
         
         /// <summary>
-        /// 获取Persistent 或者 Stream 路径
+        /// 先从外部资源获取，如果没有则返回内部资源路径
         /// </summary>
         public static string GetPersistentOrStreamPath(string relativePath)
         {
-            string path = Path.Combine(Application.persistentDataPath, relativePath);
+            string path = Path.Combine(PersistentDataPath, relativePath);
 
             if (File.Exists(path))
             {
@@ -64,7 +112,7 @@ namespace IFramework.Core
             }
             else
             {
-                return Path.Combine(Application.streamingAssetsPath, relativePath);
+                return Path.Combine(StreamingAssetsPath, relativePath);
             }
         }
         
@@ -183,9 +231,7 @@ namespace IFramework.Core
         /// <returns></returns>
         public static string AssetBundleNameByUrl(string url)
         {
-            string name = url.Replace(PlatformSetting.StreamingAssetBundlePath + "/", "")
-                .Replace(PlatformSetting.PersistentAssetBundlePath + "/", "");
-            return name;
+            return url.Replace(StreamingAssetBundlePath + "/", "").Replace(PersistentAssetBundlePath + "/", "");
         }
         
         /// <summary>
@@ -196,16 +242,9 @@ namespace IFramework.Core
         public static string AssetBundleNameToUrl(string name)
         {
             // 优先返回PersistentAsset路径
-            string url = PlatformSetting.PersistentAssetBundlePath + "/" + name;
-
-            if (File.Exists(url))
-            {
-                return url;
-            }
-           
-            return PlatformSetting.StreamingAssetBundlePath + "/" + name;
+            string url = Path.Combine(PersistentAssetBundlePath,name);
+            return File.Exists(url) ? url : Path.Combine(StreamingAssetBundlePath,name);
         }
-
         
     }
 }

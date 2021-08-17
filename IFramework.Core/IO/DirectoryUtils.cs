@@ -137,32 +137,88 @@ namespace IFramework.Core
         /// 获取文件夹下所有文件路径
         /// </summary>
         /// <param name="folderPath">文件夹路径</param>
-        /// <param name="isContainsSubfolder">是否包含子文件夹</param>
+        /// <param name="recursion">是否递归</param>
         /// <returns></returns>
-        public static IList<string> GetFiles(string folderPath, bool isContainsSubfolder)
+        public static List<string> GetFiles(string folderPath, bool recursion = true)
         {
-            IList<string> fileList = null;
+            List<string> fileList = null;
 
-            if (!isContainsSubfolder)
+            if (!recursion)
             {
-                fileList = System.IO.Directory.GetFiles(folderPath).ToList<string>();
+                fileList = Directory.GetFiles(folderPath).ToList();
             }
             else
             {
-                fileList = System.IO.Directory.GetFiles(folderPath).ToList<string>();
+                fileList = Directory.GetFiles(folderPath).ToList();
 
                 //找出所有子文件夹
-                string[] folders = System.IO.Directory.GetDirectories(folderPath);
+                string[] folders = Directory.GetDirectories(folderPath);
 
                 foreach (string folder in folders)
                 {
-                    IList<string> filesSub = GetFiles(folder, isContainsSubfolder);
+                    List<string> filesSub = GetFiles(folder, recursion);
 
-                    fileList = fileList.Concat<string>(filesSub).ToList<string>();
+                    fileList = fileList.Concat(filesSub).ToList();
                 }
             }
 
             return fileList;
+        }
+        
+        /// <summary>
+        /// 获取文件夹下所有文件路径
+        /// </summary>
+        /// <param name="folderPath">文件夹路径</param>
+        /// <param name="fileName">要查找的文件名</param>
+        /// <param name="recursion">是否递归</param>
+        /// <returns></returns>
+        public static List<string> GetFiles(string folderPath, string fileName, bool recursion = true)
+        {
+            List<string> fileList = new List<string>();
+
+            DirectoryInfo directory = new DirectoryInfo(folderPath);
+            
+            if (directory.Parent != null && directory.Attributes.ToString().IndexOf("System", StringComparison.Ordinal) > -1)
+            {
+                return null;
+            }
+            
+            FileInfo[] fileInfos = directory.GetFiles(fileName);
+            
+            fileList.AddRange(fileInfos.Select(file => file.FullName));
+            
+            if (recursion)
+            {
+                //找出所有子文件夹
+                string[] folders = Directory.GetDirectories(folderPath);
+
+                foreach (string folder in folders)
+                {
+                    // 递归调用
+                    List<string> filesSub = GetFiles(folder, recursion);
+                    
+                    fileList = fileList.Concat(filesSub).ToList();
+                }
+            }
+
+            return fileList;
+        }
+        
+        /// <summary>
+        /// 获取父目录
+        /// </summary>
+        /// <param name="path">文件、文件夹路径</param>
+        /// <param name="floor">向上第几层</param>
+        public static string GetParentPath(string path, int floor = 1)
+        {
+            string parentPath = path;
+            for (int i = 0; i < floor; ++i)
+            {
+                int last = parentPath.LastIndexOf('/');
+                parentPath = parentPath.Substring(0, last);
+            }
+
+            return parentPath;
         }
     }
 }
