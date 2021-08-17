@@ -1,4 +1,5 @@
 using System;
+// ReSharper disable InconsistentNaming
 
 namespace IFramework.Core.Zip.Zip.Compression.Streams
 {
@@ -165,7 +166,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 			if (length > avail) {
 				length = avail;
 			}
-			System.Array.Copy(window_, windowStart_, output, offset, length);
+			Array.Copy(window_, windowStart_, output, offset, length);
 			windowStart_ += length;
 
 			if (((windowStart_ - windowEnd_) & 1) != 0) {

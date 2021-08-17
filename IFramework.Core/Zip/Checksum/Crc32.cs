@@ -98,7 +98,7 @@ namespace IFramework.Core.Zip.Checksum
 
 		internal static uint ComputeCrc32(uint oldCrc, byte bval)
 		{
-			return (uint)(Crc32.crcTable[(oldCrc ^ bval) & 0xFF] ^ (oldCrc >> 8));
+			return crcTable[(oldCrc ^ bval) & 0xFF] ^ (oldCrc >> 8);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace IFramework.Core.Zip.Checksum
 		/// <remarks>Reversed Out = false</remarks>
 		public long Value {
 			get {
-				return (long)(checkValue ^ crcXor);
+				return checkValue ^ crcXor;
 			}
 		}
 
@@ -136,7 +136,7 @@ namespace IFramework.Core.Zip.Checksum
 		/// <remarks>Reversed Data = true</remarks>
 		public void Update(int bval)
 		{
-			checkValue = unchecked(crcTable[(checkValue ^ bval) & 0xFF] ^ (checkValue >> 8));
+			checkValue = crcTable[(checkValue ^ bval) & 0xFF] ^ (checkValue >> 8);
 		}
 
 		/// <summary>

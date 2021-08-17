@@ -55,7 +55,7 @@ namespace IFramework.Core
 
                 OnChange?.Invoke(value);
                 
-                this.setted = true;
+                setted = true;
             }
         }
 

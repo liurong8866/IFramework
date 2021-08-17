@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using IFramework.Core.Zip.Encryption;
+// ReSharper disable InconsistentNaming
 
 namespace IFramework.Core.Zip.Zip.Compression.Streams
 {

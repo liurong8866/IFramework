@@ -28,13 +28,13 @@ namespace IFramework.Core
 {
     public class TypeEventUnregister<T> : IDisposable
     {
-        public Action<T> Actions;
+        public Action<T> actions;
 
-        public ITypeEvent TypeEvent;
+        public ITypeEvent typeEvent;
 
         public void Dispose()
         {
-            TypeEvent.UnRegisterEvent<T>(Actions);
+            typeEvent.UnRegisterEvent(actions);
         }
     }
 }

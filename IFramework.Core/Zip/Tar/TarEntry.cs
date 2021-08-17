@@ -92,7 +92,7 @@ namespace IFramework.Core.Zip.Tar
 		public static TarEntry CreateTarEntry(string name)
 		{
 			var entry = new TarEntry();
-			TarEntry.NameTarHeader(entry.header, name);
+			NameTarHeader(entry.header, name);
 			return entry;
 		}
 
@@ -113,7 +113,7 @@ namespace IFramework.Core.Zip.Tar
 		/// Determine if the two entries are equal. Equality is determined
 		/// by the header names being equal.
 		/// </summary>
-		/// <param name="obj">The <see cref="Object"/> to compare with the current Object.</param>
+		/// <param name="obj">The <see cref="object"/> to compare with the current Object.</param>
 		/// <returns>
 		/// True if the entries are equal; false if not.
 		/// </returns>
@@ -128,9 +128,9 @@ namespace IFramework.Core.Zip.Tar
 		}
 
 		/// <summary>
-		/// Derive a Hash value for the current <see cref="Object"/>
+		/// Derive a Hash value for the current <see cref="object"/>
 		/// </summary>
-		/// <returns>A Hash code for the current <see cref="Object"/></returns>
+		/// <returns>A Hash code for the current <see cref="object"/></returns>
 		public override int GetHashCode()
 		{
 			return Name.GetHashCode();
@@ -410,7 +410,7 @@ namespace IFramework.Core.Zip.Tar
 			TarEntry[] result = new TarEntry[list.Length];
 
 			for (int i = 0; i < list.Length; ++i) {
-				result[i] = TarEntry.CreateEntryFromFile(list[i]);
+				result[i] = CreateEntryFromFile(list[i]);
 			}
 
 			return result;

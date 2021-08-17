@@ -1,7 +1,5 @@
 using System;
-using System.Globalization;
 using System.Text;
-using System.Threading;
 
 namespace IFramework.Core.Zip.Zip
 {
@@ -506,9 +504,9 @@ namespace IFramework.Core.Zip.Zip
 
 			if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
 				return Encoding.UTF8.GetString(data, 0, count);
-			} else {
-				return ConvertToString(data, count);
 			}
+
+			return ConvertToString(data, count);
 		}
 
 		/// <summary>
@@ -529,9 +527,9 @@ namespace IFramework.Core.Zip.Zip
 
 			if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
 				return Encoding.UTF8.GetString(data, 0, data.Length);
-			} else {
-				return ConvertToString(data, data.Length);
 			}
+
+			return ConvertToString(data, data.Length);
 		}
 
 		/// <summary>
@@ -566,9 +564,9 @@ namespace IFramework.Core.Zip.Zip
 
 			if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
 				return Encoding.UTF8.GetBytes(str);
-			} else {
-				return ConvertToArray(str);
 			}
+
+			return ConvertToArray(str);
 		}
 
 

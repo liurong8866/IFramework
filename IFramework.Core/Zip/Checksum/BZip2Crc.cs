@@ -134,7 +134,7 @@ namespace IFramework.Core.Zip.Checksum
 				//return (long)(~checkValue ^ crcXor);
 				// but x ^ 0 = x, so there is no point in adding
 				// the XOR operation
-				return (long)(~checkValue);
+				return ~checkValue;
 			}
 		}
 

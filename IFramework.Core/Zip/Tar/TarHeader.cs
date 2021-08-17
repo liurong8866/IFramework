@@ -489,7 +489,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <returns>A new <see cref="Object"/> that is a copy of the current instance.</returns>
 		public object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 		#endregion
 
@@ -557,7 +557,7 @@ namespace IFramework.Core.Zip.Tar
 				if (!string.IsNullOrEmpty(prefix)) Name = prefix + '/' + Name;
 			}
 
-			isChecksumValid = Checksum == TarHeader.MakeCheckSum(header);
+			isChecksumValid = Checksum == MakeCheckSum(header);
 		}
 
 		/// <summary>

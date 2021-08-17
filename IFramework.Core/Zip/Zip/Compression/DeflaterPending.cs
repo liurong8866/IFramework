@@ -1,3 +1,5 @@
+// ReSharper disable Inconsistent
+
 namespace IFramework.Core.Zip.Zip.Compression
 {
 	/// <summary>

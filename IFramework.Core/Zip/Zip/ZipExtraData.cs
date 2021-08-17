@@ -333,10 +333,10 @@ namespace IFramework.Core.Zip.Zip
 							_createTime = DateTime.FromFileTimeUtc(createTimeTicks);
 						}
 						break;
-					} else {
-						// An unknown NTFS tag so simply skip it.
-						helperStream.Seek(ntfsLength, SeekOrigin.Current);
 					}
+
+					// An unknown NTFS tag so simply skip it.
+					helperStream.Seek(ntfsLength, SeekOrigin.Current);
 				}
 			}
 		}
@@ -538,7 +538,8 @@ namespace IFramework.Core.Zip.Zip
 				result.SetData(_data, _readValueStart, _readValueLength);
 				return result;
 			}
-			else return null;
+
+			return null;
 		}
 
 		/// <summary>

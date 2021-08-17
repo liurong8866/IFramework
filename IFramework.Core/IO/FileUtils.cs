@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using System.IO;
-using System.Net.Mime;
 using System.Text;
 
 namespace IFramework.Core
@@ -40,7 +39,7 @@ namespace IFramework.Core
             // 读取文件到字节数组
             byte[] data = new byte[fileStream.Length];
 
-            int count = fileStream.Read(data, 0, data.Length);
+            fileStream.Read(data, 0, data.Length);
 
             return Encoding.UTF8.GetString(data);
         }

@@ -24,6 +24,7 @@
 
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Core
 {
@@ -50,10 +51,8 @@ namespace IFramework.Core
                 return instance;
             }
             // 使用MonoBehaviour实例化方法
-            else
-            {
-                return CreateMonoSingleton<T>();
-            }
+
+            return CreateMonoSingleton<T>();
         }
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace IFramework.Core
             if (!Application.isPlaying) return instance;
             
             // 1、判断当前场景中是否存在T实例，有则返回
-            instance = UnityEngine.Object.FindObjectOfType(type) as T;
+            instance = Object.FindObjectOfType(type) as T;
             if (instance != null)
             {
                 instance.OnInit();
@@ -207,11 +206,9 @@ namespace IFramework.Core
             {
                 return client;
             }
-            else
-            {
-                // 递归调用，当前节点作为父节点，查询
-                return FindGameObject(client, subPath, ++index, build, dontDestroy);
-            }
+
+            // 递归调用，当前节点作为父节点，查询
+            return FindGameObject(client, subPath, ++index, build, dontDestroy);
         }
         
     }

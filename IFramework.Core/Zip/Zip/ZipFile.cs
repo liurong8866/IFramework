@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
-using System.IO;
-using System.Text;
-using System.Globalization;
-using System.Security.Cryptography;
-using IFramework.Core.Zip.Encryption;
-using IFramework.Core.Zip;
-using IFramework.Core.Zip.Checksum;
-using IFramework.Core.Zip.Zip.Compression.Streams;
-using IFramework.Core.Zip.Zip.Compression;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
+using IFramework.Core.Zip.Checksum;
+using IFramework.Core.Zip.Encryption;
+using IFramework.Core.Zip.Zip.Compression;
+using IFramework.Core.Zip.Zip.Compression.Streams;
 
 namespace IFramework.Core.Zip.Zip
 {
@@ -604,7 +603,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <summary>
 		/// Indexer property for ZipEntries
 		/// </summary>
-		[System.Runtime.CompilerServices.IndexerNameAttribute("EntryByIndex")]
+		[IndexerName("EntryByIndex")]
 		public ZipEntry this[int index] {
 			get {
 				return (ZipEntry)entries_[index].Clone();
@@ -738,7 +737,7 @@ namespace IFramework.Core.Zip.Zip
 			CompressionMethod method = entries_[entryIndex].CompressionMethod;
 			Stream result = new PartialInputStream(this, start, entries_[entryIndex].CompressedSize);
 
-			if (entries_[entryIndex].IsCrypted == true) {
+			if (entries_[entryIndex].IsCrypted) {
 				result = CreateAndInitDecryptionStream(result, entries_[entryIndex]);
 				if (result == null) {
 					throw new ZipException("Unable to decrypt this entry");
@@ -831,7 +830,7 @@ namespace IFramework.Core.Zip.Zip
 
 						var crc = new Crc32();
 
-						using (Stream entryStream = this.GetInputStream(this[entryIndex])) {
+						using (Stream entryStream = GetInputStream(this[entryIndex])) {
 
 							byte[] buffer = new byte[4096];
 							long totalBytes = 0;
@@ -1292,7 +1291,7 @@ namespace IFramework.Core.Zip.Zip
 				if (idx == updates_.Count - 1)
 					break;
 
-				update.OffsetBasedSize = ((ZipUpdate)updates_[idx + 1]).Entry.Offset - update.Entry.Offset;
+				update.OffsetBasedSize = updates_[idx + 1].Entry.Offset - update.Entry.Offset;
 				idx++;
 			}
 			updateCount_ = updates_.Count;
@@ -1805,7 +1804,7 @@ namespace IFramework.Core.Zip.Zip
 			if (!entry.HasCrc) {
 				// Note patch address for updating CRC later.
 				update.CrcPatchOffset = baseStream_.Position;
-				WriteLEInt((int)0);
+				WriteLEInt(0);
 			} else {
 				WriteLEInt(unchecked((int)entry.Crc));
 			}
@@ -2109,7 +2108,7 @@ namespace IFramework.Core.Zip.Zip
 			int bytesToCopy = GetDescriptorSize(update);
 
 			while (bytesToCopy > 0) {
-				var readSize = (int)bytesToCopy;
+				var readSize = bytesToCopy;
 				byte[] buffer = GetBuffer();
 
 				stream.Position = sourcePosition;
@@ -2177,7 +2176,7 @@ namespace IFramework.Core.Zip.Zip
 			string convertedName = GetTransformedFileName(entry.Name);
 
 			if (updateIndex_.ContainsKey(convertedName)) {
-				result = (int)updateIndex_[convertedName];
+				result = updateIndex_[convertedName];
 			}
 			/*
 						// This is slow like the coming of the next ice age but takes less storage and may be useful
@@ -2202,7 +2201,7 @@ namespace IFramework.Core.Zip.Zip
 			string convertedName = GetTransformedFileName(fileName);
 
 			if (updateIndex_.ContainsKey(convertedName)) {
-				result = (int)updateIndex_[convertedName];
+				result = updateIndex_[convertedName];
 			}
 
 			/*
@@ -2229,7 +2228,7 @@ namespace IFramework.Core.Zip.Zip
 		{
 			Stream result = baseStream_;
 
-			if (entry.IsCrypted == true) {
+			if (entry.IsCrypted) {
 				result = CreateAndInitEncryptionStream(result, entry);
 			}
 
@@ -2305,7 +2304,7 @@ namespace IFramework.Core.Zip.Zip
 			// TODO: This is slow if the changes don't effect the data!!
 			if (update.Entry.IsFile && (update.Filename != null)) {
 				using (Stream output = workFile.GetOutputStream(update.OutEntry)) {
-					using (Stream source = this.GetInputStream(update.Entry)) {
+					using (Stream source = GetInputStream(update.Entry)) {
 						CopyBytes(update, output, source, source.Length, true);
 					}
 				}
@@ -2523,7 +2522,7 @@ namespace IFramework.Core.Zip.Zip
 				// This ensures that data required by copies will not be overwritten.
 				updates_.Sort(new UpdateComparer());
 			} else {
-				workFile = ZipFile.Create(archiveStorage_.GetTemporaryOutput());
+				workFile = Create(archiveStorage_.GetTemporaryOutput());
 				workFile.UseZip64 = UseZip64;
 
 				if (key != null) {
@@ -3031,7 +3030,7 @@ namespace IFramework.Core.Zip.Zip
 				entry.Size = size & 0xffffffffL;
 				entry.CompressedSize = csize & 0xffffffffL;
 				entry.Flags = bitFlags;
-				entry.DosTime = (uint)dostime;
+				entry.DosTime = dostime;
 				entry.ZipFileIndex = (long)i;
 				entry.Offset = offset;
 				entry.ExternalFileAttributes = (int)externalAttributes;

@@ -23,7 +23,9 @@
  *****************************************************************************/
 
 using System;
+using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Core
 {
@@ -498,7 +500,7 @@ namespace IFramework.Core
         /// </summary>
         public static string Path(this Transform transform)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            StringBuilder sb = new StringBuilder();
             
             Transform tran = transform;
             
@@ -525,7 +527,7 @@ namespace IFramework.Core
         {
             if (self)
             {
-                UnityEngine.Object.Destroy(self.gameObject);
+                Object.Destroy(self.gameObject);
             }
         }
         

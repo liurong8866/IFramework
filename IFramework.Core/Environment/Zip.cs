@@ -22,8 +22,9 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.IO;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using IFramework.Core.Zip.Zip;
 
 namespace IFramework.Core.Environment
@@ -136,7 +137,7 @@ namespace IFramework.Core.Environment
 			//Android 包内
 			return GetFileInZip(zipFile, fileName);
 #endif
-            return DirectoryUtils.GetFiles(PlatformSetting.StreamingAssetsPath, fileName, true);
+            return DirectoryUtils.GetFiles(PlatformSetting.StreamingAssetsPath, fileName);
         }
 
         public byte[] ReadSync(string fileRelativePath)
@@ -157,10 +158,8 @@ namespace IFramework.Core.Environment
                 FileInfo fileInfo = new FileInfo(absoluteFilePath);
                 return ReadFile(fileInfo);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         private byte[] ReadSyncExtenal(string fileRelativePath)
@@ -251,7 +250,7 @@ namespace IFramework.Core.Environment
         private Stream OpenStreamInZip(string absPath)
         {
             string tag = "!/assets/";
-            string androidFolder = absPath.Substring(0, absPath.IndexOf(tag));
+            string androidFolder = absPath.Substring(0, absPath.IndexOf(tag, StringComparison.Ordinal));
 
             int startIndex = androidFolder.Length + tag.Length;
             string relativePath = absPath.Substring(startIndex, absPath.Length - startIndex);
@@ -262,10 +261,8 @@ namespace IFramework.Core.Environment
             {
                 return zipFile.GetInputStream(zipEntry);
             }
-            else
-            {
-                Log.Error("未找到文件: {0}", absPath);
-            }
+
+            Log.Error("未找到文件: {0}", absPath);
 
             return null;
         }
@@ -274,11 +271,8 @@ namespace IFramework.Core.Environment
         {
             List<string> outResult = new List<string>();
             
-            int totalCount = 0;
-
             foreach (var entry in zipFile)
             {
-                ++totalCount;
                 ZipEntry e = entry as ZipEntry;
                 if (e != null)
                 {

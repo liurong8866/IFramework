@@ -23,10 +23,7 @@
  *****************************************************************************/
 
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -110,10 +107,8 @@ namespace IFramework.Core
             {
                 return path;
             }
-            else
-            {
-                return Path.Combine(StreamingAssetsPath, relativePath);
-            }
+
+            return Path.Combine(StreamingAssetsPath, relativePath);
         }
         
         /// <summary>

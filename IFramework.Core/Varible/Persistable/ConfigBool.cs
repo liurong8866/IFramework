@@ -48,7 +48,7 @@ namespace IFramework.Core
                 return PlayerPrefs.GetInt(key) == 1 ? true : false;
                 
             }
-            return this.value;
+            return value;
         }
 
         public override void Save(bool value)

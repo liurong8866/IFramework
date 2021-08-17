@@ -141,7 +141,7 @@ namespace IFramework.Core
         
         public static T InvokeSafe<T>(this Func<T> function)
         {
-            return function != null ? function() : default(T);
+            return function != null ? function() : default;
         }
 
         public static T InvokeAction<T>(this T self, Action<T> action) where T : Object

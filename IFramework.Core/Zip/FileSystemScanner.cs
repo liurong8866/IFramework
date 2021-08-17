@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace IFramework.Core.Zip
 {
@@ -85,7 +86,7 @@ namespace IFramework.Core.Zip
 				if (target_ <= 0) {
 					result = 0;
 				} else {
-					result = ((float)processed_ / (float)target_) * 100.0f;
+					result = (processed_ / (float)target_) * 100.0f;
 				}
 				return result;
 			}
@@ -404,7 +405,7 @@ namespace IFramework.Core.Zip
 		{
 
 			try {
-				string[] names = System.IO.Directory.GetFiles(directory);
+				string[] names = Directory.GetFiles(directory);
 				bool hasMatch = false;
 				for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
 					if (!fileFilter_.IsMatch(names[fileIndex])) {
@@ -440,7 +441,7 @@ namespace IFramework.Core.Zip
 
 			if (alive_ && recurse) {
 				try {
-					string[] names = System.IO.Directory.GetDirectories(directory);
+					string[] names = Directory.GetDirectories(directory);
 					foreach (string fulldir in names) {
 						if ((directoryFilter_ == null) || (directoryFilter_.IsMatch(fulldir))) {
 							ScanDir(fulldir, true);

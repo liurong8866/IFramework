@@ -22,8 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -31,11 +29,10 @@ namespace IFramework.Core
     public enum LogLevel
     {
         None = 0,
-        Exception = 1,
-        Error = 2,
-        Warning = 3,
-        Info = 4,
-        All =5
+        Error = 1,
+        Warning = 2,
+        Info = 3,
+        All =4
     }
     
     public static class Log
@@ -129,18 +126,5 @@ namespace IFramework.Core
             Error(format, self);
         }
         
-        // EXCEPTION
-        public static void Exception(Exception self)
-        {
-            if (logLevel >= LogLevel.Exception)
-            {
-                Debug.LogException(self);
-            }
-        }
-        
-        public static void LogException(this Exception self)
-        {
-            LogException(self);
-        }
     }
 }

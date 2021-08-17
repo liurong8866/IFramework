@@ -37,11 +37,11 @@ namespace IFramework.Core
     public class TypeEventRegister<T> : ITypeEventRegister
     {
         // 委托本身就可以一对多注册
-        public Action<T> Actions = obj => { };
+        public Action<T> actions = obj => { };
 
         public void Dispose()
         {
-            Actions = null;
+            actions = null;
         }
     }
 }

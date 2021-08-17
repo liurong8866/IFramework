@@ -1,5 +1,6 @@
 using System;
 using IFramework.Core.Zip.Checksum;
+// ReSharper disable InconsistentNaming
 
 namespace IFramework.Core.Zip.Zip.Compression
 {
@@ -184,7 +185,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 				length = DeflaterConstants.MAX_DIST;
 			}
 
-			System.Array.Copy(buffer, offset, window, strstart, length);
+			Array.Copy(buffer, offset, window, strstart, length);
 
 			UpdateHash();
 			--length;
@@ -335,7 +336,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 					more = inputEnd - inputOff;
 				}
 
-				System.Array.Copy(inputBuf, inputOff, window, strstart + lookahead, more);
+				Array.Copy(inputBuf, inputOff, window, strstart + lookahead, more);
 				adler.Update(inputBuf, inputOff, more);
 
 				inputOff += more;
@@ -428,7 +429,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         byte[] window = this.window;
         short[] prev = this.prev;
-        int chainLength = this.max_chain;
+        int chainLength = max_chain;
         int niceLength = Math.Min( this.niceLength, lookahead );
 
           matchLen = Math.Max( matchLen, DeflaterConstants.MIN_MATCH - 1 );
@@ -439,7 +440,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         byte scan_end = window[scan + matchLen];
 
           // Do not waste too much time if we already have a good match:
-          if (matchLen >= this.goodLength) chainLength >>= 2;
+          if (matchLen >= goodLength) chainLength >>= 2;
 
           do
           {

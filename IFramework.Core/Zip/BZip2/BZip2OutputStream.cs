@@ -1032,7 +1032,7 @@ namespace IFramework.Core.Zip.BZip2
 						if (unLo > unHi) {
 							break;
 						}
-						n = ((int)block[zptr[unLo] + d + 1]) - med;
+						n = block[zptr[unLo] + d + 1] - med;
 						if (n == 0) {
 							int temp = zptr[unLo];
 							zptr[unLo] = zptr[ltLo];
@@ -1051,7 +1051,7 @@ namespace IFramework.Core.Zip.BZip2
 						if (unLo > unHi) {
 							break;
 						}
-						n = ((int)block[zptr[unHi] + d + 1]) - med;
+						n = block[zptr[unHi] + d + 1] - med;
 						if (n == 0) {
 							int temp = zptr[unHi];
 							zptr[unHi] = zptr[gtHi];
@@ -1135,7 +1135,7 @@ namespace IFramework.Core.Zip.BZip2
 				quadrant[i] = 0;
 			}
 
-			block[0] = (byte)(block[last + 1]);
+			block[0] = block[last + 1];
 
 			if (last < 4000) {
 				/*--
@@ -1312,7 +1312,7 @@ namespace IFramework.Core.Zip.BZip2
 
 			for (i = 0; i <= last; i++) {
 				if (rNToGo == 0) {
-					rNToGo = (int)BZip2Constants.RandomNumbers[rTPos];
+					rNToGo = BZip2Constants.RandomNumbers[rTPos];
 					rTPos++;
 					if (rTPos == 512) {
 						rTPos = 0;
@@ -1558,12 +1558,12 @@ namespace IFramework.Core.Zip.BZip2
 						while (true) {
 							switch (zPend % 2) {
 							case 0:
-								szptr[wr] = (short)BZip2Constants.RunA;
+								szptr[wr] = BZip2Constants.RunA;
 								wr++;
 								mtfFreq[BZip2Constants.RunA]++;
 								break;
 							case 1:
-								szptr[wr] = (short)BZip2Constants.RunB;
+								szptr[wr] = BZip2Constants.RunB;
 								wr++;
 								mtfFreq[BZip2Constants.RunB]++;
 								break;
@@ -1586,12 +1586,12 @@ namespace IFramework.Core.Zip.BZip2
 				while (true) {
 					switch (zPend % 2) {
 					case 0:
-						szptr[wr] = (short)BZip2Constants.RunA;
+						szptr[wr] = BZip2Constants.RunA;
 						wr++;
 						mtfFreq[BZip2Constants.RunA]++;
 						break;
 					case 1:
-						szptr[wr] = (short)BZip2Constants.RunB;
+						szptr[wr] = BZip2Constants.RunB;
 						wr++;
 						mtfFreq[BZip2Constants.RunB]++;
 						break;
@@ -1705,7 +1705,7 @@ namespace IFramework.Core.Zip.BZip2
 					parent[n1] = parent[n2] = nNodes;
 
 					weight[nNodes] = (int)((weight[n1] & 0xffffff00) + (weight[n2] & 0xffffff00)) |
-						(int)(1 + (((weight[n1] & 0x000000ff) > (weight[n2] & 0x000000ff)) ? (weight[n1] & 0x000000ff) : (weight[n2] & 0x000000ff)));
+						1 + (((weight[n1] & 0x000000ff) > (weight[n2] & 0x000000ff)) ? (weight[n1] & 0x000000ff) : (weight[n2] & 0x000000ff));
 
 					parent[nNodes] = -1;
 					nHeap++;

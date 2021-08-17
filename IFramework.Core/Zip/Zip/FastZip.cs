@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.IO;
-using IFramework.Core.Zip;
 using IFramework.Core.Zip.Zip.Compression;
 
 namespace IFramework.Core.Zip.Zip
@@ -342,7 +342,7 @@ namespace IFramework.Core.Zip.Zip
 				outputStream_.UseZip64 = UseZip64;
 				var scanner = new FileSystemScanner(fileFilter, directoryFilter);
 				scanner.ProcessFile += ProcessFile;
-				if (this.CreateEmptyDirectories) {
+				if (CreateEmptyDirectories) {
 					scanner.ProcessDirectory += ProcessDirectory;
 				}
 
@@ -427,7 +427,7 @@ namespace IFramework.Core.Zip.Zip
 					zipFile_.Password = password_;
 				}
 				zipFile_.IsStreamOwner = isStreamOwner;
-				System.Collections.IEnumerator enumerator = zipFile_.GetEnumerator();
+				IEnumerator enumerator = zipFile_.GetEnumerator();
 				while (continueRunning_ && enumerator.MoveNext()) {
 					var entry = (ZipEntry)enumerator.Current;
 					if (entry.IsFile) {
@@ -439,8 +439,6 @@ namespace IFramework.Core.Zip.Zip
 						if (directoryFilter_.IsMatch(entry.Name) && CreateEmptyDirectories) {
 							ExtractEntry(entry);
 						}
-					} else {
-						// Do nothing for volume labels etc...
 					}
 				}
 			}

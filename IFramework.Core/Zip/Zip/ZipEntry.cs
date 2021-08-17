@@ -186,10 +186,10 @@ namespace IFramework.Core.Zip.Zip
 				throw new ArgumentOutOfRangeException(nameof(versionRequiredToExtract));
 			}
 
-			this.DateTime = DateTime.Now;
+			DateTime = DateTime.Now;
 			this.name = CleanName(name);
-			this.versionMadeBy = (ushort)madeByInfo;
-			this.versionToExtract = (ushort)versionRequiredToExtract;
+			versionMadeBy = (ushort)madeByInfo;
+			versionToExtract = (ushort)versionRequiredToExtract;
 			this.method = method;
 		}
 
@@ -361,12 +361,13 @@ namespace IFramework.Core.Zip.Zip
 		/// <see cref="HostSystem">HostSystem</see> for details
 		/// </summary>
 		public int ExternalFileAttributes {
-			get {
+			get
+			{
 				if ((known & Known.ExternalAttributes) == 0) {
 					return -1;
-				} else {
-					return externalFileAttributes;
 				}
+
+				return externalFileAttributes;
 			}
 
 			set {
@@ -494,27 +495,28 @@ namespace IFramework.Core.Zip.Zip
 		/// </remarks>
 		/// <seealso cref="CanDecompress"></seealso>
 		public int Version {
-			get {
+			get
+			{
 				// Return recorded version if known.
 				if (versionToExtract != 0) {
 					return versionToExtract & 0x00ff;               // Only lower order byte. High order is O/S file system.
-				} else {
-					int result = 10;
-					if (AESKeySize > 0) {
-						result = ZipConstants.VERSION_AES;          // Ver 5.1 = AES
-					} else if (CentralHeaderRequiresZip64) {
-						result = ZipConstants.VersionZip64;
-					} else if (CompressionMethod.Deflated == method) {
-						result = 20;
-					} else if (IsDirectory == true) {
-						result = 20;
-					} else if (IsCrypted == true) {
-						result = 20;
-					} else if (HasDosAttributes(0x08)) {
-						result = 11;
-					}
-					return result;
 				}
+
+				int result = 10;
+				if (AESKeySize > 0) {
+					result = ZipConstants.VERSION_AES;          // Ver 5.1 = AES
+				} else if (CentralHeaderRequiresZip64) {
+					result = ZipConstants.VersionZip64;
+				} else if (CompressionMethod.Deflated == method) {
+					result = 20;
+				} else if (IsDirectory) {
+					result = 20;
+				} else if (IsCrypted) {
+					result = 20;
+				} else if (HasDosAttributes(0x08)) {
+					result = 11;
+				}
+				return result;
 			}
 		}
 
@@ -571,7 +573,7 @@ namespace IFramework.Core.Zip.Zip
 					// TODO: A better estimation of the true limit based on compression overhead should be used
 					// to determine when an entry should use Zip64.
 					result =
-						((this.size >= uint.MaxValue) || (trueCompressedSize >= uint.MaxValue)) &&
+						((size >= uint.MaxValue) || (trueCompressedSize >= uint.MaxValue)) &&
 						((versionToExtract == 0) || (versionToExtract >= ZipConstants.VersionZip64));
 				}
 
@@ -595,12 +597,13 @@ namespace IFramework.Core.Zip.Zip
 		/// The MS-DOS date format can only represent dates between 1/1/1980 and 12/31/2107.
 		/// </remarks>
 		public long DosTime {
-			get {
+			get
+			{
 				if ((known & Known.Time) == 0) {
 					return 0;
-				} else {
-					return dosTime;
 				}
+
+				return dosTime;
 			}
 
 			set {
@@ -628,7 +631,7 @@ namespace IFramework.Core.Zip.Zip
 				uint mon = Math.Max(1, Math.Min(12, ((dosTime >> 21) & 0xf)));
 				uint year = ((dosTime >> 25) & 0x7f) + 1980;
 				int day = Math.Max(1, Math.Min(DateTime.DaysInMonth((int)year, (int)mon), (int)((dosTime >> 16) & 0x1f)));
-				return new System.DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec);
+				return new DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec);
 			}
 
 			set {
@@ -692,8 +695,8 @@ namespace IFramework.Core.Zip.Zip
 				return (known & Known.Size) != 0 ? (long)size : -1L;
 			}
 			set {
-				this.size = (ulong)value;
-				this.known |= Known.Size;
+				size = (ulong)value;
+				known |= Known.Size;
 			}
 		}
 
@@ -708,8 +711,8 @@ namespace IFramework.Core.Zip.Zip
 				return (known & Known.CompressedSize) != 0 ? (long)compressedSize : -1L;
 			}
 			set {
-				this.compressedSize = (ulong)value;
-				this.known |= Known.CompressedSize;
+				compressedSize = (ulong)value;
+				known |= Known.CompressedSize;
 			}
 		}
 
@@ -727,11 +730,11 @@ namespace IFramework.Core.Zip.Zip
 				return (known & Known.Crc) != 0 ? crc & 0xffffffffL : -1L;
 			}
 			set {
-				if (((ulong)crc & 0xffffffff00000000L) != 0) {
+				if ((crc & 0xffffffff00000000L) != 0) {
 					throw new ArgumentOutOfRangeException(nameof(value));
 				}
-				this.crc = (uint)value;
-				this.known |= Known.Crc;
+				crc = (uint)value;
+				known |= Known.Crc;
 			}
 		}
 
@@ -752,7 +755,7 @@ namespace IFramework.Core.Zip.Zip
 				if (!IsCompressionMethodSupported(value)) {
 					throw new NotSupportedException("Compression method not supported");
 				}
-				this.method = value;
+				method = value;
 			}
 		}
 
@@ -789,7 +792,7 @@ namespace IFramework.Core.Zip.Zip
 					extra = null;
 				} else {
 					if (value.Length > 0xffff) {
-						throw new System.ArgumentOutOfRangeException(nameof(value));
+						throw new ArgumentOutOfRangeException(nameof(value));
 					}
 
 					extra = new byte[value.Length];
@@ -879,7 +882,7 @@ namespace IFramework.Core.Zip.Zip
 		/// </param>
 		internal void ProcessExtraData(bool localHeader)
 		{
-			var extraData = new ZipExtraData(this.extra);
+			var extraData = new ZipExtraData(extra);
 
 			if (extraData.Find(0x0001)) {
 				// Version required to extract is ignored here as some archivers dont set it correctly
@@ -1085,7 +1088,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <returns>An <see cref="Object"/> that is a copy of the current instance.</returns>
 		public object Clone()
 		{
-			var result = (ZipEntry)this.MemberwiseClone();
+			var result = (ZipEntry)MemberwiseClone();
 
 			// Ensure extra data is unique if it exists.
 			if (extra != null) {

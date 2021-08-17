@@ -22,9 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace IFramework.Core
 {

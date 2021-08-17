@@ -233,19 +233,18 @@ namespace IFramework.Core
         public static bool IsNumeric(this object value)
         {
             if (!(value is Byte ||
-                    value is Int16 ||
-                    value is Int32 ||
-                    value is Int64 ||
-                    value is SByte ||
-                    value is UInt16 ||
-                    value is UInt32 ||
-                    value is UInt64 ||
-                    value is Decimal ||
-                    value is Double ||
-                    value is Single))
+                  value is Int16 ||
+                  value is Int32 ||
+                  value is Int64 ||
+                  value is SByte ||
+                  value is UInt16 ||
+                  value is UInt32 ||
+                  value is UInt64 ||
+                  value is Decimal ||
+                  value is Double ||
+                  value is Single))
                 return false;
-            else
-                return true;
+            return true;
         }
 
         /// <summary>

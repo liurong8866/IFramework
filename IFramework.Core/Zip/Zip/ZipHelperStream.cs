@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
 
 namespace IFramework.Core.Zip.Zip
 {
@@ -177,7 +176,7 @@ namespace IFramework.Core.Zip.Zip
 			WriteLEShort((byte)method);
 			WriteLEInt((int)entry.DosTime);
 
-			if (headerInfoAvailable == true) {
+			if (headerInfoAvailable) {
 				WriteLEInt((int)entry.Crc);
 				if (entry.LocalHeaderRequiresZip64) {
 					WriteLEInt(-1);

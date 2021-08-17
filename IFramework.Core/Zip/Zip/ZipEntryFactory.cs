@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using IFramework.Core.Zip;
 
 namespace IFramework.Core.Zip.Zip
 {

@@ -404,43 +404,43 @@ namespace IFramework.Core.Zip.Tar
 					if (!header.IsChecksumValid) {
 						throw new TarException("Header checksum is invalid");
 					}
-					this.entryOffset = 0;
-					this.entrySize = header.Size;
+					entryOffset = 0;
+					entrySize = header.Size;
 
 					StringBuilder longName = null;
 
 					if (header.TypeFlag == TarHeader.LF_GNU_LONGNAME) {
 
 						byte[] nameBuffer = new byte[TarBuffer.BlockSize];
-						long numToRead = this.entrySize;
+						long numToRead = entrySize;
 
 						longName = new StringBuilder();
 
 						while (numToRead > 0) {
-							int numRead = this.Read(nameBuffer, 0, (numToRead > nameBuffer.Length ? nameBuffer.Length : (int)numToRead));
+							int numRead = Read(nameBuffer, 0, (numToRead > nameBuffer.Length ? nameBuffer.Length : (int)numToRead));
 
 							if (numRead == -1) {
 								throw new InvalidHeaderException("Failed to read long name entry");
 							}
 
-							longName.Append(TarHeader.ParseName(nameBuffer, 0, numRead).ToString());
+							longName.Append(TarHeader.ParseName(nameBuffer, 0, numRead));
 							numToRead -= numRead;
 						}
 
 						SkipToNextEntry();
-						headerBuf = this.tarBuffer.ReadBlock();
+						headerBuf = tarBuffer.ReadBlock();
 					} else if (header.TypeFlag == TarHeader.LF_GHDR) {  // POSIX global extended header
 																		// Ignore things we dont understand completely for now
 						SkipToNextEntry();
-						headerBuf = this.tarBuffer.ReadBlock();
+						headerBuf = tarBuffer.ReadBlock();
 					} else if (header.TypeFlag == TarHeader.LF_XHDR) {  // POSIX extended header
 																		// Ignore things we dont understand completely for now
 						SkipToNextEntry();
-						headerBuf = this.tarBuffer.ReadBlock();
+						headerBuf = tarBuffer.ReadBlock();
 					} else if (header.TypeFlag == TarHeader.LF_GNU_VOLHDR) {
 						// TODO: could show volume name when verbose
 						SkipToNextEntry();
-						headerBuf = this.tarBuffer.ReadBlock();
+						headerBuf = tarBuffer.ReadBlock();
 					} else if (header.TypeFlag != TarHeader.LF_NORMAL &&
 							   header.TypeFlag != TarHeader.LF_OLDNORM &&
 							   header.TypeFlag != TarHeader.LF_LINK &&
@@ -466,7 +466,7 @@ namespace IFramework.Core.Zip.Tar
 					entryOffset = 0;
 
 					// TODO: Review How do we resolve this discrepancy?!
-					entrySize = this.currentEntry.Size;
+					entrySize = currentEntry.Size;
 				} catch (InvalidHeaderException ex) {
 					entrySize = 0;
 					entryOffset = 0;

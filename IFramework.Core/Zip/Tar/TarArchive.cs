@@ -422,7 +422,9 @@ namespace IFramework.Core.Zip.Tar
 
 				if (tarIn != null) {
 					return tarIn.RecordSize;
-				} else if (tarOut != null) {
+				}
+
+				if (tarOut != null) {
 					return tarOut.RecordSize;
 				}
 				return TarBuffer.DefaultRecordSize;
@@ -548,7 +550,7 @@ namespace IFramework.Core.Zip.Tar
 					bool asciiTrans = false;
 
 					Stream outputStream = File.Create(destFile);
-					if (this.asciiTranslate) {
+					if (asciiTranslate) {
 						asciiTrans = !IsBinary(destFile);
 					}
 

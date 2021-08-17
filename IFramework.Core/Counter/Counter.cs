@@ -39,7 +39,7 @@ namespace IFramework.Core
         public Counter(Action onZero)
         {
             Count = 0;
-            this.OnZero = onZero;
+            OnZero = onZero;
         }
 
         public Action OnZero { get; set; }

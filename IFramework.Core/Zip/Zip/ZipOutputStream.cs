@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Collections;
 using IFramework.Core.Zip.Checksum;
 using IFramework.Core.Zip.Zip.Compression;
 using IFramework.Core.Zip.Zip.Compression.Streams;
-using System.Collections.Generic;
 
 namespace IFramework.Core.Zip.Zip
 {
@@ -157,10 +156,8 @@ namespace IFramework.Core.Zip.Zip
 		/// </summary>
 		private void WriteLeInt(int value)
 		{
-			unchecked {
-				WriteLeShort(value);
-				WriteLeShort(value >> 16);
-			}
+			WriteLeShort(value);
+			WriteLeShort(value >> 16);
 		}
 
 		/// <summary>
@@ -273,7 +270,7 @@ namespace IFramework.Core.Zip.Zip
 			}
 
 			entry.Offset = offset;
-			entry.CompressionMethod = (CompressionMethod)method;
+			entry.CompressionMethod = method;
 
 			curMethod = method;
 			sizePatchPos = -1;

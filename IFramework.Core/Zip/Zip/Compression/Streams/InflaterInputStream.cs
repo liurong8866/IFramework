@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeAccessorOwnerBody
 
 namespace IFramework.Core.Zip.Zip.Compression.Streams
 {
@@ -155,7 +157,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 					}
 				}
 				int toCopy = Math.Min(currentLength, available);
-				System.Array.Copy(rawData, rawLength - (int)available, outBuffer, currentOffset, toCopy);
+				Array.Copy(rawData, rawLength - available, outBuffer, currentOffset, toCopy);
 				currentOffset += toCopy;
 				currentLength -= toCopy;
 				available -= toCopy;
@@ -188,7 +190,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 				}
 
 				int toCopy = Math.Min(currentLength, available);
-				Array.Copy(clearText, clearTextLength - (int)available, outBuffer, currentOffset, toCopy);
+				Array.Copy(clearText, clearTextLength - available, outBuffer, currentOffset, toCopy);
 				currentOffset += toCopy;
 				currentLength -= toCopy;
 				available -= toCopy;
@@ -347,7 +349,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 			}
 
 			this.baseInputStream = baseInputStream;
-			this.inf = inflater;
+			inf = inflater;
 
 			inputBuffer = new InflaterInputBuffer(baseInputStream, bufferSize);
 		}
@@ -389,27 +391,27 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 			if (baseInputStream.CanSeek) {
 				baseInputStream.Seek(count, SeekOrigin.Current);
 				return count;
-			} else {
-				int length = 2048;
-				if (count < length) {
-					length = (int)count;
-				}
-
-				byte[] tmp = new byte[length];
-				int readCount = 1;
-				long toSkip = count;
-
-				while ((toSkip > 0) && (readCount > 0)) {
-					if (toSkip < length) {
-						length = (int)toSkip;
-					}
-
-					readCount = baseInputStream.Read(tmp, 0, length);
-					toSkip -= readCount;
-				}
-
-				return count - toSkip;
 			}
+
+			int length = 2048;
+			if (count < length) {
+				length = (int)count;
+			}
+
+			byte[] tmp = new byte[length];
+			int readCount = 1;
+			long toSkip = count;
+
+			while ((toSkip > 0) && (readCount > 0)) {
+				if (toSkip < length) {
+					length = (int)toSkip;
+				}
+
+				readCount = baseInputStream.Read(tmp, 0, length);
+				toSkip -= readCount;
+			}
+
+			return count - toSkip;
 		}
 
 		/// <summary>

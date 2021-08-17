@@ -86,7 +86,7 @@ namespace IFramework.Core.Zip.Zip
 		public ZipInputStream(Stream baseInputStream)
 			: base(baseInputStream, new Inflater(true))
 		{
-			internalReader = new ReadDataHandler(ReadingNotAvailable);
+			internalReader = ReadingNotAvailable;
 		}
 
 		/// <summary>
@@ -97,7 +97,7 @@ namespace IFramework.Core.Zip.Zip
 		public ZipInputStream(Stream baseInputStream, int bufferSize)
 			: base(baseInputStream, new Inflater(true), bufferSize)
 		{
-			internalReader = new ReadDataHandler(ReadingNotAvailable);
+			internalReader = ReadingNotAvailable;
 		}
 		#endregion
 
@@ -252,9 +252,9 @@ namespace IFramework.Core.Zip.Zip
 
 			// Determine how to handle reading of data if this is attempted.
 			if (entry.IsCompressionMethodSupported()) {
-				internalReader = new ReadDataHandler(InitialRead);
+				internalReader = InitialRead;
 			} else {
-				internalReader = new ReadDataHandler(ReadingNotSupported);
+				internalReader = ReadingNotSupported;
 			}
 
 			return entry;
@@ -344,7 +344,7 @@ namespace IFramework.Core.Zip.Zip
 			}
 
 			if ((inputBuffer.Available > csize) && (csize >= 0)) {
-				inputBuffer.Available = (int)((long)inputBuffer.Available - csize);
+				inputBuffer.Available = (int)(inputBuffer.Available - csize);
 			} else {
 				csize -= inputBuffer.Available;
 				inputBuffer.Available = 0;
@@ -378,16 +378,18 @@ namespace IFramework.Core.Zip.Zip
 		/// <exception cref="ZipException">Thrown if the entry size is not known.</exception>
 		/// <exception cref="InvalidOperationException">Thrown if no entry is currently available.</exception>
 		public override long Length {
-			get {
-				if (entry != null) {
+			get
+			{
+				if (entry != null)
+				{
 					if (entry.Size >= 0) {
 						return entry.Size;
-					} else {
-						throw new ZipException("Length not available for the current entry");
 					}
-				} else {
-					throw new InvalidOperationException("No current entry");
+
+					throw new ZipException("Length not available for the current entry");
 				}
+
+				throw new InvalidOperationException("No current entry");
 			}
 
 		}
@@ -474,12 +476,12 @@ namespace IFramework.Core.Zip.Zip
 					inputBuffer.SetInflaterInput(inf);
 				}
 
-				internalReader = new ReadDataHandler(BodyRead);
+				internalReader = BodyRead;
 				return BodyRead(destination, offset, count);
-			} else {
-				internalReader = new ReadDataHandler(ReadingNotAvailable);
-				return 0;
 			}
+
+			internalReader = ReadingNotAvailable;
+			return 0;
 		}
 
 		/// <summary>
@@ -600,7 +602,7 @@ namespace IFramework.Core.Zip.Zip
 		/// </summary>
 		protected override void Dispose(bool disposing)
 		{
-			internalReader = new ReadDataHandler(ReadingNotAvailable);
+			internalReader = ReadingNotAvailable;
 			crc = null;
 			entry = null;
 

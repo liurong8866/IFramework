@@ -1,5 +1,6 @@
 using System;
 using IFramework.Core.Zip.Zip.Compression.Streams;
+// ReSharper disable ArrangeTypeMemberModifiers
 
 namespace IFramework.Core.Zip.Zip.Compression
 {

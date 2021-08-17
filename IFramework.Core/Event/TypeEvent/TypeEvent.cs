@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace IFramework.Core
 {
@@ -44,16 +43,16 @@ namespace IFramework.Core
             {
                 if (register is TypeEventRegister<T> reg)
                 {
-                    reg.Actions += action;
+                    reg.actions += action;
                 }
             }
             else
             {
                 TypeEventRegister<T> reg= new TypeEventRegister<T>();
-                reg.Actions += action;
+                reg.actions += action;
                 typeEventDict.Add(type, reg);
             }
-            return new TypeEventUnregister<T> {Actions = action, TypeEvent = this};
+            return new TypeEventUnregister<T> {actions = action, typeEvent = this};
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace IFramework.Core
             {
                 if (register is TypeEventRegister<T> reg)
                 {
-                    reg.Actions -= action;
+                    reg.actions -= action;
                 }
             }
         }
@@ -83,7 +82,7 @@ namespace IFramework.Core
             {
                 if (register is TypeEventRegister<T> reg)
                 {
-                    reg.Actions(new T());
+                    reg.actions(new T());
                 }
             }
         }
@@ -99,7 +98,7 @@ namespace IFramework.Core
             {
                 if (register is TypeEventRegister<T> reg)
                 {
-                    reg.Actions(t);
+                    reg.actions(t);
                 }
             }
         }
@@ -131,17 +130,17 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static IDisposable Register<T>(System.Action<T> action)
+        public static IDisposable Register<T>(Action<T> action)
         {
-            return eventer.RegisterEvent<T>(action);
+            return eventer.RegisterEvent(action);
         }
         
         /// <summary>
         /// 注销事件
         /// </summary>
-        public static void UnRegister<T>(System.Action<T> action)
+        public static void UnRegister<T>(Action<T> action)
         {
-            eventer.UnRegisterEvent<T>(action);
+            eventer.UnRegisterEvent(action);
         }
 
         /// <summary>
@@ -157,7 +156,7 @@ namespace IFramework.Core
         /// </summary>
         public static void Send<T>(T t)
         {
-            eventer.SendEvent<T>(t);
+            eventer.SendEvent(t);
         }
         
     }

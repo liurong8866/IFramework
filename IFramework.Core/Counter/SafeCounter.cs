@@ -38,7 +38,7 @@ namespace IFramework.Core
         
         public SafeCounter(Action onZero)
         {
-            this.OnZero = onZero;
+            OnZero = onZero;
         }
         
         public int Count

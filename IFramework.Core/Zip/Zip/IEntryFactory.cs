@@ -1,5 +1,3 @@
-using IFramework.Core.Zip;
-
 namespace IFramework.Core.Zip.Zip
 {
 	/// <summary>

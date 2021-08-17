@@ -22,8 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-
 namespace IFramework.Core
 {
     public struct Constant

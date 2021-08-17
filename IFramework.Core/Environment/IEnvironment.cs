@@ -22,8 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using UnityEditor;
-
 namespace IFramework.Core
 {
     /// <summary>
