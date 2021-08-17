@@ -163,35 +163,30 @@ namespace IFramework.Engine
             
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
-            // 如果外部没有传值，则获取所有AssetBundleName
             string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
             
-            foreach (string bundleName in assetBundleNames)
+            foreach (string name in assetBundleNames)
             {
-                // 获取所有依赖，比如Scene场景资源会依赖场景里的其他资源
-                string[] depends = AssetDatabase.GetAssetBundleDependencies(bundleName, false);
+                string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
 
-                // 先添加AssetBundle包
-                int index = assetDataConfig.AddAssetDependence(bundleName, depends, out AssetGroup @group);
-                
+                int index = assetDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
                 if (index < 0)
                 {
                     continue;
                 }
             
-                // 再添加AssetBundle包中的资源，有可能一个包含多个资源
-                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(bundleName);
+                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(name);
                 foreach (string asset in assets)
                 {
                     Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
             
                     short code = type.ToCode();
 
-                    string assetName = Path.GetFileName(asset);
+                    string fileName = Path.GetFileName(asset);
                     
                     @group.AddAssetInfo(asset.EndsWith(".unity")
-                        ? new AssetInfo(assetName, bundleName, index,  ResourceLoadType.Scene,code)
-                        : new AssetInfo(assetName, bundleName, index,  ResourceLoadType.Asset,code));
+                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
+                        : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
                 }
             }
 #endif

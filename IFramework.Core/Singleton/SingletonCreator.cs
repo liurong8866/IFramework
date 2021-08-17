@@ -31,7 +31,7 @@ namespace IFramework.Core
     /// <summary>
     /// 单例实例创建类
     /// </summary>
-    public class SingletonCreator
+    public static class SingletonCreator
     {
         /// <summary>
         /// 通过反射创建普通类实例
@@ -64,7 +64,7 @@ namespace IFramework.Core
             Type type = typeof(T);
 
             // 判断T实例存在的条件是否满足
-            if (!Application.isPlaying) return instance;
+            if (!Application.isPlaying) return null;
             
             // 1、判断当前场景中是否存在T实例，有则返回
             instance = Object.FindObjectOfType(type) as T;
@@ -79,9 +79,7 @@ namespace IFramework.Core
 
             foreach (object customAttribute in customAttributes)
             {
-                MonoSingletonAttribute custom = customAttribute as MonoSingletonAttribute;
-
-                if (custom != null)
+                if (customAttribute is MonoSingletonAttribute custom)
                 {
                     instance = AttachComponent<T>(custom.PathInHierarchy, custom.DontDestroy);
                     break;
@@ -96,7 +94,7 @@ namespace IFramework.Core
             }
             
             // 调用初始化方法
-            instance.OnInit();
+            instance?.OnInit();
             
             return instance;
         }
@@ -120,14 +118,13 @@ namespace IFramework.Core
 
                 if (dontDestroy)
                 {
-                    GameObject.DontDestroyOnLoad(gameObject);
+                    Object.DontDestroyOnLoad(gameObject);
                 }
             }
             // 附加组件并返回
             return gameObject.AddComponent(typeof(T)) as T;
         }
-
-
+        
         /// <summary>
         /// 根据路径查找GameObject
         /// </summary>
@@ -141,7 +138,7 @@ namespace IFramework.Core
 
             string[] subPath = path.Split('/');
             
-            if (subPath == null || subPath.Length == 0) return null;
+            if (subPath != null && subPath.Length == 0) return null;
 
             return FindGameObject(null, subPath, 0, true, dontDestroy);
         }
@@ -167,7 +164,7 @@ namespace IFramework.Core
                 // 在根节点标记 DontDestroy 标记
                 if (client != null && dontDestroy)
                 {
-                    GameObject.DontDestroyOnLoad(client);
+                    Object.DontDestroyOnLoad(client);
                 }
             }
             // 如果是二级、三级等子路径，则在父路径下查找
@@ -196,7 +193,7 @@ namespace IFramework.Core
                     // 在根节点标记 DontDestroy 标记
                     if (dontDestroy && index == 0)
                     {
-                        GameObject.DontDestroyOnLoad(client);
+                        Object.DontDestroyOnLoad(client);
                     }
                 }
             }

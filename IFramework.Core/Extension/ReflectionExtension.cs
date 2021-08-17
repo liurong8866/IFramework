@@ -97,7 +97,8 @@ namespace IFramework.Core
         /// 通过反射方式获取属性
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="fieldName">属性名</param>
+        /// <param name="propertyName"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
         public static object GetPropertyByReflect(this object obj, string propertyName, object[] index = null)
         {
@@ -144,10 +145,14 @@ namespace IFramework.Core
         /// <summary>
         /// 获取第一个特性
         /// </summary>
+        /// <param name="method"></param>
+        /// <param name="inherit"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T GetFirstAttribute<T>(this MethodInfo method, bool inherit) where T : Attribute
         {
             var attrs = (T[]) method.GetCustomAttributes(typeof(T), inherit);
-            if (attrs != null && attrs.Length > 0)
+            if (attrs.Length > 0)
                 return attrs[0];
             return null;
         }
@@ -158,7 +163,7 @@ namespace IFramework.Core
         public static T GetFirstAttribute<T>(this FieldInfo field, bool inherit) where T : Attribute
         {
             var attrs = (T[]) field.GetCustomAttributes(typeof(T), inherit);
-            if (attrs != null && attrs.Length > 0)
+            if (attrs.Length > 0)
                 return attrs[0];
             return null;
         }
@@ -169,7 +174,7 @@ namespace IFramework.Core
         public static T GetFirstAttribute<T>(this PropertyInfo prop, bool inherit) where T : Attribute
         {
             var attrs = (T[]) prop.GetCustomAttributes(typeof(T), inherit);
-            if (attrs != null && attrs.Length > 0)
+            if (attrs.Length > 0)
                 return attrs[0];
             return null;
         }
@@ -180,7 +185,7 @@ namespace IFramework.Core
         public static T GetFirstAttribute<T>(this Type type, bool inherit) where T : Attribute
         {
             var attrs = (T[]) type.GetCustomAttributes(typeof(T), inherit);
-            if (attrs != null && attrs.Length > 0)
+            if (attrs.Length > 0)
                 return attrs[0];
             return null;
         }

@@ -32,7 +32,7 @@ namespace IFramework.Core
     public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new()
     {
         // 最大对象
-        private int maxCount = 0;
+        private int maxCount;
 
         /*-----------------------------*/
         /* 实现对象池单例                */

@@ -26,6 +26,7 @@ using System;
 using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
+// ReSharper disable Unity.InefficientPropertyAccess
 
 namespace IFramework.Core
 {

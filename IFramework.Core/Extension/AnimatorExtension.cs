@@ -41,12 +41,13 @@ namespace IFramework.Core
             }
         }
 
-        // <summary>
+        /// <summary>
         /// Updates the animator bool.
         /// </summary>
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
-        /// <param name="value">If set to <c>true</c> value.</param>
+        /// <param name="value">Value.</param>
+        /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value, List<string> parameterList)
         {
             if (parameterList.Contains(parameterName))
@@ -55,6 +56,12 @@ namespace IFramework.Core
             }
         }
 
+        /// <summary>
+        /// Updates the animator bool.
+        /// </summary>
+        /// <param name="self">Animator.</param>
+        /// <param name="parameterName">Parameter name.</param>
+        /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
         {
             if (parameterList.Contains(parameterName))
@@ -68,7 +75,7 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
-        /// <param name="value">If set to <c>true</c> value.</param>
+        /// <param name="parameterList">If set to <c>true</c> value.</param>
         public static void SetAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
         {
             if (parameterList.Contains(parameterName))
@@ -83,6 +90,7 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
+        /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value, List<string> parameterList)
         {
             if (parameterList.Contains(parameterName))
@@ -97,6 +105,7 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
+        /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value, List<string> parameterList)
         {
             if (parameterList.Contains(parameterName))
@@ -104,9 +113,8 @@ namespace IFramework.Core
                 self.SetInteger(parameterName, value);
             }
         }
-
-
-        // <summary>
+        
+        /// <summary>
         /// Updates the animator bool without checking the parameter's existence.
         /// </summary>
         /// <param name="self">self.</param>
@@ -132,7 +140,6 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        /// <param name="value">If set to <c>true</c> value.</param>
         public static void SetAnimatorTrigger(this Animator self, string parameterName)
         {
             self.SetTrigger(parameterName);
@@ -159,9 +166,8 @@ namespace IFramework.Core
         {
             self.SetInteger(parameterName, value);
         }
-
-
-        // <summary>
+        
+        /// <summary>
         /// Updates the animator bool after checking the parameter's existence.
         /// </summary>
         /// <param name="self">Animator.</param>
@@ -188,7 +194,6 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
-        /// <param name="value">If set to <c>true</c> value.</param>
         public static void SetAnimatorTriggerIfExists(this Animator self, string parameterName)
         {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger))

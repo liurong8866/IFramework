@@ -32,7 +32,7 @@ namespace IFramework.Core
         protected static T instance;
         
         // 对象锁
-        static object locker = new object();
+        private static readonly object locker = new object();
 
         protected static bool isApplicationQuit = false;
 

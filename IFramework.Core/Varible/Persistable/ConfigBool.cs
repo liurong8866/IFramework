@@ -45,8 +45,8 @@ namespace IFramework.Core
         {
             if (PlayerPrefs.HasKey(key))
             {
-                return PlayerPrefs.GetInt(key) == 1 ? true : false;
-                
+                return PlayerPrefs.GetInt(key) == 1;
+
             }
             return value;
         }
