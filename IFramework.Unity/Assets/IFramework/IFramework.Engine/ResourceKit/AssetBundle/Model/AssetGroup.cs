@@ -31,7 +31,7 @@ namespace IFramework.Engine
     /// <summary>
     /// Asset资源字典维护表
     /// </summary>
-    public class AssetGroup
+    public sealed class AssetGroup
     {
         private readonly string key;
         public string Key => key;

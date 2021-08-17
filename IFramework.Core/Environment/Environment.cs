@@ -107,7 +107,6 @@ namespace IFramework.Engine
 #if UNITY_EDITOR
         public static bool IsSimulation
         {
-
             get { return Configure.IsSimulation.Value; }
             set { Configure.IsSimulation.Value = true; }
 #else
@@ -151,7 +150,7 @@ namespace IFramework.Engine
             return null;
 #endif
         }
-        
+
         /// <summary>
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
@@ -193,5 +192,4 @@ namespace IFramework.Engine
         }
         
     }
-    
 }
