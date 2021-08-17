@@ -83,11 +83,12 @@ namespace IFramework.Test.ResourceKit
         {
             ResourceLoader resourceLoader = ResourceLoader.Allocate();
 
-            Object resource = resourceLoader.Load("Lili");
-            resource.Instantiate().Name("这是Resource.Load加载");
+            resourceLoader.Load<GameObject>("AssetObj")
+                .Instantiate()
+                .Name("这是使用通过 AssetName 加载的对象");
             
-            // Sprite resource3 = resourceLoader.LoadSprite("icon");
-            // imag.sprite = resource3;
+            
+          
         }
         
     }

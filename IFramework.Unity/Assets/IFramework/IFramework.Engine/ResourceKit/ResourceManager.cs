@@ -123,6 +123,7 @@ namespace IFramework.Engine
         {
             if (Configure.IsSimulation)
             {
+                // 获取所有AssetBundle资源信息
                 AssetDataConfig config = new AssetDataConfig();
                 Environment.AddAssetBundleInfoToResourceData(config);
                 AssetDataConfig.ConfigFile = config;

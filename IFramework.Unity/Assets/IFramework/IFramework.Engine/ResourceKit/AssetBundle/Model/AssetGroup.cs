@@ -33,7 +33,7 @@ namespace IFramework.Engine
     /// </summary>
     public class AssetGroup
     {
-        private string key;
+        private readonly string key;
         public string Key => key;
 
         // 资源依赖关系列表
@@ -81,8 +81,10 @@ namespace IFramework.Engine
             assetNameMap ??= new Dictionary<string, AssetInfo>();
             assetBundleMap ??= new Dictionary<string, AssetInfo>();
 
+            string assetKey = assetInfo.AssetName.ToLower();
+            
             // 添加到AssetInfo字典
-            if (assetNameMap.ContainsKey(key))
+            if (assetNameMap.ContainsKey(assetKey))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
@@ -98,14 +100,14 @@ namespace IFramework.Engine
             }
             else
             {
-                assetNameMap.Add(key, assetInfo);
+                assetNameMap.Add(assetKey, assetInfo);
             }
             
             // 添加到AssetUUID字典
             
-            key = assetInfo.UUID;
+            assetKey = assetInfo.UUID;
             
-            if (assetBundleMap.ContainsKey(key))
+            if (assetBundleMap.ContainsKey(assetKey))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName, assetInfo.AssetBundleName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
@@ -121,7 +123,7 @@ namespace IFramework.Engine
             }
             else
             {
-                assetBundleMap.Add(key, assetInfo);
+                assetBundleMap.Add(assetKey, assetInfo);
             }
 
             return true;
@@ -134,11 +136,14 @@ namespace IFramework.Engine
         {
             AssetInfo assetInfo = null;
 
+            // 如果查询条件含有AssetBundleName，并且BundleMap 不为空
             if (searcher.AssetBundleName != null)
             {
                 assetBundleMap?.TryGetValue(searcher.AssetBundleName + searcher.AssetName, out assetInfo);
             }
-            else
+            
+            // 如果查询条件没有AssetBundleName，并且BundleMap 不为空
+            if (searcher.AssetBundleName == null)
             {
                 assetNameMap?.TryGetValue(searcher.AssetName, out assetInfo);
             }
