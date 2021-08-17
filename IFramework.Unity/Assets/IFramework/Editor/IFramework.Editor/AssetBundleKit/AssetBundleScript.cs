@@ -32,12 +32,16 @@ namespace IFramework.Editor
     {
         public static void GenerateConstScript()
         {
+            Log.Info("生成脚本: [{0}]: 开始！", PlatformSetting.CurrentBundlePlatform);
+            
             // 生成文件路径
-            string path = Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + Constant.ASSET_BUNDLE_SCRIPT_FILE);
+            string path = Path.Combine(Application.dataPath, Constant.FRAMEWORK_PATH, Constant.ASSET_BUNDLE_SCRIPT_FILE);
 
             string content = Generate();
             
             SerializeUtils.SerializeToFile(path, content);
+            
+            Log.Info("生成脚本: [{0}]: 完成！", PlatformSetting.CurrentBundlePlatform);
         }
 
         public static string Generate()

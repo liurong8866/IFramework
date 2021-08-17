@@ -38,6 +38,7 @@ namespace IFramework.Editor
     {
         public static void BuildAssetBundles()
         {
+            
             // 打包AssetBundle
             BuildAssetBundles(PlatformSetting.CurrentBundlePlatform);
 
@@ -46,6 +47,7 @@ namespace IFramework.Editor
             {
                 AssetBundleScript.GenerateConstScript();
             }
+            
         }
 
         /// <summary>
@@ -53,9 +55,9 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="buildTarget">目标平台</param>
         public static void BuildAssetBundles(BuildTarget buildTarget)
-        {   
-            Log.Info("开始打包: [{0}]:", buildTarget);
-            
+        {               
+            Log.Info("开始打包: [{0}]: 开始", buildTarget);
+
             AssetDatabase.RemoveUnusedAssetBundleNames();
             
             AssetDatabase.Refresh();
@@ -84,13 +86,13 @@ namespace IFramework.Editor
                 string path =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
                 // outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
-                Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
+                Log.Info("正在打包: [{0}]: {1}", buildTarget, path);
                 
                 Build(path, subPackage, buildTarget);
             }
             AssetDatabase.Refresh();
             
-            Log.Info("打包完毕: [{0}]，共计{1}个主包，{2}个子包，耗时{3}秒", buildTarget, 1, subPackages.Count,  (DateTime.Now - start).TotalSeconds );
+            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒", buildTarget, 1, subPackages.Count,  (DateTime.Now - start).TotalSeconds );
             
         }
 

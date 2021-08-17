@@ -9,7 +9,7 @@
 # /t:clean   清理
 # /p:Configuration=Debug 编译模式：debug
 # /p:Configuration=release 编译模式：release
-msbuild "IFramework.Core/IFramework.Core.csproj" /t:rebuild  /p:Configuration=Debug
+msbuild "IFramework.Core/IFramework.Core.csproj" -t:rebuild  -p:Configuration=Debug  -v:m
 
 
 echo '拷贝 IFramework.Core'

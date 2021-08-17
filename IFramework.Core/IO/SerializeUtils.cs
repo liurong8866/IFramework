@@ -60,7 +60,7 @@ namespace IFramework.Core
             
             return formatter.Deserialize(memory) as T;
         }
-        
+
         /// <summary>
         /// 把文件序列化成对象
         /// </summary>
@@ -69,7 +69,7 @@ namespace IFramework.Core
             using FileStream fileStream = new FileStream(fileName, fileMode);
             
             BinaryFormatter formatter = new BinaryFormatter();
-                
+            
             formatter.Serialize(fileStream, obj);
         }
 
