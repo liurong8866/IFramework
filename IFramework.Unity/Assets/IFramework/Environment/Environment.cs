@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using System;
-using System.IO;
 using UnityEditor;
 using Object = UnityEngine.Object;
 using IFramework.Core;
@@ -155,7 +154,7 @@ namespace IFramework.Engine
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
         /// <param name="assetBundleConfig"></param>
-        /// <param name="assetBundleName"></param>
+        /// <param name="assetBundleNames"></param>
         public static void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
         {
 #if UNITY_EDITOR

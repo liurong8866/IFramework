@@ -43,6 +43,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
+        // ReSharper disable once RedundantBaseConstructorCall
         public AssetResource() : base() {}
         public AssetResource(string assetName) : base(assetName) {}
         
@@ -72,7 +73,7 @@ namespace IFramework.Engine
             // 如果配置文件没有对应的Asset，则退出
             if (assetBundleNameConfig.IsNullOrEmpty()) return false;
 
-            Object obj = null;
+            Object obj;
             
             // 如果是模拟模式，并且不是包信息资源
             if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))

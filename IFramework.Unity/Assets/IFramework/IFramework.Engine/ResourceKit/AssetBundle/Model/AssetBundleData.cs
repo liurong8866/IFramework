@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using System;
-using UnityEngine.Serialization;
 
 namespace IFramework.Engine
 {

@@ -130,7 +130,7 @@ namespace IFramework.Engine
             else
             {
                 AssetBundleConfig.ConfigFile.Reset();
-                List<string> configFiles = new List<string>();
+                List<string> configFiles;
 
                 // 未进行过热更新
                 if (Configure.LoadAssetFromStream)
