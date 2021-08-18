@@ -56,28 +56,29 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加AssetBundle资源名
         /// </summary>
-        public int AddAssetDependence(string assetName, string[] depends, out AssetBundleInfo bundleInfo)
+        public int AddAssetBundleInfo(string assetBundleName, string[] depends, out AssetBundleInfo assetBundleInfo)
         {
-            bundleInfo = null;
+            assetBundleInfo = null;
 
-            if (assetName.IsNullOrEmpty()) return -1;
+            if (assetBundleName.IsNullOrEmpty()) return -1;
  
-            string key = assetName.TrimEnd('/').TrimEnd('\\');
+            // 如果是文件夹类型，去掉 /或\
+            string key = assetBundleName.TrimEnd('/').TrimEnd('\\');
 
             if (key.IsNullOrEmpty()) return -1;
             
-            // 根据Key获取group
-            bundleInfo = AssetBundleList.FirstOrDefault(item => item.Key.Equals(key));
+            // 根据Key获取AssetBundle
+            assetBundleInfo = AssetBundleList.FirstOrDefault(item => item.Key.Equals(key));
             
-            // 如果没有group，就新增
-            if (bundleInfo == null)
+            // 如果没有，添加
+            if (assetBundleInfo == null)
             {
-                bundleInfo = new AssetBundleInfo(key);
-                AssetBundleList.Add(bundleInfo);
+                assetBundleInfo = new AssetBundleInfo(key);
+                AssetBundleList.Add(assetBundleInfo);
             }
 
-            // 添加资源关系信息到group
-            return bundleInfo.AddAssetDependence(assetName, depends);
+            // 添加资源关系信息
+            return assetBundleInfo.AddAssetDependence(assetBundleName, depends);
         }
         
         /// <summary>

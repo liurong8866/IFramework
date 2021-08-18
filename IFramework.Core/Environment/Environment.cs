@@ -171,7 +171,7 @@ namespace IFramework.Engine
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
                 // 添加AssetBundleName 到缓存
-                int index = assetBundleConfig.AddAssetDependence(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
+                int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
                 if (index < 0)
                 {
                     continue;

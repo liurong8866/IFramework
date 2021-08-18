@@ -170,8 +170,8 @@ namespace IFramework.Engine
                 // 获取AssetBundleName是否有依赖，比如 Secne 包含了多个资源
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
-                // 添加AssetBundleName 到缓存
-                int index = assetBundleConfig.AddAssetDependence(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
+                // 添加AssetBundleName信息到缓存
+                int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
                 if (index < 0)
                 {
                     continue;

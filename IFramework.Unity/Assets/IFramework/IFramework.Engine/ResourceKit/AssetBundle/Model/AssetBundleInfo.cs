@@ -139,9 +139,8 @@ namespace IFramework.Engine
             {
                 assetFullNameMap?.TryGetValue(searcher.FullName, out assetInfo);
             }
-            
             // 如果查询条件没有AssetBundleName，并且BundleMap 不为空
-            if (searcher.AssetBundleName == null)
+            else
             {
                 assetNameMap?.TryGetValue(searcher.AssetName, out assetInfo);
             }
