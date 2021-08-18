@@ -36,7 +36,11 @@ namespace IFramework.Core
         /// </summary>
         public static byte[] SerializeToBytes(object obj)
         {
-            if (obj == null) return null;
+            if (obj == null)
+            {
+                Log.Error("序列化失败：需要序列化的对象为NULL");
+                return null;
+            }
 
             using MemoryStream memory = new MemoryStream();
             
@@ -52,13 +56,36 @@ namespace IFramework.Core
         /// </summary>
         public static T DeserializeFromBytes<T>(byte[] bytes) where T : class
         {
-            if (bytes == null) return null;
+            if (bytes == null)
+            {
+                Log.Error("反序列化失败：需要序列化的字节数组为NULL");
+                return null;
+            }
             
             using MemoryStream memory = new MemoryStream(bytes) { Position = 0 };
             
             BinaryFormatter formatter = new BinaryFormatter();
             
             return formatter.Deserialize(memory) as T;
+        }
+        
+        /// <summary>
+        /// 把字节数组反序列化成对象
+        /// </summary>
+        public static T DeserializeFromBytes<T>(Stream stream) where T : class
+        {
+            if (stream == null)
+            {
+                Log.Error("反序列化失败：需要序列化的流为NULL");
+                return null;
+            }
+            
+            using (stream)
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                return formatter.Deserialize(stream) as T;
+            }
         }
 
         /// <summary>
@@ -78,11 +105,36 @@ namespace IFramework.Core
         /// </summary>
         public static T DeserializeFromFile<T>(string fileName) where T : class
         {
-            using FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 
             BinaryFormatter formatter = new BinaryFormatter();
             
-            return formatter.Deserialize(fs) as T;
+            return formatter.Deserialize(fileStream) as T;
+        }
+        
+        /// <summary>
+        /// 把文件反序列化成对象
+        /// </summary>
+        public static T DeserializeFromFile<T>(Stream stream) where T : class
+        {
+            if (stream == null)
+            {
+                Log.Error("反序列化失败：需要序列化的流为NULL");
+                return null;
+            }
+            
+            if (!stream.CanRead)
+            {
+                Log.Error("反序列化失败：需要序列化的流不可读");
+                return null;
+            }
+            
+            using (stream)
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+            
+                return formatter.Deserialize(stream) as T;
+            }
         }
         
         /// <summary>
@@ -124,6 +176,36 @@ namespace IFramework.Core
             using CryptoStream cryptoStream = new CryptoStream(fileStream, transform, CryptoStreamMode.Read);
             BinaryFormatter formatter = new BinaryFormatter();
             
+            return formatter.Deserialize(cryptoStream) as T;
+        }
+        
+        /// <summary>
+        /// 把文件反序列化成对象(AES加密)
+        /// </summary>
+        /// <param name="stream">待序列化的文件流</param>
+        /// <param name="key">密钥(16位)</param>
+        public static T DeserializeFromFile<T>(Stream stream, string key) where T : class
+        {
+            if (stream == null)
+            {
+                Log.Error("反序列化失败：需要序列化的流为NULL");
+                return null;
+            }
+            
+            if (!stream.CanRead)
+            {
+                Log.Error("反序列化失败：需要序列化的流不可读");
+                return null;
+            }
+            
+            using AesCryptoServiceProvider crypt = new AesCryptoServiceProvider();
+            crypt.Key = Encoding.ASCII.GetBytes(key);
+            crypt.IV = Encoding.ASCII.GetBytes(key);
+            
+            using ICryptoTransform transform = crypt.CreateDecryptor();
+            
+            using CryptoStream cryptoStream = new CryptoStream(stream, transform, CryptoStreamMode.Read);
+            BinaryFormatter formatter = new BinaryFormatter();
             return formatter.Deserialize(cryptoStream) as T;
         }
     }

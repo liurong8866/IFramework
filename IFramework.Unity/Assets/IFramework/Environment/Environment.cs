@@ -25,6 +25,7 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
@@ -183,8 +184,8 @@ namespace IFramework.Engine
                     string fileName = Path.GetFileName(asset);
                     
                     @group.AddAssetInfo(asset.EndsWith(".unity")
-                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.SCENE,code)
-                        : new AssetInfo(fileName, name, index,  ResourceLoadType.ASSET,code));
+                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
+                        : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
                 }
             }
 #endif
