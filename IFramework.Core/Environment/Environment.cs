@@ -107,6 +107,7 @@ namespace IFramework.Engine
         public static bool IsSimulation
         {
             get { return Configure.IsSimulation.Value; }
+            // ReSharper disable once ValueParameterNotUsed
             set { Configure.IsSimulation.Value = true; }
 #else
             get { return false; }
