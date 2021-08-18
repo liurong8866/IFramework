@@ -34,7 +34,8 @@ namespace IFramework.Core
         protected static T instance;
         
         // 对象锁
-        private static object locker = new object();
+        // ReSharper disable once StaticMemberInGenericType
+        private static readonly object locker = new object();
 
         /// <summary>
         /// 双重锁，线程安全

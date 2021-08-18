@@ -49,6 +49,8 @@ namespace IFramework.Engine
         /// 资源类型
         /// </summary>
         public Type AssetType { get; set; }
+        
+        public string OriginalAssetName { get; set; }
 
         /// <summary>
         /// 静态方法生成实例
@@ -60,6 +62,7 @@ namespace IFramework.Engine
             searcher.AssetName = assetName.ToLower();
             searcher.AssetBundleName = assetBundleName?.ToLower();
             searcher.AssetType = assetType;
+            searcher.OriginalAssetName = assetName;
             
             return searcher;
         }

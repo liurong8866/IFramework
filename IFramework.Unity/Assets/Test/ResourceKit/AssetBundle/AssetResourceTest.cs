@@ -6,11 +6,12 @@ namespace IFramework.Test.AssetResourceKit
 {
     public class AssetResourceTest : MonoBehaviour
     {
-        private ResourceLoader mResLoader = ResourceLoader.Allocate();
-        // Start is called before the first frame update
+        
         private void Start()
         {
-            
+             ResourceLoader mResLoader = ResourceLoader.Allocate();
+            // Start is called before the first frame update
+            // aaa("asdf");
             mResLoader.Load<GameObject>("AssetObj")
                 .Instantiate()
                 .Name("这是使用通过 AssetName 加载的对象");
@@ -24,9 +25,9 @@ namespace IFramework.Test.AssetResourceKit
         }
 
         // Update is called once per frame
-        private void Update()
+        private void aaa(string assetName)
         {
-        
+            assetName.LogInfo();
         }
     }
 }

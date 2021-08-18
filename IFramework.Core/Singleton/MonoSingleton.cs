@@ -32,8 +32,10 @@ namespace IFramework.Core
         protected static T instance;
         
         // 对象锁
+        // ReSharper disable once StaticMemberInGenericType
         private static readonly object locker = new object();
 
+        // ReSharper disable once StaticMemberInGenericType
         protected static bool isApplicationQuit = false;
 
         /// <summary>

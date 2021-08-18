@@ -156,36 +156,44 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleName"></param>
-        public static void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleName = null)
+        public static void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
         {
 #if UNITY_EDITOR
             
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
-            string[] assetBundleNames = assetBundleName ?? AssetDatabase.GetAllAssetBundleNames();
+            // 如果没有传入Name，则获取全部AssetBundleName
+            string[] assetBundleNameArray = assetBundleNames ?? AssetDatabase.GetAllAssetBundleNames();
             
-            foreach (string name in assetBundleNames)
+            // 循环处理所有AssetBundleName
+            foreach (string assetBundleName in assetBundleNameArray)
             {
-                string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
+                // 获取AssetBundleName是否有依赖，比如 Secne 包含了多个资源
+                string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
-                int index = assetBundleConfig.AddAssetDependence(name, depends, out AssetBundleInfo @assetBundleInfo);
+                // 添加AssetBundleName 到缓存
+                int index = assetBundleConfig.AddAssetDependence(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
                 if (index < 0)
                 {
                     continue;
                 }
-            
-                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(name);
+                
+                // 获取该AssetBundleName下所有资源
+                string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName);
+                
                 foreach (string asset in assets)
                 {
+                    // 取得资源类型
                     Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
-            
                     short code = type.ToCode();
 
-                    string fileName = Path.GetFileName(asset);
+                    // 取得资源名，小写无扩展名
+                    string assetName = PlatformSetting.AssetPathToName(asset);
                     
+                    // 添加资源到缓存
                     @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")
-                        ? new AssetInfo(fileName, name, index, ResourceLoadType.SCENE, code)
-                        : new AssetInfo(fileName, name, index, ResourceLoadType.ASSET, code));
+                        ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.SCENE, code)
+                        : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET, code));
                 }
             }
 #endif

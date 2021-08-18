@@ -66,6 +66,7 @@ namespace IFramework.Core
             {
                 if (register is TypeEventRegister<T> reg)
                 {
+                    // ReSharper disable once DelegateSubtraction
                     reg.actions -= action;
                 }
             }
