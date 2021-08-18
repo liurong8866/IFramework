@@ -26,40 +26,24 @@ namespace IFramework.Test.Model
 {
     public class UserInfo
     {
-        private string userName;
-        private int age;
-        private string sex;
-
         public UserInfo() { }
 
         public UserInfo(string userName, string password, int age, string sex)
         {
-            this.userName = userName;
-            this.age = age;
-            this.sex = sex;
+            this.UserName = userName;
+            this.Age = age;
+            this.Sex = sex;
         }
 
-        public string UserName
-        {
-            get => userName;
-            set => userName = value;
-        }
+        public string UserName { get; set; }
 
-        public int Age
-        {
-            get => age;
-            set => age = value;
-        }
+        public int Age { get; set; }
 
-        public string Sex
-        {
-            get => sex;
-            set => sex = value;
-        }
+        public string Sex { get; set; }
 
         public override string ToString()
         {
-            return $"username: {userName}, age: {age}, sex: {sex}";
+            return $"username: {UserName}, age: {Age}, sex: {Sex}";
         }
         
     }

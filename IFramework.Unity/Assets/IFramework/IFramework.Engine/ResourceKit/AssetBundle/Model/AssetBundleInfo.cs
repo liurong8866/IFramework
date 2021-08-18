@@ -31,36 +31,34 @@ namespace IFramework.Engine
     /// <summary>
     /// Asset资源字典维护表
     /// </summary>
-    public sealed class AssetGroup
+    public sealed class AssetBundleInfo
     {
-        private readonly string key;
-        public string Key => key;
+        public string Key { get; }
 
         // 资源依赖关系列表
-        private List<AssetDependence> assetDepends;
-        public List<AssetDependence> AssetDepends => assetDepends;
-        
+        public List<AssetDependence> AssetDepends { get; private set; }
+
         // AssetName作为Key的字典
         private Dictionary<string, AssetInfo> assetNameMap;
         public IEnumerable<AssetInfo> AssetInfos => assetNameMap.Values;
 
         // AssetName+AssetBundleName 作为Key的字典
-        private Dictionary<string, AssetInfo> assetBundleMap;
+        private Dictionary<string, AssetInfo> assetFullNameMap;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AssetGroup(string key)
+        public AssetBundleInfo(string key)
         {
-            this.key = key;
+            this.Key = key;
         }
         
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AssetGroup(AssetGroupData data)
+        public AssetBundleInfo(AssetBundleData data)
         {
-            this.key = data.Key;
+            this.Key = data.Key;
             SetSerializeData(data);
         }
         
@@ -69,7 +67,7 @@ namespace IFramework.Engine
         /// </summary>
         public void Reset()
         {
-            assetDepends?.Clear();
+            AssetDepends?.Clear();
             assetNameMap?.Clear();
         }
 
@@ -79,7 +77,7 @@ namespace IFramework.Engine
         public bool AddAssetInfo(AssetInfo assetInfo)
         {
             assetNameMap ??= new Dictionary<string, AssetInfo>();
-            assetBundleMap ??= new Dictionary<string, AssetInfo>();
+            assetFullNameMap ??= new Dictionary<string, AssetInfo>();
 
             string assetKey = assetInfo.AssetName.ToLower();
             
@@ -93,8 +91,8 @@ namespace IFramework.Engine
                 {
                     Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", 
                         assetInfo.AssetName, 
-                        assetDepends[oldInfo.AssetBundleIndex].AssetBundleName, 
-                        assetDepends[oldInfo.AssetBundleIndex].AssetBundleName
+                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, 
+                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
                     );
                 }
             }
@@ -105,9 +103,9 @@ namespace IFramework.Engine
             
             // 添加到AssetUUID字典
             
-            assetKey = assetInfo.Uuid;
+            assetKey = assetInfo.FullName;
             
-            if (assetBundleMap.ContainsKey(assetKey))
+            if (assetFullNameMap.ContainsKey(assetKey))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName, assetInfo.AssetBundleName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
@@ -116,14 +114,14 @@ namespace IFramework.Engine
                 {
                     Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", 
                         assetInfo.AssetName, 
-                        assetDepends[oldInfo.AssetBundleIndex].AssetBundleName, 
-                        assetDepends[oldInfo.AssetBundleIndex].AssetBundleName
+                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, 
+                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
                     );
                 }
             }
             else
             {
-                assetBundleMap.Add(assetKey, assetInfo);
+                assetFullNameMap.Add(assetKey, assetInfo);
             }
 
             return true;
@@ -139,7 +137,7 @@ namespace IFramework.Engine
             // 如果查询条件含有AssetBundleName，并且BundleMap 不为空
             if (searcher.AssetBundleName != null)
             {
-                assetBundleMap?.TryGetValue(searcher.AssetBundleName + searcher.AssetName, out assetInfo);
+                assetFullNameMap?.TryGetValue(searcher.FullName, out assetInfo);
             }
             
             // 如果查询条件没有AssetBundleName，并且BundleMap 不为空
@@ -158,7 +156,7 @@ namespace IFramework.Engine
         {
             if (assetName.IsNullOrEmpty()) return -1;
 
-            assetDepends ??= new List<AssetDependence>();
+            AssetDepends ??= new List<AssetDependence>();
 
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
 
@@ -169,9 +167,9 @@ namespace IFramework.Engine
                 return assetInfo.AssetBundleIndex;
             }
 
-            assetDepends.Add(new AssetDependence(assetName, depends));
+            AssetDepends.Add(new AssetDependence(assetName, depends));
 
-            int index = assetDepends.Count - 1;
+            int index = AssetDepends.Count - 1;
 
             AddAssetInfo(new AssetInfo(assetName, null, index, ResourceLoadType.ASSET_BUNDLE));
 
@@ -183,13 +181,13 @@ namespace IFramework.Engine
         /// </summary>
         public string GetAssetBundleName(string assetName, int index)
         {
-            if (assetDepends.IsNullOrEmpty()) return "";
+            if (AssetDepends.IsNullOrEmpty()) return "";
 
-            if (index > assetDepends.Count) return "";
+            if (index > AssetDepends.Count) return "";
 
             if (assetNameMap.ContainsKey(assetName))
             {
-                return assetDepends[index].AssetBundleName;
+                return AssetDepends[index].AssetBundleName;
             }
 
             return "";
@@ -222,17 +220,17 @@ namespace IFramework.Engine
 
             if (assetInfo == null) return null;
             
-            return assetDepends.IsNullOrEmpty() ? null : assetDepends[assetInfo.AssetBundleIndex];
+            return AssetDepends.IsNullOrEmpty() ? null : AssetDepends[assetInfo.AssetBundleIndex];
         }
 
         /// <summary>
         /// 设置序列化数据
         /// </summary>
-        private void SetSerializeData(AssetGroupData data)
+        private void SetSerializeData(AssetBundleData data)
         {
             if(data == null) return;
             
-            assetDepends = new List<AssetDependence>(data.AssetDependencies);
+            AssetDepends = new List<AssetDependence>(data.AssetDependencies);
 
             if (data.AssetInfos != null)
             {
@@ -246,11 +244,11 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取序列化数据
         /// </summary>
-        public AssetGroupData GetSerializeData()
+        public AssetBundleData GetSerializeData()
         {
-            AssetGroupData data = new AssetGroupData();
-            data.Key = key;
-            data.AssetDependencies = assetDepends.ToArray();
+            AssetBundleData data = new AssetBundleData();
+            data.Key = Key;
+            data.AssetDependencies = AssetDepends.ToArray();
 
             if (assetNameMap != null)
             {

@@ -27,6 +27,9 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 参与打包的Asset资源信息
+    /// </summary>
     [Serializable]
     public class AssetInfo
     {
@@ -57,12 +60,12 @@ namespace IFramework.Engine
         public short AssetTypeCode;
 
         /// <summary>
-        /// UUID
+        /// 资源全称 AssetBundleName.AssetName
         /// </summary>
-        public string Uuid => AssetBundleName.IsNullOrEmpty() ? AssetName : AssetBundleName + AssetName;
-
+        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
+        
         public AssetInfo() { }
-
+        
         public AssetInfo(string assetName, string assetBundleName, int assetBundleIndex, short assetType, short assetTypeCode = 0)
         {
             AssetName = assetName;

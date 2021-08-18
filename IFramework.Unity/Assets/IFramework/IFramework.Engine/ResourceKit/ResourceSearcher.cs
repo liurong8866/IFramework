@@ -29,6 +29,7 @@ namespace IFramework.Engine
 {
     public class ResourceSearcher : Disposeble, IPoolable, IRecyclable
     {
+        
         /// <summary>
         /// 资源名称
         /// </summary>
@@ -38,6 +39,11 @@ namespace IFramework.Engine
         /// 所属AssetBundle包名称
         /// </summary>
         public string AssetBundleName { get; set; }
+        
+        /// <summary>
+        /// 资源全称 AssetBundleName.AssetName
+        /// </summary>
+        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
         
         /// <summary>
         /// 资源类型

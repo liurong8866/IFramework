@@ -52,16 +52,16 @@ namespace IFramework.Editor
         /// </summary>
         public static string Generate()
         {
-            AssetDataConfig assetDataConfig = new AssetDataConfig();
+            AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             
-            Environment.AddAssetBundleInfoToResourceData(assetDataConfig);
+            Environment.AddAssetBundleInfoToResourceData(assetBundleConfig);
 
-            List<AssetGroup> assetGroups = assetDataConfig.AssetGroups;
+            List<AssetBundleInfo> assetBundleList = assetBundleConfig.AssetBundleList;
 
             List<AssetBundleScriptModel> asset = new List<AssetBundleScriptModel>();
 
             // 循环加载所有资源
-            foreach (AssetGroup assetGroup in assetGroups)
+            foreach (AssetBundleInfo assetGroup in assetBundleList)
             {
                 List<AssetDependence> depends = assetGroup.AssetDepends;
 

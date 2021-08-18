@@ -23,17 +23,18 @@
  *****************************************************************************/
 
 using System;
+using UnityEngine.Serialization;
 
 namespace IFramework.Engine
 {
     [Serializable]
-    public class AssetGroupDatas
+    public class AssetBundleDatas
     {
-        public AssetGroupData[] AssetGroups;
+        public AssetBundleData[] AssetBundles;
     }
     
     [Serializable]
-    public class AssetGroupData
+    public class AssetBundleData
     {
         public string Key;
         

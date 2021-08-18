@@ -41,6 +41,10 @@
       <Content Include="Environment\Zip.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Compile Remove="Environment\Zip.cs" />
+      <Content Include="Environment\Zip.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

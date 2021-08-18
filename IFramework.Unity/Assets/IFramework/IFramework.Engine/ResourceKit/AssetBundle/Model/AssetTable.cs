@@ -38,10 +38,12 @@ namespace IFramework.Engine
         /// </summary>
         public AssetInfo GetAssetInfo(ResourceSearcher searcher)
         {
-            // 获取资源
+            // 在缓存中获取资源
             string assetName = searcher.AssetName.ToLower();
             List<AssetInfo> assetInfoList = Get(assetName);
 
+            if (assetInfoList.IsNullOrEmpty()) return null;
+            
             // 过滤AssetBundleName
             if (searcher.AssetBundleName.IsNotNullOrEmpty())
             {

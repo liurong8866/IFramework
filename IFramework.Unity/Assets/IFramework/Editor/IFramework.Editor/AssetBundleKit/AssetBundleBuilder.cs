@@ -131,13 +131,13 @@ namespace IFramework.Editor
         {
             if(assetBundleNames.IsNullOrEmpty()) return;
             
-            AssetDataConfig assetDataConfig = new AssetDataConfig();
+            AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
 
-            Environment.AddAssetBundleInfoToResourceData(assetDataConfig, assetBundleNames);
+            Environment.AddAssetBundleInfoToResourceData(assetBundleConfig, assetBundleNames);
 
             string filePath = Path.Combine((outputPath?? PlatformSetting.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             
-            assetDataConfig.Save(filePath);
+            assetBundleConfig.Save(filePath);
         }
         
         /// <summary>

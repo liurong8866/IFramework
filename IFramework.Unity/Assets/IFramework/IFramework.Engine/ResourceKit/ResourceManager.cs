@@ -123,13 +123,13 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 // 获取所有AssetBundle资源信息
-                AssetDataConfig config = new AssetDataConfig();
+                AssetBundleConfig config = new AssetBundleConfig();
                 Environment.AddAssetBundleInfoToResourceData(config);
-                AssetDataConfig.ConfigFile = config;
+                AssetBundleConfig.ConfigFile = config;
             }
             else
             {
-                AssetDataConfig.ConfigFile.Reset();
+                AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles = new List<string>();
 
                 // 未进行过热更新
@@ -148,7 +148,7 @@ namespace IFramework.Engine
                 foreach (string file in configFiles)
                 {
                     file.LogInfo();
-                    AssetDataConfig.ConfigFile.LoadFromFile(file);
+                    AssetBundleConfig.ConfigFile.LoadFromFile(file);
                 }
             }
         }
@@ -160,14 +160,14 @@ namespace IFramework.Engine
         {
             if (Configure.IsSimulation)
             {
-                AssetDataConfig config = new AssetDataConfig();
+                AssetBundleConfig config = new AssetBundleConfig();
                 Environment.AddAssetBundleInfoToResourceData(config);
-                AssetDataConfig.ConfigFile = config;
+                AssetBundleConfig.ConfigFile = config;
                 yield return null;
             }
             else
             {
-                AssetDataConfig.ConfigFile.Reset();
+                AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles = new List<string>();
 
                 // 未进行过热更新
@@ -187,7 +187,7 @@ namespace IFramework.Engine
                 foreach (string file in configFiles)
                 {
                     file.LogInfo();
-                    yield return AssetDataConfig.ConfigFile.LoadFromFileAsync(file);
+                    yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
                 }
                 yield return null;
             }

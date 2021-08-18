@@ -34,21 +34,19 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源数据管理类
     /// </summary>
-    public sealed class AssetDataConfig
+    public sealed class AssetBundleConfig
     {
         private AssetTable assetTable;
 
-        private readonly List<AssetGroup> assetGroupList= new List<AssetGroup>();
-        
-        public List<AssetGroup> AssetGroups => assetGroupList;
+        public List<AssetBundleInfo> AssetBundleList { get; } = new List<AssetBundleInfo>();
 
         public void Reset()
         {
-            foreach (AssetGroup assetGroup in assetGroupList)
+            foreach (AssetBundleInfo assetGroup in AssetBundleList)
             {
                 assetGroup.Reset();
             }
-            assetGroupList.Clear();
+            AssetBundleList.Clear();
             
             assetTable?.Dispose();
 
@@ -58,9 +56,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加AssetBundle资源名
         /// </summary>
-        public int AddAssetDependence(string assetName, string[] depends, out AssetGroup group)
+        public int AddAssetDependence(string assetName, string[] depends, out AssetBundleInfo bundleInfo)
         {
-            group = null;
+            bundleInfo = null;
 
             if (assetName.IsNullOrEmpty()) return -1;
  
@@ -69,17 +67,17 @@ namespace IFramework.Engine
             if (key.IsNullOrEmpty()) return -1;
             
             // 根据Key获取group
-            group = assetGroupList.FirstOrDefault(item => item.Key.Equals(key));
+            bundleInfo = AssetBundleList.FirstOrDefault(item => item.Key.Equals(key));
             
             // 如果没有group，就新增
-            if (group == null)
+            if (bundleInfo == null)
             {
-                group = new AssetGroup(key);
-                assetGroupList.Add(group);
+                bundleInfo = new AssetBundleInfo(key);
+                AssetBundleList.Add(bundleInfo);
             }
 
             // 添加资源关系信息到group
-            return group.AddAssetDependence(assetName, depends);
+            return bundleInfo.AddAssetDependence(assetName, depends);
         }
         
         /// <summary>
@@ -91,7 +89,7 @@ namespace IFramework.Engine
 
             string[] depends = null;
             
-            foreach (AssetGroup assetGroup in assetGroupList)
+            foreach (AssetBundleInfo assetGroup in AssetBundleList)
             {
                 depends = assetGroup.GetAssetBundleDepends(assetBundleName);
                 if (depends != null)
@@ -112,9 +110,9 @@ namespace IFramework.Engine
             {
                 assetTable = new AssetTable();
                 
-                for (int i = assetGroupList.Count - 1; i >= 0; --i)
+                for (int i = AssetBundleList.Count - 1; i >= 0; --i)
                 {
-                    foreach (AssetInfo assetInfo in assetGroupList[i].AssetInfos)
+                    foreach (AssetInfo assetInfo in AssetBundleList[i].AssetInfos)
                     {
                         assetTable.Add(assetInfo.AssetName, assetInfo);
                     }
@@ -129,14 +127,14 @@ namespace IFramework.Engine
         /// </summary>
         public void Save(string path)
         {
-            AssetGroupDatas data = new AssetGroupDatas
+            AssetBundleDatas data = new AssetBundleDatas
             {
-                AssetGroups = new AssetGroupData[assetGroupList.Count]
+                AssetBundles = new AssetBundleData[AssetBundleList.Count]
             };
 
-            for (int i = 0; i < assetGroupList.Count; i++)
+            for (int i = 0; i < AssetBundleList.Count; i++)
             {
-                data.AssetGroups[i] = assetGroupList[i].GetSerializeData();
+                data.AssetBundles[i] = AssetBundleList[i].GetSerializeData();
             }
             
             SerializeUtils.SerializeToFile(path, data);
@@ -147,9 +145,9 @@ namespace IFramework.Engine
         /// </summary>
         public void LoadFromFile(string path)
         {
-            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
+            AssetBundleDatas bundles = SerializeUtils.DeserializeFromFile<AssetBundleDatas>(path);
             
-            SetSerializeData(groups);
+            SetSerializeData(bundles);
         }
         
         /// <summary>
@@ -170,23 +168,23 @@ namespace IFramework.Engine
             
             MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
             
-            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(stream);
+            AssetBundleDatas bundles = SerializeUtils.DeserializeFromFile<AssetBundleDatas>(stream);
             
-            if(groups == null) yield break;
+            if(bundles == null) yield break;
                 
-            SetSerializeData(groups);
+            SetSerializeData(bundles);
         }
         
         /// <summary>
         /// 加载后设置序列化数据
         /// </summary>
-        private void SetSerializeData(AssetGroupDatas data)
+        private void SetSerializeData(AssetBundleDatas data)
         {
-            if (data?.AssetGroups == null) return;
+            if (data?.AssetBundles == null) return;
 
-            for (int i = data.AssetGroups.Length - 1; i >= 0; i--)
+            for (int i = data.AssetBundles.Length - 1; i >= 0; i--)
             {
-                assetGroupList.Add(new AssetGroup(data.AssetGroups[i]));
+                AssetBundleList.Add(new AssetBundleInfo(data.AssetBundles[i]));
             }
 
             assetTable ??= new AssetTable();
@@ -196,12 +194,12 @@ namespace IFramework.Engine
         /// 获取自定义的 资源信息
         /// </summary>
         /// <returns></returns>
-        public static AssetDataConfig ConfigFile
+        public static AssetBundleConfig ConfigFile
         {
-            get => configFile??= new AssetDataConfig();
+            get => configFile??= new AssetBundleConfig();
             set => configFile = value;
         }
-        private static AssetDataConfig configFile = null;
+        private static AssetBundleConfig configFile = null;
         
     }
 }

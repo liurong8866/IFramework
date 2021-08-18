@@ -153,9 +153,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
-        /// <param name="assetDataConfig"></param>
+        /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleName"></param>
-        public static void AddAssetBundleInfoToResourceData(AssetDataConfig assetDataConfig, string[] assetBundleName = null)
+        public static void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleName = null)
         {
 #if UNITY_EDITOR
             
@@ -167,7 +167,7 @@ namespace IFramework.Engine
             {
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(name, false);
 
-                int index = assetDataConfig.AddAssetDependence(name, depends, out AssetGroup @group);
+                int index = assetBundleConfig.AddAssetDependence(name, depends, out AssetBundleInfo @assetBundleInfo);
                 if (index < 0)
                 {
                     continue;
@@ -182,7 +182,7 @@ namespace IFramework.Engine
 
                     string fileName = Path.GetFileName(asset);
                     
-                    @group.AddAssetInfo(asset.EndsWith(".unity")
+                    @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")
                         ? new AssetInfo(fileName, name, index, ResourceLoadType.SCENE, code)
                         : new AssetInfo(fileName, name, index, ResourceLoadType.ASSET, code));
                 }
