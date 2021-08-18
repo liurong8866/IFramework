@@ -58,7 +58,7 @@ namespace IFramework.Editor
 
             List<AssetGroup> assetGroups = assetDataConfig.AssetGroups;
 
-            List<AssetBundleScriptModel> assetBundleModels = new List<AssetBundleScriptModel>();
+            List<AssetBundleScriptModel> asset = new List<AssetBundleScriptModel>();
 
             // 循环加载所有资源
             foreach (AssetGroup assetGroup in assetGroups)
@@ -67,14 +67,14 @@ namespace IFramework.Editor
 
                 foreach (AssetDependence depend in depends)
                 {
-                    AssetBundleScriptModel modle =new AssetBundleScriptModel(depend.AssetBundleName);
-
-                    modle.assets = assetGroup.AssetInfos
-                        .Where(info => info.AssetBundleName == depend.AssetBundleName)
-                        .Select(info => info.AssetName)
-                        .ToArray();
-                    
-                    assetBundleModels.Add(modle);
+                    AssetBundleScriptModel model = new AssetBundleScriptModel(depend.AssetBundleName)
+                    {
+                        assets = assetGroup.AssetInfos
+                            .Where(info => info.AssetBundleName == depend.AssetBundleName)
+                            .Select(info => info.AssetName)
+                            .ToArray()
+                    };
+                    asset.Add(model);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace IFramework.Editor
 
     internal class AssetBundleScriptModel
     {
-        public readonly string name = "";
+        public readonly string name;
 
         public AssetBundleScriptModel(string name)
         {

@@ -33,7 +33,6 @@ namespace IFramework.Test.Viarable
         private ConfigInt platformIndex;
         private ConfigBool autoGenerateName;
         private ConfigBool isSimulation;
-        private bool aotuConst;
 
         private void Awake()
         {
@@ -41,7 +40,7 @@ namespace IFramework.Test.Viarable
             platformIndex  = new ConfigInt("platformIndex");
             autoGenerateName   = new ConfigBool("autoGenerateName", true);
             isSimulation= new ConfigBool("isSimulation", true);
-            aotuConst = autoGenerateName.Value;
+            bool unused = autoGenerateName.Value;
         }
 
         [MenuItem("IFramework/Test/Window")]

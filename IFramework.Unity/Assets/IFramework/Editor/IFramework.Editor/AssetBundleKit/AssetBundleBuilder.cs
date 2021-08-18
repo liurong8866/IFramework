@@ -34,7 +34,7 @@ using Environment = IFramework.Engine.Environment;
 
 namespace IFramework.Editor
 {
-    public class AssetBundleBuilder
+    public static class AssetBundleBuilder
     {
         public static void BuildAssetBundles()
         {
