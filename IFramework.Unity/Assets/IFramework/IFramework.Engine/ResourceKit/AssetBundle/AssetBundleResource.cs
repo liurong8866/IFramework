@@ -171,7 +171,7 @@ namespace IFramework.Engine
         /// </summary>
         public override List<string> GetDependResourceList()
         {
-            return dependResources.ToList();
+            return dependResources?.ToList();
         }
 
         /// <summary>

@@ -260,7 +260,7 @@ namespace IFramework.Engine
         /// </summary>
         public override List<string> GetDependResourceList()
         {
-            return new List<string>() { AssetBundleName };
+            return assetBundleNameConfig != null ? new List<string>() { assetBundleNameConfig } : null;
         }
 
         /// <summary>
