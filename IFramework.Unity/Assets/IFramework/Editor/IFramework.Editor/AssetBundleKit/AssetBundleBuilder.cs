@@ -55,9 +55,11 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="buildTarget">目标平台</param>
         public static void BuildAssetBundles(BuildTarget buildTarget)
-        {               
-            Log.Info("开始打包: [{0}]: 开始", buildTarget);
-
+        {
+            string platformName = Environment.GetPlatformForAssetBundles(buildTarget);
+                
+            Log.Info("开始打包: [{0}]: 开始", platformName);
+            
             AssetDatabase.RemoveUnusedAssetBundleNames();
             
             AssetDatabase.Refresh();
@@ -71,9 +73,9 @@ namespace IFramework.Editor
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
 
-            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, Environment.GetPlatformForAssetBundles(buildTarget));
+            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_OUTPUT_PATH, platformName);
             
-            Log.Info("正在打包: [{0}]: {1}", buildTarget, outputPath);
+            Log.Info("正在打包: [{0}]: {1}", platformName, outputPath);
 
             DateTime start = DateTime.Now;
             
@@ -86,13 +88,13 @@ namespace IFramework.Editor
                 string path =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
                 // outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
-                Log.Info("正在打包: [{0}]: {1}", buildTarget, path);
+                Log.Info("正在打包: [{0}]: {1}", platformName, path);
                 
                 Build(path, subPackage, buildTarget);
             }
             AssetDatabase.Refresh();
             
-            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒", buildTarget, 1, subPackages.Count,  (DateTime.Now - start).TotalSeconds );
+            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒", platformName, 1, subPackages.Count,  (DateTime.Now - start).TotalSeconds );
             
         }
 
@@ -145,9 +147,9 @@ namespace IFramework.Editor
         /// </summary>
         public static void ForceClearAssetBundles()
         {
-            DirectoryUtils.Remove(Constant.ASSET_BUNDLE_OUTPUT_PATH);
+            DirectoryUtils.Clear(Constant.ASSET_BUNDLE_OUTPUT_PATH);
             
-            DirectoryUtils.Remove(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH));
+            DirectoryUtils.Clear(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH));
 
             AssetDatabase.Refresh();
         }

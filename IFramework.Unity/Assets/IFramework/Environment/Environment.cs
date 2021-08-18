@@ -27,6 +27,10 @@ using UnityEditor;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
+#if !UNITY_EDITOR
+using UnityEngine;
+#endif
+
 namespace IFramework.Engine
 {
     /// <summary>
@@ -102,9 +106,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-#if UNITY_EDITOR
+
         public static bool IsSimulation
         {
+#if UNITY_EDITOR
             get { return Configure.IsSimulation.Value; }
             // ReSharper disable once ValueParameterNotUsed
             set { Configure.IsSimulation.Value = true; }

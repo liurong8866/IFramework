@@ -35,16 +35,20 @@ namespace IFramework.Editor
     {
         public static void GenerateConstScript()
         {
-            Log.Info("生成脚本: [{0}]: 开始！", PlatformSetting.CurrentBundlePlatform);
+            string platformName = Environment.GetPlatformForAssetBundles(PlatformSetting.CurrentBundlePlatform);
+            
+            Log.Info("生成脚本: [{0}]: 开始！", platformName);
             
             // 生成文件路径
             string path = Path.Combine(Application.dataPath, Constant.FRAMEWORK_NAME, Constant.ASSET_BUNDLE_SCRIPT_FILE);
 
+            // 完成组装
             string content = Generate();
             
+            // 写入文件
             FileUtils.Write(path, content);
             
-            Log.Info("生成脚本: [{0}]: 完成！", PlatformSetting.CurrentBundlePlatform);
+            Log.Info("生成脚本: [{0}]: 完成！", platformName);
         }
 
         /// <summary>

@@ -27,6 +27,10 @@ using UnityEditor;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
+#if !UNITY_EDITOR
+using UnityEngine;
+#endif
+
 namespace IFramework.Engine
 {
     /// <summary>
@@ -102,9 +106,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-#if UNITY_EDITOR
+
         public static bool IsSimulation
         {
+#if UNITY_EDITOR
             get { return Configure.IsSimulation.Value; }
             // ReSharper disable once ValueParameterNotUsed
             set { Configure.IsSimulation.Value = true; }
@@ -170,7 +175,7 @@ namespace IFramework.Engine
                 // 获取AssetBundleName是否有依赖，比如 Secne 包含了多个资源
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
-                // 添加AssetBundleName 到缓存
+                // 添加AssetBundleName信息到缓存
                 int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
                 if (index < 0)
                 {

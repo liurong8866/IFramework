@@ -26,6 +26,7 @@ using System.IO;
 using IFramework.Core;
 using IFramework.Editor.Settings;
 using UnityEditor;
+using UnityEngine;
 
 namespace IFramework.Editor
 {
@@ -40,10 +41,13 @@ namespace IFramework.Editor
         private static void SelectionChanged()
         {
             var path = EditorUtils.GetSelectedPath();
-            
             if (!string.IsNullOrEmpty(path))
             {
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
+            }
+            else
+            {
+                Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
             }
         }
 
@@ -64,22 +68,25 @@ namespace IFramework.Editor
             {
                 // 根据路径获取AssetBundle
                 AssetImporter ai = AssetImporter.GetAtPath(path);
-
-                DirectoryInfo dir = new DirectoryInfo(path);
-
+                
                 // 如果已标记，取消标记，否则标记
                 if (CheckMarked(path))
                 {
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
                     ai.assetBundleName = null;
-                    AssetDatabase.RemoveUnusedAssetBundleNames();
+
                 }
                 else
                 {
+                    DirectoryInfo dir = new DirectoryInfo(path);
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
                     ai.assetBundleName = dir.Name.Replace(".", "-");
                 }
-
+                // 消除无用
+                AssetDatabase.RemoveUnusedAssetBundleNames();
+                // 刷新至关重要，直接影响AssetBundleWindow的自动刷新
+                AssetDatabase.Refresh();
+                // 同时AssetBundleWindow加载数据
                 KeyEvent.Send(EventEnums.AssetBundleMark);
             }
         }
