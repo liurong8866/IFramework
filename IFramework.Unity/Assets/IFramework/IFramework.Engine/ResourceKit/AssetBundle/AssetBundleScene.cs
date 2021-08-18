@@ -40,6 +40,7 @@ namespace IFramework.Engine
         }
         
         public AssetBundleScene() {}
+        
         public AssetBundleScene(string assetName) : base(assetName) {}
 
         public override bool Load()

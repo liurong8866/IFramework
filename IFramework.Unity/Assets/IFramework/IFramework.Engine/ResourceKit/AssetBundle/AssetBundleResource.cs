@@ -35,6 +35,7 @@ namespace IFramework.Engine
     public class AssetBundleResource : AbstractResource
     {
         private bool unloadFlag = true;
+        
         private string[] dependResources;
 
         public AssetBundle AssetBundle
@@ -57,6 +58,9 @@ namespace IFramework.Engine
             return resource;
         }
 
+        /// <summary>
+        /// 初始化AssetBundleName
+        /// </summary>
         private void InitAssetBundleName()
         {
             dependResources = AssetBundleConfig.ConfigFile.GetAllDependenciesByUrl(AssetName);
@@ -187,9 +191,6 @@ namespace IFramework.Engine
             return true;
         }
 
-        /// <summary>
-        /// 回收资源
-        /// </summary>
         public override void Recycle()
         {
             ObjectPool<AssetBundleResource>.Instance.Recycle(this);
@@ -202,9 +203,6 @@ namespace IFramework.Engine
             dependResources = null;
         }
 
-        /// <summary>
-        /// 释放资源时的事件
-        /// </summary>
         protected override void OnReleaseResource()
         {
             if (AssetBundle != null)

@@ -107,7 +107,7 @@ namespace IFramework.Engine
         /// </summary>
         public override IEnumerator LoadAsync(Action callback)
         {
-            ResourceRequest request = null;
+            ResourceRequest request;
 
             if (AssetType != null)
             {

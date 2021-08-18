@@ -27,6 +27,7 @@ using System.Collections;
 using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
@@ -38,7 +39,7 @@ namespace IFramework.Engine
         // 资源名称
         protected string assetName;
         // 资源实体
-        protected UnityEngine.Object asset;
+        protected Object asset;
         // 加载状态
         protected ResourceState state = ResourceState.Waiting;
         // 资源加载完毕事件
@@ -85,7 +86,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源对象
         /// </summary>
-        public UnityEngine.Object Asset
+        public Object Asset
         {
             get { return asset; }
         }
@@ -272,9 +273,8 @@ namespace IFramework.Engine
         }
         
         /*-----------------------------*/
-        /* IPoolable 接口实现            */
+        /* 接口实现            */
         /*-----------------------------*/
-        
         public bool IsRecycled { get; set; }
         
         public virtual void OnRecycled()
@@ -283,15 +283,8 @@ namespace IFramework.Engine
             OnResourceLoaded = null;
         }
         
-        /*-----------------------------*/
-        /* IRecyclable 接口实现          */
-        /*-----------------------------*/
         public abstract void Recycle();
         
-        /*-----------------------------*/
-        /* Counter 接口实现              */
-        /*-----------------------------*/
-
         protected virtual void OnEmpty()
         {
             if(state == ResourceState.Loading) return;
@@ -299,10 +292,6 @@ namespace IFramework.Engine
             Release();
         }
         
-        /*-----------------------------*/
-        /* IEnumeratorTask 接口实现      */
-        /*-----------------------------*/
-
         public abstract IEnumerator LoadAsync(Action callback);
         
         public override string ToString()

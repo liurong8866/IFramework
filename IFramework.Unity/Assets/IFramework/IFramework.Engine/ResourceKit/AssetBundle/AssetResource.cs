@@ -43,8 +43,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        // ReSharper disable once RedundantBaseConstructorCall
-        public AssetResource() : base() {}
+        public AssetResource(){}
+        
         public AssetResource(string assetName) : base(assetName) {}
         
         /// <summary>
@@ -61,6 +61,32 @@ namespace IFramework.Engine
                 resource.InitAssetBundleName();
             }
             return resource;
+        }
+
+        /// <summary>
+        /// 初始化AssetBundleName
+        /// </summary>
+        protected void InitAssetBundleName()
+        {
+            assetBundleNameConfig = null;
+            
+            // 在config文件中查找资源
+            using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
+            AssetInfo config = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
+
+            if (config == null)
+            {
+                Log.Error("未找到Asset的AssetInfo：{0}", assetName);
+                return;
+            }
+            
+            // 如果找到，则使用config的资源
+            assetBundleNameConfig = config.AssetBundleName;
+
+            if (assetBundleNameConfig.IsNullOrEmpty())
+            {
+                Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName);
+            }
         }
 
         /// <summary>
@@ -264,32 +290,6 @@ namespace IFramework.Engine
             return assetBundleNameConfig != null ? new List<string>() { assetBundleNameConfig } : null;
         }
 
-        /// <summary>
-        /// 初始化AssetBundleName
-        /// </summary>
-        protected void InitAssetBundleName()
-        {
-            assetBundleNameConfig = null;
-            
-            // 在config文件中查找资源
-            using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
-            AssetInfo config = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
-
-            if (config == null)
-            {
-                Log.Error("未找到Asset的AssetInfo：{0}", assetName);
-                return;
-            }
-            
-            // 如果找到，则使用config的资源
-            assetBundleNameConfig = config.AssetBundleName;
-
-            if (assetBundleNameConfig.IsNullOrEmpty())
-            {
-                Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName);
-            }
-        }
-        
         public override void Recycle()
         {
             ObjectPool<AssetResource>.Instance.Recycle(this);

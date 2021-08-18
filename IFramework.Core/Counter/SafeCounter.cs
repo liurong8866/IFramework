@@ -75,7 +75,6 @@ namespace IFramework.Core
                 }
             }
         }
-
         
         public void Reset()
         {
