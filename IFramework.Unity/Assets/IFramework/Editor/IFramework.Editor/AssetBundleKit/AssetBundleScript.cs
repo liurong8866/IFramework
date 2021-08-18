@@ -35,9 +35,7 @@ namespace IFramework.Editor
     {
         public static void GenerateConstScript()
         {
-            string platformName = Environment.GetPlatformForAssetBundles(PlatformSetting.CurrentBundlePlatform);
-            
-            Log.Info("生成脚本: [{0}]: 开始！", platformName);
+            Log.Info("生成脚本: 开始！");
             
             // 生成文件路径
             string path = Path.Combine(Application.dataPath, Constant.FRAMEWORK_NAME, Constant.ASSET_BUNDLE_SCRIPT_FILE);
@@ -48,7 +46,7 @@ namespace IFramework.Editor
             // 写入文件
             FileUtils.Write(path, content);
             
-            Log.Info("生成脚本: [{0}]: 完成！", platformName);
+            Log.Info("生成脚本: 完成！");
         }
 
         /// <summary>

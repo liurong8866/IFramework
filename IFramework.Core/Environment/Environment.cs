@@ -41,12 +41,12 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
-        public static string PlatformName
+        public static string CurrentPlatformName
         {
 #if UNITY_EDITOR
-            get => GetPlatformForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
+            get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
 #else
-            get => PlatformSetting.GetPlatformForAssetBundles(Application.platform);
+            get => PlatformSetting.GetPlatformName(Application.platform);
 #endif
         }
         
@@ -54,7 +54,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public static string GetPlatformForAssetBundles(BuildTarget target)
+        public static string GetPlatformName(BuildTarget target)
         {
             switch (target)
             { 
@@ -103,10 +103,6 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-        /// <summary>
-        /// 是否模拟模式
-        /// </summary>
-
         public static bool IsSimulation
         {
 #if UNITY_EDITOR

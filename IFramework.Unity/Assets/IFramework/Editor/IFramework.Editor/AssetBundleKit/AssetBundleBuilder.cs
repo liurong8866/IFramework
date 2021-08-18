@@ -40,7 +40,7 @@ namespace IFramework.Editor
         {
             
             // 打包AssetBundle
-            BuildAssetBundles(PlatformSetting.CurrentBundlePlatform);
+            BuildAssetBundles(PlatformSetting.CurrentBuildPlatform);
 
             // 自动生成包名常量
             if (Configure.AutoGenerateName)
@@ -56,8 +56,8 @@ namespace IFramework.Editor
         /// <param name="buildTarget">目标平台</param>
         public static void BuildAssetBundles(BuildTarget buildTarget)
         {
-            string platformName = Environment.GetPlatformForAssetBundles(buildTarget);
-                
+            string platformName = Environment.GetPlatformName(buildTarget);
+            
             Log.Info("开始打包: [{0}]: 开始", platformName);
             
             AssetDatabase.RemoveUnusedAssetBundleNames();

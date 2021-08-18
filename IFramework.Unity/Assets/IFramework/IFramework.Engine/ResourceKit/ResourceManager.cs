@@ -172,13 +172,13 @@ namespace IFramework.Engine
                 // 未进行过热更新
                 if (Configure.LoadAssetFromStream)
                 {
-                    string streamPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.PlatformName);
+                    string streamPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.CurrentPlatformName);
                     configFiles.Add(Environment.FilePathPrefix + streamPath);
                 }
                 // 进行过热更新
                 else
                 {
-                    var persistentPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.PlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    var persistentPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.CurrentPlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Environment.FilePathPrefix + persistentPath);
                     configFiles = DirectoryUtils.GetFiles(PlatformSetting.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
