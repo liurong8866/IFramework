@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
-    public class AssetBundleResourceCreator : IResourceCreator
+    public class AssetBundleCreator : IResourceCreator
     {
         public bool Match(ResourceSearcher searcher)
         {

@@ -42,7 +42,7 @@ namespace IFramework.Engine
         public const short MESH        = 6;
         public const short TEXTURE_2D   = 7;
         public const short TEXT_ASSET   = 8;
-        public const short ASSET_BUNDLE   = 8;
+        public const short ASSET_BUNDLE   = 9;
 
         public static readonly Type GameObjectType  = typeof(GameObject);
         public static readonly Type AudioClipType   = typeof(AudioClip);

@@ -41,7 +41,7 @@ namespace IFramework.Engine
             new ResourceCreator(),
             new AssetResourceCreator(),
             new AssetBundleSceneCreator(),
-            new AssetBundleResourceCreator()
+            new AssetBundleCreator()
         };
 
         /// <summary>
