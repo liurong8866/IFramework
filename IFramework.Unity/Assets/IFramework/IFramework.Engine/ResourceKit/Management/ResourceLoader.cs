@@ -48,6 +48,9 @@ namespace IFramework.Engine
         // 回调事件列表
         private LinkedList<CallbackCleaner> callbackCleanerList;
         
+        //依赖资源名称缓存，防止重复添加内存
+        List<string> tempDepends = new List<string>();
+        
         /// <summary>
         /// 分配资源函数
         /// </summary>
@@ -69,6 +72,16 @@ namespace IFramework.Engine
             IResource resource = Load(searcher);
             return resource.Asset;
         }
+        
+        /// <summary>
+        /// 同步加载资源
+        /// </summary>
+        public Object Load(string assetName, string bundleName)
+        {
+            using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName);
+            IResource resource = Load(searcher);
+            return resource.Asset;
+        }
 
         /// <summary>
         /// 同步加载资源
@@ -83,7 +96,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public T Load<T>(string bundleName, string assetName) where T : Object
+        public T Load<T>(string assetName, string bundleName) where T : Object
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName, typeof(T));
             IResource resource = Load(searcher);
@@ -110,12 +123,17 @@ namespace IFramework.Engine
                 first?.Load();
             }
 
-            // 从加载到资源中找到本次要打开到资源
+            // 从加载到资源中找到本次要打开的资源
             IResource resource = ResourceManager.Instance.GetResource(searcher);
             
             if (resource == null)
             {
                 Log.Error("资源加载失败：" + searcher);
+            }
+            else
+            {
+                //清理缓存的依赖资源名称
+                tempDepends.Clear();
             }
 
             return resource;
@@ -213,7 +231,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad(string bundleName, string assetName, Action<bool, IResource> callback = null, bool last = true)
+        public void AddToLoad(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName);
             AddToLoad(searcher, callback, last);
@@ -222,7 +240,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad<T>(string bundleName, string assetName, Action<bool, IResource> callback = null, bool last = true)
+        public void AddToLoad<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName, typeof(T));
             AddToLoad(searcher, callback, last);
@@ -266,9 +284,16 @@ namespace IFramework.Engine
                 // 遍历所有依赖并加载
                 foreach (string depend in depends)
                 {
-                    using ResourceSearcher searchRule = ResourceSearcher.Allocate(depend, null, typeof(AssetBundle));
-                    // 递归加载依赖资源
-                    AddToLoad(searchRule);
+                    // 如果已经加载过资源，不再重复加载，避免内存泄露
+                    if (!tempDepends.Contains(depend))
+                    {
+                        using ResourceSearcher searchRule = ResourceSearcher.Allocate(depend, null, typeof(AssetBundle));
+                        
+                        tempDepends.Add(depend);
+                        
+                        // 递归加载依赖资源
+                        AddToLoad(searchRule);
+                    }
                 }
             }
             
@@ -350,7 +375,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载Sprite
         /// </summary>
-        public Sprite LoadSprite(string bundleName, string spriteName)
+        public Sprite LoadSprite(string spriteName, string bundleName)
         {
             // 如果是模拟器模式，直接加载Resources文件夹下到资源
             if (Configure.IsSimulation)
@@ -491,7 +516,7 @@ namespace IFramework.Engine
                 
                 resourceList.Clear();
                 
-                if (ResourceManager.IsApplicationQuit)
+                if (!ResourceManager.IsApplicationQuit)
                 {
                     ResourceManager.Instance.ClearOnUpdate();
                 }

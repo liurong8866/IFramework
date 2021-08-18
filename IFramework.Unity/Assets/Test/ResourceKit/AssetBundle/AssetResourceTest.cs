@@ -6,28 +6,30 @@ namespace IFramework.Test.AssetResourceKit
 {
     public class AssetResourceTest : MonoBehaviour
     {
-        
+        ResourceLoader mResLoader = ResourceLoader.Allocate();
         private void Start()
         {
-             ResourceLoader mResLoader = ResourceLoader.Allocate();
-            // Start is called before the first frame update
-            // aaa("asdf");
+             
+            mResLoader.Load<GameObject>("resources://Jin")
+                .Instantiate()
+                .Name("这是使用 Resource 加载的对象");
+            
             mResLoader.Load<GameObject>("AssetObj")
                 .Instantiate()
                 .Name("这是使用通过 AssetName 加载的对象");
             
-            // AssetResource resource = AssetResource.Allocate("Lili.pre","Lili", typeof(GameObject));
-            //
-            // resource.Load();
-            //
-            // resource.Asset.Instantiate().Name("hahah");
+            
+            mResLoader.Load<GameObject>("AssetObj", "assetobj-prefab")
+                .Instantiate()
+                .Name("这是使用通过 AssetName + AssetBundle 加载的对象");
 
         }
 
-        // Update is called once per frame
-        private void aaa(string assetName)
+        
+        private void OnDestroy()
         {
-            assetName.LogInfo();
+            mResLoader.Recycle();
+            mResLoader = null;
         }
     }
 }

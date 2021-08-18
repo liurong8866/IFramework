@@ -31,7 +31,8 @@ namespace IFramework.Editor
 {
     public class AssetBundleMark
     {
-        static AssetBundleMark()
+        [InitializeOnLoadMethod]
+        static void OnLoad()
         {
             Selection.selectionChanged = SelectionChanged;
         }
@@ -89,6 +90,8 @@ namespace IFramework.Editor
         public static bool CheckMarked(string path)
         {
             AssetImporter ai = AssetImporter.GetAtPath(path);
+
+            // if (ai.assetBundleName.IsNullOrEmpty()) return false;
             
             DirectoryInfo dir = new DirectoryInfo(path);
 

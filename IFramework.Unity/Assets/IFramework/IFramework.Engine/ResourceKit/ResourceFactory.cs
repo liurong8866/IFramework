@@ -38,10 +38,10 @@ namespace IFramework.Engine
         /// </summary>
         private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
         {
-            new ResourceCreator(),
-            new AssetResourceCreator(),
+            new AssetBundleResourceCreator(),
             new AssetBundleSceneCreator(),
-            new AssetBundleResourceCreator()
+            new AssetResourceCreator(),
+            new ResourceCreator()
         };
 
         /// <summary>

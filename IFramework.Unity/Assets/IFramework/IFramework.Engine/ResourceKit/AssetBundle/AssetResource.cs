@@ -107,6 +107,7 @@ namespace IFramework.Engine
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
+                // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
                 if (assetPaths.IsNullOrEmpty())
