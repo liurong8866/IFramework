@@ -129,7 +129,7 @@ namespace IFramework.Editor
         /// </summary>
         private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath=null)
         {
-            if(assetBundleNames.IsNullOrEmpty()) return;;
+            if(assetBundleNames.IsNullOrEmpty()) return;
             
             AssetDataConfig assetDataConfig = new AssetDataConfig();
 

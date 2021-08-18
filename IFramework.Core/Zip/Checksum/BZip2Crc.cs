@@ -32,10 +32,11 @@ namespace IFramework.Core.Zip.Checksum
 	public sealed class BZip2Crc : IChecksum
 	{
 		#region Instance Fields
-		const uint crcInit = 0xFFFFFFFF;
+
+		private const uint CRC_INIT = 0xFFFFFFFF;
 		//const uint crcXor = 0x00000000;
 
-		readonly static uint[] crcTable = {
+		private readonly static uint[] crcTable = {
 			0X00000000, 0X04C11DB7, 0X09823B6E, 0X0D4326D9,
 			0X130476DC, 0X17C56B6B, 0X1A864DB2, 0X1E475005,
 			0X2608EDB8, 0X22C9F00F, 0X2F8AD6D6, 0X2B4BCB61,
@@ -105,7 +106,7 @@ namespace IFramework.Core.Zip.Checksum
 		/// <summary>
 		/// The CRC data checksum so far.
 		/// </summary>
-		uint checkValue;
+		private uint checkValue;
 		#endregion
 
 		/// <summary>
@@ -121,7 +122,7 @@ namespace IFramework.Core.Zip.Checksum
 		/// </summary>
 		public void Reset()
 		{
-			checkValue = crcInit;
+			checkValue = CRC_INIT;
 		}
 
 		/// <summary>

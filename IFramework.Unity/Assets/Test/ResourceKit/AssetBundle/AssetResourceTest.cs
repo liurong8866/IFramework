@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
@@ -10,7 +8,7 @@ namespace IFramework.Test.AssetResourceKit
     {
         private ResourceLoader mResLoader = ResourceLoader.Allocate();
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             
             mResLoader.Load<GameObject>("AssetObj")
@@ -26,7 +24,7 @@ namespace IFramework.Test.AssetResourceKit
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
         
         }

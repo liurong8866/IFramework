@@ -22,11 +22,9 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using UnityEditor;
-
 namespace IFramework.Engine
 {
-    public class UIKit
+    public class UiKit
     {
         public static void BindScript()
         {

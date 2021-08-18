@@ -28,9 +28,9 @@ namespace IFramework.Core.Zip
 		/// <param name="filter">The filter expression.</param>
 		public NameFilter(string filter)
 		{
-			filter_ = filter;
-			inclusions_ = new List<Regex>();
-			exclusions_ = new List<Regex>();
+			this.filter = filter;
+			inclusions = new List<Regex>();
+			exclusions = new List<Regex>();
 			Compile();
 		}
 		#endregion
@@ -140,7 +140,7 @@ namespace IFramework.Core.Zip
 		/// <returns>The string equivalent for this filter.</returns>
 		public override string ToString()
 		{
-			return filter_;
+			return filter;
 		}
 
 		/// <summary>
@@ -151,10 +151,10 @@ namespace IFramework.Core.Zip
 		public bool IsIncluded(string name)
 		{
 			bool result = false;
-			if (inclusions_.Count == 0) {
+			if (inclusions.Count == 0) {
 				result = true;
 			} else {
-				foreach (Regex r in inclusions_) {
+				foreach (Regex r in inclusions) {
 					if (r.IsMatch(name)) {
 						result = true;
 						break;
@@ -172,7 +172,7 @@ namespace IFramework.Core.Zip
 		public bool IsExcluded(string name)
 		{
 			bool result = false;
-			foreach (Regex r in exclusions_) {
+			foreach (Regex r in exclusions) {
 				if (r.IsMatch(name)) {
 					result = true;
 					break;
@@ -196,15 +196,15 @@ namespace IFramework.Core.Zip
 		/// <summary>
 		/// Compile this filter.
 		/// </summary>
-		void Compile()
+		private void Compile()
 		{
 			// TODO: Check to see if combining RE's makes it faster/smaller.
 			// simple scheme would be to have one RE for inclusion and one for exclusion.
-			if (filter_ == null) {
+			if (filter == null) {
 				return;
 			}
 
-			string[] items = SplitQuoted(filter_);
+			string[] items = SplitQuoted(filter);
 			for (int i = 0; i < items.Length; ++i) {
 				if ((items[i] != null) && (items[i].Length > 0)) {
 					bool include = (items[i][0] != '-');
@@ -222,18 +222,19 @@ namespace IFramework.Core.Zip
 					// these are left unhandled here as the caller is responsible for ensuring all is valid.
 					// several functions IsValidFilterExpression and IsValidExpression are provided for such checking
 					if (include) {
-						inclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
+						inclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
 					} else {
-						exclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
+						exclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
 					}
 				}
 			}
 		}
 
 		#region Instance Fields
-		string filter_;
-		List<Regex> inclusions_;
-		List<Regex> exclusions_;
+
+		private string filter;
+		private List<Regex> inclusions;
+		private List<Regex> exclusions;
 		#endregion
 	}
 }

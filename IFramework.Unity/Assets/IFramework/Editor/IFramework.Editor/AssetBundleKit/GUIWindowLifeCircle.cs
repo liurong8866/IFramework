@@ -24,20 +24,23 @@
 
 using UnityEditor;
 using UnityEngine;
+// ReSharper disable once Unity.RedundantEventFunction
+// ReSharper disable IdentifierTypo
 
 namespace IFramework.Editor
 {
+    
     /// <summary>
     /// GUI生命周期展示
     /// </summary>
-    public class GUIWindowLifeCircle : EditorWindow
+    public class GuiWindowLifeCircle : EditorWindow
     {
         [MenuItem("IFramework/Test/LifeCircle")]
         public static void Open()
         {
             //创建窗口
             // Rect wr = new Rect(0, 0, 500, 500);
-            GUIWindowLifeCircle window =GetWindow<GUIWindowLifeCircle>("资源管理器");
+            GuiWindowLifeCircle window =GetWindow<GuiWindowLifeCircle>("资源管理器");
             window.Show();
         }
 
@@ -76,7 +79,7 @@ namespace IFramework.Editor
         }
 
         //绘制窗口时调用
-        void OnGUI()
+        private void OnGUI()
         {
             //输入框控件
             text = EditorGUILayout.TextField("输入文字:", text);
@@ -84,13 +87,13 @@ namespace IFramework.Editor
             if (GUILayout.Button("打开通知", GUILayout.Width(200)))
             {
                 //打开一个通知栏
-                this.ShowNotification(new GUIContent("This is a Notification"));
+                ShowNotification(new GUIContent("This is a Notification"));
             }
 
             if (GUILayout.Button("关闭通知", GUILayout.Width(200)))
             {
                 //关闭通知栏
-                this.RemoveNotification();
+                RemoveNotification();
             }
 
             //文本框显示鼠标在窗口的位置
@@ -102,7 +105,7 @@ namespace IFramework.Editor
             if (GUILayout.Button("关闭窗口", GUILayout.Width(200)))
             {
                 //关闭窗口
-                this.Close();
+                Close();
             }
 
 
@@ -127,7 +130,7 @@ namespace IFramework.Editor
             //按钮
             if (GUILayout.Button("Close"))
             {
-                this.Close();
+                Close();
             }
 
             //带有阴影的Label
@@ -157,36 +160,37 @@ namespace IFramework.Editor
         }
 
         //更新
-        void Update() { }
+        
+        private void Update() { }
 
-        void OnFocus()
+        private void OnFocus()
         {
             Debug.Log("当窗口获得焦点时调用一次");
         }
 
-        void OnLostFocus()
+        private void OnLostFocus()
         {
             Debug.Log("当窗口丢失焦点时调用一次");
         }
 
-        void OnHierarchyChange()
+        private void OnHierarchyChange()
         {
             Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次");
         }
 
-        void OnProjectChange()
+        private void OnProjectChange()
         {
             Debug.Log("当Project视图中的资源发生改变时调用一次");
         }
 
-        void OnInspectorUpdate()
+        private void OnInspectorUpdate()
         {
             //Debug.Log("窗口面板的更新");
             //这里开启窗口的重绘，不然窗口信息不会刷新
-            this.Repaint();
+            Repaint();
         }
 
-        void OnSelectionChange()
+        private void OnSelectionChange()
         {
             //当窗口出去开启状态，并且在Hierarchy视图中选择某游戏对象时调用
             foreach (Transform t in Selection.transforms)
@@ -196,7 +200,7 @@ namespace IFramework.Editor
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             Debug.Log("当窗口关闭时调用");
         }

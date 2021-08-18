@@ -27,7 +27,6 @@ using System.IO;
 using System.Linq;
 using IFramework.Core;
 using IFramework.Engine;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 namespace IFramework.Editor
@@ -55,7 +54,7 @@ namespace IFramework.Editor
         {
             AssetDataConfig assetDataConfig = new AssetDataConfig();
             
-            Environment.AddAssetBundleInfoToResourceData(assetDataConfig, null);
+            Environment.AddAssetBundleInfoToResourceData(assetDataConfig);
 
             List<AssetGroup> assetGroups = assetDataConfig.AssetGroups;
 

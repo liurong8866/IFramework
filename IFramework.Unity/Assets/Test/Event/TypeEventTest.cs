@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using System;
-using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
 
@@ -45,7 +44,7 @@ namespace IFramework.Test.Event
             
             TypeEvent.Send(new GameOverEvent()
             {
-                Score = 100
+                score = 100
             });
 
             // 要把事件发送给父类
@@ -55,17 +54,17 @@ namespace IFramework.Test.Event
             gameObject.DestroySelf();
         }
 
-        void OnGameStartEvent(GameStartEvent gameStartEvent)
+        private void OnGameStartEvent(GameStartEvent gameStartEvent)
         {
             Debug.Log("游戏开始了");
         }
 
-        void OnGameOverEvent(GameOverEvent gameOverEvent)
+        private void OnGameOverEvent(GameOverEvent gameOverEvent)
         {
-            Debug.LogFormat("游戏结束，分数:{0}", gameOverEvent.Score);
+            Debug.LogFormat("游戏结束，分数:{0}", gameOverEvent.score);
         }
 
-        void OnSkillEvent(ISkillEvent skillEvent)
+        private void OnSkillEvent(ISkillEvent skillEvent)
         {
             if (skillEvent is PlayerSkillAEvent)
             {
@@ -95,7 +94,7 @@ namespace IFramework.Test.Event
     public class GameOverEvent
     {
         // 可以携带参数
-        public int Score;
+        public int score;
     }
 
     public interface ISkillEvent

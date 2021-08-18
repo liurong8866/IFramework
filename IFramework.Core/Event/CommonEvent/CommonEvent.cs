@@ -174,7 +174,7 @@ namespace IFramework.Core
     /// <summary>
     /// 事件监听消息
     /// </summary>
-    sealed class EventListener<T> where T : Delegate
+    internal sealed class EventListener<T> where T : Delegate
     {
         private LinkedList<T> eventList;
 

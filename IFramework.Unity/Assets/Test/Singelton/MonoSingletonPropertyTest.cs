@@ -22,7 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
 
@@ -45,7 +44,7 @@ namespace IFramework.Test.Singelton
         }
     }
     
-    public class MonoSingletonPropertyTestDemo :  AAA, ISingleton
+    public class MonoSingletonPropertyTestDemo :  Aaa, ISingleton
     {
         // 私有化构造函数，防止外部New创建
         private MonoSingletonPropertyTestDemo(){}
@@ -70,7 +69,7 @@ namespace IFramework.Test.Singelton
         
     }
 
-    public class AAA : MonoBehaviour
+    public class Aaa : MonoBehaviour
     {
         public void Say2()
         {

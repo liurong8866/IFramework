@@ -34,7 +34,7 @@ namespace IFramework.Core
         protected static T instance;
         
         // 对象锁
-        static object locker = new object();
+        private static object locker = new object();
 
         /// <summary>
         /// 双重锁，线程安全

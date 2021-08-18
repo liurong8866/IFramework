@@ -29,73 +29,76 @@ using UnityEngine.U2D;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 资源类型映射表
+    /// </summary>
     public static class AssetTypeCode
     {
-        public const short GameObject  = 1;
-        public const short AudioClip   = 2;
-        public const short Sprite      = 3;
-        public const short Scene       = 4;
-        public const short SpriteAtlas = 5;
-        public const short Mesh        = 6;
-        public const short Texture2D   = 7;
-        public const short TextAsset   = 8;
-        public const short AssetBundle   = 8;
+        public const short GAME_OBJECT  = 1;
+        public const short AUDIO_CLIP   = 2;
+        public const short SPRITE      = 3;
+        public const short SCENE       = 4;
+        public const short SPRITE_ATLAS = 5;
+        public const short MESH        = 6;
+        public const short TEXTURE_2D   = 7;
+        public const short TEXT_ASSET   = 8;
+        public const short ASSET_BUNDLE   = 8;
 
-        public static Type GameObjectType  = typeof(GameObject);
-        public static Type AudioClipType   = typeof(AudioClip);
-        public static Type SpriteType      = typeof(Sprite);
-        public static Type SceneType       = typeof(Scene);
-        public static Type SpriteAtlasType = typeof(SpriteAtlas);
-        public static Type MeshType        = typeof(Mesh);
-        public static Type Texture2DType   = typeof(Texture2D);
-        public static Type TextAssetType   = typeof(TextAsset);
-        public static Type AssetBundleType   = typeof(AssetBundle);
+        public static readonly Type GameObjectType  = typeof(GameObject);
+        public static readonly Type AudioClipType   = typeof(AudioClip);
+        public static readonly Type SpriteType      = typeof(Sprite);
+        public static readonly Type SceneType       = typeof(Scene);
+        public static readonly Type SpriteAtlasType = typeof(SpriteAtlas);
+        public static readonly Type MeshType        = typeof(Mesh);
+        public static readonly Type Texture2DType   = typeof(Texture2D);
+        public static readonly Type TextAssetType   = typeof(TextAsset);
+        public static readonly Type AssetBundleType   = typeof(AssetBundle);
 
         public static short ToCode(this Type type)
         {
             if (type == GameObjectType)
             {
-                return GameObject;
+                return GAME_OBJECT;
             }
 
             if (type == AudioClipType)
             {
-                return AudioClip;
+                return AUDIO_CLIP;
             }
 
             if (type == SpriteType)
             {
-                return Sprite;
+                return SPRITE;
             }
 
             if (type == SceneType)
             {
-                return Scene;
+                return SCENE;
             }
 
             if (type == SpriteAtlasType)
             {
-                return SpriteAtlas;
+                return SPRITE_ATLAS;
             }
 
             if (type == MeshType)
             {
-                return Mesh;
+                return MESH;
             }
 
             if (type == Texture2DType)
             {
-                return Texture2D;
+                return TEXTURE_2D;
             }
 
             if (type == TextAssetType)
             {
-                return TextAsset;
+                return TEXT_ASSET;
             }
 
             if (type == AssetBundleType)
             {
-                return AssetBundle;
+                return ASSET_BUNDLE;
             }
 
             return 0;
@@ -103,47 +106,47 @@ namespace IFramework.Engine
 
         public static Type ToType(this short code)
         {
-            if (code == GameObject)
+            if (code == GAME_OBJECT)
             {
                 return GameObjectType;
             }
 
-            if (code == AudioClip)
+            if (code == AUDIO_CLIP)
             {
                 return AudioClipType;
             }
 
-            if (code == Sprite)
+            if (code == SPRITE)
             {
                 return SpriteType;
             }
 
-            if (code == Scene)
+            if (code == SCENE)
             {
                 return SceneType;
             }
 
-            if (code == SpriteAtlas)
+            if (code == SPRITE_ATLAS)
             {
                 return SpriteAtlasType;
             }
 
-            if (code == Mesh)
+            if (code == MESH)
             {
                 return MeshType;
             }
 
-            if (code == Texture2D)
+            if (code == TEXTURE_2D)
             {
                 return Texture2DType;
             }
 
-            if (code == TextAsset)
+            if (code == TEXT_ASSET)
             {
                 return TextAssetType;
             }
 
-            if (code == AssetBundle)
+            if (code == ASSET_BUNDLE)
             {
                 return AssetBundleType;
             }

@@ -54,7 +54,7 @@ namespace IFramework.Core.Zip.Lzw
 		/// </summary>
 		public const int INIT_BITS = 9;
 
-		LzwConstants()
+		private LzwConstants()
 		{
 		}
 	}

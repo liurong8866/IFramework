@@ -62,20 +62,20 @@ namespace IFramework.Core.Zip.Zip
 		/// <summary>
 		/// Delegate for reading bytes from a stream.
 		/// </summary>
-		delegate int ReadDataHandler(byte[] b, int offset, int length);
+		private delegate int ReadDataHandler(byte[] b, int offset, int length);
 
 		/// <summary>
 		/// The current reader this instance.
 		/// </summary>
-		ReadDataHandler internalReader;
+		private ReadDataHandler internalReader;
 
-		Crc32 crc = new Crc32();
-		ZipEntry entry;
+		private Crc32 crc = new Crc32();
+		private ZipEntry entry;
 
-		long size;
-		int method;
-		int flags;
-		string password;
+		private long size;
+		private int method;
+		private int flags;
+		private string password;
 		#endregion
 
 		#region Constructors
@@ -156,11 +156,11 @@ namespace IFramework.Core.Zip.Zip
 
 			int header = inputBuffer.ReadLeInt();
 
-			if (header == ZipConstants.CentralHeaderSignature ||
-				header == ZipConstants.EndOfCentralDirectorySignature ||
-				header == ZipConstants.CentralHeaderDigitalSignature ||
-				header == ZipConstants.ArchiveExtraDataSignature ||
-				header == ZipConstants.Zip64CentralFileHeaderSignature) {
+			if (header == ZipConstants.CENTRAL_HEADER_SIGNATURE ||
+				header == ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE ||
+				header == ZipConstants.CENTRAL_HEADER_DIGITAL_SIGNATURE ||
+				header == ZipConstants.ARCHIVE_EXTRA_DATA_SIGNATURE ||
+				header == ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
 				// No more individual entries exist
 				Dispose();
 				return null;
@@ -168,11 +168,11 @@ namespace IFramework.Core.Zip.Zip
 
 			// -jr- 07-Dec-2003 Ignore spanning temporary signatures if found
 			// Spanning signature is same as descriptor signature and is untested as yet.
-			if ((header == ZipConstants.SpanningTempSignature) || (header == ZipConstants.SpanningSignature)) {
+			if ((header == ZipConstants.SPANNING_TEMP_SIGNATURE) || (header == ZipConstants.SPANNING_SIGNATURE)) {
 				header = inputBuffer.ReadLeInt();
 			}
 
-			if (header != ZipConstants.LocalHeaderSignature) {
+			if (header != ZipConstants.LOCAL_HEADER_SIGNATURE) {
 				throw new ZipException("Wrong Local header signature: 0x" + String.Format("{0:X}", header));
 			}
 
@@ -246,7 +246,7 @@ namespace IFramework.Core.Zip.Zip
 				size = entry.Size;
 			}
 
-			if (method == (int)CompressionMethod.Stored && (!isCrypted && csize != size || (isCrypted && csize - ZipConstants.CryptoHeaderSize != size))) {
+			if (method == (int)CompressionMethod.Stored && (!isCrypted && csize != size || (isCrypted && csize - ZipConstants.CRYPTO_HEADER_SIZE != size))) {
 				throw new ZipException("Stored, but compressed != uncompressed");
 			}
 
@@ -263,9 +263,9 @@ namespace IFramework.Core.Zip.Zip
 		/// <summary>
 		/// Read data descriptor at the end of compressed data.
 		/// </summary>
-		void ReadDataDescriptor()
+		private void ReadDataDescriptor()
 		{
-			if (inputBuffer.ReadLeInt() != ZipConstants.DataDescriptorSignature) {
+			if (inputBuffer.ReadLeInt() != ZipConstants.DATA_DESCRIPTOR_SIGNATURE) {
 				throw new ZipException("Data descriptor signature not found");
 			}
 
@@ -286,7 +286,7 @@ namespace IFramework.Core.Zip.Zip
 		/// Complete cleanup as the final part of closing.
 		/// </summary>
 		/// <param name="testCrc">True if the crc value should be tested</param>
-		void CompleteCloseEntry(bool testCrc)
+		private void CompleteCloseEntry(bool testCrc)
 		{
 			StopDecrypting();
 
@@ -416,7 +416,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="offset">The offset at which data read should be stored.</param>
 		/// <param name="count">The maximum number of bytes to read.</param>
 		/// <returns>Returns the number of bytes actually read.</returns>
-		int ReadingNotAvailable(byte[] destination, int offset, int count)
+		private int ReadingNotAvailable(byte[] destination, int offset, int count)
 		{
 			throw new InvalidOperationException("Unable to read from this stream");
 		}
@@ -424,7 +424,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <summary>
 		/// Handle attempts to read from this entry by throwing an exception
 		/// </summary>
-		int ReadingNotSupported(byte[] destination, int offset, int count)
+		private int ReadingNotSupported(byte[] destination, int offset, int count)
 		{
 			throw new ZipException("The compression method for this entry is not supported");
 		}
@@ -437,7 +437,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="offset">The offset to start reading at.</param>
 		/// <param name="count">The maximum number of bytes to read.</param>
 		/// <returns>The actual number of bytes read.</returns>
-		int InitialRead(byte[] destination, int offset, int count)
+		private int InitialRead(byte[] destination, int offset, int count)
 		{
 			if (!CanDecompressEntry) {
 				throw new ZipException("Library cannot extract this entry. Version required is (" + entry.Version + ")");
@@ -455,15 +455,15 @@ namespace IFramework.Core.Zip.Zip
 
 				inputBuffer.CryptoTransform = managed.CreateDecryptor(key, null);
 
-				byte[] cryptbuffer = new byte[ZipConstants.CryptoHeaderSize];
-				inputBuffer.ReadClearTextBuffer(cryptbuffer, 0, ZipConstants.CryptoHeaderSize);
+				byte[] cryptbuffer = new byte[ZipConstants.CRYPTO_HEADER_SIZE];
+				inputBuffer.ReadClearTextBuffer(cryptbuffer, 0, ZipConstants.CRYPTO_HEADER_SIZE);
 
-				if (cryptbuffer[ZipConstants.CryptoHeaderSize - 1] != entry.CryptoCheckValue) {
+				if (cryptbuffer[ZipConstants.CRYPTO_HEADER_SIZE - 1] != entry.CryptoCheckValue) {
 					throw new ZipException("Invalid password");
 				}
 
-				if (csize >= ZipConstants.CryptoHeaderSize) {
-					csize -= ZipConstants.CryptoHeaderSize;
+				if (csize >= ZipConstants.CRYPTO_HEADER_SIZE) {
+					csize -= ZipConstants.CRYPTO_HEADER_SIZE;
 				} else if ((entry.Flags & (int)GeneralBitFlags.Descriptor) == 0) {
 					throw new ZipException(string.Format("Entry compressed size {0} too small for encryption", csize));
 				}
@@ -528,7 +528,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <exception cref="InvalidOperationException">
 		/// The stream is not open.
 		/// </exception>
-		int BodyRead(byte[] buffer, int offset, int count)
+		private int BodyRead(byte[] buffer, int offset, int count)
 		{
 			if (crc == null) {
 				throw new InvalidOperationException("Closed");

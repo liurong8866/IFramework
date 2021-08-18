@@ -50,7 +50,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 	public class DeflaterEngine
 	{
 		#region Constants
-		const int TooFar = 4096;
+
+		private const int TooFar = 4096;
 		#endregion
 
 		#region Constructors
@@ -349,7 +350,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			}
 		}
 
-		void UpdateHash()
+		private void UpdateHash()
 		{
 			/*
 						if (DEBUGGING) {
@@ -364,7 +365,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// value for this hash.
 		/// </summary>
 		/// <returns>The previous hash value</returns>
-		int InsertString()
+		private int InsertString()
 		{
 			short match;
 			int hash = ((ins_h << DeflaterConstants.HASH_SHIFT) ^ window[strstart + (DeflaterConstants.MIN_MATCH - 1)]) & DeflaterConstants.HASH_MASK;
@@ -388,7 +389,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			return match & 0xffff;
 		}
 
-		void SlideWindow()
+		private void SlideWindow()
 		{
 			Array.Copy(window, DeflaterConstants.WSIZE, window, 0, DeflaterConstants.WSIZE);
 			matchStart -= DeflaterConstants.WSIZE;
@@ -419,7 +420,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// </summary>
 		/// <param name="curMatch"></param>
 		/// <returns>True if a match greater than the minimum length is found</returns>
-		bool FindLongestMatch( int curMatch )
+		private bool FindLongestMatch( int curMatch )
 		{
         int match;
         int scan = strstart;
@@ -546,7 +547,7 @@ namespace IFramework.Core.Zip.Zip.Compression
           return matchLen >= DeflaterConstants.MIN_MATCH;
         }
 
-		bool DeflateStored(bool flush, bool finish)
+		private bool DeflateStored(bool flush, bool finish)
 		{
 			if (!flush && (lookahead == 0)) {
 				return false;
@@ -580,7 +581,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			return true;
 		}
 
-		bool DeflateFast(bool flush, bool finish)
+		private bool DeflateFast(bool flush, bool finish)
 		{
 			if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
 				return false;
@@ -656,7 +657,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			return true;
 		}
 
-		bool DeflateSlow(bool flush, bool finish)
+		private bool DeflateSlow(bool flush, bool finish)
 		{
 			if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
 				return false;
@@ -761,7 +762,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		#region Instance Fields
 
 		// Hash index of string to be inserted
-		int ins_h;
+		private int ins_h;
 
 		/// <summary>
 		/// Hashtable, hashing three characters to an index for window, so
@@ -769,7 +770,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// Note that the array should really be unsigned short, so you need
 		/// to and the values with 0xffff.
 		/// </summary>
-		short[] head;
+		private short[] head;
 
 		/// <summary>
 		/// <code>prev[index &amp; WMASK]</code> points to the previous index that has the
@@ -778,19 +779,19 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// Note that the array should really be unsigned short, so you need
 		/// to and the values with 0xffff.
 		/// </summary>
-		short[] prev;
+		private short[] prev;
 
-		int matchStart;
+		private int matchStart;
 		// Length of best match
-		int matchLen;
+		private int matchLen;
 		// Set if previous match exists
-		bool prevAvailable;
-		int blockStart;
+		private bool prevAvailable;
+		private int blockStart;
 
 		/// <summary>
 		/// Points to the current character in the window.
 		/// </summary>
-		int strstart;
+		private int strstart;
 
 		/// <summary>
 		/// lookahead is the number of characters starting at strstart in
@@ -798,49 +799,49 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// So window[strstart] until window[strstart+lookahead-1] are valid
 		/// characters.
 		/// </summary>
-		int lookahead;
+		private int lookahead;
 
 		/// <summary>
 		/// This array contains the part of the uncompressed stream that
 		/// is of relevance.  The current character is indexed by strstart.
 		/// </summary>
-		byte[] window;
+		private byte[] window;
 
-		DeflateStrategy strategy;
-		int max_chain, max_lazy, niceLength, goodLength;
+		private DeflateStrategy strategy;
+		private int max_chain, max_lazy, niceLength, goodLength;
 
 		/// <summary>
 		/// The current compression function.
 		/// </summary>
-		int compressionFunction;
+		private int compressionFunction;
 
 		/// <summary>
 		/// The input data for compression.
 		/// </summary>
-		byte[] inputBuf;
+		private byte[] inputBuf;
 
 		/// <summary>
 		/// The total bytes of input read.
 		/// </summary>
-		long totalIn;
+		private long totalIn;
 
 		/// <summary>
 		/// The offset into inputBuf, where input data starts.
 		/// </summary>
-		int inputOff;
+		private int inputOff;
 
 		/// <summary>
 		/// The end offset of the input data.
 		/// </summary>
-		int inputEnd;
+		private int inputEnd;
 
-		DeflaterPending pending;
-		DeflaterHuffman huffman;
+		private DeflaterPending pending;
+		private DeflaterHuffman huffman;
 
 		/// <summary>
 		/// The adler checksum
 		/// </summary>
-		Adler32 adler;
+		private Adler32 adler;
 		#endregion
 	}
 }

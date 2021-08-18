@@ -25,7 +25,6 @@
 using System;
 using System.IO;
 using UnityEditor;
-using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
@@ -107,7 +106,6 @@ namespace IFramework.Engine
 #if UNITY_EDITOR
         public static bool IsSimulation
         {
-
             get { return Configure.IsSimulation.Value; }
             set { Configure.IsSimulation.Value = true; }
 #else
@@ -151,7 +149,7 @@ namespace IFramework.Engine
             return null;
 #endif
         }
-        
+
         /// <summary>
         /// 将AssetBundle信息添加到关系配置表中
         /// </summary>
@@ -185,13 +183,12 @@ namespace IFramework.Engine
                     string fileName = Path.GetFileName(asset);
                     
                     @group.AddAssetInfo(asset.EndsWith(".unity")
-                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.Scene,code)
-                        : new AssetInfo(fileName, name, index,  ResourceLoadType.Asset,code));
+                        ? new AssetInfo(fileName, name, index,  ResourceLoadType.SCENE,code)
+                        : new AssetInfo(fileName, name, index,  ResourceLoadType.ASSET,code));
                 }
             }
 #endif
         }
         
     }
-    
 }

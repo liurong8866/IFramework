@@ -106,7 +106,7 @@ namespace IFramework.Core.Zip.Tar
 			if (tarStream != null) {
 				result = new TarArchive(tarStream);
 			} else {
-				result = CreateInputTarArchive(inputStream, TarBuffer.DefaultBlockFactor);
+				result = CreateInputTarArchive(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR);
 			}
 			return result;
 		}
@@ -147,7 +147,7 @@ namespace IFramework.Core.Zip.Tar
 			if (tarStream != null) {
 				result = new TarArchive(tarStream);
 			} else {
-				result = CreateOutputTarArchive(outputStream, TarBuffer.DefaultBlockFactor);
+				result = CreateOutputTarArchive(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR);
 			}
 			return result;
 		}
@@ -427,7 +427,7 @@ namespace IFramework.Core.Zip.Tar
 				if (tarOut != null) {
 					return tarOut.RecordSize;
 				}
-				return TarBuffer.DefaultRecordSize;
+				return TarBuffer.DEFAULT_RECORD_SIZE;
 			}
 		}
 
@@ -512,7 +512,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <param name="entry">
 		/// The TarEntry returned by tarIn.GetNextEntry().
 		/// </param>
-		void ExtractEntry(string destDir, TarEntry entry)
+		private void ExtractEntry(string destDir, TarEntry entry)
 		{
 			OnProgressMessageEvent(entry, null);
 
@@ -639,7 +639,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <param name="recurse">
 		/// If true, process the children of directory entries.
 		/// </param>
-		void WriteEntryCore(TarEntry sourceEntry, bool recurse)
+		private void WriteEntryCore(TarEntry sourceEntry, bool recurse)
 		{
 			string tempFileName = null;
 			string entryFilename = sourceEntry.File;
@@ -777,7 +777,7 @@ namespace IFramework.Core.Zip.Tar
 			Dispose(false);
 		}
 
-		static void EnsureDirectoryExists(string directoryName)
+		private static void EnsureDirectoryExists(string directoryName)
 		{
 			if (!Directory.Exists(directoryName)) {
 				try {
@@ -792,7 +792,7 @@ namespace IFramework.Core.Zip.Tar
 		// It no longer reads entire files into memory but is still a weak test!
 		// This assumes that byte values 0-7, 14-31 or 255 are binary
 		// and that all non text files contain one of these values
-		static bool IsBinary(string filename)
+		private static bool IsBinary(string filename)
 		{
 			using (FileStream fs = File.OpenRead(filename)) {
 				int sampleSize = Math.Min(4096, (int)fs.Length);
@@ -811,22 +811,23 @@ namespace IFramework.Core.Zip.Tar
 		}
 
 		#region Instance Fields
-		bool keepOldFiles;
-		bool asciiTranslate;
 
-		int userId;
-		string userName = string.Empty;
-		int groupId;
-		string groupName = string.Empty;
+		private bool keepOldFiles;
+		private bool asciiTranslate;
 
-		string rootPath;
-		string pathPrefix;
+		private int userId;
+		private string userName = string.Empty;
+		private int groupId;
+		private string groupName = string.Empty;
 
-		bool applyUserInfoOverrides;
+		private string rootPath;
+		private string pathPrefix;
 
-		TarInputStream tarIn;
-		TarOutputStream tarOut;
-		bool isDisposed;
+		private bool applyUserInfoOverrides;
+
+		private TarInputStream tarIn;
+		private TarOutputStream tarOut;
+		private bool isDisposed;
 		#endregion
 	}
 }

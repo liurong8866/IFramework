@@ -67,52 +67,52 @@ namespace IFramework.Core.Zip.BZip2
 		/// When multiplied by compression parameter (1-9) gives the block size for compression
 		/// 9 gives the best compression but uses the most memory.
 		/// </summary>		
-		public const int BaseBlockSize = 100000;
+		public const int BASE_BLOCK_SIZE = 100000;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int MaximumAlphaSize = 258;
+		public const int MAXIMUM_ALPHA_SIZE = 258;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int MaximumCodeLength = 23;
+		public const int MAXIMUM_CODE_LENGTH = 23;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int RunA = 0;
+		public const int RUN_A = 0;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int RunB = 1;
+		public const int RUN_B = 1;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int GroupCount = 6;
+		public const int GROUP_COUNT = 6;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int GroupSize = 50;
+		public const int GROUP_SIZE = 50;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int NumberOfIterations = 4;
+		public const int NUMBER_OF_ITERATIONS = 4;
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int MaximumSelectors = (2 + (900000 / GroupSize));
+		public const int MAXIMUM_SELECTORS = (2 + (900000 / GROUP_SIZE));
 
 		/// <summary>
 		/// Backend constant
 		/// </summary>
-		public const int OvershootBytes = 20;
+		public const int OVERSHOOT_BYTES = 20;
 
 		private BZip2Constants()
 		{

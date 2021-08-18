@@ -116,8 +116,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 			baseOutputStream_.Flush();
 
 			if (cryptoTransform_ != null) {
-				if (cryptoTransform_ is ZipAESTransform) {
-					AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+				if (cryptoTransform_ is ZipAesTransform) {
+					AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode();
 				}
 				cryptoTransform_.Dispose();
 				cryptoTransform_ = null;
@@ -149,9 +149,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 
 		#region Encryption
 
-		string password;
+		private string password;
 
-		ICryptoTransform cryptoTransform_;
+		private ICryptoTransform cryptoTransform_;
 
 		/// <summary>
 		/// Returns the 10 byte AUTH CODE to be appended immediately following the AES data stream.
@@ -209,15 +209,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 		protected void InitializeAESPassword(ZipEntry entry, string rawPassword,
 											out byte[] salt, out byte[] pwdVerifier)
 		{
-			salt = new byte[entry.AESSaltLen];
+			salt = new byte[entry.AesSaltLen];
 			// Salt needs to be cryptographically random, and unique per file
 			if (_aesRnd == null)
 				_aesRnd = RandomNumberGenerator.Create();
 			_aesRnd.GetBytes(salt);
-			int blockSize = entry.AESKeySize / 8;   // bits to bytes
+			int blockSize = entry.AesKeySize / 8;   // bits to bytes
 
-			cryptoTransform_ = new ZipAESTransform(rawPassword, salt, blockSize, true);
-			pwdVerifier = ((ZipAESTransform)cryptoTransform_).PwdVerifier;
+			cryptoTransform_ = new ZipAesTransform(rawPassword, salt, blockSize, true);
+			pwdVerifier = ((ZipAesTransform)cryptoTransform_).PwdVerifier;
 		}
 
 		#endregion
@@ -382,8 +382,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 
 		private void GetAuthCodeIfAES()
 		{
-			if (cryptoTransform_ is ZipAESTransform) {
-				AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+			if (cryptoTransform_ is ZipAesTransform) {
+				AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode();
 			}
 		}
 
@@ -424,7 +424,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 		/// This buffer is used temporarily to retrieve the bytes from the
 		/// deflater and write them to the underlying output stream.
 		/// </summary>
-		byte[] buffer_;
+		private byte[] buffer_;
 
 		/// <summary>
 		/// The deflater which is used to deflate the stream.
@@ -436,7 +436,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 		/// </summary>
 		protected Stream baseOutputStream_;
 
-		bool isClosed_;
+		private bool isClosed_;
 		#endregion
 
 		#region Static Fields

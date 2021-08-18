@@ -485,12 +485,12 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// The name of the file this entry represents or null if the entry is not based on a file.
 		/// </summary>
-		string file;
+		private string file;
 
 		/// <summary>
 		/// The entry's header information.
 		/// </summary>
-		TarHeader header;
+		private TarHeader header;
 		#endregion
 	}
 }

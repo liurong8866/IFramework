@@ -22,7 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
@@ -48,7 +47,7 @@ namespace IFramework.Test.Viarable
         [MenuItem("IFramework/Test/Window")]
         public static void Open()
         {
-            ViarableGui window = EditorWindow.GetWindow<ViarableGui>();
+            ViarableGui window = GetWindow<ViarableGui>();
             
             window.Show();
         }

@@ -22,16 +22,14 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
 using IFramework.Core;
-using IFramework.Engine;
 using UnityEngine;
 
 namespace IFramework.Test.Event
 {
     public class EventReceiver : MonoBehaviour
     {
-        void Awake()
+        private void Awake()
         {
             Debug.Log("注册事件");
             DefaultEvent.Register(100, Action);

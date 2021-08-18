@@ -4,20 +4,21 @@ using IFramework.Core.Zip.Zip.Compression.Streams;
 
 namespace IFramework.Core.Zip.Zip.Compression
 {
-	class InflaterDynHeader
+	internal class InflaterDynHeader
 	{
 		#region Constants
-		const int LNUM = 0;
-		const int DNUM = 1;
-		const int BLNUM = 2;
-		const int BLLENS = 3;
-		const int LENS = 4;
-		const int REPS = 5;
 
-		static readonly int[] repMin = { 3, 3, 11 };
-		static readonly int[] repBits = { 2, 3, 7 };
+		private const int LNUM = 0;
+		private const int DNUM = 1;
+		private const int BLNUM = 2;
+		private const int BLLENS = 3;
+		private const int LENS = 4;
+		private const int REPS = 5;
 
-		static readonly int[] BL_ORDER =
+		private static readonly int[] repMin = { 3, 3, 11 };
+		private static readonly int[] repBits = { 2, 3, 7 };
+
+		private static readonly int[] blOrder =
 		{ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 		#endregion
 
@@ -68,7 +69,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 							}
 							input.DropBits(3);
 							//  		System.err.println("blLens["+BL_ORDER[ptr]+"]: "+len);
-							blLens[BL_ORDER[ptr]] = (byte)len;
+							blLens[blOrder[ptr]] = (byte)len;
 							ptr++;
 						}
 						blTree = new InflaterHuffmanTree(blLens);
@@ -152,19 +153,21 @@ namespace IFramework.Core.Zip.Zip.Compression
 		}
 
 		#region Instance Fields
-		byte[] blLens;
-		byte[] litdistLens;
 
-		InflaterHuffmanTree blTree;
+		private byte[] blLens;
+		private byte[] litdistLens;
+
+		private InflaterHuffmanTree blTree;
 
 		/// <summary>
 		/// The current decode mode
 		/// </summary>
-		int mode;
-		int lnum, dnum, blnum, num;
-		int repSymbol;
-		byte lastLen;
-		int ptr;
+		private int mode;
+
+		private int lnum, dnum, blnum, num;
+		private int repSymbol;
+		private byte lastLen;
+		private int ptr;
 		#endregion
 
 	}

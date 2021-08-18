@@ -418,12 +418,12 @@ namespace IFramework.Core.Zip.Zip.Compression
 				}
 				header += 31 - (header % 31);
 
-				pending.WriteShortMSB(header);
+				pending.WriteShortMsb(header);
 				if ((state & IS_SETDICT) != 0) {
 					int chksum = engine.Adler;
 					engine.ResetAdler();
-					pending.WriteShortMSB(chksum >> 16);
-					pending.WriteShortMSB(chksum & 0xffff);
+					pending.WriteShortMsb(chksum >> 16);
+					pending.WriteShortMsb(chksum & 0xffff);
 				}
 
 				state = BUSY_STATE | (state & (IS_FLUSHING | IS_FINISHING));
@@ -467,8 +467,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 							// Compressed data is complete.  Write footer information if required.
 							if (!noZlibHeaderOrFooter) {
 								int adler = engine.Adler;
-								pending.WriteShortMSB(adler >> 16);
-								pending.WriteShortMSB(adler & 0xffff);
+								pending.WriteShortMsb(adler >> 16);
+								pending.WriteShortMsb(adler & 0xffff);
 							}
 							state = FINISHED_STATE;
 							break;
@@ -527,32 +527,32 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Compression level.
 		/// </summary>
-		int level;
+		private int level;
 
 		/// <summary>
 		/// If true no Zlib/RFC1950 headers or footers are generated
 		/// </summary>
-		bool noZlibHeaderOrFooter;
+		private bool noZlibHeaderOrFooter;
 
 		/// <summary>
 		/// The current state.
 		/// </summary>
-		int state;
+		private int state;
 
 		/// <summary>
 		/// The total bytes of output written.
 		/// </summary>
-		long totalOut;
+		private long totalOut;
 
 		/// <summary>
 		/// The pending output.
 		/// </summary>
-		DeflaterPending pending;
+		private DeflaterPending pending;
 
 		/// <summary>
 		/// The deflater engine.
 		/// </summary>
-		DeflaterEngine engine;
+		private DeflaterEngine engine;
 		#endregion
 	}
 }

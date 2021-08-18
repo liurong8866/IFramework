@@ -36,7 +36,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Copy lengths for literal codes 257..285
 		/// </summary>
-		static readonly int[] CPLENS = {
+		private static readonly int[] CPLENS = {
 								  3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
 								  35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258
 							  };
@@ -44,7 +44,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Extra bits for literal codes 257..285
 		/// </summary>
-		static readonly int[] CPLEXT = {
+		private static readonly int[] CPLEXT = {
 								  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
 								  3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0
 							  };
@@ -52,7 +52,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Copy offsets for distance codes 0..29
 		/// </summary>
-		static readonly int[] CPDIST = {
+		private static readonly int[] CPDIST = {
 								1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
 								257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
 								8193, 12289, 16385, 24577
@@ -61,7 +61,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Extra bits for distance codes
 		/// </summary>
-		static readonly int[] CPDEXT = {
+		private static readonly int[] CPDEXT = {
 								0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
 								7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
 								12, 12, 13, 13
@@ -70,26 +70,27 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// These are the possible states for an inflater
 		/// </summary>
-		const int DECODE_HEADER = 0;
-		const int DECODE_DICT = 1;
-		const int DECODE_BLOCKS = 2;
-		const int DECODE_STORED_LEN1 = 3;
-		const int DECODE_STORED_LEN2 = 4;
-		const int DECODE_STORED = 5;
-		const int DECODE_DYN_HEADER = 6;
-		const int DECODE_HUFFMAN = 7;
-		const int DECODE_HUFFMAN_LENBITS = 8;
-		const int DECODE_HUFFMAN_DIST = 9;
-		const int DECODE_HUFFMAN_DISTBITS = 10;
-		const int DECODE_CHKSUM = 11;
-		const int FINISHED = 12;
+		private const int DECODE_HEADER = 0;
+
+		private const int DECODE_DICT = 1;
+		private const int DECODE_BLOCKS = 2;
+		private const int DECODE_STORED_LEN1 = 3;
+		private const int DECODE_STORED_LEN2 = 4;
+		private const int DECODE_STORED = 5;
+		private const int DECODE_DYN_HEADER = 6;
+		private const int DECODE_HUFFMAN = 7;
+		private const int DECODE_HUFFMAN_LENBITS = 8;
+		private const int DECODE_HUFFMAN_DIST = 9;
+		private const int DECODE_HUFFMAN_DISTBITS = 10;
+		private const int DECODE_CHKSUM = 11;
+		private const int FINISHED = 12;
 		#endregion
 
 		#region Instance Fields
 		/// <summary>
 		/// This variable contains the current state.
 		/// </summary>
-		int mode;
+		private int mode;
 
 		/// <summary>
 		/// The adler checksum of the dictionary or of the decompressed
@@ -97,48 +98,50 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// compressed stream.
 		/// Only valid if mode is DECODE_DICT or DECODE_CHKSUM.
 		/// </summary>
-		int readAdler;
+		private int readAdler;
 
 		/// <summary>
 		/// The number of bits needed to complete the current state.  This
 		/// is valid, if mode is DECODE_DICT, DECODE_CHKSUM,
 		/// DECODE_HUFFMAN_LENBITS or DECODE_HUFFMAN_DISTBITS.
 		/// </summary>
-		int neededBits;
-		int repLength;
-		int repDist;
-		int uncomprLen;
+		private int neededBits;
+
+		private int repLength;
+		private int repDist;
+		private int uncomprLen;
 
 		/// <summary>
 		/// True, if the last block flag was set in the last block of the
 		/// inflated stream.  This means that the stream ends after the
 		/// current block.
 		/// </summary>
-		bool isLastBlock;
+		private bool isLastBlock;
 
 		/// <summary>
 		/// The total number of inflated bytes.
 		/// </summary>
-		long totalOut;
+		private long totalOut;
 
 		/// <summary>
 		/// The total number of bytes set with setInput().  This is not the
 		/// value returned by the TotalIn property, since this also includes the
 		/// unprocessed input.
 		/// </summary>
-		long totalIn;
+		private long totalIn;
 
 		/// <summary>
 		/// This variable stores the noHeader flag that was given to the constructor.
 		/// True means, that the inflated stream doesn't contain a Zlib header or
 		/// footer.
 		/// </summary>
-		bool noHeader;
-		readonly StreamManipulator input;
-		OutputWindow outputWindow;
-		InflaterDynHeader dynHeader;
-		InflaterHuffmanTree litlenTree, distTree;
-		Adler32 adler;
+		private bool noHeader;
+
+		private readonly StreamManipulator input;
+		private OutputWindow outputWindow;
+		private InflaterDynHeader dynHeader;
+		private InflaterHuffmanTree litlenTree, distTree;
+		private Adler32 adler;
 		#endregion
 
 		#region Constructors

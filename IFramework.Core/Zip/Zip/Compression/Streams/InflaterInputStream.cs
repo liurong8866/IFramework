@@ -268,17 +268,18 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 		}
 
 		#region Instance Fields
-		int rawLength;
-		byte[] rawData;
 
-		int clearTextLength;
-		byte[] clearText;
-		byte[] internalClearText;
+		private int rawLength;
+		private byte[] rawData;
 
-		int available;
+		private int clearTextLength;
+		private byte[] clearText;
+		private byte[] internalClearText;
 
-		ICryptoTransform cryptoTransform;
-		Stream inputStream;
+		private int available;
+
+		private ICryptoTransform cryptoTransform;
+		private Stream inputStream;
 		#endregion
 	}
 
@@ -638,7 +639,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 		/// <summary>
 		/// Flag indicating wether this instance has been closed or not.
 		/// </summary>
-		bool isClosed;
+		private bool isClosed;
 		#endregion
 	}
 }

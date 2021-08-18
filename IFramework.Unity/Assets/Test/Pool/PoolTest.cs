@@ -22,8 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
 
@@ -37,7 +35,7 @@ namespace IFramework.Test.Pool
             ObjectPoolTest();
         }
 
-        void SimplePoolTest() {
+        private void SimplePoolTest() {
             
             SimplePool<Bullet> bulletPool = new SimplePool<Bullet>(
                 () =>
@@ -69,7 +67,7 @@ namespace IFramework.Test.Pool
             Debug.Log(bulletPool.Count);
         }
 
-        void ObjectPoolTest()
+        private void ObjectPoolTest()
         {
             ObjectPool<Bullet2> pool = ObjectPool<Bullet2>.Instance;
             
@@ -98,12 +96,12 @@ namespace IFramework.Test.Pool
         
     }
 
-    class Bullet
+    internal class Bullet
     {
         public string state = "未发射";
     }
 
-    class Bullet2 : IPoolable
+    internal class Bullet2 : IPoolable
     {
         public string state = "未发射";
         

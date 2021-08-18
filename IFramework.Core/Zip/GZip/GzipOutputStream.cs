@@ -36,7 +36,7 @@ namespace IFramework.Core.Zip.GZip
 	/// </example>
 	public class GZipOutputStream : DeflaterOutputStream
 	{
-		enum OutputState
+		private enum OutputState
 		{
 			Header,
 			Footer,
@@ -49,7 +49,8 @@ namespace IFramework.Core.Zip.GZip
 		/// CRC-32 value for uncompressed data
 		/// </summary>
 		protected Crc32 crc = new Crc32();
-		OutputState state_ = OutputState.Header;
+
+		private OutputState state = OutputState.Header;
 		#endregion
 
 		#region Constructors
@@ -115,11 +116,11 @@ namespace IFramework.Core.Zip.GZip
 		/// <param name="count">Number of bytes to write</param>
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			if (state_ == OutputState.Header) {
+			if (state == OutputState.Header) {
 				WriteHeader();
 			}
 
-			if (state_ != OutputState.Footer) {
+			if (state != OutputState.Footer) {
 				throw new InvalidOperationException("Write not permitted in current state");
 			}
 
@@ -136,8 +137,8 @@ namespace IFramework.Core.Zip.GZip
 			try {
 				Finish();
 			} finally {
-				if (state_ != OutputState.Closed) {
-					state_ = OutputState.Closed;
+				if (state != OutputState.Closed) {
+					state = OutputState.Closed;
 					if (IsStreamOwner) {
 						baseOutputStream_.Dispose();
 					}
@@ -153,12 +154,12 @@ namespace IFramework.Core.Zip.GZip
 		public override void Finish()
 		{
 			// If no data has been written a header should be added.
-			if (state_ == OutputState.Header) {
+			if (state == OutputState.Header) {
 				WriteHeader();
 			}
 
-			if (state_ == OutputState.Footer) {
-				state_ = OutputState.Finished;
+			if (state == OutputState.Footer) {
+				state = OutputState.Finished;
 				base.Finish();
 
 				var totalin = (uint)(deflater_.TotalIn & 0xffffffff);
@@ -182,12 +183,13 @@ namespace IFramework.Core.Zip.GZip
 		#endregion
 
 		#region Support Routines
-		void WriteHeader()
-		{
-			if (state_ == OutputState.Header) {
-				state_ = OutputState.Footer;
 
-				var mod_time = (int)((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L);  // Ticks give back 100ns intervals
+		private void WriteHeader()
+		{
+			if (state == OutputState.Header) {
+				state = OutputState.Footer;
+
+				var modTime = (int)((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L);  // Ticks give back 100ns intervals
 				byte[] gzipHeader = {
 					// The two magic bytes
 					GZipConstants.GZIP_MAGIC >> 8, GZipConstants.GZIP_MAGIC & 0xff,
@@ -199,8 +201,8 @@ namespace IFramework.Core.Zip.GZip
 					0,
 
 					// The modification time
-					(byte) mod_time, (byte) (mod_time >> 8),
-					(byte) (mod_time >> 16), (byte) (mod_time >> 24),
+					(byte) modTime, (byte) (modTime >> 8),
+					(byte) (modTime >> 16), (byte) (modTime >> 24),
 
 					// The extra flags
 					0,

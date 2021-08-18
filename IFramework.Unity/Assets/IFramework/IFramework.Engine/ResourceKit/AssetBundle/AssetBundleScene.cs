@@ -22,7 +22,6 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.ComponentModel.Design;
 using IFramework.Core;
 
 namespace IFramework.Engine

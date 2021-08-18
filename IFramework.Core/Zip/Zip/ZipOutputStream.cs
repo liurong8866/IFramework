@@ -136,8 +136,8 @@ namespace IFramework.Core.Zip.Zip
 		/// Setting this property to off is workable but less desirable as in those circumstances adding a file
 		/// larger then 4GB will fail.</remarks>
 		public UseZip64 UseZip64 {
-			get { return useZip64_; }
-			set { useZip64_ = value; }
+			get { return useZip64; }
+			set { useZip64 = value; }
 		}
 
 		/// <summary>
@@ -275,12 +275,12 @@ namespace IFramework.Core.Zip.Zip
 			curMethod = method;
 			sizePatchPos = -1;
 
-			if ((useZip64_ == UseZip64.On) || ((entry.Size < 0) && (useZip64_ == UseZip64.Dynamic))) {
+			if ((useZip64 == UseZip64.On) || ((entry.Size < 0) && (useZip64 == UseZip64.Dynamic))) {
 				entry.ForceZip64();
 			}
 
 			// Write the local file header
-			WriteLeInt(ZipConstants.LocalHeaderSignature);
+			WriteLeInt(ZipConstants.LOCAL_HEADER_SIGNATURE);
 
 			WriteLeShort(entry.Version);
 			WriteLeShort(entry.Flags);
@@ -294,7 +294,7 @@ namespace IFramework.Core.Zip.Zip
 					WriteLeInt(-1);
 					WriteLeInt(-1);
 				} else {
-					WriteLeInt(entry.IsCrypted ? (int)entry.CompressedSize + ZipConstants.CryptoHeaderSize : (int)entry.CompressedSize);
+					WriteLeInt(entry.IsCrypted ? (int)entry.CompressedSize + ZipConstants.CRYPTO_HEADER_SIZE : (int)entry.CompressedSize);
 					WriteLeInt((int)entry.Size);
 				}
 			} else {
@@ -347,8 +347,8 @@ namespace IFramework.Core.Zip.Zip
 				ed.Delete(1);
 			}
 
-			if (entry.AESKeySize > 0) {
-				AddExtraDataAES(entry, ed);
+			if (entry.AesKeySize > 0) {
+				AddExtraDataAes(entry, ed);
 			}
 			byte[] extra = ed.GetEntryData();
 
@@ -367,10 +367,10 @@ namespace IFramework.Core.Zip.Zip
 				baseOutputStream_.Write(extra, 0, extra.Length);
 			}
 
-			offset += ZipConstants.LocalHeaderBaseSize + name.Length + extra.Length;
+			offset += ZipConstants.LOCAL_HEADER_BASE_SIZE + name.Length + extra.Length;
 			// Fix offsetOfCentraldir for AES
-			if (entry.AESKeySize > 0)
-				offset += entry.AESOverheadSize;
+			if (entry.AesKeySize > 0)
+				offset += entry.AesOverheadSize;
 
 			// Activate the entry.
 			curEntry = entry;
@@ -382,8 +382,8 @@ namespace IFramework.Core.Zip.Zip
 			size = 0;
 
 			if (entry.IsCrypted) {
-				if (entry.AESKeySize > 0) {
-					WriteAESHeader(entry);
+				if (entry.AesKeySize > 0) {
+					WriteAesHeader(entry);
 				} else {
 					if (entry.Crc < 0) {            // so testing Zip will says its ok
 						WriteEncryptionHeader(entry.DosTime << 16);
@@ -422,7 +422,7 @@ namespace IFramework.Core.Zip.Zip
 			}
 
 			// Write the AES Authentication Code (a hash of the compressed and encrypted data)
-			if (curEntry.AESKeySize > 0) {
+			if (curEntry.AesKeySize > 0) {
 				baseOutputStream_.Write(AESAuthCode, 0, 10);
 			}
 
@@ -447,11 +447,11 @@ namespace IFramework.Core.Zip.Zip
 			offset += csize;
 
 			if (curEntry.IsCrypted) {
-				if (curEntry.AESKeySize > 0) {
-					curEntry.CompressedSize += curEntry.AESOverheadSize;
+				if (curEntry.AesKeySize > 0) {
+					curEntry.CompressedSize += curEntry.AesOverheadSize;
 
 				} else {
-					curEntry.CompressedSize += ZipConstants.CryptoHeaderSize;
+					curEntry.CompressedSize += ZipConstants.CRYPTO_HEADER_SIZE;
 				}
 			}
 
@@ -481,17 +481,17 @@ namespace IFramework.Core.Zip.Zip
 
 			// Add data descriptor if flagged as required
 			if ((curEntry.Flags & 8) != 0) {
-				WriteLeInt(ZipConstants.DataDescriptorSignature);
+				WriteLeInt(ZipConstants.DATA_DESCRIPTOR_SIGNATURE);
 				WriteLeInt(unchecked((int)curEntry.Crc));
 
 				if (curEntry.LocalHeaderRequiresZip64) {
 					WriteLeLong(curEntry.CompressedSize);
 					WriteLeLong(curEntry.Size);
-					offset += ZipConstants.Zip64DataDescriptorSize;
+					offset += ZipConstants.ZIP_64DATA_DESCRIPTOR_SIZE;
 				} else {
 					WriteLeInt((int)curEntry.CompressedSize);
 					WriteLeInt((int)curEntry.Size);
-					offset += ZipConstants.DataDescriptorSize;
+					offset += ZipConstants.DATA_DESCRIPTOR_SIZE;
 				}
 			}
 
@@ -499,13 +499,13 @@ namespace IFramework.Core.Zip.Zip
 			curEntry = null;
 		}
 
-		void WriteEncryptionHeader(long crcValue)
+		private void WriteEncryptionHeader(long crcValue)
 		{
-			offset += ZipConstants.CryptoHeaderSize;
+			offset += ZipConstants.CRYPTO_HEADER_SIZE;
 
 			InitializePassword(Password);
 
-			byte[] cryptBuffer = new byte[ZipConstants.CryptoHeaderSize];
+			byte[] cryptBuffer = new byte[ZipConstants.CRYPTO_HEADER_SIZE];
 			var rnd = new Random();
 			rnd.NextBytes(cryptBuffer);
 			cryptBuffer[11] = (byte)(crcValue >> 24);
@@ -514,26 +514,26 @@ namespace IFramework.Core.Zip.Zip
 			baseOutputStream_.Write(cryptBuffer, 0, cryptBuffer.Length);
 		}
 
-		private static void AddExtraDataAES(ZipEntry entry, ZipExtraData extraData)
+		private static void AddExtraDataAes(ZipEntry entry, ZipExtraData extraData)
 		{
 
 			// Vendor Version: AE-1 IS 1. AE-2 is 2. With AE-2 no CRC is required and 0 is stored.
-			const int VENDOR_VERSION = 2;
+			const int vendorVersion = 2;
 			// Vendor ID is the two ASCII characters "AE".
-			const int VENDOR_ID = 0x4541; //not 6965;
+			const int vendorId = 0x4541; //not 6965;
 			extraData.StartNewEntry();
 			// Pack AES extra data field see http://www.winzip.com/aes_info.htm
 			//extraData.AddLeShort(7);							// Data size (currently 7)
-			extraData.AddLeShort(VENDOR_VERSION);               // 2 = AE-2
-			extraData.AddLeShort(VENDOR_ID);                    // "AE"
-			extraData.AddData(entry.AESEncryptionStrength);     //  1 = 128, 2 = 192, 3 = 256
+			extraData.AddLeShort(vendorVersion);               // 2 = AE-2
+			extraData.AddLeShort(vendorId);                    // "AE"
+			extraData.AddData(entry.AesEncryptionStrength);     //  1 = 128, 2 = 192, 3 = 256
 			extraData.AddLeShort((int)entry.CompressionMethod); // The actual compression method used to compress the file
 			extraData.AddNewEntry(0x9901);
 		}
 
 		// Replaces WriteEncryptionHeader for AES
 		//
-		private void WriteAESHeader(ZipEntry entry)
+		private void WriteAesHeader(ZipEntry entry)
 		{
 			byte[] salt;
 			byte[] pwdVerifier;
@@ -601,12 +601,12 @@ namespace IFramework.Core.Zip.Zip
 			}
 		}
 
-		void CopyAndEncrypt(byte[] buffer, int offset, int count)
+		private void CopyAndEncrypt(byte[] buffer, int offset, int count)
 		{
-			const int CopyBufferSize = 4096;
-			byte[] localBuffer = new byte[CopyBufferSize];
+			const int copyBufferSize = 4096;
+			byte[] localBuffer = new byte[copyBufferSize];
 			while (count > 0) {
-				int bufferCount = (count < CopyBufferSize) ? count : CopyBufferSize;
+				int bufferCount = (count < copyBufferSize) ? count : copyBufferSize;
 
 				Array.Copy(buffer, offset, localBuffer, 0, bufferCount);
 				EncryptBlock(localBuffer, 0, bufferCount);
@@ -644,8 +644,8 @@ namespace IFramework.Core.Zip.Zip
 			long sizeEntries = 0;
 
 			foreach (ZipEntry entry in entries) {
-				WriteLeInt(ZipConstants.CentralHeaderSignature);
-				WriteLeShort(ZipConstants.VersionMadeBy);
+				WriteLeInt(ZipConstants.CENTRAL_HEADER_SIGNATURE);
+				WriteLeShort(ZipConstants.VERSION_MADE_BY);
 				WriteLeShort(entry.Version);
 				WriteLeShort(entry.Flags);
 				WriteLeShort((short)entry.CompressionMethodForHeader);
@@ -695,8 +695,8 @@ namespace IFramework.Core.Zip.Zip
 					ed.Delete(1);
 				}
 
-				if (entry.AESKeySize > 0) {
-					AddExtraDataAES(entry, ed);
+				if (entry.AesKeySize > 0) {
+					AddExtraDataAes(entry, ed);
 				}
 				byte[] extra = ed.GetEntryData();
 
@@ -744,7 +744,7 @@ namespace IFramework.Core.Zip.Zip
 					baseOutputStream_.Write(entryComment, 0, entryComment.Length);
 				}
 
-				sizeEntries += ZipConstants.CentralHeaderBaseSize + name.Length + extra.Length + entryComment.Length;
+				sizeEntries += ZipConstants.CENTRAL_HEADER_BASE_SIZE + name.Length + extra.Length + entryComment.Length;
 			}
 
 			using (ZipHelperStream zhs = new ZipHelperStream(baseOutputStream_)) {
@@ -758,57 +758,57 @@ namespace IFramework.Core.Zip.Zip
 		/// <summary>
 		/// The entries for the archive.
 		/// </summary>
-		List<ZipEntry> entries = new List<ZipEntry>();
+		private List<ZipEntry> entries = new List<ZipEntry>();
 
 		/// <summary>
 		/// Used to track the crc of data added to entries.
 		/// </summary>
-		Crc32 crc = new Crc32();
+		private Crc32 crc = new Crc32();
 
 		/// <summary>
 		/// The current entry being added.
 		/// </summary>
-		ZipEntry curEntry;
+		private ZipEntry curEntry;
 
-		int defaultCompressionLevel = Deflater.DEFAULT_COMPRESSION;
+		private int defaultCompressionLevel = Deflater.DEFAULT_COMPRESSION;
 
-		CompressionMethod curMethod = CompressionMethod.Deflated;
+		private CompressionMethod curMethod = CompressionMethod.Deflated;
 
 		/// <summary>
 		/// Used to track the size of data for an entry during writing.
 		/// </summary>
-		long size;
+		private long size;
 
 		/// <summary>
 		/// Offset to be recorded for each entry in the central header.
 		/// </summary>
-		long offset;
+		private long offset;
 
 		/// <summary>
 		/// Comment for the entire archive recorded in central header.
 		/// </summary>
-		byte[] zipComment = new byte[0];
+		private byte[] zipComment = new byte[0];
 
 		/// <summary>
 		/// Flag indicating that header patching is required for the current entry.
 		/// </summary>
-		bool patchEntryHeader;
+		private bool patchEntryHeader;
 
 		/// <summary>
 		/// Position to patch crc
 		/// </summary>
-		long crcPatchPos = -1;
+		private long crcPatchPos = -1;
 
 		/// <summary>
 		/// Position to patch size.
 		/// </summary>
-		long sizePatchPos = -1;
+		private long sizePatchPos = -1;
 
 		// Default is dynamic which is not backwards compatible and can cause problems
 		// with XP's built in compression which cant read Zip64 archives.
 		// However it does avoid the situation were a large file is added and cannot be completed correctly.
 		// NOTE: Setting the size for entries before they are added is the best solution!
-		UseZip64 useZip64_ = UseZip64.Dynamic;
+		private UseZip64 useZip64 = UseZip64.Dynamic;
 		#endregion
 	}
 }

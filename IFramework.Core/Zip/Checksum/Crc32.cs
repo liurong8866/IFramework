@@ -32,10 +32,11 @@ namespace IFramework.Core.Zip.Checksum
 	public sealed class Crc32 : IChecksum
 	{
 		#region Instance Fields
-		readonly static uint crcInit = 0xFFFFFFFF;
-		readonly static uint crcXor = 0xFFFFFFFF;
 
-		readonly static uint[] crcTable = {
+		private readonly static uint crcInit = 0xFFFFFFFF;
+		private readonly static uint crcXor = 0xFFFFFFFF;
+
+		private readonly static uint[] crcTable = {
 			0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419,
 			0x706AF48F, 0xE963A535, 0x9E6495A3, 0x0EDB8832, 0x79DCB8A4,
 			0xE0D5E91E, 0x97D2D988, 0x09B64C2B, 0x7EB17CBD, 0xE7B82D07,
@@ -93,7 +94,7 @@ namespace IFramework.Core.Zip.Checksum
 		/// <summary>
 		/// The CRC data checksum so far.
 		/// </summary>
-		uint checkValue;
+		private uint checkValue;
 		#endregion
 
 		internal static uint ComputeCrc32(uint oldCrc, byte bval)

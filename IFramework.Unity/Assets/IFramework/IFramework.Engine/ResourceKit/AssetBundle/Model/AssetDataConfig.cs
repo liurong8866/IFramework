@@ -22,14 +22,11 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
 using System.Collections;
 using IFramework.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace IFramework.Engine
@@ -172,9 +169,9 @@ namespace IFramework.Engine
             }
             
             MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
-                
-            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(path);
-                
+            
+            AssetGroupDatas groups = SerializeUtils.DeserializeFromFile<AssetGroupDatas>(stream);
+            
             if(groups == null) yield break;
                 
             SetSerializeData(groups);

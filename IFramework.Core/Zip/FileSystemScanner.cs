@@ -16,7 +16,7 @@ namespace IFramework.Core.Zip
 		/// <param name="name">The file or directory name.</param>
 		public ScanEventArgs(string name)
 		{
-			name_ = name;
+			this.name = name;
 		}
 		#endregion
 
@@ -24,20 +24,21 @@ namespace IFramework.Core.Zip
 		/// The file or directory name for this event.
 		/// </summary>
 		public string Name {
-			get { return name_; }
+			get { return name; }
 		}
 
 		/// <summary>
 		/// Get set a value indicating if scanning should continue or not.
 		/// </summary>
 		public bool ContinueRunning {
-			get { return continueRunning_; }
-			set { continueRunning_ = value; }
+			get { return continueRunning; }
+			set { continueRunning = value; }
 		}
 
 		#region Instance Fields
-		string name_;
-		bool continueRunning_ = true;
+
+		private string name;
+		private bool continueRunning = true;
 		#endregion
 	}
 
@@ -55,9 +56,9 @@ namespace IFramework.Core.Zip
 		/// <param name="target">The total number of bytes to process, 0 if not known</param>
 		public ProgressEventArgs(string name, long processed, long target)
 		{
-			name_ = name;
-			processed_ = processed;
-			target_ = target;
+			this.name = name;
+			this.processed = processed;
+			this.target = target;
 		}
 		#endregion
 
@@ -65,15 +66,15 @@ namespace IFramework.Core.Zip
 		/// The name for this event if known.
 		/// </summary>
 		public string Name {
-			get { return name_; }
+			get { return name; }
 		}
 
 		/// <summary>
 		/// Get set a value indicating wether scanning should continue or not.
 		/// </summary>
 		public bool ContinueRunning {
-			get { return continueRunning_; }
-			set { continueRunning_ = value; }
+			get { return continueRunning; }
+			set { continueRunning = value; }
 		}
 
 		/// <summary>
@@ -83,10 +84,10 @@ namespace IFramework.Core.Zip
 		public float PercentComplete {
 			get {
 				float result;
-				if (target_ <= 0) {
+				if (target <= 0) {
 					result = 0;
 				} else {
-					result = (processed_ / (float)target_) * 100.0f;
+					result = (processed / (float)target) * 100.0f;
 				}
 				return result;
 			}
@@ -96,7 +97,7 @@ namespace IFramework.Core.Zip
 		/// The number of bytes processed so far
 		/// </summary>
 		public long Processed {
-			get { return processed_; }
+			get { return processed; }
 		}
 
 		/// <summary>
@@ -104,14 +105,15 @@ namespace IFramework.Core.Zip
 		/// </summary>
 		/// <remarks>Target may be 0 or negative if the value isnt known.</remarks>
 		public long Target {
-			get { return target_; }
+			get { return target; }
 		}
 
 		#region Instance Fields
-		string name_;
-		long processed_;
-		long target_;
-		bool continueRunning_ = true;
+
+		private string name;
+		private long processed;
+		private long target;
+		private bool continueRunning = true;
 		#endregion
 	}
 
@@ -129,7 +131,7 @@ namespace IFramework.Core.Zip
 		public DirectoryEventArgs(string name, bool hasMatchingFiles)
 			: base(name)
 		{
-			hasMatchingFiles_ = hasMatchingFiles;
+			this.hasMatchingFiles = hasMatchingFiles;
 		}
 		#endregion
 
@@ -137,13 +139,13 @@ namespace IFramework.Core.Zip
 		/// Get a value indicating if the directory contains any matching files or not.
 		/// </summary>
 		public bool HasMatchingFiles {
-			get { return hasMatchingFiles_; }
+			get { return hasMatchingFiles; }
 		}
 
-		readonly
+		private readonly
 
 		#region Instance Fields
-		bool hasMatchingFiles_;
+		bool hasMatchingFiles;
 		#endregion
 	}
 
@@ -160,9 +162,9 @@ namespace IFramework.Core.Zip
 		/// <param name="e">The exception to use.</param>
 		public ScanFailureEventArgs(string name, Exception e)
 		{
-			name_ = name;
-			exception_ = e;
-			continueRunning_ = true;
+			this.name = name;
+			exception = e;
+			continueRunning = true;
 		}
 		#endregion
 
@@ -170,28 +172,29 @@ namespace IFramework.Core.Zip
 		/// The applicable name.
 		/// </summary>
 		public string Name {
-			get { return name_; }
+			get { return name; }
 		}
 
 		/// <summary>
 		/// The applicable exception.
 		/// </summary>
 		public Exception Exception {
-			get { return exception_; }
+			get { return exception; }
 		}
 
 		/// <summary>
 		/// Get / set a value indicating wether scanning should continue.
 		/// </summary>
 		public bool ContinueRunning {
-			get { return continueRunning_; }
-			set { continueRunning_ = value; }
+			get { return continueRunning; }
+			set { continueRunning = value; }
 		}
 
 		#region Instance Fields
-		string name_;
-		Exception exception_;
-		bool continueRunning_;
+
+		private string name;
+		private Exception exception;
+		private bool continueRunning;
 		#endregion
 	}
 
@@ -246,7 +249,7 @@ namespace IFramework.Core.Zip
 		/// <param name="filter">The <see cref="PathFilter">file filter</see> to apply when scanning.</param>
 		public FileSystemScanner(string filter)
 		{
-			fileFilter_ = new PathFilter(filter);
+			fileFilter = new PathFilter(filter);
 		}
 
 		/// <summary>
@@ -256,8 +259,8 @@ namespace IFramework.Core.Zip
 		/// <param name="directoryFilter">The <see cref="PathFilter"> directory filter</see> to apply.</param>
 		public FileSystemScanner(string fileFilter, string directoryFilter)
 		{
-			fileFilter_ = new PathFilter(fileFilter);
-			directoryFilter_ = new PathFilter(directoryFilter);
+			this.fileFilter = new PathFilter(fileFilter);
+			this.directoryFilter = new PathFilter(directoryFilter);
 		}
 
 		/// <summary>
@@ -266,7 +269,7 @@ namespace IFramework.Core.Zip
 		/// <param name="fileFilter">The file <see cref="IScanFilter">filter</see> to apply.</param>
 		public FileSystemScanner(IScanFilter fileFilter)
 		{
-			fileFilter_ = fileFilter;
+			this.fileFilter = fileFilter;
 		}
 
 		/// <summary>
@@ -276,8 +279,8 @@ namespace IFramework.Core.Zip
 		/// <param name="directoryFilter">The directory <see cref="IScanFilter">filter</see>  to apply.</param>
 		public FileSystemScanner(IScanFilter fileFilter, IScanFilter directoryFilter)
 		{
-			fileFilter_ = fileFilter;
-			directoryFilter_ = directoryFilter;
+			this.fileFilter = fileFilter;
+			this.directoryFilter = directoryFilter;
 		}
 		#endregion
 
@@ -290,22 +293,22 @@ namespace IFramework.Core.Zip
 		/// <summary>
 		/// Delegate to invoke when a file is processed.
 		/// </summary>
-		public ProcessFileHandler ProcessFile;
+		public ProcessFileHandler processFile;
 
 		/// <summary>
 		/// Delegate to invoke when processing for a file has finished.
 		/// </summary>
-		public CompletedFileHandler CompletedFile;
+		public CompletedFileHandler completedFile;
 
 		/// <summary>
 		/// Delegate to invoke when a directory failure is detected.
 		/// </summary>
-		public DirectoryFailureHandler DirectoryFailure;
+		public DirectoryFailureHandler directoryFailure;
 
 		/// <summary>
 		/// Delegate to invoke when a file failure is detected.
 		/// </summary>
-		public FileFailureHandler FileFailure;
+		public FileFailureHandler fileFailure;
 		#endregion
 
 		/// <summary>
@@ -313,14 +316,14 @@ namespace IFramework.Core.Zip
 		/// </summary>
 		/// <param name="directory">The directory name.</param>
 		/// <param name="e">The exception detected.</param>
-		bool OnDirectoryFailure(string directory, Exception e)
+		private bool OnDirectoryFailure(string directory, Exception e)
 		{
-			DirectoryFailureHandler handler = DirectoryFailure;
+			DirectoryFailureHandler handler = directoryFailure;
 			bool result = (handler != null);
 			if (result) {
 				var args = new ScanFailureEventArgs(directory, e);
 				handler(this, args);
-				alive_ = args.ContinueRunning;
+				alive = args.ContinueRunning;
 			}
 			return result;
 		}
@@ -330,16 +333,16 @@ namespace IFramework.Core.Zip
 		/// </summary>
 		/// <param name="file">The file name.</param>
 		/// <param name="e">The exception detected.</param>
-		bool OnFileFailure(string file, Exception e)
+		private bool OnFileFailure(string file, Exception e)
 		{
-			FileFailureHandler handler = FileFailure;
+			FileFailureHandler handler = fileFailure;
 
 			bool result = (handler != null);
 
 			if (result) {
 				var args = new ScanFailureEventArgs(file, e);
-				FileFailure(this, args);
-				alive_ = args.ContinueRunning;
+				fileFailure(this, args);
+				alive = args.ContinueRunning;
 			}
 			return result;
 		}
@@ -348,14 +351,14 @@ namespace IFramework.Core.Zip
 		/// Raise the ProcessFile event.
 		/// </summary>
 		/// <param name="file">The file name.</param>
-		void OnProcessFile(string file)
+		private void OnProcessFile(string file)
 		{
-			ProcessFileHandler handler = ProcessFile;
+			ProcessFileHandler handler = processFile;
 
 			if (handler != null) {
 				var args = new ScanEventArgs(file);
 				handler(this, args);
-				alive_ = args.ContinueRunning;
+				alive = args.ContinueRunning;
 			}
 		}
 
@@ -363,14 +366,14 @@ namespace IFramework.Core.Zip
 		/// Raise the complete file event
 		/// </summary>
 		/// <param name="file">The file name</param>
-		void OnCompleteFile(string file)
+		private void OnCompleteFile(string file)
 		{
-			CompletedFileHandler handler = CompletedFile;
+			CompletedFileHandler handler = completedFile;
 
 			if (handler != null) {
 				var args = new ScanEventArgs(file);
 				handler(this, args);
-				alive_ = args.ContinueRunning;
+				alive = args.ContinueRunning;
 			}
 		}
 
@@ -379,14 +382,14 @@ namespace IFramework.Core.Zip
 		/// </summary>
 		/// <param name="directory">The directory name.</param>
 		/// <param name="hasMatchingFiles">Flag indicating if the directory has matching files.</param>
-		void OnProcessDirectory(string directory, bool hasMatchingFiles)
+		private void OnProcessDirectory(string directory, bool hasMatchingFiles)
 		{
 			EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
 
 			if (handler != null) {
 				var args = new DirectoryEventArgs(directory, hasMatchingFiles);
 				handler(this, args);
-				alive_ = args.ContinueRunning;
+				alive = args.ContinueRunning;
 			}
 		}
 
@@ -397,18 +400,18 @@ namespace IFramework.Core.Zip
 		/// <param name="recurse">True to recurse subdirectories, false to scan a single directory.</param>
 		public void Scan(string directory, bool recurse)
 		{
-			alive_ = true;
+			alive = true;
 			ScanDir(directory, recurse);
 		}
 
-		void ScanDir(string directory, bool recurse)
+		private void ScanDir(string directory, bool recurse)
 		{
 
 			try {
 				string[] names = Directory.GetFiles(directory);
 				bool hasMatch = false;
 				for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
-					if (!fileFilter_.IsMatch(names[fileIndex])) {
+					if (!fileFilter.IsMatch(names[fileIndex])) {
 						names[fileIndex] = null;
 					} else {
 						hasMatch = true;
@@ -417,12 +420,12 @@ namespace IFramework.Core.Zip
 
 				OnProcessDirectory(directory, hasMatch);
 
-				if (alive_ && hasMatch) {
+				if (alive && hasMatch) {
 					foreach (string fileName in names) {
 						try {
 							if (fileName != null) {
 								OnProcessFile(fileName);
-								if (!alive_) {
+								if (!alive) {
 									break;
 								}
 							}
@@ -439,13 +442,13 @@ namespace IFramework.Core.Zip
 				}
 			}
 
-			if (alive_ && recurse) {
+			if (alive && recurse) {
 				try {
 					string[] names = Directory.GetDirectories(directory);
 					foreach (string fulldir in names) {
-						if ((directoryFilter_ == null) || (directoryFilter_.IsMatch(fulldir))) {
+						if ((directoryFilter == null) || (directoryFilter.IsMatch(fulldir))) {
 							ScanDir(fulldir, true);
-							if (!alive_) {
+							if (!alive) {
 								break;
 							}
 						}
@@ -462,15 +465,15 @@ namespace IFramework.Core.Zip
 		/// <summary>
 		/// The file filter currently in use.
 		/// </summary>
-		IScanFilter fileFilter_;
+		private IScanFilter fileFilter;
 		/// <summary>
 		/// The directory filter currently in use.
 		/// </summary>
-		IScanFilter directoryFilter_;
+		private IScanFilter directoryFilter;
 		/// <summary>
 		/// Flag indicating if scanning should continue running.
 		/// </summary>
-		bool alive_;
+		private bool alive;
 		#endregion
 	}
 }

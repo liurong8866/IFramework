@@ -1,14 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using IFramework.Engine;
 using UnityEngine;
 
-public class IOTest : MonoBehaviour
+public class IoTest : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         string path = "test1/test2";
 

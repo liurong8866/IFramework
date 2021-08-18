@@ -9,11 +9,13 @@ namespace IFramework.Core.Zip.Zip.Compression
 	public class InflaterHuffmanTree
 	{
 		#region Constants
-		const int MAX_BITLEN = 15;
+
+		private const int MAX_BITLEN = 15;
 		#endregion
 
 		#region Instance Fields
-		short[] tree;
+
+		private short[] tree;
 		#endregion
 
 		/// <summary>
@@ -69,7 +71,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		}
 		#endregion
 
-		void BuildTree(byte[] codeLengths)
+		private void BuildTree(byte[] codeLengths)
 		{
 			int[] blCount = new int[MAX_BITLEN + 1];
 			int[] nextCode = new int[MAX_BITLEN + 1];

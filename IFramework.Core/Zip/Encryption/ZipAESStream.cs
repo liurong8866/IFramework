@@ -11,7 +11,7 @@ namespace IFramework.Core.Zip.Encryption
 	/// Based on information from http://www.winzip.com/aes_info.htm
 	/// and http://www.gladman.me.uk/cryptography_technology/fileencrypt/
 	/// </remarks>
-	internal class ZipAESStream : CryptoStream
+	internal class ZipAesStream : CryptoStream
 	{
 
 		/// <summary>
@@ -20,15 +20,15 @@ namespace IFramework.Core.Zip.Encryption
 		/// <param name="stream">The stream on which to perform the cryptographic transformation.</param>
 		/// <param name="transform">Instance of ZipAESTransform</param>
 		/// <param name="mode">Read or Write</param>
-		public ZipAESStream(Stream stream, ZipAESTransform transform, CryptoStreamMode mode)
+		public ZipAesStream(Stream stream, ZipAesTransform transform, CryptoStreamMode mode)
 			: base(stream, transform, mode)
 		{
 
-			_stream = stream;
-			_transform = transform;
-			_slideBuffer = new byte[1024];
+			this.stream = stream;
+			this.transform = transform;
+			slideBuffer = new byte[1024];
 
-			_blockAndAuth = CRYPTO_BLOCK_SIZE + AUTH_CODE_LENGTH;
+			blockAndAuth = CRYPTO_BLOCK_SIZE + AUTH_CODE_LENGTH;
 
 			// mode:
 			//  CryptoStreamMode.Read means we read from "stream" and pass decrypted to our Read() method.
@@ -41,14 +41,14 @@ namespace IFramework.Core.Zip.Encryption
 		// The final n bytes of the AES stream contain the Auth Code.
 		private const int AUTH_CODE_LENGTH = 10;
 
-		private Stream _stream;
-		private ZipAESTransform _transform;
-		private byte[] _slideBuffer;
-		private int _slideBufStartPos;
-		private int _slideBufFreePos;
+		private Stream stream;
+		private ZipAesTransform transform;
+		private byte[] slideBuffer;
+		private int slideBufStartPos;
+		private int slideBufFreePos;
 		// Blocksize is always 16 here, even for AES-256 which has transform.InputBlockSize of 32.
 		private const int CRYPTO_BLOCK_SIZE = 16;
-		private int _blockAndAuth;
+		private int blockAndAuth;
 
 		/// <summary>
 		/// Reads a sequence of bytes from the current CryptoStream into buffer,
@@ -59,55 +59,55 @@ namespace IFramework.Core.Zip.Encryption
 			int nBytes = 0;
 			while (nBytes < count) {
 				// Calculate buffer quantities vs read-ahead size, and check for sufficient free space
-				int byteCount = _slideBufFreePos - _slideBufStartPos;
+				int byteCount = slideBufFreePos - slideBufStartPos;
 
 				// Need to handle final block and Auth Code specially, but don't know total data length.
 				// Maintain a read-ahead equal to the length of (crypto block + Auth Code). 
 				// When that runs out we can detect these final sections.
-				int lengthToRead = _blockAndAuth - byteCount;
-				if (_slideBuffer.Length - _slideBufFreePos < lengthToRead) {
+				int lengthToRead = blockAndAuth - byteCount;
+				if (slideBuffer.Length - slideBufFreePos < lengthToRead) {
 					// Shift the data to the beginning of the buffer
 					int iTo = 0;
-					for (int iFrom = _slideBufStartPos; iFrom < _slideBufFreePos; iFrom++, iTo++) {
-						_slideBuffer[iTo] = _slideBuffer[iFrom];
+					for (int iFrom = slideBufStartPos; iFrom < slideBufFreePos; iFrom++, iTo++) {
+						slideBuffer[iTo] = slideBuffer[iFrom];
 					}
-					_slideBufFreePos -= _slideBufStartPos;      // Note the -=
-					_slideBufStartPos = 0;
+					slideBufFreePos -= slideBufStartPos;      // Note the -=
+					slideBufStartPos = 0;
 				}
-				int obtained = _stream.Read(_slideBuffer, _slideBufFreePos, lengthToRead);
-				_slideBufFreePos += obtained;
+				int obtained = stream.Read(slideBuffer, slideBufFreePos, lengthToRead);
+				slideBufFreePos += obtained;
 
 				// Recalculate how much data we now have
-				byteCount = _slideBufFreePos - _slideBufStartPos;
-				if (byteCount >= _blockAndAuth) {
+				byteCount = slideBufFreePos - slideBufStartPos;
+				if (byteCount >= blockAndAuth) {
 					// At least a 16 byte block and an auth code remains.
-					_transform.TransformBlock(_slideBuffer,
-											  _slideBufStartPos,
+					transform.TransformBlock(slideBuffer,
+											  slideBufStartPos,
 											  CRYPTO_BLOCK_SIZE,
 											  buffer,
 											  offset);
 					nBytes += CRYPTO_BLOCK_SIZE;
 					offset += CRYPTO_BLOCK_SIZE;
-					_slideBufStartPos += CRYPTO_BLOCK_SIZE;
+					slideBufStartPos += CRYPTO_BLOCK_SIZE;
 				} else {
 					// Last round.
 					if (byteCount > AUTH_CODE_LENGTH) {
 						// At least one byte of data plus auth code
 						int finalBlock = byteCount - AUTH_CODE_LENGTH;
-						_transform.TransformBlock(_slideBuffer,
-												  _slideBufStartPos,
+						transform.TransformBlock(slideBuffer,
+												  slideBufStartPos,
 												  finalBlock,
 												  buffer,
 												  offset);
 
 						nBytes += finalBlock;
-						_slideBufStartPos += finalBlock;
+						slideBufStartPos += finalBlock;
 					} else if (byteCount < AUTH_CODE_LENGTH)
 						throw new Exception("Internal error missed auth code"); // Coding bug
 																				// Final block done. Check Auth code.
-					byte[] calcAuthCode = _transform.GetAuthCode();
+					byte[] calcAuthCode = transform.GetAuthCode();
 					for (int i = 0; i < AUTH_CODE_LENGTH; i++) {
-						if (calcAuthCode[i] != _slideBuffer[_slideBufStartPos + i]) {
+						if (calcAuthCode[i] != slideBuffer[slideBufStartPos + i]) {
 							throw new Exception("AES Authentication Code does not match. This is a super-CRC check on the data in the file after compression and encryption. \r\n"
 								+ "The file may be damaged.");
 						}

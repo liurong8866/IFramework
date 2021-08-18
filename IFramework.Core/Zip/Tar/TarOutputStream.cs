@@ -17,7 +17,7 @@ namespace IFramework.Core.Zip.Tar
 		/// </summary>
 		/// <param name="outputStream">stream to write to</param>
 		public TarOutputStream(Stream outputStream)
-			: this(outputStream, TarBuffer.DefaultBlockFactor)
+			: this(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR)
 		{
 		}
 
@@ -35,8 +35,8 @@ namespace IFramework.Core.Zip.Tar
 			this.outputStream = outputStream;
 			buffer = TarBuffer.CreateOutputTarBuffer(outputStream, blockFactor);
 
-			assemblyBuffer = new byte[TarBuffer.BlockSize];
-			blockBuffer = new byte[TarBuffer.BlockSize];
+			assemblyBuffer = new byte[TarBuffer.BLOCK_SIZE];
+			blockBuffer = new byte[TarBuffer.BLOCK_SIZE];
 		}
 		#endregion
 
@@ -199,7 +199,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// Get a value indicating wether an entry is open, requiring more data to be written.
 		/// </summary>
-		bool IsEntryOpen {
+		private bool IsEntryOpen {
 			get { return (currBytes < currSize); }
 
 		}
@@ -241,8 +241,8 @@ namespace IFramework.Core.Zip.Tar
 
 				while (nameCharIndex < entry.TarHeader.Name.Length + 1 /* we've allocated one for the null char, now we must make sure it gets written out */) {
 					Array.Clear(blockBuffer, 0, blockBuffer.Length);
-					TarHeader.GetAsciiBytes(entry.TarHeader.Name, nameCharIndex, blockBuffer, 0, TarBuffer.BlockSize); // This func handles OK the extra char out of string length
-					nameCharIndex += TarBuffer.BlockSize;
+					TarHeader.GetAsciiBytes(entry.TarHeader.Name, nameCharIndex, blockBuffer, 0, TarBuffer.BLOCK_SIZE); // This func handles OK the extra char out of string length
+					nameCharIndex += TarBuffer.BLOCK_SIZE;
 					buffer.WriteBlock(blockBuffer);
 				}
 			}
@@ -392,7 +392,7 @@ namespace IFramework.Core.Zip.Tar
 		/// Write an EOF (end of archive) block to the tar archive.
 		/// The	end of the archive is indicated	by two blocks consisting entirely of zero bytes.
 		/// </summary>
-		void WriteEofBlock()
+		private void WriteEofBlock()
 		{
 			Array.Clear(blockBuffer, 0, blockBuffer.Length);
 			buffer.WriteBlock(blockBuffer);
@@ -403,17 +403,17 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// bytes written for this entry so far
 		/// </summary>
-		long currBytes;
+		private long currBytes;
 
 		/// <summary>
 		/// current 'Assembly' buffer length
 		/// </summary>
-		int assemblyBufferLength;
+		private int assemblyBufferLength;
 
 		/// <summary>
 		/// Flag indicating wether this instance has been closed or not.
 		/// </summary>
-		bool isClosed;
+		private bool isClosed;
 
 		/// <summary>
 		/// Size for the current entry

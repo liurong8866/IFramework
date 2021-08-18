@@ -31,7 +31,7 @@ namespace IFramework.Engine
             AssetInfo assetInfo = AssetDataConfig.ConfigFile.GetAssetInfo(searcher);
             if (assetInfo != null)
             {
-                return assetInfo.AssetType == ResourceLoadType.AssetBundle;
+                return assetInfo.AssetType == ResourceLoadType.ASSET_BUNDLE;
             }
             
             // TODO

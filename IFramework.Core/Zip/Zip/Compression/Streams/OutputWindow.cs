@@ -12,14 +12,16 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 	public class OutputWindow
 	{
 		#region Constants
-		const int WindowSize = 1 << 15;
-		const int WindowMask = WindowSize - 1;
+
+		private const int WindowSize = 1 << 15;
+		private const int WindowMask = WindowSize - 1;
 		#endregion
 
 		#region Instance Fields
-		byte[] window = new byte[WindowSize]; //The window is 2^15 bytes
-		int windowEnd;
-		int windowFilled;
+
+		private byte[] window = new byte[WindowSize]; //The window is 2^15 bytes
+		private int windowEnd;
+		private int windowFilled;
 		#endregion
 
 		/// <summary>

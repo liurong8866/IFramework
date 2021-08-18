@@ -54,12 +54,12 @@ namespace IFramework.Core.Zip.Checksum
 		/// <summary>
 		/// largest prime smaller than 65536
 		/// </summary>
-		readonly static uint BASE = 65521;
+		private readonly static uint @base = 65521;
 
 		/// <summary>
 		/// The CRC data checksum so far.
 		/// </summary>
-		uint checkValue;
+		private uint checkValue;
 		#endregion
 
 		/// <summary>
@@ -100,8 +100,8 @@ namespace IFramework.Core.Zip.Checksum
 			uint s1 = checkValue & 0xFFFF;
 			uint s2 = checkValue >> 16;
 
-			s1 = (s1 + ((uint)bval & 0xFF)) % BASE;
-			s2 = (s1 + s2) % BASE;
+			s1 = (s1 + ((uint)bval & 0xFF)) % @base;
+			s2 = (s1 + s2) % @base;
 
 			checkValue = (s2 << 16) + s1;
 		}
@@ -165,8 +165,8 @@ namespace IFramework.Core.Zip.Checksum
 					s1 = s1 + (uint)(buffer[offset++] & 0xff);
 					s2 = s2 + s1;
 				}
-				s1 %= BASE;
-				s2 %= BASE;
+				s1 %= @base;
+				s2 %= @base;
 			}
 
 			checkValue = (s2 << 16) | s1;

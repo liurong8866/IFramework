@@ -16,13 +16,13 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// <summary>
 		/// Internal work buffer
 		/// </summary>
-		readonly byte[] buffer;
+		private readonly byte[] buffer;
 
-		int start;
-		int end;
+		private int start;
+		private int end;
 
-		uint bits;
-		int bitCount;
+		private uint bits;
+		private int bitCount;
 		#endregion
 
 		#region Constructors
@@ -186,7 +186,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// Write a short value to internal buffer most significant byte first
 		/// </summary>
 		/// <param name="s">value to write</param>
-		public void WriteShortMSB(int s)
+		public void WriteShortMsb(int s)
 		{
 #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 

@@ -495,15 +495,15 @@ namespace IFramework.Core.Zip.Lzw
 
 		#region Instance Fields
 
-		Stream baseInputStream;
+		private Stream baseInputStream;
 
 		/// <summary>
 		/// Flag indicating wether this instance has been closed or not.
 		/// </summary>
-		bool isClosed;
+		private bool isClosed;
 
-		readonly byte[] one = new byte[1];
-		bool headerParsed;
+		private readonly byte[] one = new byte[1];
+		private bool headerParsed;
 
 		// string table stuff
 		private const int TBL_CLEAR = 0x100;
@@ -530,7 +530,7 @@ namespace IFramework.Core.Zip.Lzw
 		private readonly byte[] data = new byte[1024 * 8];
 		private int bitPos;
 		private int end;
-		int got;
+		private int got;
 		private bool eof;
 		private const int EXTRA = 64;
 		#endregion

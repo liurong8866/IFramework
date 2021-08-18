@@ -51,7 +51,7 @@ namespace IFramework.Editor
             KeyEvent.Register(EventEnums.AssetBundleMark, key=> isViewChanged = true);
         }
 
-        void LoadMarkedList()
+        private void LoadMarkedList()
         {
             signedList =AssetDatabase.GetAllAssetBundleNames()
                 .SelectMany(asset =>
@@ -74,7 +74,7 @@ namespace IFramework.Editor
         }
 
         //绘制窗口时调用
-        void OnGUI () 
+        private void OnGUI () 
         {
             if (isViewChanged)
             {
@@ -136,7 +136,7 @@ namespace IFramework.Editor
                 {
                     Selection.objects = new[]
                     {
-                        AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetsName)
+                        AssetDatabase.LoadAssetAtPath<Object>(assetsName)
                     };
                 }
                 if(GUILayout.Button("取消标记", GUILayout.Width(60)))

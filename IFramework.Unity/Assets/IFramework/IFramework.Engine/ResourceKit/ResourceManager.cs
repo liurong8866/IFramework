@@ -28,7 +28,6 @@ using System.IO;
 using System.Linq;
 using IFramework.Core;
 using IFramework.Core.Environment;
-using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -58,7 +57,7 @@ namespace IFramework.Engine
         /// 全局自动加载一次，请不要手动调用！！
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void OnLoad()
+        private static void OnLoad()
         {
             // 初始化Manager自身
             // Instance.StartInitAsync();

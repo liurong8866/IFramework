@@ -51,7 +51,7 @@ namespace IFramework.Editor
         }
         
         [MenuItem(CON_MENU_TOOL_UIKIT, false, 21)]
-        private static void UIKitWindow()
+        private static void UiKitWindow()
         {
         }
         
@@ -76,7 +76,7 @@ namespace IFramework.Editor
         [MenuItem(CON_MENU_BIND, false, 30)]
         private static void UiKitBind()
         {
-            UIKit.BindScript();
+            UiKit.BindScript();
         }
         
         [MenuItem(CON_MENU_VIEW, false, 31)]
@@ -114,9 +114,9 @@ namespace IFramework.Editor
         }
         
         [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
-        private static void OPGUIWindowLifeCircle()
+        private static void OpguiWindowLifeCircle()
         {
-            GUIWindowLifeCircle.Open();
+            GuiWindowLifeCircle.Open();
         }
     }
 }

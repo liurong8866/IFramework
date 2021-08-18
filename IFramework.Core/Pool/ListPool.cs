@@ -36,7 +36,7 @@ namespace IFramework.Core
         /// <summary>
         /// 栈对象：存储多个List
         /// </summary>
-        static Stack<List<T>> cache = new Stack<List<T>>(capacity);
+        private static Stack<List<T>> cache = new Stack<List<T>>(capacity);
 
         /// <summary>
         /// 出栈：获取某个List对象

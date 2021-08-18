@@ -1,5 +1,3 @@
-
-using System.Collections;
 using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;

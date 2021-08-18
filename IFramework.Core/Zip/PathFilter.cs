@@ -17,7 +17,7 @@ namespace IFramework.Core.Zip
 		/// <param name="filter">The <see cref="NameFilter">filter</see> expression to apply.</param>
 		public PathFilter(string filter)
 		{
-			nameFilter_ = new NameFilter(filter);
+			nameFilter = new NameFilter(filter);
 		}
 		#endregion
 
@@ -34,16 +34,16 @@ namespace IFramework.Core.Zip
 
 			if (name != null) {
 				string cooked = (name.Length > 0) ? Path.GetFullPath(name) : "";
-				result = nameFilter_.IsMatch(cooked);
+				result = nameFilter.IsMatch(cooked);
 			}
 			return result;
 		}
 
-		readonly
+		private readonly
 		#endregion
 
 		#region Instance Fields
-		NameFilter nameFilter_;
+		NameFilter nameFilter;
 		#endregion
 	}
 
@@ -133,13 +133,13 @@ namespace IFramework.Core.Zip
 		/// <remarks>The default value is zero.</remarks>
 		/// <exception cref="ArgumentOutOfRangeException">value is less than zero; greater than <see cref="MaxSize"/></exception>
 		public long MinSize {
-			get { return minSize_; }
+			get { return minSize; }
 			set {
-				if ((value < 0) || (maxSize_ < value)) {
+				if ((value < 0) || (maxSize < value)) {
 					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
-				minSize_ = value;
+				minSize = value;
 			}
 		}
 
@@ -149,13 +149,13 @@ namespace IFramework.Core.Zip
 		/// <remarks>The default value is <see cref="System.Int64.MaxValue"/></remarks>
 		/// <exception cref="ArgumentOutOfRangeException">value is less than zero or less than <see cref="MinSize"/></exception>
 		public long MaxSize {
-			get { return maxSize_; }
+			get { return maxSize; }
 			set {
-				if ((value < 0) || (minSize_ > value)) {
+				if ((value < 0) || (minSize > value)) {
 					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
-				maxSize_ = value;
+				maxSize = value;
 			}
 		}
 
@@ -165,15 +165,15 @@ namespace IFramework.Core.Zip
 		/// <remarks>Files with a LastWrite time less than this value are excluded by the filter.</remarks>
 		public DateTime MinDate {
 			get {
-				return minDate_;
+				return minDate;
 			}
 
 			set {
-				if (value > maxDate_) {
+				if (value > maxDate) {
 					throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MaxDate");
 				}
 
-				minDate_ = value;
+				minDate = value;
 			}
 		}
 
@@ -183,24 +183,25 @@ namespace IFramework.Core.Zip
 		/// <remarks>Files with a LastWrite time greater than this value are excluded by the filter.</remarks>
 		public DateTime MaxDate {
 			get {
-				return maxDate_;
+				return maxDate;
 			}
 
 			set {
-				if (minDate_ > value) {
+				if (minDate > value) {
 					throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MinDate");
 				}
 
-				maxDate_ = value;
+				maxDate = value;
 			}
 		}
 		#endregion
 
 		#region Instance Fields
-		long minSize_;
-		long maxSize_ = long.MaxValue;
-		DateTime minDate_ = DateTime.MinValue;
-		DateTime maxDate_ = DateTime.MaxValue;
+
+		private long minSize;
+		private long maxSize = long.MaxValue;
+		private DateTime minDate = DateTime.MinValue;
+		private DateTime maxDate = DateTime.MaxValue;
 		#endregion
 	}
 
@@ -248,13 +249,13 @@ namespace IFramework.Core.Zip
 		/// Get/set the minimum size for a file that will match this filter.
 		/// </summary>
 		public long MinSize {
-			get { return minSize_; }
+			get { return minSize; }
 			set {
-				if ((value < 0) || (maxSize_ < value)) {
+				if ((value < 0) || (maxSize < value)) {
 					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
-				minSize_ = value;
+				minSize = value;
 			}
 		}
 
@@ -262,19 +263,20 @@ namespace IFramework.Core.Zip
 		/// Get/set the maximum size for a file that will match this filter.
 		/// </summary>
 		public long MaxSize {
-			get { return maxSize_; }
+			get { return maxSize; }
 			set {
-				if ((value < 0) || (minSize_ > value)) {
+				if ((value < 0) || (minSize > value)) {
 					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
-				maxSize_ = value;
+				maxSize = value;
 			}
 		}
 
 		#region Instance Fields
-		long minSize_;
-		long maxSize_ = long.MaxValue;
+
+		private long minSize;
+		private long maxSize = long.MaxValue;
 		#endregion
 	}
 }

@@ -75,7 +75,7 @@ namespace IFramework.Core
         }
 
 
-        string GetDefaultComponentName()
+        private string GetDefaultComponentName()
         {
             // if (GetComponent<ViewController>()) return GetComponent<ViewController>().GetType().FullName;
             //

@@ -23,13 +23,9 @@
  *****************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using IFramework.Core;
-using IFramework.Test.Model;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace IFramework.Test.Viarable
 {
@@ -85,7 +81,7 @@ namespace IFramework.Test.Viarable
 
         }
 
-        private void forAdd()
+        private void ForAdd()
         {
             int a = 1;
             BindInt b = new BindInt(1);

@@ -11,12 +11,13 @@ namespace IFramework.Core.Zip.BZip2
 	public class BZip2OutputStream : Stream
 	{
 		#region Constants
-		const int SETMASK = (1 << 21);
-		const int CLEARMASK = (~SETMASK);
-		const int GREATER_ICOST = 15;
-		const int LESSER_ICOST = 0;
-		const int SMALL_THRESH = 20;
-		const int DEPTH_THRESH = 10;
+
+		private const int SETMASK = (1 << 21);
+		private const int CLEARMASK = (~SETMASK);
+		private const int GREATER_ICOST = 15;
+		private const int LESSER_ICOST = 0;
+		private const int SMALL_THRESH = 20;
+		private const int DEPTH_THRESH = 10;
 
 		/*--
 		If you are ever unlucky/improbable enough
@@ -26,7 +27,7 @@ namespace IFramework.Core.Zip.BZip2
 		stack go above 27 elems, so the following
 		limit seems very generous.
 		--*/
-		const int QSORT_STACK_SIZE = 1000;
+		private const int QSORT_STACK_SIZE = 1000;
 
 		/*--
 		Knuth's increments seem to work better
@@ -34,7 +35,7 @@ namespace IFramework.Core.Zip.BZip2
 		because the number of elems to sort is
 		usually small, typically <= 20.
 		--*/
-		readonly int[] increments = {
+		private readonly int[] increments = {
 												  1, 4, 13, 40, 121, 364, 1093, 3280,
 												  9841, 29524, 88573, 265720,
 												  797161, 2391484
@@ -46,62 +47,62 @@ namespace IFramework.Core.Zip.BZip2
 		index of the last char in the block, so
 		the block size == last + 1.
 		--*/
-		int last;
+		private int last;
 
 		/*--
 		index in zptr[] of original string after sorting.
 		--*/
-		int origPtr;
+		private int origPtr;
 
 		/*--
 		always: in the range 0 .. 9.
 		The current block size is 100000 * this number.
 		--*/
-		int blockSize100k;
+		private int blockSize100K;
 
-		bool blockRandomised;
+		private bool blockRandomised;
 
-		int bytesOut;
-		int bsBuff;
-		int bsLive;
-		IChecksum mCrc = new BZip2Crc();
+		private int bytesOut;
+		private int bsBuff;
+		private int bsLive;
+		private IChecksum mCrc = new BZip2Crc();
 
-		bool[] inUse = new bool[256];
-		int nInUse;
+		private bool[] inUse = new bool[256];
+		private int nInUse;
 
-		char[] seqToUnseq = new char[256];
-		char[] unseqToSeq = new char[256];
+		private char[] seqToUnseq = new char[256];
+		private char[] unseqToSeq = new char[256];
 
-		char[] selector = new char[BZip2Constants.MaximumSelectors];
-		char[] selectorMtf = new char[BZip2Constants.MaximumSelectors];
+		private char[] selector = new char[BZip2Constants.MAXIMUM_SELECTORS];
+		private char[] selectorMtf = new char[BZip2Constants.MAXIMUM_SELECTORS];
 
-		byte[] block;
-		int[] quadrant;
-		int[] zptr;
-		short[] szptr;
-		int[] ftab;
+		private byte[] block;
+		private int[] quadrant;
+		private int[] zptr;
+		private short[] szptr;
+		private int[] ftab;
 
-		int nMTF;
+		private int nMtf;
 
-		int[] mtfFreq = new int[BZip2Constants.MaximumAlphaSize];
+		private int[] mtfFreq = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE];
 
 		/*
 		* Used when sorting.  If too many long comparisons
 		* happen, we stop sorting, randomise the block
 		* slightly, and try again.
 		*/
-		int workFactor;
-		int workDone;
-		int workLimit;
-		bool firstAttempt;
-		int nBlocksRandomised;
+		private int workFactor;
+		private int workDone;
+		private int workLimit;
+		private bool firstAttempt;
+		private int nBlocksRandomised;
 
-		int currentChar = -1;
-		int runLength;
-		uint blockCRC, combinedCRC;
-		int allowableBlockSize;
-		readonly Stream baseStream;
-		bool disposed_;
+		private int currentChar = -1;
+		private int runLength;
+		private uint blockCrc, combinedCrc;
+		private int allowableBlockSize;
+		private readonly Stream baseStream;
+		private bool disposed;
 		#endregion
 
 		/// <summary>
@@ -140,7 +141,7 @@ namespace IFramework.Core.Zip.BZip2
 			if (blockSize < 1) {
 				blockSize = 1;
 			}
-			blockSize100k = blockSize;
+			blockSize100K = blockSize;
 			AllocateCompressStructures();
 			Initialize();
 			InitBlock();
@@ -324,7 +325,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void MakeMaps()
+		private void MakeMaps()
 		{
 			nInUse = 0;
 			for (int i = 0; i < 256; i++) {
@@ -339,7 +340,7 @@ namespace IFramework.Core.Zip.BZip2
 		/// <summary>
 		/// Get the number of bytes written to output.
 		/// </summary>
-		void WriteRun()
+		private void WriteRun()
 		{
 			if (last < allowableBlockSize) {
 				inUse[currentChar] = true;
@@ -404,8 +405,8 @@ namespace IFramework.Core.Zip.BZip2
 			try {
 				try {
 					base.Dispose(disposing);
-					if (!disposed_) {
-						disposed_ = true;
+					if (!disposed) {
+						disposed = true;
 
 						if (runLength > 0) {
 							WriteRun();
@@ -435,7 +436,7 @@ namespace IFramework.Core.Zip.BZip2
 			baseStream.Flush();
 		}
 
-		void Initialize()
+		private void Initialize()
 		{
 			bytesOut = 0;
 			nBlocksRandomised = 0;
@@ -448,12 +449,12 @@ namespace IFramework.Core.Zip.BZip2
 			BsPutUChar('Z');
 
 			BsPutUChar('h');
-			BsPutUChar('0' + blockSize100k);
+			BsPutUChar('0' + blockSize100K);
 
-			combinedCRC = 0;
+			combinedCrc = 0;
 		}
 
-		void InitBlock()
+		private void InitBlock()
 		{
 			mCrc.Reset();
 			last = -1;
@@ -463,18 +464,18 @@ namespace IFramework.Core.Zip.BZip2
 			}
 
 			/*--- 20 is just a paranoia constant ---*/
-			allowableBlockSize = BZip2Constants.BaseBlockSize * blockSize100k - 20;
+			allowableBlockSize = BZip2Constants.BASE_BLOCK_SIZE * blockSize100K - 20;
 		}
 
-		void EndBlock()
+		private void EndBlock()
 		{
 			if (last < 0) {       // dont do anything for empty files, (makes empty files compatible with original Bzip)
 				return;
 			}
 
-			blockCRC = unchecked((uint)mCrc.Value);
-			combinedCRC = (combinedCRC << 1) | (combinedCRC >> 31);
-			combinedCRC ^= blockCRC;
+			blockCrc = unchecked((uint)mCrc.Value);
+			combinedCrc = (combinedCrc << 1) | (combinedCrc >> 31);
+			combinedCrc ^= blockCrc;
 
 			/*-- sort the block and establish position of original string --*/
 			DoReversibleTransformation();
@@ -501,7 +502,7 @@ namespace IFramework.Core.Zip.BZip2
 
 			/*-- Now the block's CRC, so it is in a known place. --*/
 			unchecked {
-				BsPutint((int)blockCRC);
+				BsPutint((int)blockCrc);
 			}
 
 			/*-- Now a single bit indicating randomisation. --*/
@@ -516,7 +517,7 @@ namespace IFramework.Core.Zip.BZip2
 			MoveToFrontCodeAndSend();
 		}
 
-		void EndCompression()
+		private void EndCompression()
 		{
 			/*--
 			Now another magic 48-bit number, 0x177245385090, to
@@ -533,13 +534,13 @@ namespace IFramework.Core.Zip.BZip2
 			BsPutUChar(0x90);
 
 			unchecked {
-				BsPutint((int)combinedCRC);
+				BsPutint((int)combinedCrc);
 			}
 
 			BsFinishedWithStream();
 		}
 
-		void BsFinishedWithStream()
+		private void BsFinishedWithStream()
 		{
 			while (bsLive > 0) {
 				int ch = (bsBuff >> 24);
@@ -550,7 +551,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void BsW(int n, int v)
+		private void BsW(int n, int v)
 		{
 			while (bsLive >= 8) {
 				int ch = (bsBuff >> 24);
@@ -563,12 +564,12 @@ namespace IFramework.Core.Zip.BZip2
 			bsLive += n;
 		}
 
-		void BsPutUChar(int c)
+		private void BsPutUChar(int c)
 		{
 			BsW(8, c);
 		}
 
-		void BsPutint(int u)
+		private void BsPutint(int u)
 		{
 			BsW(8, (u >> 24) & 0xFF);
 			BsW(8, (u >> 16) & 0xFF);
@@ -576,16 +577,16 @@ namespace IFramework.Core.Zip.BZip2
 			BsW(8, u & 0xFF);
 		}
 
-		void BsPutIntVS(int numBits, int c)
+		private void BsPutIntVs(int numBits, int c)
 		{
 			BsW(numBits, c);
 		}
 
-		void SendMTFValues()
+		private void SendMtfValues()
 		{
-			char[][] len = new char[BZip2Constants.GroupCount][];
-			for (int i = 0; i < BZip2Constants.GroupCount; ++i) {
-				len[i] = new char[BZip2Constants.MaximumAlphaSize];
+			char[][] len = new char[BZip2Constants.GROUP_COUNT][];
+			for (int i = 0; i < BZip2Constants.GROUP_COUNT; ++i) {
+				len[i] = new char[BZip2Constants.MAXIMUM_ALPHA_SIZE];
 			}
 
 			int gs, ge, totc, bt, bc, iter;
@@ -593,24 +594,24 @@ namespace IFramework.Core.Zip.BZip2
 			int nGroups;
 
 			alphaSize = nInUse + 2;
-			for (int t = 0; t < BZip2Constants.GroupCount; t++) {
+			for (int t = 0; t < BZip2Constants.GROUP_COUNT; t++) {
 				for (int v = 0; v < alphaSize; v++) {
 					len[t][v] = (char)GREATER_ICOST;
 				}
 			}
 
 			/*--- Decide how many coding tables to use ---*/
-			if (nMTF <= 0) {
+			if (nMtf <= 0) {
 				Panic();
 			}
 
-			if (nMTF < 200) {
+			if (nMtf < 200) {
 				nGroups = 2;
-			} else if (nMTF < 600) {
+			} else if (nMtf < 600) {
 				nGroups = 3;
-			} else if (nMTF < 1200) {
+			} else if (nMtf < 1200) {
 				nGroups = 4;
-			} else if (nMTF < 2400) {
+			} else if (nMtf < 2400) {
 				nGroups = 5;
 			} else {
 				nGroups = 6;
@@ -618,7 +619,7 @@ namespace IFramework.Core.Zip.BZip2
 
 			/*--- Generate an initial set of coding tables ---*/
 			int nPart = nGroups;
-			int remF = nMTF;
+			int remF = nMtf;
 			gs = 0;
 			while (nPart > 0) {
 				int tFreq = remF / nPart;
@@ -647,17 +648,17 @@ namespace IFramework.Core.Zip.BZip2
 				remF -= aFreq;
 			}
 
-			int[][] rfreq = new int[BZip2Constants.GroupCount][];
-			for (int i = 0; i < BZip2Constants.GroupCount; ++i) {
-				rfreq[i] = new int[BZip2Constants.MaximumAlphaSize];
+			int[][] rfreq = new int[BZip2Constants.GROUP_COUNT][];
+			for (int i = 0; i < BZip2Constants.GROUP_COUNT; ++i) {
+				rfreq[i] = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE];
 			}
 
-			int[] fave = new int[BZip2Constants.GroupCount];
-			short[] cost = new short[BZip2Constants.GroupCount];
+			int[] fave = new int[BZip2Constants.GROUP_COUNT];
+			short[] cost = new short[BZip2Constants.GROUP_COUNT];
 			/*---
 			Iterate up to N_ITERS times to improve the tables.
 			---*/
-			for (iter = 0; iter < BZip2Constants.NumberOfIterations; ++iter) {
+			for (iter = 0; iter < BZip2Constants.NUMBER_OF_ITERATIONS; ++iter) {
 				for (int t = 0; t < nGroups; ++t) {
 					fave[t] = 0;
 				}
@@ -673,12 +674,12 @@ namespace IFramework.Core.Zip.BZip2
 				gs = 0;
 				while (true) {
 					/*--- Set group start & end marks. --*/
-					if (gs >= nMTF) {
+					if (gs >= nMtf) {
 						break;
 					}
-					ge = gs + BZip2Constants.GroupSize - 1;
-					if (ge >= nMTF) {
-						ge = nMTF - 1;
+					ge = gs + BZip2Constants.GROUP_SIZE - 1;
+					if (ge >= nMtf) {
+						ge = nMtf - 1;
 					}
 
 					/*--
@@ -759,23 +760,23 @@ namespace IFramework.Core.Zip.BZip2
 				Panic();
 			}
 
-			if (!(nSelectors < 32768 && nSelectors <= (2 + (900000 / BZip2Constants.GroupSize)))) {
+			if (!(nSelectors < 32768 && nSelectors <= (2 + (900000 / BZip2Constants.GROUP_SIZE)))) {
 				Panic();
 			}
 
 			/*--- Compute MTF values for the selectors. ---*/
-			char[] pos = new char[BZip2Constants.GroupCount];
-			char ll_i, tmp2, tmp;
+			char[] pos = new char[BZip2Constants.GROUP_COUNT];
+			char llI, tmp2, tmp;
 
 			for (int i = 0; i < nGroups; i++) {
 				pos[i] = (char)i;
 			}
 
 			for (int i = 0; i < nSelectors; i++) {
-				ll_i = selector[i];
+				llI = selector[i];
 				int j = 0;
 				tmp = pos[j];
-				while (ll_i != tmp) {
+				while (llI != tmp) {
 					j++;
 					tmp2 = tmp;
 					tmp = pos[j];
@@ -785,10 +786,10 @@ namespace IFramework.Core.Zip.BZip2
 				selectorMtf[i] = (char)j;
 			}
 
-			int[][] code = new int[BZip2Constants.GroupCount][];
+			int[][] code = new int[BZip2Constants.GROUP_COUNT][];
 
-			for (int i = 0; i < BZip2Constants.GroupCount; ++i) {
-				code[i] = new int[BZip2Constants.MaximumAlphaSize];
+			for (int i = 0; i < BZip2Constants.GROUP_COUNT; ++i) {
+				code[i] = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE];
 			}
 
 			/*--- Assign actual codes for the tables. --*/
@@ -874,12 +875,12 @@ namespace IFramework.Core.Zip.BZip2
 			selCtr = 0;
 			gs = 0;
 			while (true) {
-				if (gs >= nMTF) {
+				if (gs >= nMtf) {
 					break;
 				}
-				ge = gs + BZip2Constants.GroupSize - 1;
-				if (ge >= nMTF) {
-					ge = nMTF - 1;
+				ge = gs + BZip2Constants.GROUP_SIZE - 1;
+				if (ge >= nMtf) {
+					ge = nMtf - 1;
 				}
 
 				for (int i = gs; i <= ge; i++) {
@@ -894,14 +895,14 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void MoveToFrontCodeAndSend()
+		private void MoveToFrontCodeAndSend()
 		{
-			BsPutIntVS(24, origPtr);
-			GenerateMTFValues();
-			SendMTFValues();
+			BsPutIntVs(24, origPtr);
+			GenerateMtfValues();
+			SendMtfValues();
 		}
 
-		void SimpleSort(int lo, int hi, int d)
+		private void SimpleSort(int lo, int hi, int d)
 		{
 			int i, j, h, bigN, hp;
 			int v;
@@ -975,7 +976,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void Vswap(int p1, int p2, int n)
+		private void Vswap(int p1, int p2, int n)
 		{
 			int temp = 0;
 			while (n > 0) {
@@ -988,7 +989,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void QSort3(int loSt, int hiSt, int dSt)
+		private void QSort3(int loSt, int hiSt, int dSt)
 		{
 			int unLo, unHi, ltLo, gtHi, med, n, m;
 			int lo, hi, d;
@@ -1112,7 +1113,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void MainSort()
+		private void MainSort()
 		{
 			int i, j, ss, sb;
 			int[] runningOrder = new int[256];
@@ -1128,10 +1129,10 @@ namespace IFramework.Core.Zip.BZip2
 			--*/
 
 			//   if (verbosity >= 4) fprintf ( stderr, "        sort initialise ...\n" );
-			for (i = 0; i < BZip2Constants.OvershootBytes; i++) {
+			for (i = 0; i < BZip2Constants.OVERSHOOT_BYTES; i++) {
 				block[last + i + 2] = block[(i % (last + 1)) + 1];
 			}
-			for (i = 0; i <= last + BZip2Constants.OvershootBytes; i++) {
+			for (i = 0; i <= last + BZip2Constants.OVERSHOOT_BYTES; i++) {
 				quadrant[i] = 0;
 			}
 
@@ -1265,11 +1266,11 @@ namespace IFramework.Core.Zip.BZip2
 						}
 
 						for (j = 0; j < bbSize; j++) {
-							int a2update = zptr[bbStart + j];
+							int a2Update = zptr[bbStart + j];
 							int qVal = (j >> shifts);
-							quadrant[a2update] = qVal;
-							if (a2update < BZip2Constants.OvershootBytes) {
-								quadrant[a2update + last + 1] = qVal;
+							quadrant[a2Update] = qVal;
+							if (a2Update < BZip2Constants.OVERSHOOT_BYTES) {
+								quadrant[a2Update + last + 1] = qVal;
 							}
 						}
 
@@ -1301,7 +1302,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void RandomiseBlock()
+		private void RandomiseBlock()
 		{
 			int i;
 			int rNToGo = 0;
@@ -1327,7 +1328,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		void DoReversibleTransformation()
+		private void DoReversibleTransformation()
 		{
 			workLimit = workFactor * last;
 			workDone = 0;
@@ -1357,7 +1358,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		bool FullGtU(int i1, int i2)
+		private bool FullGtU(int i1, int i2)
 		{
 			int k;
 			byte c1, c2;
@@ -1482,11 +1483,11 @@ namespace IFramework.Core.Zip.BZip2
 			return false;
 		}
 
-		void AllocateCompressStructures()
+		private void AllocateCompressStructures()
 		{
-			int n = BZip2Constants.BaseBlockSize * blockSize100k;
-			block = new byte[(n + 1 + BZip2Constants.OvershootBytes)];
-			quadrant = new int[(n + BZip2Constants.OvershootBytes)];
+			int n = BZip2Constants.BASE_BLOCK_SIZE * blockSize100K;
+			block = new byte[(n + 1 + BZip2Constants.OVERSHOOT_BYTES)];
+			quadrant = new int[(n + BZip2Constants.OVERSHOOT_BYTES)];
 			zptr = new int[n];
 			ftab = new int[65537];
 
@@ -1511,7 +1512,7 @@ namespace IFramework.Core.Zip.BZip2
 			szptr = new short[2 * n];
 		}
 
-		void GenerateMTFValues()
+		private void GenerateMtfValues()
 		{
 			char[] yy = new char[256];
 			int i, j;
@@ -1519,12 +1520,12 @@ namespace IFramework.Core.Zip.BZip2
 			char tmp2;
 			int zPend;
 			int wr;
-			int EOB;
+			int eob;
 
 			MakeMaps();
-			EOB = nInUse + 1;
+			eob = nInUse + 1;
 
-			for (i = 0; i <= EOB; i++) {
+			for (i = 0; i <= eob; i++) {
 				mtfFreq[i] = 0;
 			}
 
@@ -1536,13 +1537,13 @@ namespace IFramework.Core.Zip.BZip2
 
 
 			for (i = 0; i <= last; i++) {
-				char ll_i;
+				char llI;
 
-				ll_i = unseqToSeq[block[zptr[i]]];
+				llI = unseqToSeq[block[zptr[i]]];
 
 				j = 0;
 				tmp = yy[j];
-				while (ll_i != tmp) {
+				while (llI != tmp) {
 					j++;
 					tmp2 = tmp;
 					tmp = yy[j];
@@ -1558,14 +1559,14 @@ namespace IFramework.Core.Zip.BZip2
 						while (true) {
 							switch (zPend % 2) {
 							case 0:
-								szptr[wr] = BZip2Constants.RunA;
+								szptr[wr] = BZip2Constants.RUN_A;
 								wr++;
-								mtfFreq[BZip2Constants.RunA]++;
+								mtfFreq[BZip2Constants.RUN_A]++;
 								break;
 							case 1:
-								szptr[wr] = BZip2Constants.RunB;
+								szptr[wr] = BZip2Constants.RUN_B;
 								wr++;
-								mtfFreq[BZip2Constants.RunB]++;
+								mtfFreq[BZip2Constants.RUN_B]++;
 								break;
 							}
 							if (zPend < 2) {
@@ -1586,14 +1587,14 @@ namespace IFramework.Core.Zip.BZip2
 				while (true) {
 					switch (zPend % 2) {
 					case 0:
-						szptr[wr] = BZip2Constants.RunA;
+						szptr[wr] = BZip2Constants.RUN_A;
 						wr++;
-						mtfFreq[BZip2Constants.RunA]++;
+						mtfFreq[BZip2Constants.RUN_A]++;
 						break;
 					case 1:
-						szptr[wr] = BZip2Constants.RunB;
+						szptr[wr] = BZip2Constants.RUN_B;
 						wr++;
-						mtfFreq[BZip2Constants.RunB]++;
+						mtfFreq[BZip2Constants.RUN_B]++;
 						break;
 					}
 					if (zPend < 2) {
@@ -1603,19 +1604,19 @@ namespace IFramework.Core.Zip.BZip2
 				}
 			}
 
-			szptr[wr] = (short)EOB;
+			szptr[wr] = (short)eob;
 			wr++;
-			mtfFreq[EOB]++;
+			mtfFreq[eob]++;
 
-			nMTF = wr;
+			nMtf = wr;
 		}
 
-		static void Panic()
+		private static void Panic()
 		{
 			throw new BZip2Exception("BZip2 output stream panic");
 		}
 
-		static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen)
+		private static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen)
 		{
 			/*--
 			Nodes and heap entries run from 1.  Entry 0
@@ -1624,9 +1625,9 @@ namespace IFramework.Core.Zip.BZip2
 			int nNodes, nHeap, n1, n2, j, k;
 			bool tooLong;
 
-			int[] heap = new int[BZip2Constants.MaximumAlphaSize + 2];
-			int[] weight = new int[BZip2Constants.MaximumAlphaSize * 2];
-			int[] parent = new int[BZip2Constants.MaximumAlphaSize * 2];
+			int[] heap = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE + 2];
+			int[] weight = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE * 2];
+			int[] parent = new int[BZip2Constants.MAXIMUM_ALPHA_SIZE * 2];
 
 			for (int i = 0; i < alphaSize; ++i) {
 				weight[i + 1] = (freq[i] == 0 ? 1 : freq[i]) << 8;
@@ -1652,7 +1653,7 @@ namespace IFramework.Core.Zip.BZip2
 					}
 					heap[zz] = tmp;
 				}
-				if (!(nHeap < (BZip2Constants.MaximumAlphaSize + 2))) {
+				if (!(nHeap < (BZip2Constants.MAXIMUM_ALPHA_SIZE + 2))) {
 					Panic();
 				}
 
@@ -1719,7 +1720,7 @@ namespace IFramework.Core.Zip.BZip2
 					}
 					heap[zz] = tmp;
 				}
-				if (!(nNodes < (BZip2Constants.MaximumAlphaSize * 2))) {
+				if (!(nNodes < (BZip2Constants.MAXIMUM_ALPHA_SIZE * 2))) {
 					Panic();
 				}
 
@@ -1747,7 +1748,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize)
+		private static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize)
 		{
 			int vec = 0;
 			for (int n = minLen; n <= maxLen; ++n) {
@@ -1761,7 +1762,7 @@ namespace IFramework.Core.Zip.BZip2
 			}
 		}
 
-		static byte Med3(byte a, byte b, byte c)
+		private static byte Med3(byte a, byte b, byte c)
 		{
 			byte t;
 			if (a > b) {
@@ -1780,7 +1781,7 @@ namespace IFramework.Core.Zip.BZip2
 			return b;
 		}
 
-		struct StackElement
+		private struct StackElement
 		{
 			public int ll;
 			public int hh;

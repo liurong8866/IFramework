@@ -33,27 +33,29 @@ namespace IFramework.Core.Zip.Zip
 		}
 
 		#region Instance Fields
-		long size;
-		long compressedSize;
-		long crc;
+
+		private long size;
+		private long compressedSize;
+		private long crc;
 		#endregion
 	}
 
-	class EntryPatchData
+	internal class EntryPatchData
 	{
 		public long SizePatchOffset {
-			get { return sizePatchOffset_; }
-			set { sizePatchOffset_ = value; }
+			get { return sizePatchOffset; }
+			set { sizePatchOffset = value; }
 		}
 
 		public long CrcPatchOffset {
-			get { return crcPatchOffset_; }
-			set { crcPatchOffset_ = value; }
+			get { return crcPatchOffset; }
+			set { crcPatchOffset = value; }
 		}
 
 		#region Instance Fields
-		long sizePatchOffset_;
-		long crcPatchOffset_;
+
+		private long sizePatchOffset;
+		private long crcPatchOffset;
 		#endregion
 	}
 
@@ -69,8 +71,8 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="name">The name of the file to open.</param>
 		public ZipHelperStream(string name)
 		{
-			stream_ = new FileStream(name, FileMode.Open, FileAccess.ReadWrite);
-			isOwner_ = true;
+			stream = new FileStream(name, FileMode.Open, FileAccess.ReadWrite);
+			isOwner = true;
 		}
 
 		/// <summary>
@@ -79,7 +81,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="stream">The stream to use.</param>
 		public ZipHelperStream(Stream stream)
 		{
-			stream_ = stream;
+			this.stream = stream;
 		}
 		#endregion
 
@@ -88,59 +90,59 @@ namespace IFramework.Core.Zip.Zip
 		/// </summary>
 		/// <remarks>If the stream is owned it is closed when this instance is closed.</remarks>
 		public bool IsStreamOwner {
-			get { return isOwner_; }
-			set { isOwner_ = value; }
+			get { return isOwner; }
+			set { isOwner = value; }
 		}
 
 		#region Base Stream Methods
 		public override bool CanRead {
-			get { return stream_.CanRead; }
+			get { return stream.CanRead; }
 		}
 
 		public override bool CanSeek {
-			get { return stream_.CanSeek; }
+			get { return stream.CanSeek; }
 		}
 
 		public override bool CanTimeout {
-			get { return stream_.CanTimeout; }
+			get { return stream.CanTimeout; }
 		}
 
 		public override long Length {
-			get { return stream_.Length; }
+			get { return stream.Length; }
 		}
 
 		public override long Position {
-			get { return stream_.Position; }
-			set { stream_.Position = value; }
+			get { return stream.Position; }
+			set { stream.Position = value; }
 		}
 
 		public override bool CanWrite {
-			get { return stream_.CanWrite; }
+			get { return stream.CanWrite; }
 		}
 
 		public override void Flush()
 		{
-			stream_.Flush();
+			stream.Flush();
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			return stream_.Seek(offset, origin);
+			return stream.Seek(offset, origin);
 		}
 
 		public override void SetLength(long value)
 		{
-			stream_.SetLength(value);
+			stream.SetLength(value);
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			return stream_.Read(buffer, offset, count);
+			return stream.Read(buffer, offset, count);
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)
 		{
-			stream_.Write(buffer, offset, count);
+			stream.Write(buffer, offset, count);
 		}
 
 		/// <summary>
@@ -151,10 +153,10 @@ namespace IFramework.Core.Zip.Zip
 		/// </remarks>
 		protected override void Dispose(bool disposing)
 		{
-			Stream toClose = stream_;
-			stream_ = null;
-			if (isOwner_ && (toClose != null)) {
-				isOwner_ = false;
+			Stream toClose = stream;
+			stream = null;
+			if (isOwner && (toClose != null)) {
+				isOwner = false;
 				toClose.Dispose();
 			}
 		}
@@ -163,45 +165,45 @@ namespace IFramework.Core.Zip.Zip
 
 		// Write the local file header
 		// TODO: ZipHelperStream.WriteLocalHeader is not yet used and needs checking for ZipFile and ZipOuptutStream usage
-		void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
+		private void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
 		{
 			CompressionMethod method = entry.CompressionMethod;
 			bool headerInfoAvailable = true; // How to get this?
 			bool patchEntryHeader = false;
 
-			WriteLEInt(ZipConstants.LocalHeaderSignature);
+			WriteLeInt(ZipConstants.LOCAL_HEADER_SIGNATURE);
 
-			WriteLEShort(entry.Version);
-			WriteLEShort(entry.Flags);
-			WriteLEShort((byte)method);
-			WriteLEInt((int)entry.DosTime);
+			WriteLeShort(entry.Version);
+			WriteLeShort(entry.Flags);
+			WriteLeShort((byte)method);
+			WriteLeInt((int)entry.DosTime);
 
 			if (headerInfoAvailable) {
-				WriteLEInt((int)entry.Crc);
+				WriteLeInt((int)entry.Crc);
 				if (entry.LocalHeaderRequiresZip64) {
-					WriteLEInt(-1);
-					WriteLEInt(-1);
+					WriteLeInt(-1);
+					WriteLeInt(-1);
 				} else {
-					WriteLEInt(entry.IsCrypted ? (int)entry.CompressedSize + ZipConstants.CryptoHeaderSize : (int)entry.CompressedSize);
-					WriteLEInt((int)entry.Size);
+					WriteLeInt(entry.IsCrypted ? (int)entry.CompressedSize + ZipConstants.CRYPTO_HEADER_SIZE : (int)entry.CompressedSize);
+					WriteLeInt((int)entry.Size);
 				}
 			} else {
 				if (patchData != null) {
-					patchData.CrcPatchOffset = stream_.Position;
+					patchData.CrcPatchOffset = stream.Position;
 				}
-				WriteLEInt(0);  // Crc
+				WriteLeInt(0);  // Crc
 
 				if (patchData != null) {
-					patchData.SizePatchOffset = stream_.Position;
+					patchData.SizePatchOffset = stream.Position;
 				}
 
 				// For local header both sizes appear in Zip64 Extended Information
 				if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) {
-					WriteLEInt(-1);
-					WriteLEInt(-1);
+					WriteLeInt(-1);
+					WriteLeInt(-1);
 				} else {
-					WriteLEInt(0);  // Compressed size
-					WriteLEInt(0);  // Uncompressed size
+					WriteLeInt(0);  // Compressed size
+					WriteLeInt(0);  // Uncompressed size
 				}
 			}
 
@@ -237,19 +239,19 @@ namespace IFramework.Core.Zip.Zip
 
 			byte[] extra = ed.GetEntryData();
 
-			WriteLEShort(name.Length);
-			WriteLEShort(extra.Length);
+			WriteLeShort(name.Length);
+			WriteLeShort(extra.Length);
 
 			if (name.Length > 0) {
-				stream_.Write(name, 0, name.Length);
+				stream.Write(name, 0, name.Length);
 			}
 
 			if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) {
-				patchData.SizePatchOffset += stream_.Position;
+				patchData.SizePatchOffset += stream.Position;
 			}
 
 			if (extra.Length > 0) {
-				stream_.Write(extra, 0, extra.Length);
+				stream.Write(extra, 0, extra.Length);
 			}
 		}
 
@@ -276,7 +278,7 @@ namespace IFramework.Core.Zip.Zip
 					return -1;
 				}
 				Seek(pos--, SeekOrigin.Begin);
-			} while (ReadLEInt() != signature);
+			} while (ReadLeInt() != signature);
 
 			return Position;
 		}
@@ -289,30 +291,30 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="centralDirOffset">The offset of the dentral directory.</param>
 		public void WriteZip64EndOfCentralDirectory(long noOfEntries, long sizeEntries, long centralDirOffset)
 		{
-			long centralSignatureOffset = stream_.Position;
-			WriteLEInt(ZipConstants.Zip64CentralFileHeaderSignature);
-			WriteLELong(44);    // Size of this record (total size of remaining fields in header or full size - 12)
-			WriteLEShort(ZipConstants.VersionMadeBy);   // Version made by
-			WriteLEShort(ZipConstants.VersionZip64);   // Version to extract
-			WriteLEInt(0);      // Number of this disk
-			WriteLEInt(0);      // number of the disk with the start of the central directory
-			WriteLELong(noOfEntries);       // No of entries on this disk
-			WriteLELong(noOfEntries);       // Total No of entries in central directory
-			WriteLELong(sizeEntries);       // Size of the central directory
-			WriteLELong(centralDirOffset);  // offset of start of central directory
+			long centralSignatureOffset = stream.Position;
+			WriteLeInt(ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE);
+			WriteLeLong(44);    // Size of this record (total size of remaining fields in header or full size - 12)
+			WriteLeShort(ZipConstants.VERSION_MADE_BY);   // Version made by
+			WriteLeShort(ZipConstants.VERSION_ZIP64);   // Version to extract
+			WriteLeInt(0);      // Number of this disk
+			WriteLeInt(0);      // number of the disk with the start of the central directory
+			WriteLeLong(noOfEntries);       // No of entries on this disk
+			WriteLeLong(noOfEntries);       // Total No of entries in central directory
+			WriteLeLong(sizeEntries);       // Size of the central directory
+			WriteLeLong(centralDirOffset);  // offset of start of central directory
 											// zip64 extensible data sector not catered for here (variable size)
 
 			// Write the Zip64 end of central directory locator
-			WriteLEInt(ZipConstants.Zip64CentralDirLocatorSignature);
+			WriteLeInt(ZipConstants.ZIP64_CENTRAL_DIR_LOCATOR_SIGNATURE);
 
 			// no of the disk with the start of the zip64 end of central directory
-			WriteLEInt(0);
+			WriteLeInt(0);
 
 			// relative offset of the zip64 end of central directory record
-			WriteLELong(centralSignatureOffset);
+			WriteLeLong(centralSignatureOffset);
 
 			// total number of disks
-			WriteLEInt(1);
+			WriteLeInt(1);
 		}
 
 		/// <summary>
@@ -332,35 +334,35 @@ namespace IFramework.Core.Zip.Zip
 				WriteZip64EndOfCentralDirectory(noOfEntries, sizeEntries, startOfCentralDirectory);
 			}
 
-			WriteLEInt(ZipConstants.EndOfCentralDirectorySignature);
+			WriteLeInt(ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE);
 
 			// TODO: ZipFile Multi disk handling not done
-			WriteLEShort(0);                    // number of this disk
-			WriteLEShort(0);                    // no of disk with start of central dir
+			WriteLeShort(0);                    // number of this disk
+			WriteLeShort(0);                    // no of disk with start of central dir
 
 
 			// Number of entries
 			if (noOfEntries >= 0xffff) {
-				WriteLEUshort(0xffff);  // Zip64 marker
-				WriteLEUshort(0xffff);
+				WriteLeUshort(0xffff);  // Zip64 marker
+				WriteLeUshort(0xffff);
 			} else {
-				WriteLEShort((short)noOfEntries);          // entries in central dir for this disk
-				WriteLEShort((short)noOfEntries);          // total entries in central directory
+				WriteLeShort((short)noOfEntries);          // entries in central dir for this disk
+				WriteLeShort((short)noOfEntries);          // total entries in central directory
 			}
 
 			// Size of the central directory
 			if (sizeEntries >= 0xffffffff) {
-				WriteLEUint(0xffffffff);    // Zip64 marker
+				WriteLeUint(0xffffffff);    // Zip64 marker
 			} else {
-				WriteLEInt((int)sizeEntries);
+				WriteLeInt((int)sizeEntries);
 			}
 
 
 			// offset of start of central directory
 			if (startOfCentralDirectory >= 0xffffffff) {
-				WriteLEUint(0xffffffff);    // Zip64 marker
+				WriteLeUint(0xffffffff);    // Zip64 marker
 			} else {
-				WriteLEInt((int)startOfCentralDirectory);
+				WriteLeInt((int)startOfCentralDirectory);
 			}
 
 			int commentLength = (comment != null) ? comment.Length : 0;
@@ -369,7 +371,7 @@ namespace IFramework.Core.Zip.Zip
 				throw new ZipException(string.Format("Comment length({0}) is too long can only be 64K", commentLength));
 			}
 
-			WriteLEShort(commentLength);
+			WriteLeShort(commentLength);
 
 			if (commentLength > 0) {
 				Write(comment, 0, comment.Length);
@@ -387,15 +389,15 @@ namespace IFramework.Core.Zip.Zip
 		/// <exception cref="EndOfStreamException">
 		/// The file ends prematurely
 		/// </exception>
-		public int ReadLEShort()
+		public int ReadLeShort()
 		{
-			int byteValue1 = stream_.ReadByte();
+			int byteValue1 = stream.ReadByte();
 
 			if (byteValue1 < 0) {
 				throw new EndOfStreamException();
 			}
 
-			int byteValue2 = stream_.ReadByte();
+			int byteValue2 = stream.ReadByte();
 			if (byteValue2 < 0) {
 				throw new EndOfStreamException();
 			}
@@ -413,78 +415,78 @@ namespace IFramework.Core.Zip.Zip
 		/// <exception cref="System.IO.EndOfStreamException">
 		/// The file ends prematurely
 		/// </exception>
-		public int ReadLEInt()
+		public int ReadLeInt()
 		{
-			return ReadLEShort() | (ReadLEShort() << 16);
+			return ReadLeShort() | (ReadLeShort() << 16);
 		}
 
 		/// <summary>
 		/// Read a long in little endian byte order.
 		/// </summary>
 		/// <returns>The value read.</returns>
-		public long ReadLELong()
+		public long ReadLeLong()
 		{
-			return (uint)ReadLEInt() | ((long)ReadLEInt() << 32);
+			return (uint)ReadLeInt() | ((long)ReadLeInt() << 32);
 		}
 
 		/// <summary>
 		/// Write an unsigned short in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLEShort(int value)
+		public void WriteLeShort(int value)
 		{
-			stream_.WriteByte((byte)(value & 0xff));
-			stream_.WriteByte((byte)((value >> 8) & 0xff));
+			stream.WriteByte((byte)(value & 0xff));
+			stream.WriteByte((byte)((value >> 8) & 0xff));
 		}
 
 		/// <summary>
 		/// Write a ushort in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLEUshort(ushort value)
+		public void WriteLeUshort(ushort value)
 		{
-			stream_.WriteByte((byte)(value & 0xff));
-			stream_.WriteByte((byte)(value >> 8));
+			stream.WriteByte((byte)(value & 0xff));
+			stream.WriteByte((byte)(value >> 8));
 		}
 
 		/// <summary>
 		/// Write an int in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLEInt(int value)
+		public void WriteLeInt(int value)
 		{
-			WriteLEShort(value);
-			WriteLEShort(value >> 16);
+			WriteLeShort(value);
+			WriteLeShort(value >> 16);
 		}
 
 		/// <summary>
 		/// Write a uint in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLEUint(uint value)
+		public void WriteLeUint(uint value)
 		{
-			WriteLEUshort((ushort)(value & 0xffff));
-			WriteLEUshort((ushort)(value >> 16));
+			WriteLeUshort((ushort)(value & 0xffff));
+			WriteLeUshort((ushort)(value >> 16));
 		}
 
 		/// <summary>
 		/// Write a long in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLELong(long value)
+		public void WriteLeLong(long value)
 		{
-			WriteLEInt((int)value);
-			WriteLEInt((int)(value >> 32));
+			WriteLeInt((int)value);
+			WriteLeInt((int)(value >> 32));
 		}
 
 		/// <summary>
 		/// Write a ulong in little endian byte order.
 		/// </summary>
 		/// <param name="value">The value to write.</param>
-		public void WriteLEUlong(ulong value)
+		public void WriteLeUlong(ulong value)
 		{
-			WriteLEUint((uint)(value & 0xffffffff));
-			WriteLEUint((uint)(value >> 32));
+			WriteLeUint((uint)(value & 0xffffffff));
+			WriteLeUint((uint)(value >> 32));
 		}
 
 		#endregion
@@ -506,18 +508,18 @@ namespace IFramework.Core.Zip.Zip
 			if ((entry.Flags & (int)GeneralBitFlags.Descriptor) != 0) {
 				// The signature is not PKZIP originally but is now described as optional
 				// in the PKZIP Appnote documenting trhe format.
-				WriteLEInt(ZipConstants.DataDescriptorSignature);
-				WriteLEInt(unchecked((int)(entry.Crc)));
+				WriteLeInt(ZipConstants.DATA_DESCRIPTOR_SIGNATURE);
+				WriteLeInt(unchecked((int)(entry.Crc)));
 
 				result += 8;
 
 				if (entry.LocalHeaderRequiresZip64) {
-					WriteLELong(entry.CompressedSize);
-					WriteLELong(entry.Size);
+					WriteLeLong(entry.CompressedSize);
+					WriteLeLong(entry.Size);
 					result += 16;
 				} else {
-					WriteLEInt((int)entry.CompressedSize);
-					WriteLEInt((int)entry.Size);
+					WriteLeInt((int)entry.CompressedSize);
+					WriteLeInt((int)entry.Size);
 					result += 8;
 				}
 			}
@@ -533,28 +535,29 @@ namespace IFramework.Core.Zip.Zip
 		/// <returns>Returns the number of bytes read in the descriptor.</returns>
 		public void ReadDataDescriptor(bool zip64, DescriptorData data)
 		{
-			int intValue = ReadLEInt();
+			int intValue = ReadLeInt();
 
 			// In theory this may not be a descriptor according to PKZIP appnote.
 			// In practise its always there.
-			if (intValue != ZipConstants.DataDescriptorSignature) {
+			if (intValue != ZipConstants.DATA_DESCRIPTOR_SIGNATURE) {
 				throw new ZipException("Data descriptor signature not found");
 			}
 
-			data.Crc = ReadLEInt();
+			data.Crc = ReadLeInt();
 
 			if (zip64) {
-				data.CompressedSize = ReadLELong();
-				data.Size = ReadLELong();
+				data.CompressedSize = ReadLeLong();
+				data.Size = ReadLeLong();
 			} else {
-				data.CompressedSize = ReadLEInt();
-				data.Size = ReadLEInt();
+				data.CompressedSize = ReadLeInt();
+				data.Size = ReadLeInt();
 			}
 		}
 
 		#region Instance Fields
-		bool isOwner_;
-		Stream stream_;
+
+		private bool isOwner;
+		private Stream stream;
 		#endregion
 	}
 }

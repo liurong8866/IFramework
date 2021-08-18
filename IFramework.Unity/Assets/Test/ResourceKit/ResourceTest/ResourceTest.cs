@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
@@ -26,8 +24,8 @@ namespace IFramework.Test.ResourceKit
 
 
         }
-        
-        IEnumerator MyMethod() {
+
+        private IEnumerator MyMethod() {
             Debug.Log("Before Waiting 2 seconds");
             yield return new WaitForSeconds(2);
             resource.Asset.Instantiate();

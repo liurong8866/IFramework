@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
 
@@ -11,7 +8,7 @@ namespace IFramework.Test.Singelton
     {
         
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             SingletonPropertyTestDemo a = SingletonPropertyTestDemo.Instance; 
             SingletonPropertyTestDemo b = SingletonPropertyTestDemo.Instance;
@@ -29,7 +26,7 @@ namespace IFramework.Test.Singelton
         private SingletonPropertyTestDemo(){}
         
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Debug.Log("这是属性方法实现的单例 继承了MonoBehaviour");
         }

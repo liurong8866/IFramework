@@ -22,12 +22,8 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
 using IFramework.Core;
-using IFramework.Engine;
-using IFramework.Test.Model;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace IFramework.Test.Event
 {

@@ -234,8 +234,8 @@ namespace IFramework.Core.Zip.Tar
 		/// </summary>
 		public const string GNU_TMAGIC = "ustar  ";
 
-		const long timeConversionFactor = 10000000L;           // 1 tick == 100 nanoseconds
-		readonly static DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+		private const long TIME_CONVERSION_FACTOR = 10000000L;           // 1 tick == 100 nanoseconds
+		private readonly static DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 		#endregion
 
 		#region Constructors
@@ -987,7 +987,7 @@ namespace IFramework.Core.Zip.Tar
 		/// The final space is already there, from checksumming
 		/// </param>
 		/// <returns>The modified buffer offset</returns>
-		static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length)
+		private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length)
 		{
 			GetOctalBytes(value, buffer, offset, length - 1);
 		}
@@ -998,7 +998,7 @@ namespace IFramework.Core.Zip.Tar
 		/// </summary>
 		/// <param name = "buffer">The tar entry's header buffer.</param>
 		/// <returns>The computed checksum.</returns>
-		static int ComputeCheckSum(byte[] buffer)
+		private static int ComputeCheckSum(byte[] buffer)
 		{
 			int sum = 0;
 			for (int i = 0; i < buffer.Length; ++i) {
@@ -1012,7 +1012,7 @@ namespace IFramework.Core.Zip.Tar
 		/// </summary>
 		/// <param name = "buffer">The tar entry's header buffer.</param>
 		/// <returns>The checksum for the buffer</returns>
-		static int MakeCheckSum(byte[] buffer)
+		private static int MakeCheckSum(byte[] buffer)
 		{
 			int sum = 0;
 			for (int i = 0; i < CHKSUMOFS; ++i) {
@@ -1029,17 +1029,17 @@ namespace IFramework.Core.Zip.Tar
 			return sum;
 		}
 
-		static int GetCTime(DateTime dateTime)
+		private static int GetCTime(DateTime dateTime)
 		{
-			return unchecked((int)((dateTime.Ticks - dateTime1970.Ticks) / timeConversionFactor));
+			return unchecked((int)((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR));
 		}
 
-		static DateTime GetDateTimeFromCTime(long ticks)
+		private static DateTime GetDateTimeFromCTime(long ticks)
 		{
 			DateTime result;
 
 			try {
-				result = new DateTime(dateTime1970.Ticks + ticks * timeConversionFactor);
+				result = new DateTime(dateTime1970.Ticks + ticks * TIME_CONVERSION_FACTOR);
 			} catch (ArgumentOutOfRangeException) {
 				result = dateTime1970;
 			}
@@ -1047,22 +1047,23 @@ namespace IFramework.Core.Zip.Tar
 		}
 
 		#region Instance Fields
-		string name;
-		int mode;
-		int userId;
-		int groupId;
-		long size;
-		DateTime modTime;
-		int checksum;
-		bool isChecksumValid;
-		byte typeFlag;
-		string linkName;
-		string magic;
-		string version;
-		string userName;
-		string groupName;
-		int devMajor;
-		int devMinor;
+
+		private string name;
+		private int mode;
+		private int userId;
+		private int groupId;
+		private long size;
+		private DateTime modTime;
+		private int checksum;
+		private bool isChecksumValid;
+		private byte typeFlag;
+		private string linkName;
+		private string magic;
+		private string version;
+		private string userName;
+		private string groupName;
+		private int devMajor;
+		private int devMinor;
 		#endregion
 
 		#region Class Fields

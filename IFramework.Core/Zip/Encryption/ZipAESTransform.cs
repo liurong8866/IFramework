@@ -6,15 +6,14 @@ namespace IFramework.Core.Zip.Encryption
 	/// <summary>
 	/// Transforms stream using AES in CTR mode
 	/// </summary>
-	internal class ZipAESTransform : ICryptoTransform
+	internal class ZipAesTransform : ICryptoTransform
 	{
-
-		class IncrementalHash : HMACSHA1
+		private class IncrementalHash : HMACSHA1
 		{
-			bool _finalised;
+			private bool finalised;
 			public IncrementalHash(byte[] key) : base(key) { }
 
-			public static IncrementalHash CreateHMAC(string n, byte[] key)
+			public static IncrementalHash CreateHmac(string n, byte[] key)
 			{
 				return new IncrementalHash(key);
 			}
@@ -26,19 +25,19 @@ namespace IFramework.Core.Zip.Encryption
 
 			public byte[] GetHashAndReset()
 			{
-				if (!_finalised)
+				if (!finalised)
 				{
 					byte[] dummy = new byte[0];
 					TransformFinalBlock(dummy, 0, 0);
-					_finalised = true;
+					finalised = true;
 				}
 				return Hash;
 			}
 		}
 
-		static class HashAlgorithmName
+		private static class HashAlgorithmName
 		{
-			public static string SHA1 = null;
+			public static string sha1 = null;
 		}
 
 		private const int PWD_VER_LENGTH = 2;
@@ -51,16 +50,16 @@ namespace IFramework.Core.Zip.Encryption
 		// block but use only the first 16 bytes of it, and discard the second half.
 		private const int ENCRYPT_BLOCK = 16;
 
-		private int _blockSize;
-		private readonly ICryptoTransform _encryptor;
-		private readonly byte[] _counterNonce;
-		private byte[] _encryptBuffer;
-		private int _encrPos;
-		private byte[] _pwdVerifier;
-		private IncrementalHash _hmacsha1;
-		private byte[] _authCode = null;
+		private int blockSize;
+		private readonly ICryptoTransform encryptor;
+		private readonly byte[] counterNonce;
+		private byte[] encryptBuffer;
+		private int encrPos;
+		private byte[] pwdVerifier;
+		private IncrementalHash hmacsha1;
+		private byte[] authCode = null;
 
-		private bool _writeMode;
+		private bool writeMode;
 
 		/// <summary>
 		/// Constructor.
@@ -71,7 +70,7 @@ namespace IFramework.Core.Zip.Encryption
 		/// <param name="blockSize">The encryption strength, in bytes eg 16 for 128 bits.</param>
 		/// <param name="writeMode">True when creating a zip, false when reading. For the AuthCode.</param>
 		///
-		public ZipAESTransform(string key, byte[] saltBytes, int blockSize, bool writeMode)
+		public ZipAesTransform(string key, byte[] saltBytes, int blockSize, bool writeMode)
 		{
 
 			if (blockSize != 16 && blockSize != 32) // 24 valid for AES but not supported by Winzip
@@ -79,22 +78,22 @@ namespace IFramework.Core.Zip.Encryption
 			if (saltBytes.Length != blockSize / 2)
 				throw new Exception("Invalid salt len. Must be " + blockSize / 2 + " for blocksize " + blockSize);
 			// initialise the encryption buffer and buffer pos
-			_blockSize = blockSize;
-			_encryptBuffer = new byte[_blockSize];
-			_encrPos = ENCRYPT_BLOCK;
+			this.blockSize = blockSize;
+			encryptBuffer = new byte[this.blockSize];
+			encrPos = ENCRYPT_BLOCK;
 
 			// Performs the equivalent of derive_key in Dr Brian Gladman's pwd2key.c
 			var pdb = new Rfc2898DeriveBytes(key, saltBytes, KEY_ROUNDS);
             var rm = Aes.Create();
 			rm.Mode = CipherMode.ECB;           // No feedback from cipher for CTR mode
-			_counterNonce = new byte[_blockSize];
-			byte[] byteKey1 = pdb.GetBytes(_blockSize);
-			byte[] byteKey2 = pdb.GetBytes(_blockSize);
-			_encryptor = rm.CreateEncryptor(byteKey1, byteKey2);
-			_pwdVerifier = pdb.GetBytes(PWD_VER_LENGTH);
+			counterNonce = new byte[this.blockSize];
+			byte[] byteKey1 = pdb.GetBytes(this.blockSize);
+			byte[] byteKey2 = pdb.GetBytes(this.blockSize);
+			encryptor = rm.CreateEncryptor(byteKey1, byteKey2);
+			pwdVerifier = pdb.GetBytes(PWD_VER_LENGTH);
 			//
-			_hmacsha1 = IncrementalHash.CreateHMAC(HashAlgorithmName.SHA1, byteKey2);
-			_writeMode = writeMode;
+			hmacsha1 = IncrementalHash.CreateHmac(HashAlgorithmName.sha1, byteKey2);
+			this.writeMode = writeMode;
 		}
 
 		/// <summary>
@@ -105,29 +104,29 @@ namespace IFramework.Core.Zip.Encryption
 
 			// Pass the data stream to the hash algorithm for generating the Auth Code.
 			// This does not change the inputBuffer. Do this before decryption for read mode.
-			if (!_writeMode) {
-				_hmacsha1.AppendData(inputBuffer, inputOffset, inputCount);
+			if (!writeMode) {
+				hmacsha1.AppendData(inputBuffer, inputOffset, inputCount);
 			}
 			// Encrypt with AES in CTR mode. Regards to Dr Brian Gladman for this.
 			int ix = 0;
 			while (ix < inputCount) {
-				if (_encrPos == ENCRYPT_BLOCK) {
+				if (encrPos == ENCRYPT_BLOCK) {
 					/* increment encryption nonce   */
 					int j = 0;
-					while (++_counterNonce[j] == 0) {
+					while (++counterNonce[j] == 0) {
 						++j;
 					}
 					/* encrypt the nonce to form next xor buffer    */
-					_encryptor.TransformBlock(_counterNonce, 0, _blockSize, _encryptBuffer, 0);
-					_encrPos = 0;
+					encryptor.TransformBlock(counterNonce, 0, blockSize, encryptBuffer, 0);
+					encrPos = 0;
 				}
-				outputBuffer[ix + outputOffset] = (byte)(inputBuffer[ix + inputOffset] ^ _encryptBuffer[_encrPos++]);
+				outputBuffer[ix + outputOffset] = (byte)(inputBuffer[ix + inputOffset] ^ encryptBuffer[encrPos++]);
 				//
 				ix++;
 			}
-			if (_writeMode) {
+			if (writeMode) {
 				// This does not change the buffer.
-				_hmacsha1.AppendData(outputBuffer, outputOffset, inputCount);
+				hmacsha1.AppendData(outputBuffer, outputOffset, inputCount);
 			}
 			return inputCount;
 		}
@@ -137,7 +136,7 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public byte[] PwdVerifier {
 			get {
-				return _pwdVerifier;
+				return pwdVerifier;
 			}
 		}
 
@@ -146,11 +145,11 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public byte[] GetAuthCode()
 		{
-			if (_authCode == null)
+			if (authCode == null)
 			{
-				_authCode = _hmacsha1.GetHashAndReset();
+				authCode = hmacsha1.GetHashAndReset();
 			}
-			return _authCode;
+			return authCode;
 		}
 
 #region ICryptoTransform Members
@@ -169,7 +168,7 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public int InputBlockSize {
 			get {
-				return _blockSize;
+				return blockSize;
 			}
 		}
 
@@ -178,7 +177,7 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public int OutputBlockSize {
 			get {
-				return _blockSize;
+				return blockSize;
 			}
 		}
 
@@ -205,7 +204,7 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public void Dispose()
 		{
-			_encryptor.Dispose();
+			encryptor.Dispose();
 		}
 
 #endregion

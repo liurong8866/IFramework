@@ -105,7 +105,7 @@ namespace IFramework.Engine
             
             // 添加到AssetUUID字典
             
-            assetKey = assetInfo.UUID;
+            assetKey = assetInfo.Uuid;
             
             if (assetBundleMap.ContainsKey(assetKey))
             {
@@ -173,7 +173,7 @@ namespace IFramework.Engine
 
             int index = assetDepends.Count - 1;
 
-            AddAssetInfo(new AssetInfo(assetName, null, index, ResourceLoadType.AssetBundle));
+            AddAssetInfo(new AssetInfo(assetName, null, index, ResourceLoadType.ASSET_BUNDLE));
 
             return index;
         }

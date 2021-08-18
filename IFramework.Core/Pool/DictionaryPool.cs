@@ -33,7 +33,7 @@ namespace IFramework.Core
         /// <summary>
         /// 栈对象：存储多个字典
         /// </summary>
-        static Stack<Dictionary<TKey, TValue>> cache = new Stack<Dictionary<TKey, TValue>>(capacity);
+        private static Stack<Dictionary<TKey, TValue>> cache = new Stack<Dictionary<TKey, TValue>>(capacity);
         
         /// <summary>
         /// 出栈：从栈中获取某个字典数据

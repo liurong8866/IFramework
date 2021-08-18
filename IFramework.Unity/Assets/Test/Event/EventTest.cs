@@ -31,7 +31,7 @@ namespace IFramework.Test.Event
 {
     public class EventTest : MonoBehaviour
     {
-        void Start()
+        private void Start()
         {
 
             UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};

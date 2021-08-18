@@ -51,7 +51,7 @@ namespace IFramework.Core.Zip.GZip
 		/// Initialise default instance.
 		/// </summary>
 		/// <remarks>Constructor is private to prevent instances being created.</remarks>
-		GZipConstants()
+		private GZipConstants()
 		{
 		}
 	}

@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using IFramework.Core;
-using UnityEditor;
 
 namespace IFramework.Engine
 {

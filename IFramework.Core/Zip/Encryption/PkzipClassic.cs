@@ -60,7 +60,7 @@ namespace IFramework.Core.Zip.Encryption
 	/// PkzipClassicCryptoBase provides the low level facilities for encryption
 	/// and decryption using the PkzipClassic algorithm.
 	/// </summary>
-	class PkzipClassicCryptoBase
+	internal class PkzipClassicCryptoBase
 	{
 		/// <summary>
 		/// Transform a single byte
@@ -116,14 +116,15 @@ namespace IFramework.Core.Zip.Encryption
 		}
 
 		#region Instance Fields
-		uint[] keys;
+
+		private uint[] keys;
 		#endregion
 	}
 
 	/// <summary>
 	/// PkzipClassic CryptoTransform for encryption.
 	/// </summary>
-	class PkzipClassicEncryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
+	internal class PkzipClassicEncryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
 	{
 		/// <summary>
 		/// Initialise a new instance of <see cref="PkzipClassicEncryptCryptoTransform"></see>
@@ -225,7 +226,7 @@ namespace IFramework.Core.Zip.Encryption
 	/// <summary>
 	/// PkzipClassic CryptoTransform for decryption.
 	/// </summary>
-	class PkzipClassicDecryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
+	internal class PkzipClassicDecryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
 	{
 		/// <summary>
 		/// Initialise a new instance of <see cref="PkzipClassicDecryptCryptoTransform"></see>.
@@ -380,11 +381,11 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public override byte[] Key {
 			get {
-				if (key_ == null) {
+				if (key == null) {
 					GenerateKey();
 				}
 
-				return (byte[])key_.Clone();
+				return (byte[])key.Clone();
 			}
 
 			set {
@@ -396,7 +397,7 @@ namespace IFramework.Core.Zip.Encryption
 					throw new CryptographicException("Key size is illegal");
 				}
 
-				key_ = (byte[])value.Clone();
+				key = (byte[])value.Clone();
 			}
 		}
 
@@ -405,22 +406,22 @@ namespace IFramework.Core.Zip.Encryption
 		/// </summary>
 		public override void GenerateKey()
 		{
-			key_ = new byte[12];
+			key = new byte[12];
 			var rnd = new Random();
-			rnd.NextBytes(key_);
+			rnd.NextBytes(key);
 		}
 
 		/// <summary>
 		/// Create an encryptor.
 		/// </summary>
 		/// <param name="rgbKey">The key to use for this encryptor.</param>
-		/// <param name="rgbIV">Initialisation vector for the new encryptor.</param>
+		/// <param name="rgbIv">Initialisation vector for the new encryptor.</param>
 		/// <returns>Returns a new PkzipClassic encryptor</returns>
 		public override ICryptoTransform CreateEncryptor(
 			byte[] rgbKey,
-			byte[] rgbIV)
+			byte[] rgbIv)
 		{
-			key_ = rgbKey;
+			key = rgbKey;
 			return new PkzipClassicEncryptCryptoTransform(Key);
 		}
 
@@ -428,18 +429,19 @@ namespace IFramework.Core.Zip.Encryption
 		/// Create a decryptor.
 		/// </summary>
 		/// <param name="rgbKey">Keys to use for this new decryptor.</param>
-		/// <param name="rgbIV">Initialisation vector for the new decryptor.</param>
+		/// <param name="rgbIv">Initialisation vector for the new decryptor.</param>
 		/// <returns>Returns a new decryptor.</returns>
 		public override ICryptoTransform CreateDecryptor(
 			byte[] rgbKey,
-			byte[] rgbIV)
+			byte[] rgbIv)
 		{
-			key_ = rgbKey;
+			key = rgbKey;
 			return new PkzipClassicDecryptCryptoTransform(Key);
 		}
 
 		#region Instance Fields
-		byte[] key_;
+
+		private byte[] key;
 		#endregion
 	}
 }

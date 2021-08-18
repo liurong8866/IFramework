@@ -27,7 +27,7 @@ using UnityEditor;
 
 namespace IFramework.Editor
 {
-    public class UIKit
+    public class UiKit
     {
         public static void BindScript()
         {

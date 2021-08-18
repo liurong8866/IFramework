@@ -13,28 +13,28 @@ namespace IFramework.Core.Zip.Zip.Compression
 	/// </summary>
 	public class DeflaterHuffman
 	{
-		const int BUFSIZE = 1 << (DeflaterConstants.DEFAULT_MEM_LEVEL + 6);
-		const int LITERAL_NUM = 286;
+		private const int BUFSIZE = 1 << (DeflaterConstants.DEFAULT_MEM_LEVEL + 6);
+		private const int LITERAL_NUM = 286;
 
 		// Number of distance codes
-		const int DIST_NUM = 30;
+		private const int DIST_NUM = 30;
 		// Number of codes used to transfer bit lengths
-		const int BITLEN_NUM = 19;
+		private const int BITLEN_NUM = 19;
 
 		// repeat previous bit length 3-6 times (2 bits of repeat count)
-		const int REP_3_6 = 16;
+		private const int REP_3_6 = 16;
 		// repeat a zero length 3-10 times  (3 bits of repeat count)
-		const int REP_3_10 = 17;
+		private const int REP_3_10 = 17;
 		// repeat a zero length 11-138 times  (7 bits of repeat count)
-		const int REP_11_138 = 18;
+		private const int REP_11_138 = 18;
 
-		const int EOF_SYMBOL = 256;
+		private const int EOF_SYMBOL = 256;
 
 		// The lengths of the bit length codes are sent in order of decreasing
 		// probability, to avoid transmitting the lengths for unused bit length codes.
-		static readonly int[] BL_ORDER = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+		private static readonly int[] BL_ORDER = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
-		static readonly byte[] bit4Reverse = {
+		private static readonly byte[] bit4Reverse = {
 			0,
 			8,
 			4,
@@ -53,12 +53,12 @@ namespace IFramework.Core.Zip.Zip.Compression
 			15
 		};
 
-		static short[] staticLCodes;
-		static byte[] staticLLength;
-		static short[] staticDCodes;
-		static byte[] staticDLength;
+		private static short[] staticLCodes;
+		private static byte[] staticLLength;
+		private static short[] staticDCodes;
+		private static byte[] staticDLength;
 
-		class Tree
+		private class Tree
 		{
 			#region Instance Fields
 			public short[] freqs;
@@ -69,10 +69,10 @@ namespace IFramework.Core.Zip.Zip.Compression
 
 			public int numCodes;
 
-			short[] codes;
-			readonly int[] bl_counts;
-			readonly int maxLength;
-			DeflaterHuffman dh;
+			private short[] codes;
+			private readonly int[] bl_counts;
+			private readonly int maxLength;
+			private DeflaterHuffman dh;
 			#endregion
 
 			#region Constructors
@@ -420,7 +420,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 				}
 			}
 
-			void BuildLength(int[] childs)
+			private void BuildLength(int[] childs)
 			{
 				length = new byte[freqs.Length];
 				int numNodes = childs.Length / 2;
@@ -521,15 +521,15 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// </summary>
 		public DeflaterPending pending;
 
-		Tree literalTree;
-		Tree distTree;
-		Tree blTree;
+		private Tree literalTree;
+		private Tree distTree;
+		private Tree blTree;
 
 		// Buffer for distances
-		short[] d_buf;
-		byte[] l_buf;
-		int last_lit;
-		int extra_bits;
+		private short[] d_buf;
+		private byte[] l_buf;
+		private int last_lit;
+		private int extra_bits;
 		#endregion
 
 		static DeflaterHuffman()
@@ -839,7 +839,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 							bit4Reverse[toReverse >> 12]);
 		}
 
-		static int Lcode(int length)
+		private static int Lcode(int length)
 		{
 			if (length == 255) {
 				return 285;
@@ -853,7 +853,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 			return code + length;
 		}
 
-		static int Dcode(int distance)
+		private static int Dcode(int distance)
 		{
 			int code = 0;
 			while (distance >= 4) {

@@ -38,18 +38,18 @@ namespace IFramework.Core.Zip.Zip
 			invalidPathChars = Path.GetInvalidPathChars();
 			int howMany = invalidPathChars.Length + 2;
 
-			InvalidEntryCharsRelaxed = new char[howMany];
-			Array.Copy(invalidPathChars, 0, InvalidEntryCharsRelaxed, 0, invalidPathChars.Length);
-			InvalidEntryCharsRelaxed[howMany - 1] = '*';
-			InvalidEntryCharsRelaxed[howMany - 2] = '?';
+			invalidEntryCharsRelaxed = new char[howMany];
+			Array.Copy(invalidPathChars, 0, invalidEntryCharsRelaxed, 0, invalidPathChars.Length);
+			invalidEntryCharsRelaxed[howMany - 1] = '*';
+			invalidEntryCharsRelaxed[howMany - 2] = '?';
 
 			howMany = invalidPathChars.Length + 4;
-			InvalidEntryChars = new char[howMany];
-			Array.Copy(invalidPathChars, 0, InvalidEntryChars, 0, invalidPathChars.Length);
-			InvalidEntryChars[howMany - 1] = ':';
-			InvalidEntryChars[howMany - 2] = '\\';
-			InvalidEntryChars[howMany - 3] = '*';
-			InvalidEntryChars[howMany - 4] = '?';
+			invalidEntryChars = new char[howMany];
+			Array.Copy(invalidPathChars, 0, invalidEntryChars, 0, invalidPathChars.Length);
+			invalidEntryChars[howMany - 1] = ':';
+			invalidEntryChars[howMany - 2] = '\\';
+			invalidEntryChars[howMany - 3] = '*';
+			invalidEntryChars[howMany - 4] = '?';
 		}
 
 		/// <summary>
@@ -79,8 +79,8 @@ namespace IFramework.Core.Zip.Zip
 		{
 			if (name != null) {
 				string lowerName = name.ToLower();
-				if ((trimPrefix_ != null) && (lowerName.IndexOf(trimPrefix_, StringComparison.Ordinal) == 0)) {
-					name = name.Substring(trimPrefix_.Length);
+				if ((trimPrefix != null) && (lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0)) {
+					name = name.Substring(trimPrefix.Length);
 				}
 
 				name = name.Replace(@"\", "/");
@@ -116,11 +116,11 @@ namespace IFramework.Core.Zip.Zip
 		/// <remarks>The prefix is trimmed before any conversion from
 		/// a windows path is done.</remarks>
 		public string TrimPrefix {
-			get { return trimPrefix_; }
+			get { return trimPrefix; }
 			set {
-				trimPrefix_ = value;
-				if (trimPrefix_ != null) {
-					trimPrefix_ = trimPrefix_.ToLower();
+				trimPrefix = value;
+				if (trimPrefix != null) {
+					trimPrefix = trimPrefix.ToLower();
 				}
 			}
 		}
@@ -131,9 +131,9 @@ namespace IFramework.Core.Zip.Zip
 		/// <param name="name">The name to force valid</param>
 		/// <param name="replacement">The replacement character to use.</param>
 		/// <returns>Returns a valid name</returns>
-		static string MakeValidName(string name, char replacement)
+		private static string MakeValidName(string name, char replacement)
 		{
-			int index = name.IndexOfAny(InvalidEntryChars);
+			int index = name.IndexOfAny(invalidEntryChars);
 			if (index >= 0) {
 				var builder = new StringBuilder(name);
 
@@ -143,7 +143,7 @@ namespace IFramework.Core.Zip.Zip
 					if (index >= name.Length) {
 						index = -1;
 					} else {
-						index = name.IndexOfAny(InvalidEntryChars, index + 1);
+						index = name.IndexOfAny(invalidEntryChars, index + 1);
 					}
 				}
 				name = builder.ToString();
@@ -174,10 +174,10 @@ namespace IFramework.Core.Zip.Zip
 
 			if (result) {
 				if (relaxed) {
-					result = name.IndexOfAny(InvalidEntryCharsRelaxed) < 0;
+					result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;
 				} else {
 					result =
-						(name.IndexOfAny(InvalidEntryChars) < 0) &&
+						(name.IndexOfAny(invalidEntryChars) < 0) &&
 						(name.IndexOf('/') != 0);
 				}
 			}
@@ -201,19 +201,21 @@ namespace IFramework.Core.Zip.Zip
 		{
 			bool result =
 				(name != null) &&
-				(name.IndexOfAny(InvalidEntryChars) < 0) &&
+				(name.IndexOfAny(invalidEntryChars) < 0) &&
 				(name.IndexOf('/') != 0)
 				;
 			return result;
 		}
 
 		#region Instance Fields
-		string trimPrefix_;
+
+		private string trimPrefix;
 		#endregion
 
 		#region Class Fields
-		static readonly char[] InvalidEntryChars;
-		static readonly char[] InvalidEntryCharsRelaxed;
+
+		private static readonly char[] invalidEntryChars;
+		private static readonly char[] invalidEntryCharsRelaxed;
 		#endregion
 	}
 }

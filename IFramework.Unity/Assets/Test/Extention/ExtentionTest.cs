@@ -23,14 +23,13 @@
  *****************************************************************************/
 
 using System;
-using IFramework.Engine;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
 namespace IFramework.Test.Extention
 {
-    public delegate void DD();
+    public delegate void Dd();
     public class ExtentionTest : MonoBehaviour
     {
         private void Start()
@@ -65,7 +64,7 @@ namespace IFramework.Test.Extention
             Action<int, string> action3 = (a, b) => { Debug.Log("hello world"); };
             action3.InvokeSafe<int, string>( 2, "cat");
             
-            DD dd = () => { Debug.Log("hello world"); };
+            Dd dd = () => { Debug.Log("hello world"); };
             dd.InvokeSafe();
             
             Func<int> func = ()=> 1;

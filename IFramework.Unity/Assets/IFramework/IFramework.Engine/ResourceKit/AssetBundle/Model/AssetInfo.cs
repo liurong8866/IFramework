@@ -59,7 +59,7 @@ namespace IFramework.Engine
         /// <summary>
         /// UUID
         /// </summary>
-        public string UUID => AssetBundleName.IsNullOrEmpty() ? AssetName : AssetBundleName + AssetName;
+        public string Uuid => AssetBundleName.IsNullOrEmpty() ? AssetName : AssetBundleName + AssetName;
 
         public AssetInfo() { }
 

@@ -13,17 +13,17 @@ namespace IFramework.Core.Zip.Zip
 		///  The maximum windows path name permitted.
 		/// </summary>
 		/// <remarks>This may not valid for all windows systems - CE?, etc but I cant find the equivalent in the CLR.</remarks>
-		const int MaxPath = 260;
+		private const int MAX_PATH = 260;
 
-		string _baseDirectory;
-		bool _trimIncomingPaths;
-		char _replacementChar = '_';
+		private string baseDirectory;
+		private bool trimIncomingPaths;
+		private char replacementChar = '_';
 
 		/// <summary>
 		/// In this case we need Windows' invalid path characters.
 		/// Path.GetInvalidPathChars() only returns a subset invalid on all platforms.
 		/// </summary>
-		static readonly char[] InvalidEntryChars = {
+		private static readonly char[] invalidEntryChars = {
 			'"', '<', '>', '|', '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005',
 			'\u0006', '\a', '\b', '\t', '\n', '\v', '\f', '\r', '\u000e', '\u000f',
 			'\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016',
@@ -58,13 +58,13 @@ namespace IFramework.Core.Zip.Zip
 		/// Gets or sets a value containing the target directory to prefix values with.
 		/// </summary>
 		public string BaseDirectory {
-			get { return _baseDirectory; }
+			get { return baseDirectory; }
 			set {
 				if (value == null) {
 					throw new ArgumentNullException(nameof(value));
 				}
 
-				_baseDirectory = Path.GetFullPath(value);
+				baseDirectory = Path.GetFullPath(value);
 			}
 		}
 
@@ -72,8 +72,8 @@ namespace IFramework.Core.Zip.Zip
 		/// Gets or sets a value indicating wether paths on incoming values should be removed.
 		/// </summary>
 		public bool TrimIncomingPaths {
-			get { return _trimIncomingPaths; }
-			set { _trimIncomingPaths = value; }
+			get { return trimIncomingPaths; }
+			set { trimIncomingPaths = value; }
 		}
 
 		/// <summary>
@@ -102,16 +102,16 @@ namespace IFramework.Core.Zip.Zip
 		public string TransformFile(string name)
 		{
 			if (name != null) {
-				name = MakeValidName(name, _replacementChar);
+				name = MakeValidName(name, replacementChar);
 
-				if (_trimIncomingPaths) {
+				if (trimIncomingPaths) {
 					name = Path.GetFileName(name);
 				}
 
 				// This may exceed windows length restrictions.
 				// Combine will throw a PathTooLongException in that case.
-				if (_baseDirectory != null) {
-					name = Path.Combine(_baseDirectory, name);
+				if (baseDirectory != null) {
+					name = Path.Combine(baseDirectory, name);
 				}
 			} else {
 				name = string.Empty;
@@ -129,7 +129,7 @@ namespace IFramework.Core.Zip.Zip
 		{
 			bool result =
 				(name != null) &&
-				(name.Length <= MaxPath) &&
+				(name.Length <= MAX_PATH) &&
 				(string.Compare(name, MakeValidName(name, '_'), StringComparison.Ordinal) == 0)
 				;
 
@@ -168,7 +168,7 @@ namespace IFramework.Core.Zip.Zip
 			}
 
 			// Convert any invalid characters using the replacement one.
-			index = name.IndexOfAny(InvalidEntryChars);
+			index = name.IndexOfAny(invalidEntryChars);
 			if (index >= 0) {
 				var builder = new StringBuilder(name);
 
@@ -178,7 +178,7 @@ namespace IFramework.Core.Zip.Zip
 					if (index >= name.Length) {
 						index = -1;
 					} else {
-						index = name.IndexOfAny(InvalidEntryChars, index + 1);
+						index = name.IndexOfAny(invalidEntryChars, index + 1);
 					}
 				}
 				name = builder.ToString();
@@ -186,7 +186,7 @@ namespace IFramework.Core.Zip.Zip
 
 			// Check for names greater than MaxPath characters.
 			// TODO: Were is CLR version of MaxPath defined?  Can't find it in Environment.
-			if (name.Length > MaxPath) {
+			if (name.Length > MAX_PATH) {
 				throw new PathTooLongException();
 			}
 
@@ -197,10 +197,10 @@ namespace IFramework.Core.Zip.Zip
 		/// Gets or set the character to replace invalid characters during transformations.
 		/// </summary>
 		public char Replacement {
-			get { return _replacementChar; }
+			get { return replacementChar; }
 			set {
-				for (int i = 0; i < InvalidEntryChars.Length; ++i) {
-					if (InvalidEntryChars[i] == value) {
+				for (int i = 0; i < invalidEntryChars.Length; ++i) {
+					if (invalidEntryChars[i] == value) {
 						throw new ArgumentException("invalid path character");
 					}
 				}
@@ -209,7 +209,7 @@ namespace IFramework.Core.Zip.Zip
 					throw new ArgumentException("invalid replacement character");
 				}
 
-				_replacementChar = value;
+				replacementChar = value;
 			}
 		}
 	}

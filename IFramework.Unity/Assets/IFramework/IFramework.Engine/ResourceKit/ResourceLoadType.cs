@@ -26,11 +26,11 @@ namespace IFramework.Engine
 {
     public static class ResourceLoadType
     {
-        public const short AssetBundle = 0;
-        public const short Asset = 1;
-        public const short Scene = 2;
-        public const short Internal = 3;
-        public const short NetImageRes = 4;
-        public const short LocalImageRes = 5;
+        public const short ASSET_BUNDLE = 0;
+        public const short ASSET = 1;
+        public const short SCENE = 2;
+        public const short INTERNAL = 3;
+        public const short NET_IMAGE_RES = 4;
+        public const short LOCAL_IMAGE_RES = 5;
     }
 }

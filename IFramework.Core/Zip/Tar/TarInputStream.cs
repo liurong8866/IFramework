@@ -18,7 +18,7 @@ namespace IFramework.Core.Zip.Tar
 		/// </summary>
 		/// <param name="inputStream">stream to source data from</param>
 		public TarInputStream(Stream inputStream)
-			: this(inputStream, TarBuffer.DefaultBlockFactor)
+			: this(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR)
 		{
 		}
 
@@ -380,7 +380,7 @@ namespace IFramework.Core.Zip.Tar
 		/// </returns>
 		public TarEntry GetNextEntry()
 		{
-			if (hasHitEOF) {
+			if (hasHitEof) {
 				return null;
 			}
 
@@ -391,11 +391,11 @@ namespace IFramework.Core.Zip.Tar
 			byte[] headerBuf = tarBuffer.ReadBlock();
 
 			if (headerBuf == null) {
-				hasHitEOF = true;
+				hasHitEof = true;
 			} else
-				hasHitEOF |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
+				hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
 
-			if (hasHitEOF) {
+			if (hasHitEof) {
 				currentEntry = null;
 			} else {
 				try {
@@ -411,7 +411,7 @@ namespace IFramework.Core.Zip.Tar
 
 					if (header.TypeFlag == TarHeader.LF_GNU_LONGNAME) {
 
-						byte[] nameBuffer = new byte[TarBuffer.BlockSize];
+						byte[] nameBuffer = new byte[TarBuffer.BLOCK_SIZE];
 						long numToRead = entrySize;
 
 						longName = new StringBuilder();
@@ -499,7 +499,7 @@ namespace IFramework.Core.Zip.Tar
 			}
 		}
 
-		void SkipToNextEntry()
+		private void SkipToNextEntry()
 		{
 			long numToSkip = entrySize - entryOffset;
 
@@ -589,7 +589,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// Flag set when last block has been read
 		/// </summary>
-		protected bool hasHitEOF;
+		protected bool hasHitEof;
 
 		/// <summary>
 		/// Size of this entry as recorded in header
@@ -614,7 +614,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// Current entry being read
 		/// </summary>
-		TarEntry currentEntry;
+		private TarEntry currentEntry;
 
 		/// <summary>
 		/// Factory used to create TarEntry or descendant class instance
@@ -624,7 +624,7 @@ namespace IFramework.Core.Zip.Tar
 		/// <summary>
 		/// Stream used as the source of input data.
 		/// </summary>
-		readonly Stream inputStream;
+		private readonly Stream inputStream;
 		#endregion
 	}
 }
