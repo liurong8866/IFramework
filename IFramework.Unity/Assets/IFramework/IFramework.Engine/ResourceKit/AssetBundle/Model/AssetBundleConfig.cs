@@ -183,12 +183,24 @@ namespace IFramework.Engine
         {
             if (data?.AssetBundles == null) return;
 
+            // 添加AssetBundleList缓存
             for (int i = data.AssetBundles.Length - 1; i >= 0; i--)
             {
                 AssetBundleList.Add(new AssetBundleInfo(data.AssetBundles[i]));
             }
-
+            
             assetTable ??= new AssetTable();
+            
+            // 循环最外层AssetBundleDatas
+            foreach (AssetBundleData assetBundleData in data.AssetBundles)
+            {
+                // 循环第二层AssetBundleData
+                foreach (AssetInfo assetInfo in assetBundleData.AssetInfos)
+                {
+                    // 添加资源缓存
+                    assetTable.Add(assetInfo.AssetName, assetInfo);
+                }
+            }
         }
         
         /// <summary>

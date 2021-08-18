@@ -141,7 +141,7 @@ namespace IFramework.Core
         /// <returns></returns>
         public static List<string> GetFiles(string folderPath, bool recursion = true)
         {
-            List<string> fileList = null;
+            List<string> fileList;
 
             if (!recursion)
             {
@@ -195,7 +195,7 @@ namespace IFramework.Core
                 foreach (string folder in folders)
                 {
                     // 递归调用
-                    List<string> filesSub = GetFiles(folder, recursion);
+                    List<string> filesSub = GetFiles(folder, fileName, recursion);
                     
                     fileList = fileList.Concat(filesSub).ToList();
                 }

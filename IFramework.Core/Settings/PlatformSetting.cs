@@ -65,7 +65,7 @@ namespace IFramework.Core
         private static string persistentDataResourcePath;
         
         /// <summary>
-        /// 外部头像路径 PersistentDataPath/Resource
+        /// 外部头像路径 PersistentDataPath/Photo
         /// </summary>
         public static string PersistentDataPhotoPath
         {
@@ -149,7 +149,7 @@ namespace IFramework.Core
         /// <summary>
         /// 打包平台索引
         /// </summary>
-        public static int GetCurrentPlatform()
+        public static int GetCurrentPlatformIndex()
         {
             int platformIndex;
             
@@ -218,7 +218,7 @@ namespace IFramework.Core
         /// <summary>
         /// 根据当前配置列表获取打包平台
         /// </summary>
-        public static BuildTarget CurrentBundlePlatform => GetBuildTargetByIndex(Configure.CurrentPlatform.Value);
+        public static BuildTarget CurrentBuildPlatform => GetBuildTargetByIndex(Configure.CurrentPlatform.Value);
 
         /// <summary>
         /// 根据路径获得资源名

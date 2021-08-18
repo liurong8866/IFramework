@@ -147,7 +147,6 @@ namespace IFramework.Engine
 
                 foreach (string file in configFiles)
                 {
-                    file.LogInfo();
                     AssetBundleConfig.ConfigFile.LoadFromFile(file);
                 }
             }
