@@ -23,7 +23,6 @@ if [ ${buildResult} != 0 ]; then
     exit
 fi
 
-echo "\n"
 framework="IFramework.Unity/Assets/IFramework/"
 environment="${framework}Environment/"
 

@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -150,7 +151,7 @@ namespace IFramework.Core
         /// </summary>
         public static int GetCurrentPlatform()
         {
-            int platformIndex = 0;
+            int platformIndex;
             
             switch (EditorUserBuildSettings.activeBuildTarget)
             {
@@ -246,9 +247,9 @@ namespace IFramework.Core
         /// </summary>
         public static string AssetPathToName(string assetPath)
         {
-            var startIndex = assetPath.LastIndexOf("/") + 1;
+            var startIndex = assetPath.LastIndexOf("/", StringComparison.Ordinal) + 1;
 
-            var endIndex = assetPath.LastIndexOf(".");
+            var endIndex = assetPath.LastIndexOf(".", StringComparison.Ordinal);
             if (endIndex > 0)
             {
                 var length = endIndex - startIndex;
