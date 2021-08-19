@@ -314,7 +314,7 @@ namespace IFramework.Engine
             if(cachedResource != null) return;
 
             // 记录资源加载次数
-            resource.Retain();
+            resource.Hold();
                 
             // 资源添加到缓存
             this.resourceList.Add(resource);

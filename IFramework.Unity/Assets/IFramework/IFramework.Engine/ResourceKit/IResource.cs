@@ -28,7 +28,7 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
-    public interface IResource : ICounter, IRecyclable, IResourceLoadTask
+    public interface IResource : ICountor, IRecyclable, IResourceLoadTask
     {
         /// <summary>
         /// 资源名称

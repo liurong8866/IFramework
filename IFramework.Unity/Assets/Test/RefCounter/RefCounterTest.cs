@@ -40,31 +40,31 @@ namespace IFramework.Test.RefCounter
         public void SimpleCounterTest()
         {
             
-            Counter simpleRefCounter = new Counter();
+            Countor simpleRefCounter = new Countor();
         
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Retain();
-            simpleRefCounter.Count.LogInfo();
+            simpleRefCounter.Hold();
+            simpleRefCounter.Hold();
+            simpleRefCounter.Hold();
+            simpleRefCounter.Counter.LogInfo();
             
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
-            simpleRefCounter.Release();
+            simpleRefCounter.UnHold();
+            simpleRefCounter.UnHold();
+            simpleRefCounter.UnHold();
             
-            simpleRefCounter.Count.LogInfo();
+            simpleRefCounter.Counter.LogInfo();
             
         }
 
         public void SafeCounterTest()
         {
-            SafeCounter safeCounter = new SafeCounter();
+            SafeCountor safeCounter = new SafeCountor();
             
             UserInfo user = new UserInfo();
             
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(new UserInfo());
-            safeCounter.Retain(user);
-            safeCounter.Retain(user);
+            safeCounter.Hold(new UserInfo());
+            safeCounter.Hold(new UserInfo());
+            safeCounter.Hold(user);
+            safeCounter.Hold(user);
             
         }
         

@@ -22,52 +22,17 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-
 namespace IFramework.Core
 {
-    /// <summary>
-    /// 简单当计数器
-    /// </summary>
-    public class Counter : ICounter, IDisposable
+    public interface ICountor
     {
-        public Counter()
-        {
-            Count = 0;
-        }
+        // 数量
+        int Counter { get; }
 
-        public Counter(Action onZero)
-        {
-            Count = 0;
-            OnZero = onZero;
-        }
+        // 记录
+        bool Hold(object owner = null);
 
-        public Action OnZero { get; set; }
-
-        public int Count { get; private set; }
-
-        public void Retain(object owner = null)
-        {
-            Count++;
-        }
-
-        public void Release(object owner = null)
-        {
-            Count--;
-            if (Count == 0)
-            {
-                OnZero.InvokeSafe();
-            }
-        }
-
-        public void Reset()
-        {
-            Count = 0;
-        }
-        
-        public void Dispose()
-        {
-            OnZero = null;
-        }
+        // 释放
+        bool UnHold(object owner = null);
     }
 }

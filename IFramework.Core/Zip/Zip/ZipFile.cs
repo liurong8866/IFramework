@@ -586,7 +586,7 @@ namespace IFramework.Core.Zip.Zip
 		/// <exception cref="InvalidOperationException">
 		/// The Zip file has been closed.
 		/// </exception>
-		[Obsolete("Use the Count property instead")]
+		[Obsolete("Use the Counter property instead")]
 		public int Size {
 			get {
 				return entries.Length;
@@ -2184,7 +2184,7 @@ namespace IFramework.Core.Zip.Zip
 			/*
 						// This is slow like the coming of the next ice age but takes less storage and may be useful
 						// for CF?
-						for (int index = 0; index < updates_.Count; ++index)
+						for (int index = 0; index < updates_.Counter; ++index)
 						{
 							ZipUpdate zu = ( ZipUpdate )updates_[index];
 							if ( (zu.Entry.ZipFileIndex == entry.ZipFileIndex) &&
@@ -2210,7 +2210,7 @@ namespace IFramework.Core.Zip.Zip
 			/*
 						// This is slow like the coming of the next ice age but takes less storage and may be useful
 						// for CF?
-						for ( int index = 0; index < updates_.Count; ++index ) {
+						for ( int index = 0; index < updates_.Counter; ++index ) {
 							if ( string.Compare(convertedName, (( ZipUpdate )updates_[index]).Entry.Name,
 								true, CultureInfo.InvariantCulture) == 0 ) {
 								result = index;
@@ -3194,7 +3194,7 @@ namespace IFramework.Core.Zip.Zip
 		#region Zip Update Instance Fields
 
 		private List<ZipUpdate> updates;
-		private long updateCount; // Count is managed manually as updates_ can contain nulls!
+		private long updateCount; // Counter is managed manually as updates_ can contain nulls!
 		private Dictionary<string, int> updateIndex;
 		private IArchiveStorage archiveStorage;
 		private IDynamicDataSource updateDataSource;

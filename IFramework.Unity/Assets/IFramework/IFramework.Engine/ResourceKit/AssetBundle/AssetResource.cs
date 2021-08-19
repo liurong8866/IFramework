@@ -150,11 +150,11 @@ namespace IFramework.Engine
 
                 if (AssetType != null)
                 {
-                    obj = Environment.Instance.LoadAssetAtPath(assetName,AssetType);
+                    obj = resource.AssetBundle.LoadAsset(assetName,AssetType);
                 }
                 else
                 {
-                    obj = Environment.Instance.LoadAssetAtPath<Object>(assetName);
+                    obj = resource.AssetBundle.LoadAsset(assetName);
                 }
             }
             
@@ -194,7 +194,7 @@ namespace IFramework.Engine
         public override IEnumerator LoadAsync(Action callback)
         {
             // 如果没有等待加载的资源，则退出
-            if (Count <= 0)
+            if (Counter <= 0)
             {
                 OnResourceLoadFailed();
                 callback();

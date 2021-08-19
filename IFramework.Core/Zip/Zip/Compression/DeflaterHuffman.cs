@@ -682,7 +682,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// </summary>
 		/// <param name="stored">Data to write</param>
 		/// <param name="storedOffset">Index of first byte to write</param>
-		/// <param name="storedLength">Count of bytes to write</param>
+		/// <param name="storedLength">Counter of bytes to write</param>
 		/// <param name="lastBlock">True if this is the last block</param>
 		public void FlushStoredBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock)
 		{
@@ -704,7 +704,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 		/// </summary>		
 		/// <param name="stored">Data to flush</param>
 		/// <param name="storedOffset">Index of first byte to flush</param>
-		/// <param name="storedLength">Count of bytes to flush</param>
+		/// <param name="storedLength">Counter of bytes to flush</param>
 		/// <param name="lastBlock">True if this is the last block</param>
 		public void FlushBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock)
 		{

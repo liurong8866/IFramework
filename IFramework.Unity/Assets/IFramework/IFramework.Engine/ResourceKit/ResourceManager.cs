@@ -304,7 +304,7 @@ namespace IFramework.Engine
 
             foreach (IResource resource in resourceTable.ToList())
             {
-                if (resource.Count <= 0 && resource.State != ResourceState.Loading)
+                if (resource.Counter <= 0 && resource.State != ResourceState.Loading)
                 {
                     if (resource.Release())
                     {

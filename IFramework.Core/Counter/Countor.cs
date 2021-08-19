@@ -23,67 +23,80 @@
  *****************************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 namespace IFramework.Core
 {
     /// <summary>
-    /// 安全的计数器
+    /// 简单当计数器
     /// </summary>
-    public class SafeCounter : ICounter, IDisposable
+    public class Countor : ICountor, IDisposable
     {
-        private readonly HashSet<object> owners = new HashSet<object>();
-
-        public SafeCounter() { }
-        
-        public SafeCounter(Action onZero)
+        public Countor()
         {
-            OnZero = onZero;
+            Counter = 0;
         }
         
-        public int Count
+        public Countor(Action action)
         {
-            get { return owners.Count; }
+            Counter = 0;
+            OnZero = action;
         }
 
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public int Counter { get; private set; } = 0;
+
+        /// <summary>
+        /// 为 0 事件
+        /// </summary>
         public Action OnZero { get; set; }
-
-        public HashSet<object> Owners
+        
+        /// <summary>
+        /// 记录
+        /// </summary>
+        public bool Hold(object owner = null)
         {
-            get { return owners; }
+            Counter++;
+            return true;
         }
 
-        public void Retain(object owner)
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public bool UnHold(object owner = null)
         {
-            if (!owners.Add(owner))
+            Counter--;
+            
+            if (Counter == 0)
             {
-                "对象已经被记录".LogWarning();
+                OnZero.InvokeSafe();
             }
+            return true;
         }
 
-        public void Release(object owner)
+        /// <summary>
+        /// 重置为0
+        /// </summary>
+        /// <param name="invokeAction">是否唤醒OnZero事件</param>
+        public void ResetCounter(bool invokeAction = false)
         {
-            if (!owners.Remove(owner))
+            Counter = 0;
+
+            if (invokeAction)
             {
-                "没有找到要释放的对象".LogWarning();
-            }
-            else
-            {
-                if (Count == 0)
-                {
-                    OnZero.InvokeSafe();
-                }
+                OnZero.InvokeSafe();
             }
         }
         
-        public void Reset()
-        {
-            owners.Clear();
-        }
-
         public void Dispose()
         {
             OnZero = null;
+        }
+
+        public override string ToString()
+        {
+            return Counter.ToString();
         }
     }
 }

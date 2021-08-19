@@ -34,7 +34,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源处理抽象类
     /// </summary>
-    public abstract class AbstractResource : Counter, IResource, IPoolable
+    public abstract class AbstractResource : Countor, IResource, IPoolable
     {
         // 资源名称
         protected string assetName;
@@ -183,11 +183,7 @@ namespace IFramework.Engine
         /// </summary>
         protected void HoldDependResource()
         {
-            DoLoopDependResource(resource =>
-            {
-                resource?.Retain();
-                return true;
-            });
+            DoLoopDependResource(resource =>resource.Hold());
         }
         
         /// <summary>
@@ -195,9 +191,9 @@ namespace IFramework.Engine
         /// </summary>
         protected void UnHoldDependResource()
         {
-            DoLoopDependResource(resource =>resource.Release());
+            DoLoopDependResource(resource =>resource.UnHold());
         }
-        
+
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
@@ -296,7 +292,7 @@ namespace IFramework.Engine
         
         public override string ToString()
         {
-            return string.Format("Name:{0}\t State:{1}\t Count:{2}", AssetName, State, Count);
+            return string.Format("Name:{0}\t State:{1}\t Counter:{2}", AssetName, State, Counter);
         }
         
     }
