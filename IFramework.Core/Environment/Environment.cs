@@ -26,6 +26,7 @@ using System;
 using UnityEditor;
 using Object = UnityEngine.Object;
 using IFramework.Core;
+using UnityEngine;
 
 #if !UNITY_EDITOR
 using UnityEngine;
@@ -36,17 +37,19 @@ namespace IFramework.Engine
     /// <summary>
     /// 环境类，用于编译条件的类，本身不编译，继承自IEnvironment接口，生成后放在Unity3D中
     /// </summary>
-    public class Environment : IEnvironment
+    public class Environment : Singleton<Environment>, IEnvironment
     {
+        
+        
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
-        public static string CurrentPlatformName
+        public string RuntimePlatformName
         {
 #if UNITY_EDITOR
             get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
 #else
-            get => PlatformSetting.GetPlatformName(Application.platform);
+            get => Platform.GetPlatformName(Application.platform);
 #endif
         }
         
@@ -54,7 +57,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public static string GetPlatformName(BuildTarget target)
+        public string GetPlatformName(BuildTarget target)
         {
             switch (target)
             { 
@@ -88,7 +91,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 文件路径前缀file://
         /// </summary>
-        public static string FilePathPrefix
+        public string FilePathPrefix
         {
             get
             {
@@ -103,7 +106,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-        public static bool IsSimulation
+        public bool IsSimulation
         {
 #if UNITY_EDITOR
             get { return Configure.IsSimulation.Value; }
@@ -118,7 +121,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
-        public static string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
+        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
         {
 #if UNITY_EDITOR
             return AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
@@ -130,7 +133,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径、类型获取资源
         /// </summary>
-        public static Object LoadAssetAtPath(string assetPath, Type assetType)
+        public Object LoadAssetAtPath(string assetPath, Type assetType)
         {
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(assetPath, assetType);
@@ -142,7 +145,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径获取资源
         /// </summary>
-        public static T LoadAssetAtPath<T>(string assetPath) where T : Object
+        public T LoadAssetAtPath<T>(string assetPath) where T : Object
         {
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
@@ -156,7 +159,7 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public static void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
+        public void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
         {
 #if UNITY_EDITOR
             
@@ -188,7 +191,7 @@ namespace IFramework.Engine
                     short code = type.ToCode();
 
                     // 取得资源名，小写无扩展名
-                    string assetName = PlatformSetting.AssetPathToName(asset);
+                    string assetName = Platform.AssetPathToName(asset);
                     
                     // 添加资源到缓存
                     @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")

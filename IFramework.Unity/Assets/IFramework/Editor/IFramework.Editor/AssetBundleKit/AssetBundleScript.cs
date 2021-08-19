@@ -56,7 +56,7 @@ namespace IFramework.Editor
         {
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             
-            Environment.AddAssetBundleInfoToResourceData(assetBundleConfig);
+            Environment.Instance.AddAssetBundleInfoToResourceData(assetBundleConfig);
 
             List<AssetBundleInfo> assetBundleList = assetBundleConfig.AssetBundleList;
 

@@ -108,7 +108,7 @@ namespace IFramework.Engine
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
                 // 根据包名+资源名获取资源路径
-                string[] assetPaths = Environment.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+                string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
                 if (assetPaths.IsNullOrEmpty())
                 {
@@ -124,11 +124,11 @@ namespace IFramework.Engine
 
                 if (AssetType != null)
                 {
-                    obj = Environment.LoadAssetAtPath(assetPaths[0],AssetType);
+                    obj = Environment.Instance.LoadAssetAtPath(assetPaths[0],AssetType);
                 }
                 else
                 {
-                    obj = Environment.LoadAssetAtPath<Object>(assetPaths[0]);
+                    obj = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
                 }
             }
             else
@@ -150,11 +150,11 @@ namespace IFramework.Engine
 
                 if (AssetType != null)
                 {
-                    obj = Environment.LoadAssetAtPath(assetName,AssetType);
+                    obj = Environment.Instance.LoadAssetAtPath(assetName,AssetType);
                 }
                 else
                 {
-                    obj = Environment.LoadAssetAtPath<Object>(assetName);
+                    obj = Environment.Instance.LoadAssetAtPath<Object>(assetName);
                 }
             }
             
@@ -208,7 +208,7 @@ namespace IFramework.Engine
             // 如果是模拟模式，并且不是包信息资源
             if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
             {
-                string[] assetPaths = Environment.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+                string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
                 if (assetPaths.IsNullOrEmpty())
                 {
@@ -229,11 +229,11 @@ namespace IFramework.Engine
                 
                 if (AssetType != null)
                 {
-                    asset = Environment.LoadAssetAtPath(assetPaths[0],AssetType);
+                    asset = Environment.Instance.LoadAssetAtPath(assetPaths[0],AssetType);
                 }
                 else
                 {
-                    asset = Environment.LoadAssetAtPath<Object>(assetPaths[0]);
+                    asset = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
                 }
             }
             else

@@ -22,15 +22,25 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-
 namespace IFramework.Core
 {
-    /// <summary>
-    /// 用于间接调用未能编译DLL的环境相关方法
-    /// </summary>
-    public interface IEnvironment
+    public class PlatformEnvironment : Singleton<PlatformEnvironment>
     {
-        string RuntimePlatformName { get; }
+        private IEnvironment environment;
+        
+        private PlatformEnvironment(){}
+        
+        public void Init(IEnvironment environment)
+        {
+            this.environment = environment;
+        }
+
+        public IEnvironment Environment => environment;
+
+        /// <summary>
+        /// 获取当前平台名称
+        /// </summary>
+        public string RuntimePlatformName => environment.RuntimePlatformName;
+
     }
 }

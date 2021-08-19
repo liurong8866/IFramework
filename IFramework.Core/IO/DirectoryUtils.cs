@@ -177,15 +177,21 @@ namespace IFramework.Core
             List<string> fileList = new List<string>();
 
             DirectoryInfo directory = new DirectoryInfo(folderPath);
+
+            if (!directory.Exists)
+            {
+                Log.Error("文件路径不存在：" + folderPath);
+                return null;
+            }
             
             if (directory.Parent != null && directory.Attributes.ToString().IndexOf("System", StringComparison.Ordinal) > -1)
             {
                 return null;
             }
-            
+
             FileInfo[] fileInfos = directory.GetFiles(fileName);
             
-            fileList.AddRange(fileInfos.Select(file => file.FullName));
+            fileList.AddRange(fileInfos?.Select(file => file.FullName));
             
             if (recursion)
             {

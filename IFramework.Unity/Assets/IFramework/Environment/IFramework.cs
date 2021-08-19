@@ -22,15 +22,24 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
+using IFramework.Core;
+using UnityEngine;
 
-namespace IFramework.Core
+namespace IFramework.Engine
 {
     /// <summary>
-    /// 用于间接调用未能编译DLL的环境相关方法
+    /// 系统初始化类
     /// </summary>
-    public interface IEnvironment
+    public class IFramework
     {
-        string RuntimePlatformName { get; }
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void InitEnvironment()
+        {
+            Log.Info("初始化 PlatformEnvironment");
+            PlatformEnvironment.Instance.Init(new Environment());
+
+            Log.Info("初始化 ResourceManager");
+            ResourceManager.Init();
+        }
     }
 }

@@ -51,8 +51,12 @@ cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.pdb "$framework"
 # cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll "$framework"
 # cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
 
+echo -e "\033[36m 拷贝 Settings/Environment/IFramework.cs \033[0m"
+cp -f IFramework.Core/bin/Debug/net48/Environment/IFramework.cs "$environment"
+
 echo -e "\033[36m 拷贝 Settings/Environment/Environment.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/Environment.cs "$environment"
+
 echo -e "\033[36m 拷贝 Settings/Environment/Zip.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/Zip.cs "$environment"
 

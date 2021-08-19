@@ -78,7 +78,7 @@ namespace IFramework.Engine
             // 如果不是模拟模式
             if (!Configure.IsSimulation)
             {
-                string url = PlatformSetting.AssetBundleNameToUrl(assetName);
+                string url = Platform.AssetBundleNameToUrl(assetName);
                 
                 // 加载AssetBundle资源
                 AssetBundle = AssetBundle.LoadFromFile(url);
@@ -121,13 +121,13 @@ namespace IFramework.Engine
                 yield break;
             }
 
-            if (Environment.IsSimulation)
+            if (Environment.Instance.IsSimulation)
             {
                 yield return null;
             }
             else
             {
-                string url = PlatformSetting.AssetBundleNameToUrl(assetName);
+                string url = Platform.AssetBundleNameToUrl(assetName);
 
                 if (Application.platform == RuntimePlatform.WebGLPlayer)
                 {

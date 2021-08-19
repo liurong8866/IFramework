@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IFramework.Core;
-using IFramework.Core.Environment;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -56,7 +55,6 @@ namespace IFramework.Engine
         /// <summary>
         /// 全局自动加载一次，请不要手动调用！！
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void OnLoad()
         {
             // 初始化Manager自身
@@ -124,7 +122,7 @@ namespace IFramework.Engine
             {
                 // 获取所有AssetBundle资源信息
                 AssetBundleConfig config = new AssetBundleConfig();
-                Environment.AddAssetBundleInfoToResourceData(config);
+                Environment.Instance.AddAssetBundleInfoToResourceData(config);
                 AssetBundleConfig.ConfigFile = config;
             }
             else
@@ -142,12 +140,15 @@ namespace IFramework.Engine
                 // 进行过热更新
                 else
                 {
-                    configFiles = DirectoryUtils.GetFiles(PlatformSetting.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
 
-                foreach (string file in configFiles)
+                if (configFiles != null)
                 {
-                    AssetBundleConfig.ConfigFile.LoadFromFile(file);
+                    foreach (string file in configFiles)
+                    {
+                        AssetBundleConfig.ConfigFile.LoadFromFile(file);
+                    }
                 }
             }
         }
@@ -160,7 +161,7 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 AssetBundleConfig config = new AssetBundleConfig();
-                Environment.AddAssetBundleInfoToResourceData(config);
+                Environment.Instance.AddAssetBundleInfoToResourceData(config);
                 AssetBundleConfig.ConfigFile = config;
                 yield return null;
             }
@@ -172,15 +173,16 @@ namespace IFramework.Engine
                 // 未进行过热更新
                 if (Configure.LoadAssetFromStream)
                 {
-                    string streamPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.CurrentPlatformName);
-                    configFiles.Add(Environment.FilePathPrefix + streamPath);
+                    // string streamPath = Path.Combine(Platform.RuntimeStreamAssetBundlePath, Platform.RuntimePlatformName);
+                    configFiles.Add(Environment.Instance.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
                 }
                 // 进行过热更新
                 else
                 {
-                    var persistentPath = Path.Combine(PlatformSetting.StreamingAssetBundlePath, Environment.CurrentPlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
-                    configFiles.Add(Environment.FilePathPrefix + persistentPath);
-                    configFiles = DirectoryUtils.GetFiles(PlatformSetting.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    // var persistentPath = Path.Combine(Platform.StreamingAssetBundlePath, Platform.RuntimePlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    var persistentPath = Path.Combine(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    configFiles.Add(Environment.Instance.FilePathPrefix + persistentPath);
+                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
 
                 foreach (string file in configFiles)

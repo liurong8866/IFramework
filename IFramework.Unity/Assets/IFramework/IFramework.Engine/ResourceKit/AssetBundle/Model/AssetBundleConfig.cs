@@ -86,7 +86,7 @@ namespace IFramework.Engine
         /// </summary>
         public string[] GetAllDependenciesByUrl(string url)
         {
-            string assetBundleName = PlatformSetting.AssetBundleNameByUrl(url);
+            string assetBundleName = Platform.AssetBundleNameByUrl(url);
 
             string[] depends = null;
             

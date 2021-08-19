@@ -30,7 +30,7 @@ namespace IFramework.Core
         public const string FRAMEWORK_NAME = "IFramework";
         
         // AssetBundle 生成目录
-        public const string ASSET_BUNDLE_OUTPUT_PATH = "AssetBundles";
+        public const string ASSET_BUNDLE_OUTPUT_PATH = "AssetBundle";
         
         // AssetBundle 密钥
         public const string ASSET_BUNDLE_KEY = "iT5jM9h+7zT1rZ6x";

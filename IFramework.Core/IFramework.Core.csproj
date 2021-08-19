@@ -42,6 +42,10 @@
       <Content Include="Environment\Zip.cs">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Compile Remove="Environment\IFramework.cs" />
+      <Content Include="Environment\IFramework.cs">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -40,7 +40,7 @@ namespace IFramework.Editor
         {
             
             // 打包AssetBundle
-            BuildAssetBundles(PlatformSetting.CurrentBuildPlatform);
+            BuildAssetBundles(Platform.CurrentBuildPlatform);
 
             // 自动生成包名常量
             if (Configure.AutoGenerateName)
@@ -56,7 +56,7 @@ namespace IFramework.Editor
         /// <param name="buildTarget">目标平台</param>
         public static void BuildAssetBundles(BuildTarget buildTarget)
         {
-            string platformName = Environment.GetPlatformName(buildTarget);
+            string platformName = Environment.Instance.GetPlatformName(buildTarget);
             
             Log.Info("开始打包: [{0}]: 开始", platformName);
             
@@ -86,7 +86,7 @@ namespace IFramework.Editor
             foreach (AssetBundlePackage subPackage in subPackages)
             {
                 string path =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
-                // outputPath = Path.Combine(PlatformSetting.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
+                // outputPath = Path.Combine(Platform.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
                 Log.Info("正在打包: [{0}]: {1}", platformName, path);
                 
@@ -135,9 +135,9 @@ namespace IFramework.Editor
             
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
 
-            Environment.AddAssetBundleInfoToResourceData(assetBundleConfig, assetBundleNames);
+            Environment.Instance.AddAssetBundleInfoToResourceData(assetBundleConfig, assetBundleNames);
 
-            string filePath = Path.Combine((outputPath?? PlatformSetting.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
+            string filePath = Path.Combine((outputPath?? Platform.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             
             assetBundleConfig.Save(filePath);
         }

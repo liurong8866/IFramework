@@ -25,9 +25,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using IFramework.Core;
 using IFramework.Core.Zip.Zip;
 
-namespace IFramework.Core.Environment
+namespace IFramework.Engine
 {
     public class Zip
     {
@@ -39,7 +40,7 @@ namespace IFramework.Core.Environment
 
         public Zip()
         {
-            searchDirList.Add(PlatformSetting.PersistentDataPath);
+            searchDirList.Add(Platform.PersistentDataPath);
 #if (UNITY_ANDROID) && !UNITY_EDITOR
 			if (zipFile == null)
 			{
@@ -71,7 +72,7 @@ namespace IFramework.Core.Environment
 			int entryIndex = zipFile.FindEntry(string.Format("assets/{0}", fileRelativePath), false);
 			return entryIndex != -1;
 #else
-            string absoluteFilePath = Path.Combine(PlatformSetting.StreamingAssetsPath, fileRelativePath);
+            string absoluteFilePath = Path.Combine(Platform.StreamingAssetsPath, fileRelativePath);
             return File.Exists(absoluteFilePath);
 #endif
         }
@@ -102,7 +103,7 @@ namespace IFramework.Core.Environment
                 return zipFile.FindEntry(string.Format("assets/{0}", fileRelativePath), true) >= 0;
 			}
 #else
-            string filePathStandalone = Path.Combine(PlatformSetting.StreamingAssetsPath, fileRelativePath);
+            string filePathStandalone = Path.Combine(Platform.StreamingAssetsPath, fileRelativePath);
             return (filePathStandalone.IsNotNullOrEmpty() && File.Exists(filePathStandalone));
 #endif
         }
@@ -137,7 +138,7 @@ namespace IFramework.Core.Environment
 			//Android 包内
 			return GetFileInZip(zipFile, fileName);
 #endif
-            return DirectoryUtils.GetFiles(PlatformSetting.StreamingAssetsPath, fileName);
+            return DirectoryUtils.GetFiles(Path.Combine(Platform.StreamingAssetBundlePath, Environment.Instance.RuntimePlatformName), fileName);
         }
 
         public byte[] ReadSync(string fileRelativePath)
@@ -237,7 +238,7 @@ namespace IFramework.Core.Environment
 
         private string FindFilePathInternal(string file)
         {
-            string filePath = Path.Combine(PlatformSetting.StreamingAssetsPath, file);
+            string filePath = Path.Combine(Platform.StreamingAssetsPath, file);
 
             if (File.Exists(filePath))
             {
