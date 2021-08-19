@@ -1,0 +1,42 @@
+ManifestFileVersion: 0
+CRC: 3289057882
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 197ada68b2b8edd07e1eb07b9b1d4d68
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5523a719675f3806c927120e8161a658
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7c634204b056042719ba86fe1dabdf74, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Test/2.ResKitExample/0.BasicUsage/Scene.unity
+- Assets/Test/2.ResKitExample/0.BasicUsage/Test.unity
+Dependencies:
+- /Volumes/Gamespace/Workspace/IFramework/IFramework.Unity/AssetBundle/MacOS/pack1
+- /Volumes/Gamespace/Workspace/IFramework/IFramework.Unity/AssetBundle/MacOS/pack2

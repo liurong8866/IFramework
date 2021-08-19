@@ -161,14 +161,14 @@ namespace IFramework.Engine
                 if (Configure.LoadAssetFromStream)
                 {
                     // string streamPath = Path.Combine(Platform.RuntimeStreamAssetBundlePath, Platform.RuntimePlatformName);
-                    configFiles.Add(Environment.Instance.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
+                    configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
                 }
                 // 进行过热更新
                 else
                 {
                     // var persistentPath = Path.Combine(Platform.StreamingAssetBundlePath, Platform.RuntimePlatformName, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     var persistentPath = Path.Combine(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
-                    configFiles.Add(Environment.Instance.FilePathPrefix + persistentPath);
+                    configFiles.Add(Platform.FilePathPrefix + persistentPath);
                     configFiles = DirectoryUtils.GetFiles(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
 
