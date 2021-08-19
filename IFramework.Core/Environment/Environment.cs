@@ -38,6 +38,8 @@ namespace IFramework.Engine
     /// </summary>
     public class Environment : Singleton<Environment>, IEnvironment
     {
+        private Environment(){} 
+        
         /// <summary>
         /// 获取当前平台名称
         /// </summary>

@@ -52,24 +52,12 @@ namespace IFramework.Engine
         /* 初始化Manager 自动加载         */
         /*-----------------------------*/
 
-        /// <summary>
-        /// 全局自动加载一次，请不要手动调用！！
-        /// </summary>
-        private static void OnLoad()
-        {
-            // 初始化Manager自身
-            // Instance.StartInitAsync();
-            Init();
-        }
-        
         public static void Init()
         {
             if(isInit) return;
 
             isInit = true;
             
-            Log.Info("正在初始化 Resource Manager");
-
             InitPool();
             
             // 初始化Manager自身
@@ -85,10 +73,9 @@ namespace IFramework.Engine
             
             isInit = true;
             
-            Log.Info("正在初始化 Resource Manager");
-
             InitPool();
             
+            // 初始化Manager自身
             // 初始化Manager自身
             yield return Instance.InitResourceManagerAsync();
         }
@@ -96,7 +83,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 只是为了解决调用异步初始化方法问题
         /// </summary>
-        private void StartInitAsync()
+        public void StartInitAsync()
         {
             StartCoroutine(InitAsync());
         }
@@ -187,7 +174,6 @@ namespace IFramework.Engine
 
                 foreach (string file in configFiles)
                 {
-                    file.LogInfo();
                     yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
                 }
                 yield return null;

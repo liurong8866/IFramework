@@ -39,10 +39,11 @@ namespace IFramework.Engine
         public static void InitBeforeSceneLoad()
         {
             Log.Info("初始化 PlatformEnvironment");
-            PlatformEnvironment.Instance.Init(new Environment());
+            PlatformEnvironment.Instance.Init(Environment.Instance);
 
             Log.Info("初始化 ResourceManager");
-            ResourceManager.Init();
+            // ResourceManager.Init();
+            ResourceManager.Instance.StartInitAsync();
         }
     }
 }
