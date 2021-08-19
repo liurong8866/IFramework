@@ -36,17 +36,17 @@ namespace QFramework.Example
 
 		private void Start()
 		{
-			// mResLoader.Load<GameObject>("resources://GameObject")
-			// 	.Instantiate()
-			// 	.Name("这是使用 ResKit 加载的对象");
-			//
+			mResLoader.Load<GameObject>("resources://GameObject")
+				.Instantiate()
+				.Name("这是使用 ResKit 加载的对象");
+			
 			mResLoader.Load<GameObject>("AssetObj", "pack1")
 				.Instantiate()
 				.Name("这是使用通过 AssetName 加载的对象");
 			
-			// mResLoader.Load<GameObject>("AssetObj", "assetobj-prefab")
-			// 	.Instantiate()
-			// 	.Name("这是使用通过 AssetName  和 AssetBundle 加载的对象");
+			mResLoader.Load<GameObject>("AssetObj", "assetobj-prefab")
+				.Instantiate()
+				.Name("这是使用通过 AssetName  和 AssetBundle 加载的对象");
 		}
 		
 		

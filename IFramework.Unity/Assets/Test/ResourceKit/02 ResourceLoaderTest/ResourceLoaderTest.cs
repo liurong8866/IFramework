@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace IFramework.Test.AssetResourceKit
 {
-    public class AssetResourceTest : MonoBehaviour
+    public class ResourceLoaderTest : MonoBehaviour
     {
         ResourceLoader mResLoader = ResourceLoader.Allocate();
         private void Start()

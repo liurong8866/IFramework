@@ -47,10 +47,10 @@ namespace IFramework.Engine
         
         public AssetResource(string assetName) : base(assetName) {}
         
-        /// <summary>
+       /// <summary>
         /// 分配实例
         /// </summary>
-        public static AssetResource Allocate(string assetName, string assetBundleName, Type assetType)
+        public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null)
         {
             AssetResource resource = ObjectPool<AssetResource>.Instance.Allocate();
             if (resource != null)

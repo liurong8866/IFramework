@@ -59,7 +59,7 @@ namespace IFramework.Engine
 
             if (resource == null)
             {
-                Log.Error("没有找到相关资源，创建资源失败!");
+                Log.Error("没有找到相关资源，创建资源失败! {0}", searcher.ToString());
             }
 
             return resource;
