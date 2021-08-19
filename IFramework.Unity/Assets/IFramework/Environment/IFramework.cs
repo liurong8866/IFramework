@@ -32,8 +32,11 @@ namespace IFramework.Engine
     /// </summary>
     public class IFramework
     {
+        /// <summary>
+        /// 场景开始前初始化
+        /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitEnvironment()
+        public static void InitBeforeSceneLoad()
         {
             Log.Info("初始化 PlatformEnvironment");
             PlatformEnvironment.Instance.Init(new Environment());

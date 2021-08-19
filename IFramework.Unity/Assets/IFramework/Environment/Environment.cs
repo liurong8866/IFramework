@@ -26,7 +26,6 @@ using System;
 using UnityEditor;
 using Object = UnityEngine.Object;
 using IFramework.Core;
-using UnityEngine;
 
 #if !UNITY_EDITOR
 using UnityEngine;
@@ -39,8 +38,6 @@ namespace IFramework.Engine
     /// </summary>
     public class Environment : Singleton<Environment>, IEnvironment
     {
-        
-        
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
@@ -89,21 +86,6 @@ namespace IFramework.Engine
 #endif
         
         /// <summary>
-        /// 文件路径前缀file://
-        /// </summary>
-        public string FilePathPrefix
-        {
-            get
-            {
-#if UNITY_EDITOR || UNITY_IOS
-                return "file://";
-#else
-                return string.Empty;
-#endif
-            }
-        }
-        
-        /// <summary>
         /// 是否模拟模式
         /// </summary>
         public bool IsSimulation
@@ -118,6 +100,21 @@ namespace IFramework.Engine
 #endif
         }
         
+        /// <summary>
+        /// 文件路径前缀file://
+        /// </summary>
+        public string FilePathPrefix
+        {
+            get
+            {
+#if UNITY_EDITOR || UNITY_IOS
+                return "file://";
+#else
+                return string.Empty;
+#endif
+            }
+        }
+
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
@@ -159,7 +156,7 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void AddAssetBundleInfoToResourceData(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
+        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
         {
 #if UNITY_EDITOR
             

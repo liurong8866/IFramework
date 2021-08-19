@@ -122,7 +122,7 @@ namespace IFramework.Engine
             {
                 // 获取所有AssetBundle资源信息
                 AssetBundleConfig config = new AssetBundleConfig();
-                Environment.Instance.AddAssetBundleInfoToResourceData(config);
+                Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
             }
             else
@@ -161,7 +161,7 @@ namespace IFramework.Engine
             if (Configure.IsSimulation)
             {
                 AssetBundleConfig config = new AssetBundleConfig();
-                Environment.Instance.AddAssetBundleInfoToResourceData(config);
+                Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
                 yield return null;
             }

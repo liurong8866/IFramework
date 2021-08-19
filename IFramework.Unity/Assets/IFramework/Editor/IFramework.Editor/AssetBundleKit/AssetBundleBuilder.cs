@@ -135,7 +135,7 @@ namespace IFramework.Editor
             
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
 
-            Environment.Instance.AddAssetBundleInfoToResourceData(assetBundleConfig, assetBundleNames);
+            Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);
 
             string filePath = Path.Combine((outputPath?? Platform.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             

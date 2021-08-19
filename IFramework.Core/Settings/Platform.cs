@@ -101,6 +101,16 @@ namespace IFramework.Core
         }
 
         /// <summary>
+        /// 是否为模拟模式
+        /// </summary>
+        public static bool IsSimulation => PlatformEnvironment.Instance.IsSimulation;
+
+        /// <summary>
+        /// 文件路径前缀 file://
+        /// </summary>
+        public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
+        
+        /// <summary>
         /// 根据路径获得资源名
         /// </summary>
         public static string AssetBundleNameByUrl(string url)

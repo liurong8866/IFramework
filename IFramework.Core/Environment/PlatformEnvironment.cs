@@ -24,6 +24,9 @@
 
 namespace IFramework.Core
 {
+    /// <summary>
+    /// 中转类，不要调用
+    /// </summary>
     public class PlatformEnvironment : Singleton<PlatformEnvironment>
     {
         private IEnvironment environment;
@@ -35,12 +38,29 @@ namespace IFramework.Core
             this.environment = environment;
         }
 
-        public IEnvironment Environment => environment;
-
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
         public string RuntimePlatformName => environment.RuntimePlatformName;
+        
+        public bool IsSimulation => environment.IsSimulation;
+
+        public string FilePathPrefix => environment.FilePathPrefix;
+        
+        // string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
+        // {
+        //     return environment.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
+        // }
+        //
+        // public Object LoadAssetAtPath(string assetPath, Type assetType)
+        // {
+        //     return environment.LoadAssetAtPath(assetPath, assetType);
+        // }
+        //
+        // public T LoadAssetAtPath<T>(string assetPath)
+        // {
+        //     return environment.LoadAssetAtPath<T>(assetPath);
+        // }
 
     }
 }
