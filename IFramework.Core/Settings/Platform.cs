@@ -32,118 +32,22 @@ namespace IFramework.Core
 {
     /// <summary>
     /// 平台配置相关方法
-    /// * Runtime开头的方法为携带PlatformName
     /// </summary>
     public static class Platform
     {
+        /*-----------------------------*/
+        /* 平台相关                      */
+        /*-----------------------------*/
+        
         /// <summary>
         /// 运行时平台名称
         /// </summary>
         public static string RuntimePlatformName => PlatformEnvironment.Instance.RuntimePlatformName;
 
         /// <summary>
-        /// 运行时平台AssetBundle包路径，优先获取Persistent，其次获取Stream
-        /// </summary>
-        public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_OUTPUT_PATH), RuntimePlatformName);
-
-        /// <summary>
-        /// 运行时平台StreamAsset/AssetBundle/Platform包路径
-        /// </summary>
-        public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssetsPath, RuntimePlatformName);
-
-        /// <summary>
-        /// 内部目录 StreamingAssets文件夹路径
-        /// </summary>
-        public static string StreamingAssetsPath => Application.streamingAssetsPath;
-        
-        /// <summary>
-        /// StreamingAssets文件夹下到AssetBundle包
-        /// </summary>
-        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH);
-        
-        /// <summary>
-        /// 外部目录 PersistentDataPath文件夹路径
-        /// </summary>
-        public static string PersistentDataPath => Application.persistentDataPath;
-        
-        /// <summary>
-        /// 外部资源路径 PersistentDataPath/AssetBundle
-        /// </summary>
-        public static string PersistentAssetBundlePath
-        {
-            get
-            {
-                if (persistentAssetBundlePath == null)
-                {
-                    persistentAssetBundlePath = Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_OUTPUT_PATH);
-                    DirectoryUtils.Create(persistentAssetBundlePath);
-                }
-
-                return persistentAssetBundlePath;
-            }
-        }
-        
-        /// <summary>
-        /// 外部头像路径 PersistentDataPath/Photo
-        /// </summary>
-        public static string PersistentPhotoPath
-        {
-            get
-            {
-                if (persistentPhotoPath == null)
-                {
-                    persistentPhotoPath = Path.Combine(PersistentDataPath, "Photo");
-                    DirectoryUtils.Create(persistentPhotoPath);
-                }
-
-                return persistentPhotoPath;
-            }
-        }
-
-        /// <summary>
         /// 是否为模拟模式
         /// </summary>
         public static bool IsSimulation => PlatformEnvironment.Instance.IsSimulation;
-
-        /// <summary>
-        /// 文件路径前缀 file://
-        /// </summary>
-        public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
-        
-        /// <summary>
-        /// 根据路径获得资源名
-        /// </summary>
-        public static string AssetBundleNameByUrl(string url)
-        {
-            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentAssetBundlePath + "/", "");
-        }
-        
-        /// <summary>
-        /// 根据资源名获得资源路径
-        /// </summary>
-        public static string AssetBundleNameToUrl(string name)
-        {
-            // 优先返回PersistentAsset路径
-            string url = Path.Combine(PersistentAssetBundlePath ,name);
-            return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath,name);
-        }
-        
-        /// <summary>
-        /// 获取资源名称，不包含扩展名
-        /// </summary>
-        public static string AssetPathToName(string assetPath)
-        {
-            var startIndex = assetPath.LastIndexOf("/", StringComparison.Ordinal) + 1;
-
-            var endIndex = assetPath.LastIndexOf(".", StringComparison.Ordinal);
-            if (endIndex > 0)
-            {
-                var length = endIndex - startIndex;
-                return assetPath.Substring(startIndex, length).ToLower();
-            }
-
-            return assetPath.Substring(startIndex).ToLower();
-        }
         
         /// <summary>
         /// 根据当前配置列表获取打包平台
@@ -209,7 +113,114 @@ namespace IFramework.Core
                     return null;
             }
         }
+        
+        /*------------------------------------------*/
+        /* 路径属性 Runtime开头的方法为携带 PlatformName */
+        /*------------------------------------------*/
+        
+        /// <summary>
+        /// 运行时平台AssetBundle包路径，优先获取Persistent，其次获取Stream
+        /// </summary>
+        public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_FOLDER), RuntimePlatformName);
 
+        /// <summary>
+        /// 内部目录 StreamingAssets文件夹路径
+        /// </summary>
+        public static string StreamingAssetsPath => Application.streamingAssetsPath;
+        
+        /// <summary>
+        /// StreamingAssets文件夹下到AssetBundle包
+        /// </summary>
+        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_FOLDER);
+
+        /// <summary>
+        /// 运行时平台StreamAsset/AssetBundle/Platform包路径
+        /// </summary>
+        public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssetBundlePath, RuntimePlatformName);
+
+        /// <summary>
+        /// 外部目录 PersistentDataPath文件夹路径
+        /// </summary>
+        public static string PersistentDataPath => Application.persistentDataPath;
+        
+        /// <summary>
+        /// 外部资源路径 PersistentDataPath/AssetBundle
+        /// </summary>
+        public static string PersistentAssetBundlePath
+        {
+            get
+            {
+                if (persistentAssetBundlePath == null)
+                {
+                    persistentAssetBundlePath = Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_FOLDER);
+                    DirectoryUtils.Create(persistentAssetBundlePath);
+                }
+
+                return persistentAssetBundlePath;
+            }
+        }
+        
+        /// <summary>
+        /// 外部头像路径 PersistentDataPath/Photo
+        /// </summary>
+        public static string PersistentPhotoPath
+        {
+            get
+            {
+                if (persistentPhotoPath == null)
+                {
+                    persistentPhotoPath = Path.Combine(PersistentDataPath, "Photo");
+                    DirectoryUtils.Create(persistentPhotoPath);
+                }
+
+                return persistentPhotoPath;
+            }
+        }
+
+        /// <summary>
+        /// 文件路径前缀 file://
+        /// </summary>
+        public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
+
+        /*-----------------------------*/
+        /* 资源名称相关                  */
+        /*-----------------------------*/
+        
+        /// <summary>
+        /// 根据路径获得资源名
+        /// </summary>
+        public static string AssetBundleNameByUrl(string url)
+        {
+            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentAssetBundlePath + "/", "");
+        }
+        
+        /// <summary>
+        /// 根据资源名获得资源路径
+        /// </summary>
+        public static string AssetBundleNameToUrl(string name)
+        {
+            // 优先返回PersistentAsset路径
+            string url = Path.Combine(PersistentAssetBundlePath ,name);
+            return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath,name);
+        }
+        
+        /// <summary>
+        /// 获取资源名称，不包含扩展名
+        /// </summary>
+        public static string AssetPathToName(string assetPath)
+        {
+            var startIndex = assetPath.LastIndexOf("/", StringComparison.Ordinal) + 1;
+
+            var endIndex = assetPath.LastIndexOf(".", StringComparison.Ordinal);
+            if (endIndex > 0)
+            {
+                var length = endIndex - startIndex;
+                return assetPath.Substring(startIndex, length).ToLower();
+            }
+
+            return assetPath.Substring(startIndex).ToLower();
+        }
+ 
         /*-----------------------------*/
         /* 私有方法、变量                 */
         /*-----------------------------*/

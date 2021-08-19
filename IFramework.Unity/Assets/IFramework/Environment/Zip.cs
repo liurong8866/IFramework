@@ -138,7 +138,7 @@ namespace IFramework.Engine
 			//Android 包内
 			return GetFileInZip(zipFile, fileName);
 #endif
-            return DirectoryUtils.GetFiles(Path.Combine(Platform.StreamingAssetBundlePath, Platform.RuntimePlatformName), fileName);
+            return DirectoryUtils.GetFiles(Path.Combine(Platform.StreamingAssetBundlePath, Environment.Instance.RuntimePlatformName), fileName);
         }
 
         public byte[] ReadSync(string fileRelativePath)

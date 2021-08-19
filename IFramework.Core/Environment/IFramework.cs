@@ -42,8 +42,10 @@ namespace IFramework.Engine
             PlatformEnvironment.Instance.Init(Environment.Instance);
 
             Log.Info("初始化 ResourceManager");
-            // ResourceManager.Init();
-            ResourceManager.Instance.StartInitAsync();
+            ResourceManager.Init();
+            
+            // 异步加载
+            // ResourceManager.Instance.StartInitAsync();
         }
     }
 }
