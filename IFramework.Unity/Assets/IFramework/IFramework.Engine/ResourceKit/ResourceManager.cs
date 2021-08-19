@@ -105,7 +105,7 @@ namespace IFramework.Engine
         /// </summary>
         private void InitResourceManager()
         {
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 // 获取所有AssetBundle资源信息
                 AssetBundleConfig config = new AssetBundleConfig();
@@ -145,7 +145,7 @@ namespace IFramework.Engine
         /// </summary>
         private IEnumerator InitResourceManagerAsync()
         {
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 AssetBundleConfig config = new AssetBundleConfig();
                 Environment.Instance.InitAssetBundleConfig(config);

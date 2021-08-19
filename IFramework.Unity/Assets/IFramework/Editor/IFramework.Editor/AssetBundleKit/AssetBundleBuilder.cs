@@ -86,7 +86,6 @@ namespace IFramework.Editor
             foreach (AssetBundlePackage subPackage in subPackages)
             {
                 string path =Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
-                // outputPath = Path.Combine(Platform.AssetBundleBuildPath, subPackage.NameSpace, subPackage.Name);
                 
                 Log.Info("正在打包: [{0}]: {1}", platformName, path);
                 

@@ -352,7 +352,7 @@ namespace IFramework.Engine
         public Sprite LoadSprite(string spriteName)
         {
             // 如果是模拟器模式，直接加载Resources文件夹下到资源
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 // 如果未缓存，则缓存
                 if (!spriteMap.ContainsKey(spriteName))
@@ -378,7 +378,7 @@ namespace IFramework.Engine
         public Sprite LoadSprite(string spriteName, string bundleName)
         {
             // 如果是模拟器模式，直接加载Resources文件夹下到资源
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 // 如果未缓存，则缓存
                 if (!spriteMap.ContainsKey(spriteName))
@@ -434,7 +434,7 @@ namespace IFramework.Engine
             if(assetName.IsNullOrEmpty()) return;
 
             // 清空模拟器模式下加载的资源
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 if (spriteMap.ContainsKey(assetName))
                 {
@@ -494,7 +494,7 @@ namespace IFramework.Engine
             waitForLoadList.Clear();
 
             // 释放模拟器模式资源
-            if (Configure.IsSimulation)
+            if (Platform.IsSimulation)
             {
                 foreach (var sprite in spriteMap)
                 {

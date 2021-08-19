@@ -76,7 +76,7 @@ namespace IFramework.Engine
             state = ResourceState.Loading;
             
             // 如果不是模拟模式
-            if (!Configure.IsSimulation)
+            if (!Platform.IsSimulation)
             {
                 string url = Platform.AssetBundleNameToUrl(assetName);
                 

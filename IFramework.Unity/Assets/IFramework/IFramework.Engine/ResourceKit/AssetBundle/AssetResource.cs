@@ -102,7 +102,7 @@ namespace IFramework.Engine
             Object obj;
             
             // 如果是模拟模式，并且不是包信息资源
-            if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
+            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
@@ -206,7 +206,7 @@ namespace IFramework.Engine
             
             
             // 如果是模拟模式，并且不是包信息资源
-            if (Configure.IsSimulation.Value && !assetName.Equals("assetbundlemanifest"))
+            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
             {
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
