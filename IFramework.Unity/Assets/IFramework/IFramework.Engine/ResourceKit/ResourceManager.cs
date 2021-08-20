@@ -214,9 +214,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源
         /// </summary>
-        public T GetResource<T>(ResourceSearcher searcher) where T : class, IResource
+        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource
         {
-            return GetResource(searcher) as T;
+            return GetResource(searcher, create) as T;
         }
         
         /*-----------------------------*/

@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using System;
+using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 
@@ -30,11 +31,32 @@ namespace Test.ResourceKit._03_AssetBundleTest
 {
     public class AssetBundleTest : MonoBehaviour
     {
-        AssetResource assetResource = AssetResource.Allocate("");
+        private AssetResource assetResource;
         
         private void Start()
         {
+            assetResource = AssetResource.Allocate("Malong");
+            assetResource.Load();
+            assetResource.Asset.Instantiate().Name("我是通过AssetResource 加载的 Malong");
             
+            
+            assetResource = AssetResource.Allocate("AssetObj");
+            assetResource.Load();
+            assetResource.Asset.Instantiate().Name("我是通过AssetResource 加载的 AssetObj");
+            
+            assetResource = AssetResource.Allocate("AssetObj", "pack1");
+            assetResource.Load();
+            assetResource.Asset.Instantiate().Name("我是通过AssetResource 加载的 pack1");
+            
+            assetResource = AssetResource.Allocate("AssetObj", "pack2");
+            assetResource.Load();
+            assetResource.Asset.Instantiate().Name("我是通过AssetResource 加载的 pack2");
+            
+        }
+
+        private void OnDestroy()
+        {
+            assetResource.Dispose();
         }
     }
 }

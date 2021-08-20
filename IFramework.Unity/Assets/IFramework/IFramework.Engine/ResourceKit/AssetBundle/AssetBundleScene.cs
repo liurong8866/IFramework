@@ -51,8 +51,9 @@ namespace IFramework.Engine
             if (assetBundleNameConfig.IsNullOrEmpty()) return false;
             
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig);
+            
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-
+            
             if (resource == null || resource.AssetBundle == null)
             {
                 Log.Error("加载资源失败，没有找到AssetBundle：" + resource);

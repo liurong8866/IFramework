@@ -105,11 +105,12 @@ namespace IFramework.Engine
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-                AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-
+                
+                AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
+                
                 // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
-
+                
                 if (assetPaths.IsNullOrEmpty())
                 {
                     Log.Error("加载资源失败: "+ assetName);
@@ -134,11 +135,12 @@ namespace IFramework.Engine
             else
             {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
+                
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
                 if (resource == null || !resource.AssetBundle)
                 {
-                    Log.Error("加载资源失败，未能找到AssetBundleImage: "+ assetBundleNameConfig);
+                    Log.Error("加载资源失败，未能找到AssetBundle: "+ assetBundleNameConfig);
                     // OnResourceLoadFailed();
                     return false;
                 }
@@ -202,8 +204,7 @@ namespace IFramework.Engine
             }
             
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-            AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-            
+            AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
             
             // 如果是模拟模式，并且不是包信息资源
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
@@ -276,7 +277,6 @@ namespace IFramework.Engine
 
                 asset = request.asset;
             }
-            
             
             state = ResourceState.Ready;
 

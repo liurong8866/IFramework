@@ -123,7 +123,7 @@ namespace IFramework.Engine
                 first?.Load();
             }
 
-            // 从加载到资源中找到本次要打开的资源
+            // 从加载的资源中找到本次要打开的资源
             IResource resource = ResourceManager.Instance.GetResource(searcher);
             
             if (resource == null)
