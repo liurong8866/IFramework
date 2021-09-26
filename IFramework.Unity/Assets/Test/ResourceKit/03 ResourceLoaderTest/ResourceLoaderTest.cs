@@ -18,8 +18,7 @@ namespace IFramework.Test.AssetResourceKit
                 .Instantiate()
                 .Name("这是使用通过 AssetName 加载的对象");
             
-            
-            mResLoader.Load<GameObject>("AssetObj", "assetobj-prefab")
+            mResLoader.Load<GameObject>("Liliy", "liliy-prefab")
                 .Instantiate()
                 .Name("这是使用通过 AssetName + AssetBundle 加载的对象");
 

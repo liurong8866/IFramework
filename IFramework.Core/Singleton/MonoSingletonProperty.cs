@@ -33,7 +33,7 @@ namespace IFramework.Core
     public static class MonoSingletonProperty<T> where T : MonoBehaviour, ISingleton
     {
         // 静态实例
-        private static T instance;
+        private static volatile T instance;
         
         // 对象锁
         // ReSharper disable once StaticMemberInGenericType

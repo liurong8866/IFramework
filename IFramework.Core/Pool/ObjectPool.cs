@@ -32,7 +32,7 @@ namespace IFramework.Core
     public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new()
     {
         // 最大对象
-        private int maxCount;
+        private int capacity;
 
         /*-----------------------------*/
         /* 实现对象池单例                */
@@ -43,10 +43,7 @@ namespace IFramework.Core
             factory = new DefaultFactory<T>();
         }
 
-        public static ObjectPool<T> Instance
-        {
-            get { return SingletonProperty<ObjectPool<T>>.Instance; }
-        }
+        public static ObjectPool<T> Instance => SingletonProperty<ObjectPool<T>>.Instance;
 
         void ISingleton.OnInit() { }
 
@@ -75,12 +72,9 @@ namespace IFramework.Core
             }
 
             // 如果数量小于初始化容量，则新增
-            if (Count < initCount)
+            for (int i = Count; i < initCount; i++)
             {
-                for (int i = Count; i < initCount; i++)
-                {
-                    Recycle(factory.Create());
-                }
+                Recycle(factory.Create());
             }
         }
         
@@ -89,15 +83,15 @@ namespace IFramework.Core
         /// </summary>
         public int Capacity
         {
-            get { return maxCount; }
+            get { return capacity; }
             set
             {
-                maxCount = value;
+                capacity = value;
                 
                 // 如果当前数量超出最大容量，则释放无用数据
-                if (maxCount > 0 && maxCount < Count)
+                if (capacity > 0 && capacity < Count)
                 {
-                    for (int i = Count; i > maxCount; i--)
+                    for (int i = Count; i > capacity; i--)
                     {
                         cache.Pop();
                     }
@@ -125,10 +119,10 @@ namespace IFramework.Core
             if (t == null || t.IsRecycled) return false;
 
             // 如果有最大数量限制
-            if (maxCount > 0)
+            if (capacity > 0)
             {
                 // 如果当前数量超过最大数量，不回收到对象池
-                if (Count >= maxCount)
+                if (Count >= capacity)
                 {
                     t.OnRecycled();
                     return false;

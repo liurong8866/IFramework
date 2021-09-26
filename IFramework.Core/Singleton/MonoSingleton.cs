@@ -29,7 +29,7 @@ namespace IFramework.Core
     public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
     {
         // 静态实例
-        protected static T instance;
+        protected static volatile T instance;
         
         // 对象锁
         // ReSharper disable once StaticMemberInGenericType

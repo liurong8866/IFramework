@@ -27,7 +27,7 @@ namespace IFramework.Core
     /// <summary>
     /// 中转类，不要调用
     /// </summary>
-    public class PlatformEnvironment : Singleton<PlatformEnvironment>
+    public sealed class PlatformEnvironment : Singleton<PlatformEnvironment>
     {
         private IEnvironment environment;
         

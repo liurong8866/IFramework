@@ -74,6 +74,11 @@ namespace IFramework.Test.Pool
             pool.Init(10, 5);
             Debug.Log(pool.Count);
             
+            pool.Init(10, 10);
+            Debug.Log(pool.Count);
+            
+            pool.Init(10, 15);
+            Debug.Log(pool.Count);
             
             Bullet2[] bullet = new Bullet2[15];
             

@@ -31,7 +31,7 @@ namespace IFramework.Core
     public abstract class Singleton<T> : ISingleton where T : Singleton<T>
     {
         // 静态实例
-        protected static T instance;
+        protected static volatile T instance;
         
         // 对象锁
         // ReSharper disable once StaticMemberInGenericType

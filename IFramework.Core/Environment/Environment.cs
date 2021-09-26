@@ -36,7 +36,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 环境类，用于编译条件的类，本身不编译，继承自IEnvironment接口，生成后放在Unity3D中
     /// </summary>
-    public class Environment : Singleton<Environment>, IEnvironment
+    public sealed class Environment : Singleton<Environment>, IEnvironment
     {
         private Environment(){} 
         
