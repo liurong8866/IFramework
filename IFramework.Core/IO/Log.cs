@@ -22,6 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -124,6 +125,20 @@ namespace IFramework.Core
         public static void LogError(this object self, string format)
         {
             Error(format, self);
+        }
+
+        public static void Clear()
+        {
+            // var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+            // var type = assembly.GetType("UnityEditor.LogEntries");
+            
+            //获取UnityEditor程序集里面的UnityEditorInternal.LogEntries类型，也就是把关于Console的类提出来
+            var entries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll"); 
+            
+            //在logEntries类里面找到名为Clear的方法，且其属性必须是public static的，等同于得到了Console控制台左上角的clear，然后通过Invoke进行点击实现
+            var method = entries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);  
+            
+            method?.Invoke(null, null);  
         }
         
     }

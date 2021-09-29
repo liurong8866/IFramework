@@ -31,6 +31,9 @@ using Object=UnityEngine.Object;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 资源调用的超级类，配置了多个适配器，根据资源请求类型动态选择资源器加载
+    /// </summary>
     public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable
     {
         // 当前加载资源到数量
@@ -346,7 +349,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载Sprite
         /// </summary>
-        public Sprite LoadSprite(string spriteName)
+        public Sprite LoadSprite(string spriteName, string bundleName = null)
         {
             // 如果是模拟器模式，直接加载Resources文件夹下到资源
             if (Platform.IsSimulation)
@@ -355,33 +358,7 @@ namespace IFramework.Engine
                 if (!spriteMap.ContainsKey(spriteName))
                 {
                     // 加载Texture资源
-                    Texture2D texture = Load<Texture2D>(spriteName);
-                    // 创建Sprite
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
-                    // 添加到缓存
-                    spriteMap.Add(spriteName, sprite);
-                }
-                
-                return spriteMap[spriteName];
-            }
-
-            // 非模拟器模式，直接加载AssetBundle
-            return Load<Sprite>(spriteName);
-        }
-        
-        /// <summary>
-        /// 同步加载Sprite
-        /// </summary>
-        public Sprite LoadSprite(string spriteName, string bundleName)
-        {
-            // 如果是模拟器模式，直接加载Resources文件夹下到资源
-            if (Platform.IsSimulation)
-            {
-                // 如果未缓存，则缓存
-                if (!spriteMap.ContainsKey(spriteName))
-                {
-                    // 加载Texture资源
-                    Texture2D texture = Load<Texture2D>(bundleName, spriteName);
+                    Texture2D texture = bundleName == null ? Load<Texture2D>(bundleName) : Load<Texture2D>(bundleName, spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存

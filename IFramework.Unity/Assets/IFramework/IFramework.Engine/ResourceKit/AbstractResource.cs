@@ -292,7 +292,7 @@ namespace IFramework.Engine
         
         public override string ToString()
         {
-            return string.Format("Name:{0}\t State:{1}\t Counter:{2}", AssetName, State, Counter);
+            return string.Format("AssetName:【{0}】 AssetBundleName:【{1}】 State:【{2}】 Counter:【{3}】", AssetName, AssetBundleName, State, Counter);
         }
         
     }

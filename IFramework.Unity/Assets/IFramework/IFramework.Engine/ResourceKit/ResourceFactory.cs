@@ -42,6 +42,7 @@ namespace IFramework.Engine
             new AssetBundleSceneCreator(),
             new AssetResourceCreator(),
             new ResourceCreator()
+            
         };
 
         /// <summary>
@@ -49,13 +50,23 @@ namespace IFramework.Engine
         /// </summary>
         public static IResource Create(ResourceSearcher searcher)
         {
-            IResource resource = creators
-                // 找到对应资源的创建者
-                .Where(creator => creator.Match(searcher))
-                // 创建创建者（一般是从缓冲池分配获得）
-                .Select(creator => creator.Create(searcher))
-                // 如果有多个，取第一个
-                .FirstOrDefault();
+            // IResource resource = creators
+            //     // 找到对应资源的创建者
+            //     .Where(creator => creator.Match(searcher))
+            //     // 创建创建者（一般是从缓冲池分配获得）
+            //     .Select(creator => creator.Create(searcher))
+            //     // 如果有多个，取第一个
+            //     .FirstOrDefault();
+
+            IResource resource = null;
+            foreach (IResourceCreator creator in creators)
+            {
+                if (creator.Match(searcher))
+                {
+                    resource = creator.Create(searcher);
+                    break;
+                }
+            }
 
             if (resource == null)
             {
@@ -64,7 +75,7 @@ namespace IFramework.Engine
 
             return resource;
         }
-        
+
         /// <summary>
         /// 添加生产者
         /// </summary>

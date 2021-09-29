@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEditor;
@@ -38,6 +39,7 @@ namespace IFramework.Editor
     {
         public static void BuildAssetBundles()
         {
+            Log.Clear();
             
             // 打包AssetBundle
             BuildAssetBundles(Platform.CurrentBuildPlatform);
@@ -47,7 +49,6 @@ namespace IFramework.Editor
             {
                 AssetBundleScript.GenerateConstScript();
             }
-            
         }
 
         /// <summary>

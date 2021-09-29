@@ -45,35 +45,38 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             RawImage rawImage4 = transform.Find("RawImage4").GetComponent<RawImage>();
             
             // Resource
-            image.sprite = loader.LoadSprite("resources://sprite/sword");
-            rawImage.texture = loader.Load("resources://sprite/CharCommunity_001") as Texture2D;
-            rawImage2.texture = loader.Load<Texture2D>("resources://sprite/CharCommunity_002");
+            // image.sprite = loader.LoadSprite("resources://sprite/sword");
+            // rawImage.texture = loader.Load("resources://sprite/CharCommunity_001") as Texture2D;
+            // rawImage2.texture = loader.Load<Texture2D>("resources://sprite/CharCommunity_002");
+            //
+            // loader.AddToLoad("resources://sprite/CharCommunity_003", 
+            //         (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
+            //     .AddToLoad("resources://sprite/CharCommunity_004", 
+            //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
+            //     .LoadAsync();
             
-            loader.AddToLoad("resources://sprite/CharCommunity_003", 
-                    (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
-                .AddToLoad("resources://sprite/CharCommunity_004", 
-                    (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
-                .LoadAsync();
-            
-            // // AssetBundle
+            // AssetBundle
             // image.sprite = loader.LoadSprite("sword");
             // rawImage.texture = loader.Load("CharCommunity_001") as Texture2D;
             // rawImage2.texture = loader.Load<Texture2D>("CharCommunity_002");
+            // rawImage3.texture = loader.Load<Texture2D>("CharCommunity_003");
             // rawImage4.texture = loader.Load<Texture2D>("CharCommunity_004");
-            // // rawImage3.texture = loader.Load<Texture2D>("CharCommunity_003");
-            //
-            // loader.AddToLoad("Code", "code-png", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); });
-            // loader.LoadAsync();
+
+            // 异步实现问题
             // loader.AddToLoad("CharCommunity_003", 
             //         (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
             //     .AddToLoad("CharCommunity_004", 
             //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
             //     .LoadAsync(()=>{Log.Info("加载完毕");});
+            // loader.AddToLoad<Texture2D>("Code", "code-png", (result, res) =>
+            // {
+            //     result.iif(() => rawImage3.texture = res.Asset as Texture2D);
+            // });
+            // loader.LoadAsync();
             
             
-            
-            // rawImage.texture = loader.Load<Texture2D>("code");
-            // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
+            rawImage.texture = loader.Load<Texture2D>("code");
+            rawImage.texture = loader.Load<Texture2D>("code", "code-png");
 
             // rawImage.texture = loader.Load<Texture2D>("Code");
             // rawImage.texture = loader.Load<Texture2D>("code");

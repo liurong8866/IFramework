@@ -32,6 +32,9 @@ using UnityEngine.Networking;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// AssetBundle资源管理类
+    /// </summary>
     public class AssetBundleResource : AbstractResource
     {
         private bool unloadFlag = true;
@@ -87,7 +90,7 @@ namespace IFramework.Engine
 
                 if (AssetBundle == null)
                 {
-                    Log.Error("AssetBundle加载失败: " + assetName);
+                    Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
                     return false;
                 }

@@ -29,6 +29,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// Resources文件夹下的资源管理类
+    /// </summary>
     public sealed class Resource : AbstractResource
     {
         private string path;

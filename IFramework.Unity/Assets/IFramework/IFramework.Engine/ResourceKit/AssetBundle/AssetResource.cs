@@ -31,6 +31,9 @@ using Object = UnityEngine.Object;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// AssetBundle包中的Asset资源管理类
+    /// </summary>
     public class AssetResource : AbstractResource
     {
         protected string assetBundleNameConfig;
@@ -113,7 +116,7 @@ namespace IFramework.Engine
                 
                 if (assetPaths.IsNullOrEmpty())
                 {
-                    Log.Error("加载资源失败: "+ assetName);
+                    Log.Error("AssetBundle资源加载失败: "+ assetName);
                     OnResourceLoadFailed();
                     return false;
                 }

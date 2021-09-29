@@ -26,6 +26,9 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 打包成AssetBundle资源的场景资源管理类
+    /// </summary>
     public class AssetBundleScene : AssetResource
     {
         public static AssetBundleScene Allocate(string name)
@@ -56,10 +59,17 @@ namespace IFramework.Engine
             
             if (resource == null || resource.AssetBundle == null)
             {
-                Log.Error("加载资源失败，没有找到AssetBundle：" + resource);
+                if (Platform.IsSimulation)
+                {
+                    Log.Warning("AssetBundle资源加载失败，模拟模式不支持动态加载场景: " + resource);
+                }
+                else
+                {
+                    Log.Error("AssetBundle资源加载失败: " + resource);
+                }
                 return false;
             }
-
+            
             state = ResourceState.Ready;
             return true;
         }
