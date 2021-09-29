@@ -213,37 +213,41 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        public ResourceLoader AddToLoad(string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             AddToLoad(searcher, callback, last);
+            return this;
         }
         
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad<T>(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        public ResourceLoader AddToLoad<T>(string assetName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, null, typeof(T));
             AddToLoad(searcher, callback, last);
+            return this;
         }
 
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        public ResourceLoader AddToLoad(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName);
             AddToLoad(searcher, callback, last);
+            return this;
         }
         
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        public ResourceLoader AddToLoad<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
         {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName, typeof(T));
             AddToLoad(searcher, callback, last);
+            return this;
         }
         
         /// <summary>
@@ -322,15 +326,8 @@ namespace IFramework.Engine
             if (resource.State != ResourceState.Ready)
             {
                 loadingCount++;
-                    
-                if (last)
-                {
-                    waitForLoadList.AddLast(resource);
-                }
-                else
-                {
-                    waitForLoadList.AddFirst(resource);
-                }
+
+                last.iif(()=>waitForLoadList.AddLast(resource),  ()=>waitForLoadList.AddFirst(resource));
             }
         }
         

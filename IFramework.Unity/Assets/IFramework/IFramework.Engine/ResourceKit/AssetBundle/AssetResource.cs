@@ -150,14 +150,7 @@ namespace IFramework.Engine
 
                 state = ResourceState.Loading;
 
-                if (AssetType != null)
-                {
-                    obj = resource.AssetBundle.LoadAsset(assetName,AssetType);
-                }
-                else
-                {
-                    obj = resource.AssetBundle.LoadAsset(assetName);
-                }
+                obj = AssetType != null ? resource.AssetBundle.LoadAsset(assetName,AssetType) : resource.AssetBundle.LoadAsset(assetName);
             }
             
             UnHoldDependResource();

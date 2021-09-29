@@ -56,7 +56,7 @@ namespace Test.ResourceKit._03_AssetBundleTest
 
         private void OnDestroy()
         {
-            assetResource.Dispose();
+            // assetResource.Dispose();
         }
     }
 }

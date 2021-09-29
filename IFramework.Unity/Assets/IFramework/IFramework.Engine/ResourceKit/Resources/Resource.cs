@@ -44,14 +44,7 @@ namespace IFramework.Engine
             {
                 resource.AssetName = name;
 
-                if (urlType == ResourcesUrlType.Url)
-                {
-                    resource.path = name.Substring("resources://".Length);
-                }
-                else
-                {
-                    resource.path = name.Substring("Resources/".Length);
-                }
+                resource.path = name.Substring(urlType == ResourcesUrlType.Url ? "resources://".Length : "Resources/".Length);
             }
             
             return resource;
@@ -68,14 +61,7 @@ namespace IFramework.Engine
 
             State = ResourceState.Loading;
 
-            if (AssetType != null)
-            {
-                asset = Resources.Load(path, AssetType);
-            }
-            else
-            {
-                asset = Resources.Load(path);
-            }
+            asset = AssetType != null ? Resources.Load(path, AssetType) : Resources.Load(path);
 
             if (asset == null)
             {
@@ -85,6 +71,7 @@ namespace IFramework.Engine
             }
 
             State = ResourceState.Ready;
+            
             return true;
         }
 
@@ -109,14 +96,7 @@ namespace IFramework.Engine
         {
             ResourceRequest request;
 
-            if (AssetType != null)
-            {
-                request = Resources.LoadAsync(path, AssetType);
-            }
-            else
-            {
-                request = Resources.LoadAsync(path);
-            }
+            request = AssetType != null ? Resources.LoadAsync(path, AssetType) : Resources.LoadAsync(path);
 
             yield return request;
 
