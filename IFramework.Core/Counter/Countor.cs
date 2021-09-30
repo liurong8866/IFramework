@@ -24,20 +24,17 @@
 
 using System;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// 简单当计数器
     /// </summary>
-    public class Countor : ICountor, IDisposable
-    {
-        public Countor()
-        {
+    public class Countor : ICountor, IDisposable {
+
+        public Countor() {
             Counter = 0;
         }
-        
-        public Countor(Action action)
-        {
+
+        public Countor(Action action) {
             Counter = 0;
             OnZero = action;
         }
@@ -51,12 +48,11 @@ namespace IFramework.Core
         /// 为 0 事件
         /// </summary>
         public Action OnZero { get; set; }
-        
+
         /// <summary>
         /// 记录
         /// </summary>
-        public bool Hold(object owner = null)
-        {
+        public bool Hold(object owner = null) {
             Counter++;
             return true;
         }
@@ -64,12 +60,9 @@ namespace IFramework.Core
         /// <summary>
         /// 释放
         /// </summary>
-        public bool UnHold(object owner = null)
-        {
+        public bool UnHold(object owner = null) {
             Counter--;
-            
-            if (Counter == 0)
-            {
+            if (Counter == 0) {
                 OnZero.InvokeSafe();
             }
             return true;
@@ -79,24 +72,20 @@ namespace IFramework.Core
         /// 重置为0
         /// </summary>
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
-        public void ResetCounter(bool invokeAction = false)
-        {
+        public void ResetCounter(bool invokeAction = false) {
             Counter = 0;
-
-            if (invokeAction)
-            {
+            if (invokeAction) {
                 OnZero.InvokeSafe();
             }
         }
-        
-        public void Dispose()
-        {
+
+        public void Dispose() {
             OnZero = null;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return Counter.ToString();
         }
+
     }
 }

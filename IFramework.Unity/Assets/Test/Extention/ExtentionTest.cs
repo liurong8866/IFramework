@@ -27,23 +27,19 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
-namespace IFramework.Test.Extention
-{
+namespace IFramework.Test.Extention {
     public delegate void Dd();
-    public class ExtentionTest : MonoBehaviour
-    {
-        private void Start()
-        {
+
+    public class ExtentionTest : MonoBehaviour {
+
+        private void Start() {
             // ObjectExtentionTest();
 
             // GameObjectExtentionTest();
-
             TransformExtentiontest();
         }
 
-        private void ObjectExtentionTest()
-        {
-            
+        private void ObjectExtentionTest() {
             Object gameObject = new GameObject();
             gameObject
                 .As<GameObject>()
@@ -51,46 +47,32 @@ namespace IFramework.Test.Extention
                 .Name("testlist")
                 .DontDestroyOnLoad()
                 .transform.SetParent(this.gameObject.transform);
-                // .DestroySelf();
-
-                this.gameObject.DontDestroyOnLoad();
-            
+            // .DestroySelf();
+            this.gameObject.DontDestroyOnLoad();
             Action action1 = () => { Debug.Log("hello world"); };
             action1.InvokeSafe();
-            
             Action<int> action2 = (a) => { Debug.Log("hello world"); };
             action2.InvokeSafe<int>(2);
-            
             Action<int, string> action3 = (a, b) => { Debug.Log("hello world"); };
-            action3.InvokeSafe<int, string>( 2, "cat");
-            
+            action3.InvokeSafe<int, string>(2, "cat");
             Dd dd = () => { Debug.Log("hello world"); };
             dd.InvokeSafe();
-            
-            Func<int> func = ()=> 1;
+            Func<int> func = () => 1;
             func.InvokeSafe();
-        
-            gameObject.InvokeAction<Object>( (a)=>
-            {
-                a.DestroySelf();
-            });
-        
+            gameObject.InvokeAction<Object>((a) => { a.DestroySelf(); });
         }
 
-        private void GameObjectExtentionTest()
-        {
+        private void GameObjectExtentionTest() {
             var gameObject = new GameObject();
             gameObject.Name("testObject");
             var transform = gameObject.transform;
             var selfScript = gameObject.AddComponentSafe<AudioSource>();
             var boxCollider = gameObject.AddComponent<BoxCollider>();
             boxCollider = gameObject.AddComponentSafe<BoxCollider>();
-            
             gameObject.Show(); // gameObject.SetActive(true)
             // selfScript.Show(); // this.gameObject.SetActive(true)
             // boxCollider.Show(); // boxCollider.gameObject.SetActive(true)
             // gameObject.transform.Show(); // transform.gameObject.SetActive(true)
-            
             gameObject.Hide(); // gameObject.SetActive(false)
             // selfScript.Hide(); // this.gameObject.SetActive(false)
             // boxCollider.Hide(); // boxCollider.gameObject.SetActive(false)
@@ -119,18 +101,15 @@ namespace IFramework.Test.Extention
             // transform.Layer("Default");
         }
 
-        private void TransformExtentiontest()
-        {
+        private void TransformExtentiontest() {
             GameObject obj = new GameObject();
-
             obj.transform
                 // .Parent(transform.FindRecursion("AAA"))
                 .Name("Hello")
                 .LocalIdentity()
                 .Identity(transform.FindRecursion("AAA"));
-
-            Debug.Log(obj.transform.Path()); 
+            Debug.Log(obj.transform.Path());
         }
+
     }
-    
 }

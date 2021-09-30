@@ -22,11 +22,11 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
-{
-    public enum ResourcesUrlType
-    {
-        Url, // resources://
+namespace IFramework.Engine {
+    public enum ResourcesUrlType {
+
+        Url,   // resources://
         Folder // Resources/
+
     }
 }

@@ -25,14 +25,12 @@
 using System;
 using IFramework.Core;
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// 参与打包的Asset资源信息
     /// </summary>
     [Serializable]
-    public class AssetInfo
-    {
+    public class AssetInfo {
 
         /// <summary>
         /// 资源名称
@@ -63,16 +61,16 @@ namespace IFramework.Engine
         /// 资源全称 AssetBundleName.AssetName
         /// </summary>
         public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
-        
+
         public AssetInfo() { }
-        
-        public AssetInfo(string assetName, string assetBundleName, int assetBundleIndex, short assetType, short assetTypeCode = 0)
-        {
+
+        public AssetInfo(string assetName, string assetBundleName, int assetBundleIndex, short assetType, short assetTypeCode = 0) {
             AssetName = assetName;
             AssetBundleName = assetBundleName;
             AssetBundleIndex = assetBundleIndex;
             AssetType = assetType;
             AssetTypeCode = assetTypeCode;
         }
+
     }
 }

@@ -25,22 +25,18 @@
 using IFramework.Core;
 using UnityEngine;
 
-namespace IFramework.Test.Event
-{
-    public class EventReceiver : MonoBehaviour
-    {
-        private void Awake()
-        {
+namespace IFramework.Test.Event {
+    public class EventReceiver : MonoBehaviour {
+
+        private void Awake() {
             Debug.Log("注册事件");
             DefaultEvent.Register(100, Action);
         }
 
         private void Start() { }
 
-        private void Action(int key, params object[] param)
-        {
-            switch (key)
-            {
+        private void Action(int key, params object[] param) {
+            switch (key) {
                 case 100:
                     Debug.Log(param);
                     break;
@@ -48,9 +44,9 @@ namespace IFramework.Test.Event
             }
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             DefaultEvent.UnRegister(100, Action);
         }
+
     }
 }

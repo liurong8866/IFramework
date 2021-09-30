@@ -24,34 +24,26 @@
 
 using System;
 
-namespace IFramework.Core
-{
-    public static class ConditionExtension
-    {
-        
+namespace IFramework.Core {
+    public static class ConditionExtension {
+
         /// <summary>
         /// 如果为真，执行，并返回真
         /// </summary>
-        public static bool IfTrue(this bool boolean, Action action)
-        {
-            if (boolean)
-            {
+        public static bool IfTrue(this bool boolean, Action action) {
+            if (boolean) {
                 action.Invoke();
             }
-
             return boolean;
         }
-        
+
         /// <summary>
         /// 如果为假，执行，并返回假
         /// </summary>
-        public static bool IfFalse(this bool boolean, Action action)
-        {
-            if (!boolean)
-            {
+        public static bool IfFalse(this bool boolean, Action action) {
+            if (!boolean) {
                 action.Invoke();
             }
-
             return boolean;
         }
 
@@ -62,18 +54,15 @@ namespace IFramework.Core
         /// <param name="trueAction">真处理</param>
         /// <param name="falseAction">假处理</param>
         // ReSharper disable once InconsistentNaming
-        public static void iif(this bool boolean, Action trueAction, Action falseAction=null)
-        {
-            if (boolean)
-            {
+        public static void iif(this bool boolean, Action trueAction, Action falseAction = null) {
+            if (boolean) {
                 trueAction.InvokeSafe();
             }
-            else
-            {
+            else {
                 falseAction.InvokeSafe();
             }
         }
-        
+
         /// <summary>
         /// 真假处理
         /// </summary>
@@ -81,21 +70,16 @@ namespace IFramework.Core
         /// <param name="trueFunc">真处理</param>
         /// <param name="falseFunc">假处理</param>
         // ReSharper disable once InconsistentNaming
-        public static TResult iif<TResult>(this bool boolean, Func<TResult> trueFunc, Func<TResult> falseFunc=null)
-        {
+        public static TResult iif<TResult>(this bool boolean, Func<TResult> trueFunc, Func<TResult> falseFunc = null) {
             TResult result;
-            
-            if (boolean)
-            {
+            if (boolean) {
                 result = trueFunc.InvokeSafe();
             }
-            else
-            {
+            else {
                 result = falseFunc.InvokeSafe();
             }
-
             return result;
         }
-        
+
     }
 }

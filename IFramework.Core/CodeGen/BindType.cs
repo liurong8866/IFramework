@@ -22,12 +22,12 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core
-{
-    public enum BindType
-    {
+namespace IFramework.Core {
+    public enum BindType {
+
         DefaultElement,
         Element,
         Component
+
     }
 }

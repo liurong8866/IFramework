@@ -26,27 +26,27 @@ using System;
 using System.Collections.Generic;
 using IFramework.Core;
 
-namespace IFramework.Engine
-{
-    public enum ResourceState
-    {
+namespace IFramework.Engine {
+    public enum ResourceState {
+
         Waiting = 0,
         Loading = 1,
         Ready = 2
+
     }
-    
-    public interface IResource : ICountor, IRecyclable, IResourceLoadTask
-    {
+
+    public interface IResource : ICountor, IRecyclable, IResourceLoadTask {
+
         /// <summary>
         /// 资源名称
         /// </summary>
         string AssetName { get; }
-        
+
         /// <summary>
         /// 所属AssetBundle包名称
         /// </summary>
         string AssetBundleName { get; }
-        
+
         /// <summary>
         /// 资源类型
         /// </summary>
@@ -56,17 +56,17 @@ namespace IFramework.Engine
         /// 资源对象
         /// </summary>
         UnityEngine.Object Asset { get; }
-        
+
         /// <summary>
         /// 资源加载状态
         /// </summary>
         ResourceState State { get; }
-        
+
         /// <summary>
         /// 同步加载资源
         /// </summary>
         bool Load();
-        
+
         /// <summary>
         /// 异步加载资源
         /// </summary>
@@ -76,12 +76,12 @@ namespace IFramework.Engine
         /// 卸载图片资源
         /// </summary>
         bool UnloadImage(bool flag);
-        
+
         /// <summary>
         /// 释放资源
         /// </summary>
         bool Release();
-        
+
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
@@ -91,12 +91,12 @@ namespace IFramework.Engine
         /// 是否依赖资源加载完毕
         /// </summary>
         bool IsDependResourceLoaded();
-        
+
         /// <summary>
         /// 注册资源加载完毕事件
         /// </summary>
         void RegisterOnLoadedEvent(Action<bool, IResource> listener);
-        
+
         /// <summary>
         /// 注销资源加载完毕事件
         /// </summary>

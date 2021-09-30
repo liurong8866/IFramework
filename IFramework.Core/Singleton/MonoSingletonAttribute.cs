@@ -24,14 +24,13 @@
 
 using System;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// MonoBehaviour单例特性，标记在需要单例的MonoBehaviour的类上
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class MonoSingletonAttribute: Attribute
-    {
+    public class MonoSingletonAttribute : Attribute {
+
         // 在Hierarchy中的全路径
         private string pathInHierarchy;
 
@@ -42,8 +41,7 @@ namespace IFramework.Core
         /// 单例特性构造函数
         /// </summary>
         /// <param name="pathInHierarchy">需要附加的GameObject在Hierarchy中的全路径</param>
-        public MonoSingletonAttribute(string pathInHierarchy)
-        {
+        public MonoSingletonAttribute(string pathInHierarchy) {
             this.pathInHierarchy = pathInHierarchy;
         }
 
@@ -51,10 +49,10 @@ namespace IFramework.Core
         public string PathInHierarchy => pathInHierarchy;
 
         // 标记不销毁
-        public bool DontDestroy
-        {
+        public bool DontDestroy {
             get => dontDestroy;
             set => dontDestroy = value;
         }
+
     }
 }

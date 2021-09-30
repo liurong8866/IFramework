@@ -24,13 +24,12 @@
 
 using System;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// TypeEvent接口
     /// </summary>
-    public interface ITypeEvent : IDisposable
-    {
+    public interface ITypeEvent : IDisposable {
+
         /// <summary>
         /// 注册事件
         /// </summary>
@@ -55,5 +54,6 @@ namespace IFramework.Core
         /// 清空事件
         /// </summary>
         void Clear();
+
     }
 }

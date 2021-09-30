@@ -22,28 +22,24 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
-{
-    public class ResourceCreator : IResourceCreator
-    {
+namespace IFramework.Engine {
+    public class ResourceCreator : IResourceCreator {
+
         /// <summary>
         /// 匹配方法
         /// </summary>
-        public bool Match(ResourceSearcher searcher)
-        {
+        public bool Match(ResourceSearcher searcher) {
             return searcher.AssetName.StartsWith("resources/") || searcher.AssetName.StartsWith("resources://");
         }
 
         /// <summary>
         /// 创建资源
         /// </summary>
-        public IResource Create(ResourceSearcher searcher)
-        {
+        public IResource Create(ResourceSearcher searcher) {
             IResource resource = Resource.Allocate(searcher.AssetName, searcher.AssetName.StartsWith("resources://") ? ResourcesUrlType.Url : ResourcesUrlType.Folder);
-
             resource.AssetType = searcher.AssetType;
-            
             return resource;
         }
+
     }
 }

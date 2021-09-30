@@ -29,13 +29,12 @@ using IFramework.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// AssetBundle包中的Asset资源管理类
     /// </summary>
-    public class AssetResource : AbstractResource
-    {
+    public class AssetResource : AbstractResource {
+
         protected string assetBundleNameConfig;
 
         /// <summary>
@@ -46,18 +45,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AssetResource(){}
-        
-        public AssetResource(string assetName) : base(assetName) {}
-        
-       /// <summary>
+        public AssetResource() { }
+
+        public AssetResource(string assetName) : base(assetName) { }
+
+        /// <summary>
         /// 分配实例
         /// </summary>
-        public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null)
-        {
+        public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null) {
             AssetResource resource = ObjectPool<AssetResource>.Instance.Allocate();
-            if (resource != null)
-            {
+            if (resource != null) {
                 resource.AssetName = assetName;
                 resource.AssetBundleName = assetBundleName;
                 resource.AssetType = assetType;
@@ -69,25 +66,20 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化AssetBundleName
         /// </summary>
-        protected void InitAssetBundleName()
-        {
+        protected void InitAssetBundleName() {
             assetBundleNameConfig = null;
-            
+
             // 在config文件中查找资源
             using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
             AssetInfo config = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
-
-            if (config == null)
-            {
+            if (config == null) {
                 Log.Error("未找到Asset的AssetInfo：{0}", assetName);
                 return;
             }
-            
+
             // 如果找到，则使用config的资源
             assetBundleNameConfig = config.AssetBundleName;
-
-            if (assetBundleNameConfig.IsNullOrEmpty())
-            {
+            if (assetBundleNameConfig.IsNullOrEmpty()) {
                 Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName);
             }
         }
@@ -95,212 +87,157 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load()
-        {
+        public override bool Load() {
             if (!IsLoadable) return false;
 
             // 如果配置文件没有对应的Asset，则退出
             if (assetBundleNameConfig.IsNullOrEmpty()) return false;
-
             Object obj;
-            
+
             // 如果是模拟模式，并且不是包信息资源
-            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
-            {
+            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-                
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
-                
+
                 // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
-                
-                if (assetPaths.IsNullOrEmpty())
-                {
-                    Log.Error("AssetBundle资源加载失败: "+ assetName);
+                if (assetPaths.IsNullOrEmpty()) {
+                    Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
                     return false;
                 }
-                
+
                 // 记录依赖资源
                 HoldDependResource();
-
                 state = ResourceState.Loading;
-
-                if (AssetType != null)
-                {
-                    obj = Environment.Instance.LoadAssetAtPath(assetPaths[0],AssetType);
+                if (AssetType != null) {
+                    obj = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType);
                 }
-                else
-                {
+                else {
                     obj = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
                 }
             }
-            else
-            {
+            else {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-                
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-
-                if (resource == null || !resource.AssetBundle)
-                {
-                    Log.Error("加载资源失败，未能找到AssetBundle: "+ assetBundleNameConfig);
+                if (resource == null || !resource.AssetBundle) {
+                    Log.Error("加载资源失败，未能找到AssetBundle: " + assetBundleNameConfig);
                     // OnResourceLoadFailed();
                     return false;
                 }
-                
+
                 // 记录依赖资源
                 HoldDependResource();
-
                 state = ResourceState.Loading;
-
-                obj = AssetType != null ? resource.AssetBundle.LoadAsset(assetName,AssetType) : resource.AssetBundle.LoadAsset(assetName);
+                obj = AssetType != null ? resource.AssetBundle.LoadAsset(assetName, AssetType) : resource.AssetBundle.LoadAsset(assetName);
             }
-            
             UnHoldDependResource();
-
-            if (obj == null)
-            {
-                Log.Error("加载资源失败: {0} : {1} : {2}"+ assetName, AssetType, assetBundleNameConfig);
+            if (obj == null) {
+                Log.Error("加载资源失败: {0} : {1} : {2}" + assetName, AssetType, assetBundleNameConfig);
                 OnResourceLoadFailed();
                 return false;
             }
-
             asset = obj;
-
             state = ResourceState.Ready;
-            
             return true;
         }
 
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override void LoadASync()
-        {
+        public override void LoadASync() {
             if (!IsLoadable) return;
-            
-            if(AssetBundleName.IsNullOrEmpty()) return;
-
+            if (AssetBundleName.IsNullOrEmpty()) return;
             state = ResourceState.Loading;
-            
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
 
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override IEnumerator LoadAsync(Action callback)
-        {
+        public override IEnumerator LoadAsync(Action callback) {
             // 如果没有等待加载的资源，则退出
-            if (Counter <= 0)
-            {
+            if (Counter <= 0) {
                 OnResourceLoadFailed();
                 callback();
                 yield break;
             }
-            
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
-            
-            // 如果是模拟模式，并且不是包信息资源
-            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest"))
-            {
-                string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
-                if (assetPaths.IsNullOrEmpty())
-                {
-                    Log.Error("加载资源失败: "+ assetName);
+            // 如果是模拟模式，并且不是包信息资源
+            if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
+                string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+                if (assetPaths.IsNullOrEmpty()) {
+                    Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
                     callback();
                     yield break;
                 }
-                
+
                 // 记录依赖资源
                 HoldDependResource();
-
                 state = ResourceState.Loading;
-
                 yield return new WaitForEndOfFrame();
-                
                 UnHoldDependResource();
-                
-                if (AssetType != null)
-                {
-                    asset = Environment.Instance.LoadAssetAtPath(assetPaths[0],AssetType);
+                if (AssetType != null) {
+                    asset = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType);
                 }
-                else
-                {
+                else {
                     asset = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
                 }
             }
-            else
-            {
-                if (resource == null || resource.AssetBundle == null)
-                {
-                    Log.Error("加载资源失败，未能找到AssetBundleImage: "+ assetBundleNameConfig);
+            else {
+                if (resource == null || resource.AssetBundle == null) {
+                    Log.Error("加载资源失败，未能找到AssetBundleImage: " + assetBundleNameConfig);
                     OnResourceLoadFailed();
                     callback();
                     yield break;
                 }
-                
+
                 // 记录依赖资源
                 HoldDependResource();
-
                 state = ResourceState.Loading;
-
                 AssetBundleRequest request;
-                
-                if (AssetType != null)
-                {
-                    request = resource.AssetBundle.LoadAssetAsync(assetName,AssetType);
+                if (AssetType != null) {
+                    request = resource.AssetBundle.LoadAssetAsync(assetName, AssetType);
                     yield return request;
                 }
-                else
-                {
+                else {
                     request = resource.AssetBundle.LoadAssetAsync(assetName);
                     yield return request;
                 }
-                
                 UnHoldDependResource();
-
-                if (request == null)
-                {
-                    Log.Error("加载资源失败: "+ assetName);
+                if (request == null) {
+                    Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
                     callback();
                     yield break;
                 }
-
                 asset = request.asset;
             }
-            
             state = ResourceState.Ready;
-
             callback();
         }
 
         /// <summary>
         /// 获取资源依赖
         /// </summary>
-        public override List<string> GetDependResourceList()
-        {
+        public override List<string> GetDependResourceList() {
             return assetBundleNameConfig != null ? new List<string>() { assetBundleNameConfig } : null;
         }
 
-        public override void Recycle()
-        {
+        public override void Recycle() {
             ObjectPool<AssetResource>.Instance.Recycle(this);
         }
 
-        public override void OnRecycled()
-        {
+        public override void OnRecycled() {
             assetBundleNameConfig = null;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
         }
-        
+
     }
 }

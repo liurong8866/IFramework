@@ -24,19 +24,17 @@
 
 using System;
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// 用于清理回调事件到载体
     /// </summary>
-    public class CallbackCleaner
-    {
+    public class CallbackCleaner {
+
         private readonly Action<bool, IResource> callbacks;
 
         private readonly IResource resource;
 
-        public CallbackCleaner(IResource resource, Action<bool, IResource> callback)
-        {
+        public CallbackCleaner(IResource resource, Action<bool, IResource> callback) {
             this.resource = resource;
             this.callbacks = callback;
         }
@@ -44,17 +42,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放监听的事件
         /// </summary>
-        public void Release()
-        {
+        public void Release() {
             resource.UnRegisterOnLoadedEvent(callbacks);
         }
-        
+
         /// <summary>
         /// 判断是否是当前资源
         /// </summary>
-        public bool Is(IResource resource)
-        {
+        public bool Is(IResource resource) {
             return this.resource.AssetName == resource.AssetName;
         }
+
     }
 }

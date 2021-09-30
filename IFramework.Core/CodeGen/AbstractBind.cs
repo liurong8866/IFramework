@@ -24,26 +24,21 @@
 
 using UnityEngine;
 
-namespace IFramework.Core
-{
-    public abstract class AbstractBind : MonoBehaviour, IBind
-    {
-        [SerializeField]
-        protected BindType bindType = BindType.DefaultElement;
-        
-        public string Comment
-        {
+namespace IFramework.Core {
+    public abstract class AbstractBind : MonoBehaviour, IBind {
+
+        [SerializeField] protected BindType bindType = BindType.DefaultElement;
+
+        public string Comment {
             get { return CustomComment; }
         }
 
-        public Transform Transform
-        {
+        public Transform Transform {
             get { return transform; }
         }
 
-        public BindType BindType
-        {
-            get { return bindType;}
+        public BindType BindType {
+            get { return bindType; }
             set { bindType = value; }
         }
 
@@ -52,31 +47,23 @@ namespace IFramework.Core
         [HideInInspector] public string ComponentGeneratePath;
 
         [HideInInspector] public string CustomComment;
-        
+
         [HideInInspector] [SerializeField] private string mComponentName;
 
-        public virtual string ComponentName
-        {
-            get
-            {
-                if (bindType == BindType.DefaultElement)
-                {
-                    if (mComponentName.IsNullOrEmpty())
-                    {
+        public virtual string ComponentName {
+            get {
+                if (bindType == BindType.DefaultElement) {
+                    if (mComponentName.IsNullOrEmpty()) {
                         mComponentName = GetDefaultComponentName();
                     }
-
                     return mComponentName;
                 }
-
                 return CustomComponentName;
             }
             set { mComponentName = value; }
         }
 
-
-        private string GetDefaultComponentName()
-        {
+        private string GetDefaultComponentName() {
             // if (GetComponent<ViewController>()) return GetComponent<ViewController>().GetType().FullName;
             //
             // if (GetComponent("SkeletonAnimation")) return "SkeletonAnimation";
@@ -119,8 +106,8 @@ namespace IFramework.Core
             // if (GetComponent<RectTransform>()) return "RectTransform";
             // if (GetComponent<MeshRenderer>()) return "MeshRenderer";
             // if (GetComponent<SpriteRenderer>()) return "SpriteRenderer";
-            
             return "Transform";
         }
+
     }
 }

@@ -24,10 +24,6 @@
 
 using IFramework.Core;
 
-namespace IFramework.Engine
-{
-    public sealed class ResourceKit : MonoSingleton<ResourceKit>
-    {
-
-    }
+namespace IFramework.Engine {
+    public sealed class ResourceKit : MonoSingleton<ResourceKit> { }
 }

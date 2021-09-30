@@ -28,25 +28,20 @@ using IFramework.Editor.Settings;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor
-{
-    public class AssetBundleMark
-    {
+namespace IFramework.Editor {
+    public class AssetBundleMark {
+
         [InitializeOnLoadMethod]
-        static void OnLoad()
-        {
+        static void OnLoad() {
             Selection.selectionChanged = SelectionChanged;
         }
 
-        private static void SelectionChanged()
-        {
+        private static void SelectionChanged() {
             var path = EditorUtils.GetSelectedPath();
-            if (!string.IsNullOrEmpty(path))
-            {
+            if (!string.IsNullOrEmpty(path)) {
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
             }
-            else
-            {
+            else {
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
             }
         }
@@ -54,34 +49,29 @@ namespace IFramework.Editor
         /// <summary>
         /// 标记资源为AssetBundle
         /// </summary>
-        public static void MarkAssetBundle()
-        {
+        public static void MarkAssetBundle() {
             MarkAssetBundle(EditorUtils.GetSelectedPath());
         }
 
         /// <summary>
         /// 标记资源为AssetBundle
         /// </summary>
-        public static void MarkAssetBundle(string path)
-        {
-            if (path.IsNotNullOrEmpty())
-            {
+        public static void MarkAssetBundle(string path) {
+            if (path.IsNotNullOrEmpty()) {
                 // 根据路径获取AssetBundle
                 AssetImporter ai = AssetImporter.GetAtPath(path);
-                
+
                 // 如果已标记，取消标记，否则标记
-                if (CheckMarked(path))
-                {
+                if (CheckMarked(path)) {
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
                     ai.assetBundleName = null;
-
                 }
-                else
-                {
+                else {
                     DirectoryInfo dir = new DirectoryInfo(path);
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
                     ai.assetBundleName = dir.Name.Replace(".", "-");
                 }
+
                 // 消除无用
                 AssetDatabase.RemoveUnusedAssetBundleNames();
                 // 刷新至关重要，直接影响AssetBundleWindow的自动刷新
@@ -94,15 +84,13 @@ namespace IFramework.Editor
         /// <summary>
         /// 检查是否标记过。根据文件路径与assetBundleName比较
         /// </summary>
-        public static bool CheckMarked(string path)
-        {
+        public static bool CheckMarked(string path) {
             AssetImporter ai = AssetImporter.GetAtPath(path);
 
             // if (ai.assetBundleName.IsNullOrEmpty()) return false;
-            
             DirectoryInfo dir = new DirectoryInfo(path);
-
             return ai.assetBundleName.Equals(dir.Name.Replace(".", "-").ToLower());
         }
+
     }
 }

@@ -5,13 +5,13 @@ using IFramework.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
 
     public Transform cube;
     public Text text;
 
     private Coroutine coroutineSayHi;
+
     /*
      * 什么是协程
      * 1、协程是一段在祝线程中执行的代码逻辑（本质就是一个方法）
@@ -40,8 +40,7 @@ public class GameController : MonoBehaviour
      * 9、将系统提的都回调方法可以改成协程方法 IEnumerator Start(){ yield return ...}
      * 10、协程方法可以做普通方法自由调用
      */
-    void Start()
-    {
+    void Start() {
         // 方法一
         // coroutineSayHi = StartCoroutine(SayHi());
         // 方法二
@@ -51,7 +50,7 @@ public class GameController : MonoBehaviour
         // StartCoroutine(Waiting());
         // 倒计时
         // StartCoroutine(Timer());
-        
+
         // 父子调用
         // StartCoroutine(Father());
 
@@ -69,67 +68,52 @@ public class GameController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         cube.Rotate(Vector3.up);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             // StopCoroutine("SayHi");
             // StopAllCoroutines();
-            StopCoroutine(coroutineSayHi); 
+            StopCoroutine(coroutineSayHi);
             // StopCoroutine(SayHi()); 此方法错误
         }
     }
-    
-    public IEnumerator SayHi()
-    {
-        for (int i = 0; i < 1000; i++)
-        {
+
+    public IEnumerator SayHi() {
+        for (int i = 0; i < 1000; i++) {
             Log.Info("你好");
             yield return null;
         }
-        cube.transform.GetComponent<MeshRenderer>().material.color= Color.green;
+        cube.transform.GetComponent<MeshRenderer>().material.color = Color.green;
     }
-    
+
     // 创建协程，实现休息2s
-    IEnumerator Waiting()
-    {
+    IEnumerator Waiting() {
         Log.Info("我要开始休息");
-        
         yield return new WaitForSeconds(2f);
-        
         Log.Info("我休息完毕了");
-        
         yield return new WaitForSeconds(3f);
-        
         Log.Info("我又累了，想睡觉了");
-        
         yield return new WaitForSeconds(2f);
-        
         Log.Info("我休息完毕了");
     }
 
-    IEnumerator Timer()
-    {
-        for (int i = 10; i >= 0; i--)
-        {
-            text.text = i+"";
+    IEnumerator Timer() {
+        for (int i = 10; i >= 0; i--) {
+            text.text = i + "";
             yield return new WaitForSeconds(1f);
         }
     }
 
-    IEnumerator Son()
-    {
+    IEnumerator Son() {
         Log.Info("我是儿子...");
         yield return StartCoroutine(Waiting());
         Log.Info("我饿了，我要吃东西");
     }
-    
-    IEnumerator Father()
-    {
+
+    IEnumerator Father() {
         Log.Info("儿子，我是父亲...");
         yield return StartCoroutine(Son());
         Log.Info("我在做饭，等一下就好");
     }
+
 }

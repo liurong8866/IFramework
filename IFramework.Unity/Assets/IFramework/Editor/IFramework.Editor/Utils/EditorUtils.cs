@@ -25,25 +25,19 @@
 using System.IO;
 using UnityEditor;
 
-namespace IFramework.Editor
-{
-    public static class EditorUtils
-    {
-        public static string GetSelectedPath()
-        {
-            string path = string.Empty;
-            
-            foreach (var obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets))
-            {
-                path = AssetDatabase.GetAssetPath(obj);
+namespace IFramework.Editor {
+    public static class EditorUtils {
 
-                if (!string.IsNullOrEmpty(path) && File.Exists(path))
-                {
+        public static string GetSelectedPath() {
+            string path = string.Empty;
+            foreach (var obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets)) {
+                path = AssetDatabase.GetAssetPath(obj);
+                if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
                     return path;
                 }
             }
-
             return path;
         }
+
     }
 }

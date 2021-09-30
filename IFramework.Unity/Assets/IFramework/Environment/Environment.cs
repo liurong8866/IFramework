@@ -31,35 +31,31 @@ using IFramework.Core;
 using UnityEngine;
 #endif
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// 环境类，用于编译条件的类，本身不编译，继承自IEnvironment接口，生成后放在Unity3D中
     /// </summary>
-    public sealed class Environment : Singleton<Environment>, IEnvironment
-    {
-        private Environment(){} 
-        
+    public sealed class Environment : Singleton<Environment>, IEnvironment {
+
+        private Environment() { }
+
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
-        public string RuntimePlatformName
-        {
+        public string RuntimePlatformName {
 #if UNITY_EDITOR
             get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
 #else
             get => Platform.GetPlatformName(Application.platform);
 #endif
         }
-        
+
 #if UNITY_EDITOR
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target)
-        {
-            switch (target)
-            { 
+        public string GetPlatformName(BuildTarget target) {
+            switch (target) {
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
@@ -86,12 +82,11 @@ namespace IFramework.Engine
             }
         }
 #endif
-        
+
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-        public bool IsSimulation
-        {
+        public bool IsSimulation {
 #if UNITY_EDITOR
             get { return Configure.IsSimulation.Value; }
             // ReSharper disable once ValueParameterNotUsed
@@ -101,14 +96,12 @@ namespace IFramework.Engine
             set { }
 #endif
         }
-        
+
         /// <summary>
         /// 文件路径前缀file://
         /// </summary>
-        public string FilePathPrefix
-        {
-            get
-            {
+        public string FilePathPrefix {
+            get {
 #if UNITY_EDITOR || UNITY_IOS
                 return "file://";
 #else
@@ -120,32 +113,29 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
-        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
-        {
+        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName) {
 #if UNITY_EDITOR
             return AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
 #else
             return null;
 #endif
         }
-        
+
         /// <summary>
         /// 根据路径、类型获取资源
         /// </summary>
-        public Object LoadAssetAtPath(string assetPath, Type assetType)
-        {
+        public Object LoadAssetAtPath(string assetPath, Type assetType) {
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(assetPath, assetType);
 #else
             return null;
 #endif
         }
-        
+
         /// <summary>
         /// 根据路径获取资源
         /// </summary>
-        public T LoadAssetAtPath<T>(string assetPath) where T : Object
-        {
+        public T LoadAssetAtPath<T>(string assetPath) where T : Object {
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
 #else
@@ -158,40 +148,34 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
-        {
+        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
 #if UNITY_EDITOR
-            
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
             // 如果没有传入Name，则获取全部AssetBundleName
             string[] assetBundleNameArray = assetBundleNames ?? AssetDatabase.GetAllAssetBundleNames();
-            
+
             // 循环处理所有AssetBundleName
-            foreach (string assetBundleName in assetBundleNameArray)
-            {
+            foreach (string assetBundleName in assetBundleNameArray) {
                 // 获取AssetBundleName是否有依赖，比如 Secne 包含了多个资源
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
                 // 添加AssetBundleName信息到缓存
                 int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
-                if (index < 0)
-                {
+                if (index < 0) {
                     continue;
                 }
-                
+
                 // 获取该AssetBundleName下所有资源
                 string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName);
-                
-                foreach (string asset in assets)
-                {
+                foreach (string asset in assets) {
                     // 取得资源类型
                     Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
                     short code = type.ToCode();
 
                     // 取得资源名，小写无扩展名
                     string assetName = Platform.AssetPathToName(asset);
-                    
+
                     // 添加资源到缓存
                     @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")
                         ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
@@ -200,6 +184,6 @@ namespace IFramework.Engine
             }
 #endif
         }
-        
+
     }
 }

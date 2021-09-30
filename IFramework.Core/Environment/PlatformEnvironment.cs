@@ -22,19 +22,17 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// 中转类，不要调用
     /// </summary>
-    public sealed class PlatformEnvironment : Singleton<PlatformEnvironment>
-    {
+    public sealed class PlatformEnvironment : Singleton<PlatformEnvironment> {
+
         private IEnvironment environment;
-        
-        private PlatformEnvironment(){}
-        
-        public void Init(IEnvironment environment)
-        {
+
+        private PlatformEnvironment() { }
+
+        public void Init(IEnvironment environment) {
             this.environment = environment;
         }
 
@@ -42,11 +40,11 @@ namespace IFramework.Core
         /// 获取当前平台名称
         /// </summary>
         public string RuntimePlatformName => environment.RuntimePlatformName;
-        
+
         public bool IsSimulation => environment.IsSimulation;
 
         public string FilePathPrefix => environment.FilePathPrefix;
-        
+
         // string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
         // {
         //     return environment.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);

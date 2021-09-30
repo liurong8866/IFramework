@@ -25,41 +25,33 @@
 using System;
 using IFramework.Core;
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// 描述资源依赖关系类
     /// </summary>
     [Serializable]
-    public class AssetDependence
-    {
+    public class AssetDependence {
+
         public string AssetBundleName;
 
         public string[] Depends;
 
-        public AssetDependence(string assetBundleName, string[] depends)
-        {
+        public AssetDependence(string assetBundleName, string[] depends) {
             this.AssetBundleName = assetBundleName;
-
-            if (depends.IsNotNullOrEmpty())
-            {
+            if (depends.IsNotNullOrEmpty()) {
                 this.Depends = depends;
             }
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string result = "AssetName: " + AssetBundleName;
-
-            if (Depends != null)
-            {
-                foreach (string depend in Depends)
-                {
+            if (Depends != null) {
+                foreach (string depend in Depends) {
                     result += "#: " + depend;
                 }
             }
-
             return result;
         }
+
     }
 }

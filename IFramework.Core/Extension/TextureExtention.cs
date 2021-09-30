@@ -24,43 +24,35 @@
 
 using UnityEngine;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// Texture图片扩展方法
     /// </summary>
-    public static class TextureExtention
-    {
-        
+    public static class TextureExtention {
+
         // 屏幕截图
         // var screenshotTexture2D = Camera.main.CaptureCamera(new Rect(0, 0, Screen.width, Screen.height));
         // Log.I(screenshotTexture2D.width);
-        public static Texture2D CaptureCamera(this Camera camera, Rect rect)
-        {
+        public static Texture2D CaptureCamera(this Camera camera, Rect rect) {
             var renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             camera.targetTexture = renderTexture;
             camera.Render();
-
             RenderTexture.active = renderTexture;
-
             var screenShot = new Texture2D((int) rect.width, (int) rect.height, TextureFormat.RGB24, false);
             screenShot.ReadPixels(rect, 0, 0);
             screenShot.Apply();
-
             camera.targetTexture = null;
             RenderTexture.active = null;
             Object.Destroy(renderTexture);
-
             return screenShot;
         }
-        
-        public static Color HtmlStringToColor(this string htmlString)
-        {
+
+        public static Color HtmlStringToColor(this string htmlString) {
             Color retColor;
             var parseSucceed = ColorUtility.TryParseHtmlString(htmlString, out retColor);
             return parseSucceed ? retColor : Color.black;
         }
-        
+
         // public static T ColorAlpha<T>(this T self, float alpha) where T : Graphic
         // {
         //     var color = self.color;

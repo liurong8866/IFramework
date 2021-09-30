@@ -25,21 +25,18 @@
 using IFramework.Editor;
 using UnityEditor;
 
-namespace IFramework.Test.Editor
-{
-    public static class AbundleMarkTest
-    {
+namespace IFramework.Test.Editor {
+    public static class AbundleMarkTest {
+
         [MenuItem("IFramework/Test/AssetBundle Test", false, 120)]
-        private static void AssetBundle()
-        {
+        private static void AssetBundle() {
             AssetBundleKit.OpenAssetBundleWindow();
         }
 
         [MenuItem("Assets/Test/I Kit - Mark AssetBundle Test", false, 120)]
-        private static void UiKitBind()
-        {
+        private static void UiKitBind() {
             AssetBundleKit.MarkAssetBundle();
         }
-        
+
     }
 }

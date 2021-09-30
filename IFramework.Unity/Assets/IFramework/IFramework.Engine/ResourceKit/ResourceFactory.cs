@@ -26,18 +26,16 @@ using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 
-namespace IFramework.Engine
-{
+namespace IFramework.Engine {
     /// <summary>
     /// 资源创建工厂
     /// </summary>
-    public static class ResourceFactory
-    {
+    public static class ResourceFactory {
+
         /// <summary>
         /// 资源列表
         /// </summary>
-        private static readonly List<IResourceCreator> creators = new List<IResourceCreator>()
-        {
+        private static readonly List<IResourceCreator> creators = new List<IResourceCreator>() {
             new AssetBundleResourceCreator(),
             new AssetBundleSceneCreator(),
             new AssetResourceCreator(),
@@ -47,8 +45,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 生产方法
         /// </summary>
-        public static IResource Create(ResourceSearcher searcher)
-        {
+        public static IResource Create(ResourceSearcher searcher) {
             IResource resource = creators
                 // 找到对应资源的创建者
                 .Where(creator => creator.Match(searcher))
@@ -56,37 +53,32 @@ namespace IFramework.Engine
                 .Select(creator => creator.Create(searcher))
                 // 如果有多个，取第一个
                 .FirstOrDefault();
-
-            if (resource == null)
-            {
+            if (resource == null) {
                 Log.Error("没有找到相关资源，创建资源失败! {0}", searcher.ToString());
             }
-
             return resource;
         }
 
         /// <summary>
         /// 添加生产者
         /// </summary>
-        public static void AddCreator(IResourceCreator creator)
-        {
+        public static void AddCreator(IResourceCreator creator) {
             creators.Add(creator);
         }
-        
+
         /// <summary>
         /// 添加生产者
         /// </summary>
-        public static void AddCreator<T>() where T : IResourceCreator, new()
-        {
+        public static void AddCreator<T>() where T : IResourceCreator, new() {
             creators.Add(new T());
         }
-        
+
         /// <summary>
         /// 删除生产者
         /// </summary>
-        public static void RemoveCreator<T>() where T : IResourceCreator, new()
-        {
+        public static void RemoveCreator<T>() where T : IResourceCreator, new() {
             creators.RemoveAll(creator => creator.GetType() == typeof(T));
         }
+
     }
 }

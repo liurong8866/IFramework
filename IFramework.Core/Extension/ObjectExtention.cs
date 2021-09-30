@@ -26,13 +26,12 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// Unity Object 扩展方法
     /// </summary>
-    public static class ObjectExtention
-    {
+    public static class ObjectExtention {
+
         /* Example
         public delegate void DD();
         
@@ -69,83 +68,66 @@ namespace IFramework.Core
         
         }
         */
-        
+
         /*----------------------------*/
         /* Basic Method               */
         /*----------------------------*/
 
         // 用于支持链式调用中类型转换
-        public static T As<T>(this object self) where T : class
-        {
+        public static T As<T>(this object self) where T : class {
             return self as T;
         }
-        
-        public static T Name<T>(this T self, string name) where T : Object
-        {
+
+        public static T Name<T>(this T self, string name) where T : Object {
             self.name = name;
             return self;
         }
-        
-        public static T Instantiate<T>(this T self) where T : Object
-        {
+
+        public static T Instantiate<T>(this T self) where T : Object {
             return Object.Instantiate(self);
         }
 
         /*----------------------------*/
         /* Invoke                     */
         /*----------------------------*/
-        
-        public static bool InvokeSafe(this Action action)
-        {
-            if (action != null)
-            {
+
+        public static bool InvokeSafe(this Action action) {
+            if (action != null) {
                 action();
                 return true;
             }
-
             return false;
         }
-        
-        public static bool InvokeSafe<T>(this Action<T> action, T t)
-        {
-            if (action != null)
-            {
+
+        public static bool InvokeSafe<T>(this Action<T> action, T t) {
+            if (action != null) {
                 action(t);
                 return true;
             }
-
             return false;
         }
 
-        public static bool InvokeSafe<T, TK>(this Action<T, TK> action, T t, TK k)
-        {
-            if (action != null)
-            {
+        public static bool InvokeSafe<T, TK>(this Action<T, TK> action, T t, TK k) {
+            if (action != null) {
                 action(t, k);
                 return true;
             }
-
             return false;
         }
 
-        public static bool InvokeSafe(this Delegate action, params object[] param)
-        {
-            if (action != null)
-            {
+        public static bool InvokeSafe(this Delegate action, params object[] param) {
+            if (action != null) {
                 action.DynamicInvoke(param);
                 return true;
             }
-
             return false;
         }
-        
-        public static T InvokeSafe<T>(this Func<T> function)
-        {
+
+        public static T InvokeSafe<T>(this Func<T> function) {
             return function != null ? function() : default;
         }
 
-        public static T InvokeAction<T>(this T self, Action<T> action) where T : Object
-        {
+        public static T InvokeAction<T>(this T self, Action<T> action) where T : Object {
             action.InvokeSafe(self);
             return self;
         }
@@ -153,53 +135,43 @@ namespace IFramework.Core
         /*----------------------------*/
         /* Destroy                    */
         /*----------------------------*/
-        
-        public static void DestroySelf<T>(this T self) where T : Object
-        {
-            if (self)
-            {
+
+        public static void DestroySelf<T>(this T self) where T : Object {
+            if (self) {
                 Object.Destroy(self);
             }
         }
 
-        public static void DestroySelfImmediate<T>(this T self) where T : Object
-        {
-            if (self)
-            {
+        public static void DestroySelfImmediate<T>(this T self) where T : Object {
+            if (self) {
                 Object.DestroyImmediate(self);
             }
         }
-        
-        public static void DestroySelfDelay<T>(this T self, float delay) where T : Object
-        {
-            if (self)
-            {
+
+        public static void DestroySelfDelay<T>(this T self, float delay) where T : Object {
+            if (self) {
                 Object.Destroy(self, delay);
             }
         }
 
-        public static T DontDestroyOnLoad<T>(this T self) where T : Object
-        {
-            if (self)
-            {
+        public static T DontDestroyOnLoad<T>(this T self) where T : Object {
+            if (self) {
                 Object.DontDestroyOnLoad(self);
             }
-            
             return self;
         }
 
         /*----------------------------*/
         /* Json                       */
         /*----------------------------*/
-        
-        public static string ToJson<T>(this T self) where T : class
-        {
+
+        public static string ToJson<T>(this T self) where T : class {
             return JsonUtility.ToJson(self, true);
         }
 
-        public static T FromJson<T>(this string json) where T : class
-        {
+        public static T FromJson<T>(this string json) where T : class {
             return JsonUtility.FromJson<T>(json);
         }
+
     }
 }

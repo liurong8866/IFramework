@@ -28,22 +28,19 @@ using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Test.ResourceKit._05_LoadAssetBundleResExample
-{
-    public class AssetBundleResExample : MonoBehaviour
-    {
+namespace Test.ResourceKit._05_LoadAssetBundleResExample {
+    public class AssetBundleResExample : MonoBehaviour {
+
         ResourceLoader loader;
-        
-        private void Start()
-        {
+
+        private void Start() {
             loader = ResourceLoader.Allocate();
-            
             Image image = transform.Find("Image").GetComponent<Image>();
             RawImage rawImage = transform.Find("RawImage").GetComponent<RawImage>();
             RawImage rawImage2 = transform.Find("RawImage2").GetComponent<RawImage>();
             RawImage rawImage3 = transform.Find("RawImage3").GetComponent<RawImage>();
             RawImage rawImage4 = transform.Find("RawImage4").GetComponent<RawImage>();
-            
+
             // Resource
             // image.sprite = loader.LoadSprite("resources://sprite/sword");
             // rawImage.texture = loader.Load("resources://sprite/CharCommunity_001") as Texture2D;
@@ -54,7 +51,7 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             //     .AddToLoad("resources://sprite/CharCommunity_004", 
             //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
             //     .LoadAsync();
-            
+
             // AssetBundle
             // image.sprite = loader.LoadSprite("sword");
             // rawImage.texture = loader.Load("CharCommunity_001") as Texture2D;
@@ -68,29 +65,21 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             //     .AddToLoad("CharCommunity_004", 
             //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
             //     .LoadAsync(()=>{Log.Info("加载完毕");});
-
             loader.AddToLoad("Liliy");
-                
-            loader.LoadAsync(() =>
-            {
-                "加载完毕".LogInfo();
-            });
-            
-            
+            loader.LoadAsync(() => { "加载完毕".LogInfo(); });
+
             // rawImage.texture = loader.Load<Texture2D>("code");
             // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
 
             // rawImage.texture = loader.Load<Texture2D>("Code");
             // rawImage.texture = loader.Load<Texture2D>("code");
             // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
-
-
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             loader.Recycle();
             loader = null;
         }
+
     }
 }

@@ -22,13 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine
-{
-    public class UiKit
-    {
-        public static void BindScript()
-        {
-            
-        }
+namespace IFramework.Engine {
+    public class UiKit {
+
+        public static void BindScript() { }
+
     }
 }

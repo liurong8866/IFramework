@@ -4,215 +4,209 @@ using IFramework.Core.Zip.Checksum;
 using IFramework.Core.Zip.Zip.Compression;
 using IFramework.Core.Zip.Zip.Compression.Streams;
 
-namespace IFramework.Core.Zip.GZip
-{
-	/// <summary>
-	/// This filter stream is used to compress a stream into a "GZIP" stream.
-	/// The "GZIP" format is described in RFC 1952.
-	///
-	/// author of the original java version : John Leuner
-	/// </summary>
-	/// <example> This sample shows how to gzip a file
-	/// <code>
-	/// using System;
-	/// using System.IO;
-	///
-	/// using IFramework.Core.Zip.GZip;
-	/// using IFramework.Core.Zip;
-	///
-	/// class MainClass
-	/// {
-	/// 	public static void Main(string[] args)
-	/// 	{
-	/// 			using (Stream s = new GZipOutputStream(File.Create(args[0] + ".gz")))
-	/// 			using (FileStream fs = File.OpenRead(args[0])) {
-	/// 				byte[] writeData = new byte[4096];
-	/// 				Streamutils.Copy(s, fs, writeData);
-	/// 			}
-	/// 		}
-	/// 	}
-	/// }
-	/// </code>
-	/// </example>
-	public class GZipOutputStream : DeflaterOutputStream
-	{
-		private enum OutputState
-		{
-			Header,
-			Footer,
-			Finished,
-			Closed,
-		}
+namespace IFramework.Core.Zip.GZip {
+    /// <summary>
+    /// This filter stream is used to compress a stream into a "GZIP" stream.
+    /// The "GZIP" format is described in RFC 1952.
+    ///
+    /// author of the original java version : John Leuner
+    /// </summary>
+    /// <example> This sample shows how to gzip a file
+    /// <code>
+    /// using System;
+    /// using System.IO;
+    ///
+    /// using IFramework.Core.Zip.GZip;
+    /// using IFramework.Core.Zip;
+    ///
+    /// class MainClass
+    /// {
+    /// 	public static void Main(string[] args)
+    /// 	{
+    /// 			using (Stream s = new GZipOutputStream(File.Create(args[0] + ".gz")))
+    /// 			using (FileStream fs = File.OpenRead(args[0])) {
+    /// 				byte[] writeData = new byte[4096];
+    /// 				Streamutils.Copy(s, fs, writeData);
+    /// 			}
+    /// 		}
+    /// 	}
+    /// }
+    /// </code>
+    /// </example>
+    public class GZipOutputStream : DeflaterOutputStream {
 
-		#region Instance Fields
-		/// <summary>
-		/// CRC-32 value for uncompressed data
-		/// </summary>
-		protected Crc32 crc = new Crc32();
+        private enum OutputState {
 
-		private OutputState state = OutputState.Header;
-		#endregion
+            Header,
+            Footer,
+            Finished,
+            Closed,
 
-		#region Constructors
-		/// <summary>
-		/// Creates a GzipOutputStream with the default buffer size
-		/// </summary>
-		/// <param name="baseOutputStream">
-		/// The stream to read data (to be compressed) from
-		/// </param>
-		public GZipOutputStream(Stream baseOutputStream)
-			: this(baseOutputStream, 4096)
-		{
-		}
+        }
 
-		/// <summary>
-		/// Creates a GZipOutputStream with the specified buffer size
-		/// </summary>
-		/// <param name="baseOutputStream">
-		/// The stream to read data (to be compressed) from
-		/// </param>
-		/// <param name="size">
-		/// Size of the buffer to use
-		/// </param>
-		public GZipOutputStream(Stream baseOutputStream, int size) : base(baseOutputStream, new Deflater(Deflater.DEFAULT_COMPRESSION, true), size)
-		{
-		}
-		#endregion
+        #region Instance Fields
 
-		#region Public API
-		/// <summary>
-		/// Sets the active compression level (1-9).  The new level will be activated
-		/// immediately.
-		/// </summary>
-		/// <param name="level">The compression level to set.</param>
-		/// <exception cref="ArgumentOutOfRangeException">
-		/// Level specified is not supported.
-		/// </exception>
-		/// <see cref="Deflater"/>
-		public void SetLevel(int level)
-		{
-			if (level < Deflater.BEST_SPEED) {
-				throw new ArgumentOutOfRangeException(nameof(level));
-			}
-			deflater_.SetLevel(level);
-		}
+        /// <summary>
+        /// CRC-32 value for uncompressed data
+        /// </summary>
+        protected Crc32 crc = new Crc32();
 
-		/// <summary>
-		/// Get the current compression level.
-		/// </summary>
-		/// <returns>The current compression level.</returns>
-		public int GetLevel()
-		{
-			return deflater_.GetLevel();
-		}
-		#endregion
+        private OutputState state = OutputState.Header;
 
-		#region Stream overrides
-		/// <summary>
-		/// Write given buffer to output updating crc
-		/// </summary>
-		/// <param name="buffer">Buffer to write</param>
-		/// <param name="offset">Offset of first byte in buf to write</param>
-		/// <param name="count">Number of bytes to write</param>
-		public override void Write(byte[] buffer, int offset, int count)
-		{
-			if (state == OutputState.Header) {
-				WriteHeader();
-			}
+        #endregion
 
-			if (state != OutputState.Footer) {
-				throw new InvalidOperationException("Write not permitted in current state");
-			}
+        #region Constructors
 
-			crc.Update(buffer, offset, count);
-			base.Write(buffer, offset, count);
-		}
+        /// <summary>
+        /// Creates a GzipOutputStream with the default buffer size
+        /// </summary>
+        /// <param name="baseOutputStream">
+        /// The stream to read data (to be compressed) from
+        /// </param>
+        public GZipOutputStream(Stream baseOutputStream)
+            : this(baseOutputStream, 4096) { }
 
-		/// <summary>
-		/// Writes remaining compressed output data to the output stream
-		/// and closes it.
-		/// </summary>
-		protected override void Dispose(bool disposing)
-		{
-			try {
-				Finish();
-			} finally {
-				if (state != OutputState.Closed) {
-					state = OutputState.Closed;
-					if (IsStreamOwner) {
-						baseOutputStream_.Dispose();
-					}
-				}
-			}
-		}
-		#endregion
+        /// <summary>
+        /// Creates a GZipOutputStream with the specified buffer size
+        /// </summary>
+        /// <param name="baseOutputStream">
+        /// The stream to read data (to be compressed) from
+        /// </param>
+        /// <param name="size">
+        /// Size of the buffer to use
+        /// </param>
+        public GZipOutputStream(Stream baseOutputStream, int size) : base(baseOutputStream, new Deflater(Deflater.DEFAULT_COMPRESSION, true), size) { }
 
-		#region DeflaterOutputStream overrides
-		/// <summary>
-		/// Finish compression and write any footer information required to stream
-		/// </summary>
-		public override void Finish()
-		{
-			// If no data has been written a header should be added.
-			if (state == OutputState.Header) {
-				WriteHeader();
-			}
+        #endregion
 
-			if (state == OutputState.Footer) {
-				state = OutputState.Finished;
-				base.Finish();
+        #region Public API
 
-				var totalin = (uint)(deflater_.TotalIn & 0xffffffff);
-				var crcval = (uint)(crc.Value & 0xffffffff);
+        /// <summary>
+        /// Sets the active compression level (1-9).  The new level will be activated
+        /// immediately.
+        /// </summary>
+        /// <param name="level">The compression level to set.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Level specified is not supported.
+        /// </exception>
+        /// <see cref="Deflater"/>
+        public void SetLevel(int level) {
+            if (level < Deflater.BEST_SPEED) {
+                throw new ArgumentOutOfRangeException(nameof(level));
+            }
+            deflater_.SetLevel(level);
+        }
 
-				byte[] gzipFooter;
+        /// <summary>
+        /// Get the current compression level.
+        /// </summary>
+        /// <returns>The current compression level.</returns>
+        public int GetLevel() {
+            return deflater_.GetLevel();
+        }
 
-				unchecked {
-					gzipFooter = new[] {
-					(byte) crcval, (byte) (crcval >> 8),
-					(byte) (crcval >> 16), (byte) (crcval >> 24),
+        #endregion
 
-					(byte) totalin, (byte) (totalin >> 8),
-					(byte) (totalin >> 16), (byte) (totalin >> 24)
-				};
-				}
+        #region Stream overrides
 
-				baseOutputStream_.Write(gzipFooter, 0, gzipFooter.Length);
-			}
-		}
-		#endregion
+        /// <summary>
+        /// Write given buffer to output updating crc
+        /// </summary>
+        /// <param name="buffer">Buffer to write</param>
+        /// <param name="offset">Offset of first byte in buf to write</param>
+        /// <param name="count">Number of bytes to write</param>
+        public override void Write(byte[] buffer, int offset, int count) {
+            if (state == OutputState.Header) {
+                WriteHeader();
+            }
+            if (state != OutputState.Footer) {
+                throw new InvalidOperationException("Write not permitted in current state");
+            }
+            crc.Update(buffer, offset, count);
+            base.Write(buffer, offset, count);
+        }
 
-		#region Support Routines
+        /// <summary>
+        /// Writes remaining compressed output data to the output stream
+        /// and closes it.
+        /// </summary>
+        protected override void Dispose(bool disposing) {
+            try {
+                Finish();
+            }
+            finally {
+                if (state != OutputState.Closed) {
+                    state = OutputState.Closed;
+                    if (IsStreamOwner) {
+                        baseOutputStream_.Dispose();
+                    }
+                }
+            }
+        }
 
-		private void WriteHeader()
-		{
-			if (state == OutputState.Header) {
-				state = OutputState.Footer;
+        #endregion
 
-				var modTime = (int)((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L);  // Ticks give back 100ns intervals
-				byte[] gzipHeader = {
-					// The two magic bytes
-					GZipConstants.GZIP_MAGIC >> 8, GZipConstants.GZIP_MAGIC & 0xff,
+        #region DeflaterOutputStream overrides
 
-					// The compression type
-					Deflater.DEFLATED,
+        /// <summary>
+        /// Finish compression and write any footer information required to stream
+        /// </summary>
+        public override void Finish() {
+            // If no data has been written a header should be added.
+            if (state == OutputState.Header) {
+                WriteHeader();
+            }
+            if (state == OutputState.Footer) {
+                state = OutputState.Finished;
+                base.Finish();
+                var totalin = (uint) (deflater_.TotalIn & 0xffffffff);
+                var crcval = (uint) (crc.Value & 0xffffffff);
+                byte[] gzipFooter;
+                unchecked {
+                    gzipFooter = new[] {
+                        (byte) crcval, (byte) (crcval >> 8),
+                        (byte) (crcval >> 16), (byte) (crcval >> 24),
+                        (byte) totalin, (byte) (totalin >> 8),
+                        (byte) (totalin >> 16), (byte) (totalin >> 24)
+                    };
+                }
+                baseOutputStream_.Write(gzipFooter, 0, gzipFooter.Length);
+            }
+        }
 
-					// The flags (not set)
-					0,
+        #endregion
 
-					// The modification time
-					(byte) modTime, (byte) (modTime >> 8),
-					(byte) (modTime >> 16), (byte) (modTime >> 24),
+        #region Support Routines
 
-					// The extra flags
-					0,
+        private void WriteHeader() {
+            if (state == OutputState.Header) {
+                state = OutputState.Footer;
+                var modTime = (int) ((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals
+                byte[] gzipHeader = {
+                    // The two magic bytes
+                    GZipConstants.GZIP_MAGIC >> 8, GZipConstants.GZIP_MAGIC & 0xff,
 
-					// The OS type (unknown)
-					255
-				};
-				baseOutputStream_.Write(gzipHeader, 0, gzipHeader.Length);
-			}
-		}
-		#endregion
-	}
+                    // The compression type
+                    Deflater.DEFLATED,
+
+                    // The flags (not set)
+                    0,
+
+                    // The modification time
+                    (byte) modTime, (byte) (modTime >> 8),
+                    (byte) (modTime >> 16), (byte) (modTime >> 24),
+
+                    // The extra flags
+                    0,
+
+                    // The OS type (unknown)
+                    255
+                };
+                baseOutputStream_.Write(gzipHeader, 0, gzipHeader.Length);
+            }
+        }
+
+        #endregion
+
+    }
 }

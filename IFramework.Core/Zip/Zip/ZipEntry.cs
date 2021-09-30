@@ -1,13 +1,12 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Zip
-{
+namespace IFramework.Core.Zip.Zip {
     /// <summary>
     /// Defines known values for the <see cref="HostSystemId"/> property.
     /// </summary>
-    public enum HostSystemId
-    {
+    public enum HostSystemId {
+
         /// <summary>
         /// Host system = MSDOS
         /// </summary>
@@ -112,6 +111,7 @@ namespace IFramework.Core.Zip.Zip
         /// Host system = WinZIP AES
         /// </summary>
         WinZipAes = 99,
+
     }
 
     /// <summary>
@@ -123,17 +123,18 @@ namespace IFramework.Core.Zip.Zip
     /// <br/>
     /// <br/>Author of the original java version : Jochen Hoenicke
     /// </summary>
-    public class ZipEntry
-    {
+    public class ZipEntry {
+
         [Flags]
-        private enum Known : byte
-        {
+        private enum Known : byte {
+
             None = 0,
             Size = 0x01,
             CompressedSize = 0x02,
             Crc = 0x04,
             Time = 0x08,
             ExternalAttributes = 0x10,
+
         }
 
         #region Constructors
@@ -189,23 +190,16 @@ namespace IFramework.Core.Zip.Zip
         /// It is not generally useful, use the constructor specifying the name only.
         /// </remarks>
         internal ZipEntry(string name, int versionRequiredToExtract, int madeByInfo,
-            CompressionMethod method)
-        {
-            if (name == null)
-            {
+            CompressionMethod method) {
+            if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
-            if (name.Length > 0xffff)
-            {
+            if (name.Length > 0xffff) {
                 throw new ArgumentException("Name is too long", nameof(name));
             }
-
-            if ((versionRequiredToExtract != 0) && (versionRequiredToExtract < 10))
-            {
+            if ((versionRequiredToExtract != 0) && (versionRequiredToExtract < 10)) {
                 throw new ArgumentOutOfRangeException(nameof(versionRequiredToExtract));
             }
-
             DateTime = DateTime.Now;
             this.name = CleanName(name);
             versionMadeBy = (ushort) madeByInfo;
@@ -220,13 +214,10 @@ namespace IFramework.Core.Zip.Zip
         /// The entry to copy.
         /// </param>
         [Obsolete("Use Clone instead")]
-        public ZipEntry(ZipEntry entry)
-        {
-            if (entry == null)
-            {
+        public ZipEntry(ZipEntry entry) {
+            if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
-
             known = entry.known;
             name = entry.name;
             size = entry.size;
@@ -239,14 +230,10 @@ namespace IFramework.Core.Zip.Zip
             versionMadeBy = entry.versionMadeBy;
             externalFileAttributes = entry.externalFileAttributes;
             flags = entry.flags;
-
             zipFileIndex = entry.zipFileIndex;
             offset = entry.offset;
-
             forceZip64 = entry.forceZip64;
-
-            if (entry.extra != null)
-            {
+            if (entry.extra != null) {
                 extra = new byte[entry.extra.Length];
                 Array.Copy(entry.extra, 0, extra, 0, entry.extra.Length);
             }
@@ -257,8 +244,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get a value indicating wether the entry has a CRC value available.
         /// </summary>
-        public bool HasCrc
-        {
+        public bool HasCrc {
             get { return (known & Known.Crc) != 0; }
         }
 
@@ -267,17 +253,13 @@ namespace IFramework.Core.Zip.Zip
         /// A simple helper routine to aid interpretation of <see cref="Flags">flags</see>
         /// </summary>
         /// <remarks>This is an assistant that interprets the <see cref="Flags">flags</see> property.</remarks>
-        public bool IsCrypted
-        {
+        public bool IsCrypted {
             get { return (flags & 1) != 0; }
-            set
-            {
-                if (value)
-                {
+            set {
+                if (value) {
                     flags |= 1;
                 }
-                else
-                {
+                else {
                     flags &= ~1;
                 }
             }
@@ -288,17 +270,13 @@ namespace IFramework.Core.Zip.Zip
         /// encoded in <a href="http://www.unicode.org">unicode UTF8</a>.
         /// </summary>
         /// <remarks>This is an assistant that interprets the <see cref="Flags">flags</see> property.</remarks>
-        public bool IsUnicodeText
-        {
+        public bool IsUnicodeText {
             get { return (flags & (int) GeneralBitFlags.UnicodeText) != 0; }
-            set
-            {
-                if (value)
-                {
+            set {
+                if (value) {
                     flags |= (int) GeneralBitFlags.UnicodeText;
                 }
-                else
-                {
+                else {
                     flags &= ~(int) GeneralBitFlags.UnicodeText;
                 }
             }
@@ -307,8 +285,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Value used during password checking for PKZIP 2.0 / 'classic' encryption.
         /// </summary>
-        internal byte CryptoCheckValue
-        {
+        internal byte CryptoCheckValue {
             get { return cryptoCheckValue; }
 
             set { cryptoCheckValue = value; }
@@ -345,8 +322,7 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         /// <seealso cref="IsUnicodeText"></seealso>
         /// <seealso cref="IsCrypted"></seealso>
-        public int Flags
-        {
+        public int Flags {
             get { return flags; }
             set { flags = value; }
         }
@@ -355,8 +331,7 @@ namespace IFramework.Core.Zip.Zip
         /// Get/Set index of this entry in Zip file
         /// </summary>
         /// <remarks>This is only valid when the entry is part of a <see cref="ZipFile"></see></remarks>
-        public long ZipFileIndex
-        {
+        public long ZipFileIndex {
             get { return zipFileIndex; }
             set { zipFileIndex = value; }
         }
@@ -364,8 +339,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get/set offset for use in central header
         /// </summary>
-        public long Offset
-        {
+        public long Offset {
             get { return offset; }
             set { offset = value; }
         }
@@ -375,20 +349,15 @@ namespace IFramework.Core.Zip.Zip
         /// The values of this are operating system dependant see
         /// <see cref="HostSystem">HostSystem</see> for details
         /// </summary>
-        public int ExternalFileAttributes
-        {
-            get
-            {
-                if ((known & Known.ExternalAttributes) == 0)
-                {
+        public int ExternalFileAttributes {
+            get {
+                if ((known & Known.ExternalAttributes) == 0) {
                     return -1;
                 }
-
                 return externalFileAttributes;
             }
 
-            set
-            {
+            set {
                 externalFileAttributes = value;
                 known |= Known.ExternalAttributes;
             }
@@ -399,18 +368,15 @@ namespace IFramework.Core.Zip.Zip
         /// The value / 10 indicates the major version number, and
         /// the value mod 10 is the minor version number
         /// </summary>
-        public int VersionMadeBy
-        {
+        public int VersionMadeBy {
             get { return (versionMadeBy & 0xff); }
         }
 
         /// <summary>
         /// Get a value indicating this entry is for a DOS/Windows system.
         /// </summary>
-        public bool IsDosEntry
-        {
-            get
-            {
+        public bool IsDosEntry {
+            get {
                 return ((HostSystem == (int) HostSystemId.Msdos) ||
                         (HostSystem == (int) HostSystemId.WindowsNt));
             }
@@ -424,16 +390,13 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="attributes">The attributes to test.</param>
         /// <returns>Returns true if the external attributes are known to be DOS/Windows
         /// based and have the same attributes set as the value passed.</returns>
-        private bool HasDosAttributes(int attributes)
-        {
+        private bool HasDosAttributes(int attributes) {
             bool result = false;
-            if ((known & Known.ExternalAttributes) != 0)
-            {
+            if ((known & Known.ExternalAttributes) != 0) {
                 result |= (((HostSystem == (int) HostSystemId.Msdos) ||
                             (HostSystem == (int) HostSystemId.WindowsNt)) &&
                            (ExternalFileAttributes & attributes) == attributes);
             }
-
             return result;
         }
 
@@ -474,12 +437,10 @@ namespace IFramework.Core.Zip.Zip
         /// <item>remainder - unused</item>
         /// </list>
         /// </remarks>
-        public int HostSystem
-        {
+        public int HostSystem {
             get { return (versionMadeBy >> 8) & 0xff; }
 
-            set
-            {
+            set {
                 versionMadeBy &= 0xff;
                 versionMadeBy |= (ushort) ((value & 0xff) << 8);
             }
@@ -515,42 +476,31 @@ namespace IFramework.Core.Zip.Zip
         /// 6.3 - File is encrypted using Twofish<br/>
         /// </remarks>
         /// <seealso cref="CanDecompress"></seealso>
-        public int Version
-        {
-            get
-            {
+        public int Version {
+            get {
                 // Return recorded version if known.
-                if (versionToExtract != 0)
-                {
+                if (versionToExtract != 0) {
                     return versionToExtract & 0x00ff; // Only lower order byte. High order is O/S file system.
                 }
-
                 int result = 10;
-                if (AesKeySize > 0)
-                {
+                if (AesKeySize > 0) {
                     result = ZipConstants.VERSION_AES; // Ver 5.1 = AES
                 }
-                else if (CentralHeaderRequiresZip64)
-                {
+                else if (CentralHeaderRequiresZip64) {
                     result = ZipConstants.VERSION_ZIP64;
                 }
-                else if (CompressionMethod.Deflated == method)
-                {
+                else if (CompressionMethod.Deflated == method) {
                     result = 20;
                 }
-                else if (IsDirectory)
-                {
+                else if (IsDirectory) {
                     result = 20;
                 }
-                else if (IsCrypted)
-                {
+                else if (IsCrypted) {
                     result = 20;
                 }
-                else if (HasDosAttributes(0x08))
-                {
+                else if (HasDosAttributes(0x08)) {
                     result = 11;
                 }
-
                 return result;
             }
         }
@@ -560,10 +510,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <remarks>This is based on the <see cref="Version"></see> and
         /// wether the <see cref="IsCompressionMethodSupported()">compression method</see> is supported.</remarks>
-        public bool CanDecompress
-        {
-            get
-            {
+        public bool CanDecompress {
+            get {
                 return (Version <= ZipConstants.VERSION_MADE_BY) &&
                        ((Version == 10) ||
                         (Version == 11) ||
@@ -577,8 +525,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Force this entry to be recorded using Zip64 extensions.
         /// </summary>
-        public void ForceZip64()
-        {
+        public void ForceZip64() {
             forceZip64 = true;
         }
 
@@ -586,8 +533,7 @@ namespace IFramework.Core.Zip.Zip
         /// Get a value indicating wether Zip64 extensions were forced.
         /// </summary>
         /// <returns>A <see cref="bool"/> value of true if Zip64 extensions have been forced on; false if not.</returns>
-        public bool IsZip64Forced()
-        {
+        public bool IsZip64Forced() {
             return forceZip64;
         }
 
@@ -596,18 +542,12 @@ namespace IFramework.Core.Zip.Zip
         /// to store the full entry values.
         /// </summary>
         /// <value>A <see cref="bool"/> value of true if a local header requires Zip64 extensions; false if not.</value>
-        public bool LocalHeaderRequiresZip64
-        {
-            get
-            {
+        public bool LocalHeaderRequiresZip64 {
+            get {
                 bool result = forceZip64;
-
-                if (!result)
-                {
+                if (!result) {
                     ulong trueCompressedSize = compressedSize;
-
-                    if ((versionToExtract == 0) && IsCrypted)
-                    {
+                    if ((versionToExtract == 0) && IsCrypted) {
                         trueCompressedSize += ZipConstants.CRYPTO_HEADER_SIZE;
                     }
 
@@ -617,7 +557,6 @@ namespace IFramework.Core.Zip.Zip
                         ((size >= uint.MaxValue) || (trueCompressedSize >= uint.MaxValue)) &&
                         ((versionToExtract == 0) || (versionToExtract >= ZipConstants.VERSION_ZIP64));
                 }
-
                 return result;
             }
         }
@@ -625,8 +564,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get a value indicating wether the central directory entry requires Zip64 extensions to be stored.
         /// </summary>
-        public bool CentralHeaderRequiresZip64
-        {
+        public bool CentralHeaderRequiresZip64 {
             get { return LocalHeaderRequiresZip64 || (offset >= uint.MaxValue); }
         }
 
@@ -636,25 +574,18 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// The MS-DOS date format can only represent dates between 1/1/1980 and 12/31/2107.
         /// </remarks>
-        public long DosTime
-        {
-            get
-            {
-                if ((known & Known.Time) == 0)
-                {
+        public long DosTime {
+            get {
+                if ((known & Known.Time) == 0) {
                     return 0;
                 }
-
                 return dosTime;
             }
 
-            set
-            {
-                unchecked
-                {
+            set {
+                unchecked {
                     dosTime = (uint) value;
                 }
-
                 known |= Known.Time;
             }
         }
@@ -665,10 +596,8 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// The <see cref="DosTime"></see> property is updated to match this as far as possible.
         /// </remarks>
-        public DateTime DateTime
-        {
-            get
-            {
+        public DateTime DateTime {
+            get {
                 uint sec = Math.Min(59, 2 * (dosTime & 0x1f));
                 uint min = Math.Min(59, (dosTime >> 5) & 0x3f);
                 uint hrs = Math.Min(23, (dosTime >> 11) & 0x1f);
@@ -678,17 +607,14 @@ namespace IFramework.Core.Zip.Zip
                 return new DateTime((int) year, (int) mon, day, (int) hrs, (int) min, (int) sec);
             }
 
-            set
-            {
+            set {
                 var year = (uint) value.Year;
                 var month = (uint) value.Month;
                 var day = (uint) value.Day;
                 var hour = (uint) value.Hour;
                 var minute = (uint) value.Minute;
                 var second = (uint) value.Second;
-
-                if (year < 1980)
-                {
+                if (year < 1980) {
                     year = 1980;
                     month = 1;
                     day = 1;
@@ -696,8 +622,7 @@ namespace IFramework.Core.Zip.Zip
                     minute = 0;
                     second = 0;
                 }
-                else if (year > 2107)
-                {
+                else if (year > 2107) {
                     year = 2107;
                     month = 12;
                     day = 31;
@@ -705,7 +630,6 @@ namespace IFramework.Core.Zip.Zip
                     minute = 59;
                     second = 59;
                 }
-
                 DosTime = ((year - 1980) & 0x7f) << 25 |
                           (month << 21) |
                           (day << 16) |
@@ -724,8 +648,7 @@ namespace IFramework.Core.Zip.Zip
         /// Dos device names like C: should also be removed.
         /// See the <see cref="ZipNameTransform"/> class, or <see cref="CleanName(string)"/>
         ///</remarks>
-        public string Name
-        {
+        public string Name {
             get { return name; }
         }
 
@@ -737,11 +660,9 @@ namespace IFramework.Core.Zip.Zip
         /// </returns>
         /// <remarks>Setting the size before adding an entry to an archive can help
         /// avoid compatability problems with some archivers which dont understand Zip64 extensions.</remarks>
-        public long Size
-        {
+        public long Size {
             get { return (known & Known.Size) != 0 ? (long) size : -1L; }
-            set
-            {
+            set {
                 size = (ulong) value;
                 known |= Known.Size;
             }
@@ -753,11 +674,9 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// The compressed entry size or -1 if unknown.
         /// </returns>
-        public long CompressedSize
-        {
+        public long CompressedSize {
             get { return (known & Known.CompressedSize) != 0 ? (long) compressedSize : -1L; }
-            set
-            {
+            set {
                 compressedSize = (ulong) value;
                 known |= Known.CompressedSize;
             }
@@ -772,16 +691,12 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// The crc value or -1 if unknown.
         /// </returns>
-        public long Crc
-        {
+        public long Crc {
             get { return (known & Known.Crc) != 0 ? crc & 0xffffffffL : -1L; }
-            set
-            {
-                if ((crc & 0xffffffff00000000L) != 0)
-                {
+            set {
+                if ((crc & 0xffffffff00000000L) != 0) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
-
                 crc = (uint) value;
                 known |= Known.Crc;
             }
@@ -795,17 +710,13 @@ namespace IFramework.Core.Zip.Zip
         /// </returns>
         /// <see cref="IFramework.Core.Zip.Zip.CompressionMethod.Deflated"/>
         /// <see cref="IFramework.Core.Zip.Zip.CompressionMethod.Stored"/>
-        public CompressionMethod CompressionMethod
-        {
+        public CompressionMethod CompressionMethod {
             get { return method; }
 
-            set
-            {
-                if (!IsCompressionMethodSupported(value))
-                {
+            set {
+                if (!IsCompressionMethodSupported(value)) {
                     throw new NotSupportedException("Compression method not supported");
                 }
-
                 method = value;
             }
         }
@@ -815,8 +726,7 @@ namespace IFramework.Core.Zip.Zip
         /// Returns same value as CompressionMethod except when AES encrypting, which
         /// places 99 in the method and places the real method in the extra data.
         /// </summary>
-        internal CompressionMethod CompressionMethodForHeader
-        {
+        internal CompressionMethod CompressionMethodForHeader {
             get { return (AesKeySize > 0) ? CompressionMethod.WinZipAes : method; }
         }
 
@@ -829,46 +739,35 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// Extra data or null if not set.
         /// </returns>
-        public byte[] ExtraData
-        {
-            get
-            {
+        public byte[] ExtraData {
+            get {
                 // TODO: This is slightly safer but less efficient.  Think about wether it should change.
                 //				return (byte[]) extra.Clone();
                 return extra;
             }
 
-            set
-            {
-                if (value == null)
-                {
+            set {
+                if (value == null) {
                     extra = null;
                 }
-                else
-                {
-                    if (value.Length > 0xffff)
-                    {
+                else {
+                    if (value.Length > 0xffff) {
                         throw new ArgumentOutOfRangeException(nameof(value));
                     }
-
                     extra = new byte[value.Length];
                     Array.Copy(value, 0, extra, 0, value.Length);
                 }
             }
         }
 
-
         /// <summary>
         /// For AES encrypted files returns or sets the number of bits of encryption (128, 192 or 256).
         /// When setting, only 0 (off), 128 or 256 is supported.
         /// </summary>
-        public int AesKeySize
-        {
-            get
-            {
+        public int AesKeySize {
+            get {
                 // the strength (1 or 3) is in the entry header
-                switch (aesEncryptionStrength)
-                {
+                switch (aesEncryptionStrength) {
                     case 0:
                         return 0; // Not AES
                     case 1:
@@ -881,10 +780,8 @@ namespace IFramework.Core.Zip.Zip
                         throw new ZipException("Invalid AESEncryptionStrength " + aesEncryptionStrength);
                 }
             }
-            set
-            {
-                switch (value)
-                {
+            set {
+                switch (value) {
                     case 0:
                         aesEncryptionStrength = 0;
                         break;
@@ -904,18 +801,15 @@ namespace IFramework.Core.Zip.Zip
         /// AES Encryption strength for storage in extra data in entry header.
         /// 1 is 128 bit, 2 is 192 bit, 3 is 256 bit.
         /// </summary>
-        internal byte AesEncryptionStrength
-        {
+        internal byte AesEncryptionStrength {
             get { return (byte) aesEncryptionStrength; }
         }
 
         /// <summary>
         /// Returns the length of the salt, in bytes
         /// </summary>
-        internal int AesSaltLen
-        {
-            get
-            {
+        internal int AesSaltLen {
+            get {
                 // Key size -> Salt length: 128 bits = 8 bytes, 192 bits = 12 bytes, 256 bits = 16 bytes.
                 return AesKeySize / 16;
             }
@@ -924,10 +818,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Number of extra bytes required to hold the AES Header fields (Salt, Pwd verify, AuthCode)
         /// </summary>
-        internal int AesOverheadSize
-        {
-            get
-            {
+        internal int AesOverheadSize {
+            get {
                 // File format:
                 //   Bytes		Content
                 // Variable		Salt value
@@ -944,20 +836,15 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="localHeader">True if the extra data fields should be handled
         /// for a local header, rather than for a central header.
         /// </param>
-        internal void ProcessExtraData(bool localHeader)
-        {
+        internal void ProcessExtraData(bool localHeader) {
             var extraData = new ZipExtraData(extra);
-
-            if (extraData.Find(0x0001))
-            {
+            if (extraData.Find(0x0001)) {
                 // Version required to extract is ignored here as some archivers dont set it correctly
                 // in theory it should be version 45 or higher
 
                 // The recorded size will change but remember that this is zip64.
                 forceZip64 = true;
-
-                if (extraData.ValueLength < 4)
-                {
+                if (extraData.ValueLength < 4) {
                     throw new ZipException("Extra data extended Zip64 information length is invalid");
                 }
 
@@ -985,43 +872,33 @@ namespace IFramework.Core.Zip.Zip
                 //		uncompressed size in the Local Header will be zero.
                 //
                 // Othewise there is problem with minizip implementation
-                if (size == uint.MaxValue)
-                {
+                if (size == uint.MaxValue) {
                     size = (ulong) extraData.ReadLong();
                 }
-
-                if (compressedSize == uint.MaxValue)
-                {
+                if (compressedSize == uint.MaxValue) {
                     compressedSize = (ulong) extraData.ReadLong();
                 }
-
-                if (!localHeader && (offset == uint.MaxValue))
-                {
+                if (!localHeader && (offset == uint.MaxValue)) {
                     offset = extraData.ReadLong();
                 }
 
                 // Disk number on which file starts is ignored
             }
-            else
-            {
+            else {
                 if (
                     ((versionToExtract & 0xff) >= ZipConstants.VERSION_ZIP64) &&
                     ((size == uint.MaxValue) || (compressedSize == uint.MaxValue))
-                )
-                {
+                ) {
                     throw new ZipException("Zip64 Extended information required but is missing.");
                 }
             }
-
             DateTime = GetDateTime(extraData);
-            if (method == CompressionMethod.WinZipAes)
-            {
+            if (method == CompressionMethod.WinZipAes) {
                 ProcessAesExtraData(extraData);
             }
         }
 
-        private DateTime GetDateTime(ZipExtraData extraData)
-        {
+        private DateTime GetDateTime(ZipExtraData extraData) {
             // Check for NT timestamp
             // NOTE: Disable by default to match behavior of InfoZIP
 #if RESPECT_NT_TIMESTAMP
@@ -1052,10 +929,8 @@ namespace IFramework.Core.Zip.Zip
 
         // For AES the method in the entry is 99, and the real compression method is in the extradata
         //
-        private void ProcessAesExtraData(ZipExtraData extraData)
-        {
-            if (extraData.Find(0x9901))
-            {
+        private void ProcessAesExtraData(ZipExtraData extraData) {
+            if (extraData.Find(0x9901)) {
                 // Set version and flag for Zipfile.CreateAndInitDecryptionStream
                 versionToExtract = ZipConstants.VERSION_AES; // Ver 5.1 = AES see "Version" getter
                 // Set StrongEncryption flag for ZipFile.CreateAndInitDecryptionStream
@@ -1069,7 +944,7 @@ namespace IFramework.Core.Zip.Zip
 #pragma warning disable 0219
                 int vendorId = extraData.ReadShort(); // 2-character vendor ID 0x4541 = "AE"
 #pragma warning restore 0219
-                int encrStrength = extraData.ReadByte(); // encryption strength 1 = 128 2 = 192 3 = 256
+                int encrStrength = extraData.ReadByte();    // encryption strength 1 = 128 2 = 192 3 = 256
                 int actualCompress = extraData.ReadShort(); // The actual compression method used to compress the file
                 aesVer = ver;
                 aesEncryptionStrength = encrStrength;
@@ -1092,11 +967,9 @@ namespace IFramework.Core.Zip.Zip
         /// A comment is only available for entries when read via the <see cref="ZipFile"/> class.
         /// The <see cref="ZipInputStream"/> class doesnt have the comment data available.
         /// </remarks>
-        public string Comment
-        {
+        public string Comment {
             get { return comment; }
-            set
-            {
+            set {
                 // This test is strictly incorrect as the length is in characters
                 // while the storage limit is in bytes.
                 // While the test is partially correct in that a comment of this length or greater
@@ -1104,11 +977,9 @@ namespace IFramework.Core.Zip.Zip
                 // where there are multi-byte characters
                 // The full test is not possible here however as the code page to apply conversions with
                 // isnt available.
-                if ((value != null) && (value.Length > 0xffff))
-                {
+                if ((value != null) && (value.Length > 0xffff)) {
                     throw new ArgumentOutOfRangeException(nameof(value), "cannot exceed 65535");
                 }
-
                 comment = value;
             }
         }
@@ -1123,10 +994,8 @@ namespace IFramework.Core.Zip.Zip
         /// Currently only dos/windows attributes are tested in this manner.
         /// The trailing slash convention should always be followed.
         /// </remarks>
-        public bool IsDirectory
-        {
-            get
-            {
+        public bool IsDirectory {
+            get {
                 int nameLength = name.Length;
                 bool result =
                         ((nameLength > 0) &&
@@ -1144,8 +1013,7 @@ namespace IFramework.Core.Zip.Zip
         /// This only takes account of DOS/Windows attributes.  Other operating systems are ignored.
         /// For linux and others the result may be incorrect.
         /// </remarks>
-        public bool IsFile
-        {
+        public bool IsFile {
             get { return !IsDirectory && !HasDosAttributes(8); }
         }
 
@@ -1153,8 +1021,7 @@ namespace IFramework.Core.Zip.Zip
         /// Test entry to see if data can be extracted.
         /// </summary>
         /// <returns>Returns true if data can be extracted for this entry; false otherwise.</returns>
-        public bool IsCompressionMethodSupported()
-        {
+        public bool IsCompressionMethodSupported() {
             return IsCompressionMethodSupported(CompressionMethod);
         }
 
@@ -1164,17 +1031,14 @@ namespace IFramework.Core.Zip.Zip
         /// Creates a copy of this zip entry.
         /// </summary>
         /// <returns>An <see cref="Object"/> that is a copy of the current instance.</returns>
-        public object Clone()
-        {
+        public object Clone() {
             var result = (ZipEntry) MemberwiseClone();
 
             // Ensure extra data is unique if it exists.
-            if (extra != null)
-            {
+            if (extra != null) {
                 result.extra = new byte[extra.Length];
                 Array.Copy(extra, 0, result.extra, 0, extra.Length);
             }
-
             return result;
         }
 
@@ -1184,8 +1048,7 @@ namespace IFramework.Core.Zip.Zip
         /// Gets a string representation of this ZipEntry.
         /// </summary>
         /// <returns>A readable textual representation of this <see cref="ZipEntry"/></returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return name;
         }
 
@@ -1195,8 +1058,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="method">The compression method to test.</param>
         /// <returns>Returns true if the compression method is supported; false otherwise</returns>
-        public static bool IsCompressionMethodSupported(CompressionMethod method)
-        {
+        public static bool IsCompressionMethodSupported(CompressionMethod method) {
             return
                 (method == CompressionMethod.Deflated) ||
                 (method == CompressionMethod.Stored);
@@ -1214,27 +1076,19 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// The <seealso cref="ZipNameTransform">Zip name transform</seealso> class is more flexible.
         /// </remarks>
-        public static string CleanName(string name)
-        {
-            if (name == null)
-            {
+        public static string CleanName(string name) {
+            if (name == null) {
                 return string.Empty;
             }
-
-            if (Path.IsPathRooted(name))
-            {
+            if (Path.IsPathRooted(name)) {
                 // NOTE:
                 // for UNC names...  \\machine\share\zoom\beet.txt gives \zoom\beet.txt
                 name = name.Substring(Path.GetPathRoot(name).Length);
             }
-
             name = name.Replace(@"\", "/");
-
-            while ((name.Length > 0) && (name[0] == '/'))
-            {
+            while ((name.Length > 0) && (name[0] == '/')) {
                 name = name.Remove(0, 1);
             }
-
             return name;
         }
 
@@ -1261,15 +1115,16 @@ namespace IFramework.Core.Zip.Zip
         private int flags; // general purpose bit flags
 
         private long zipFileIndex = -1; // used by ZipFile
-        private long offset; // used by ZipFile and ZipOutputStream
+        private long offset;            // used by ZipFile and ZipOutputStream
 
         private bool forceZip64;
         private byte cryptoCheckValue;
-        
+
         // ReSharper disable once NotAccessedField.Local
-        private int aesVer; // Version number (2 = AE-2 ?). Assigned but not used.
+        private int aesVer;                // Version number (2 = AE-2 ?). Assigned but not used.
         private int aesEncryptionStrength; // Encryption strength 1 = 128 2 = 192 3 = 256
 
         #endregion
+
     }
 }

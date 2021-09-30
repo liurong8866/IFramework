@@ -22,23 +22,19 @@
  * SOFTWARE.
  *****************************************************************************/
 
-
 using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Core
-{
+namespace IFramework.Core {
     /// <summary>
     /// 平台配置相关方法
     /// </summary>
-    public static class Platform
-    {
-        /*-----------------------------*/
-        /* 平台相关                      */
-        /*-----------------------------*/
-        
+    public static class Platform {
+
+        /*----------------------------- 平台相关 -----------------------------*/
+
         /// <summary>
         /// 运行时平台名称
         /// </summary>
@@ -48,16 +44,13 @@ namespace IFramework.Core
         /// 是否为模拟模式
         /// </summary>
         public static bool IsSimulation => PlatformEnvironment.Instance.IsSimulation;
-        
+
         /// <summary>
         /// 根据当前配置列表获取打包平台
         /// </summary>
-        public static BuildTarget CurrentBuildPlatform
-        {
-            get
-            {
-                switch (Configure.CurrentPlatform.Value)
-                {
+        public static BuildTarget CurrentBuildPlatform {
+            get {
+                switch (Configure.CurrentPlatform.Value) {
                     case 0:
                         return BuildTarget.StandaloneWindows;
                     case 1:
@@ -83,10 +76,8 @@ namespace IFramework.Core
         /// <summary>
         /// 运行时平台名称
         /// </summary>
-        public static string GetPlatformName(RuntimePlatform platform)
-        {
-            switch (platform)
-            {
+        public static string GetPlatformName(RuntimePlatform platform) {
+            switch (platform) {
                 case RuntimePlatform.WindowsPlayer:
                     return "Windows";
                 case RuntimePlatform.OSXPlayer:
@@ -113,11 +104,9 @@ namespace IFramework.Core
                     return null;
             }
         }
-        
-        /*------------------------------------------*/
-        /* 路径属性 Runtime开头的方法为携带 PlatformName */
-        /*------------------------------------------*/
-        
+
+        /*------------ 路径属性 Runtime开头的方法为携带 PlatformName ------------*/
+
         /// <summary>
         /// 运行时平台AssetBundle包路径，优先获取Persistent，其次获取Stream
         /// </summary>
@@ -127,7 +116,7 @@ namespace IFramework.Core
         /// 内部目录 StreamingAssets文件夹路径
         /// </summary>
         public static string StreamingAssetsPath => Application.streamingAssetsPath;
-        
+
         /// <summary>
         /// StreamingAssets文件夹下到AssetBundle包
         /// </summary>
@@ -142,37 +131,29 @@ namespace IFramework.Core
         /// 外部目录 PersistentDataPath文件夹路径
         /// </summary>
         public static string PersistentDataPath => Application.persistentDataPath;
-        
+
         /// <summary>
         /// 外部资源路径 PersistentDataPath/AssetBundle
         /// </summary>
-        public static string PersistentAssetBundlePath
-        {
-            get
-            {
-                if (persistentAssetBundlePath == null)
-                {
+        public static string PersistentAssetBundlePath {
+            get {
+                if (persistentAssetBundlePath == null) {
                     persistentAssetBundlePath = Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_FOLDER);
                     DirectoryUtils.Create(persistentAssetBundlePath);
                 }
-
                 return persistentAssetBundlePath;
             }
         }
-        
+
         /// <summary>
         /// 外部头像路径 PersistentDataPath/Photo
         /// </summary>
-        public static string PersistentPhotoPath
-        {
-            get
-            {
-                if (persistentPhotoPath == null)
-                {
+        public static string PersistentPhotoPath {
+            get {
+                if (persistentPhotoPath == null) {
                     persistentPhotoPath = Path.Combine(PersistentDataPath, "Photo");
                     DirectoryUtils.Create(persistentPhotoPath);
                 }
-
                 return persistentPhotoPath;
             }
         }
@@ -182,61 +163,47 @@ namespace IFramework.Core
         /// </summary>
         public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
 
-        /*-----------------------------*/
-        /* 资源名称相关                  */
-        /*-----------------------------*/
-        
+        /*--------------------------- 资源名称相关 ---------------------------*/
+
         /// <summary>
         /// 根据路径获得资源名
         /// </summary>
-        public static string AssetBundleNameByUrl(string url)
-        {
+        public static string AssetBundleNameByUrl(string url) {
             return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentAssetBundlePath + "/", "");
         }
-        
+
         /// <summary>
         /// 根据资源名获得资源路径
         /// </summary>
-        public static string AssetBundleNameToUrl(string name)
-        {
+        public static string AssetBundleNameToUrl(string name) {
             // 优先返回PersistentAsset路径
-            string url = Path.Combine(PersistentAssetBundlePath ,name);
-            return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath,name);
+            string url = Path.Combine(PersistentAssetBundlePath, name);
+            return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
         }
-        
+
         /// <summary>
         /// 获取资源名称，不包含扩展名
         /// </summary>
-        public static string AssetPathToName(string assetPath)
-        {
+        public static string AssetPathToName(string assetPath) {
             var startIndex = assetPath.LastIndexOf("/", StringComparison.Ordinal) + 1;
-
             var endIndex = assetPath.LastIndexOf(".", StringComparison.Ordinal);
-            if (endIndex > 0)
-            {
+            if (endIndex > 0) {
                 var length = endIndex - startIndex;
                 return assetPath.Substring(startIndex, length).ToLower();
             }
-
             return assetPath.Substring(startIndex).ToLower();
         }
- 
-        /*-----------------------------*/
-        /* 私有方法、变量                 */
-        /*-----------------------------*/
-        
+
+        /*--------------------------- 私有方法、变量 ---------------------------*/
+
         /// <summary>
         /// 先从外部资源获取，如果没有则返回内部资源路径
         /// </summary>
-        private static string GetPersistentOrStreamPath(string relativePath)
-        {
+        private static string GetPersistentOrStreamPath(string relativePath) {
             string path = Path.Combine(PersistentDataPath, relativePath);
-
-            if (File.Exists(path))
-            {
+            if (File.Exists(path)) {
                 return path;
             }
-
             return Path.Combine(StreamingAssetsPath, relativePath);
         }
 

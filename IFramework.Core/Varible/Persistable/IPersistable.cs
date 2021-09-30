@@ -22,12 +22,12 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core
-{
-    public interface IPersistable<T>
-    {
+namespace IFramework.Core {
+    public interface IPersistable<T> {
+
         T Get();
 
         void Save(T value);
+
     }
 }

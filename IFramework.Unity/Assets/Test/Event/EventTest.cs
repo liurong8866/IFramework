@@ -27,21 +27,14 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using IFramework.Core;
 
-namespace IFramework.Test.Event
-{
-    public class EventTest : MonoBehaviour
-    {
-        private void Start()
-        {
+namespace IFramework.Test.Event {
+    public class EventTest : MonoBehaviour {
 
-            UserInfo userInfo = new UserInfo {UserName = "liurong", Age = 20};
-
+        private void Start() {
+            UserInfo userInfo = new UserInfo { UserName = "liurong", Age = 20 };
             Debug.Log("发送事件");
-
             DefaultEvent.Send(100, userInfo);
-            
         }
-        
+
     }
-    
 }

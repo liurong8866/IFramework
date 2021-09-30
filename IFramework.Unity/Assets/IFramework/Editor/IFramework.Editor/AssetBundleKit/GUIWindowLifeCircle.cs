@@ -24,23 +24,21 @@
 
 using UnityEditor;
 using UnityEngine;
+
 // ReSharper disable once Unity.RedundantEventFunction
 // ReSharper disable IdentifierTypo
 
-namespace IFramework.Editor
-{
-    
+namespace IFramework.Editor {
     /// <summary>
     /// GUI生命周期展示
     /// </summary>
-    public class GuiWindowLifeCircle : EditorWindow
-    {
+    public class GuiWindowLifeCircle : EditorWindow {
+
         [MenuItem("IFramework/Test/LifeCircle")]
-        public static void Open()
-        {
+        public static void Open() {
             //创建窗口
             // Rect wr = new Rect(0, 0, 500, 500);
-            GuiWindowLifeCircle window =GetWindow<GuiWindowLifeCircle>("资源管理器");
+            GuiWindowLifeCircle window = GetWindow<GuiWindowLifeCircle>("资源管理器");
             window.Show();
         }
 
@@ -51,6 +49,7 @@ namespace IFramework.Editor
         private Texture texture;
 
         private Vector3 startPoint; //起点
+
         private Vector3 endPoint; //终点
         // private float distance = 0f; //起点到终点的距离
 
@@ -72,26 +71,20 @@ namespace IFramework.Editor
         private float maxVal = 10.0f;
         private float maxLimit = 20.0f;
 
-        public void Awake()
-        {
+        public void Awake() {
             //在资源中读取一张贴图
             texture = Resources.Load("1") as Texture;
         }
 
         //绘制窗口时调用
-        private void OnGUI()
-        {
+        private void OnGUI() {
             //输入框控件
             text = EditorGUILayout.TextField("输入文字:", text);
-
-            if (GUILayout.Button("打开通知", GUILayout.Width(200)))
-            {
+            if (GUILayout.Button("打开通知", GUILayout.Width(200))) {
                 //打开一个通知栏
                 ShowNotification(new GUIContent("This is a Notification"));
             }
-
-            if (GUILayout.Button("关闭通知", GUILayout.Width(200)))
-            {
+            if (GUILayout.Button("关闭通知", GUILayout.Width(200))) {
                 //关闭通知栏
                 RemoveNotification();
             }
@@ -101,13 +94,10 @@ namespace IFramework.Editor
 
             //选择贴图
             texture = EditorGUILayout.ObjectField("添加贴图", texture, typeof(Texture), true) as Texture;
-
-            if (GUILayout.Button("关闭窗口", GUILayout.Width(200)))
-            {
+            if (GUILayout.Button("关闭窗口", GUILayout.Width(200))) {
                 //关闭窗口
                 Close();
             }
-
 
             //Vector3类型数据的显示
             startPoint = EditorGUILayout.Vector3Field("Start Point:", startPoint);
@@ -128,8 +118,7 @@ namespace IFramework.Editor
             //颜色选择框
             color = EditorGUILayout.ColorField("颜色:", color);
             //按钮
-            if (GUILayout.Button("Close"))
-            {
+            if (GUILayout.Button("Close")) {
                 Close();
             }
 
@@ -160,49 +149,42 @@ namespace IFramework.Editor
         }
 
         //更新
-        
+
         private void Update() { }
 
-        private void OnFocus()
-        {
+        private void OnFocus() {
             Debug.Log("当窗口获得焦点时调用一次");
         }
 
-        private void OnLostFocus()
-        {
+        private void OnLostFocus() {
             Debug.Log("当窗口丢失焦点时调用一次");
         }
 
-        private void OnHierarchyChange()
-        {
+        private void OnHierarchyChange() {
             Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次");
         }
 
-        private void OnProjectChange()
-        {
+        private void OnProjectChange() {
             Debug.Log("当Project视图中的资源发生改变时调用一次");
         }
 
-        private void OnInspectorUpdate()
-        {
+        private void OnInspectorUpdate() {
             //Debug.Log("窗口面板的更新");
             //这里开启窗口的重绘，不然窗口信息不会刷新
             Repaint();
         }
 
-        private void OnSelectionChange()
-        {
+        private void OnSelectionChange() {
             //当窗口出去开启状态，并且在Hierarchy视图中选择某游戏对象时调用
-            foreach (Transform t in Selection.transforms)
-            {
+            foreach (Transform t in Selection.transforms) {
                 //有可能是多选，这里开启一个循环打印选中游戏对象的名称
                 Debug.Log("OnSelectionChange" + t.name);
             }
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             Debug.Log("当窗口关闭时调用");
         }
+
     }
 }
