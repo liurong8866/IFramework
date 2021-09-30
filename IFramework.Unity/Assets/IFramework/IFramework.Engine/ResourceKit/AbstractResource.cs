@@ -69,8 +69,8 @@ namespace IFramework.Engine
         /// </summary>
         public string AssetName
         {
-            get { return assetName; }
-            protected set { assetName = value; }
+            get => assetName;
+            protected set => assetName = value;
         }
         
         /// <summary>
@@ -86,17 +86,14 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源对象
         /// </summary>
-        public Object Asset
-        {
-            get { return asset; }
-        }
-  
+        public Object Asset => asset;
+
         /// <summary>
         /// 资源加载状态
         /// </summary>
         public ResourceState State
         {
-            get { return state; }
+            get => state;
             set
             {
                 state = value;
@@ -111,11 +108,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否可以加载 state == ResourceState.Waiting
         /// </summary>
-        protected bool IsLoadable
-        {
-            get{ return state == ResourceState.Waiting; }
-        }
-        
+        protected bool IsLoadable => state == ResourceState.Waiting;
+
         /// <summary>
         /// 同步加载资源
         /// </summary>
@@ -142,7 +136,9 @@ namespace IFramework.Engine
             switch (state)
             {
                 case ResourceState.Loading: return false; 
-                case ResourceState.Waiting: return true; 
+                case ResourceState.Waiting: return true;
+                case ResourceState.Ready: break;
+                default: throw new ArgumentOutOfRangeException();
             }
 
             OnReleaseResource();
@@ -158,16 +154,15 @@ namespace IFramework.Engine
         protected virtual void OnReleaseResource()
         {
             //如果Image 直接释放了，这里会直接变成NULL
-            if (asset != null)
+            if (asset == null) return;
+            
+            // 如果不是场景中的GameObject，则释放资源,比如prefab
+            // TODO sprite也被释放了...
+            if (!(asset is GameObject))
             {
-                // 如果不是场景中的GameObject，则释放资源,比如prefab
-                // TODO sprite也被释放了...
-                if (!(asset is GameObject))
-                {
-                    Resources.UnloadAsset(asset);
-                }
-                asset = null;
+                Resources.UnloadAsset(asset);
             }
+            asset = null;
         }
 
         /// <summary>
@@ -261,11 +256,11 @@ namespace IFramework.Engine
         /// </summary>
         private void NotifyResourceLoaded(bool result)
         {
-            if (OnResourceLoaded != null)
-            {
-                OnResourceLoaded(result, this);
-                OnResourceLoaded = null;
-            }
+            if (OnResourceLoaded == null) return;
+            
+            OnResourceLoaded(result, this);
+            
+            OnResourceLoaded = null;
         }
         
         /*-----------------------------*/
@@ -292,7 +287,7 @@ namespace IFramework.Engine
         
         public override string ToString()
         {
-            return string.Format("AssetName:【{0}】 AssetBundleName:【{1}】 State:【{2}】 Counter:【{3}】", AssetName, AssetBundleName, State, Counter);
+            return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】";
         }
         
     }

@@ -39,13 +39,7 @@ namespace IFramework.Core
         /// </summary>
         public List<T> Get(string key)
         {
-            if (dictionary.TryGetValue(key, out List<T> list))
-            {
-                return list;
-            }
-
-            // 返回一个空的集合
-            return new List<T>();
+            return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>();
         }
         
         /// <summary>

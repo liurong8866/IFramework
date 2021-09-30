@@ -39,12 +39,13 @@ namespace IFramework.Engine
         /// 所属AssetBundle包名称
         /// </summary>
         public string AssetBundleName { get; set; }
-        
+
         /// <summary>
         /// 资源全称 AssetBundleName.AssetName
         /// </summary>
-        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
-        
+        public string FullName => 
+            AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower():AssetBundleName.ToLower() + "." + AssetName.ToLower();
+
         /// <summary>
         /// 资源类型
         /// </summary>
@@ -58,12 +59,10 @@ namespace IFramework.Engine
         public static ResourceSearcher Allocate(string assetName, string assetBundleName = null, Type assetType = null)
         {
             ResourceSearcher searcher = ObjectPool<ResourceSearcher>.Instance.Allocate();
-
             searcher.AssetName = assetName.ToLower();
             searcher.AssetBundleName = assetBundleName?.ToLower();
             searcher.AssetType = assetType;
             searcher.OriginalAssetName = assetName;
-            
             return searcher;
         }
 
@@ -72,27 +71,25 @@ namespace IFramework.Engine
         /// </summary>
         public bool Match(IResource resource)
         {
-            // 判断名称相符
-            if (resource.AssetName == AssetName)
+            // 判断名称不相同则退出
+            if (resource.AssetName != AssetName) return false;
+            
+            bool isMatch = true;
+
+            // 如果设置了类型，则判断类型相符
+            if (AssetType != null)
             {
-                bool isMatch = true;
-
-                // 如果设置了类型，则判断类型相符
-                if (AssetType != null)
-                {
-                    isMatch = resource.AssetType == AssetType;
-                }
-
-                // 如果设置了包名，则判断包相符
-                if (AssetBundleName != null)
-                {
-                    isMatch = isMatch && resource.AssetBundleName == AssetBundleName;
-                }
-
-                return isMatch;
+                isMatch = resource.AssetType == AssetType;
             }
 
-            return false;
+            // 如果设置了包名，则判断包相符
+            if (AssetBundleName != null)
+            {
+                isMatch = isMatch && resource.AssetBundleName == AssetBundleName;
+            }
+
+            return isMatch;
+
         }
         
         public void OnRecycled()
