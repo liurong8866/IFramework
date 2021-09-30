@@ -68,15 +68,17 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             //     .AddToLoad("CharCommunity_004", 
             //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
             //     .LoadAsync(()=>{Log.Info("加载完毕");});
-            // loader.AddToLoad<Texture2D>("Code", "code-png", (result, res) =>
-            // {
-            //     result.iif(() => rawImage3.texture = res.Asset as Texture2D);
-            // });
-            // loader.LoadAsync();
+
+            loader.AddToLoad("Liliy");
+                
+            loader.LoadAsync(() =>
+            {
+                "加载完毕".LogInfo();
+            });
             
             
-            rawImage.texture = loader.Load<Texture2D>("code");
-            rawImage.texture = loader.Load<Texture2D>("code", "code-png");
+            // rawImage.texture = loader.Load<Texture2D>("code");
+            // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
 
             // rawImage.texture = loader.Load<Texture2D>("Code");
             // rawImage.texture = loader.Load<Texture2D>("code");

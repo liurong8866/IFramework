@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using IFramework.Core;
 using UnityEngine;
 using Object=UnityEngine.Object;
@@ -279,6 +280,7 @@ namespace IFramework.Engine
                 }
                 // 加入清空清单
                 callbackCleanerList.AddLast(new CallbackCleaner(resource, callback));
+                
                 // 注册加载完毕事件
                 resource.RegisterOnLoadedEvent(callback);
             }

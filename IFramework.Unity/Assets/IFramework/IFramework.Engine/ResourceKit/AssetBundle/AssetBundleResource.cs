@@ -76,7 +76,7 @@ namespace IFramework.Engine
         {
             if (!IsLoadable) return false;
 
-            state = ResourceState.Loading;
+            State = ResourceState.Loading;
             
             // 如果不是模拟模式
             if (!Platform.IsSimulation)
@@ -106,7 +106,7 @@ namespace IFramework.Engine
         {
             if (!IsLoadable) return;
 
-            state = ResourceState.Loading;
+            State = ResourceState.Loading;
 
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -156,7 +156,7 @@ namespace IFramework.Engine
                     AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(url);
 
                     yield return request;
-
+                    
                     if (!request.isDone)
                     {
                         Log.Error("AssetBundle加载失败: " + assetName);
@@ -164,12 +164,13 @@ namespace IFramework.Engine
                         callback();
                         yield break;
                     }
-
+                    
                     AssetBundle = request.assetBundle;
                 }
             }
 
-            state = ResourceState.Ready;
+            State = ResourceState.Ready;
+            
             callback();
         }
         

@@ -249,14 +249,14 @@ namespace IFramework.Engine
             if (currentCoroutineCount >= maxCoroutineCount) return;
 
             // 从队列头部加载
-            var task = asyncLoadTasks.First.Value;
+            IResourceLoadTask task = asyncLoadTasks.First.Value;
             
             // 删除列表中的任务，避免重复执行
             asyncLoadTasks.RemoveFirst();
             
             // 当前协程数+1
             currentCoroutineCount++;
-            
+
             // 启动协程
             StartCoroutine(task.LoadAsync(OnIEnumeratorTaskFinish));
         }
