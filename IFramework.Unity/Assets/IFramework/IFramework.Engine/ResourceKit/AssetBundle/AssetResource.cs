@@ -122,13 +122,13 @@ namespace IFramework.Engine {
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
                 if (resource == null || !resource.AssetBundle) {
                     Log.Error("加载资源失败，未能找到AssetBundle: " + assetBundleNameConfig);
-                    // OnResourceLoadFailed();
+                    OnResourceLoadFailed();
                     return false;
                 }
 
                 // 记录依赖资源
                 HoldDependResource();
-                state = ResourceState.Loading;
+                State = ResourceState.Loading;
                 obj = AssetType != null ? resource.AssetBundle.LoadAsset(assetName, AssetType) : resource.AssetBundle.LoadAsset(assetName);
             }
             UnHoldDependResource();
@@ -138,7 +138,7 @@ namespace IFramework.Engine {
                 return false;
             }
             asset = obj;
-            state = ResourceState.Ready;
+            State = ResourceState.Ready;
             return true;
         }
 
@@ -148,7 +148,7 @@ namespace IFramework.Engine {
         public override void LoadASync() {
             if (!IsLoadable) return;
             if (AssetBundleName.IsNullOrEmpty()) return;
-            state = ResourceState.Loading;
+            State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
 
@@ -177,7 +177,7 @@ namespace IFramework.Engine {
 
                 // 记录依赖资源
                 HoldDependResource();
-                state = ResourceState.Loading;
+                State = ResourceState.Loading;
                 yield return new WaitForEndOfFrame();
                 UnHoldDependResource();
                 if (AssetType != null) {
@@ -198,7 +198,7 @@ namespace IFramework.Engine {
                 // 记录依赖资源
                 HoldDependResource();
                 
-                state = ResourceState.Loading;
+                State = ResourceState.Loading;
                 AssetBundleRequest request;
                 if (AssetType != null) {
                     request = resource.AssetBundle.LoadAssetAsync(assetName, AssetType);
@@ -219,7 +219,7 @@ namespace IFramework.Engine {
                 }
                 asset = request.asset;
             }
-            state = ResourceState.Ready;
+            State = ResourceState.Ready;
             // 回调方法
             callback();
         }

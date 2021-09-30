@@ -317,6 +317,7 @@ namespace IFramework.Engine {
 
             // 在缓存的资源中查找，再次确保
             IResource cachedResource = GetResourceInCache(searcher);
+            
             if (cachedResource != null) return;
 
             // 记录资源加载次数
@@ -325,7 +326,7 @@ namespace IFramework.Engine {
             // 资源添加到缓存
             this.resourceList.Add(resource);
             
-            // 添加资源到缓存
+            // 放入等待加载列表
             if (resource.State != ResourceState.Ready) {
                 loadingCount++;
                 last.iif(() => waitForLoadList.AddLast(resource), () => waitForLoadList.AddFirst(resource));
@@ -336,7 +337,8 @@ namespace IFramework.Engine {
         /// 在缓存的资源中查找
         /// </summary>
         private IResource GetResourceInCache(ResourceSearcher searcher) {
-            return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
+            return resourceList.IsNullOrEmpty() 
+                ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
         }
 
         /*----------------------------- 资源加载完毕后回调 -----------------------------*/
