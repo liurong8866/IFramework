@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 namespace IFramework.Engine {
-    public class ResourceCreator : IResourceCreator {
+    public sealed class ResourceCreator : IResourceCreator {
 
         /// <summary>
         /// 匹配方法

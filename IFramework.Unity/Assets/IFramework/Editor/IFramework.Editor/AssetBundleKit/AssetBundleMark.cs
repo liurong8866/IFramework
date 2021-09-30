@@ -26,7 +26,6 @@ using System.IO;
 using IFramework.Core;
 using IFramework.Editor.Settings;
 using UnityEditor;
-using UnityEngine;
 
 namespace IFramework.Editor {
     public class AssetBundleMark {

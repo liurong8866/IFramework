@@ -33,14 +33,11 @@ namespace IFramework.Test.Event {
             DefaultEvent.Register(100, Action);
         }
 
-        private void Start() { }
-
         private void Action(int key, params object[] param) {
             switch (key) {
                 case 100:
                     Debug.Log(param);
                     break;
-                default: break;
             }
         }
 

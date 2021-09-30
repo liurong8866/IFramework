@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 namespace IFramework.Editor {
-    public class AssetBundleKit {
+    public static class AssetBundleKit {
 
         //标记AssetBundle
         public static void MarkAssetBundle() {

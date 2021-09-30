@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 using IFramework.Core;
-using UnityEngine;
 
 namespace IFramework.Engine {
     /// <summary>
