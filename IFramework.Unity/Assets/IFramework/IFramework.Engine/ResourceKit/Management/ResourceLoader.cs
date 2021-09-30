@@ -157,7 +157,7 @@ namespace IFramework.Engine {
                 // 如果未缓存，则缓存
                 if (!spriteMap.ContainsKey(spriteName)) {
                     // 加载Texture资源
-                    Texture2D texture = bundleName == null ? Load<Texture2D>(bundleName) : Load<Texture2D>(bundleName, spriteName);
+                    Texture2D texture = bundleName == null ? Load<Texture2D>(spriteName) : Load<Texture2D>(bundleName, spriteName);
                     // 创建Sprite
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
                     // 添加到缓存
@@ -177,7 +177,6 @@ namespace IFramework.Engine {
         /// </summary>
         public void LoadAsync(Action callback = null) {
             this.currentCallback = callback;
-
             // 异步加载
             LoadAsyncMethod();
         }

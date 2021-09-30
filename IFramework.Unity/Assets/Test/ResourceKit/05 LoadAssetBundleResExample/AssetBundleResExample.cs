@@ -59,21 +59,26 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample {
             // rawImage3.texture = loader.Load<Texture2D>("CharCommunity_003");
             // rawImage4.texture = loader.Load<Texture2D>("CharCommunity_004");
 
-            // 异步实现问题
-            // loader.AddToLoad("CharCommunity_003", 
-            //         (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
-            //     .AddToLoad("CharCommunity_004", 
-            //         (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
-            //     .LoadAsync(()=>{Log.Info("加载完毕");});
-            loader.AddToLoad("Liliy");
-            loader.LoadAsync(() => { "加载完毕".LogInfo(); });
+            // AssetBundle异步加载
+            loader.AddToLoad("sword", (result, res) => {
+                result.iif(() => {
+                    Texture2D texture = res.Asset as Texture2D;
+                    
+                    // 创建Sprite
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+                    image.sprite =  sprite;
+                });
+            });
+            loader.AddToLoad("CharCommunity_001", (result, res) => { result.iif(() => rawImage.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_002", (result, res) => { result.iif(() => rawImage2.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); });
+            
+            loader.LoadAsync(
+                ()=>{Log.Info("加载完毕");}
+            );
+         
 
-            // rawImage.texture = loader.Load<Texture2D>("code");
-            // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
-
-            // rawImage.texture = loader.Load<Texture2D>("Code");
-            // rawImage.texture = loader.Load<Texture2D>("code");
-            // rawImage.texture = loader.Load<Texture2D>("code", "code-png");
         }
 
         private void OnDestroy() {

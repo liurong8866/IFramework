@@ -147,7 +147,9 @@ namespace IFramework.Engine {
         /// </summary>
         public override void LoadASync() {
             if (!IsLoadable) return;
-            if (AssetBundleName.IsNullOrEmpty()) return;
+            
+            // TODO 这里需要观察，原代码有判断，但是现在出现问题
+            // if (AssetBundleName.IsNullOrEmpty()) return;
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -162,7 +164,11 @@ namespace IFramework.Engine {
                 callback();
                 yield break;
             }
+            
+            // 查询器
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
+            
+            // 获取资源
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
 
             // 如果是模拟模式，并且不是包信息资源
@@ -188,6 +194,9 @@ namespace IFramework.Engine {
                 }
             }
             else {
+                // 等待帧结束，目的是解决AssetBundle不能为空到问题
+                yield return new WaitForEndOfFrame();
+                
                 if (resource == null || resource.AssetBundle == null) {
                     Log.Error("加载资源失败，未能找到AssetBundleImage: " + assetBundleNameConfig);
                     OnResourceLoadFailed();

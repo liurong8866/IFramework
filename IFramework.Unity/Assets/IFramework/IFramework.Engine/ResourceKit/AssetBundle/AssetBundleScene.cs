@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 using IFramework.Core;
+using UnityEngine;
 
 namespace IFramework.Engine {
     /// <summary>
@@ -50,6 +51,7 @@ namespace IFramework.Engine {
             if (assetBundleNameConfig.IsNullOrEmpty()) return false;
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig);
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
+
             if (resource == null || resource.AssetBundle == null) {
                 if (Platform.IsSimulation) {
                     Log.Warning("AssetBundle资源加载失败，模拟模式不支持动态加载场景: " + resource);
