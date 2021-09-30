@@ -45,7 +45,7 @@ namespace IFramework.Engine
             ResourceManager.Init();
             
             // 异步加载
-            // ResourceManager.Instance.StartInitAsync();
+            // ResourceManager.Instance.InitAsync();
         }
     }
 }

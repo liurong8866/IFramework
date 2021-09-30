@@ -19,10 +19,8 @@ namespace IFramework.Test.ResourceKit
             // resource.LoadSync();
 
             resource.LoadASync();
-
             StartCoroutine( MyMethod());
-
-
+            
         }
 
         private IEnumerator MyMethod() {
