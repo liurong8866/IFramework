@@ -35,29 +35,52 @@ namespace IFramework.Engine {
     /// </summary>
     public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable {
 
-        // 当前加载资源到数量
-        private int loadingCount;
-
         // 资源列表
         private readonly List<IResource> resourceList = new List<IResource>();
 
         // 缓存到Sprite资源字典
         private readonly Dictionary<string, Sprite> spriteMap = new Dictionary<string, Sprite>();
 
+        //依赖资源名称缓存，防止重复添加内存
+        private readonly List<string> tempDepends = new List<string>();
+
         // 等待加载的资源
         private readonly LinkedList<IResource> waitForLoadList = new LinkedList<IResource>();
-
-        // 等待回收的对象
-        private List<Object> unloadObjectList;
-
-        // 当前资源的回调
-        private Action currentCallback;
 
         // 回调事件列表
         private LinkedList<CallbackCleaner> callbackCleanerList;
 
-        //依赖资源名称缓存，防止重复添加内存
-        private readonly List<string> tempDepends = new List<string>();
+        // 当前资源的回调
+        private Action currentCallback;
+
+        // 当前加载资源到数量
+        private int loadingCount;
+
+        // 等待回收的对象
+        private List<Object> unloadObjectList;
+
+        /// <summary>
+        /// 实现接口
+        /// </summary>
+        public void OnRecycled() {
+            ReleaseAllResource();
+        }
+
+        public bool IsRecycled { get; set; }
+
+        /// <summary>
+        /// 回收函数
+        /// </summary>
+        public void Recycle() {
+            if (unloadObjectList.IsNotNullOrEmpty()) {
+                foreach (Object obj in unloadObjectList) {
+                    obj.DestroySelf();
+                }
+                unloadObjectList.Clear();
+                unloadObjectList = null;
+            }
+            ObjectPool<ResourceLoader>.Instance.Recycle(this);
+        }
 
         /// <summary>
         /// 分配资源函数
@@ -121,13 +144,7 @@ namespace IFramework.Engine {
 
             // 从加载的资源中找到本次要打开的资源
             IResource resource = ResourceManager.Instance.GetResource(searcher);
-            if (resource == null) {
-                Log.Error("资源加载失败：" + searcher);
-            }
-            else {
-                //清理缓存的依赖资源名称
-                tempDepends.Clear();
-            }
+            resource.IfNullOrEmpty(() => Log.Error("资源加载失败：" + searcher), () => tempDepends.Clear());
             return resource;
         }
 
@@ -165,7 +182,11 @@ namespace IFramework.Engine {
             LoadAsyncMethod();
         }
 
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
         private void LoadAsyncMethod() {
+            // 如果加载完毕，调用回调方法
             if (loadingCount == 0) {
                 currentCallback.InvokeSafe();
                 currentCallback = null;
@@ -184,7 +205,9 @@ namespace IFramework.Engine {
                 if (resource.IsDependResourceLoaded()) {
                     waitForLoadList.Remove(currentNode);
                     if (resource.State != ResourceState.Ready) {
+                        // 注册回调方法
                         resource.RegisterOnLoadedEvent(OnResourceLoaded);
+                        // 异步调用
                         resource.LoadASync();
                     }
                     else {
@@ -255,19 +278,13 @@ namespace IFramework.Engine {
             IResource resource = GetResourceInCache(searcher);
 
             // 如果没有缓存资源，则加载
-            if (resource == null) {
-                resource = ResourceManager.Instance.GetResource(searcher, true);
-            }
+            resource.IfNullOrEmpty(() => resource = ResourceManager.Instance.GetResource(searcher, true));
 
             // 如果有回调，则注册回到方法
             if (callback != null) {
-                if (callbackCleanerList == null) {
-                    callbackCleanerList = new LinkedList<CallbackCleaner>();
-                }
-
+                callbackCleanerList.IfNullOrEmpty(() => callbackCleanerList = new LinkedList<CallbackCleaner>());
                 // 加入清空清单
                 callbackCleanerList.AddLast(new CallbackCleaner(resource, callback));
-
                 // 注册加载完毕事件
                 resource.RegisterOnLoadedEvent(callback);
             }
@@ -280,6 +297,7 @@ namespace IFramework.Engine {
                     // 如果已经加载过资源，不再重复加载，避免内存泄露
                     if (!tempDepends.Contains(depend)) {
                         using ResourceSearcher searchRule = ResourceSearcher.Allocate(depend, null, typeof(AssetBundle));
+                        // 添加到已加载的资源
                         tempDepends.Add(depend);
                         // 递归加载依赖资源
                         AddToLoad(searchRule);
@@ -306,6 +324,8 @@ namespace IFramework.Engine {
 
             // 资源添加到缓存
             this.resourceList.Add(resource);
+            
+            // 添加资源到缓存
             if (resource.State != ResourceState.Ready) {
                 loadingCount++;
                 last.iif(() => waitForLoadList.AddLast(resource), () => waitForLoadList.AddFirst(resource));
@@ -469,29 +489,6 @@ namespace IFramework.Engine {
             }
             unloadObjectList.Add(obj);
         }
-
-        /// <summary>
-        /// 回收函数
-        /// </summary>
-        public void Recycle() {
-            if (unloadObjectList.IsNotNullOrEmpty()) {
-                foreach (Object obj in unloadObjectList) {
-                    obj.DestroySelf();
-                }
-                unloadObjectList.Clear();
-                unloadObjectList = null;
-            }
-            ObjectPool<ResourceLoader>.Instance.Recycle(this);
-        }
-
-        /// <summary>
-        /// 实现接口
-        /// </summary>
-        public void OnRecycled() {
-            ReleaseAllResource();
-        }
-
-        public bool IsRecycled { get; set; }
 
     }
 }

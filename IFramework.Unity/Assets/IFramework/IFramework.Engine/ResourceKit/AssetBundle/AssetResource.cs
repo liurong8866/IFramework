@@ -197,6 +197,7 @@ namespace IFramework.Engine {
 
                 // 记录依赖资源
                 HoldDependResource();
+                
                 state = ResourceState.Loading;
                 AssetBundleRequest request;
                 if (AssetType != null) {
@@ -207,7 +208,9 @@ namespace IFramework.Engine {
                     request = resource.AssetBundle.LoadAssetAsync(assetName);
                     yield return request;
                 }
+                
                 UnHoldDependResource();
+                
                 if (request == null) {
                     Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
@@ -217,6 +220,7 @@ namespace IFramework.Engine {
                 asset = request.asset;
             }
             state = ResourceState.Ready;
+            // 回调方法
             callback();
         }
 

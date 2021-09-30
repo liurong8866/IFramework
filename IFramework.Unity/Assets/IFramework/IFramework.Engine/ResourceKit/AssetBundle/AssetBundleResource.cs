@@ -114,8 +114,11 @@ namespace IFramework.Engine {
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
                     // 加载AssetBundle资源
                     using UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(url);
+                    // 发起请求
                     UnityWebRequestAsyncOperation request = unityWebRequest.SendWebRequest();
+                    // 返回并等待结果
                     yield return request;
+                    // 如果处理结果完成
                     if (!request.isDone) {
                         Log.Error("AssetBundle加载失败: " + assetName);
                         OnResourceLoadFailed();
@@ -125,8 +128,11 @@ namespace IFramework.Engine {
                     AssetBundle = DownloadHandlerAssetBundle.GetContent(unityWebRequest);
                 }
                 else {
+                    // 从文件中异步加载
                     AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(url);
+                    // 返回并等待结果
                     yield return request;
+                    // 如果处理结果完成
                     if (!request.isDone) {
                         Log.Error("AssetBundle加载失败: " + assetName);
                         OnResourceLoadFailed();
