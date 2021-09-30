@@ -60,25 +60,33 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample {
             // rawImage4.texture = loader.Load<Texture2D>("CharCommunity_004");
 
             // AssetBundle异步加载
-            loader.AddToLoad("sword", (result, res) => {
-                result.iif(() => {
-                    Texture2D texture = res.Asset as Texture2D;
-                    
-                    // 创建Sprite
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
-                    image.sprite =  sprite;
-                });
-            });
-            loader.AddToLoad("CharCommunity_001", (result, res) => { result.iif(() => rawImage.texture = res.Asset as Texture2D); });
-            loader.AddToLoad("CharCommunity_002", (result, res) => { result.iif(() => rawImage2.texture = res.Asset as Texture2D); });
-            loader.AddToLoad("CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); });
-            loader.AddToLoad("CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); });
+            // loader.AddToLoad("sword", (result, res) => {
+            //     result.iif(() => {
+            //         Texture2D texture = res.Asset as Texture2D;
+            //         
+            //         // 创建Sprite
+            //         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+            //         image.sprite =  sprite;
+            //     });
+            // });
+            // loader.AddToLoad("CharCommunity_001", (result, res) => { result.iif(() => rawImage.texture = res.Asset as Texture2D); });
+            // loader.AddToLoad("CharCommunity_002", (result, res) => { result.iif(() => rawImage2.texture = res.Asset as Texture2D); });
+            // loader.AddToLoad("CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); });
+            // loader.AddToLoad("CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); });
+            //
+            // loader.LoadAsync(
+            //     ()=>{Log.Info("加载完毕");}
+            // );
+         
+            // AssetBundle异步加载
+            loader.AddToLoad("CharCommunity_001", "sprite", (result, res) => { result.iif(() => rawImage.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_002", "sprite", (result, res) => { result.iif(() => rawImage2.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_003", "sprite", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); });
+            loader.AddToLoad("CharCommunity_004", "sprite", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); });
             
             loader.LoadAsync(
                 ()=>{Log.Info("加载完毕");}
             );
-         
-
         }
 
         private void OnDestroy() {

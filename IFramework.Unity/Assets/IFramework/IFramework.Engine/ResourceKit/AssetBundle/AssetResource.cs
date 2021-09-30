@@ -148,7 +148,7 @@ namespace IFramework.Engine {
         public override void LoadASync() {
             if (!IsLoadable) return;
             
-            // TODO 这里需要观察，原代码有判断，但是现在出现问题
+            // TODO 注释后支持直接AssetName引用，原代码必须含有AssetBundleName
             // if (AssetBundleName.IsNullOrEmpty()) return;
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
