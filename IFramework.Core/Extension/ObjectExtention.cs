@@ -91,42 +91,34 @@ namespace IFramework.Core {
         /* Invoke                     */
         /*----------------------------*/
 
-        public static bool InvokeSafe(this Action action) {
-            if (action != null) {
-                action();
-                return true;
-            }
-            return false;
+        public static void InvokeSafe(this Action action) {
+            action?.Invoke();
         }
 
-        public static bool InvokeSafe<T>(this Action<T> action, T t) {
-            if (action != null) {
-                action(t);
-                return true;
-            }
-            return false;
+        public static void InvokeSafe<T>(this Action<T> action, T param) {
+            action?.Invoke(param);
         }
 
-        public static bool InvokeSafe<T, TK>(this Action<T, TK> action, T t, TK k) {
-            if (action != null) {
-                action(t, k);
-                return true;
-            }
-            return false;
+        public static void InvokeSafe<T, K>(this Action<T, K> action, T param1, K param2) {
+            action?.Invoke(param1, param2);
         }
 
-        public static bool InvokeSafe(this Delegate action, params object[] param) {
-            if (action != null) {
-                action.DynamicInvoke(param);
-                return true;
-            }
-            return false;
+        public static void InvokeSafe(this Delegate action, params object[] param) {
+            action?.DynamicInvoke(param);
         }
 
         public static T InvokeSafe<T>(this Func<T> function) {
             return function != null ? function() : default;
         }
 
+        public static TResult InvokeSafe<T, TResult>(this Func<T, TResult> function, T param) {
+            return function != null ?  function.Invoke(param) : default;
+        }
+        
+        public static TResult InvokeSafe<T, K, TResult>(this Func<T, K, TResult> function, T param1, K param2) {
+            return function != null ?  function.Invoke(param1, param2) : default;
+        }
+        
         public static T InvokeAction<T>(this T self, Action<T> action) where T : Object {
             action.InvokeSafe(self);
             return self;

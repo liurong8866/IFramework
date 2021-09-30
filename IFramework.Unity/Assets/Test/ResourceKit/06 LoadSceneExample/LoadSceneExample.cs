@@ -17,7 +17,9 @@ namespace Test.ResourceKit._06_LoadSceneExample {
             
             // 异步
             loader.AddToLoad("Chapter_01");
-            loader.LoadAsync(() => { SceneManager.LoadScene("Chapter_01"); });
+            loader.LoadAsync(() => {
+                SceneManager.LoadScene("Chapter_01");
+            });
         }
 
     }

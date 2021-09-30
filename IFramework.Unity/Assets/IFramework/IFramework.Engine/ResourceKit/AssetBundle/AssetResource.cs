@@ -195,7 +195,7 @@ namespace IFramework.Engine {
             }
             else {
                 // 等待帧结束，目的是解决AssetBundle不能为空到问题
-                yield return new WaitForEndOfFrame();
+                // yield return new WaitForEndOfFrame();
                 
                 if (resource == null || resource.AssetBundle == null) {
                     Log.Error("加载资源失败，未能找到AssetBundleImage: " + assetBundleNameConfig);

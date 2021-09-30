@@ -348,6 +348,7 @@ namespace IFramework.Engine {
         /// <param name="result"></param>
         /// <param name="resource"></param>
         private void OnResourceLoaded(bool result, IResource resource) {
+            
             loadingCount--;
 
             // 在这里使用了递归调用

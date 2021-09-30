@@ -61,7 +61,7 @@ namespace IFramework.Engine {
                 }
                 return false;
             }
-            state = ResourceState.Ready;
+            State = ResourceState.Ready;
             return true;
         }
 

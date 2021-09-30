@@ -165,31 +165,33 @@ namespace IFramework.Engine {
         /// 记录依赖资源
         /// </summary>
         protected void HoldDependResource() {
-            DoLoopDependResource(resource => resource.Hold());
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(()=>resource.Hold()), typeof(AssetBundle));
         }
-
+        
         /// <summary>
         /// 释放依赖资源
         /// </summary>
         protected void UnHoldDependResource() {
-            DoLoopDependResource(resource => resource.UnHold());
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(()=>resource.UnHold()));
         }
 
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
         public bool IsDependResourceLoaded() {
-            return DoLoopDependResource(resource => (resource != null && resource.State == ResourceState.Ready));
+            return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready);
         }
 
-        private bool DoLoopDependResource(Func<IResource, bool> action) {
+        private bool DoLoopDependResource(Func<IResource, bool> action, Type assetType = null) {
             // 获取依赖资源
             List<string> depends = GetDependResourceList();
             if (depends.IsNullOrEmpty()) return true;
             foreach (string depend in depends) {
-                using ResourceSearcher searcher = ResourceSearcher.Allocate(depend);
+                using ResourceSearcher searcher = ResourceSearcher.Allocate(depend,null,assetType);
                 IResource resource = ResourceManager.Instance.GetResource(searcher);
-                return action.InvokeSafe(resource);
+                if (action.InvokeSafe(resource)) {
+                    return false;
+                }
             }
             return true;
         }

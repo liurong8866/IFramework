@@ -33,10 +33,10 @@ namespace IFramework.Test.Extention {
     public class ExtentionTest : MonoBehaviour {
 
         private void Start() {
-            // ObjectExtentionTest();
+            ObjectExtentionTest();
 
             // GameObjectExtentionTest();
-            TransformExtentiontest();
+            // TransformExtentiontest();
         }
 
         private void ObjectExtentionTest() {
@@ -59,6 +59,13 @@ namespace IFramework.Test.Extention {
             dd.InvokeSafe();
             Func<int> func = () => 1;
             func.InvokeSafe();
+            
+            Func<string, string> func2 = (name) => { return name;};
+            Log.Info(func2.Invoke("liurong")); 
+            
+            Func<string, int, string> func3 = (name, age) => { return name + age;};
+            Log.Info(func3.Invoke("liurong", 20)); 
+            
             gameObject.InvokeAction<Object>((a) => { a.DestroySelf(); });
         }
 
