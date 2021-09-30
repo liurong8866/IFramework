@@ -441,6 +441,23 @@ namespace IFramework.Engine {
         }
 
         /// <summary>
+        /// 释放所有加载的资源
+        /// </summary>
+        public void ReleaseAllInstantiateResource() {
+            foreach (IResource resource in resourceList) {
+                if (resource.UnloadImage)
+                {
+                    if (waitForLoadList.Remove(resource)) loadingCount--;
+                    RemoveCallback(resource, true);
+                    resourceList.Remove(resource);
+                    resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
+                    resource.Release();
+                }
+            }
+            ResourceManager.Instance.ClearOnUpdate();
+        }
+        
+        /// <summary>
         /// 释放某资源的回调事件
         /// </summary>
         private void RemoveCallback(IResource resource, bool release) {

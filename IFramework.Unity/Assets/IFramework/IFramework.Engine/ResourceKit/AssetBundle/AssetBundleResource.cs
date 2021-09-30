@@ -156,13 +156,15 @@ namespace IFramework.Engine {
         /// <summary>
         /// 卸载图片资源
         /// </summary>
-        public override bool UnloadImage(bool flag) {
-            if (AssetBundle != null) {
-                unloadFlag = flag;
+        public override bool UnloadImage {
+            get => unloadFlag;
+            set {
+                if (AssetBundle != null) {
+                    unloadFlag = value;
+                }
             }
-            return true;
         }
-
+        
         public override void Recycle() {
             ObjectPool<AssetBundleResource>.Instance.Recycle(this);
         }

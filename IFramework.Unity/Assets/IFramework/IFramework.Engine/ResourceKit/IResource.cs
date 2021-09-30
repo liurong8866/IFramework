@@ -63,6 +63,11 @@ namespace IFramework.Engine {
         ResourceState State { get; }
 
         /// <summary>
+        /// 卸载图片资源
+        /// </summary>
+        bool UnloadImage { get; set; }
+
+        /// <summary>
         /// 同步加载资源
         /// </summary>
         bool Load();
@@ -71,11 +76,6 @@ namespace IFramework.Engine {
         /// 异步加载资源
         /// </summary>
         void LoadASync();
-
-        /// <summary>
-        /// 卸载图片资源
-        /// </summary>
-        bool UnloadImage(bool flag);
 
         /// <summary>
         /// 释放资源

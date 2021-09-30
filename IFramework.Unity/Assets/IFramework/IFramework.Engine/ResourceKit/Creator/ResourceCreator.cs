@@ -40,6 +40,6 @@ namespace IFramework.Engine {
             resource.AssetType = searcher.AssetType;
             return resource;
         }
-
+        
     }
 }

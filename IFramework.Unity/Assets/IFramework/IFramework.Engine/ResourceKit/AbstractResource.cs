@@ -102,6 +102,11 @@ namespace IFramework.Engine {
         }
 
         /// <summary>
+        /// 是否卸载图片资源
+        /// </summary>
+        public virtual bool UnloadImage { get; set; } = false;
+
+        /// <summary>
         /// 是否可以加载 state == ResourceState.Waiting
         /// </summary>
         protected bool IsLoadable => state == ResourceState.Waiting;
@@ -115,13 +120,6 @@ namespace IFramework.Engine {
         /// 异步加载资源
         /// </summary>
         public abstract void LoadASync();
-
-        /// <summary>
-        /// 卸载图片资源
-        /// </summary>
-        public virtual bool UnloadImage(bool flag) {
-            return false;
-        }
 
         /// <summary>
         /// 释放资源
