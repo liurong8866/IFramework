@@ -8,7 +8,7 @@ namespace IFramework.Test.AssetResourceKit {
         ResourceLoader mResLoader = ResourceLoader.Allocate();
 
         private void Start() {
-            mResLoader.Load<GameObject>("resources://Jin")
+            mResLoader.Load<GameObject>(ResourcesUrlType.RESOURCES + "Jin")
                 .Instantiate()
                 .Name("这是使用 Resource 加载的对象");
             mResLoader.Load<GameObject>("AssetObj")

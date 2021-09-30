@@ -88,17 +88,12 @@ namespace IFramework.Engine {
         /// 同步加载资源
         /// </summary>
         public override bool Load() {
-            if (!IsLoadable) return false;
-
-            // 如果配置文件没有对应的Asset，则退出
-            if (assetBundleNameConfig.IsNullOrEmpty()) return false;
+            if (!IsLoadable || assetBundleNameConfig.IsNullOrEmpty()) return false;
             Object obj;
-
             // 如果是模拟模式，并且不是包信息资源
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
-
                 // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
                 if (assetPaths.IsNullOrEmpty()) {
@@ -106,16 +101,12 @@ namespace IFramework.Engine {
                     OnResourceLoadFailed();
                     return false;
                 }
-
                 // 记录依赖资源
                 HoldDependResource();
                 state = ResourceState.Loading;
-                if (AssetType != null) {
-                    obj = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType);
-                }
-                else {
-                    obj = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
-                }
+                obj = AssetType != null 
+                    ? Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType) 
+                    : Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
             }
             else {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
@@ -125,7 +116,6 @@ namespace IFramework.Engine {
                     OnResourceLoadFailed();
                     return false;
                 }
-
                 // 记录依赖资源
                 HoldDependResource();
                 State = ResourceState.Loading;

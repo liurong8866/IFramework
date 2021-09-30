@@ -33,7 +33,7 @@ namespace QFramework.Example {
         private ResourceLoader mResLoader = ResourceLoader.Allocate();
 
         private void Start() {
-            mResLoader.Load<GameObject>("resources://GameObject")
+            mResLoader.Load<GameObject>(ResourcesUrlType.RESOURCES + "GameObject")
                 .Instantiate()
                 .Name("这是使用 ResKit 加载的对象");
             mResLoader.Load<GameObject>("AssetObj")

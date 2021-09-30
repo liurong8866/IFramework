@@ -22,25 +22,44 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.IO;
 using IFramework.Core;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Video;
 
 namespace IFramework.Engine {
-    public sealed class ResourceCreator : IResourceCreator {
-
+    public class NetVideoResource : AbstractNetResource {
+        
         /// <summary>
-        /// 匹配方法
+        /// 从缓冲池获取对象
         /// </summary>
-        public bool Match(ResourceSearcher searcher) {
-            return searcher.AssetName.StartsWith(ResourcesUrlType.RESOURCES);
+        public static NetVideoResource Allocate(string name) {
+            NetVideoResource resource = ObjectPool<NetVideoResource>.Instance.Allocate();
+            if (resource != null) {
+                resource.AssetName = name;
+                resource.request = UnityWebRequest.Get(name.Substring(ResourcesUrlType.NET_VIDEO.Length));
+            }
+            return resource;
         }
 
         /// <summary>
-        /// 创建资源
+        /// 回收资源到缓冲池
         /// </summary>
-        public IResource Create(ResourceSearcher searcher) {
-            IResource resource = Resource.Allocate(searcher.AssetName);
-            resource.AssetType = searcher.AssetType;
-            return resource;
+        public override void Recycle() {
+            ObjectPool<NetVideoResource>.Instance.Recycle(this);
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        protected override Object ResolveResult(UnityWebRequest request) {
+            byte[] data = ((DownloadHandlerBuffer) request.downloadHandler).data;
+            string path = Platform.PersistentDataPath + "/Resource/myvideo.mp4";
+            FileUtils.Write(path, data);
+            VideoClip videoClip = Resources.Load("myvideo") as VideoClip;
+            return videoClip;
         }
     }
 }

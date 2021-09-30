@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Reflection;
 using IFramework.Engine;
 using UnityEngine;
 using IFramework.Core;
@@ -10,7 +11,7 @@ namespace IFramework.Test.ResourceKit {
 
         private void Start() {
             // ResourceManager.Init();
-            resource = Resource.Allocate("Resources/Test", ResourcesUrlType.Folder);
+            resource = Resource.Allocate(ResourcesUrlType.RESOURCES + "Test");
 
             // resource.LoadSync();
             resource.LoadASync();

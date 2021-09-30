@@ -29,7 +29,7 @@ namespace IFramework.Core {
     public static class FileUtils {
 
         /// <summary>
-        /// 写入文件
+        /// 读取文件
         /// </summary>
         public static string Read(string path) {
             using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
@@ -46,6 +46,15 @@ namespace IFramework.Core {
         public static void Write(string path, string content, FileMode fileMode = FileMode.Create) {
             using FileStream fileStream = new FileStream(path, fileMode, FileAccess.Write);
             byte[] data = Encoding.UTF8.GetBytes(content);
+            fileStream.Write(data, 0, data.Length);
+            fileStream.Flush();
+        }
+        
+        /// <summary>
+        /// 写入文件
+        /// </summary>
+        public static void Write(string path, byte[] data, FileMode fileMode = FileMode.Create) {
+            using FileStream fileStream = new FileStream(path, fileMode, FileAccess.Write);
             fileStream.Write(data, 0, data.Length);
             fileStream.Flush();
         }

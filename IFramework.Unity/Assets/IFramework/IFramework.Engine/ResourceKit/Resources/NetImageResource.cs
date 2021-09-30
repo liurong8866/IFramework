@@ -23,24 +23,36 @@
  *****************************************************************************/
 
 using IFramework.Core;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace IFramework.Engine {
-    public sealed class ResourceCreator : IResourceCreator {
-
+    public class NetImageResource : AbstractNetResource {
+        
         /// <summary>
-        /// 匹配方法
+        /// 从缓冲池获取对象
         /// </summary>
-        public bool Match(ResourceSearcher searcher) {
-            return searcher.AssetName.StartsWith(ResourcesUrlType.RESOURCES);
+        public static NetImageResource Allocate(string name) {
+            NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
+            if (resource != null) {
+                resource.AssetName = name;
+                resource.request = UnityWebRequestTexture.GetTexture(name.Substring(ResourcesUrlType.NET_IMAGE.Length));
+            }
+            return resource;
         }
 
         /// <summary>
-        /// 创建资源
+        /// 回收资源到缓冲池
         /// </summary>
-        public IResource Create(ResourceSearcher searcher) {
-            IResource resource = Resource.Allocate(searcher.AssetName);
-            resource.AssetType = searcher.AssetType;
-            return resource;
+        public override void Recycle() {
+            ObjectPool<NetImageResource>.Instance.Recycle(this);
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        protected override Object ResolveResult(UnityWebRequest request) {
+            return ((DownloadHandlerTexture) request.downloadHandler).texture;
         }
     }
 }

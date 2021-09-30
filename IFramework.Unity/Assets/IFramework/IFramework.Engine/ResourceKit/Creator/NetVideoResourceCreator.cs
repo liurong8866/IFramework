@@ -22,25 +22,16 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
-
 namespace IFramework.Engine {
-    public sealed class ResourceCreator : IResourceCreator {
+    public class NetVideoResourceCreator : IResourceCreator {
 
-        /// <summary>
-        /// 匹配方法
-        /// </summary>
         public bool Match(ResourceSearcher searcher) {
-            return searcher.AssetName.StartsWith(ResourcesUrlType.RESOURCES);
+            return searcher.AssetName.StartsWith(ResourcesUrlType.NET_VIDEO);
         }
 
-        /// <summary>
-        /// 创建资源
-        /// </summary>
         public IResource Create(ResourceSearcher searcher) {
-            IResource resource = Resource.Allocate(searcher.AssetName);
-            resource.AssetType = searcher.AssetType;
-            return resource;
+            return NetVideoResource.Allocate(searcher.AssetName);
         }
+
     }
 }

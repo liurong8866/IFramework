@@ -24,43 +24,30 @@
 
 using System;
 using System.Collections;
+using System.Threading;
 using IFramework.Core;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Engine {
-    public class NetResource : AbstractResource {
-
-        private string url;
-
-        /// <summary>
-        /// 从缓冲池获取对象
-        /// </summary>
-        public static NetResource Allocate(string path) {
-            NetResource resource = ObjectPool<NetResource>.Instance.Allocate();
-            if (resource != null) {
-                resource.AssetName = path;
-                resource.url = getUrl(path);
-            }
-            return resource;
-        }
-
-        private static string getUrl(string path) {
-            return "net:";
-        }
-
+    public abstract class AbstractNetResource : AbstractResource, IDisposable  {
+        private bool disposed = false;
+        protected UnityWebRequest request;
+        
         /// <summary>
         /// 同步加载资源
         /// </summary>
         public override bool Load() {
-            throw new NotImplementedException();
+            throw new NotImplementedException("请使用LoadASync方法加载网络资源！");
         }
 
         /// <summary>
         /// 异步加载资源
         /// </summary>
         public override void LoadASync() {
-            if (!IsLoadable) return;
-            if (AssetName.IsNullOrEmpty()) return;
+            if (!IsLoadable || AssetName.IsNullOrEmpty() || Counter <= 0) return;
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -69,31 +56,69 @@ namespace IFramework.Engine {
         /// 重写异步加载方法
         /// </summary>
         public override IEnumerator LoadAsync(Action callback) {
-            ResourceRequest request = null;
-            // if (AssetType != null) {
-            //     request = Resources.LoadAsync(path, AssetType);
-            // }
-            // else {
-            //     request = Resources.LoadAsync(path);
-            // }
-            yield return request;
+            
+            if (Counter <= 0) {
+                OnResourceLoadFailed();
+                callback();
+                yield break;
+            }
+            // request在子类中定义
+            yield return request.SendWebRequest();
+            
             if (!request.isDone) {
                 Log.Error("资源加载失败：" + assetName);
                 OnResourceLoadFailed();
                 callback();
                 yield break;
             }
-            asset = request.asset;
+            asset = ResolveResult(request);
+            // 销毁连接
+            request.Dispose();
+            request = null;
+            
             State = ResourceState.Ready;
             callback();
         }
+        
+        /// <summary>
+        /// 处理对象
+        /// </summary>
+        protected abstract Object ResolveResult(UnityWebRequest request);
 
         /// <summary>
-        /// 回收资源到缓冲池
+        /// 析构函数，以备程序员忘记了显式调用Dispose方法
         /// </summary>
-        public override void Recycle() {
-            ObjectPool<NetResource>.Instance.Recycle(this);
+        ~AbstractNetResource() {
+            //必须为false
+            Dispose(false);
         }
 
+        /// <summary>
+        /// 实现IDisposable中的Dispose方法
+        /// </summary>
+        public void Dispose() {
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收机制不再调用终结器（析构器） 调用虚拟的Dispose方法。禁止Finalization（终结操作） 
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 非密封类修饰用
+        /// </summary>
+        /// <param name="disposing">是否注销托管资源</param>
+        protected virtual void Dispose(bool disposing) {
+            // 不要多次处理 
+            if (!disposed) {
+                if (disposing) {
+                    // 清理托管资源
+                    Release();
+                }
+                // 清理非托管资源
+                request.Dispose();
+                request = null;
+                disposed = true;
+            }
+        }
     }
 }
