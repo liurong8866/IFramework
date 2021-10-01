@@ -63,7 +63,9 @@ namespace IFramework.Engine {
             return null;
         }
 
-        protected override string SavePath { get; }
+        protected override string FilePath { get; }
+
+        protected override string FileName { get; }
 
     }
 }

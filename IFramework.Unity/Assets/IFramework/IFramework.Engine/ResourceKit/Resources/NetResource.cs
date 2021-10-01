@@ -24,15 +24,17 @@
 
 using System;
 using System.Collections;
+using System.IO;
 using IFramework.Core;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
 namespace IFramework.Engine {
     public abstract class AbstractNetResource : AbstractResource {
+
         private bool disposed = false;
         protected UnityWebRequest request;
-        
+
         /// <summary>
         /// 同步加载资源
         /// </summary>
@@ -60,7 +62,6 @@ namespace IFramework.Engine {
             }
             // request在子类中定义
             yield return request.SendWebRequest();
-            
             if (!request.isDone) {
                 Log.Error("资源加载失败：" + assetName);
                 OnResourceLoadFailed();
@@ -74,7 +75,6 @@ namespace IFramework.Engine {
             // 销毁连接
             request.Dispose();
             request = null;
-            
             State = ResourceState.Ready;
             callback();
         }
@@ -83,18 +83,36 @@ namespace IFramework.Engine {
         /// 缓存数据
         /// </summary>
         private void SaveData() {
-            FileUtils.Write(SavePath, request.downloadHandler.data); 
+            // 如果文件不存在，则保存
+            if (!File.Exists(FullName)) {
+                try {
+                    DirectoryUtils.Create(FilePath);
+                    FileUtils.Write(FullName, request.downloadHandler.data);
+                }catch (Exception e) {
+                    Log.Error(e);
+                }
+            }
         }
-        
+
         /// <summary>
         /// 处理对象
         /// </summary>
         protected abstract Object ResolveResult();
-        
+
         /// <summary>
         /// 保存路径
         /// </summary>
-        protected abstract string SavePath { get; }
+        protected abstract string FilePath { get; }
+
+        /// <summary>
+        /// 保存文件名，带扩展名
+        /// </summary>
+        protected abstract string FileName { get; }
+
+        /// <summary>
+        /// 完整路径名
+        /// </summary>
+        protected string FullName => Path.Combine(FilePath, FileName);
 
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
@@ -132,5 +150,6 @@ namespace IFramework.Engine {
                 disposed = true;
             }
         }
+
     }
 }

@@ -261,6 +261,15 @@ namespace IFramework.Core {
             return path.Substring(startIndex);
         }
         
+        /// <summary>
+        /// 获取资源路径，不包含文件名
+        /// </summary>
+        public static string GetFilePathByPath(string path) {
+            // 找到最后一个/
+            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) -1;
+            return path.Substring(0, startIndex);
+        }
+        
         /*--------------------------- 私有方法、变量 ---------------------------*/
 
         /// <summary>

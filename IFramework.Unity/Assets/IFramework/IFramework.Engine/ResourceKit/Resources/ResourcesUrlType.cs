@@ -29,6 +29,6 @@ namespace IFramework.Engine {
         public const string NET_IMAGE = "netimage::";
         public const string NET_VIDEO = "netvideo::";
         public const string NET_AUDIO = "netaudio::";
-        public const string LOCAL = "local::";
+        public const string LOCAL_FILE = "file://";
     }
 }

@@ -22,6 +22,7 @@
  * SOFTWARE.
  *****************************************************************************/
 
+using System.IO;
 using IFramework.Core;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -29,16 +30,27 @@ using UnityEngine.Networking;
 namespace IFramework.Engine {
     public class NetImageResource : AbstractNetResource {
 
-        private string savePath;
+        private string filePath;
+        private string fileName;
         
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetImageResource Allocate(string url) {
+        public static NetImageResource Allocate(string path) {
             NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
             if (resource != null) {
-                resource.AssetName = url;
-                resource.request = UnityWebRequestTexture.GetTexture(url.Substring(ResourcesUrlType.NET_IMAGE.Length));
+                resource.AssetName = path;
+                resource.filePath = Path.Combine(Platform.PersistentData.ImagePath, Platform.GetFilePathByPath(path).GetHashCode()+"");
+                resource.fileName = Platform.GetFileNameByPath(path);
+                // 如果缓存已下载，则直接从缓存获取
+                string requestUrl;
+                if (File.Exists(resource.FullName)) {
+                    requestUrl = Platform.FilePathPrefix + resource.FullName;
+                }
+                else {
+                    requestUrl = path.Substring(ResourcesUrlType.NET_IMAGE.Length);
+                }
+                resource.request = UnityWebRequestTexture.GetTexture(requestUrl);
             }
             return resource;
         }
@@ -46,7 +58,12 @@ namespace IFramework.Engine {
         /// <summary>
         /// 保存路径
         /// </summary>
-        protected override string SavePath => savePath;
+        protected override string FilePath => filePath;
+        
+        /// <summary>
+        /// 保存文件名
+        /// </summary>
+        protected override string FileName => fileName;
         
         /// <summary>
         /// 获取对象
