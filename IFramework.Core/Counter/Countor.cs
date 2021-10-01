@@ -72,14 +72,14 @@ namespace IFramework.Core {
         /// 重置为0
         /// </summary>
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
-        public void ResetCounter(bool invokeAction = false) {
+        public void Reset(bool invokeAction = false) {
             Counter = 0;
             if (invokeAction) {
                 OnZero.InvokeSafe();
             }
         }
 
-        public void Dispose() {
+        public virtual void Dispose() {
             OnZero = null;
         }
 

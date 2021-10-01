@@ -24,15 +24,12 @@
 
 using System;
 using System.Collections;
-using System.Threading;
 using IFramework.Core;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
 namespace IFramework.Engine {
-    public abstract class AbstractNetResource : AbstractResource, IDisposable  {
+    public abstract class AbstractNetResource : AbstractResource {
         private bool disposed = false;
         protected UnityWebRequest request;
         
@@ -71,7 +68,7 @@ namespace IFramework.Engine {
                 callback();
                 yield break;
             }
-            asset = ResolveResult(request);
+            asset = ResolveResult();
             // 销毁连接
             request.Dispose();
             request = null;
@@ -79,11 +76,23 @@ namespace IFramework.Engine {
             State = ResourceState.Ready;
             callback();
         }
+
+        /// <summary>
+        /// 缓存数据
+        /// </summary>
+        private void SaveData() {
+            
+        }
         
         /// <summary>
         /// 处理对象
         /// </summary>
-        protected abstract Object ResolveResult(UnityWebRequest request);
+        protected abstract Object ResolveResult();
+        
+        /// <summary>
+        /// 保存路径
+        /// </summary>
+        protected abstract string SavePath { get; }
 
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
@@ -96,7 +105,8 @@ namespace IFramework.Engine {
         /// <summary>
         /// 实现IDisposable中的Dispose方法
         /// </summary>
-        public void Dispose() {
+        public override void Dispose() {
+            base.Dispose();
             //必须为true
             Dispose(true);
             //通知垃圾回收机制不再调用终结器（析构器） 调用虚拟的Dispose方法。禁止Finalization（终结操作） 

@@ -32,27 +32,38 @@ namespace IFramework.Engine {
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetImageResource Allocate(string name) {
+        public static NetImageResource Allocate(string path) {
             NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
             if (resource != null) {
-                resource.AssetName = name;
-                resource.request = UnityWebRequestTexture.GetTexture(name.Substring(ResourcesUrlType.NET_IMAGE.Length));
+                resource.AssetName = path;
+                // resource.fileName = path.GetHashCode().ToString() + Platform.AssetBundleNameByUrl();
+                resource.request = UnityWebRequestTexture.GetTexture(path.Substring(ResourcesUrlType.NET_IMAGE.Length));
             }
             return resource;
         }
 
         /// <summary>
+        /// 保存路径
+        /// </summary>
+        protected override string SavePath {
+            get {
+                string path = Platform.PersistentImagePath + this.AssetName.GetHashCode();
+                return "";
+            }
+        }
+        
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        protected override Object ResolveResult() {
+            return ((DownloadHandlerTexture) request.downloadHandler).texture;
+        }
+        
+        /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
         public override void Recycle() {
             ObjectPool<NetImageResource>.Instance.Recycle(this);
-        }
-
-        /// <summary>
-        /// 获取对象
-        /// </summary>
-        protected override Object ResolveResult(UnityWebRequest request) {
-            return ((DownloadHandlerTexture) request.downloadHandler).texture;
         }
     }
 }

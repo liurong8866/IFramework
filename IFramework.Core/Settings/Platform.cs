@@ -110,7 +110,7 @@ namespace IFramework.Core {
         /// <summary>
         /// 运行时平台AssetBundle包路径，优先获取Persistent，其次获取Stream
         /// </summary>
-        public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_FOLDER), RuntimePlatformName);
+        public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_PATH), RuntimePlatformName);
 
         /// <summary>
         /// 内部目录 StreamingAssets文件夹路径
@@ -120,7 +120,7 @@ namespace IFramework.Core {
         /// <summary>
         /// StreamingAssets文件夹下到AssetBundle包
         /// </summary>
-        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_FOLDER);
+        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_PATH);
 
         /// <summary>
         /// 运行时平台StreamAsset/AssetBundle/Platform包路径
@@ -131,38 +131,54 @@ namespace IFramework.Core {
         /// 外部目录 PersistentDataPath文件夹路径
         /// </summary>
         public static string PersistentDataPath => Application.persistentDataPath;
-
+        
+        
         /// <summary>
         /// 外部资源路径 PersistentDataPath/AssetBundle
         /// </summary>
         public static string PersistentAssetBundlePath {
             get {
                 if (persistentAssetBundlePath == null) {
-                    persistentAssetBundlePath = Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_FOLDER);
+                    persistentAssetBundlePath = Path.Combine(PersistentDataPath, Constant.ASSET_BUNDLE_PATH);
                     DirectoryUtils.Create(persistentAssetBundlePath);
                 }
                 return persistentAssetBundlePath;
             }
         }
+        
+        /// <summary>
+        /// 外部图片路径 PersistentDataPath/Resources/Images
+        /// </summary>
+        public static string PersistentImagePath => PersistentResourcePath(persistentImagePath, Constant.RESOURCE_IMAGE_PATH);
 
         /// <summary>
-        /// 外部头像路径 PersistentDataPath/Photo
+        /// 外部头像路径 PersistentDataPath/Resources/Images/Photo
         /// </summary>
-        public static string PersistentPhotoPath {
-            get {
-                if (persistentPhotoPath == null) {
-                    persistentPhotoPath = Path.Combine(PersistentDataPath, "Photo");
-                    DirectoryUtils.Create(persistentPhotoPath);
-                }
-                return persistentPhotoPath;
-            }
-        }
+        public static string PersistentPhotoPath => PersistentResourcePath(persistentPhotoPath, Constant.RESOURCE_PHOTO_PATH);
 
+        /// <summary>
+        /// 外部头像路径 PersistentDataPath/Resources/Video
+        /// </summary>
+        public static string PersistentVideoPath => PersistentResourcePath(persistentVideoPath, Constant.RESOURCE_VIDEO_PATH);
+
+        /// <summary>
+        /// 外部头像路径 PersistentDataPath/Resources/Audio
+        /// </summary>
+        public static string PersistentAudioPath => PersistentResourcePath(persistentAudioPath, Constant.RESOURCE_AUDIO_PATH);
+        
+        private static string PersistentResourcePath(string path, string folder) {
+            if (path == null) {
+                path = Path.Combine(PersistentDataPath, folder);
+                DirectoryUtils.Create(path);
+            }
+            return path;
+        }
+        
         /// <summary>
         /// 文件路径前缀 file://
         /// </summary>
         public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
-
+        
         /*--------------------------- 资源名称相关 ---------------------------*/
 
         /// <summary>
@@ -208,8 +224,10 @@ namespace IFramework.Core {
         }
 
         private static string persistentAssetBundlePath;
-
+        private static string persistentImagePath;
         private static string persistentPhotoPath;
+        private static string persistentVideoPath;
+        private static string persistentAudioPath;
 
     }
 }

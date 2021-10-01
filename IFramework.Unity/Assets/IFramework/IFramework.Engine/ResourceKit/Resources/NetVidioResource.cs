@@ -54,12 +54,16 @@ namespace IFramework.Engine {
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult(UnityWebRequest request) {
+        protected override Object ResolveResult() {
             byte[] data = ((DownloadHandlerBuffer) request.downloadHandler).data;
-            string path = Platform.PersistentDataPath + "/Resource/myvideo.mp4";
-            FileUtils.Write(path, data);
-            VideoClip videoClip = Resources.Load("myvideo") as VideoClip;
-            return videoClip;
+            string path = Platform.PersistentDataPath + "/Resources/";
+            DirectoryUtils.Create(path);
+            FileUtils.Write(path + "myvideo.mp4", data);
+            // VideoClip videoClip = Resources.L("file://"+path + "myvideo") as VideoClip;
+            return null;
         }
+
+        protected override string SavePath { get; }
+
     }
 }
