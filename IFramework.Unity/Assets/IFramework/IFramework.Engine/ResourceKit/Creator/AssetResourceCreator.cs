@@ -22,11 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine {
-    public sealed class AssetResourceCreator : IResourceCreator {
-
+namespace IFramework.Engine
+{
+    public sealed class AssetResourceCreator : IResourceCreator
+    {
         public bool Match(ResourceSearcher searcher) {
             AssetInfo assetInfo = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
+
             if (assetInfo != null) {
                 return assetInfo.AssetType == ResourceLoadType.ASSET_BUNDLE_ASSET;
             }
@@ -47,6 +49,5 @@ namespace IFramework.Engine {
         public IResource Create(ResourceSearcher searcher) {
             return AssetResource.Allocate(searcher.AssetName, searcher.AssetBundleName, searcher.AssetType);
         }
-
     }
 }

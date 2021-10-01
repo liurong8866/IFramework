@@ -25,9 +25,10 @@
 using System;
 using System.Collections;
 
-namespace IFramework.Core {
-    public static class ConditionExtension {
-        
+namespace IFramework.Core
+{
+    public static class ConditionExtension
+    {
         /// <summary>
         /// 真假处理
         /// </summary>
@@ -72,7 +73,7 @@ namespace IFramework.Core {
                 return false;
             }
         }
-        
+
         /// <summary>
         /// 如果对象为Null或""，执行TrueAction，否则执行FalseAction
         /// </summary>
@@ -82,7 +83,7 @@ namespace IFramework.Core {
         public static T IfNullOrEmpty<T>(this object value, Func<T> trueFunc, Func<T> falseFunc = null) {
             return (value == null || string.IsNullOrEmpty(value.ToString())) ? trueFunc.InvokeSafe() : falseFunc.InvokeSafe();
         }
-        
+
         /// <summary>
         /// 如果集合为Null或空，执行TrueAction，否则执行FalseAction
         /// </summary>
@@ -99,7 +100,7 @@ namespace IFramework.Core {
                 return false;
             }
         }
-        
+
         /// <summary>
         /// 如果集合为Null或空，执行TrueAction，否则执行FalseAction
         /// </summary>

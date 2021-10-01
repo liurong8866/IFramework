@@ -24,12 +24,13 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可持久化的Float类型
     /// </summary>
-    public sealed class ConfigFloat : AbstractConfigNumeric<float> {
-
+    public sealed class ConfigFloat : AbstractConfigNumeric<float>
+    {
         public ConfigFloat(string key) : base(key, 0.0f) { }
 
         public ConfigFloat(string key, float value) : base(key, value) { }
@@ -60,6 +61,5 @@ namespace IFramework.Core {
             m.Value = Subtraction(m.Value, 1.0f);
             return m;
         }
-
     }
 }

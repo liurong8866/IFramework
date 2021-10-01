@@ -2,14 +2,15 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     /// <summary>
     /// ZipNameTransform transforms names as per the Zip file naming convention.
     /// </summary>
     /// <remarks>The use of absolute names is supported although its use is not valid 
     /// according to Zip naming conventions, and should not be used if maximum compatability is desired.</remarks>
-    public class ZipNameTransform : INameTransform {
-
+    public class ZipNameTransform : INameTransform
+    {
         #region Constructors
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>The transformed name.</returns>
         public string TransformDirectory(string name) {
             name = TransformFile(name);
+
             if (name.Length > 0) {
                 if (!name.EndsWith("/", StringComparison.Ordinal)) {
                     name += "/";
@@ -72,7 +74,8 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>The transformed name.</returns>
         public string TransformFile(string name) {
             if (name != null) {
-                string lowerName = name.ToLower();
+                string lowerName = name.ToLowerInvariant();
+
                 if ((trimPrefix != null) && (lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0)) {
                     name = name.Substring(trimPrefix.Length);
                 }
@@ -91,6 +94,7 @@ namespace IFramework.Core.Zip.Zip {
 
                 // Convert consecutive // characters to /
                 int index = name.IndexOf("//", StringComparison.Ordinal);
+
                 while (index >= 0) {
                     name = name.Remove(index, 1);
                     index = name.IndexOf("//", StringComparison.Ordinal);
@@ -112,8 +116,9 @@ namespace IFramework.Core.Zip.Zip {
             get { return trimPrefix; }
             set {
                 trimPrefix = value;
+
                 if (trimPrefix != null) {
-                    trimPrefix = trimPrefix.ToLower();
+                    trimPrefix = trimPrefix.ToLowerInvariant();
                 }
             }
         }
@@ -126,10 +131,13 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>Returns a valid name</returns>
         private static string MakeValidName(string name, char replacement) {
             int index = name.IndexOfAny(invalidEntryChars);
+
             if (index >= 0) {
                 var builder = new StringBuilder(name);
+
                 while (index >= 0) {
                     builder[index] = replacement;
+
                     if (index >= name.Length) {
                         index = -1;
                     }
@@ -139,6 +147,7 @@ namespace IFramework.Core.Zip.Zip {
                 }
                 name = builder.ToString();
             }
+
             if (name.Length > 0xffff) {
                 throw new PathTooLongException();
             }
@@ -159,14 +168,15 @@ namespace IFramework.Core.Zip.Zip {
         /// </remarks>
         public static bool IsValidName(string name, bool relaxed) {
             bool result = (name != null);
+
             if (result) {
                 if (relaxed) {
                     result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;
                 }
                 else {
                     result =
-                        (name.IndexOfAny(invalidEntryChars) < 0) &&
-                        (name.IndexOf('/') != 0);
+                            (name.IndexOfAny(invalidEntryChars) < 0) &&
+                            (name.IndexOf('/') != 0);
                 }
             }
             return result;
@@ -186,10 +196,10 @@ namespace IFramework.Core.Zip.Zip {
         /// </remarks>
         public static bool IsValidName(string name) {
             bool result =
-                    (name != null) &&
-                    (name.IndexOfAny(invalidEntryChars) < 0) &&
-                    (name.IndexOf('/') != 0)
-                ;
+                            (name != null) &&
+                            (name.IndexOfAny(invalidEntryChars) < 0) &&
+                            (name.IndexOf('/') != 0)
+                    ;
             return result;
         }
 
@@ -205,6 +215,5 @@ namespace IFramework.Core.Zip.Zip {
         private static readonly char[] invalidEntryCharsRelaxed;
 
         #endregion
-
     }
 }

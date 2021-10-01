@@ -1,19 +1,20 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     /// <summary>
     /// Basic implementation of <see cref="IEntryFactory"></see>
     /// </summary>
-    public class ZipEntryFactory : IEntryFactory {
-
+    public class ZipEntryFactory : IEntryFactory
+    {
         #region Enumerations
 
         /// <summary>
         /// Defines the possible values to be used for the <see cref="ZipEntry.DateTime"/>.
         /// </summary>
-        public enum TimeSetting {
-
+        public enum TimeSetting
+        {
             /// <summary>
             /// Use the recorded LastWriteTime value for the file.
             /// </summary>
@@ -53,7 +54,6 @@ namespace IFramework.Core.Zip.Zip {
             /// to <see cref="TimeSetting.Fixed"/> which will use the <see cref="DateTime"/> when this class was constructed.
             /// The <see cref="FixedDateTime"/> property can also be used to set this value.</remarks>
             Fixed,
-
         }
 
         #endregion
@@ -192,9 +192,11 @@ namespace IFramework.Core.Zip.Zip {
             int externalAttributes = 0;
             bool useAttributes = (setAttributes != 0);
             FileInfo fi = null;
+
             if (useFileSystem) {
                 fi = new FileInfo(fileName);
             }
+
             if ((fi != null) && fi.Exists) {
                 switch (timeSetting) {
                     case TimeSetting.CreateTime:
@@ -230,6 +232,7 @@ namespace IFramework.Core.Zip.Zip {
                     result.DateTime = fixedDateTime;
                 }
             }
+
             if (useAttributes) {
                 externalAttributes |= setAttributes;
                 result.ExternalFileAttributes = externalAttributes;
@@ -258,9 +261,11 @@ namespace IFramework.Core.Zip.Zip {
             result.Size = 0;
             int externalAttributes = 0;
             DirectoryInfo di = null;
+
             if (useFileSystem) {
                 di = new DirectoryInfo(directoryName);
             }
+
             if ((di != null) && di.Exists) {
                 switch (timeSetting) {
                     case TimeSetting.CreateTime:
@@ -314,6 +319,5 @@ namespace IFramework.Core.Zip.Zip {
         private int setAttributes;
 
         #endregion
-
     }
 }

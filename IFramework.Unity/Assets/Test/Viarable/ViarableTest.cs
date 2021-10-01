@@ -27,9 +27,10 @@ using System.Text;
 using IFramework.Core;
 using UnityEngine;
 
-namespace IFramework.Test.Viarable {
-    public class ViarableTest : MonoBehaviour {
-
+namespace IFramework.Test.Viarable
+{
+    public class ViarableTest : MonoBehaviour
+    {
         private Bindable<int> health = new Bindable<int>();
 
         private BindInt bindInt = new BindInt();
@@ -99,14 +100,17 @@ namespace IFramework.Test.Viarable {
                 object a2 = 0.00000d;
                 object a3 = 0.000000001d;
                 a1.ToDecimal().LogInfo();
+
                 if (a1.ToDecimal() == 0) {
                     Log.Info("hehe");
                 }
                 a2.ToDecimal().LogInfo();
+
                 if (a2.ToDecimal() == 0) {
                     Log.Info("hehe");
                 }
                 a3.ToDecimal().LogInfo();
+
                 if (a3.ToDecimal() == 0) {
                     Log.Info("hehe");
                 }
@@ -118,6 +122,7 @@ namespace IFramework.Test.Viarable {
                 // long aa2 = 10 % aa22;
             }
             ;
+
             {
                 decimal conv = 1234.123456789012345678901234567890m;
                 // float conv1 = 1234.123456789012345678901234567890f;
@@ -160,12 +165,14 @@ namespace IFramework.Test.Viarable {
                 // result66 = (decimal)(result6 % 10.0d); // 未实现 % 
                 result66 = result6 % 10.0m;
             }
+
             {
                 double d = 500;
                 double d1 = 233.84;
                 double d2 = d - d1;
                 //d2=266.15999999999997
             }
+
             {
                 double d = 0.4;
                 double d1 = d + d + d;
@@ -175,6 +182,7 @@ namespace IFramework.Test.Viarable {
                 bindDouble.Value = 1.2d;
                 bool aa = bindDouble == 1.2000000000000002d;
             }
+
             {
                 double d = 1.2;
                 double d1 = d / 0.4;
@@ -299,27 +307,35 @@ namespace IFramework.Test.Viarable {
             configBool.Value.LogInfo("设置前{0}");
             configBool.Value = false;
             configBool.Value.LogInfo("设置后{0}");
+
             if (configBool) {
                 configBool.LogInfo();
             }
+
             if (!configBool) {
                 configBool.LogInfo();
             }
+
             if (configBool & true) {
                 configBool.LogInfo();
             }
+
             if (true & configBool) {
                 configBool.LogInfo();
             }
+
             if (configBool & configBool2) {
                 configBool.LogInfo();
             }
+
             if (configBool | true) {
                 configBool.LogInfo();
             }
+
             if (true | configBool) {
                 configBool.LogInfo();
             }
+
             if (configBool | configBool2) {
                 configBool.LogInfo();
             }
@@ -719,27 +735,35 @@ namespace IFramework.Test.Viarable {
             bindBool.Value.LogInfo("设置前{0}");
             bindBool.Value = false;
             bindBool.Value.LogInfo("设置后{0}");
+
             if (bindBool == true) {
                 Debug.Log("1");
             }
+
             if (bindBool == false) {
                 Debug.Log("2");
             }
+
             if (true == bindBool) {
                 Debug.Log("3");
             }
+
             if (false == bindBool) {
                 Debug.Log("4");
             }
+
             if (bindBool == bindBool2) {
                 Debug.Log("5");
             }
+
             if (bindBool == bindBool3) {
                 Debug.Log("6");
             }
+
             if (bindBool.Equals(true)) {
                 Debug.Log("7");
             }
+
             if (true.Equals(bindBool)) {
                 Debug.Log("8");
             }
@@ -763,6 +787,5 @@ namespace IFramework.Test.Viarable {
             isOpen.Value = true;
             isOpen.Value.LogInfo();
         }
-
     }
 }

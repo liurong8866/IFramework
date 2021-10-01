@@ -22,32 +22,31 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections;
 using System.IO;
-using System.Threading;
 using IFramework.Core;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Video;
 
-namespace IFramework.Engine {
-    public class NetAudioResource : AbstractNetResource {
+namespace IFramework.Engine
+{
+    public class NetAudioResource : AbstractNetResource
+    {
         private string filePath;
         private string fileName;
-        
+
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
         public static NetAudioResource Allocate(string path) {
             NetAudioResource resource = ObjectPool<NetAudioResource>.Instance.Allocate();
+
             if (resource != null) {
                 resource.AssetName = path;
-                resource.filePath = Path.Combine(Platform.PersistentData.AudioPath, Mathf.Abs(Platform.GetFilePathByPath(path).GetHashCode())+"");
+                resource.filePath = Path.Combine(Platform.PersistentData.AudioPath, Mathf.Abs(Platform.GetFilePathByPath(path).GetHashCode()) + "");
                 resource.fileName = Platform.GetFileNameByPath(path);
-
                 string netUrl = "";
                 AudioType audioType;
-                
+
                 if (path.StartsWith(ResourcesUrlType.AUDIO_WAV)) {
                     audioType = AudioType.WAV;
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_WAV.Length);
@@ -62,7 +61,7 @@ namespace IFramework.Engine {
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_MP3.Length);
                 }
                 // 如果缓存已下载，则直接从缓存获取
-                string requestUrl = File.Exists(resource.FullName)  ? Platform.FilePathPrefix + resource.FullName : netUrl;
+                string requestUrl = File.Exists(resource.FullName) ? Platform.FilePathPrefix + resource.FullName : netUrl;
                 resource.request = UnityWebRequestMultimedia.GetAudioClip(requestUrl, audioType);
             }
             return resource;
@@ -72,7 +71,7 @@ namespace IFramework.Engine {
         /// 保存路径
         /// </summary>
         protected override string FilePath => filePath;
-        
+
         /// <summary>
         /// 保存文件名
         /// </summary>
@@ -82,9 +81,9 @@ namespace IFramework.Engine {
         /// 获取对象
         /// </summary>
         protected override Object ResolveResult() {
-            return ((DownloadHandlerAudioClip)request.downloadHandler).audioClip ;
+            return ((DownloadHandlerAudioClip) request.downloadHandler).audioClip;
         }
-        
+
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>

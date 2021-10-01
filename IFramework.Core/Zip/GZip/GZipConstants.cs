@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip.GZip {
+namespace IFramework.Core.Zip.GZip
+{
     /// <summary>
     /// This class contains constants used for gzip.
     /// </summary>
-    sealed public class GZipConstants {
-
+    sealed public class GZipConstants
+    {
         /// <summary>
         /// Magic number found at start of GZIP header
         /// </summary>
@@ -51,6 +52,5 @@ namespace IFramework.Core.Zip.GZip {
         /// </summary>
         /// <remarks>Constructor is private to prevent instances being created.</remarks>
         private GZipConstants() { }
-
     }
 }

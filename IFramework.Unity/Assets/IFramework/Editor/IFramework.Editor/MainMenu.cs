@@ -27,9 +27,10 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor {
-    public class MainMenu {
-
+namespace IFramework.Editor
+{
+    public class MainMenu
+    {
         // % - CTRL on Windows / CMD on OSX
         // # - Shift
         // & - Alt
@@ -56,6 +57,7 @@ namespace IFramework.Editor {
             Log.Info("缓存数据清理 开始！");
             PlayerPrefs.DeleteAll();
             Directory.Delete(Application.persistentDataPath, true);
+
             if (EditorApplication.isPlaying) {
                 EditorApplication.isPlaying = false;
             }
@@ -100,6 +102,5 @@ namespace IFramework.Editor {
         private static void OpguiWindowLifeCircle() {
             GuiWindowLifeCircle.Open();
         }
-
     }
 }

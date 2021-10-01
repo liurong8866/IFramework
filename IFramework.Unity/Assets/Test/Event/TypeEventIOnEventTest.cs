@@ -25,9 +25,10 @@
 using IFramework.Core;
 using UnityEngine;
 
-namespace IFramework.Test.Event {
-    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent> {
-
+namespace IFramework.Test.Event
+{
+    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
+    {
         private void Start() {
             this.RegisterEvent<OnLeftMouseClickEvent>();
             this.RegisterEvent<OnRightMouseClickEvent>();
@@ -54,10 +55,11 @@ namespace IFramework.Test.Event {
             this.UnRegisterEvent<OnLeftMouseClickEvent>();
             this.UnRegisterEvent<OnRightMouseClickEvent>();
         }
-
     }
 
-    public struct OnLeftMouseClickEvent { }
+    public struct OnLeftMouseClickEvent
+    { }
 
-    public struct OnRightMouseClickEvent { }
+    public struct OnRightMouseClickEvent
+    { }
 }

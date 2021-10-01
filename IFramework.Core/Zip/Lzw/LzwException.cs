@@ -1,11 +1,12 @@
 using System;
 
-namespace IFramework.Core.Zip.Lzw {
+namespace IFramework.Core.Zip.Lzw
+{
     /// <summary>
     /// LzwException represents exceptions specific to LZW classes and code.
     /// </summary>
-    public class LzwException : BaseZipException {
-
+    public class LzwException : BaseZipException
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="LzwException" />.
         /// </summary>
@@ -16,7 +17,7 @@ namespace IFramework.Core.Zip.Lzw {
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         public LzwException(string message)
-            : base(message) { }
+                : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of <see cref="LzwException" />.
@@ -24,7 +25,6 @@ namespace IFramework.Core.Zip.Lzw {
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that caused this exception.</param>
         public LzwException(string message, Exception innerException)
-            : base(message, innerException) { }
-
+                : base(message, innerException) { }
     }
 }

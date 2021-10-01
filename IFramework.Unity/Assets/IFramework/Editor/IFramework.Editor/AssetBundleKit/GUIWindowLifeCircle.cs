@@ -28,12 +28,13 @@ using UnityEngine;
 // ReSharper disable once Unity.RedundantEventFunction
 // ReSharper disable IdentifierTypo
 
-namespace IFramework.Editor {
+namespace IFramework.Editor
+{
     /// <summary>
     /// GUI生命周期展示
     /// </summary>
-    public class GuiWindowLifeCircle : EditorWindow {
-
+    public class GuiWindowLifeCircle : EditorWindow
+    {
         [MenuItem("IFramework/Test/LifeCircle")]
         public static void Open() {
             //创建窗口
@@ -80,10 +81,12 @@ namespace IFramework.Editor {
         private void OnGUI() {
             //输入框控件
             text = EditorGUILayout.TextField("输入文字:", text);
+
             if (GUILayout.Button("打开通知", GUILayout.Width(200))) {
                 //打开一个通知栏
                 ShowNotification(new GUIContent("This is a Notification"));
             }
+
             if (GUILayout.Button("关闭通知", GUILayout.Width(200))) {
                 //关闭通知栏
                 RemoveNotification();
@@ -94,6 +97,7 @@ namespace IFramework.Editor {
 
             //选择贴图
             texture = EditorGUILayout.ObjectField("添加贴图", texture, typeof(Texture), true) as Texture;
+
             if (GUILayout.Button("关闭窗口", GUILayout.Width(200))) {
                 //关闭窗口
                 Close();
@@ -117,6 +121,7 @@ namespace IFramework.Editor {
             EditorGUILayout.BoundsField("BoundsField", new Bounds(new Vector3(50, 50, 50), new Vector3(150, 150, 150)));
             //颜色选择框
             color = EditorGUILayout.ColorField("颜色:", color);
+
             //按钮
             if (GUILayout.Button("Close")) {
                 Close();
@@ -185,6 +190,5 @@ namespace IFramework.Editor {
         private void OnDestroy() {
             Debug.Log("当窗口关闭时调用");
         }
-
     }
 }

@@ -27,9 +27,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace IFramework.Core {
-    public static class DirectoryUtils {
-
+namespace IFramework.Core
+{
+    public static class DirectoryUtils
+    {
         /// <summary>
         /// 创建目录,如果存在则不动作，支持创建多级路径
         /// </summary>
@@ -95,6 +96,7 @@ namespace IFramework.Core {
 
             // 获取当前文件夹下所有文件
             FileInfo[] files = directory.GetFiles();
+
             foreach (FileInfo file in files) {
                 // 组合文件路径
                 string filePath = Path.Combine(destPath, file.Name);
@@ -123,6 +125,7 @@ namespace IFramework.Core {
         /// <returns></returns>
         public static List<string> GetFiles(string folderPath, bool recursion = true) {
             List<string> fileList;
+
             if (!recursion) {
                 fileList = Directory.GetFiles(folderPath).ToList();
             }
@@ -131,6 +134,7 @@ namespace IFramework.Core {
 
                 //找出所有子文件夹
                 string[] folders = Directory.GetDirectories(folderPath);
+
                 foreach (string folder in folders) {
                     List<string> filesSub = GetFiles(folder, recursion);
                     fileList = fileList.Concat(filesSub).ToList();
@@ -149,18 +153,22 @@ namespace IFramework.Core {
         public static List<string> GetFiles(string folderPath, string fileName, bool recursion = true) {
             List<string> fileList = new List<string>();
             DirectoryInfo directory = new DirectoryInfo(folderPath);
+
             if (!directory.Exists) {
                 Log.Error("文件路径不存在：" + folderPath);
                 return null;
             }
+
             if (directory.Parent != null && directory.Attributes.ToString().IndexOf("System", StringComparison.Ordinal) > -1) {
                 return null;
             }
             FileInfo[] fileInfos = directory.GetFiles(fileName);
             fileList.AddRange(fileInfos?.Select(file => file.FullName));
+
             if (recursion) {
                 //找出所有子文件夹
                 string[] folders = Directory.GetDirectories(folderPath);
+
                 foreach (string folder in folders) {
                     // 递归调用
                     List<string> filesSub = GetFiles(folder, fileName, recursion);
@@ -177,12 +185,12 @@ namespace IFramework.Core {
         /// <param name="floor">向上第几层</param>
         public static string GetParentPath(string path, int floor = 1) {
             string parentPath = path;
+
             for (int i = 0; i < floor; ++i) {
                 int last = parentPath.LastIndexOf('/');
                 parentPath = parentPath.Substring(0, last);
             }
             return parentPath;
         }
-
     }
 }

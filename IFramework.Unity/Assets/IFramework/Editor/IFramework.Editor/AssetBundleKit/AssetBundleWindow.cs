@@ -30,9 +30,10 @@ using IFramework.Editor.Settings;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor {
-    public sealed class AssetBundleWindow : EditorWindow {
-
+namespace IFramework.Editor
+{
+    public sealed class AssetBundleWindow : EditorWindow
+    {
         private bool isViewChanged = true;
         private Vector2 scrollPosition;
         private List<string> signedList;
@@ -49,19 +50,21 @@ namespace IFramework.Editor {
 
         private void LoadMarkedList() {
             signedList = AssetDatabase.GetAllAssetBundleNames()
-                .SelectMany(asset => {
-                    var result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
-                    return result.Select(assetName => {
-                            if (AssetBundleMark.CheckMarked(assetName)) {
-                                return assetName;
-                            }
-                            if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
-                                return Path.GetDirectoryName(assetName);
-                            }
-                            return null;
-                        }).Where(assetName => assetName != null)
-                        .Distinct();
-                }).ToList();
+                                      .SelectMany(asset => {
+                                           var result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
+
+                                           return result.Select(assetName => {
+                                                             if (AssetBundleMark.CheckMarked(assetName)) {
+                                                                 return assetName;
+                                                             }
+
+                                                             if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
+                                                                 return Path.GetDirectoryName(assetName);
+                                                             }
+                                                             return null;
+                                                         }).Where(assetName => assetName != null)
+                                                        .Distinct();
+                                       }).ToList();
         }
 
         //绘制窗口时调用
@@ -75,6 +78,7 @@ namespace IFramework.Editor {
             // PersistentPath
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.TextField("PersistentPath:", Application.persistentDataPath);
+
             if (GUILayout.Button("打开目录", GUILayout.Width(100))) {
                 EditorUtility.RevealInFinder(Application.persistentDataPath);
             }
@@ -94,13 +98,16 @@ namespace IFramework.Editor {
 
             // 操作按钮
             GUILayout.Space(10);
+
             if (GUILayout.Button("生成 AB 包")) {
                 AssetBundleBuilder.BuildAssetBundles();
             }
             GUILayout.BeginHorizontal();
+
             if (GUILayout.Button("生成 AB 常量")) {
                 AssetBundleScript.GenerateConstScript();
             }
+
             if (GUILayout.Button("清空已生成的 AB 包")) {
                 AssetBundleBuilder.ForceClearAssetBundles();
             }
@@ -109,14 +116,17 @@ namespace IFramework.Editor {
             // 标记的资源
             GUILayout.Label("已标记的资源:");
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
+
             foreach (string assetsName in signedList) {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(assetsName);
+
                 if (GUILayout.Button("选中", GUILayout.Width(60))) {
                     Selection.objects = new[] {
                         AssetDatabase.LoadAssetAtPath<Object>(assetsName)
                     };
                 }
+
                 if (GUILayout.Button("取消标记", GUILayout.Width(60))) {
                     AssetBundleMark.MarkAssetBundle(assetsName);
                 }
@@ -125,6 +135,5 @@ namespace IFramework.Editor {
             EditorGUILayout.EndScrollView();
             GUILayout.Space(10);
         }
-
     }
 }

@@ -2,12 +2,13 @@ using System;
 
 // ReSharper disable InconsistentNaming
 
-namespace IFramework.Core.Zip.Zip.Compression {
+namespace IFramework.Core.Zip.Zip.Compression
+{
     /// <summary>
     /// This class contains constants used for deflation.
     /// </summary>
-    public static class DeflaterConstants {
-
+    public static class DeflaterConstants
+    {
         /// <summary>
         /// Set to true to enable debugging
         /// </summary>
@@ -142,6 +143,5 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// Internal compression engine constant
         /// </summary>		
         public static int[] COMPR_FUNC = { 0, 1, 1, 1, 1, 2, 2, 2, 2, 2 };
-
     }
 }

@@ -1,10 +1,10 @@
-using System;
 using IFramework.Core;
 using NUnit.Framework;
 
-namespace IFramework.Test {
-    public class Tests {
-
+namespace IFramework.Test
+{
+    public class Tests
+    {
         [SetUp]
         public void Setup() { }
 
@@ -18,6 +18,5 @@ namespace IFramework.Test {
             fileNameByPath = Platform.GetFileNameByPath("/1.png/txt", false);
             Assert.Pass();
         }
-
     }
 }

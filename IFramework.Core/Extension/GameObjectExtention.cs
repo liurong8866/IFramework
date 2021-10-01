@@ -25,12 +25,13 @@
 using System;
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// GameObject 扩展方法
     /// </summary>
-    public static class GameObjectExtention {
-
+    public static class GameObjectExtention
+    {
         /* Example
         public static void Example()
         {
@@ -181,6 +182,5 @@ namespace IFramework.Core {
             var component = self.gameObject.GetComponent(type);
             return component ? component : self.gameObject.AddComponent(type);
         }
-
     }
 }

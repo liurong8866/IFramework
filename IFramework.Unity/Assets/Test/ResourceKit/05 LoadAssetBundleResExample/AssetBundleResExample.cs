@@ -27,9 +27,10 @@ using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Test.ResourceKit._05_LoadAssetBundleResExample {
-    public class AssetBundleResExample : MonoBehaviour {
-
+namespace Test.ResourceKit._05_LoadAssetBundleResExample
+{
+    public class AssetBundleResExample : MonoBehaviour
+    {
         ResourceLoader loader;
 
         private void Start() {
@@ -44,12 +45,12 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample {
             image.sprite = loader.LoadSprite(ResourcesUrlType.RESOURCES + "sprite/sword");
             rawImage.texture = loader.Load(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_001") as Texture2D;
             rawImage2.texture = loader.Load<Texture2D>(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_002");
-            
-            loader.AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_003", 
-                    (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
-                .AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004", 
-                    (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
-                .LoadAsync();
+
+            loader.AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_003",
+                             (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
+                  .AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004",
+                             (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
+                  .LoadAsync();
 
             // AssetBundle
             // image.sprite = loader.LoadSprite("sword");
@@ -76,7 +77,7 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample {
             // loader.LoadAsync(
             //     ()=>{Log.Info("加载完毕");}
             // );
-         
+
             // AssetBundle异步加载
             // loader.AddToLoad("CharCommunity_001", "sprite", (result, res) => { result.iif(() => rawImage.texture = res.Asset as Texture2D); });
             // loader.AddToLoad("CharCommunity_002", "sprite", (result, res) => { result.iif(() => rawImage2.texture = res.Asset as Texture2D); });
@@ -92,6 +93,5 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample {
             loader.Recycle();
             loader = null;
         }
-
     }
 }

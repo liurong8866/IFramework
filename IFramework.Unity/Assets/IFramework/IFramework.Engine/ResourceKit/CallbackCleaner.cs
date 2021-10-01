@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// 用于清理回调事件到载体
     /// </summary>
-    public class CallbackCleaner {
-
+    public class CallbackCleaner
+    {
         private readonly Action<bool, IResource> callbacks;
 
         private readonly IResource resource;
@@ -52,6 +53,5 @@ namespace IFramework.Engine {
         public bool Is(IResource resource) {
             return this.resource.AssetName == resource.AssetName;
         }
-
     }
 }

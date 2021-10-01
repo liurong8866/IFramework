@@ -22,9 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine {
-    public class NetVideoResourceCreator : IResourceCreator {
-
+namespace IFramework.Engine
+{
+    public class NetVideoResourceCreator : IResourceCreator
+    {
         public bool Match(ResourceSearcher searcher) {
             return searcher.AssetName.StartsWith(ResourcesUrlType.VIDEO);
         }
@@ -32,6 +33,5 @@ namespace IFramework.Engine {
         public IResource Create(ResourceSearcher searcher) {
             return NetVideoResource.Allocate(searcher.AssetName);
         }
-
     }
 }

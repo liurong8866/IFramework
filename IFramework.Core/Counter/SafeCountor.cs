@@ -25,12 +25,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 安全的计数器
     /// </summary>
-    public class SafeCountor : ICountor, IDisposable {
-
+    public class SafeCountor : ICountor, IDisposable
+    {
         private readonly HashSet<object> owners = new HashSet<object>();
 
         public SafeCountor() { }
@@ -74,6 +75,7 @@ namespace IFramework.Core {
                 Log.Warning("没有找到要释放的对象");
                 return false;
             }
+
             if (Counter == 0) {
                 OnZero.InvokeSafe();
             }
@@ -86,6 +88,7 @@ namespace IFramework.Core {
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
         public void Reset(bool invokeAction = false) {
             owners.Clear();
+
             if (invokeAction) {
                 OnZero.InvokeSafe();
             }
@@ -94,6 +97,5 @@ namespace IFramework.Core {
         public virtual void Dispose() {
             OnZero = null;
         }
-
     }
 }

@@ -5,15 +5,16 @@ using System.Security.Cryptography;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeAccessorOwnerBody
 
-namespace IFramework.Core.Zip.Zip.Compression.Streams {
+namespace IFramework.Core.Zip.Zip.Compression.Streams
+{
     /// <summary>
     /// An input buffer customised for use by <see cref="InflaterInputStream"/>
     /// </summary>
     /// <remarks>
     /// The buffer supports decryption of incoming data.
     /// </remarks>
-    public class InflaterInputBuffer {
-
+    public class InflaterInputBuffer
+    {
         #region Constructors
 
         /// <summary>
@@ -30,6 +31,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         /// <remarks>A minimum buffer size of 1KB is permitted.  Lower sizes are treated as 1KB.</remarks>
         public InflaterInputBuffer(Stream stream, int bufferSize) {
             inputStream = stream;
+
             if (bufferSize < 1024) {
                 bufferSize = 1024;
             }
@@ -93,14 +95,17 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         public void Fill() {
             rawLength = 0;
             int toRead = rawData.Length;
+
             while (toRead > 0) {
                 int count = inputStream.Read(rawData, rawLength, toRead);
+
                 if (count <= 0) {
                     break;
                 }
                 rawLength += count;
                 toRead -= count;
             }
+
             if (cryptoTransform != null) {
                 clearTextLength = cryptoTransform.TransformBlock(rawData, 0, rawLength, clearText, 0);
             }
@@ -132,9 +137,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             }
             int currentOffset = offset;
             int currentLength = length;
+
             while (currentLength > 0) {
                 if (available <= 0) {
                     Fill();
+
                     if (available <= 0) {
                         return 0;
                     }
@@ -161,9 +168,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             }
             int currentOffset = offset;
             int currentLength = length;
+
             while (currentLength > 0) {
                 if (available <= 0) {
                     Fill();
+
                     if (available <= 0) {
                         return 0;
                     }
@@ -184,6 +193,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         public int ReadLeByte() {
             if (available <= 0) {
                 Fill();
+
                 if (available <= 0) {
                     throw new ZipException("EOF in header");
                 }
@@ -224,6 +234,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         public ICryptoTransform CryptoTransform {
             set {
                 cryptoTransform = value;
+
                 if (cryptoTransform != null) {
                     if (rawData == clearText) {
                         if (internalClearText == null) {
@@ -232,6 +243,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
                         clearText = internalClearText;
                     }
                     clearTextLength = rawLength;
+
                     if (available > 0) {
                         cryptoTransform.TransformBlock(rawData, rawLength - available, available, clearText, rawLength - available);
                     }
@@ -258,7 +270,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         private Stream inputStream;
 
         #endregion
-
     }
 
     /// <summary>
@@ -270,8 +281,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
     ///
     /// Author of the original java version : John Leuner.
     /// </summary>
-    public class InflaterInputStream : Stream {
-
+    public class InflaterInputStream : Stream
+    {
         #region Constructors
 
         /// <summary>
@@ -282,7 +293,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         /// The InputStream to read bytes from
         /// </param>
         public InflaterInputStream(Stream baseInputStream)
-            : this(baseInputStream, new Inflater(), 4096) { }
+                : this(baseInputStream, new Inflater(), 4096) { }
 
         /// <summary>
         /// Create an InflaterInputStream with the specified decompressor
@@ -295,7 +306,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         /// The decompressor used to decompress data read from baseInputStream
         /// </param>
         public InflaterInputStream(Stream baseInputStream, Inflater inf)
-            : this(baseInputStream, inf, 4096) { }
+                : this(baseInputStream, inf, 4096) { }
 
         /// <summary>
         /// Create an InflaterInputStream with the specified decompressor
@@ -314,9 +325,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             if (baseInputStream == null) {
                 throw new ArgumentNullException(nameof(baseInputStream));
             }
+
             if (inflater == null) {
                 throw new ArgumentNullException(nameof(inflater));
             }
+
             if (bufferSize <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
             }
@@ -363,12 +376,14 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
                 return count;
             }
             int length = 2048;
+
             if (count < length) {
                 length = (int) count;
             }
             byte[] tmp = new byte[length];
             int readCount = 1;
             long toSkip = count;
+
             while ((toSkip > 0) && (readCount > 0)) {
                 if (toSkip < length) {
                     length = (int) toSkip;
@@ -404,6 +419,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             // Protect against redundant calls
             if (inputBuffer.Available <= 0) {
                 inputBuffer.Fill();
+
                 if (inputBuffer.Available <= 0) {
                     throw new BaseZipException("Unexpected EOF");
                 }
@@ -512,6 +528,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         protected override void Dispose(bool disposing) {
             if (!isClosed) {
                 isClosed = true;
+
                 if (IsStreamOwner) {
                     baseInputStream.Dispose();
                 }
@@ -539,13 +556,16 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
                 throw new BaseZipException("Need a dictionary");
             }
             int remainingBytes = count;
+
             while (true) {
                 int bytesRead = inf.Inflate(buffer, offset, remainingBytes);
                 offset += bytesRead;
                 remainingBytes -= bytesRead;
+
                 if (remainingBytes == 0 || inf.IsFinished) {
                     break;
                 }
+
                 if (inf.IsNeedingInput) {
                     Fill();
                 }
@@ -586,6 +606,5 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         private bool isClosed;
 
         #endregion
-
     }
 }

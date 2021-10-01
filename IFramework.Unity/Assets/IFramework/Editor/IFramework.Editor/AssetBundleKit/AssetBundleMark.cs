@@ -27,9 +27,10 @@ using IFramework.Core;
 using IFramework.Editor.Settings;
 using UnityEditor;
 
-namespace IFramework.Editor {
-    public class AssetBundleMark {
-
+namespace IFramework.Editor
+{
+    public class AssetBundleMark
+    {
         [InitializeOnLoadMethod]
         static void OnLoad() {
             Selection.selectionChanged = SelectionChanged;
@@ -37,6 +38,7 @@ namespace IFramework.Editor {
 
         private static void SelectionChanged() {
             var path = EditorUtils.GetSelectedPath();
+
             if (!string.IsNullOrEmpty(path)) {
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
             }
@@ -88,8 +90,7 @@ namespace IFramework.Editor {
 
             // if (ai.assetBundleName.IsNullOrEmpty()) return false;
             DirectoryInfo dir = new DirectoryInfo(path);
-            return ai.assetBundleName.Equals(dir.Name.Replace(".", "-").ToLower());
+            return ai.assetBundleName.Equals(dir.Name.Replace(".", "-").ToLowerInvariant());
         }
-
     }
 }

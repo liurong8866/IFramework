@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip.BZip2 {
+namespace IFramework.Core.Zip.BZip2
+{
     /// <summary>
     /// Defines internal values for both compression and decompression
     /// </summary>
-    internal sealed class BZip2Constants {
-
+    internal sealed class BZip2Constants
+    {
         /// <summary>
         /// Random numbers used to randomise repetitive blocks
         /// </summary>
@@ -114,6 +115,5 @@ namespace IFramework.Core.Zip.BZip2 {
         public const int OVERSHOOT_BYTES = 20;
 
         private BZip2Constants() { }
-
     }
 }

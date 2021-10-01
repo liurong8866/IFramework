@@ -1,12 +1,13 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.GZip {
+namespace IFramework.Core.Zip.GZip
+{
     /// <summary>
     /// An example class to demonstrate compression and decompression of GZip streams.
     /// </summary>
-    public static class GZip {
-
+    public static class GZip
+    {
         /// <summary>
         /// Decompress the <paramref name="inStream">input</paramref> writing 
         /// uncompressed data to the <paramref name="outStream">output stream</paramref>
@@ -18,6 +19,7 @@ namespace IFramework.Core.Zip.GZip {
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
+
             try {
                 using (GZipInputStream bzipInput = new GZipInputStream(inStream)) {
                     bzipInput.IsStreamOwner = isStreamOwner;
@@ -45,6 +47,7 @@ namespace IFramework.Core.Zip.GZip {
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
+
             try {
                 using (GZipOutputStream bzipOutput = new GZipOutputStream(outStream, level)) {
                     bzipOutput.IsStreamOwner = isStreamOwner;
@@ -58,6 +61,5 @@ namespace IFramework.Core.Zip.GZip {
                 }
             }
         }
-
     }
 }

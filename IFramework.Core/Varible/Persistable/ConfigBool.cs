@@ -24,12 +24,13 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可持久化的Bool类型
     /// </summary>
-    public sealed class ConfigBool : AbstractConfig<bool> {
-
+    public sealed class ConfigBool : AbstractConfig<bool>
+    {
         public ConfigBool(string key, bool value) : base(key, value) { }
 
         public ConfigBool(string key, bool value, bool overwrite) : base(key, value) {
@@ -90,6 +91,5 @@ namespace IFramework.Core {
         public static bool operator |(bool m, ConfigBool n) {
             return m | n.Value;
         }
-
     }
 }

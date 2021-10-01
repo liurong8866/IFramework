@@ -24,9 +24,10 @@
 
 using System.Collections.Generic;
 
-namespace IFramework.Core {
-    public class DictionaryPool<TKey, TValue> {
-
+namespace IFramework.Core
+{
+    public class DictionaryPool<TKey, TValue>
+    {
         private static int capacity = 10;
 
         /// <summary>
@@ -53,17 +54,15 @@ namespace IFramework.Core {
             release.Clear();
             cache.Push(release);
         }
-
     }
 
-    public static class DictionaryPoolExtensions {
-
+    public static class DictionaryPoolExtensions
+    {
         /// <summary>
         /// 对字典拓展 自身入栈 的方法
         /// </summary>
         public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self) {
             DictionaryPool<TKey, TValue>.Release(self);
         }
-
     }
 }

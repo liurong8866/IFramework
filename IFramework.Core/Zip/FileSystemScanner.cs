@@ -1,15 +1,15 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip {
-
+namespace IFramework.Core.Zip
+{
     #region EventArgs
 
     /// <summary>
     /// Event arguments for scanning.
     /// </summary>
-    public class ScanEventArgs : EventArgs {
-
+    public class ScanEventArgs : EventArgs
+    {
         #region Constructors
 
         /// <summary>
@@ -43,14 +43,13 @@ namespace IFramework.Core.Zip {
         private bool continueRunning = true;
 
         #endregion
-
     }
 
     /// <summary>
     /// Event arguments during processing of a single file or directory.
     /// </summary>
-    public class ProgressEventArgs : EventArgs {
-
+    public class ProgressEventArgs : EventArgs
+    {
         #region Constructors
 
         /// <summary>
@@ -89,6 +88,7 @@ namespace IFramework.Core.Zip {
         public float PercentComplete {
             get {
                 float result;
+
                 if (target <= 0) {
                     result = 0;
                 }
@@ -122,14 +122,13 @@ namespace IFramework.Core.Zip {
         private bool continueRunning = true;
 
         #endregion
-
     }
 
     /// <summary>
     /// Event arguments for directories.
     /// </summary>
-    public class DirectoryEventArgs : ScanEventArgs {
-
+    public class DirectoryEventArgs : ScanEventArgs
+    {
         #region Constructors
 
         /// <summary>
@@ -138,7 +137,7 @@ namespace IFramework.Core.Zip {
         /// <param name="name">The name for this directory.</param>
         /// <param name="hasMatchingFiles">Flag value indicating if any matching files are contained in this directory.</param>
         public DirectoryEventArgs(string name, bool hasMatchingFiles)
-            : base(name) {
+                : base(name) {
             this.hasMatchingFiles = hasMatchingFiles;
         }
 
@@ -153,19 +152,18 @@ namespace IFramework.Core.Zip {
 
         private readonly
 
-            #region Instance Fields
+                #region Instance Fields
 
-            bool hasMatchingFiles;
+                bool hasMatchingFiles;
 
         #endregion
-
     }
 
     /// <summary>
     /// Arguments passed when scan failures are detected.
     /// </summary>
-    public class ScanFailureEventArgs : EventArgs {
-
+    public class ScanFailureEventArgs : EventArgs
+    {
         #region Constructors
 
         /// <summary>
@@ -210,7 +208,6 @@ namespace IFramework.Core.Zip {
         private bool continueRunning;
 
         #endregion
-
     }
 
     #endregion
@@ -257,8 +254,8 @@ namespace IFramework.Core.Zip {
     /// <summary>
     /// FileSystemScanner provides facilities scanning of files and directories.
     /// </summary>
-    public class FileSystemScanner {
-
+    public class FileSystemScanner
+    {
         #region Constructors
 
         /// <summary>
@@ -336,6 +333,7 @@ namespace IFramework.Core.Zip {
         private bool OnDirectoryFailure(string directory, Exception e) {
             DirectoryFailureHandler handler = directoryFailure;
             bool result = (handler != null);
+
             if (result) {
                 var args = new ScanFailureEventArgs(directory, e);
                 handler(this, args);
@@ -352,6 +350,7 @@ namespace IFramework.Core.Zip {
         private bool OnFileFailure(string file, Exception e) {
             FileFailureHandler handler = fileFailure;
             bool result = (handler != null);
+
             if (result) {
                 var args = new ScanFailureEventArgs(file, e);
                 fileFailure(this, args);
@@ -366,6 +365,7 @@ namespace IFramework.Core.Zip {
         /// <param name="file">The file name.</param>
         private void OnProcessFile(string file) {
             ProcessFileHandler handler = processFile;
+
             if (handler != null) {
                 var args = new ScanEventArgs(file);
                 handler(this, args);
@@ -379,6 +379,7 @@ namespace IFramework.Core.Zip {
         /// <param name="file">The file name</param>
         private void OnCompleteFile(string file) {
             CompletedFileHandler handler = completedFile;
+
             if (handler != null) {
                 var args = new ScanEventArgs(file);
                 handler(this, args);
@@ -393,6 +394,7 @@ namespace IFramework.Core.Zip {
         /// <param name="hasMatchingFiles">Flag indicating if the directory has matching files.</param>
         private void OnProcessDirectory(string directory, bool hasMatchingFiles) {
             EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
+
             if (handler != null) {
                 var args = new DirectoryEventArgs(directory, hasMatchingFiles);
                 handler(this, args);
@@ -414,6 +416,7 @@ namespace IFramework.Core.Zip {
             try {
                 string[] names = Directory.GetFiles(directory);
                 bool hasMatch = false;
+
                 for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
                     if (!fileFilter.IsMatch(names[fileIndex])) {
                         names[fileIndex] = null;
@@ -423,11 +426,13 @@ namespace IFramework.Core.Zip {
                     }
                 }
                 OnProcessDirectory(directory, hasMatch);
+
                 if (alive && hasMatch) {
                     foreach (string fileName in names) {
                         try {
                             if (fileName != null) {
                                 OnProcessFile(fileName);
+
                                 if (!alive) {
                                     break;
                                 }
@@ -446,12 +451,15 @@ namespace IFramework.Core.Zip {
                     throw;
                 }
             }
+
             if (alive && recurse) {
                 try {
                     string[] names = Directory.GetDirectories(directory);
+
                     foreach (string fulldir in names) {
                         if ((directoryFilter == null) || (directoryFilter.IsMatch(fulldir))) {
                             ScanDir(fulldir, true);
+
                             if (!alive) {
                                 break;
                             }
@@ -484,6 +492,5 @@ namespace IFramework.Core.Zip {
         private bool alive;
 
         #endregion
-
     }
 }

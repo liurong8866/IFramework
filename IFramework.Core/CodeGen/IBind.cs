@@ -24,9 +24,10 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
-    public interface IBind {
-
+namespace IFramework.Core
+{
+    public interface IBind
+    {
         string ComponentName { get; }
 
         string Comment { get; }
@@ -34,6 +35,5 @@ namespace IFramework.Core {
         Transform Transform { get; }
 
         BindType BindType { get; set; }
-
     }
 }

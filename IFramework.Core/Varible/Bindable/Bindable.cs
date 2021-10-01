@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可绑定事件的一般类型接口
     /// </summary>
-    public class Bindable<T> : AbstractProperty<T>, IBindable<T> where T : IConvertible, IComparable {
-
+    public class Bindable<T> : AbstractProperty<T>, IBindable<T> where T : IConvertible, IComparable
+    {
         public Bindable() { }
 
         public Bindable(T value) : base(value) { }
@@ -55,6 +56,5 @@ namespace IFramework.Core {
         public override void Dispose() {
             OnChange = null;
         }
-
     }
 }

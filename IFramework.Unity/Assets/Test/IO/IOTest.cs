@@ -1,8 +1,8 @@
 using System.IO;
 using UnityEngine;
 
-public class IoTest : MonoBehaviour {
-
+public class IoTest : MonoBehaviour
+{
     // Start is called before the first frame update
     private void Start() {
         string path = "test1/test2";
@@ -38,5 +38,4 @@ public class IoTest : MonoBehaviour {
 
         // DirectoryUtility.Copy("test1", "test2", true);
     }
-
 }

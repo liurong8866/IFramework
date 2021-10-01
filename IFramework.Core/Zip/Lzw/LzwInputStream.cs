@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Lzw {
+namespace IFramework.Core.Zip.Lzw
+{
     /// <summary>
     /// This filter stream is used to decompress a LZW format stream.
     /// Specifically, a stream that uses the LZC compression method.
@@ -40,8 +41,8 @@ namespace IFramework.Core.Zip.Lzw {
     /// }
     /// </code>
     /// </example>
-    public class LzwInputStream : Stream {
-
+    public class LzwInputStream : Stream
+    {
         /// <summary>
         /// Gets or sets a flag indicating ownership of underlying stream.
         /// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
@@ -70,8 +71,10 @@ namespace IFramework.Core.Zip.Lzw {
         /// <returns></returns>
         public override int ReadByte() {
             int b = Read(one, 0, 1);
+
             if (b == 1)
                 return (one[0] & 0xff);
+
             return -1;
         }
 
@@ -91,8 +94,10 @@ namespace IFramework.Core.Zip.Lzw {
         public override int Read(byte[] buffer, int offset, int count) {
             if (!headerParsed)
                 ParseHeader();
+
             if (eof)
                 return 0;
+
             int start = offset;
             /* Using local copies of various variables speeds things up by as
              * much as 30% in Java! Performance not tested in C#.
@@ -113,6 +118,7 @@ namespace IFramework.Core.Zip.Lzw {
 
             // empty stack if stuff still left
             int sSize = lStack.Length - lStackP;
+
             if (sSize > 0) {
                 int num = (sSize >= count) ? count : sSize;
                 Array.Copy(lStack, lStackP, buffer, offset, num);
@@ -120,6 +126,7 @@ namespace IFramework.Core.Zip.Lzw {
                 count -= num;
                 lStackP += num;
             }
+
             if (count == 0) {
                 stackP = lStackP;
                 return offset - start;
@@ -127,13 +134,14 @@ namespace IFramework.Core.Zip.Lzw {
 
             // loop, filling local buffer until enough data has been decompressed
             MainLoop:
+
             do {
                 if (end < EXTRA) {
                     Fill();
                 }
                 int bitIn = (got > 0) ? (end - end % lNBits) << 3 : (end << 3) - (lNBits - 1);
-                while (lBitPos < bitIn) {
 
+                while (lBitPos < bitIn) {
                     #region A
 
                     // handle 1-byte reads correctly
@@ -153,8 +161,9 @@ namespace IFramework.Core.Zip.Lzw {
                     // check for code-width expansion
                     if (lFreeEnt > lMaxCode) {
                         int nBytes = lNBits << 3;
+
                         lBitPos = (lBitPos - 1) +
-                            nBytes - (lBitPos - 1 + nBytes) % nBytes;
+                                nBytes - (lBitPos - 1 + nBytes) % nBytes;
                         lNBits++;
                         lMaxCode = (lNBits == maxBits) ? lMaxMaxCode : (1 << lNBits) - 1;
                         lBitMask = (1 << lNBits) - 1;
@@ -168,6 +177,7 @@ namespace IFramework.Core.Zip.Lzw {
 
                     // read next code
                     int pos = lBitPos >> 3;
+
                     int code = (((lData[pos] & 0xFF) |
                                  ((lData[pos + 1] & 0xFF) << 8) |
                                  ((lData[pos + 2] & 0xFF) << 16)) >>
@@ -178,6 +188,7 @@ namespace IFramework.Core.Zip.Lzw {
                     if (lOldCode == -1) {
                         if (code >= 256)
                             throw new LzwException("corrupt input: " + code + " > 255");
+
                         lFinChar = (byte) (lOldCode = code);
                         buffer[offset++] = lFinChar;
                         count--;
@@ -262,7 +273,6 @@ namespace IFramework.Core.Zip.Lzw {
                     }
 
                     #endregion
-
                 } // while
                 lBitPos = ResetBuf(lBitPos);
             } while (got > 0); // do..while
@@ -293,6 +303,7 @@ namespace IFramework.Core.Zip.Lzw {
 
         private void Fill() {
             got = baseInputStream.Read(data, end, data.Length - 1 - end);
+
             if (got > 0) {
                 end += got;
             }
@@ -306,20 +317,23 @@ namespace IFramework.Core.Zip.Lzw {
             // Check the magic marker
             if (result < 0)
                 throw new LzwException("Failed to read LZW header");
+
             if (hdr[0] != (LzwConstants.MAGIC >> 8) || hdr[1] != (LzwConstants.MAGIC & 0xff)) {
                 throw new LzwException(String.Format(
-                    "Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}",
-                    hdr[0], hdr[1]));
+                                           "Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}",
+                                           hdr[0], hdr[1]));
             }
 
             // Check the 3rd header byte
             blockMode = (hdr[2] & LzwConstants.BLOCK_MODE_MASK) > 0;
             maxBits = hdr[2] & LzwConstants.BIT_MASK;
+
             if (maxBits > LzwConstants.MAX_BITS) {
                 throw new LzwException("Stream compressed with " + maxBits +
                                        " bits, but decompression can only handle " +
                                        LzwConstants.MAX_BITS + " bits.");
             }
+
             if ((hdr[2] & LzwConstants.RESERVED_MASK) > 0) {
                 throw new LzwException("Unsupported bits set in the header.");
             }
@@ -336,6 +350,7 @@ namespace IFramework.Core.Zip.Lzw {
             tabSuffix = new byte[1 << maxBits];
             stack = new byte[1 << maxBits];
             stackP = stack.Length;
+
             for (int idx = 255; idx >= 0; idx--)
                 tabSuffix[idx] = (byte) idx;
         }
@@ -438,6 +453,7 @@ namespace IFramework.Core.Zip.Lzw {
         protected override void Dispose(bool disposing) {
             if (!isClosed) {
                 isClosed = true;
+
                 if (IsStreamOwner) {
                     baseInputStream.Dispose();
                 }
@@ -488,6 +504,5 @@ namespace IFramework.Core.Zip.Lzw {
         private const int EXTRA = 64;
 
         #endregion
-
     }
 }

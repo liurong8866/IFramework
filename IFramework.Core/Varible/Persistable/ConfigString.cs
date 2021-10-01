@@ -24,9 +24,10 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
-    public sealed class ConfigString : AbstractConfig<string> {
-
+namespace IFramework.Core
+{
+    public sealed class ConfigString : AbstractConfig<string>
+    {
         public ConfigString(string key) : base(key, "") { }
 
         public ConfigString(string key, string value) : base(key, value) { }
@@ -45,6 +46,5 @@ namespace IFramework.Core {
             PlayerPrefs.SetString(key, value);
             PlayerPrefs.Save();
         }
-
     }
 }

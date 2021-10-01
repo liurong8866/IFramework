@@ -24,12 +24,13 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可持久化的Int类型
     /// </summary>
-    public sealed class ConfigInt : AbstractConfigNumeric<int> {
-
+    public sealed class ConfigInt : AbstractConfigNumeric<int>
+    {
         public ConfigInt(string key) : base(key, 0) { }
 
         public ConfigInt(string key, int value) : base(key, value) { }
@@ -60,6 +61,5 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 }

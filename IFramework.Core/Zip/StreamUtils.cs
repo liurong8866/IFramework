@@ -1,12 +1,13 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip {
+namespace IFramework.Core.Zip
+{
     /// <summary>
     /// Provides simple <see cref="Stream"/>" utilities.
     /// </summary>
-    public sealed class StreamUtils {
-
+    public sealed class StreamUtils
+    {
         /// <summary>
         /// Read from a <see cref="Stream"/> ensuring all the required data is read.
         /// </summary>
@@ -31,6 +32,7 @@ namespace IFramework.Core.Zip {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
             }
+
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -39,11 +41,14 @@ namespace IFramework.Core.Zip {
             if ((offset < 0) || (offset > buffer.Length)) {
                 throw new ArgumentOutOfRangeException(nameof(offset));
             }
+
             if ((count < 0) || (offset + count > buffer.Length)) {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
+
             while (count > 0) {
                 int readCount = stream.Read(buffer, offset, count);
+
                 if (readCount <= 0) {
                     throw new EndOfStreamException();
                 }
@@ -62,9 +67,11 @@ namespace IFramework.Core.Zip {
             if (source == null) {
                 throw new ArgumentNullException(nameof(source));
             }
+
             if (destination == null) {
                 throw new ArgumentNullException(nameof(destination));
             }
+
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -74,8 +81,10 @@ namespace IFramework.Core.Zip {
                 throw new ArgumentException("Buffer is too small", nameof(buffer));
             }
             bool copying = true;
+
             while (copying) {
                 int bytesRead = source.Read(buffer, 0, buffer.Length);
+
                 if (bytesRead > 0) {
                     destination.Write(buffer, 0, bytesRead);
                 }
@@ -98,7 +107,7 @@ namespace IFramework.Core.Zip {
         /// <param name="name">The name to use with the event.</param>
         /// <remarks>This form is specialised for use within #Zip to support events during archive operations.</remarks>
         static public void Copy(Stream source, Stream destination,
-            byte[] buffer, ProgressHandler progressHandler, TimeSpan updateInterval, object sender, string name) {
+                                byte[] buffer, ProgressHandler progressHandler, TimeSpan updateInterval, object sender, string name) {
             Copy(source, destination, buffer, progressHandler, updateInterval, sender, name, -1);
         }
 
@@ -116,15 +125,17 @@ namespace IFramework.Core.Zip {
         /// If the value is negative the target is calculated by looking at the stream.</param>
         /// <remarks>This form is specialised for use within #Zip to support events during archive operations.</remarks>
         static public void Copy(Stream source, Stream destination,
-            byte[] buffer,
-            ProgressHandler progressHandler, TimeSpan updateInterval,
-            object sender, string name, long fixedTarget) {
+                                byte[] buffer,
+                                ProgressHandler progressHandler, TimeSpan updateInterval,
+                                object sender, string name, long fixedTarget) {
             if (source == null) {
                 throw new ArgumentNullException(nameof(source));
             }
+
             if (destination == null) {
                 throw new ArgumentNullException(nameof(destination));
             }
+
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -133,6 +144,7 @@ namespace IFramework.Core.Zip {
             if (buffer.Length < 128) {
                 throw new ArgumentException("Buffer is too small", nameof(buffer));
             }
+
             if (progressHandler == null) {
                 throw new ArgumentNullException(nameof(progressHandler));
             }
@@ -140,6 +152,7 @@ namespace IFramework.Core.Zip {
             DateTime marker = DateTime.Now;
             long processed = 0;
             long target = 0;
+
             if (fixedTarget >= 0) {
                 target = fixedTarget;
             }
@@ -151,8 +164,10 @@ namespace IFramework.Core.Zip {
             var args = new ProgressEventArgs(name, processed, target);
             progressHandler(sender, args);
             bool progressFired = true;
+
             while (copying) {
                 int bytesRead = source.Read(buffer, 0, buffer.Length);
+
                 if (bytesRead > 0) {
                     processed += bytesRead;
                     progressFired = false;
@@ -162,6 +177,7 @@ namespace IFramework.Core.Zip {
                     destination.Flush();
                     copying = false;
                 }
+
                 if (DateTime.Now - marker > updateInterval) {
                     progressFired = true;
                     marker = DateTime.Now;
@@ -170,6 +186,7 @@ namespace IFramework.Core.Zip {
                     copying = args.ContinueRunning;
                 }
             }
+
             if (!progressFired) {
                 args = new ProgressEventArgs(name, processed, target);
                 progressHandler(sender, args);
@@ -182,6 +199,5 @@ namespace IFramework.Core.Zip {
         private StreamUtils() {
             // Do nothing.
         }
-
     }
 }

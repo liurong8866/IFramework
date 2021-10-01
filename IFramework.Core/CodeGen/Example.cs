@@ -27,11 +27,11 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
 
-namespace IFramework.Core {
-    public class Example {
-
+namespace IFramework.Core
+{
+    public class Example
+    {
         private void GenerateCode() {
-
             //准备一个代码编译器单元
             CodeCompileUnit unit = new CodeCompileUnit();
 
@@ -58,7 +58,7 @@ namespace IFramework.Core {
             string outputFile = "Customer.cs";
 
             //添加字段
-            CodeMemberField field = new CodeMemberField(typeof(System.String), "_Id");
+            CodeMemberField field = new CodeMemberField(typeof(String), "_Id");
             field.Attributes = MemberAttributes.Private;
             Customerclass.Members.Add(field);
 
@@ -68,7 +68,7 @@ namespace IFramework.Core {
             property.Name = "Id";
             property.HasGet = true;
             property.HasSet = true;
-            property.Type = new CodeTypeReference(typeof(System.String));
+            property.Type = new CodeTypeReference(typeof(String));
             property.Comments.Add(new CodeCommentStatement("这是Id属性"));
             property.GetStatements.Add(new CodeMethodReturnStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), "_Id")));
             property.SetStatements.Add(new CodeAssignStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), "_Id"), new CodePropertySetValueReferenceExpression()));
@@ -86,10 +86,10 @@ namespace IFramework.Core {
             CodeGeneratorOptions options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
             options.BlankLinesBetweenMembers = true;
+
             using (System.IO.StreamWriter sw = new System.IO.StreamWriter(outputFile)) {
                 provider.GenerateCodeFromCompileUnit(unit, sw, options);
             }
         }
-
     }
 }

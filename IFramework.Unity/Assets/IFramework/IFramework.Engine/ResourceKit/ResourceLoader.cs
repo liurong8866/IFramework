@@ -29,12 +29,13 @@ using IFramework.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// 资源调用的超级类，配置了多个适配器，根据资源请求类型动态选择资源器加载
     /// </summary>
-    public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable {
-
+    public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable
+    {
         // 资源列表
         private readonly List<IResource> resourceList = new List<IResource>();
 
@@ -167,7 +168,7 @@ namespace IFramework.Engine {
             }
 
             // 非模拟器模式，直接加载AssetBundle
-            return Load<Sprite>(bundleName, spriteName);
+            return Load<Sprite>(spriteName, bundleName);
         }
 
         /*----------------------------- 异步加载资源 -----------------------------*/
@@ -203,6 +204,7 @@ namespace IFramework.Engine {
                 // 如果依赖资源加载完毕，则可以删除
                 if (resource.IsDependResourceLoaded()) {
                     waitForLoadList.Remove(currentNode);
+
                     if (resource.State != ResourceState.Ready) {
                         // 注册回调方法
                         resource.RegisterOnLoadedEvent(OnResourceLoaded);
@@ -224,6 +226,7 @@ namespace IFramework.Engine {
         /// </summary>
         public void AddToLoad(List<string> list) {
             if (list == null) return;
+
             foreach (string assetName in list) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
                 AddToLoad(searcher);
@@ -290,6 +293,7 @@ namespace IFramework.Engine {
 
             // 获取依赖
             List<string> depends = resource.GetDependResourceList();
+
             if (depends != null) {
                 // 遍历所有依赖并加载
                 foreach (string depend in depends) {
@@ -316,7 +320,6 @@ namespace IFramework.Engine {
 
             // 在缓存的资源中查找，再次确保
             IResource cachedResource = GetResourceInCache(searcher);
-            
             if (cachedResource != null) return;
 
             // 记录资源加载次数
@@ -324,7 +327,7 @@ namespace IFramework.Engine {
 
             // 资源添加到缓存
             this.resourceList.Add(resource);
-            
+
             // 放入等待加载列表
             if (resource.State != ResourceState.Ready) {
                 loadingCount++;
@@ -336,8 +339,9 @@ namespace IFramework.Engine {
         /// 在缓存的资源中查找
         /// </summary>
         private IResource GetResourceInCache(ResourceSearcher searcher) {
-            return resourceList.IsNullOrEmpty() 
-                ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
+            return resourceList.IsNullOrEmpty()
+                    ? null
+                    : resourceList.FirstOrDefault(resource => searcher.Match(resource));
         }
 
         /*----------------------------- 资源加载完毕后回调 -----------------------------*/
@@ -348,11 +352,11 @@ namespace IFramework.Engine {
         /// <param name="result"></param>
         /// <param name="resource"></param>
         private void OnResourceLoaded(bool result, IResource resource) {
-            
             loadingCount--;
 
             // 在这里使用了递归调用
             LoadAsyncMethod();
+
             if (loadingCount == 0) {
                 RemoveAllCallbacks(false);
                 currentCallback?.Invoke();
@@ -384,6 +388,7 @@ namespace IFramework.Engine {
             // 清除待下载列表中的资源
             if (waitForLoadList.Remove(resource)) {
                 loadingCount--;
+
                 if (loadingCount == 0) {
                     currentCallback = null;
                 }
@@ -403,6 +408,7 @@ namespace IFramework.Engine {
         /// </summary>
         public void ReleaseResource(string[] assetNames) {
             if (assetNames.IsNullOrEmpty()) return;
+
             foreach (string assetName in assetNames) {
                 ReleaseResource(assetName);
             }
@@ -423,14 +429,17 @@ namespace IFramework.Engine {
                 }
                 spriteMap.Clear();
             }
+
             if (resourceList.Count > 0) {
                 //确保首先删除的是AB，这样能对Asset的卸载做优化
                 resourceList.Reverse();
+
                 foreach (IResource resource in resourceList) {
                     resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
                     resource.Release();
                 }
                 resourceList.Clear();
+
                 if (!ResourceManager.IsApplicationQuit) {
                     ResourceManager.Instance.ClearOnUpdate();
                 }
@@ -445,8 +454,7 @@ namespace IFramework.Engine {
         /// </summary>
         public void ReleaseAllInstantiateResource() {
             foreach (IResource resource in resourceList) {
-                if (resource.UnloadImage)
-                {
+                if (resource.UnloadImage) {
                     if (waitForLoadList.Remove(resource)) loadingCount--;
                     RemoveCallback(resource, true);
                     resourceList.Remove(resource);
@@ -456,7 +464,7 @@ namespace IFramework.Engine {
             }
             ResourceManager.Instance.ClearOnUpdate();
         }
-        
+
         /// <summary>
         /// 释放某资源的回调事件
         /// </summary>
@@ -468,6 +476,7 @@ namespace IFramework.Engine {
                 while (currentNode != null) {
                     CallbackCleaner cleaner = currentNode.Value;
                     LinkedListNode<CallbackCleaner> nextNode = currentNode.Next;
+
                     if (cleaner.Is(resource)) {
                         if (release) cleaner.Release();
                     }
@@ -483,6 +492,7 @@ namespace IFramework.Engine {
         private void RemoveAllCallbacks(bool release) {
             if (callbackCleanerList != null) {
                 int count = callbackCleanerList.Count;
+
                 for (int i = 0; i < count; i++) {
                     if (release) {
                         callbackCleanerList.Last.Value.Release();
@@ -508,6 +518,5 @@ namespace IFramework.Engine {
             }
             unloadObjectList.Add(obj);
         }
-
     }
 }

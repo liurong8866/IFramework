@@ -26,12 +26,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// C# 字符串扩展方法
     /// </summary>
-    public static class StringExtention {
-
+    public static class StringExtention
+    {
         /// <summary>
         /// 判断是否为空
         /// </summary>
@@ -175,13 +176,13 @@ namespace IFramework.Core {
         public static string ToCamel(this string value, params char[] separator) {
             value = value.TrimStart(separator).TrimEnd(separator);
             if (value.IsNullOrEmpty()) return "";
-            
+
             string[] array = value.Split(separator);
-            
+
             // 首字母小写
             string result = array[0][0].ToString().ToLowerInvariant();
             result += (array[0].Length > 1) ? array[0].Substring(1) : "";
-            
+
             // 其余字母大写
             for (int i = 1; i < array.Length; i++) {
                 result += array[i][0].ToString().ToUpperInvariant();
@@ -197,11 +198,13 @@ namespace IFramework.Core {
             string result = "";
             value = value.TrimStart(separator).TrimEnd(separator);
             if (value.IsNullOrEmpty()) return result;
-            
+
             string[] array = value.Split(separator);
+
             // 全部字母大写
             foreach (string word in array) {
-                if(word.IsNullOrEmpty()) continue;
+                if (word.IsNullOrEmpty()) continue;
+
                 result += word[0].ToString().ToUpperInvariant();
                 result += (word.Length > 1) ? word.Substring(1) : "";
             }
@@ -256,6 +259,5 @@ namespace IFramework.Core {
         public static string RemoveString(this string str, params string[] targets) {
             return targets.Aggregate(str, (current, t) => current.Replace(t, string.Empty));
         }
-
     }
 }

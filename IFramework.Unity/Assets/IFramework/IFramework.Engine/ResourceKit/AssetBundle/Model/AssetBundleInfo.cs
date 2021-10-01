@@ -26,12 +26,13 @@ using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// Asset资源字典维护表
     /// </summary>
-    public sealed class AssetBundleInfo {
-
+    public sealed class AssetBundleInfo
+    {
         public string Key { get; }
 
         // 资源依赖关系列表
@@ -73,17 +74,18 @@ namespace IFramework.Engine {
         public bool AddAssetInfo(AssetInfo assetInfo) {
             assetNameMap ??= new Dictionary<string, AssetInfo>();
             assetFullNameMap ??= new Dictionary<string, AssetInfo>();
-            string assetKey = assetInfo.AssetName.ToLower();
+            string assetKey = assetInfo.AssetName.ToLowerInvariant();
 
             // 添加到AssetInfo字典
             if (assetNameMap.ContainsKey(assetKey)) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
+
                 if (oldInfo != null) {
                     Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}",
-                        assetInfo.AssetName,
-                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName,
-                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
+                                assetInfo.AssetName,
+                                AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName,
+                                AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
                     );
                 }
             }
@@ -93,14 +95,16 @@ namespace IFramework.Engine {
 
             // 添加到AssetUUID字典
             assetKey = assetInfo.FullName;
+
             if (assetFullNameMap.ContainsKey(assetKey)) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName, assetInfo.AssetBundleName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
+
                 if (oldInfo != null) {
                     Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}",
-                        assetInfo.AssetName,
-                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName,
-                        AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
+                                assetInfo.AssetName,
+                                AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName,
+                                AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName
                     );
                 }
             }
@@ -132,9 +136,11 @@ namespace IFramework.Engine {
         /// </summary>
         public int AddAssetDependence(string assetName, string[] depends) {
             if (assetName.IsNullOrEmpty()) return -1;
+
             AssetDepends ??= new List<AssetDependence>();
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             AssetInfo assetInfo = GetAssetInfo(searcher);
+
             if (assetInfo != null) {
                 return assetInfo.AssetBundleIndex;
             }
@@ -150,6 +156,7 @@ namespace IFramework.Engine {
         public string GetAssetBundleName(string assetName, int index) {
             if (AssetDepends.IsNullOrEmpty()) return "";
             if (index > AssetDepends.Count) return "";
+
             if (assetNameMap.ContainsKey(assetName)) {
                 return AssetDepends[index].AssetBundleName;
             }
@@ -162,6 +169,7 @@ namespace IFramework.Engine {
         public string[] GetAssetBundleDepends(string assetBundleName) {
             string[] result = null;
             AssetDependence dependence = GetAssetDepend(assetBundleName);
+
             if (dependence != null) {
                 result = dependence.Depends;
             }
@@ -175,6 +183,7 @@ namespace IFramework.Engine {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             AssetInfo assetInfo = GetAssetInfo(searcher);
             if (assetInfo == null) return null;
+
             return AssetDepends.IsNullOrEmpty() ? null : AssetDepends[assetInfo.AssetBundleIndex];
         }
 
@@ -183,7 +192,9 @@ namespace IFramework.Engine {
         /// </summary>
         private void SetSerializeData(AssetBundleData data) {
             if (data == null) return;
+
             AssetDepends = new List<AssetDependence>(data.AssetDependencies);
+
             if (data.AssetInfos != null) {
                 foreach (AssetInfo assetInfo in data.AssetInfos) {
                     AddAssetInfo(assetInfo);
@@ -198,11 +209,11 @@ namespace IFramework.Engine {
             AssetBundleData data = new AssetBundleData();
             data.Key = Key;
             data.AssetDependencies = AssetDepends.ToArray();
+
             if (assetNameMap != null) {
                 data.AssetInfos = assetNameMap.Values.ToArray();
             }
             return data;
         }
-
     }
 }

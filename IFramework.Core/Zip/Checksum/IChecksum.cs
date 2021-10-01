@@ -1,4 +1,5 @@
-namespace IFramework.Core.Zip.Checksum {
+namespace IFramework.Core.Zip.Checksum
+{
     /// <summary>
     /// Interface to compute a data checksum used by checked input/output streams.
     /// A data checksum can be updated by one byte or with a byte array. After each
@@ -6,8 +7,8 @@ namespace IFramework.Core.Zip.Checksum {
     /// <code>getValue</code>. The complete checksum object can also be reset
     /// so it can be used again with new data.
     /// </summary>
-    public interface IChecksum {
-
+    public interface IChecksum
+    {
         /// <summary>
         /// Resets the data checksum as if no update was ever called.
         /// </summary>
@@ -47,6 +48,5 @@ namespace IFramework.Core.Zip.Checksum {
         /// the number of data bytes to add.
         /// </param>
         void Update(byte[] buffer, int offset, int count);
-
     }
 }

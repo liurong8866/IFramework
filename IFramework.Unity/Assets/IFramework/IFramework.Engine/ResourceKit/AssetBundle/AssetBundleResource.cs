@@ -30,12 +30,13 @@ using IFramework.Core;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// AssetBundle资源管理类
     /// </summary>
-    public class AssetBundleResource : AbstractResource {
-
+    public class AssetBundleResource : AbstractResource
+    {
         private bool unloadFlag = true;
 
         private string[] dependResources;
@@ -68,6 +69,7 @@ namespace IFramework.Engine {
         /// </summary>
         public override bool Load() {
             if (!IsLoadable) return false;
+
             State = ResourceState.Loading;
 
             // 如果不是模拟模式
@@ -77,6 +79,7 @@ namespace IFramework.Engine {
                 // 加载AssetBundle资源
                 AssetBundle = AssetBundle.LoadFromFile(url);
                 unloadFlag = true;
+
                 if (AssetBundle == null) {
                     Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
@@ -92,6 +95,7 @@ namespace IFramework.Engine {
         /// </summary>
         public override void LoadASync() {
             if (!IsLoadable) return;
+
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -106,11 +110,13 @@ namespace IFramework.Engine {
                 callback();
                 yield break;
             }
+
             if (Platform.IsSimulation) {
                 yield return null;
             }
             else {
                 string url = Platform.GetUrlByAssetBundleName(assetName);
+
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
                     // 加载AssetBundle资源
                     using UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(url);
@@ -118,6 +124,7 @@ namespace IFramework.Engine {
                     UnityWebRequestAsyncOperation request = unityWebRequest.SendWebRequest();
                     // 返回并等待结果
                     yield return request;
+
                     // 如果处理结果完成
                     if (!request.isDone) {
                         Log.Error("AssetBundle加载失败: " + assetName);
@@ -132,6 +139,7 @@ namespace IFramework.Engine {
                     AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(url);
                     // 返回并等待结果
                     yield return request;
+
                     // 如果处理结果完成
                     if (!request.isDone) {
                         Log.Error("AssetBundle加载失败: " + assetName);
@@ -164,7 +172,7 @@ namespace IFramework.Engine {
                 }
             }
         }
-        
+
         public override void Recycle() {
             ObjectPool<AssetBundleResource>.Instance.Recycle(this);
         }
@@ -181,6 +189,5 @@ namespace IFramework.Engine {
                 AssetBundle = null;
             }
         }
-
     }
 }

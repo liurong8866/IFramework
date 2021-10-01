@@ -22,32 +22,33 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections;
 using System.IO;
-using System.Threading;
 using IFramework.Core;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Video;
 
-namespace IFramework.Engine {
-    public class NetVideoResource : AbstractNetResource {
+namespace IFramework.Engine
+{
+    public class NetVideoResource : AbstractNetResource
+    {
         private string filePath;
         private string fileName;
-        
+
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
         public static NetVideoResource Allocate(string path) {
             NetVideoResource resource = ObjectPool<NetVideoResource>.Instance.Allocate();
+
             if (resource != null) {
                 resource.AssetName = path;
-                resource.filePath = Path.Combine(Platform.PersistentData.VideoPath, Mathf.Abs(Platform.GetFilePathByPath(path).GetHashCode())+"");
+                resource.filePath = Path.Combine(Platform.PersistentData.VideoPath, Mathf.Abs(Platform.GetFilePathByPath(path).GetHashCode()) + "");
                 resource.fileName = Platform.GetFileNameByPath(path);
+
                 // 如果缓存已下载，则直接从缓存获取
-                string requestUrl = File.Exists(resource.FullName) 
-                    ? Platform.FilePathPrefix + resource.FullName 
-                    : path.Substring(ResourcesUrlType.VIDEO.Length);
+                string requestUrl = File.Exists(resource.FullName)
+                        ? Platform.FilePathPrefix + resource.FullName
+                        : path.Substring(ResourcesUrlType.VIDEO.Length);
                 resource.request = UnityWebRequest.Get(requestUrl);
             }
             return resource;
@@ -57,7 +58,7 @@ namespace IFramework.Engine {
         /// 保存路径
         /// </summary>
         protected override string FilePath => filePath;
-        
+
         /// <summary>
         /// 保存文件名
         /// </summary>
@@ -73,7 +74,7 @@ namespace IFramework.Engine {
             //TODO
             return null;
         }
-        
+
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>

@@ -2,7 +2,8 @@ using System;
 
 // ReSharper disable InconsistentNaming
 
-namespace IFramework.Core.Zip.Zip.Compression {
+namespace IFramework.Core.Zip.Zip.Compression
+{
     /// <summary>
     /// This is the Deflater class.  The deflater class compresses input
     /// with the deflate algorithm described in RFC 1951.  It has several
@@ -13,8 +14,8 @@ namespace IFramework.Core.Zip.Zip.Compression {
     ///
     /// author of the original java version : Jochen Hoenicke
     /// </summary>
-    public class Deflater {
-
+    public class Deflater
+    {
         #region Deflater Documentation
 
         /*
@@ -90,8 +91,8 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// <summary>
         /// Compression Level as an enum for safer use
         /// </summary>
-        public enum CompressionLevel {
-
+        public enum CompressionLevel
+        {
             /// <summary>
             /// The best and slowest compression level.  This tries to find very
             /// long and distant string repetitions.
@@ -118,7 +119,6 @@ namespace IFramework.Core.Zip.Zip.Compression {
             /// There is no need to use this constant at all.
             /// </summary>
             DEFLATED = Deflater.DEFLATED
-
         }
 
         #endregion
@@ -321,6 +321,7 @@ namespace IFramework.Core.Zip.Zip.Compression {
             else if (level < NO_COMPRESSION || level > BEST_COMPRESSION) {
                 throw new ArgumentOutOfRangeException(nameof(level));
             }
+
             if (this.level != level) {
                 this.level = level;
                 engine.SetLevel(level);
@@ -386,24 +387,29 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// </exception>
         public int Deflate(byte[] output, int offset, int length) {
             int origLength = length;
+
             if (state == CLOSED_STATE) {
                 throw new InvalidOperationException("Deflater closed");
             }
+
             if (state < BUSY_STATE) {
                 // output header
                 int header = (DEFLATED +
                               ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
                 int level_flags = (level - 1) >> 1;
+
                 if (level_flags < 0 || level_flags > 3) {
                     level_flags = 3;
                 }
                 header |= level_flags << 6;
+
                 if ((state & IS_SETDICT) != 0) {
                     // Dictionary was set
                     header |= DeflaterConstants.PRESET_DICT;
                 }
                 header += 31 - (header % 31);
                 pending.WriteShortMsb(header);
+
                 if ((state & IS_SETDICT) != 0) {
                     int chksum = engine.Adler;
                     engine.ResetAdler();
@@ -412,14 +418,17 @@ namespace IFramework.Core.Zip.Zip.Compression {
                 }
                 state = BUSY_STATE | (state & (IS_FLUSHING | IS_FINISHING));
             }
+
             for (;;) {
                 int count = pending.Flush(output, offset, length);
                 offset += count;
                 totalOut += count;
                 length -= count;
+
                 if (length == 0 || state == FINISHED_STATE) {
                     break;
                 }
+
                 if (!engine.Deflate((state & IS_FLUSHING) != 0, (state & IS_FINISHING) != 0)) {
                     switch (state) {
                         case BUSY_STATE:
@@ -432,6 +441,7 @@ namespace IFramework.Core.Zip.Zip.Compression {
                                  * the next byte, so that all bits are flushed.
                                  */
                                 int neededbits = 8 + ((-pending.BitCount) & 7);
+
                                 while (neededbits > 0) {
                                     /* write a static tree block consisting solely of
                                      * an EOF:
@@ -534,6 +544,5 @@ namespace IFramework.Core.Zip.Zip.Compression {
         private DeflaterEngine engine;
 
         #endregion
-
     }
 }

@@ -4,7 +4,8 @@ using IFramework.Core.Zip.Checksum;
 using IFramework.Core.Zip.Zip.Compression;
 using IFramework.Core.Zip.Zip.Compression.Streams;
 
-namespace IFramework.Core.Zip.GZip {
+namespace IFramework.Core.Zip.GZip
+{
     /// <summary>
     /// This filter stream is used to compress a stream into a "GZIP" stream.
     /// The "GZIP" format is described in RFC 1952.
@@ -33,15 +34,14 @@ namespace IFramework.Core.Zip.GZip {
     /// }
     /// </code>
     /// </example>
-    public class GZipOutputStream : DeflaterOutputStream {
-
-        private enum OutputState {
-
+    public class GZipOutputStream : DeflaterOutputStream
+    {
+        private enum OutputState
+        {
             Header,
             Footer,
             Finished,
             Closed,
-
         }
 
         #region Instance Fields
@@ -64,7 +64,7 @@ namespace IFramework.Core.Zip.GZip {
         /// The stream to read data (to be compressed) from
         /// </param>
         public GZipOutputStream(Stream baseOutputStream)
-            : this(baseOutputStream, 4096) { }
+                : this(baseOutputStream, 4096) { }
 
         /// <summary>
         /// Creates a GZipOutputStream with the specified buffer size
@@ -119,6 +119,7 @@ namespace IFramework.Core.Zip.GZip {
             if (state == OutputState.Header) {
                 WriteHeader();
             }
+
             if (state != OutputState.Footer) {
                 throw new InvalidOperationException("Write not permitted in current state");
             }
@@ -137,6 +138,7 @@ namespace IFramework.Core.Zip.GZip {
             finally {
                 if (state != OutputState.Closed) {
                     state = OutputState.Closed;
+
                     if (IsStreamOwner) {
                         baseOutputStream_.Dispose();
                     }
@@ -156,12 +158,14 @@ namespace IFramework.Core.Zip.GZip {
             if (state == OutputState.Header) {
                 WriteHeader();
             }
+
             if (state == OutputState.Footer) {
                 state = OutputState.Finished;
                 base.Finish();
                 var totalin = (uint) (deflater_.TotalIn & 0xffffffff);
                 var crcval = (uint) (crc.Value & 0xffffffff);
                 byte[] gzipFooter;
+
                 unchecked {
                     gzipFooter = new[] {
                         (byte) crcval, (byte) (crcval >> 8),
@@ -182,6 +186,7 @@ namespace IFramework.Core.Zip.GZip {
             if (state == OutputState.Header) {
                 state = OutputState.Footer;
                 var modTime = (int) ((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals
+
                 byte[] gzipHeader = {
                     // The two magic bytes
                     GZipConstants.GZIP_MAGIC >> 8, GZipConstants.GZIP_MAGIC & 0xff,
@@ -207,6 +212,5 @@ namespace IFramework.Core.Zip.GZip {
         }
 
         #endregion
-
     }
 }

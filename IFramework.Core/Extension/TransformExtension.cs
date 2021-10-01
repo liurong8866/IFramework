@@ -29,12 +29,13 @@ using Object = UnityEngine.Object;
 
 // ReSharper disable Unity.InefficientPropertyAccess
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// Transform 扩展方法
     /// </summary>
-    public static class TransformExtension {
-
+    public static class TransformExtension
+    {
         /* Example
         public static void Example()
         {
@@ -409,6 +410,7 @@ namespace IFramework.Core {
             if (self.name.Equals(findName, stringComparison)) {
                 return self;
             }
+
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(findName, stringComparison);
                 if (find) return find;
@@ -423,8 +425,10 @@ namespace IFramework.Core {
             if (function(self)) {
                 return self;
             }
+
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(function);
+
                 if (find) {
                     return find;
                 }
@@ -437,6 +441,7 @@ namespace IFramework.Core {
         /// </summary>
         public static void ActionRecursion(this Transform transform, Action<Transform> action) {
             action(transform);
+
             foreach (Transform child in transform) {
                 child.ActionRecursion(action);
             }
@@ -448,9 +453,11 @@ namespace IFramework.Core {
         public static string Path(this Transform transform) {
             StringBuilder sb = new StringBuilder();
             Transform tran = transform;
+
             while (true) {
                 sb.Insert(0, tran.name);
                 tran = tran.parent;
+
                 if (tran) {
                     sb.Insert(0, "/");
                 }
@@ -475,6 +482,7 @@ namespace IFramework.Core {
         /// </summary>
         public static Transform DestroyChildren(this Transform self) {
             var childCount = self.childCount;
+
             for (int i = childCount - 1; i >= 0; i--) {
                 self.transform.GetChild(i).DestroySelf();
             }
@@ -486,11 +494,11 @@ namespace IFramework.Core {
         /// </summary>
         public static T DestroyChildren<T>(this T self) where T : Component {
             var childCount = self.transform.childCount;
+
             for (int i = childCount - 1; i >= 0; i--) {
                 self.transform.GetChild(i).DestroySelf();
             }
             return self;
         }
-
     }
 }

@@ -26,12 +26,13 @@ using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 
-namespace IFramework.Engine {
-    public sealed class ResourceTable : Table<IResource> {
-
+namespace IFramework.Engine
+{
+    public sealed class ResourceTable : Table<IResource>
+    {
         public IResource GetResource(ResourceSearcher searcher) {
             string assetName = searcher.AssetName;
-            List<IResource> resources = Get(assetName.ToLower());
+            List<IResource> resources = Get(assetName.ToLowerInvariant());
 
             // 过滤资源类型
             if (searcher.AssetType != null) {
@@ -44,6 +45,5 @@ namespace IFramework.Engine {
             }
             return resources.FirstOrDefault();
         }
-
     }
 }

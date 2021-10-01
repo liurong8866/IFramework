@@ -24,9 +24,10 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
-    public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T> {
-
+namespace IFramework.Core
+{
+    public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
+    {
         // 静态实例
         protected static volatile T instance;
 
@@ -72,6 +73,7 @@ namespace IFramework.Core {
         protected virtual void OnApplicationQuit() {
             isApplicationQuit = true;
             if (instance == null) return;
+
             Destroy(instance.gameObject);
             instance = null;
         }
@@ -89,6 +91,5 @@ namespace IFramework.Core {
         public static bool IsApplicationQuit {
             get => isApplicationQuit;
         }
-
     }
 }

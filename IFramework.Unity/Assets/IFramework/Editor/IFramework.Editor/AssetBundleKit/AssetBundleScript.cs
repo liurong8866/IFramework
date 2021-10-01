@@ -33,9 +33,10 @@ using IFramework.Engine;
 using Microsoft.CSharp;
 using UnityEngine;
 
-namespace IFramework.Editor {
-    public class AssetBundleScript {
-
+namespace IFramework.Editor
+{
+    public class AssetBundleScript
+    {
         /// <summary>
         /// 生成常量名
         /// </summary>
@@ -62,19 +63,20 @@ namespace IFramework.Editor {
             codeCompileUnit.Namespaces.Add(codeNamespace);
 
             //AssetsName 主类
-            CodeTypeDeclaration assetClass = new CodeTypeDeclaration(Constant.ASSET_BUNDLE_SCRIPT_FILE.Replace(".cs",""));
+            CodeTypeDeclaration assetClass = new CodeTypeDeclaration(Constant.ASSET_BUNDLE_SCRIPT_FILE.Replace(".cs", ""));
             assetClass.Comments.Add(new CodeCommentStatement("AssetBundle资源名称常量，自动生成，请勿修改"));
             assetClass.TypeAttributes = TypeAttributes.Public;
             assetClass.IsPartial = true;
             // 把类添加到命名空间下
             codeNamespace.Types.Add(assetClass);
-            
+
             // 循环每个AssetBundle，每个AssetBundle生成一个类
             foreach (AssetBundleScriptModel assetModle in assetModelList) {
                 // 驼峰格式
                 string bundleName = assetModle.Name;
                 // 首字母不能是数字
                 if (bundleName[0].IsNumeric()) continue;
+
                 // 定义类名称
                 string className = assetModle.Name.Replace("/", "_").Replace("@", "_").Replace("!", "_").Replace("-", "_").ToPascal('_');
 
@@ -82,7 +84,7 @@ namespace IFramework.Editor {
                 CodeTypeDeclaration classCode = new CodeTypeDeclaration(className);
                 // 把类添加到命名空间下
                 assetClass.Members.Add(classCode);
-                
+
                 //添加字段 ASSET_BUNDLE_NAME
                 CodeMemberField bundleNameField = new CodeMemberField {
                     Attributes = MemberAttributes.Public | MemberAttributes.Const,
@@ -97,6 +99,7 @@ namespace IFramework.Editor {
             }
             // 设置编译器
             CSharpCodeProvider provider = new CSharpCodeProvider();
+
             CodeGeneratorOptions options = new CodeGeneratorOptions {
                 BlankLinesBetweenMembers = false,
                 BracingStyle = "CS"
@@ -120,12 +123,14 @@ namespace IFramework.Editor {
             // 初始化要生成到AssetBundle
             foreach (AssetBundleInfo assetGroup in assetBundleList) {
                 List<AssetDependence> depends = assetGroup.AssetDepends;
+
                 foreach (AssetDependence depend in depends) {
                     AssetBundleScriptModel model = new AssetBundleScriptModel(depend.AssetBundleName);
+
                     model.assets = assetGroup.AssetInfos
-                        .Where(info => info.AssetBundleName == depend.AssetBundleName)
-                        .Select(info => info.AssetName)
-                        .ToArray();
+                                             .Where(info => info.AssetBundleName == depend.AssetBundleName)
+                                             .Select(info => info.AssetName)
+                                             .ToArray();
                     assetModelList.Add(model);
                 }
             }
@@ -140,11 +145,13 @@ namespace IFramework.Editor {
         private static void GenerateFields(AssetBundleScriptModel assetModle, CodeTypeDeclaration classCode) {
             // 用于检查是否重复
             ISet<string> checkRepeatSet = new HashSet<string>();
+
             foreach (string asset in assetModle.assets) {
                 CodeMemberField assetField = new CodeMemberField { Attributes = MemberAttributes.Public | MemberAttributes.Const };
                 string content = Platform.GetFileNameByPath(asset, false);
                 assetField.Name = content.ToUpperInvariant().Replace("@", "_").Replace("!", "_").Replace("-", "_");
                 assetField.Type = new CodeTypeReference(typeof(System.String));
+
                 // 如果不是[开头，并且不重复
                 if (!assetField.Name.StartsWith("[") && !assetField.Name.StartsWith(" [") && !checkRepeatSet.Contains(assetField.Name)) {
                     classCode.Members.Add(assetField);
@@ -159,14 +166,13 @@ namespace IFramework.Editor {
     /// <summary>
     /// 用于生成代码的临时类
     /// </summary>
-    internal class AssetBundleScriptModel {
-
+    internal class AssetBundleScriptModel
+    {
         public readonly string Name;
         public string[] assets;
 
         public AssetBundleScriptModel(string name) {
             this.Name = name;
         }
-
     }
 }

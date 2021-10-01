@@ -1,11 +1,12 @@
 using System;
 
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     /// <summary>
     /// ZipException represents exceptions specific to Zip classes and code.
     /// </summary>
-    public class ZipException : BaseZipException {
-
+    public class ZipException : BaseZipException
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="ZipException" />.
         /// </summary>
@@ -16,7 +17,7 @@ namespace IFramework.Core.Zip.Zip {
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         public ZipException(string message)
-            : base(message) { }
+                : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of <see cref="ZipException" />.
@@ -24,7 +25,6 @@ namespace IFramework.Core.Zip.Zip {
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that caused this exception.</param>
         public ZipException(string message, Exception innerException)
-            : base(message, innerException) { }
-
+                : base(message, innerException) { }
     }
 }

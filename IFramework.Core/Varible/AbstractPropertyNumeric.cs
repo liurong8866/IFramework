@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 数字类型的
     /// </summary>
-    public abstract class AbstractPropertyNumeric<T> : AbstractProperty<T> where T : struct, IConvertible, IComparable {
-
+    public abstract class AbstractPropertyNumeric<T> : AbstractProperty<T> where T : struct, IConvertible, IComparable
+    {
         public int ToInt() {
             return Value.ToInt();
         }
@@ -58,6 +59,7 @@ namespace IFramework.Core {
         public static T Addition(object m, object n) {
             T result;
             Type type = typeof(T);
+
             if (type == typeof(int)) {
                 result = (T) Convert.ChangeType(m.ToInt() + n.ToInt(), typeof(T));
             }
@@ -86,6 +88,7 @@ namespace IFramework.Core {
         public static T Subtraction(object m, object n) {
             T result;
             Type type = typeof(T);
+
             if (type == typeof(int)) {
                 result = (T) Convert.ChangeType(m.ToInt() - n.ToInt(), typeof(T));
             }
@@ -114,6 +117,7 @@ namespace IFramework.Core {
         public static T Multiply(object m, object n) {
             T result;
             Type type = typeof(T);
+
             if (type == typeof(int)) {
                 result = (T) Convert.ChangeType(m.ToInt() * n.ToInt(), typeof(T));
             }
@@ -143,6 +147,7 @@ namespace IFramework.Core {
             T result;
             Type type = typeof(T);
             if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
+
             if (type == typeof(int)) {
                 result = (T) Convert.ChangeType(m.ToInt() / n.ToInt(), typeof(T));
             }
@@ -172,6 +177,7 @@ namespace IFramework.Core {
             T result;
             Type type = typeof(T);
             if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
+
             if (type == typeof(int)) {
                 result = (T) Convert.ChangeType(m.ToInt() % n.ToInt(), typeof(T));
             }
@@ -278,6 +284,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if (((object) m == null) || ((object) n == null)) {
                 return false;
             }
@@ -288,6 +295,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if (((object) m == null) || (n == null)) {
                 return false;
             }
@@ -298,6 +306,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if ((m == null) || ((object) n == null)) {
                 return false;
             }
@@ -374,6 +383,7 @@ namespace IFramework.Core {
             if (obj == null) {
                 return false;
             }
+
             if (obj.GetType() == typeof(AbstractPropertyNumeric<T>)) {
                 AbstractPropertyNumeric<T> bindable = obj as AbstractPropertyNumeric<T>;
                 return Equals(bindable);
@@ -396,6 +406,5 @@ namespace IFramework.Core {
         public override int GetHashCode() {
             return Value.GetHashCode();
         }
-
     }
 }

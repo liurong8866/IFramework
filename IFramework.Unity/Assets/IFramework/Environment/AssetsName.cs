@@ -44,6 +44,19 @@ namespace IFramework.Engine {
             public const string ASSET_BUNDLE_NAME = "scene-unity";
             public const string BASICUSAGETEST = "basicusagetest";
         }
+        public class Sprite {
+            public const string ASSET_BUNDLE_NAME = "sprite";
+            public const string CHARCOMMUNITY_001 = "charcommunity_001";
+            public const string CHARCOMMUNITY_002 = "charcommunity_002";
+            public const string CHARCOMMUNITY_003 = "charcommunity_003";
+            public const string CHARCOMMUNITY_004 = "charcommunity_004";
+            public const string CHARCOMMUNITY_005 = "charcommunity_005";
+            public const string CHARCOMMUNITY_006 = "charcommunity_006";
+            public const string CHARCOMMUNITY_007 = "charcommunity_007";
+            public const string CHARCOMMUNITY_008 = "charcommunity_008";
+            public const string CHARCOMMUNITY_009 = "charcommunity_009";
+            public const string SWORD = "sword";
+        }
         public class SpriteatlasvSpriteatlasv2 {
             public const string ASSET_BUNDLE_NAME = "spriteatlasv-spriteatlasv2";
             public const string SPRITEATLASV = "spriteatlasv";

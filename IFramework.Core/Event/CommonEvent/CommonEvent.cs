@@ -25,12 +25,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 基于字典的消息事件
     /// </summary>
-    public class CommonEvent<TEvent> : Singleton<CommonEvent<TEvent>>, IPoolable where TEvent : Delegate {
-
+    public class CommonEvent<TEvent> : Singleton<CommonEvent<TEvent>>, IPoolable where TEvent : Delegate
+    {
         // 全局监听事件字典
         private readonly Dictionary<int, EventListener<TEvent>> listenerMap = new Dictionary<int, EventListener<TEvent>>(50);
 
@@ -42,6 +43,7 @@ namespace IFramework.Core {
         /// </summary>
         public bool RegisterEvent<T>(T key, TEvent action) where T : IConvertible {
             int keyValue = key.ToInt32(null);
+
             if (!listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 listener = new EventListener<TEvent>();
                 listenerMap.Add(keyValue, listener);
@@ -63,6 +65,7 @@ namespace IFramework.Core {
         /// </summary>
         public void UnRegisterEvent<T>(T key) where T : IConvertible {
             var keyValue = key.ToInt32(null);
+
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 listener?.Clear();
                 listener = null;
@@ -75,6 +78,7 @@ namespace IFramework.Core {
         /// </summary>
         public bool SendEvent<T>(T key) where T : IConvertible {
             int keyValue = key.ToInt32(null);
+
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 if (listener != null) {
                     return listener.Invoke(keyValue);
@@ -88,6 +92,7 @@ namespace IFramework.Core {
         /// </summary>
         public bool SendEvent<T>(T key, params object[] param) where T : IConvertible {
             int keyValue = key.ToInt32(null);
+
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 if (listener != null) {
                     return listener.Invoke(keyValue, param);
@@ -143,14 +148,13 @@ namespace IFramework.Core {
         public static void UnRegister<T>(T key) where T : IConvertible {
             Instance.UnRegisterEvent(key);
         }
-
     }
 
     /// <summary>
     /// 事件监听消息
     /// </summary>
-    internal sealed class EventListener<T> where T : Delegate {
-
+    internal sealed class EventListener<T> where T : Delegate
+    {
         private LinkedList<T> eventList;
 
         // 调用方法
@@ -181,6 +185,7 @@ namespace IFramework.Core {
         public bool Add(T listener) {
             eventList ??= new LinkedList<T>();
             if (eventList.Contains(listener)) return false;
+
             eventList.AddLast(listener);
             return true;
         }
@@ -198,6 +203,5 @@ namespace IFramework.Core {
                 eventList.Clear();
             }
         }
-
     }
 }

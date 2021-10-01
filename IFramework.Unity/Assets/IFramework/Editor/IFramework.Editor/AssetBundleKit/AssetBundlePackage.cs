@@ -27,12 +27,13 @@ using System.Linq;
 using IFramework.Core;
 using UnityEditor;
 
-namespace IFramework.Editor {
+namespace IFramework.Editor
+{
     /// <summary>
     /// 子管理
     /// </summary>
-    public class AssetBundlePackage {
-
+    public class AssetBundlePackage
+    {
         public string Name { get; set; }
         public string Path { get; set; }
         public string Folder { get; set; }
@@ -46,21 +47,22 @@ namespace IFramework.Editor {
         public static List<AssetBundlePackage> GetPackageList() {
             //找到所有.asset文件，筛选出Package类型及子类生成的文件
             var list = AssetDatabase.GetAllAssetPaths()
-                .Where(path => path.EndsWith(".asset"))
-                .Select(path => {
-                    Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
-                    if (package) {
-                        return new AssetBundlePackage {
-                            Path = path,
-                            Folder = path.RemoveString(package.name + ".asset"),
-                            Name = package.name,
-                            NameSpace = package.NameSpace
-                        };
-                    }
-                    return null;
-                })
-                .Where(data => data != null)
-                .ToList();
+                                    .Where(path => path.EndsWith(".asset"))
+                                    .Select(path => {
+                                         Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
+
+                                         if (package) {
+                                             return new AssetBundlePackage {
+                                                 Path = path,
+                                                 Folder = path.RemoveString(package.name + ".asset"),
+                                                 Name = package.name,
+                                                 NameSpace = package.NameSpace
+                                             };
+                                         }
+                                         return null;
+                                     })
+                                    .Where(data => data != null)
+                                    .ToList();
             return list;
         }
 
@@ -70,6 +72,7 @@ namespace IFramework.Editor {
         public static void SplitPackage(AssetBundlePackage defaultPackage, List<AssetBundlePackage> subPackages) {
             // 获取所有标记的AssetBundle资源
             string[] assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
+
             foreach (string assetBundleName in assetBundleNames) {
                 // 生成资源信息
                 AssetBundleBuild assetBundleBuild = new AssetBundleBuild {
@@ -96,6 +99,5 @@ namespace IFramework.Editor {
                 }
             }
         }
-
     }
 }

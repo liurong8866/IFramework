@@ -32,9 +32,10 @@ using UnityEditor;
 using UnityEngine;
 using Environment = IFramework.Engine.Environment;
 
-namespace IFramework.Editor {
-    public static class AssetBundleBuilder {
-
+namespace IFramework.Editor
+{
+    public static class AssetBundleBuilder
+    {
         public static void BuildAssetBundles() {
             Log.Clear();
 
@@ -94,7 +95,7 @@ namespace IFramework.Editor {
 
             // 打包 - 默认包
             BuildPipeline.BuildAssetBundles(outputPath, package.packages.ToArray(),
-                BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+                                            BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
 
             // streamingAssets 路径
             string streamPath = Path.Combine(Application.streamingAssetsPath, outputPath);
@@ -114,6 +115,7 @@ namespace IFramework.Editor {
         /// </summary>
         private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath = null) {
             if (assetBundleNames.IsNullOrEmpty()) return;
+
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);
             string filePath = Path.Combine((outputPath ?? Platform.StreamingAssets.Root).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
@@ -128,6 +130,5 @@ namespace IFramework.Editor {
             DirectoryUtils.Clear(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_PATH));
             AssetDatabase.Refresh();
         }
-
     }
 }

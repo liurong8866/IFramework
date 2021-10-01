@@ -24,6 +24,8 @@
 
 using System;
 
-namespace IFramework.Core {
-    public class KeyEvent : CommonEvent<Action<int>> { }
+namespace IFramework.Core
+{
+    public class KeyEvent : CommonEvent<Action<int>>
+    { }
 }

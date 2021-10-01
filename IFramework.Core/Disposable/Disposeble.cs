@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework {
+namespace IFramework
+{
     /// <summary>
     /// Dispose模式
     /// </summary>
-    public abstract class Disposeble : IDisposable {
-
+    public abstract class Disposeble : IDisposable
+    {
         private bool disposed = false;
 
         /// <summary>
@@ -76,6 +77,5 @@ namespace IFramework {
         /// 非托管资源：不受CLR管理的对象，windows内核对象，如文件、数据库连接、套接字、COM对象等；
         /// </summary>
         protected virtual void UnDisposeManaged() { }
-
     }
 }

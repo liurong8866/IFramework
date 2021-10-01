@@ -25,19 +25,19 @@
 using System;
 using UnityEngine;
 
-namespace IFramework.Core {
-    public enum LogLevel {
-
+namespace IFramework.Core
+{
+    public enum LogLevel
+    {
         None = 0,
         Error = 1,
         Warning = 2,
         Info = 3,
         All = 4
-
     }
 
-    public static class Log {
-
+    public static class Log
+    {
         private static LogLevel logLevel = LogLevel.All;
 
         public static LogLevel Level {
@@ -119,6 +119,5 @@ namespace IFramework.Core {
             var method = entries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
             method?.Invoke(null, null);
         }
-
     }
 }

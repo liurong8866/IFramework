@@ -26,9 +26,10 @@ using IFramework.Test.Model;
 using UnityEngine;
 using IFramework.Core;
 
-namespace IFramework.Test.RefCounter {
-    public class RefCounterTest : MonoBehaviour {
-
+namespace IFramework.Test.RefCounter
+{
+    public class RefCounterTest : MonoBehaviour
+    {
         private void Start() {
             // SimpleCounterTest();
             SafeCounterTest();
@@ -54,6 +55,5 @@ namespace IFramework.Test.RefCounter {
             safeCounter.Hold(user);
             safeCounter.Hold(user);
         }
-
     }
 }

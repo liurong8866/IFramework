@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 简单当计数器
     /// </summary>
-    public class Countor : ICountor, IDisposable {
-
+    public class Countor : ICountor, IDisposable
+    {
         public Countor() {
             Counter = 0;
         }
@@ -62,6 +63,7 @@ namespace IFramework.Core {
         /// </summary>
         public bool UnHold(object owner = null) {
             Counter--;
+
             if (Counter == 0) {
                 OnZero.InvokeSafe();
             }
@@ -74,6 +76,7 @@ namespace IFramework.Core {
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
         public void Reset(bool invokeAction = false) {
             Counter = 0;
+
             if (invokeAction) {
                 OnZero.InvokeSafe();
             }
@@ -86,6 +89,5 @@ namespace IFramework.Core {
         public override string ToString() {
             return Counter.ToString();
         }
-
     }
 }

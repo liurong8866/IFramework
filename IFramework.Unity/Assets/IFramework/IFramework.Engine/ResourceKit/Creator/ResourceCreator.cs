@@ -22,11 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
-
-namespace IFramework.Engine {
-    public sealed class ResourceCreator : IResourceCreator {
-
+namespace IFramework.Engine
+{
+    public sealed class ResourceCreator : IResourceCreator
+    {
         /// <summary>
         /// 匹配方法
         /// </summary>

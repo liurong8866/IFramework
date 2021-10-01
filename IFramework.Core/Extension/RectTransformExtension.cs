@@ -24,12 +24,13 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// RectTransform 扩展方法
     /// </summary>
-    public static class RectTransformExtension {
-
+    public static class RectTransformExtension
+    {
         public static Vector2 GetPosInRootTrans(this RectTransform selfRectTransform, Transform rootTrans) {
             return RectTransformUtility.CalculateRelativeRectTransformBounds(rootTrans, selfRectTransform).center;
         }
@@ -65,6 +66,5 @@ namespace IFramework.Core {
         public static Vector2 GetWorldSize(this RectTransform selfRectTrans) {
             return RectTransformUtility.CalculateRelativeRectTransformBounds(selfRectTrans).size;
         }
-
     }
 }

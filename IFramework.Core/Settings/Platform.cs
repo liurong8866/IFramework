@@ -27,12 +27,13 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 平台配置相关方法
     /// </summary>
-    public static class Platform {
-
+    public static class Platform
+    {
         /*----------------------------- 平台相关 -----------------------------*/
 
         /// <summary>
@@ -116,34 +117,34 @@ namespace IFramework.Core {
         /// 运行时平台StreamAsset/AssetBundle/Platform包路径
         /// </summary>
         public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssets.AssetBundlePath, RuntimePlatformName);
-        
+
         /// <summary>
         /// StreamingAssets目录类
         /// </summary>
-        public static class StreamingAssets {
+        public static class StreamingAssets
+        {
             /// <summary>
             /// 内部目录 StreamingAssets文件夹路径
             /// </summary>
             public static string Root => Application.streamingAssetsPath;
-            
+
             /// <summary>
             /// StreamingAssets文件夹下到AssetBundle包
             /// </summary>
             public static string AssetBundlePath => Path.Combine(Root, Constant.ASSET_BUNDLE_PATH);
-            
         }
-        
+
         /// <summary>
         /// PersistentData目录类
         /// </summary>
-        public static class PersistentData {
-            
+        public static class PersistentData
+        {
             private static string assetBundlePath;
             private static string imagePath;
             private static string photoPath;
             private static string videoPath;
             private static string audioPath;
-            
+
             /// <summary>
             /// 外部目录 PersistentDataPath文件夹路径
             /// </summary>
@@ -152,40 +153,40 @@ namespace IFramework.Core {
             /// <summary>
             /// 外部路径 PersistentDataPath/AssetBundle
             /// </summary>
-            public static string AssetBundlePath => ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
+            public static string AssetBundlePath => assetBundlePath = ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
 
             /// <summary>
             /// 外部路径 PersistentDataPath/Resources/Images
             /// </summary>
-            public static string ImagePath => ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
+            public static string ImagePath => imagePath = ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
 
             /// <summary>
             /// 外部路径 PersistentDataPath/Resources/Images/Photo
             /// </summary>
-            public static string PhotoPath => ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
+            public static string PhotoPath => photoPath = ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
 
             /// <summary>
             /// 外部路径 PersistentDataPath/Resources/Video
             /// </summary>
-            public static string VideoPath => ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
+            public static string VideoPath => videoPath = ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
 
             /// <summary>
             /// 外部路径 PersistentDataPath/Resources/Audio
             /// </summary>
-            public static string AudioPath => ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
+            public static string AudioPath => audioPath = ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
         }
-        
+
         /// <summary>
         /// TemporaryCache目录类
         /// </summary>
-        public static class TemporaryCache {
-            
+        public static class TemporaryCache
+        {
             private static string assetBundlePath;
             private static string imagePath;
             private static string photoPath;
             private static string videoPath;
             private static string audioPath;
-            
+
             /// <summary>
             /// 外部目录 temporaryCachePath文件夹路径
             /// </summary>
@@ -194,34 +195,34 @@ namespace IFramework.Core {
             /// <summary>
             /// 外部路径 temporaryCachePath/AssetBundle
             /// </summary>
-            public static string AssetBundlePath => ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
+            public static string AssetBundlePath => assetBundlePath = ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
 
             /// <summary>
             /// 外部路径 temporaryCachePath/Resources/Images
             /// </summary>
-            public static string ImagePath => ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
+            public static string ImagePath => imagePath = ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
 
             /// <summary>
             /// 外部路径 temporaryCachePath/Resources/Images/Photo
             /// </summary>
-            public static string PhotoPath => ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
+            public static string PhotoPath => photoPath = ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
 
             /// <summary>
             /// 外部路径 temporaryCachePath/Resources/Video
             /// </summary>
-            public static string VideoPath => ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
+            public static string VideoPath => videoPath = ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
 
             /// <summary>
             /// 外部路径 temporaryCachePath/Resources/Audio
             /// </summary>
-            public static string AudioPath => ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
+            public static string AudioPath => audioPath = ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
         }
-        
+
         /// <summary>
         /// 文件路径前缀 file://
         /// </summary>
         public static string FilePathPrefix => PlatformEnvironment.Instance.FilePathPrefix;
-        
+
         /*--------------------------- 资源名称相关 ---------------------------*/
 
         /// <summary>
@@ -249,10 +250,12 @@ namespace IFramework.Core {
         public static string GetFileNameByPath(string path, bool extend = true) {
             // 找到最后一个/
             int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) + 1;
+
             // 如果不需要扩展名，则截取
             if (!extend) {
                 // 找到最后一个.
                 int length = path.LastIndexOf(".", StringComparison.Ordinal) - startIndex;
+
                 // 如果. 在 / 前面，说明不是后缀扩展名，不处理
                 if (length >= 0) {
                     return path.Substring(startIndex, length);
@@ -260,16 +263,16 @@ namespace IFramework.Core {
             }
             return path.Substring(startIndex);
         }
-        
+
         /// <summary>
         /// 获取资源路径，不包含文件名
         /// </summary>
         public static string GetFilePathByPath(string path) {
             // 找到最后一个/
-            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) -1;
+            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) - 1;
             return path.Substring(0, startIndex);
         }
-        
+
         /*--------------------------- 私有方法、变量 ---------------------------*/
 
         /// <summary>
@@ -277,12 +280,13 @@ namespace IFramework.Core {
         /// </summary>
         private static string GetPersistentOrStreamPath(string relativePath) {
             string path = Path.Combine(PersistentData.Root, relativePath);
+
             if (File.Exists(path)) {
                 return path;
             }
             return Path.Combine(StreamingAssets.Root, relativePath);
         }
-        
+
         /// <summary>
         /// 查找资源路径
         /// </summary>

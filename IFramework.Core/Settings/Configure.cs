@@ -22,9 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
-    public class Configure {
-
+namespace IFramework.Core
+{
+    public class Configure
+    {
         // 当前平台
         public static readonly ConfigInt CurrentPlatform = new ConfigInt("CurrentPlatform");
 
@@ -36,6 +37,5 @@ namespace IFramework.Core {
 
         // 是否从StreamingAssets加载资源
         public static readonly ConfigBool LoadAssetFromStream = new ConfigBool("LoadAssetFromStream", true);
-
     }
 }

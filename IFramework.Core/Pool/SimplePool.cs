@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 简单对象池
     /// </summary>
-    public class SimplePool<T> : Pool<T> {
-
+    public class SimplePool<T> : Pool<T>
+    {
         private readonly Action<T> onRecycle;
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace IFramework.Core {
         public SimplePool(Func<T> creater, Action<T> onRecycle = null, int count = 0) {
             factory = new CustomFactory<T>(creater);
             this.onRecycle = onRecycle;
+
             for (int i = 0; i < count; i++) {
                 cache.Push(factory.Create());
             }
@@ -51,11 +53,11 @@ namespace IFramework.Core {
         /// </summary>
         public override bool Recycle(T t) {
             onRecycle.InvokeSafe(t);
+
             if (t != null) {
                 cache.Push(t);
             }
             return true;
         }
-
     }
 }

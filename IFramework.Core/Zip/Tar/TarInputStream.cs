@@ -2,15 +2,16 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace IFramework.Core.Zip.Tar {
+namespace IFramework.Core.Zip.Tar
+{
     /// <summary>
     /// The TarInputStream reads a UNIX tar archive as an InputStream.
     /// methods are provided to position at each successive entry in
     /// the archive, and the read each entry as a normal input stream
     /// using read().
     /// </summary>
-    public class TarInputStream : Stream {
-
+    public class TarInputStream : Stream
+    {
         #region Constructors
 
         /// <summary>
@@ -18,7 +19,7 @@ namespace IFramework.Core.Zip.Tar {
         /// </summary>
         /// <param name="inputStream">stream to source data from</param>
         public TarInputStream(Stream inputStream)
-            : this(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
+                : this(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
 
         /// <summary>
         /// Construct a TarInputStream with user specified block factor
@@ -141,6 +142,7 @@ namespace IFramework.Core.Zip.Tar {
         public override int ReadByte() {
             byte[] oneByteBuffer = new byte[1];
             int num = Read(oneByteBuffer, 0, 1);
+
             if (num <= 0) {
                 // return -1 to indicate that no byte was read.
                 return -1;
@@ -171,16 +173,20 @@ namespace IFramework.Core.Zip.Tar {
                 throw new ArgumentNullException(nameof(buffer));
             }
             int totalRead = 0;
+
             if (entryOffset >= entrySize) {
                 return 0;
             }
             long numToRead = count;
+
             if ((numToRead + entryOffset) > entrySize) {
                 numToRead = entrySize - entryOffset;
             }
+
             if (readBuffer != null) {
                 int sz = (numToRead > readBuffer.Length) ? readBuffer.Length : (int) numToRead;
                 Array.Copy(readBuffer, 0, buffer, offset, sz);
+
                 if (sz >= readBuffer.Length) {
                     readBuffer = null;
                 }
@@ -194,14 +200,17 @@ namespace IFramework.Core.Zip.Tar {
                 numToRead -= sz;
                 offset += sz;
             }
+
             while (numToRead > 0) {
                 byte[] rec = tarBuffer.ReadBlock();
+
                 if (rec == null) {
                     // Unexpected EOF!
                     throw new TarException("unexpected EOF with " + numToRead + " bytes unread");
                 }
                 var sz = (int) numToRead;
                 int recLen = rec.Length;
+
                 if (recLen > sz) {
                     Array.Copy(rec, 0, buffer, offset, sz);
                     readBuffer = new byte[recLen - sz];
@@ -286,9 +295,11 @@ namespace IFramework.Core.Zip.Tar {
             // properly skip over bytes via the TarBuffer...
             //
             byte[] skipBuf = new byte[8 * 1024];
+
             for (long num = skipCount; num > 0;) {
                 int toRead = num > skipBuf.Length ? skipBuf.Length : (int) num;
                 int numRead = Read(skipBuf, 0, toRead);
+
                 if (numRead == -1) {
                     break;
                 }
@@ -334,15 +345,18 @@ namespace IFramework.Core.Zip.Tar {
             if (hasHitEof) {
                 return null;
             }
+
             if (currentEntry != null) {
                 SkipToNextEntry();
             }
             byte[] headerBuf = tarBuffer.ReadBlock();
+
             if (headerBuf == null) {
                 hasHitEof = true;
             }
             else
                 hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
+
             if (hasHitEof) {
                 currentEntry = null;
             }
@@ -350,18 +364,22 @@ namespace IFramework.Core.Zip.Tar {
                 try {
                     var header = new TarHeader();
                     header.ParseBuffer(headerBuf);
+
                     if (!header.IsChecksumValid) {
                         throw new TarException("Header checksum is invalid");
                     }
                     entryOffset = 0;
                     entrySize = header.Size;
                     StringBuilder longName = null;
+
                     if (header.TypeFlag == TarHeader.LF_GNU_LONGNAME) {
                         byte[] nameBuffer = new byte[TarBuffer.BLOCK_SIZE];
                         long numToRead = entrySize;
                         longName = new StringBuilder();
+
                         while (numToRead > 0) {
                             int numRead = Read(nameBuffer, 0, (numToRead > nameBuffer.Length ? nameBuffer.Length : (int) numToRead));
+
                             if (numRead == -1) {
                                 throw new InvalidHeaderException("Failed to read long name entry");
                             }
@@ -397,8 +415,10 @@ namespace IFramework.Core.Zip.Tar {
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
                     }
+
                     if (entryFactory == null) {
                         currentEntry = new TarEntry(headerBuf);
+
                         if (longName != null) {
                             currentEntry.Name = longName.ToString();
                         }
@@ -418,8 +438,9 @@ namespace IFramework.Core.Zip.Tar {
                     entrySize = 0;
                     entryOffset = 0;
                     currentEntry = null;
+
                     string errorText = string.Format("Bad header in record {0} block {1} {2}",
-                        tarBuffer.CurrentRecord, tarBuffer.CurrentBlock, ex.Message);
+                                                     tarBuffer.CurrentRecord, tarBuffer.CurrentBlock, ex.Message);
                     throw new InvalidHeaderException(errorText);
                 }
             }
@@ -435,8 +456,10 @@ namespace IFramework.Core.Zip.Tar {
         /// </param>
         public void CopyEntryContents(Stream outputStream) {
             byte[] tempBuffer = new byte[32 * 1024];
+
             while (true) {
                 int numRead = Read(tempBuffer, 0, tempBuffer.Length);
+
                 if (numRead <= 0) {
                     break;
                 }
@@ -446,6 +469,7 @@ namespace IFramework.Core.Zip.Tar {
 
         private void SkipToNextEntry() {
             long numToSkip = entrySize - entryOffset;
+
             if (numToSkip > 0) {
                 Skip(numToSkip);
             }
@@ -457,8 +481,8 @@ namespace IFramework.Core.Zip.Tar {
         /// the programmer to have their own <see cref="TarEntry"/> subclass instantiated for the
         /// entries return from <see cref="GetNextEntry"/>.
         /// </summary>
-        public interface IEntryFactory {
-
+        public interface IEntryFactory
+        {
             /// <summary>
             /// Create an entry based on name alone
             /// </summary>
@@ -489,14 +513,13 @@ namespace IFramework.Core.Zip.Tar {
             /// Created TarEntry or descendant class
             /// </returns>
             TarEntry CreateEntry(byte[] headerBuffer);
-
         }
 
         /// <summary>
         /// Standard entry factory class creating instances of the class TarEntry
         /// </summary>
-        public class EntryFactoryAdapter : IEntryFactory {
-
+        public class EntryFactoryAdapter : IEntryFactory
+        {
             /// <summary>
             /// Create a <see cref="TarEntry"/> based on named
             /// </summary>
@@ -523,7 +546,6 @@ namespace IFramework.Core.Zip.Tar {
             public TarEntry CreateEntry(byte[] headerBuffer) {
                 return new TarEntry(headerBuffer);
             }
-
         }
 
         #region Instance Fields
@@ -569,6 +591,5 @@ namespace IFramework.Core.Zip.Tar {
         private readonly Stream inputStream;
 
         #endregion
-
     }
 }

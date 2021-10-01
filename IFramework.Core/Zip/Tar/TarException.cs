@@ -1,11 +1,12 @@
 using System;
 
-namespace IFramework.Core.Zip.Tar {
+namespace IFramework.Core.Zip.Tar
+{
     /// <summary>
     /// TarException represents exceptions specific to Tar classes and code.
     /// </summary>
-    public class TarException : BaseZipException {
-
+    public class TarException : BaseZipException
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="TarException" />.
         /// </summary>
@@ -16,7 +17,7 @@ namespace IFramework.Core.Zip.Tar {
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         public TarException(string message)
-            : base(message) { }
+                : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of <see cref="TarException" />.
@@ -24,7 +25,6 @@ namespace IFramework.Core.Zip.Tar {
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that caused this exception.</param>
         public TarException(string message, Exception innerException)
-            : base(message, innerException) { }
-
+                : base(message, innerException) { }
     }
 }

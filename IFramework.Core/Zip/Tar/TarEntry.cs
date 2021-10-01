@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Tar {
+namespace IFramework.Core.Zip.Tar
+{
     /// <summary>
     /// This class represents an entry in a Tar archive. It consists
     /// of the entry's header, as well as the entry's File. Entries
@@ -29,8 +30,8 @@ namespace IFramework.Core.Zip.Tar {
     /// defaults and the File is set to null.</p>
     /// <see cref="TarHeader"/>
     /// </summary>
-    public class TarEntry {
-
+    public class TarEntry
+    {
         #region Constructors
 
         /// <summary>
@@ -115,6 +116,7 @@ namespace IFramework.Core.Zip.Tar {
         /// </returns>
         public override bool Equals(object obj) {
             var localEntry = obj as TarEntry;
+
             if (localEntry != null) {
                 return Name.Equals(localEntry.Name);
             }
@@ -262,6 +264,7 @@ namespace IFramework.Core.Zip.Tar {
                 if (file != null) {
                     return Directory.Exists(file);
                 }
+
                 if (header != null) {
                     if ((header.TypeFlag == TarHeader.LF_DIR) || Name.EndsWith("/", StringComparison.Ordinal)) {
                         return true;
@@ -284,6 +287,7 @@ namespace IFramework.Core.Zip.Tar {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
+
             if (file == null) {
                 throw new ArgumentNullException(nameof(file));
             }
@@ -323,9 +327,11 @@ namespace IFramework.Core.Zip.Tar {
             }
             header.LinkName = String.Empty;
             header.Name = name;
+
             if (Directory.Exists(file)) {
                 header.Mode = 1003; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_DIR;
+
                 if ((header.Name.Length == 0) || header.Name[header.Name.Length - 1] != '/') {
                     header.Name = header.Name + "/";
                 }
@@ -354,6 +360,7 @@ namespace IFramework.Core.Zip.Tar {
             }
             string[] list = Directory.GetFileSystemEntries(file);
             TarEntry[] result = new TarEntry[list.Length];
+
             for (int i = 0; i < list.Length; ++i) {
                 result[i] = CreateEntryFromFile(list[i]);
             }
@@ -397,6 +404,7 @@ namespace IFramework.Core.Zip.Tar {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
+
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -428,6 +436,5 @@ namespace IFramework.Core.Zip.Tar {
         private TarHeader header;
 
         #endregion
-
     }
 }

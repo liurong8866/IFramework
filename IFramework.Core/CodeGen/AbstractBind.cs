@@ -24,9 +24,10 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
-    public abstract class AbstractBind : MonoBehaviour, IBind {
-
+namespace IFramework.Core
+{
+    public abstract class AbstractBind : MonoBehaviour, IBind
+    {
         [SerializeField] protected BindType bindType = BindType.DefaultElement;
 
         public string Comment {
@@ -108,6 +109,5 @@ namespace IFramework.Core {
             // if (GetComponent<SpriteRenderer>()) return "SpriteRenderer";
             return "Transform";
         }
-
     }
 }

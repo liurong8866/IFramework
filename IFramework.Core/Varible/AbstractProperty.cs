@@ -24,13 +24,14 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 变量自定义基础类
     /// </summary>
     [Serializable]
-    public abstract class AbstractProperty<T> : IDisposable {
-
+    public abstract class AbstractProperty<T> : IDisposable
+    {
         // 变量值
         protected T value;
 
@@ -70,6 +71,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if (((object) m == null) || ((object) n == null)) {
                 return false;
             }
@@ -80,6 +82,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if (((object) m == null) || (n == null)) {
                 return false;
             }
@@ -90,6 +93,7 @@ namespace IFramework.Core {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
+
             if ((m == null) || ((object) n == null)) {
                 return false;
             }
@@ -117,6 +121,7 @@ namespace IFramework.Core {
             if (!ReferenceEquals(this, obj)) {
                 return false;
             }
+
             if (obj.GetType() == typeof(AbstractProperty<T>)) {
                 AbstractProperty<T> abstractProperty = obj as AbstractProperty<T>;
                 return Equals(abstractProperty);
@@ -139,6 +144,5 @@ namespace IFramework.Core {
         public override int GetHashCode() {
             return Value.GetHashCode();
         }
-
     }
 }

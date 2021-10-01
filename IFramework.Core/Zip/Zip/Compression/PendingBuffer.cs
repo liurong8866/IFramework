@@ -1,6 +1,7 @@
 using System;
 
-namespace IFramework.Core.Zip.Zip.Compression {
+namespace IFramework.Core.Zip.Zip.Compression
+{
     /// <summary>
     /// This class is general purpose class for writing data to a buffer.
     /// 
@@ -9,8 +10,8 @@ namespace IFramework.Core.Zip.Zip.Compression {
     /// 
     /// author of the original java version : Jochen Hoenicke
     /// </summary>
-    public class PendingBuffer {
-
+    public class PendingBuffer
+    {
         #region Instance Fields
 
         /// <summary>
@@ -59,12 +60,12 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// The value to write
         /// </param>
         public void WriteByte(int value) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             buffer[end++] = unchecked((byte) value);
         }
 
@@ -75,12 +76,12 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// The value to write.
         /// </param>
         public void WriteShort(int value) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             buffer[end++] = unchecked((byte) value);
             buffer[end++] = unchecked((byte) (value >> 8));
         }
@@ -90,12 +91,12 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteInt(int value) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             buffer[end++] = unchecked((byte) value);
             buffer[end++] = unchecked((byte) (value >> 8));
             buffer[end++] = unchecked((byte) (value >> 16));
@@ -109,12 +110,12 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// <param name="offset">offset of first byte to write</param>
         /// <param name="length">number of bytes to write</param>
         public void WriteBlock(byte[] block, int offset, int length) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             Array.Copy(block, offset, buffer, end, length);
             end += length;
         }
@@ -130,14 +131,15 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// Align internal buffer on a byte boundary
         /// </summary>
         public void AlignToByte() {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             if (bitCount > 0) {
                 buffer[end++] = unchecked((byte) bits);
+
                 if (bitCount > 8) {
                     buffer[end++] = unchecked((byte) (bits >> 8));
                 }
@@ -152,7 +154,7 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// <param name="b">source of bits</param>
         /// <param name="count">number of bits to write</param>
         public void WriteBits(int b, int count) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
 				throw new BaseZipException("Debug check: start != 0");
@@ -161,9 +163,10 @@ namespace IFramework.Core.Zip.Zip.Compression {
 			//			if (DeflaterConstants.DEBUGGING) {
 			//				//Console.WriteLine("writeBits("+b+","+count+")");
 			//			}
-#endif
+        #endif
             bits |= (uint) (b << bitCount);
             bitCount += count;
+
             if (bitCount >= 16) {
                 buffer[end++] = unchecked((byte) bits);
                 buffer[end++] = unchecked((byte) (bits >> 8));
@@ -177,12 +180,12 @@ namespace IFramework.Core.Zip.Zip.Compression {
         /// </summary>
         /// <param name="s">value to write</param>
         public void WriteShortMsb(int s) {
-#if DebugDeflation
+        #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
 				throw new BaseZipException("Debug check: start != 0");
 			}
-#endif
+        #endif
             buffer[end++] = unchecked((byte) (s >> 8));
             buffer[end++] = unchecked((byte) s);
         }
@@ -208,6 +211,7 @@ namespace IFramework.Core.Zip.Zip.Compression {
                 bits >>= 8;
                 bitCount -= 8;
             }
+
             if (length > end - start) {
                 length = end - start;
                 Array.Copy(buffer, start, output, offset, length);
@@ -236,6 +240,5 @@ namespace IFramework.Core.Zip.Zip.Compression {
             end = 0;
             return result;
         }
-
     }
 }

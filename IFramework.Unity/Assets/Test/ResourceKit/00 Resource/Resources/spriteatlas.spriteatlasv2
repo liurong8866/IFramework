@@ -27,7 +27,7 @@ SpriteAtlasAsset:
       m_MaxTextureSize: 512
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
-      m_TextureCompression: 0
+      m_TextureCompression: 3
       m_CompressionQuality: 50
       m_CrunchedCompression: 0
       m_AllowsAlphaSplitting: 0
@@ -44,9 +44,9 @@ SpriteAtlasAsset:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: aec8797e084c04f31afb44fb7019461f, type: 3}
-    - {fileID: 2800000, guid: 49e80db8312fc4eb88099e6500b2cfb0, type: 3}
-    - {fileID: 2800000, guid: a34e27a2bc4dd4bf3bb73e8c1f62bffa, type: 3}
+    - {fileID: 2800000, guid: df6af26631e934ea19874e28e0e23e43, type: 3}
+    - {fileID: 2800000, guid: 889382851516c44ffbb103f55e37036c, type: 3}
+    - {fileID: 2800000, guid: 13fb2f79b57be44279686b5fbbe0ccbd, type: 3}
     totalSpriteSurfaceArea: 0
     bindAsDefault: 0
     isAtlasV2: 1

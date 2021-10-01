@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip {
+namespace IFramework.Core.Zip
+{
     /// <summary>
     /// WindowsPathUtils provides simple utilities for handling windows paths.
     /// </summary>
-    public abstract class WindowsPathUtils {
-
+    public abstract class WindowsPathUtils
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowsPathUtils"/> class.
         /// </summary>
@@ -17,6 +18,7 @@ namespace IFramework.Core.Zip {
         /// <remarks>Unlike the <see cref="System.IO.Path"/> class the path isnt otherwise checked for validity.</remarks>
         public static string DropPathRoot(string path) {
             string result = path;
+
             if (!string.IsNullOrEmpty(path)) {
                 if ((path[0] == '\\') || (path[0] == '/')) {
                     // UNC name ?
@@ -30,6 +32,7 @@ namespace IFramework.Core.Zip {
                             index++;
                         }
                         index++;
+
                         if (index < path.Length) {
                             result = path.Substring(index);
                         }
@@ -40,6 +43,7 @@ namespace IFramework.Core.Zip {
                 }
                 else if ((path.Length > 1) && (path[1] == ':')) {
                     int dropCount = 2;
+
                     if ((path.Length > 2) && ((path[2] == '\\') || (path[2] == '/'))) {
                         dropCount = 3;
                     }
@@ -48,6 +52,5 @@ namespace IFramework.Core.Zip {
             }
             return result;
         }
-
     }
 }

@@ -2,15 +2,16 @@ using System;
 
 // ReSharper disable InconsistentNaming
 
-namespace IFramework.Core.Zip.Zip.Compression.Streams {
+namespace IFramework.Core.Zip.Zip.Compression.Streams
+{
     /// <summary>
     /// Contains the output from the Inflation process.
     /// We need to have a window so that we can refer backwards into the output stream
     /// to repeat stuff.<br/>
     /// Author of the original java version : John Leuner
     /// </summary>
-    public class OutputWindow {
-
+    public class OutputWindow
+    {
         #region Constants
 
         private const int WindowSize = 1 << 15;
@@ -63,6 +64,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             }
             int repStart = (windowEnd - distance) & WindowMask;
             int border = WindowSize - length;
+
             if ((repStart <= border) && (windowEnd < border)) {
                 if (length <= distance) {
                     Array.Copy(window, repStart, window, windowEnd, length);
@@ -90,8 +92,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             length = Math.Min(Math.Min(length, WindowSize - windowFilled), input.AvailableBytes);
             int copied;
             int tailLen = WindowSize - windowEnd;
+
             if (length > tailLen) {
                 copied = input.CopyBytes(window, windowEnd, tailLen);
+
                 if (copied == tailLen) {
                     copied += input.CopyBytes(window, 0, length - tailLen);
                 }
@@ -117,9 +121,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             if (dictionary == null) {
                 throw new ArgumentNullException(nameof(dictionary));
             }
+
             if (windowFilled > 0) {
                 throw new InvalidOperationException();
             }
+
             if (length > WindowSize) {
                 offset += length - WindowSize;
                 length = WindowSize;
@@ -156,6 +162,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         /// </exception>
         public int CopyOutput(byte[] output, int offset, int len) {
             int copyEnd = windowEnd;
+
             if (len > windowFilled) {
                 len = windowFilled;
             }
@@ -164,6 +171,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             }
             int copied = len;
             int tailLen = len - copyEnd;
+
             if (tailLen > 0) {
                 Array.Copy(window, WindowSize - tailLen, output, offset, tailLen);
                 offset += tailLen;
@@ -171,6 +179,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
             }
             Array.Copy(window, copyEnd - len, output, offset, len);
             windowFilled -= copied;
+
             if (windowFilled < 0) {
                 throw new InvalidOperationException();
             }
@@ -183,6 +192,5 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams {
         public void Reset() {
             windowFilled = windowEnd = 0;
         }
-
     }
 }

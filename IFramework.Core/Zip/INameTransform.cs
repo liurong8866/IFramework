@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip {
+namespace IFramework.Core.Zip
+{
     /// <summary>
     /// INameTransform defines how file system names are transformed for use with archives, or vice versa.
     /// </summary>
-    public interface INameTransform {
-
+    public interface INameTransform
+    {
         /// <summary>
         /// Given a file name determine the transformed value.
         /// </summary>
@@ -17,6 +18,5 @@ namespace IFramework.Core.Zip {
         /// <param name="name">The name to transform.</param>
         /// <returns>The transformed directory name</returns>
         string TransformDirectory(string name);
-
     }
 }

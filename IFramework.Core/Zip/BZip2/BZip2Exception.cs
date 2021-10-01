@@ -1,11 +1,12 @@
 using System;
 
-namespace IFramework.Core.Zip.BZip2 {
+namespace IFramework.Core.Zip.BZip2
+{
     /// <summary>
     /// BZip2Exception represents exceptions specific to BZip2 classes and code.
     /// </summary>
-    public class BZip2Exception : BaseZipException {
-
+    public class BZip2Exception : BaseZipException
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="BZip2Exception" />.
         /// </summary>
@@ -16,7 +17,7 @@ namespace IFramework.Core.Zip.BZip2 {
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         public BZip2Exception(string message)
-            : base(message) { }
+                : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of <see cref="BZip2Exception" />.
@@ -24,7 +25,6 @@ namespace IFramework.Core.Zip.BZip2 {
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that caused this exception.</param>
         public BZip2Exception(string message, Exception innerException)
-            : base(message, innerException) { }
-
+                : base(message, innerException) { }
     }
 }

@@ -29,12 +29,13 @@ using IFramework.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// 资源处理抽象类
     /// </summary>
-    public abstract class AbstractResource : Countor, IResource, IPoolable {
-
+    public abstract class AbstractResource : Countor, IResource, IPoolable
+    {
         // 资源名称
         protected string assetName;
 
@@ -94,6 +95,7 @@ namespace IFramework.Engine {
             get => state;
             set {
                 state = value;
+
                 if (state == ResourceState.Ready) {
                     // 通知资源加载完成
                     NotifyResourceLoaded(true);
@@ -163,14 +165,14 @@ namespace IFramework.Engine {
         /// 记录依赖资源
         /// </summary>
         protected void HoldDependResource() {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(()=>resource.Hold()), typeof(AssetBundle));
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle));
         }
-        
+
         /// <summary>
         /// 释放依赖资源
         /// </summary>
         protected void UnHoldDependResource() {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(()=>resource.UnHold()));
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold()));
         }
 
         /// <summary>
@@ -184,9 +186,11 @@ namespace IFramework.Engine {
             // 获取依赖资源
             List<string> depends = GetDependResourceList();
             if (depends.IsNullOrEmpty()) return true;
+
             foreach (string depend in depends) {
-                using ResourceSearcher searcher = ResourceSearcher.Allocate(depend,null,assetType);
+                using ResourceSearcher searcher = ResourceSearcher.Allocate(depend, null, assetType);
                 IResource resource = ResourceManager.Instance.GetResource(searcher);
+
                 if (action.InvokeSafe(resource)) {
                     return false;
                 }
@@ -199,6 +203,7 @@ namespace IFramework.Engine {
         /// </summary>
         public void RegisterOnLoadedEvent(Action<bool, IResource> listener) {
             if (listener == null) return;
+
             if (state == ResourceState.Ready) {
                 listener(true, this);
                 return;
@@ -212,6 +217,7 @@ namespace IFramework.Engine {
         public void UnRegisterOnLoadedEvent(Action<bool, IResource> listener) {
             if (listener == null) return;
             if (OnResourceLoaded == null) return;
+
             OnResourceLoaded -= listener;
         }
 
@@ -228,6 +234,7 @@ namespace IFramework.Engine {
         /// </summary>
         private void NotifyResourceLoaded(bool result) {
             if (OnResourceLoaded == null) return;
+
             OnResourceLoaded(result, this);
             OnResourceLoaded = null;
         }
@@ -245,6 +252,7 @@ namespace IFramework.Engine {
 
         protected virtual void OnEmpty() {
             if (state == ResourceState.Loading) return;
+
             Release();
         }
 
@@ -253,6 +261,5 @@ namespace IFramework.Engine {
         public override string ToString() {
             return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】";
         }
-
     }
 }

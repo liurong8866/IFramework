@@ -29,10 +29,11 @@ using System.Linq;
 using IFramework.Core;
 using UnityEngine;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     [MonoSingleton("[Framework]/ResourceManager")]
-    public sealed class ResourceManager : MonoSingleton<ResourceManager> {
-
+    public sealed class ResourceManager : MonoSingleton<ResourceManager>
+    {
         // 是否被初始化
         private static bool isInit = false;
         // 当前协程数量
@@ -50,6 +51,7 @@ namespace IFramework.Engine {
 
         public static void Init() {
             if (isInit) return;
+
             isInit = true;
             InitPool();
 
@@ -69,6 +71,7 @@ namespace IFramework.Engine {
         /// </summary>
         private static IEnumerator DoInitAsync() {
             if (isInit) yield break;
+
             isInit = true;
             InitPool();
 
@@ -110,6 +113,7 @@ namespace IFramework.Engine {
                 else {
                     configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
+
                 if (configFiles != null) {
                     foreach (string file in configFiles) {
                         AssetBundleConfig.ConfigFile.LoadFromFile(file);
@@ -141,6 +145,7 @@ namespace IFramework.Engine {
                     string persistentPath = Path.Combine(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
                 }
+
                 foreach (string file in configFiles) {
                     yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
                 }
@@ -164,6 +169,7 @@ namespace IFramework.Engine {
             // 如果资源为空，并需要创建资源，则创建并加入资源表
             if (create) {
                 resource = ResourceFactory.Create(searcher);
+
                 if (resource != null) {
                     resourceTable.Add(resource.AssetName, resource);
                 }
@@ -247,16 +253,17 @@ namespace IFramework.Engine {
         /// </summary>
         private void RemoveUnusedResource() {
             if (!isResourceMapDirty) return;
+
             isResourceMapDirty = false;
+
             foreach (IResource resource in resourceTable.ToList()) {
                 if (resource.Counter <= 0 && resource.State != ResourceState.Loading) {
                     if (resource.Release()) {
-                        resourceTable.Remove(resource.AssetName.ToLower());
+                        resourceTable.Remove(resource.AssetName.ToLowerInvariant());
                         resource.Recycle();
                     }
                 }
             }
         }
-
     }
 }

@@ -27,9 +27,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IFramework.Core {
-    public class Table<T> : IEnumerable<T>, IDisposable {
-
+namespace IFramework.Core
+{
+    public class Table<T> : IEnumerable<T>, IDisposable
+    {
         // 定义一个数据字典列表
         private Dictionary<string, List<T>> dictionary = new Dictionary<string, List<T>>();
 
@@ -117,6 +118,5 @@ namespace IFramework.Core {
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
-
     }
 }

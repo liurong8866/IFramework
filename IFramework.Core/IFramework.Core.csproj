@@ -33,10 +33,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Environment\Environment.cs" />
-        <Content Include="Environment\Environment.cs">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <Compile Remove="Environment\ZipUtils.cs" />
         <Compile Remove="Environment\IFramework.cs" />
         <Content Include="Environment\IFramework.cs">
@@ -44,6 +40,10 @@
         </Content>
         <Compile Remove="Environment\Zip.cs" />
         <Content Include="Environment\Zip.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Compile Remove="Environment\Environment.cs" />
+        <Content Include="Environment\Environment.cs">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

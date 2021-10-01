@@ -29,9 +29,10 @@ using IFramework.Core;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine {
-    public abstract class AbstractNetResource : AbstractResource {
-
+namespace IFramework.Engine
+{
+    public abstract class AbstractNetResource : AbstractResource
+    {
         private bool disposed = false;
         protected UnityWebRequest request;
 
@@ -47,6 +48,7 @@ namespace IFramework.Engine {
         /// </summary>
         public override void LoadASync() {
             if (!IsLoadable || AssetName.IsNullOrEmpty() || Counter <= 0) return;
+
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -62,6 +64,7 @@ namespace IFramework.Engine {
             }
             // request在子类中定义
             yield return request.SendWebRequest();
+
             if (!request.isDone) {
                 Log.Error("资源加载失败：" + assetName);
                 OnResourceLoadFailed();
@@ -88,7 +91,8 @@ namespace IFramework.Engine {
                 try {
                     DirectoryUtils.Create(FilePath);
                     FileUtils.Write(FullName, request.downloadHandler.data);
-                }catch (Exception e) {
+                }
+                catch (Exception e) {
                     Log.Error(e);
                 }
             }
@@ -150,6 +154,5 @@ namespace IFramework.Engine {
                 disposed = true;
             }
         }
-
     }
 }

@@ -27,11 +27,12 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using IFramework.Core;
 
-namespace IFramework.Test.Extention {
+namespace IFramework.Test.Extention
+{
     public delegate void Dd();
 
-    public class ExtentionTest : MonoBehaviour {
-
+    public class ExtentionTest : MonoBehaviour
+    {
         private void Start() {
             ObjectExtentionTest();
 
@@ -41,12 +42,13 @@ namespace IFramework.Test.Extention {
 
         private void ObjectExtentionTest() {
             Object gameObject = new GameObject();
+
             gameObject
-                .As<GameObject>()
-                .Instantiate()
-                .Name("testlist")
-                .DontDestroyOnLoad()
-                .transform.SetParent(this.gameObject.transform);
+                   .As<GameObject>()
+                   .Instantiate()
+                   .Name("testlist")
+                   .DontDestroyOnLoad()
+                   .transform.SetParent(this.gameObject.transform);
             // .DestroySelf();
             this.gameObject.DontDestroyOnLoad();
             Action action1 = () => { Debug.Log("hello world"); };
@@ -59,13 +61,10 @@ namespace IFramework.Test.Extention {
             dd.InvokeSafe();
             Func<int> func = () => 1;
             func.InvokeSafe();
-            
-            Func<string, string> func2 = (name) => { return name;};
-            Log.Info(func2.Invoke("liurong")); 
-            
-            Func<string, int, string> func3 = (name, age) => { return name + age;};
-            Log.Info(func3.Invoke("liurong", 20)); 
-            
+            Func<string, string> func2 = (name) => { return name; };
+            Log.Info(func2.Invoke("liurong"));
+            Func<string, int, string> func3 = (name, age) => { return name + age; };
+            Log.Info(func3.Invoke("liurong", 20));
             gameObject.InvokeAction<Object>((a) => { a.DestroySelf(); });
         }
 
@@ -110,13 +109,13 @@ namespace IFramework.Test.Extention {
 
         private void TransformExtentiontest() {
             GameObject obj = new GameObject();
+
             obj.transform
                 // .Parent(transform.FindRecursion("AAA"))
-                .Name("Hello")
-                .LocalIdentity()
-                .Identity(transform.FindRecursion("AAA"));
+               .Name("Hello")
+               .LocalIdentity()
+               .Identity(transform.FindRecursion("AAA"));
             Debug.Log(obj.transform.Path());
         }
-
     }
 }

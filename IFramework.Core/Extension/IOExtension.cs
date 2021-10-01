@@ -24,10 +24,11 @@
 
 using System.IO;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     // ReSharper disable once InconsistentNaming
-    public static class IOExtension {
-
+    public static class IOExtension
+    {
         /// <summary>
         /// 创建目录,如果存在则不动作，支持创建多级路径
         /// </summary>
@@ -111,6 +112,5 @@ namespace IFramework.Core {
         public static T DeserializeFromFile<T>(string fileName, string key) where T : class {
             return SerializeUtils.DeserializeFromFile<T>(fileName, key);
         }
-
     }
 }

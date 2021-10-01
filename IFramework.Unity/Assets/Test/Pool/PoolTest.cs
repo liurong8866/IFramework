@@ -25,9 +25,10 @@
 using UnityEngine;
 using IFramework.Core;
 
-namespace IFramework.Test.Pool {
-    public class PoolTest : MonoBehaviour {
-
+namespace IFramework.Test.Pool
+{
+    public class PoolTest : MonoBehaviour
+    {
         private void Start() {
             // SimplePoolTest();
             ObjectPoolTest();
@@ -61,10 +62,12 @@ namespace IFramework.Test.Pool {
             pool.Init(10, 15);
             Debug.Log(pool.Count);
             Bullet2[] bullet = new Bullet2[15];
+
             for (int i = 0; i < 15; i++) {
                 bullet[i] = pool.Allocate();
                 Debug.Log(pool.Count);
             }
+
             for (int i = 0; i < 15; i++) {
                 pool.Recycle(bullet[i]);
                 Debug.Log(pool.Count);
@@ -72,17 +75,15 @@ namespace IFramework.Test.Pool {
             pool.Capacity = 8;
             Debug.Log(pool.Count);
         }
-
     }
 
-    internal class Bullet {
-
+    internal class Bullet
+    {
         public string state = "未发射";
-
     }
 
-    internal class Bullet2 : IPoolable {
-
+    internal class Bullet2 : IPoolable
+    {
         public string state = "未发射";
 
         /// <summary>
@@ -96,6 +97,5 @@ namespace IFramework.Test.Pool {
         /// 回收状态
         /// </summary>
         public bool IsRecycled { get; set; }
-
     }
 }

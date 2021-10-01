@@ -25,12 +25,13 @@
 using System;
 using System.Reflection;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// C# 反射类扩展方法
     /// </summary>
-    public static class ReflectionExtension {
-
+    public static class ReflectionExtension
+    {
         public static void Example() {
             // var selfType = ReflectionExtension.GetAssemblyCSharp().GetType("IFramework.Editor.ReflectionExtension");
             // selfType.LogInfo();
@@ -38,6 +39,7 @@ namespace IFramework.Core {
 
         public static Assembly GetAssemblyCSharp() {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
             foreach (var a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp,")) {
                     return a;
@@ -50,6 +52,7 @@ namespace IFramework.Core {
 
         public static Assembly GetAssemblyCSharpEditor() {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
             foreach (var a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp-Editor,")) {
                     return a;
@@ -136,8 +139,10 @@ namespace IFramework.Core {
         /// <returns></returns>
         public static T GetFirstAttribute<T>(this MethodInfo method, bool inherit) where T : Attribute {
             var attrs = (T[]) method.GetCustomAttributes(typeof(T), inherit);
+
             if (attrs.Length > 0)
                 return attrs[0];
+
             return null;
         }
 
@@ -146,8 +151,10 @@ namespace IFramework.Core {
         /// </summary>
         public static T GetFirstAttribute<T>(this FieldInfo field, bool inherit) where T : Attribute {
             var attrs = (T[]) field.GetCustomAttributes(typeof(T), inherit);
+
             if (attrs.Length > 0)
                 return attrs[0];
+
             return null;
         }
 
@@ -156,8 +163,10 @@ namespace IFramework.Core {
         /// </summary>
         public static T GetFirstAttribute<T>(this PropertyInfo prop, bool inherit) where T : Attribute {
             var attrs = (T[]) prop.GetCustomAttributes(typeof(T), inherit);
+
             if (attrs.Length > 0)
                 return attrs[0];
+
             return null;
         }
 
@@ -166,10 +175,11 @@ namespace IFramework.Core {
         /// </summary>
         public static T GetFirstAttribute<T>(this Type type, bool inherit) where T : Attribute {
             var attrs = (T[]) type.GetCustomAttributes(typeof(T), inherit);
+
             if (attrs.Length > 0)
                 return attrs[0];
+
             return null;
         }
-
     }
 }

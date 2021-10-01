@@ -22,10 +22,11 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     // 字符串、Bool类型
-    public class BindBool : Bindable<bool> {
-
+    public class BindBool : Bindable<bool>
+    {
         public BindBool() { }
         public BindBool(bool value) : base(value) { }
 
@@ -69,26 +70,23 @@ namespace IFramework.Core {
         public static bool operator |(bool m, BindBool n) {
             return m | n.Value;
         }
-
     }
 
-    public class BindString : Bindable<string> {
-
+    public class BindString : Bindable<string>
+    {
         public BindString() { }
         public BindString(string value) : base(value) { }
-
     }
 
-    public class BindChar : Bindable<char> {
-
+    public class BindChar : Bindable<char>
+    {
         public BindChar() { }
         public BindChar(char value) : base(value) { }
-
     }
 
     // 数字类型
-    public class BindInt : BindableNumeric<int> {
-
+    public class BindInt : BindableNumeric<int>
+    {
         public BindInt() { }
         public BindInt(int value) : base(value) { }
 
@@ -103,11 +101,10 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 
-    public class BindShort : BindableNumeric<short> {
-
+    public class BindShort : BindableNumeric<short>
+    {
         public BindShort() { }
         public BindShort(short value) : base(value) { }
 
@@ -122,11 +119,10 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 
-    public class BindLong : BindableNumeric<long> {
-
+    public class BindLong : BindableNumeric<long>
+    {
         public BindLong() { }
         public BindLong(long value) : base(value) { }
 
@@ -141,11 +137,10 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 
-    public class BindFloat : BindableNumeric<float> {
-
+    public class BindFloat : BindableNumeric<float>
+    {
         public BindFloat() { }
         public BindFloat(float value) : base(value) { }
 
@@ -160,11 +155,10 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 
-    public class BindDouble : BindableNumeric<double> {
-
+    public class BindDouble : BindableNumeric<double>
+    {
         public BindDouble() { }
         public BindDouble(double value) : base(value) { }
 
@@ -179,11 +173,10 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 
-    public class BindDecimal : BindableNumeric<decimal> {
-
+    public class BindDecimal : BindableNumeric<decimal>
+    {
         public BindDecimal() { }
         public BindDecimal(decimal value) : base(value) { }
 
@@ -198,6 +191,5 @@ namespace IFramework.Core {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }
-
     }
 }

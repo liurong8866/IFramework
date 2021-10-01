@@ -2,7 +2,8 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace IFramework.Core.Zip.Tar {
+namespace IFramework.Core.Zip.Tar
+{
     /// <summary>
     /// Used to advise clients of 'events' while processing archives
     /// </summary>
@@ -29,8 +30,8 @@ namespace IFramework.Core.Zip.Tar {
     /// TarBuffer.CurrentRecord and TarBuffer.CurrentBlock
     /// properties, this would be rather trivial.
     /// </summary>
-    public class TarArchive : IDisposable {
-
+    public class TarArchive : IDisposable
+    {
         /// <summary>
         /// Client hook allowing detailed information to be reported during processing
         /// </summary>
@@ -43,6 +44,7 @@ namespace IFramework.Core.Zip.Tar {
         /// <param name="message">message for this event.  Null is no message</param>
         protected virtual void OnProgressMessageEvent(TarEntry entry, string message) {
             ProgressMessageHandler handler = ProgressMessageEvent;
+
             if (handler != null) {
                 handler(this, entry, message);
             }
@@ -95,6 +97,7 @@ namespace IFramework.Core.Zip.Tar {
             }
             var tarStream = inputStream as TarInputStream;
             TarArchive result;
+
             if (tarStream != null) {
                 result = new TarArchive(tarStream);
             }
@@ -114,6 +117,7 @@ namespace IFramework.Core.Zip.Tar {
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
+
             if (inputStream is TarInputStream) {
                 throw new ArgumentException("TarInputStream not valid");
             }
@@ -131,6 +135,7 @@ namespace IFramework.Core.Zip.Tar {
             }
             var tarStream = outputStream as TarOutputStream;
             TarArchive result;
+
             if (tarStream != null) {
                 result = new TarArchive(tarStream);
             }
@@ -150,6 +155,7 @@ namespace IFramework.Core.Zip.Tar {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
+
             if (outputStream is TarOutputStream) {
                 throw new ArgumentException("TarOutputStream is not valid");
             }
@@ -387,9 +393,11 @@ namespace IFramework.Core.Zip.Tar {
                 if (isDisposed) {
                     throw new ObjectDisposedException("TarArchive");
                 }
+
                 if (tarIn != null) {
                     return tarIn.RecordSize;
                 }
+
                 if (tarOut != null) {
                     return tarOut.RecordSize;
                 }
@@ -430,8 +438,10 @@ namespace IFramework.Core.Zip.Tar {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
+
             while (true) {
                 TarEntry entry = tarIn.GetNextEntry();
+
                 if (entry == null) {
                     break;
                 }
@@ -449,13 +459,17 @@ namespace IFramework.Core.Zip.Tar {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
+
             while (true) {
                 TarEntry entry = tarIn.GetNextEntry();
+
                 if (entry == null) {
                     break;
                 }
+
                 if (entry.TarHeader.TypeFlag == TarHeader.LF_LINK || entry.TarHeader.TypeFlag == TarHeader.LF_SYMLINK)
                     continue;
+
                 ExtractEntry(destinationDirectory, entry);
             }
         }
@@ -473,6 +487,7 @@ namespace IFramework.Core.Zip.Tar {
         private void ExtractEntry(string destDir, TarEntry entry) {
             OnProgressMessageEvent(entry, null);
             string name = entry.Name;
+
             if (Path.IsPathRooted(name)) {
                 // NOTE:
                 // for UNC names...  \\machine\share\zoom\beet.txt gives \zoom\beet.txt
@@ -480,6 +495,7 @@ namespace IFramework.Core.Zip.Tar {
             }
             name = name.Replace('/', Path.DirectorySeparatorChar);
             string destFile = Path.Combine(destDir, name);
+
             if (entry.IsDirectory) {
                 EnsureDirectoryExists(destFile);
             }
@@ -488,6 +504,7 @@ namespace IFramework.Core.Zip.Tar {
                 EnsureDirectoryExists(parentDirectory);
                 bool process = true;
                 var fileInfo = new FileInfo(destFile);
+
                 if (fileInfo.Exists) {
                     if (keepOldFiles) {
                         OnProgressMessageEvent(entry, "Destination file already exists");
@@ -498,22 +515,28 @@ namespace IFramework.Core.Zip.Tar {
                         process = false;
                     }
                 }
+
                 if (process) {
                     bool asciiTrans = false;
                     Stream outputStream = File.Create(destFile);
+
                     if (asciiTranslate) {
                         asciiTrans = !IsBinary(destFile);
                     }
                     StreamWriter outw = null;
+
                     if (asciiTrans) {
                         outw = new StreamWriter(outputStream);
                     }
                     byte[] rdbuf = new byte[32 * 1024];
+
                     while (true) {
                         int numRead = tarIn.Read(rdbuf, 0, rdbuf.Length);
+
                         if (numRead <= 0) {
                             break;
                         }
+
                         if (asciiTrans) {
                             for (int off = 0, b = 0; b < numRead; ++b) {
                                 if (rdbuf[b] == 10) {
@@ -527,6 +550,7 @@ namespace IFramework.Core.Zip.Tar {
                             outputStream.Write(rdbuf, 0, numRead);
                         }
                     }
+
                     if (asciiTrans) {
                         outw.Dispose();
                     }
@@ -554,13 +578,15 @@ namespace IFramework.Core.Zip.Tar {
             if (sourceEntry == null) {
                 throw new ArgumentNullException(nameof(sourceEntry));
             }
+
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
+
             try {
                 if (recurse) {
                     TarHeader.SetValueDefaults(sourceEntry.UserId, sourceEntry.UserName,
-                        sourceEntry.GroupId, sourceEntry.GroupName);
+                                               sourceEntry.GroupId, sourceEntry.GroupName);
                 }
                 WriteEntryCore(sourceEntry, recurse);
             }
@@ -588,6 +614,7 @@ namespace IFramework.Core.Zip.Tar {
             string tempFileName = null;
             string entryFilename = sourceEntry.File;
             var entry = (TarEntry) sourceEntry.Clone();
+
             if (applyUserInfoOverrides) {
                 entry.GroupId = groupId;
                 entry.GroupName = groupName;
@@ -595,13 +622,16 @@ namespace IFramework.Core.Zip.Tar {
                 entry.UserName = userName;
             }
             OnProgressMessageEvent(entry, null);
+
             if (asciiTranslate && !entry.IsDirectory) {
                 if (!IsBinary(entryFilename)) {
                     tempFileName = Path.GetTempFileName();
+
                     using (StreamReader inStream = File.OpenText(entryFilename)) {
                         using (Stream outStream = File.Create(tempFileName)) {
                             while (true) {
                                 string line = inStream.ReadLine();
+
                                 if (line == null) {
                                     break;
                                 }
@@ -617,21 +647,26 @@ namespace IFramework.Core.Zip.Tar {
                 }
             }
             string newName = null;
+
             if (rootPath != null) {
                 if (entry.Name.StartsWith(rootPath, StringComparison.OrdinalIgnoreCase)) {
                     newName = entry.Name.Substring(rootPath.Length + 1);
                 }
             }
+
             if (pathPrefix != null) {
                 newName = (newName == null) ? pathPrefix + "/" + entry.Name : pathPrefix + "/" + newName;
             }
+
             if (newName != null) {
                 entry.Name = newName;
             }
             tarOut.PutNextEntry(entry);
+
             if (entry.IsDirectory) {
                 if (recurse) {
                     TarEntry[] list = entry.GetDirectoryEntries();
+
                     for (int i = 0; i < list.Length; ++i) {
                         WriteEntryCore(list[i], recurse);
                     }
@@ -640,14 +675,17 @@ namespace IFramework.Core.Zip.Tar {
             else {
                 using (Stream inputStream = File.OpenRead(entryFilename)) {
                     byte[] localBuffer = new byte[32 * 1024];
+
                     while (true) {
                         int numRead = inputStream.Read(localBuffer, 0, localBuffer.Length);
+
                         if (numRead <= 0) {
                             break;
                         }
                         tarOut.Write(localBuffer, 0, numRead);
                     }
                 }
+
                 if (!string.IsNullOrEmpty(tempFileName)) {
                     File.Delete(tempFileName);
                 }
@@ -671,11 +709,13 @@ namespace IFramework.Core.Zip.Tar {
         protected virtual void Dispose(bool disposing) {
             if (!isDisposed) {
                 isDisposed = true;
+
                 if (disposing) {
                     if (tarOut != null) {
                         tarOut.Flush();
                         tarOut.Dispose();
                     }
+
                     if (tarIn != null) {
                         tarIn.Dispose();
                     }
@@ -718,8 +758,10 @@ namespace IFramework.Core.Zip.Tar {
                 int sampleSize = Math.Min(4096, (int) fs.Length);
                 byte[] content = new byte[sampleSize];
                 int bytesRead = fs.Read(content, 0, sampleSize);
+
                 for (int i = 0; i < bytesRead; ++i) {
                     byte b = content[i];
+
                     if ((b < 8) || ((b > 13) && (b < 32)) || (b == 255)) {
                         return true;
                     }
@@ -748,6 +790,5 @@ namespace IFramework.Core.Zip.Tar {
         private bool isDisposed;
 
         #endregion
-
     }
 }

@@ -22,9 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
-    public static class AbstractPropertyExtension {
-
+namespace IFramework.Core
+{
+    public static class AbstractPropertyExtension
+    {
         // int
         public static AbstractPropertyNumeric<int> Add(this AbstractPropertyNumeric<int> self, object value) {
             self.Value = AbstractPropertyNumeric<int>.Addition(self.Value, value);
@@ -150,6 +151,5 @@ namespace IFramework.Core {
             self.Value = AbstractPropertyNumeric<decimal>.Division(self.Value, value);
             return self;
         }
-
     }
 }

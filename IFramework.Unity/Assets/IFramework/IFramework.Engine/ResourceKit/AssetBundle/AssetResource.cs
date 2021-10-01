@@ -29,12 +29,13 @@ using IFramework.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// AssetBundle包中的Asset资源管理类
     /// </summary>
-    public class AssetResource : AbstractResource {
-
+    public class AssetResource : AbstractResource
+    {
         protected string assetBundleNameConfig;
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace IFramework.Engine {
         /// </summary>
         public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null) {
             AssetResource resource = ObjectPool<AssetResource>.Instance.Allocate();
+
             if (resource != null) {
                 resource.AssetName = assetName;
                 resource.AssetBundleName = assetBundleName;
@@ -72,6 +74,7 @@ namespace IFramework.Engine {
             // 在config文件中查找资源
             using ResourceSearcher searcher = ResourceSearcher.Allocate(AssetName, AssetBundleName, AssetType);
             AssetInfo config = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
+
             if (config == null) {
                 Log.Error("未找到Asset的AssetInfo：{0}", assetName);
                 return;
@@ -79,6 +82,7 @@ namespace IFramework.Engine {
 
             // 如果找到，则使用config的资源
             assetBundleNameConfig = config.AssetBundleName;
+
             if (assetBundleNameConfig.IsNullOrEmpty()) {
                 Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName);
             }
@@ -89,13 +93,16 @@ namespace IFramework.Engine {
         /// </summary>
         public override bool Load() {
             if (!IsLoadable || assetBundleNameConfig.IsNullOrEmpty()) return false;
+
             Object obj;
+
             // 如果是模拟模式，并且不是包信息资源
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
                 // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+
                 if (assetPaths.IsNullOrEmpty()) {
                     Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
@@ -104,13 +111,15 @@ namespace IFramework.Engine {
                 // 记录依赖资源
                 HoldDependResource();
                 state = ResourceState.Loading;
-                obj = AssetType != null 
-                    ? Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType) 
-                    : Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
+
+                obj = AssetType != null
+                        ? Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType)
+                        : Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
             }
             else {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
+
                 if (resource == null || !resource.AssetBundle) {
                     Log.Error("加载资源失败，未能找到AssetBundle: " + assetBundleNameConfig);
                     OnResourceLoadFailed();
@@ -122,6 +131,7 @@ namespace IFramework.Engine {
                 obj = AssetType != null ? resource.AssetBundle.LoadAsset(assetName, AssetType) : resource.AssetBundle.LoadAsset(assetName);
             }
             UnHoldDependResource();
+
             if (obj == null) {
                 Log.Error("加载资源失败: {0} : {1} : {2}" + assetName, AssetType, assetBundleNameConfig);
                 OnResourceLoadFailed();
@@ -137,7 +147,7 @@ namespace IFramework.Engine {
         /// </summary>
         public override void LoadASync() {
             if (!IsLoadable) return;
-            
+
             // TODO 注释后支持直接AssetName引用，原代码必须含有AssetBundleName
             // if (AssetBundleName.IsNullOrEmpty()) return;
             State = ResourceState.Loading;
@@ -154,16 +164,17 @@ namespace IFramework.Engine {
                 callback();
                 yield break;
             }
-            
+
             // 查询器
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
-            
+
             // 获取资源
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher, true);
 
             // 如果是模拟模式，并且不是包信息资源
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
+
                 if (assetPaths.IsNullOrEmpty()) {
                     Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
@@ -175,7 +186,9 @@ namespace IFramework.Engine {
                 HoldDependResource();
                 State = ResourceState.Loading;
                 yield return new WaitForEndOfFrame();
+
                 UnHoldDependResource();
+
                 if (AssetType != null) {
                     asset = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType);
                 }
@@ -186,7 +199,7 @@ namespace IFramework.Engine {
             else {
                 // 等待帧结束，目的是解决AssetBundle不能为空到问题
                 // yield return new WaitForEndOfFrame();
-                
+
                 if (resource == null || resource.AssetBundle == null) {
                     Log.Error("加载资源失败，未能找到AssetBundleImage: " + assetBundleNameConfig);
                     OnResourceLoadFailed();
@@ -196,9 +209,9 @@ namespace IFramework.Engine {
 
                 // 记录依赖资源
                 HoldDependResource();
-                
                 State = ResourceState.Loading;
                 AssetBundleRequest request;
+
                 if (AssetType != null) {
                     request = resource.AssetBundle.LoadAssetAsync(assetName, AssetType);
                     yield return request;
@@ -207,9 +220,8 @@ namespace IFramework.Engine {
                     request = resource.AssetBundle.LoadAssetAsync(assetName);
                     yield return request;
                 }
-                
                 UnHoldDependResource();
-                
+
                 if (request == null) {
                     Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
@@ -241,6 +253,5 @@ namespace IFramework.Engine {
         public override string ToString() {
             return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
         }
-
     }
 }

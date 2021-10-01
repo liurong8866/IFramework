@@ -28,17 +28,19 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// C# 基础类型扩展方法
     /// </summary>
-    public static class BaseExtention {
-
+    public static class BaseExtention
+    {
         /// <summary>
         /// 判断是否为空
         /// </summary>
         public static bool IsNullOrEmpty(this object value) {
             bool result;
+
             if (value == null) {
                 result = true;
             }
@@ -74,6 +76,7 @@ namespace IFramework.Core {
         /// </summary>
         public static string ToString(this object value) {
             string result = "";
+
             if (!value.IsNullOrEmpty()) {
                 result = value.ToString();
             }
@@ -85,6 +88,7 @@ namespace IFramework.Core {
         /// </summary>
         public static string ToString(this object value, string defaultvalue) {
             string result = defaultvalue;
+
             if (!value.IsNullOrEmpty()) {
                 result = value.ToString();
             }
@@ -152,6 +156,7 @@ namespace IFramework.Core {
         /// </summary>
         public static string ToSqlString(this object value) {
             string result;
+
             if (value == null) {
                 result = "";
             }
@@ -166,6 +171,7 @@ namespace IFramework.Core {
         /// </summary>
         public static string ToSqlString2(this object value) {
             string result;
+
             if (value == null) {
                 result = "";
             }
@@ -180,8 +186,8 @@ namespace IFramework.Core {
         /// </summary>
         public static bool IsInteger(this object value) {
             return (value is SByte || value is Int16 || value is Int32
-                    || value is Int64 || value is Byte || value is UInt16
-                    || value is UInt32 || value is UInt64);
+                 || value is Int64 || value is Byte || value is UInt16
+                 || value is UInt32 || value is UInt64);
         }
 
         /// <summary>
@@ -207,6 +213,7 @@ namespace IFramework.Core {
                   value is Double ||
                   value is Single))
                 return false;
+
             return true;
         }
 
@@ -215,6 +222,7 @@ namespace IFramework.Core {
         /// </summary>
         public static T Between<T>(this T value, T min, T max) where T : struct, IComparable<T> {
             T result = value;
+
             if (value.CompareTo(min) < 0) {
                 result = min;
             }
@@ -229,6 +237,7 @@ namespace IFramework.Core {
         /// </summary>
         public static T Between<T>(this T value, T min, T max, T defaultvalue) where T : struct, IComparable<T> {
             T result = value;
+
             if (value.CompareTo(min) < 0) {
                 result = defaultvalue;
             }
@@ -250,6 +259,5 @@ namespace IFramework.Core {
                 return (T) formatter.Deserialize(objectStream);
             }
         }
-
     }
 }

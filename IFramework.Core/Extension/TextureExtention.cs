@@ -24,17 +24,17 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// Texture图片扩展方法
     /// </summary>
-    public static class TextureExtention {
-
-        public static Sprite CreateSprite(this Texture2D self)
-        {
+    public static class TextureExtention
+    {
+        public static Sprite CreateSprite(this Texture2D self) {
             return Sprite.Create(self, new Rect(0, 0, self.width, self.height), Vector2.one * 0.5f);
         }
-        
+
         // 屏幕截图
         // var screenshotTexture2D = Camera.main.CaptureCamera(new Rect(0, 0, Screen.width, Screen.height));
         // Log.I(screenshotTexture2D.width);
@@ -65,6 +65,5 @@ namespace IFramework.Core {
         //     self.color = color;
         //     return self;
         // }
-
     }
 }

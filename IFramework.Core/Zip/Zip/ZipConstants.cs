@@ -1,15 +1,15 @@
 using System;
 using System.Text;
 
-namespace IFramework.Core.Zip.Zip {
-
+namespace IFramework.Core.Zip.Zip
+{
     #region Enumerations
 
     /// <summary>
     /// Determines how entries are tested to see if they should use Zip64 extensions or not.
     /// </summary>
-    public enum UseZip64 {
-
+    public enum UseZip64
+    {
         /// <summary>
         /// Zip64 will not be forced on entries during processing.
         /// </summary>
@@ -25,14 +25,13 @@ namespace IFramework.Core.Zip.Zip {
         /// #ZipLib will determine use based on entry values when added to archive.
         /// </summary>
         Dynamic,
-
     }
 
     /// <summary>
     /// The kind of compression used for an entry in an archive
     /// </summary>
-    public enum CompressionMethod {
-
+    public enum CompressionMethod
+    {
         /// <summary>
         /// A direct copy of the file contents is held in the archive
         /// </summary>
@@ -58,14 +57,13 @@ namespace IFramework.Core.Zip.Zip {
         /// WinZip special for AES encryption, Now supported by #Zip.
         /// </summary>
         WinZipAes = 99,
-
     }
 
     /// <summary>
     /// Identifies the encryption algorithm used for an entry
     /// </summary>
-    public enum EncryptionAlgorithm {
-
+    public enum EncryptionAlgorithm
+    {
         /// <summary>
         /// No encryption has been used.
         /// </summary>
@@ -135,15 +133,14 @@ namespace IFramework.Core.Zip.Zip {
         /// An unknown algorithm has been used for encryption.
         /// </summary>
         Unknown = 0xffff
-
     }
 
     /// <summary>
     /// Defines the contents of the general bit flags field for an archive entry.
     /// </summary>
     [Flags]
-    public enum GeneralBitFlags {
-
+    public enum GeneralBitFlags
+    {
         /// <summary>
         /// Bit 0 if set indicates that the file is encrypted
         /// </summary>
@@ -224,7 +221,6 @@ namespace IFramework.Core.Zip.Zip {
         /// Bit 15 is documented as being reserved for use by PKware
         /// </summary>
         ReservedPkware15 = 0x8000
-
     }
 
     #endregion
@@ -232,8 +228,8 @@ namespace IFramework.Core.Zip.Zip {
     /// <summary>
     /// This class contains constants used for Zip format files
     /// </summary>
-    public sealed class ZipConstants {
-
+    public sealed class ZipConstants
+    {
         #region Versions
 
         /// <summary>
@@ -509,6 +505,7 @@ namespace IFramework.Core.Zip.Zip {
             if (data == null) {
                 return string.Empty;
             }
+
             if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, count);
             }
@@ -529,6 +526,7 @@ namespace IFramework.Core.Zip.Zip {
             if (data == null) {
                 return string.Empty;
             }
+
             if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, data.Length);
             }
@@ -561,6 +559,7 @@ namespace IFramework.Core.Zip.Zip {
             if (str == null) {
                 return new byte[0];
             }
+
             if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetBytes(str);
             }
@@ -576,6 +575,5 @@ namespace IFramework.Core.Zip.Zip {
         private ZipConstants() {
             // Do nothing
         }
-
     }
 }

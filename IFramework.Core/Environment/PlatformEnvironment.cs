@@ -22,12 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 中转类，不要调用
     /// </summary>
-    public sealed class PlatformEnvironment : Singleton<PlatformEnvironment> {
-
+    public sealed class PlatformEnvironment : Singleton<PlatformEnvironment>
+    {
         private IEnvironment environment;
 
         private PlatformEnvironment() { }
@@ -44,21 +45,5 @@ namespace IFramework.Core {
         public bool IsSimulation => environment.IsSimulation;
 
         public string FilePathPrefix => environment.FilePathPrefix;
-
-        // string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
-        // {
-        //     return environment.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
-        // }
-        //
-        // public Object LoadAssetAtPath(string assetPath, Type assetType)
-        // {
-        //     return environment.LoadAssetAtPath(assetPath, assetType);
-        // }
-        //
-        // public T LoadAssetAtPath<T>(string assetPath)
-        // {
-        //     return environment.LoadAssetAtPath<T>(assetPath);
-        // }
-
     }
 }

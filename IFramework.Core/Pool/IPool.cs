@@ -22,12 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 对象池接口
     /// </summary>
-    public interface IPool<T> {
-
+    public interface IPool<T>
+    {
         /// <summary>
         /// 分配对象
         /// </summary>
@@ -37,6 +38,5 @@ namespace IFramework.Core {
         /// 回收对象
         /// </summary>
         bool Recycle(T t);
-
     }
 }

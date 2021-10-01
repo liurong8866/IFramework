@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 对象池实现类
     /// </summary>
-    public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new() {
-
+    public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new()
+    {
         // 最大对象
         private int capacity;
 
@@ -60,6 +61,7 @@ namespace IFramework.Core {
         /// <param name="initCount">初始化的最大数量</param>
         public void Init(int maxCount, int initCount) {
             Capacity = maxCount;
+
             if (maxCount > 0) {
                 // 按破水桶原则，初始化最小值
                 initCount = Math.Min(maxCount, initCount);
@@ -119,6 +121,5 @@ namespace IFramework.Core {
             cache.Push(t);
             return true;
         }
-
     }
 }

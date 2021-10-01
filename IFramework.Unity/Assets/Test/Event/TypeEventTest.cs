@@ -26,9 +26,10 @@ using System;
 using UnityEngine;
 using IFramework.Core;
 
-namespace IFramework.Test.Event {
-    public class TypeEventTest : MonoBehaviour {
-
+namespace IFramework.Test.Event
+{
+    public class TypeEventTest : MonoBehaviour
+    {
         private void Start() {
             IDisposable disposable = TypeEvent.Register<GameStartEvent>(OnGameStartEvent);
             TypeEvent.Register<GameOverEvent>(OnGameOverEvent);
@@ -37,6 +38,7 @@ namespace IFramework.Test.Event {
             disposable.Dispose();
             TypeEvent.Send<GameStartEvent>();
             disposable.Dispose();
+
             TypeEvent.Send(new GameOverEvent() {
                 score = 100
             });
@@ -69,27 +71,28 @@ namespace IFramework.Test.Event {
             TypeEvent.UnRegister<GameOverEvent>(OnGameOverEvent);
             TypeEvent.UnRegister<ISkillEvent>(OnSkillEvent);
         }
-
     }
 
     #region 事件定义
 
-    public class GameStartEvent { }
+    public class GameStartEvent
+    { }
 
-    public class GameOverEvent {
-
+    public class GameOverEvent
+    {
         // 可以携带参数
         public int score;
-
     }
 
-    public interface ISkillEvent { }
+    public interface ISkillEvent
+    { }
 
     // 支持继承
-    public class PlayerSkillAEvent : ISkillEvent { }
+    public class PlayerSkillAEvent : ISkillEvent
+    { }
 
-    public class PlayerSkillBEvent : ISkillEvent { }
+    public class PlayerSkillBEvent : ISkillEvent
+    { }
 
     #endregion
-
 }

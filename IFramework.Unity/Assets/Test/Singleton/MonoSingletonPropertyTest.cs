@@ -25,9 +25,10 @@
 using UnityEngine;
 using IFramework.Core;
 
-namespace IFramework.Test.Singelton {
-    public class MonoSingletonPropertyTest : MonoBehaviour {
-
+namespace IFramework.Test.Singelton
+{
+    public class MonoSingletonPropertyTest : MonoBehaviour
+    {
         private void Start() {
             MonoSingletonPropertyTestDemo a = MonoSingletonPropertyTestDemo.Instance;
             MonoSingletonPropertyTestDemo b = MonoSingletonPropertyTestDemo.Instance;
@@ -37,11 +38,10 @@ namespace IFramework.Test.Singelton {
             MonoSingletonPropertyTestDemo.Instance.Say();
             MonoSingletonPropertyTestDemo.Instance.Say2();
         }
-
     }
 
-    public class MonoSingletonPropertyTestDemo : Aaa, ISingleton {
-
+    public class MonoSingletonPropertyTestDemo : Aaa, ISingleton
+    {
         // 私有化构造函数，防止外部New创建
         private MonoSingletonPropertyTestDemo() { }
 
@@ -56,14 +56,12 @@ namespace IFramework.Test.Singelton {
         public void OnInit() {
             Debug.Log("这是单例初始化");
         }
-
     }
 
-    public class Aaa : MonoBehaviour {
-
+    public class Aaa : MonoBehaviour
+    {
         public void Say2() {
             Debug.Log("我是AAA");
         }
-
     }
 }

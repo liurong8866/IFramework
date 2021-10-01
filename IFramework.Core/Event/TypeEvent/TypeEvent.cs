@@ -25,9 +25,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace IFramework.Core {
-    public class TypeEvent : ITypeEvent {
-
+namespace IFramework.Core
+{
+    public class TypeEvent : ITypeEvent
+    {
         // 事件字典
         private readonly Dictionary<Type, ITypeEventRegister> typeEventDict = DictionaryPool<Type, ITypeEventRegister>.Allocate();
 
@@ -36,6 +37,7 @@ namespace IFramework.Core {
         /// </summary>
         public IDisposable RegisterEvent<T>(Action<T> action) {
             Type type = typeof(T);
+
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
                 if (register is TypeEventRegister<T> reg) {
                     reg.actions += action;
@@ -54,6 +56,7 @@ namespace IFramework.Core {
         /// </summary>
         public void UnRegisterEvent<T>(Action<T> action) {
             Type type = typeof(T);
+
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
                 if (register is TypeEventRegister<T> reg) {
                     // ReSharper disable once DelegateSubtraction
@@ -67,6 +70,7 @@ namespace IFramework.Core {
         /// </summary>
         public void SendEvent<T>() where T : new() {
             Type type = typeof(T);
+
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
                 if (register is TypeEventRegister<T> reg) {
                     reg.actions(new T());
@@ -79,6 +83,7 @@ namespace IFramework.Core {
         /// </summary>
         public void SendEvent<T>(T t) {
             Type type = typeof(T);
+
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
                 if (register is TypeEventRegister<T> reg) {
                     reg.actions(t);
@@ -135,6 +140,5 @@ namespace IFramework.Core {
         public static void Send<T>(T t) {
             eventer.SendEvent(t);
         }
-
     }
 }

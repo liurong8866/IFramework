@@ -24,13 +24,14 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// MonoBehaviour单例特性，标记在需要单例的MonoBehaviour的类上
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class MonoSingletonAttribute : Attribute {
-
+    public class MonoSingletonAttribute : Attribute
+    {
         // 在Hierarchy中的全路径
         private string pathInHierarchy;
 
@@ -53,6 +54,5 @@ namespace IFramework.Core {
             get => dontDestroy;
             set => dontDestroy = value;
         }
-
     }
 }

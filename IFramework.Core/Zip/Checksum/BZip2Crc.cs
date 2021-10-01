@@ -1,6 +1,7 @@
 using System;
 
-namespace IFramework.Core.Zip.Checksum {
+namespace IFramework.Core.Zip.Checksum
+{
     /// <summary>
     /// CRC-32 with unreversed data and reversed output
     /// </summary>
@@ -28,8 +29,8 @@ namespace IFramework.Core.Zip.Checksum {
     /// the information needed to generate CRC's on data a byte at a time for all
     /// combinations of CRC register values and incoming bytes.
     /// </remarks>
-    public sealed class BZip2Crc : IChecksum {
-
+    public sealed class BZip2Crc : IChecksum
+    {
         #region Instance Fields
 
         private const uint CRC_INIT = 0xFFFFFFFF;
@@ -170,22 +171,26 @@ namespace IFramework.Core.Zip.Checksum {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
+
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "cannot be less than zero");
             }
+
             if (offset >= buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "not a valid index into buffer");
             }
+
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "cannot be less than zero");
             }
+
             if (offset + count > buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(count), "exceeds buffer size");
             }
+
             for (int i = 0; i < count; ++i) {
                 Update(buffer[offset++]);
             }
         }
-
     }
 }

@@ -2,12 +2,13 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     /// <summary>
     /// WindowsNameTransform transforms <see cref="ZipFile"/> names to windows compatible ones.
     /// </summary>
-    public class WindowsNameTransform : INameTransform {
-
+    public class WindowsNameTransform : INameTransform
+    {
         /// <summary>
         ///  The maximum windows path name permitted.
         /// </summary>
@@ -78,6 +79,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>The transformed name.</returns>
         public string TransformDirectory(string name) {
             name = TransformFile(name);
+
             if (name.Length > 0) {
                 while (name.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)) {
                     name = name.Remove(name.Length - 1, 1);
@@ -97,6 +99,7 @@ namespace IFramework.Core.Zip.Zip {
         public string TransformFile(string name) {
             if (name != null) {
                 name = MakeValidName(name, replacementChar);
+
                 if (trimIncomingPaths) {
                     name = Path.GetFileName(name);
                 }
@@ -121,10 +124,10 @@ namespace IFramework.Core.Zip.Zip {
         /// <remarks>The filename isnt a true windows path in some fundamental ways like no absolute paths, no rooted paths etc.</remarks>
         public static bool IsValidName(string name) {
             bool result =
-                    (name != null) &&
-                    (name.Length <= MAX_PATH) &&
-                    (string.Compare(name, MakeValidName(name, '_'), StringComparison.Ordinal) == 0)
-                ;
+                            (name != null) &&
+                            (name.Length <= MAX_PATH) &&
+                            (string.Compare(name, MakeValidName(name, '_'), StringComparison.Ordinal) == 0)
+                    ;
             return result;
         }
 
@@ -152,6 +155,7 @@ namespace IFramework.Core.Zip.Zip {
 
             // Convert consecutive \\ characters to \
             int index = name.IndexOf(string.Format("{0}{0}", Path.DirectorySeparatorChar), StringComparison.Ordinal);
+
             while (index >= 0) {
                 name = name.Remove(index, 1);
                 index = name.IndexOf(string.Format("{0}{0}", Path.DirectorySeparatorChar), StringComparison.Ordinal);
@@ -159,10 +163,13 @@ namespace IFramework.Core.Zip.Zip {
 
             // Convert any invalid characters using the replacement one.
             index = name.IndexOfAny(invalidEntryChars);
+
             if (index >= 0) {
                 var builder = new StringBuilder(name);
+
                 while (index >= 0) {
                     builder[index] = replacement;
+
                     if (index >= name.Length) {
                         index = -1;
                     }
@@ -192,12 +199,12 @@ namespace IFramework.Core.Zip.Zip {
                         throw new ArgumentException("invalid path character");
                     }
                 }
+
                 if ((value == Path.DirectorySeparatorChar) || (value == Path.AltDirectorySeparatorChar)) {
                     throw new ArgumentException("invalid replacement character");
                 }
                 replacementChar = value;
             }
         }
-
     }
 }

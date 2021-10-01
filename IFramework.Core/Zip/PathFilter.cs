@@ -1,14 +1,15 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip {
+namespace IFramework.Core.Zip
+{
     /// <summary>
     /// PathFilter filters directories and files using a form of <see cref="System.Text.RegularExpressions.Regex">regular expressions</see>
     /// by full path name.
     /// See <see cref="NameFilter">NameFilter</see> for more detail on filtering.
     /// </summary>
-    public class PathFilter : IScanFilter {
-
+    public class PathFilter : IScanFilter
+    {
         #region Constructors
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace IFramework.Core.Zip {
         /// <remarks><see cref="Path.GetFullPath(string)"/> is used to get the full path before matching.</remarks>
         public virtual bool IsMatch(string name) {
             bool result = false;
+
             if (name != null) {
                 string cooked = (name.Length > 0) ? Path.GetFullPath(name) : "";
                 result = nameFilter.IsMatch(cooked);
@@ -40,22 +42,21 @@ namespace IFramework.Core.Zip {
 
         private readonly
 
-            #endregion
+                #endregion
 
-            #region Instance Fields
+                #region Instance Fields
 
-            NameFilter nameFilter;
+                NameFilter nameFilter;
 
         #endregion
-
     }
 
     /// <summary>
     /// ExtendedPathFilter filters based on name, file size, and the last write time of the file.
     /// </summary>
     /// <remarks>Provides an example of how to customise filtering.</remarks>
-    public class ExtendedPathFilter : PathFilter {
-
+    public class ExtendedPathFilter : PathFilter
+    {
         #region Constructors
 
         /// <summary>
@@ -65,8 +66,8 @@ namespace IFramework.Core.Zip {
         /// <param name="minSize">The minimum file size to include.</param>
         /// <param name="maxSize">The maximum file size to include.</param>
         public ExtendedPathFilter(string filter,
-            long minSize, long maxSize)
-            : base(filter) {
+                                  long minSize, long maxSize)
+                : base(filter) {
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -78,8 +79,8 @@ namespace IFramework.Core.Zip {
         /// <param name="minDate">The minimum <see cref="DateTime"/> to include.</param>
         /// <param name="maxDate">The maximum <see cref="DateTime"/> to include.</param>
         public ExtendedPathFilter(string filter,
-            DateTime minDate, DateTime maxDate)
-            : base(filter) {
+                                  DateTime minDate, DateTime maxDate)
+                : base(filter) {
             MinDate = minDate;
             MaxDate = maxDate;
         }
@@ -93,9 +94,9 @@ namespace IFramework.Core.Zip {
         /// <param name="minDate">The minimum <see cref="DateTime"/> to include.</param>
         /// <param name="maxDate">The maximum <see cref="DateTime"/> to include.</param>
         public ExtendedPathFilter(string filter,
-            long minSize, long maxSize,
-            DateTime minDate, DateTime maxDate)
-            : base(filter) {
+                                  long minSize, long maxSize,
+                                  DateTime minDate, DateTime maxDate)
+                : base(filter) {
             MinSize = minSize;
             MaxSize = maxSize;
             MinDate = minDate;
@@ -114,14 +115,16 @@ namespace IFramework.Core.Zip {
         /// <exception cref="System.IO.FileNotFoundException">The <see paramref="fileName"/> doesnt exist</exception>
         public override bool IsMatch(string name) {
             bool result = base.IsMatch(name);
+
             if (result) {
                 var fileInfo = new FileInfo(name);
+
                 result =
-                    (MinSize <= fileInfo.Length) &&
-                    (MaxSize >= fileInfo.Length) &&
-                    (MinDate <= fileInfo.LastWriteTime) &&
-                    (MaxDate >= fileInfo.LastWriteTime)
-                    ;
+                        (MinSize <= fileInfo.Length) &&
+                        (MaxSize >= fileInfo.Length) &&
+                        (MinDate <= fileInfo.LastWriteTime) &&
+                        (MaxDate >= fileInfo.LastWriteTime)
+                        ;
             }
             return result;
         }
@@ -200,7 +203,6 @@ namespace IFramework.Core.Zip {
         private DateTime maxDate = DateTime.MaxValue;
 
         #endregion
-
     }
 
     /// <summary>
@@ -208,8 +210,8 @@ namespace IFramework.Core.Zip {
     /// </summary>
     /// <remarks>A sample showing how filters might be extended.</remarks>
     [Obsolete("Use ExtendedPathFilter instead")]
-    public class NameAndSizeFilter : PathFilter {
-
+    public class NameAndSizeFilter : PathFilter
+    {
         /// <summary>
         /// Initialise a new instance of NameAndSizeFilter.
         /// </summary>
@@ -217,7 +219,7 @@ namespace IFramework.Core.Zip {
         /// <param name="minSize">The minimum file size to include.</param>
         /// <param name="maxSize">The maximum file size to include.</param>
         public NameAndSizeFilter(string filter, long minSize, long maxSize)
-            : base(filter) {
+                : base(filter) {
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -229,12 +231,14 @@ namespace IFramework.Core.Zip {
         /// <returns>True if the filter matches, false otherwise.</returns>
         public override bool IsMatch(string name) {
             bool result = base.IsMatch(name);
+
             if (result) {
                 var fileInfo = new FileInfo(name);
                 long length = fileInfo.Length;
+
                 result =
-                    (MinSize <= length) &&
-                    (MaxSize >= length);
+                        (MinSize <= length) &&
+                        (MaxSize >= length);
             }
             return result;
         }
@@ -271,6 +275,5 @@ namespace IFramework.Core.Zip {
         private long maxSize = long.MaxValue;
 
         #endregion
-
     }
 }

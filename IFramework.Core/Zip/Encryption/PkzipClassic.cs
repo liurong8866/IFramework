@@ -2,14 +2,15 @@ using System;
 using System.Security.Cryptography;
 using IFramework.Core.Zip.Checksum;
 
-namespace IFramework.Core.Zip.Encryption {
+namespace IFramework.Core.Zip.Encryption
+{
     /// <summary>
     /// PkzipClassic embodies the classic or original encryption facilities used in Pkzip archives.
     /// While it has been superceded by more recent and more powerful algorithms, its still in use and
     /// is viable for preventing casual snooping
     /// </summary>
-    public abstract class PkzipClassic : SymmetricAlgorithm {
-
+    public abstract class PkzipClassic : SymmetricAlgorithm
+    {
         /// <summary>
         /// Generates new encryption keys based on given seed
         /// </summary>
@@ -19,14 +20,17 @@ namespace IFramework.Core.Zip.Encryption {
             if (seed == null) {
                 throw new ArgumentNullException(nameof(seed));
             }
+
             if (seed.Length == 0) {
                 throw new ArgumentException("Length is zero", nameof(seed));
             }
+
             uint[] newKeys = {
                 0x12345678,
                 0x23456789,
                 0x34567890
             };
+
             for (int i = 0; i < seed.Length; ++i) {
                 newKeys[0] = Crc32.ComputeCrc32(newKeys[0], seed[i]);
                 newKeys[1] = newKeys[1] + (byte) newKeys[0];
@@ -48,15 +52,14 @@ namespace IFramework.Core.Zip.Encryption {
             result[11] = (byte) ((newKeys[2] >> 24) & 0xff);
             return result;
         }
-
     }
 
     /// <summary>
     /// PkzipClassicCryptoBase provides the low level facilities for encryption
     /// and decryption using the PkzipClassic algorithm.
     /// </summary>
-    internal class PkzipClassicCryptoBase {
-
+    internal class PkzipClassicCryptoBase
+    {
         /// <summary>
         /// Transform a single byte
         /// </summary>
@@ -76,6 +79,7 @@ namespace IFramework.Core.Zip.Encryption {
             if (keyData == null) {
                 throw new ArgumentNullException(nameof(keyData));
             }
+
             if (keyData.Length != 12) {
                 throw new InvalidOperationException("Key length is not valid");
             }
@@ -109,14 +113,13 @@ namespace IFramework.Core.Zip.Encryption {
         private uint[] keys;
 
         #endregion
-
     }
 
     /// <summary>
     /// PkzipClassic CryptoTransform for encryption.
     /// </summary>
-    internal class PkzipClassicEncryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform {
-
+    internal class PkzipClassicEncryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="PkzipClassicEncryptCryptoTransform"></see>
         /// </summary>
@@ -199,14 +202,13 @@ namespace IFramework.Core.Zip.Encryption {
         }
 
         #endregion
-
     }
 
     /// <summary>
     /// PkzipClassic CryptoTransform for decryption.
     /// </summary>
-    internal class PkzipClassicDecryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform {
-
+    internal class PkzipClassicDecryptCryptoTransform : PkzipClassicCryptoBase, ICryptoTransform
+    {
         /// <summary>
         /// Initialise a new instance of <see cref="PkzipClassicDecryptCryptoTransform"></see>.
         /// </summary>
@@ -289,15 +291,14 @@ namespace IFramework.Core.Zip.Encryption {
         }
 
         #endregion
-
     }
 
     /// <summary>
     /// Defines a wrapper object to access the Pkzip algorithm.
     /// This class cannot be inherited.
     /// </summary>
-    public sealed class PkzipClassicManaged : PkzipClassic {
-
+    public sealed class PkzipClassicManaged : PkzipClassic
+    {
         /// <summary>
         /// Get / set the applicable block size in bits.
         /// </summary>
@@ -356,6 +357,7 @@ namespace IFramework.Core.Zip.Encryption {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
                 }
+
                 if (value.Length != 12) {
                     throw new CryptographicException("Key size is illegal");
                 }
@@ -403,6 +405,5 @@ namespace IFramework.Core.Zip.Encryption {
         private byte[] key;
 
         #endregion
-
     }
 }

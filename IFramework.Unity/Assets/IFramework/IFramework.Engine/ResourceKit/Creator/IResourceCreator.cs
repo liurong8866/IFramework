@@ -22,12 +22,13 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// 资源创建者
     /// </summary>
-    public interface IResourceCreator {
-
+    public interface IResourceCreator
+    {
         /// <summary>
         /// 匹配方法
         /// </summary>
@@ -37,6 +38,5 @@ namespace IFramework.Engine {
         /// 创建资源
         /// </summary>
         IResource Create(ResourceSearcher searcher);
-
     }
 }

@@ -22,13 +22,14 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 属性单例类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class SingletonProperty<T> where T : class, ISingleton {
-
+    public static class SingletonProperty<T> where T : class, ISingleton
+    {
         // 静态实例
         private static volatile T instance;
 
@@ -58,6 +59,5 @@ namespace IFramework.Core {
         public static void Dispose() {
             instance = null;
         }
-
     }
 }

@@ -25,9 +25,10 @@
 using System;
 using IFramework.Core;
 
-namespace IFramework.Engine {
-    public class ResourceSearcher : Disposeble, IPoolable, IRecyclable {
-
+namespace IFramework.Engine
+{
+    public class ResourceSearcher : Disposeble, IPoolable, IRecyclable
+    {
         /// <summary>
         /// 资源名称
         /// </summary>
@@ -41,8 +42,7 @@ namespace IFramework.Engine {
         /// <summary>
         /// 资源全称 AssetBundleName.AssetName
         /// </summary>
-        public string FullName =>
-            AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
+        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLowerInvariant() : AssetBundleName.ToLowerInvariant() + "." + AssetName.ToLowerInvariant();
 
         /// <summary>
         /// 资源类型
@@ -56,8 +56,8 @@ namespace IFramework.Engine {
         /// </summary>
         public static ResourceSearcher Allocate(string assetName, string assetBundleName = null, Type assetType = null) {
             ResourceSearcher searcher = ObjectPool<ResourceSearcher>.Instance.Allocate();
-            searcher.AssetName = assetName.ToLower();
-            searcher.AssetBundleName = assetBundleName?.ToLower();
+            searcher.AssetName = assetName.ToLowerInvariant();
+            searcher.AssetBundleName = assetBundleName?.ToLowerInvariant();
             searcher.AssetType = assetType;
             searcher.OriginalAssetName = assetName;
             return searcher;
@@ -69,6 +69,7 @@ namespace IFramework.Engine {
         public bool Match(IResource resource) {
             // 判断名称不相同则退出
             if (resource.AssetName != AssetName) return false;
+
             bool isMatch = true;
 
             // 如果设置了类型，则判断类型相符
@@ -102,6 +103,5 @@ namespace IFramework.Engine {
         protected override void DisposeManaged() {
             Recycle();
         }
-
     }
 }

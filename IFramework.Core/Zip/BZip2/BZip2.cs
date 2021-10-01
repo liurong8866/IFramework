@@ -1,12 +1,13 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.BZip2 {
+namespace IFramework.Core.Zip.BZip2
+{
     /// <summary>
     /// An example class to demonstrate compression and decompression of BZip2 streams.
     /// </summary>
-    public static class BZip2 {
-
+    public static class BZip2
+    {
         /// <summary>
         /// Decompress the <paramref name="inStream">input</paramref> writing 
         /// uncompressed data to the <paramref name="outStream">output stream</paramref>
@@ -18,6 +19,7 @@ namespace IFramework.Core.Zip.BZip2 {
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
+
             try {
                 using (BZip2InputStream bzipInput = new BZip2InputStream(inStream)) {
                     bzipInput.IsStreamOwner = isStreamOwner;
@@ -45,6 +47,7 @@ namespace IFramework.Core.Zip.BZip2 {
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
+
             try {
                 using (BZip2OutputStream bzipOutput = new BZip2OutputStream(outStream, level)) {
                     bzipOutput.IsStreamOwner = isStreamOwner;
@@ -58,6 +61,5 @@ namespace IFramework.Core.Zip.BZip2 {
                 }
             }
         }
-
     }
 }

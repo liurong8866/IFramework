@@ -26,12 +26,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 动画类扩展方法
     /// </summary>
-    public static class AnimatorExtension {
-
+    public static class AnimatorExtension
+    {
         public static void AddAnimatorParameterIfExists(this Animator animator, string parameterName, AnimatorControllerParameterType type, List<string> parameterList) {
             if (animator.HasParameterOfType(parameterName, type)) {
                 parameterList.Add(parameterName);
@@ -216,6 +217,5 @@ namespace IFramework.Core {
             var parameters = self.parameters;
             return parameters.Any(currParam => currParam.type == type && currParam.name == name);
         }
-
     }
 }

@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     /// <summary>
     /// Defines factory methods for creating new <see cref="ZipEntry"></see> values.
     /// </summary>
-    public interface IEntryFactory {
-
+    public interface IEntryFactory
+    {
         /// <summary>
         /// Create a <see cref="ZipEntry"/> for a file given its name
         /// </summary>
@@ -47,6 +48,5 @@ namespace IFramework.Core.Zip.Zip {
         /// Get/set the <see cref="INameTransform"></see> applicable.
         /// </summary>
         INameTransform NameTransform { get; set; }
-
     }
 }

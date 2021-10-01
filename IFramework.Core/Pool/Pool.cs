@@ -24,12 +24,13 @@
 
 using System.Collections.Generic;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 对象池
     /// </summary>
-    public abstract class Pool<T> : IPool<T> {
-
+    public abstract class Pool<T> : IPool<T>
+    {
         // 对象工厂
         protected IFactory<T> factory;
 
@@ -54,6 +55,5 @@ namespace IFramework.Core {
         public int Count {
             get { return cache.Count; }
         }
-
     }
 }

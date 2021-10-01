@@ -25,9 +25,10 @@
 using System.IO;
 using System.Text;
 
-namespace IFramework.Core {
-    public static class FileUtils {
-
+namespace IFramework.Core
+{
+    public static class FileUtils
+    {
         /// <summary>
         /// 读取文件
         /// </summary>
@@ -49,7 +50,7 @@ namespace IFramework.Core {
             fileStream.Write(data, 0, data.Length);
             fileStream.Flush();
         }
-        
+
         /// <summary>
         /// 写入文件
         /// </summary>
@@ -74,6 +75,7 @@ namespace IFramework.Core {
 
             // 读取数据的实际长度
             int count = 0;
+
             while ((count = fileStream.Read(buffer, 0, size)) != 0) {
                 sb.Append(Encoding.UTF8.GetString(buffer, 0, count));
             }
@@ -91,11 +93,11 @@ namespace IFramework.Core {
 
             // 读取数据的实际长度
             int count = 0;
+
             while ((count = Encoding.UTF8.GetBytes(content, 0, size, buffer, 1)) != 0) {
                 fileStream.Write(buffer, 0, count);
                 fileStream.Flush();
             }
         }
-
     }
 }

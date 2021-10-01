@@ -24,9 +24,10 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
-    public class ViewController : MonoBehaviour {
-
+namespace IFramework.Core
+{
+    public class ViewController : MonoBehaviour
+    {
         [HideInInspector] public string Namespace = string.Empty;
 
         [HideInInspector] public string ScriptName;
@@ -36,6 +37,5 @@ namespace IFramework.Core {
         [HideInInspector] public bool GeneratePrefab = false;
 
         [HideInInspector] public string PrefabFolder = string.Empty;
-
     }
 }

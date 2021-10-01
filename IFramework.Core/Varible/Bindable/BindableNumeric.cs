@@ -24,13 +24,14 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可绑定事件的数字类型接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BindableNumeric<T> : AbstractPropertyNumeric<T>, IBindable<T> where T : struct, IConvertible, IComparable {
-
+    public class BindableNumeric<T> : AbstractPropertyNumeric<T>, IBindable<T> where T : struct, IConvertible, IComparable
+    {
         protected BindableNumeric() { }
 
         protected BindableNumeric(T value) {
@@ -58,6 +59,5 @@ namespace IFramework.Core {
         public override void Dispose() {
             OnChange = null;
         }
-
     }
 }

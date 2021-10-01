@@ -26,12 +26,13 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// Unity Object 扩展方法
     /// </summary>
-    public static class ObjectExtention {
-
+    public static class ObjectExtention
+    {
         /* Example
         public delegate void DD();
         
@@ -112,13 +113,13 @@ namespace IFramework.Core {
         }
 
         public static TResult InvokeSafe<T, TResult>(this Func<T, TResult> function, T param) {
-            return function != null ?  function.Invoke(param) : default;
+            return function != null ? function.Invoke(param) : default;
         }
-        
+
         public static TResult InvokeSafe<T, K, TResult>(this Func<T, K, TResult> function, T param1, K param2) {
-            return function != null ?  function.Invoke(param1, param2) : default;
+            return function != null ? function.Invoke(param1, param2) : default;
         }
-        
+
         public static T InvokeAction<T>(this T self, Action<T> action) where T : Object {
             action.InvokeSafe(self);
             return self;
@@ -164,6 +165,5 @@ namespace IFramework.Core {
         public static T FromJson<T>(this string json) where T : class {
             return JsonUtility.FromJson<T>(json);
         }
-
     }
 }

@@ -26,18 +26,19 @@ using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// Asset缓存表
     /// </summary>
-    public sealed class AssetTable : Table<AssetInfo> {
-
+    public sealed class AssetTable : Table<AssetInfo>
+    {
         /// <summary>
         /// 获取资源
         /// </summary>
         public AssetInfo GetAssetInfo(ResourceSearcher searcher) {
             // 在缓存中获取资源
-            string assetName = searcher.AssetName.ToLower();
+            string assetName = searcher.AssetName.ToLowerInvariant();
             List<AssetInfo> assetInfoList = Get(assetName);
             if (assetInfoList.IsNullOrEmpty()) return null;
 
@@ -49,6 +50,7 @@ namespace IFramework.Engine {
             // 过滤AssetType，
             if (searcher.AssetType.IsNotNullOrEmpty()) {
                 short code = searcher.AssetType.ToCode();
+
                 if (code != 0) {
                     List<AssetInfo> newInfo = assetInfoList.Where(info => info.AssetTypeCode == code).ToList();
 
@@ -60,6 +62,5 @@ namespace IFramework.Engine {
             }
             return assetInfoList.FirstOrDefault();
         }
-
     }
 }

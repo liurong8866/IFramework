@@ -22,9 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Core {
-    public interface ICountor {
-
+namespace IFramework.Core
+{
+    public interface ICountor
+    {
         // 数量
         int Counter { get; }
 
@@ -33,6 +34,5 @@ namespace IFramework.Core {
 
         // 释放
         bool UnHold(object owner = null);
-
     }
 }

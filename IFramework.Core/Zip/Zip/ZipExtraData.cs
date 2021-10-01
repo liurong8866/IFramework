@@ -1,15 +1,16 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Zip {
+namespace IFramework.Core.Zip.Zip
+{
     // TODO: Sort out wether tagged data is useful and what a good implementation might look like.
     // Its just a sketch of an idea at the moment.
 
     /// <summary>
     /// ExtraData tagged value interface.
     /// </summary>
-    public interface ITaggedData {
-
+    public interface ITaggedData
+    {
         /// <summary>
         /// Get the ID for this tagged data value.
         /// </summary>
@@ -28,14 +29,13 @@ namespace IFramework.Core.Zip.Zip {
         /// </summary>
         /// <returns>Returns the data for this instance.</returns>
         byte[] GetData();
-
     }
 
     /// <summary>
     /// A raw binary tagged value
     /// </summary>
-    public class RawTaggedData : ITaggedData {
-
+    public class RawTaggedData : ITaggedData
+    {
         /// <summary>
         /// Initialise a new instance.
         /// </summary>
@@ -97,20 +97,19 @@ namespace IFramework.Core.Zip.Zip {
         private byte[] data;
 
         #endregion
-
     }
 
     /// <summary>
     /// Class representing extended unix date time values.
     /// </summary>
-    public class ExtendedUnixData : ITaggedData {
-
+    public class ExtendedUnixData : ITaggedData
+    {
         /// <summary>
         /// Flags indicate which values are included in this instance.
         /// </summary>
         [Flags]
-        public enum Flags : byte {
-
+        public enum Flags : byte
+        {
             /// <summary>
             /// The modification time is included
             /// </summary>
@@ -125,7 +124,6 @@ namespace IFramework.Core.Zip.Zip {
             /// The create time is included.
             /// </summary>
             CreateTime = 0x04,
-
         }
 
         #region ITaggedData Members
@@ -150,21 +148,27 @@ namespace IFramework.Core.Zip.Zip {
                 // bit 1           if set, access time is present
                 // bit 2           if set, creation time is present
                 flags = (Flags) helperStream.ReadByte();
+
                 if (((flags & Flags.ModificationTime) != 0)) {
                     int iTime = helperStream.ReadLeInt();
+
                     modificationTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) +
                                        new TimeSpan(0, 0, 0, iTime, 0);
 
                     // Central-header version is truncated after modification time
                     if (count <= 5) return;
                 }
+
                 if ((flags & Flags.AccessTime) != 0) {
                     int iTime = helperStream.ReadLeInt();
+
                     lastAccessTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) +
                                      new TimeSpan(0, 0, 0, iTime, 0);
                 }
+
                 if ((flags & Flags.CreateTime) != 0) {
                     int iTime = helperStream.ReadLeInt();
+
                     createTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) +
                                  new TimeSpan(0, 0, 0, iTime, 0);
                 }
@@ -180,16 +184,19 @@ namespace IFramework.Core.Zip.Zip {
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 helperStream.IsStreamOwner = false;
                 helperStream.WriteByte((byte) flags); // Flags
+
                 if ((flags & Flags.ModificationTime) != 0) {
                     TimeSpan span = modificationTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     var seconds = (int) span.TotalSeconds;
                     helperStream.WriteLeInt(seconds);
                 }
+
                 if ((flags & Flags.AccessTime) != 0) {
                     TimeSpan span = lastAccessTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     var seconds = (int) span.TotalSeconds;
                     helperStream.WriteLeInt(seconds);
                 }
+
                 if ((flags & Flags.CreateTime) != 0) {
                     TimeSpan span = createTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     var seconds = (int) span.TotalSeconds;
@@ -281,14 +288,13 @@ namespace IFramework.Core.Zip.Zip {
         private DateTime createTime = new DateTime(1970, 1, 1);
 
         #endregion
-
     }
 
     /// <summary>
     /// Class handling NT date time values.
     /// </summary>
-    public class NtTaggedData : ITaggedData {
-
+    public class NtTaggedData : ITaggedData
+    {
         /// <summary>
         /// Get the ID for this tagged data value.
         /// </summary>
@@ -306,9 +312,11 @@ namespace IFramework.Core.Zip.Zip {
             using (MemoryStream ms = new MemoryStream(data, index, count, false))
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 helperStream.ReadLeInt(); // Reserved
+
                 while (helperStream.Position < helperStream.Length) {
                     int ntfsTag = helperStream.ReadLeShort();
                     int ntfsLength = helperStream.ReadLeShort();
+
                     if (ntfsTag == 1) {
                         if (ntfsLength >= 24) {
                             long lastModificationTicks = helperStream.ReadLeLong();
@@ -358,6 +366,7 @@ namespace IFramework.Core.Zip.Zip {
         /// </remarks>
         public static bool IsValidValue(DateTime value) {
             bool result = true;
+
             try {
                 value.ToFileTimeUtc();
             }
@@ -413,14 +422,13 @@ namespace IFramework.Core.Zip.Zip {
         private DateTime createTime = DateTime.FromFileTimeUtc(0);
 
         #endregion
-
     }
 
     /// <summary>
     /// A factory that creates <see cref="ITaggedData">tagged data</see> instances.
     /// </summary>
-    internal interface ITaggedDataFactory {
-
+    internal interface ITaggedDataFactory
+    {
         /// <summary>
         /// Get data for a specific tag value.
         /// </summary>
@@ -430,7 +438,6 @@ namespace IFramework.Core.Zip.Zip {
         /// <param name="count">The number of bytes to extract.</param>
         /// <returns>The located <see cref="ITaggedData">value found</see>, or null if not found.</returns>
         ITaggedData Create(short tag, byte[] data, int offset, int count);
-
     }
 
     ///
@@ -444,8 +451,8 @@ namespace IFramework.Core.Zip.Zip {
     /// means that for extra data created by passing in data can have the values modified by the caller
     /// in some circumstances.
     /// </remarks>
-    sealed public class ZipExtraData : IDisposable {
-
+    sealed public class ZipExtraData : IDisposable
+    {
         #region Constructors
 
         /// <summary>
@@ -504,6 +511,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>Returns a <see cref="Stream"/> containing tag data or null if no tag was found.</returns>
         public Stream GetStreamForTag(int tag) {
             Stream result = null;
+
             if (Find(tag)) {
                 result = new MemoryStream(data, index, readValueLength, false);
             }
@@ -516,8 +524,9 @@ namespace IFramework.Core.Zip.Zip {
         /// <typeparam name="T">The tag to search for.</typeparam>
         /// <returns>Returns a <see cref="ITaggedData">tagged value</see> or null if none found.</returns>
         public T GetData<T>()
-            where T : class, ITaggedData, new() {
+                where T : class, ITaggedData, new() {
             T result = new T();
+
             if (Find(result.TagId)) {
                 result.SetData(data, readValueStart, readValueLength);
                 return result;
@@ -573,11 +582,13 @@ namespace IFramework.Core.Zip.Zip {
             while ((localTag != headerId) && (index < data.Length - 3)) {
                 localTag = ReadShortInternal();
                 localLength = ReadShortInternal();
+
                 if (localTag != headerId) {
                     index += localLength;
                 }
             }
             bool result = (localTag == headerId) && ((index + localLength) <= data.Length);
+
             if (result) {
                 readValueStart = index;
                 readValueLength = localLength;
@@ -607,15 +618,18 @@ namespace IFramework.Core.Zip.Zip {
                 throw new ArgumentOutOfRangeException(nameof(headerId));
             }
             int addLength = (fieldData == null) ? 0 : fieldData.Length;
+
             if (addLength > ushort.MaxValue) {
                 throw new ArgumentOutOfRangeException(nameof(fieldData), "exceeds maximum length");
             }
 
             // Test for new length before adjusting data.
             int newLength = data.Length + addLength + 4;
+
             if (Find(headerId)) {
                 newLength -= (ValueLength + 4);
             }
+
             if (newLength > ushort.MaxValue) {
                 throw new ZipException("Data exceeds maximum length");
             }
@@ -626,6 +640,7 @@ namespace IFramework.Core.Zip.Zip {
             data = newData;
             SetShort(ref index, headerId);
             SetShort(ref index, addLength);
+
             if (fieldData != null) {
                 fieldData.CopyTo(newData, index);
             }
@@ -715,6 +730,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>Returns true if the field was found and deleted.</returns>
         public bool Delete(int headerId) {
             bool result = false;
+
             if (Find(headerId)) {
                 result = true;
                 int trueStart = readValueStart - 4;
@@ -744,6 +760,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>Returns the integer read.</returns>
         public int ReadInt() {
             ReadCheck(4);
+
             int result = data[index] + (data[index + 1] << 8) +
                          (data[index + 2] << 16) + (data[index + 3] << 24);
             index += 4;
@@ -767,6 +784,7 @@ namespace IFramework.Core.Zip.Zip {
         /// <returns>The byte value read or -1 if the end of data has been reached.</returns>
         public int ReadByte() {
             int result = -1;
+
             if ((index < data.Length) && (readValueStart + readValueLength > index)) {
                 result = data[index];
                 index += 1;
@@ -788,9 +806,11 @@ namespace IFramework.Core.Zip.Zip {
                 (readValueStart < 4)) {
                 throw new ZipException("Find must be called before calling a Read method");
             }
+
             if (index > readValueStart + readValueLength - length) {
                 throw new ZipException("End of extra data");
             }
+
             if (index + length < 4) {
                 throw new ZipException("Cannot read before start of tag");
             }
@@ -840,6 +860,5 @@ namespace IFramework.Core.Zip.Zip {
         private byte[] data;
 
         #endregion
-
     }
 }

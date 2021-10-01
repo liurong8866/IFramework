@@ -24,12 +24,13 @@
 
 using System.Collections.Generic;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 链表对象池：存储相关对象
     /// </summary>
-    public static class ListPool<T> {
-
+    public static class ListPool<T>
+    {
         private static int capacity = 10;
 
         /// <summary>
@@ -54,17 +55,15 @@ namespace IFramework.Core {
             release.Clear();
             cache.Push(release);
         }
-
     }
 
-    public static class ListPoolExtensions {
-
+    public static class ListPoolExtensions
+    {
         /// <summary>
         /// 给List拓展 自身入栈 的方法
         /// </summary>
         public static void Recycle<T>(this List<T> self) {
             ListPool<T>.Release(self);
         }
-
     }
 }

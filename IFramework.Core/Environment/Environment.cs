@@ -38,28 +38,25 @@ namespace IFramework.Engine
     /// </summary>
     public sealed class Environment : Singleton<Environment>, IEnvironment
     {
-        private Environment(){} 
-        
+        private Environment() { }
+
         /// <summary>
         /// 获取当前平台名称
         /// </summary>
-        public string RuntimePlatformName
-        {
-#if UNITY_EDITOR
+        public string RuntimePlatformName {
+        #if UNITY_EDITOR
             get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
-#else
+        #else
             get => Platform.GetPlatformName(Application.platform);
-#endif
+        #endif
         }
-        
-#if UNITY_EDITOR
+
+    #if UNITY_EDITOR
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target)
-        {
-            switch (target)
-            { 
+        public string GetPlatformName(BuildTarget target) {
+            switch (target) {
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
@@ -85,72 +82,66 @@ namespace IFramework.Engine
                     return null;
             }
         }
-#endif
-        
+    #endif
+
         /// <summary>
         /// 是否模拟模式
         /// </summary>
-        public bool IsSimulation
-        {
-#if UNITY_EDITOR
+        public bool IsSimulation {
+        #if UNITY_EDITOR
             get { return Configure.IsSimulation.Value; }
             // ReSharper disable once ValueParameterNotUsed
             set { Configure.IsSimulation.Value = true; }
-#else
+        #else
             get { return false; }
             set { }
-#endif
+        #endif
         }
-        
+
         /// <summary>
         /// 文件路径前缀file://
         /// </summary>
-        public string FilePathPrefix
-        {
-            get
-            {
-#if UNITY_EDITOR || UNITY_IOS
+        public string FilePathPrefix {
+            get {
+            #if UNITY_EDITOR || UNITY_IOS
                 return "file://";
-#else
+            #else
                 return string.Empty;
-#endif
+            #endif
             }
         }
 
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
-        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
-        {
-#if UNITY_EDITOR
+        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName) {
+        #if UNITY_EDITOR
             return AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
-#else
+        #else
             return null;
-#endif
+        #endif
         }
-        
+
         /// <summary>
         /// 根据路径、类型获取资源
         /// </summary>
-        public Object LoadAssetAtPath(string assetPath, Type assetType)
-        {
-#if UNITY_EDITOR
+        public Object LoadAssetAtPath(string assetPath, Type assetType) {
+        #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(assetPath, assetType);
-#else
+        #else
             return null;
-#endif
+        #endif
         }
-        
+
         /// <summary>
         /// 根据路径获取资源
         /// </summary>
-        public T LoadAssetAtPath<T>(string assetPath) where T : Object
-        {
-#if UNITY_EDITOR
+        public T LoadAssetAtPath<T>(string assetPath) where T : Object {
+        #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
-#else
+        #else
             return null;
-#endif
+        #endif
         }
 
         /// <summary>
@@ -158,48 +149,43 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
-        {
-#if UNITY_EDITOR
-            
+        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
+        #if UNITY_EDITOR
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
             // 如果没有传入Name，则获取全部AssetBundleName
             string[] assetBundleNameArray = assetBundleNames ?? AssetDatabase.GetAllAssetBundleNames();
-            
+
             // 循环处理所有AssetBundleName
-            foreach (string assetBundleName in assetBundleNameArray)
-            {
+            foreach (string assetBundleName in assetBundleNameArray) {
                 // 获取AssetBundleName是否有依赖，比如 Secne 包含了多个资源
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
                 // 添加AssetBundleName信息到缓存
                 int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
-                if (index < 0)
-                {
+
+                if (index < 0) {
                     continue;
                 }
-                
+
                 // 获取该AssetBundleName下所有资源
                 string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName);
-                
-                foreach (string asset in assets)
-                {
+
+                foreach (string asset in assets) {
                     // 取得资源类型
                     Type type = AssetDatabase.GetMainAssetTypeAtPath(asset);
                     short code = type.ToCode();
 
                     // 取得资源名，小写无扩展名
-                    string assetName = Platform.GetFileNameByPath(asset, false).ToLower();
-                    
+                    string assetName = Platform.GetFileNameByPath(asset, false).ToLowerInvariant();
+
                     // 添加资源到缓存
                     @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")
-                        ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
-                        : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
+                                                          ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
+                                                          : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
                 }
             }
-#endif
+        #endif
         }
-        
     }
 }

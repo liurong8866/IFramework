@@ -22,9 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine {
-    public class NetImageResourceCreator : IResourceCreator {
-
+namespace IFramework.Engine
+{
+    public class NetImageResourceCreator : IResourceCreator
+    {
         public bool Match(ResourceSearcher searcher) {
             return searcher.AssetName.StartsWith(ResourcesUrlType.IMAGE);
         }
@@ -32,6 +33,5 @@ namespace IFramework.Engine {
         public IResource Create(ResourceSearcher searcher) {
             return NetImageResource.Allocate(searcher.AssetName);
         }
-
     }
 }

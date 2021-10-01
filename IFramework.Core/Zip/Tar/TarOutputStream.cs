@@ -1,15 +1,16 @@
 using System;
 using System.IO;
 
-namespace IFramework.Core.Zip.Tar {
+namespace IFramework.Core.Zip.Tar
+{
     /// <summary>
     /// The TarOutputStream writes a UNIX tar archive as an OutputStream.
     /// Methods are provided to put entries, and then write their contents
     /// by writing to this stream using write().
     /// </summary>
     /// public
-    public class TarOutputStream : Stream {
-
+    public class TarOutputStream : Stream
+    {
         #region Constructors
 
         /// <summary>
@@ -17,7 +18,7 @@ namespace IFramework.Core.Zip.Tar {
         /// </summary>
         /// <param name="outputStream">stream to write to</param>
         public TarOutputStream(Stream outputStream)
-            : this(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
+                : this(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
 
         /// <summary>
         /// Construct TarOutputStream with user specified block factor
@@ -195,6 +196,7 @@ namespace IFramework.Core.Zip.Tar {
             if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
+
             if (entry.TarHeader.Name.Length > TarHeader.NAMELEN) {
                 var longHeader = new TarHeader();
                 longHeader.TypeFlag = TarHeader.LF_GNU_LONGNAME;
@@ -209,6 +211,7 @@ namespace IFramework.Core.Zip.Tar {
                 longHeader.WriteHeader(blockBuffer);
                 buffer.WriteBlock(blockBuffer); // Add special long filename header block
                 int nameCharIndex = 0;
+
                 while (nameCharIndex < entry.TarHeader.Name.Length + 1 /* we've allocated one for the null char, now we must make sure it gets written out */) {
                     Array.Clear(blockBuffer, 0, blockBuffer.Length);
                     TarHeader.GetAsciiBytes(entry.TarHeader.Name, nameCharIndex, blockBuffer, 0, TarBuffer.BLOCK_SIZE); // This func handles OK the extra char out of string length
@@ -238,6 +241,7 @@ namespace IFramework.Core.Zip.Tar {
                 currBytes += assemblyBufferLength;
                 assemblyBufferLength = 0;
             }
+
             if (currBytes < currSize) {
                 string errorText = string.Format(
                     "Entry closed at '{0}' before the '{1}' bytes specified in the header were written",
@@ -279,18 +283,22 @@ namespace IFramework.Core.Zip.Tar {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
+
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
             }
+
             if (buffer.Length - offset < count) {
                 throw new ArgumentException("offset and count combination is invalid");
             }
+
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
             }
+
             if ((currBytes + count) > currSize) {
                 string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes",
-                    count, currSize);
+                                                 count, currSize);
                 throw new ArgumentOutOfRangeException(nameof(count), errorText);
             }
 
@@ -392,6 +400,5 @@ namespace IFramework.Core.Zip.Tar {
         protected Stream outputStream;
 
         #endregion
-
     }
 }

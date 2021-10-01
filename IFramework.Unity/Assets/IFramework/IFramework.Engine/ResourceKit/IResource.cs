@@ -26,17 +26,17 @@ using System;
 using System.Collections.Generic;
 using IFramework.Core;
 
-namespace IFramework.Engine {
-    public enum ResourceState {
-
+namespace IFramework.Engine
+{
+    public enum ResourceState
+    {
         Waiting = 0,
         Loading = 1,
         Ready = 2
-
     }
 
-    public interface IResource : ICountor, IRecyclable, IResourceLoadTask {
-
+    public interface IResource : ICountor, IRecyclable, IResourceLoadTask
+    {
         /// <summary>
         /// 资源名称
         /// </summary>
@@ -101,6 +101,5 @@ namespace IFramework.Engine {
         /// 注销资源加载完毕事件
         /// </summary>
         void UnRegisterOnLoadedEvent(Action<bool, IResource> listener);
-
     }
 }

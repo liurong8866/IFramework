@@ -1,12 +1,9 @@
-using System;
-using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class NetAudioExample : MonoBehaviour {
-
+public class NetAudioExample : MonoBehaviour
+{
     private VideoPlayer videoPlayer;
     private AudioSource audioSource;
     ResourceLoader loader = new ResourceLoader();
@@ -27,5 +24,4 @@ public class NetAudioExample : MonoBehaviour {
             });
         loader.LoadAsync();
     }
-
 }

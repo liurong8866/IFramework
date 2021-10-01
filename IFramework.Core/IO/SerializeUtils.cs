@@ -27,9 +27,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace IFramework.Core {
-    public static class SerializeUtils {
-
+namespace IFramework.Core
+{
+    public static class SerializeUtils
+    {
         /// <summary>
         /// 把对象序列化为字节数组
         /// </summary>
@@ -65,6 +66,7 @@ namespace IFramework.Core {
                 Log.Error("反序列化失败：需要序列化的流为NULL");
                 return null;
             }
+
             using (stream) {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return formatter.Deserialize(stream) as T;
@@ -97,10 +99,12 @@ namespace IFramework.Core {
                 Log.Error("反序列化失败：需要序列化的流为NULL");
                 return null;
             }
+
             if (!stream.CanRead) {
                 Log.Error("反序列化失败：需要序列化的流不可读");
                 return null;
             }
+
             using (stream) {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return formatter.Deserialize(stream) as T;
@@ -151,6 +155,7 @@ namespace IFramework.Core {
                 Log.Error("反序列化失败：需要序列化的流为NULL");
                 return null;
             }
+
             if (!stream.CanRead) {
                 Log.Error("反序列化失败：需要序列化的流不可读");
                 return null;
@@ -163,6 +168,5 @@ namespace IFramework.Core {
             BinaryFormatter formatter = new BinaryFormatter();
             return formatter.Deserialize(cryptoStream) as T;
         }
-
     }
 }

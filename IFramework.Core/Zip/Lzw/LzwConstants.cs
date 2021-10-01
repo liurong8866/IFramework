@@ -1,9 +1,10 @@
-namespace IFramework.Core.Zip.Lzw {
+namespace IFramework.Core.Zip.Lzw
+{
     /// <summary>
     /// This class contains constants used for LZW
     /// </summary>
-    sealed public class LzwConstants {
-
+    sealed public class LzwConstants
+    {
         /// <summary>
         /// Magic number found at start of LZW header: 0x1f 0x9d
         /// </summary>
@@ -54,6 +55,5 @@ namespace IFramework.Core.Zip.Lzw {
         public const int INIT_BITS = 9;
 
         private LzwConstants() { }
-
     }
 }

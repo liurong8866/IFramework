@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IFramework.Core.Zip {
+namespace IFramework.Core.Zip
+{
     /// <summary>
     /// NameFilter is a string matching class which allows for both positive and negative
     /// matching.
@@ -18,8 +19,8 @@ namespace IFramework.Core.Zip {
     /// <example>The following expression includes all name ending in '.dat' with the exception of 'dummy.dat'
     /// "+\.dat$;-^dummy\.dat$"
     /// </example>
-    public class NameFilter : IScanFilter {
-
+    public class NameFilter : IScanFilter
+    {
         #region Constructors
 
         /// <summary>
@@ -42,10 +43,11 @@ namespace IFramework.Core.Zip {
         /// <returns>True if expression is a valid <see cref="System.Text.RegularExpressions.Regex"/> false otherwise.</returns>
         public static bool IsValidExpression(string expression) {
             bool result = true;
+
             try {
-#pragma warning disable 0219
+                #pragma warning disable 0219
                 var exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-#pragma warning restore 0219
+                #pragma warning restore 0219
             }
             catch (ArgumentException) {
                 result = false;
@@ -60,12 +62,15 @@ namespace IFramework.Core.Zip {
         /// <returns>True if the expression is valid, false otherwise.</returns>
         public static bool IsValidFilterExpression(string toTest) {
             bool result = true;
+
             try {
                 if (toTest != null) {
                     string[] items = SplitQuoted(toTest);
+
                     for (int i = 0; i < items.Length; ++i) {
                         if ((items[i] != null) && (items[i].Length > 0)) {
                             string toCompile;
+
                             if (items[i][0] == '+') {
                                 toCompile = items[i].Substring(1, items[i].Length - 1);
                             }
@@ -75,9 +80,9 @@ namespace IFramework.Core.Zip {
                             else {
                                 toCompile = items[i];
                             }
-#pragma warning disable 0219
+                            #pragma warning disable 0219
                             var testRegex = new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-#pragma warning restore 0219
+                            #pragma warning restore 0219
                         }
                     }
                 }
@@ -97,16 +102,20 @@ namespace IFramework.Core.Zip {
             char escape = '\\';
             char[] separators = { ';' };
             var result = new List<string>();
+
             if (!string.IsNullOrEmpty(original)) {
                 int endIndex = -1;
                 var b = new StringBuilder();
+
                 while (endIndex < original.Length) {
                     endIndex += 1;
+
                     if (endIndex >= original.Length) {
                         result.Add(b.ToString());
                     }
                     else if (original[endIndex] == escape) {
                         endIndex += 1;
+
                         if (endIndex >= original.Length) {
                             throw new ArgumentException("Missing terminating escape character", nameof(original));
                         }
@@ -145,6 +154,7 @@ namespace IFramework.Core.Zip {
         /// <returns>True if the value is included, false otherwise.</returns>
         public bool IsIncluded(string name) {
             bool result = false;
+
             if (inclusions.Count == 0) {
                 result = true;
             }
@@ -166,6 +176,7 @@ namespace IFramework.Core.Zip {
         /// <returns>True if the value is excluded, false otherwise.</returns>
         public bool IsExcluded(string name) {
             bool result = false;
+
             foreach (Regex r in exclusions) {
                 if (r.IsMatch(name)) {
                     result = true;
@@ -198,10 +209,12 @@ namespace IFramework.Core.Zip {
                 return;
             }
             string[] items = SplitQuoted(filter);
+
             for (int i = 0; i < items.Length; ++i) {
                 if ((items[i] != null) && (items[i].Length > 0)) {
                     bool include = (items[i][0] != '-');
                     string toCompile;
+
                     if (items[i][0] == '+') {
                         toCompile = items[i].Substring(1, items[i].Length - 1);
                     }
@@ -232,6 +245,5 @@ namespace IFramework.Core.Zip {
         private List<Regex> exclusions;
 
         #endregion
-
     }
 }

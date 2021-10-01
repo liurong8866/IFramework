@@ -25,13 +25,14 @@
 using System;
 using IFramework.Core;
 
-namespace IFramework.Engine {
+namespace IFramework.Engine
+{
     /// <summary>
     /// 参与打包的Asset资源信息
     /// </summary>
     [Serializable]
-    public class AssetInfo {
-
+    public class AssetInfo
+    {
         /// <summary>
         /// 资源名称
         /// </summary>
@@ -60,7 +61,7 @@ namespace IFramework.Engine {
         /// <summary>
         /// 资源全称 AssetBundleName.AssetName
         /// </summary>
-        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLower() : AssetBundleName.ToLower() + "." + AssetName.ToLower();
+        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLowerInvariant() : AssetBundleName.ToLowerInvariant() + "." + AssetName.ToLowerInvariant();
 
         public AssetInfo() { }
 
@@ -71,6 +72,5 @@ namespace IFramework.Engine {
             AssetType = assetType;
             AssetTypeCode = assetTypeCode;
         }
-
     }
 }

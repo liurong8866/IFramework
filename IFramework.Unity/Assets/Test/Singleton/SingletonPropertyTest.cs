@@ -1,9 +1,10 @@
 using UnityEngine;
 using IFramework.Core;
 
-namespace IFramework.Test.Singelton {
-    public class SingletonPropertyTest : MonoBehaviour {
-
+namespace IFramework.Test.Singelton
+{
+    public class SingletonPropertyTest : MonoBehaviour
+    {
         // Start is called before the first frame update
         private void Start() {
             SingletonPropertyTestDemo a = SingletonPropertyTestDemo.Instance;
@@ -13,11 +14,10 @@ namespace IFramework.Test.Singelton {
             Debug.Log(b.GetHashCode());
             SingletonPropertyTestDemo.Instance.Say();
         }
-
     }
 
-    public class SingletonPropertyTestDemo : MonoBehaviour, ISingleton {
-
+    public class SingletonPropertyTestDemo : MonoBehaviour, ISingleton
+    {
         // 私有化构造函数，防止外部New创建
         private SingletonPropertyTestDemo() { }
 
@@ -37,6 +37,5 @@ namespace IFramework.Test.Singelton {
         public void Say() {
             Debug.Log("hello world");
         }
-
     }
 }

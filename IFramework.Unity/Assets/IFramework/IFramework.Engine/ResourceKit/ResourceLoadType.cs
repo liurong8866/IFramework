@@ -22,8 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-namespace IFramework.Engine {
-    public static class ResourceLoadType {
+namespace IFramework.Engine
+{
+    public static class ResourceLoadType
+    {
         public const short ASSET_BUNDLE = 0;
         public const short ASSET_BUNDLE_ASSET = 1;
         public const short ASSET_BUNDLE_SCENE = 2;

@@ -24,13 +24,14 @@
 
 using UnityEngine;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// Mono属性单例，支持继承类的单例实例化
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class MonoSingletonProperty<T> where T : MonoBehaviour, ISingleton {
-
+    public static class MonoSingletonProperty<T> where T : MonoBehaviour, ISingleton
+    {
         // 静态实例
         private static volatile T instance;
 
@@ -63,6 +64,5 @@ namespace IFramework.Core {
                 instance = null;
             }
         }
-
     }
 }

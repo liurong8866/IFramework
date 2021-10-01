@@ -24,12 +24,13 @@
 
 using System;
 
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 可持久化的数字类型抽象类
     /// </summary>
-    public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : struct, IConvertible, IComparable {
-
+    public abstract class AbstractConfigNumeric<T> : AbstractPropertyNumeric<T>, IPersistable<T> where T : struct, IConvertible, IComparable
+    {
         protected string key;
 
         protected AbstractConfigNumeric(string key, T value) {
@@ -52,6 +53,5 @@ namespace IFramework.Core {
         public abstract T Get();
 
         public abstract void Save(T value);
-
     }
 }

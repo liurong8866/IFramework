@@ -1,14 +1,15 @@
 using System;
 using System.Security.Cryptography;
 
-namespace IFramework.Core.Zip.Encryption {
+namespace IFramework.Core.Zip.Encryption
+{
     /// <summary>
     /// Transforms stream using AES in CTR mode
     /// </summary>
-    internal class ZipAesTransform : ICryptoTransform {
-
-        private class IncrementalHash : HMACSHA1 {
-
+    internal class ZipAesTransform : ICryptoTransform
+    {
+        private class IncrementalHash : HMACSHA1
+        {
             private bool finalised;
             public IncrementalHash(byte[] key) : base(key) { }
 
@@ -28,13 +29,11 @@ namespace IFramework.Core.Zip.Encryption {
                 }
                 return Hash;
             }
-
         }
 
-        private static class HashAlgorithmName {
-
+        private static class HashAlgorithmName
+        {
             public static string sha1 = null;
-
         }
 
         private const int PWD_VER_LENGTH = 2;
@@ -70,8 +69,10 @@ namespace IFramework.Core.Zip.Encryption {
         public ZipAesTransform(string key, byte[] saltBytes, int blockSize, bool writeMode) {
             if (blockSize != 16 && blockSize != 32) // 24 valid for AES but not supported by Winzip
                 throw new Exception("Invalid blocksize " + blockSize + ". Must be 16 or 32.");
+
             if (saltBytes.Length != blockSize / 2)
                 throw new Exception("Invalid salt len. Must be " + blockSize / 2 + " for blocksize " + blockSize);
+
             // initialise the encryption buffer and buffer pos
             this.blockSize = blockSize;
             encryptBuffer = new byte[this.blockSize];
@@ -103,10 +104,12 @@ namespace IFramework.Core.Zip.Encryption {
 
             // Encrypt with AES in CTR mode. Regards to Dr Brian Gladman for this.
             int ix = 0;
+
             while (ix < inputCount) {
                 if (encrPos == ENCRYPT_BLOCK) {
                     /* increment encryption nonce   */
                     int j = 0;
+
                     while (++counterNonce[j] == 0) {
                         ++j;
                     }
@@ -118,6 +121,7 @@ namespace IFramework.Core.Zip.Encryption {
                 //
                 ix++;
             }
+
             if (writeMode) {
                 // This does not change the buffer.
                 hmacsha1.AppendData(outputBuffer, outputOffset, inputCount);
@@ -187,6 +191,5 @@ namespace IFramework.Core.Zip.Encryption {
         }
 
         #endregion
-
     }
 }

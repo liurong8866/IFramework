@@ -26,9 +26,10 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Test.Viarable {
-    public class ViarableGui : EditorWindow {
-
+namespace IFramework.Test.Viarable
+{
+    public class ViarableGui : EditorWindow
+    {
         private ConfigInt platformIndex;
         private ConfigBool autoGenerateName;
         private ConfigBool isSimulation;
@@ -59,6 +60,5 @@ namespace IFramework.Test.Viarable {
             isSimulation.Value = GUILayout.Toggle(isSimulation.Value, "模拟模式（勾选后每当资源修改时无需再打 AB 包，开发阶段建议勾选，打真机包时取消勾选并打一次 AB 包）");
             GUILayout.Space(10);
         }
-
     }
 }

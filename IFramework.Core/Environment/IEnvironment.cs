@@ -22,26 +22,17 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using Object = UnityEngine.Object;
-
-namespace IFramework.Core {
+namespace IFramework.Core
+{
     /// <summary>
     /// 用于间接调用未能编译DLL的环境相关方法
     /// </summary>
-    public interface IEnvironment {
-
+    public interface IEnvironment
+    {
         string RuntimePlatformName { get; }
 
         string FilePathPrefix { get; }
 
         bool IsSimulation { get; }
-
-        // string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName);
-        //
-        // Object LoadAssetAtPath(string assetPath, Type assetType);
-        //
-        // T LoadAssetAtPath<T>(string assetPath);
-
     }
 }
