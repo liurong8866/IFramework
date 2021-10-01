@@ -98,7 +98,9 @@ namespace IFramework.Editor {
                 AssetBundleBuilder.BuildAssetBundles();
             }
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("生成 AB 常量")) { }
+            if (GUILayout.Button("生成 AB 常量")) {
+                AssetBundleScript.GenerateConstScript();
+            }
             if (GUILayout.Button("清空已生成的 AB 包")) {
                 AssetBundleBuilder.ForceClearAssetBundles();
             }

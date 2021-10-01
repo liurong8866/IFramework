@@ -172,15 +172,20 @@ namespace IFramework.Core {
         /// <summary>
         /// 取得骆驼命名方式
         /// </summary>
-        public static string ToCamel(this string value) {
-            string result = "";
-
-            //如果不为空则
-            if (!value.IsNullOrEmpty()) {
-                result = value[0].ToString().ToLower() + value.Substring(1);
-            }
-            else {
-                result = "";
+        public static string ToCamel(this string value, params char[] separator) {
+            value = value.TrimStart(separator).TrimEnd(separator);
+            if (value.IsNullOrEmpty()) return "";
+            
+            string[] array = value.Split(separator);
+            
+            // 首字母小写
+            string result = array[0][0].ToString().ToLowerInvariant();
+            result += (array[0].Length > 1) ? array[0].Substring(1) : "";
+            
+            // 其余字母大写
+            for (int i = 1; i < array.Length; i++) {
+                result += array[i][0].ToString().ToUpperInvariant();
+                result += (array[i].Length > 1) ? array[i].Substring(1) : "";
             }
             return result;
         }
@@ -188,15 +193,17 @@ namespace IFramework.Core {
         /// <summary>
         /// 取得帕斯卡
         /// </summary>
-        public static string ToPascal(this string value) {
+        public static string ToPascal(this string value, params char[] separator) {
             string result = "";
-
-            //如果不为空则
-            if (!value.IsNullOrEmpty()) {
-                result = value[0].ToString().ToUpper() + value.Substring(1);
-            }
-            else {
-                result = "";
+            value = value.TrimStart(separator).TrimEnd(separator);
+            if (value.IsNullOrEmpty()) return result;
+            
+            string[] array = value.Split(separator);
+            // 全部字母大写
+            foreach (string word in array) {
+                if(word.IsNullOrEmpty()) continue;
+                result += word[0].ToString().ToUpperInvariant();
+                result += (word.Length > 1) ? word.Substring(1) : "";
             }
             return result;
         }

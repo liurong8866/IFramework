@@ -36,7 +36,7 @@ namespace QFramework.Example {
             mResLoader.Load<GameObject>(ResourcesUrlType.RESOURCES + "GameObject")
                 .Instantiate()
                 .Name("这是使用 ResKit 加载的对象");
-            mResLoader.Load<GameObject>("AssetObj")
+            mResLoader.Load<GameObject>(AssetsName.Pack1.ASSETOBJ)
                 .Instantiate()
                 .Name("这是使用通过 AssetName  加载的对象");
             mResLoader.Load<GameObject>("AssetObj", "pack1")

@@ -53,7 +53,7 @@ namespace IFramework.Core {
         public const string ASSET_BUNDLE_CONFIG_FILE_KEY = "AoGI+h3OEA4TcJ1H";
 
         // AssetBundles 生成的脚本文件名称
-        public const string ASSET_BUNDLE_SCRIPT_FILE = "AssetName.cs";
+        public const string ASSET_BUNDLE_SCRIPT_FILE = "AssetsName.cs";
 
         // Double类型数据比较 == 时 精度保留0.000001 有效，超过则视为可接受误差，判断为：相等
         public const double TOLERANCE = 1E-6;

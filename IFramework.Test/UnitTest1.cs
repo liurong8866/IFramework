@@ -16,6 +16,7 @@ namespace IFramework.Test {
             fileNameByPath = Platform.GetFileNameByPath("/1.png", false);
             fileNameByPath = Platform.GetFileNameByPath("/1.png.txt", false);
             fileNameByPath = Platform.GetFileNameByPath("/1.png/txt", false);
+            Assert.Pass();
         }
 
     }
