@@ -227,14 +227,14 @@ namespace IFramework.Core {
         /// <summary>
         /// 根据路径获得资源名
         /// </summary>
-        public static string AssetBundleNameByUrl(string url) {
+        public static string GetAssetBundleNameByUrl(string url) {
             return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
         }
 
         /// <summary>
         /// 根据资源名获得资源路径
         /// </summary>
-        public static string AssetBundleNameToUrl(string name) {
+        public static string GetUrlByAssetBundleName(string name) {
             // 优先返回PersistentAsset路径
             string url = Path.Combine(PersistentData.Root, name);
             return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
@@ -246,11 +246,15 @@ namespace IFramework.Core {
         /// <param name="path">资源路径</param>
         /// <param name="extend">是否包含扩展名</param>
         /// <returns></returns>
-        public static string GetFileNameByPath(string path, bool extend = false) {
+        public static string GetFileNameByPath(string path, bool extend = true) {
+            // 找到最后一个/
             int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) + 1;
+            // 如果不需要扩展名，则截取
             if (!extend) {
+                // 找到最后一个.
                 int length = path.LastIndexOf(".", StringComparison.Ordinal) - startIndex;
-                if (length > 0) {
+                // 如果. 在 / 前面，说明不是后缀扩展名，不处理
+                if (length >= 0) {
                     return path.Substring(startIndex, length);
                 }
             }

@@ -72,7 +72,7 @@ namespace IFramework.Engine {
 
             // 如果不是模拟模式
             if (!Platform.IsSimulation) {
-                string url = Platform.AssetBundleNameToUrl(assetName);
+                string url = Platform.GetUrlByAssetBundleName(assetName);
 
                 // 加载AssetBundle资源
                 AssetBundle = AssetBundle.LoadFromFile(url);
@@ -110,7 +110,7 @@ namespace IFramework.Engine {
                 yield return null;
             }
             else {
-                string url = Platform.AssetBundleNameToUrl(assetName);
+                string url = Platform.GetUrlByAssetBundleName(assetName);
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
                     // 加载AssetBundle资源
                     using UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(url);

@@ -76,7 +76,7 @@ namespace IFramework.Engine {
         /// 通过URL找到所有依赖资源
         /// </summary>
         public string[] GetAllDependenciesByUrl(string url) {
-            string assetBundleName = Platform.AssetBundleNameByUrl(url);
+            string assetBundleName = Platform.GetUrlByAssetBundleName(url);
             string[] depends = null;
             foreach (AssetBundleInfo assetGroup in AssetBundleList) {
                 depends = assetGroup.GetAssetBundleDepends(assetBundleName);

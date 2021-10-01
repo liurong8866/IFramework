@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFramework.Engine", "IFrame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFramework.Editor", "IFramework.Editor\IFramework.Editor.csproj", "{5FB4101F-49A1-4E62-862C-E6B521C6BFA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFramework.Test", "IFramework.Test\IFramework.Test.csproj", "{D8AEF5C3-B27F-408B-9BEA-8E4241564DE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{5FB4101F-49A1-4E62-862C-E6B521C6BFA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FB4101F-49A1-4E62-862C-E6B521C6BFA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FB4101F-49A1-4E62-862C-E6B521C6BFA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8AEF5C3-B27F-408B-9BEA-8E4241564DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8AEF5C3-B27F-408B-9BEA-8E4241564DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8AEF5C3-B27F-408B-9BEA-8E4241564DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8AEF5C3-B27F-408B-9BEA-8E4241564DE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
