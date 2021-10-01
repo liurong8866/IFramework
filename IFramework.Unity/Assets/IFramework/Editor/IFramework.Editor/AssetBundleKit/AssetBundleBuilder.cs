@@ -116,7 +116,7 @@ namespace IFramework.Editor {
             if (assetBundleNames.IsNullOrEmpty()) return;
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);
-            string filePath = Path.Combine((outputPath ?? Platform.StreamingAssetBundlePath).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
+            string filePath = Path.Combine((outputPath ?? Platform.StreamingAssets.Root).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             assetBundleConfig.Save(filePath);
         }
 

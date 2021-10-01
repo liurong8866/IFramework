@@ -53,7 +53,6 @@ namespace IFramework.Engine {
         /// 重写异步加载方法
         /// </summary>
         public override IEnumerator LoadAsync(Action callback) {
-            
             if (Counter <= 0) {
                 OnResourceLoadFailed();
                 callback();
@@ -68,6 +67,9 @@ namespace IFramework.Engine {
                 callback();
                 yield break;
             }
+            // 保存数据
+            SaveData();
+            // 处理数据
             asset = ResolveResult();
             // 销毁连接
             request.Dispose();
@@ -81,7 +83,7 @@ namespace IFramework.Engine {
         /// 缓存数据
         /// </summary>
         private void SaveData() {
-            
+            FileUtils.Write(SavePath, request.downloadHandler.data); 
         }
         
         /// <summary>

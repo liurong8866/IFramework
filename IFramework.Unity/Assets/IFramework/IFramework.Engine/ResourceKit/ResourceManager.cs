@@ -108,7 +108,7 @@ namespace IFramework.Engine {
                 }
                 // 进行过热更新
                 else {
-                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentDataPath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
                 if (configFiles != null) {
                     foreach (string file in configFiles) {
@@ -138,9 +138,8 @@ namespace IFramework.Engine {
                 }
                 // 进行过热更新
                 else {
-                    string persistentPath = Path.Combine(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    string persistentPath = Path.Combine(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
-                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentAssetBundlePath, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
                 foreach (string file in configFiles) {
                     yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);

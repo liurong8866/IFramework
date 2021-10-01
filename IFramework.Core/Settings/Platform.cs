@@ -113,65 +113,108 @@ namespace IFramework.Core {
         public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_PATH), RuntimePlatformName);
 
         /// <summary>
-        /// 内部目录 StreamingAssets文件夹路径
-        /// </summary>
-        public static string StreamingAssetsPath => Application.streamingAssetsPath;
-
-        /// <summary>
-        /// StreamingAssets文件夹下到AssetBundle包
-        /// </summary>
-        public static string StreamingAssetBundlePath => Path.Combine(StreamingAssetsPath, Constant.ASSET_BUNDLE_PATH);
-
-        /// <summary>
         /// 运行时平台StreamAsset/AssetBundle/Platform包路径
         /// </summary>
-        public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssetBundlePath, RuntimePlatformName);
-
-        /// <summary>
-        /// 外部目录 PersistentDataPath文件夹路径
-        /// </summary>
-        public static string PersistentDataPath => Application.persistentDataPath;
-        
+        public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssets.AssetBundlePath, RuntimePlatformName);
         
         /// <summary>
-        /// 外部资源路径 PersistentDataPath/AssetBundle
+        /// StreamingAssets目录类
         /// </summary>
-        public static string PersistentAssetBundlePath {
-            get {
-                if (persistentAssetBundlePath == null) {
-                    persistentAssetBundlePath = Path.Combine(PersistentDataPath, Constant.ASSET_BUNDLE_PATH);
-                    DirectoryUtils.Create(persistentAssetBundlePath);
-                }
-                return persistentAssetBundlePath;
-            }
+        public static class StreamingAssets {
+            /// <summary>
+            /// 内部目录 StreamingAssets文件夹路径
+            /// </summary>
+            public static string Root => Application.streamingAssetsPath;
+            
+            /// <summary>
+            /// StreamingAssets文件夹下到AssetBundle包
+            /// </summary>
+            public static string AssetBundlePath => Path.Combine(Root, Constant.ASSET_BUNDLE_PATH);
+            
         }
         
         /// <summary>
-        /// 外部图片路径 PersistentDataPath/Resources/Images
+        /// PersistentData目录类
         /// </summary>
-        public static string PersistentImagePath => PersistentResourcePath(persistentImagePath, Constant.RESOURCE_IMAGE_PATH);
+        public static class PersistentData {
+            
+            private static string assetBundlePath;
+            private static string imagePath;
+            private static string photoPath;
+            private static string videoPath;
+            private static string audioPath;
+            
+            /// <summary>
+            /// 外部目录 PersistentDataPath文件夹路径
+            /// </summary>
+            public static string Root => Application.persistentDataPath;
 
-        /// <summary>
-        /// 外部头像路径 PersistentDataPath/Resources/Images/Photo
-        /// </summary>
-        public static string PersistentPhotoPath => PersistentResourcePath(persistentPhotoPath, Constant.RESOURCE_PHOTO_PATH);
+            /// <summary>
+            /// 外部路径 PersistentDataPath/AssetBundle
+            /// </summary>
+            public static string AssetBundlePath => ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
 
-        /// <summary>
-        /// 外部头像路径 PersistentDataPath/Resources/Video
-        /// </summary>
-        public static string PersistentVideoPath => PersistentResourcePath(persistentVideoPath, Constant.RESOURCE_VIDEO_PATH);
+            /// <summary>
+            /// 外部路径 PersistentDataPath/Resources/Images
+            /// </summary>
+            public static string ImagePath => ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
 
-        /// <summary>
-        /// 外部头像路径 PersistentDataPath/Resources/Audio
-        /// </summary>
-        public static string PersistentAudioPath => PersistentResourcePath(persistentAudioPath, Constant.RESOURCE_AUDIO_PATH);
+            /// <summary>
+            /// 外部路径 PersistentDataPath/Resources/Images/Photo
+            /// </summary>
+            public static string PhotoPath => ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
+
+            /// <summary>
+            /// 外部路径 PersistentDataPath/Resources/Video
+            /// </summary>
+            public static string VideoPath => ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
+
+            /// <summary>
+            /// 外部路径 PersistentDataPath/Resources/Audio
+            /// </summary>
+            public static string AudioPath => ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
+        }
         
-        private static string PersistentResourcePath(string path, string folder) {
-            if (path == null) {
-                path = Path.Combine(PersistentDataPath, folder);
-                DirectoryUtils.Create(path);
-            }
-            return path;
+        /// <summary>
+        /// TemporaryCache目录类
+        /// </summary>
+        public static class TemporaryCache {
+            
+            private static string assetBundlePath;
+            private static string imagePath;
+            private static string photoPath;
+            private static string videoPath;
+            private static string audioPath;
+            
+            /// <summary>
+            /// 外部目录 temporaryCachePath文件夹路径
+            /// </summary>
+            public static string Root => Application.temporaryCachePath;
+
+            /// <summary>
+            /// 外部路径 temporaryCachePath/AssetBundle
+            /// </summary>
+            public static string AssetBundlePath => ResourcePath(assetBundlePath, Root, Constant.ASSET_BUNDLE_PATH);
+
+            /// <summary>
+            /// 外部路径 temporaryCachePath/Resources/Images
+            /// </summary>
+            public static string ImagePath => ResourcePath(imagePath, Root, Constant.RESOURCE_IMAGE_PATH);
+
+            /// <summary>
+            /// 外部路径 temporaryCachePath/Resources/Images/Photo
+            /// </summary>
+            public static string PhotoPath => ResourcePath(photoPath, Root, Constant.RESOURCE_PHOTO_PATH);
+
+            /// <summary>
+            /// 外部路径 temporaryCachePath/Resources/Video
+            /// </summary>
+            public static string VideoPath => ResourcePath(videoPath, Root, Constant.RESOURCE_VIDEO_PATH);
+
+            /// <summary>
+            /// 外部路径 temporaryCachePath/Resources/Audio
+            /// </summary>
+            public static string AudioPath => ResourcePath(audioPath, Root, Constant.RESOURCE_AUDIO_PATH);
         }
         
         /// <summary>
@@ -185,7 +228,7 @@ namespace IFramework.Core {
         /// 根据路径获得资源名
         /// </summary>
         public static string AssetBundleNameByUrl(string url) {
-            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentAssetBundlePath + "/", "");
+            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
         }
 
         /// <summary>
@@ -193,41 +236,53 @@ namespace IFramework.Core {
         /// </summary>
         public static string AssetBundleNameToUrl(string name) {
             // 优先返回PersistentAsset路径
-            string url = Path.Combine(PersistentAssetBundlePath, name);
+            string url = Path.Combine(PersistentData.Root, name);
             return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
         }
 
         /// <summary>
-        /// 获取资源名称，不包含扩展名
+        /// 获取资源名称，默认不包含扩展名
         /// </summary>
-        public static string AssetPathToName(string assetPath) {
-            var startIndex = assetPath.LastIndexOf("/", StringComparison.Ordinal) + 1;
-            var endIndex = assetPath.LastIndexOf(".", StringComparison.Ordinal);
-            if (endIndex > 0) {
-                var length = endIndex - startIndex;
-                return assetPath.Substring(startIndex, length).ToLower();
+        /// <param name="path">资源路径</param>
+        /// <param name="extend">是否包含扩展名</param>
+        /// <returns></returns>
+        public static string GetFileNameByPath(string path, bool extend = false) {
+            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) + 1;
+            if (!extend) {
+                int length = path.LastIndexOf(".", StringComparison.Ordinal) - startIndex;
+                if (length > 0) {
+                    return path.Substring(startIndex, length);
+                }
             }
-            return assetPath.Substring(startIndex).ToLower();
+            return path.Substring(startIndex);
         }
-
+        
         /*--------------------------- 私有方法、变量 ---------------------------*/
 
         /// <summary>
         /// 先从外部资源获取，如果没有则返回内部资源路径
         /// </summary>
         private static string GetPersistentOrStreamPath(string relativePath) {
-            string path = Path.Combine(PersistentDataPath, relativePath);
+            string path = Path.Combine(PersistentData.Root, relativePath);
             if (File.Exists(path)) {
                 return path;
             }
-            return Path.Combine(StreamingAssetsPath, relativePath);
+            return Path.Combine(StreamingAssets.Root, relativePath);
         }
-
-        private static string persistentAssetBundlePath;
-        private static string persistentImagePath;
-        private static string persistentPhotoPath;
-        private static string persistentVideoPath;
-        private static string persistentAudioPath;
-
+        
+        /// <summary>
+        /// 查找资源路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="root"></param>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        private static string ResourcePath(string path, string root, string folder) {
+            if (path == null) {
+                path = Path.Combine(root, folder);
+                DirectoryUtils.Create(path);
+            }
+            return path;
+        }
     }
 }

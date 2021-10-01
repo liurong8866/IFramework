@@ -35,16 +35,16 @@
     <ItemGroup>
         <Compile Remove="Environment\Environment.cs" />
         <Content Include="Environment\Environment.cs">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Compile Remove="Environment\ZipUtils.cs" />
-        <Compile Remove="Environment\Zip.cs" />
-        <Content Include="Environment\Zip.cs">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
         <Compile Remove="Environment\IFramework.cs" />
         <Content Include="Environment\IFramework.cs">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Compile Remove="Environment\Zip.cs" />
+        <Content Include="Environment\Zip.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

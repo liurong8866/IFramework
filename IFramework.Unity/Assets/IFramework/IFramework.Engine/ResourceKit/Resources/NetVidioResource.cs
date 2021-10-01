@@ -55,10 +55,10 @@ namespace IFramework.Engine {
         /// 获取对象
         /// </summary>
         protected override Object ResolveResult() {
-            byte[] data = ((DownloadHandlerBuffer) request.downloadHandler).data;
-            string path = Platform.PersistentDataPath + "/Resources/";
-            DirectoryUtils.Create(path);
-            FileUtils.Write(path + "myvideo.mp4", data);
+            // byte[] data = ((DownloadHandlerBuffer) request.downloadHandler).data;
+            // string path = Platform.PersistentDataPath + "/Resources/";
+            // DirectoryUtils.Create(path);
+            // FileUtils.Write(path + "myvideo.mp4", data);
             // VideoClip videoClip = Resources.L("file://"+path + "myvideo") as VideoClip;
             return null;
         }

@@ -28,16 +28,17 @@ using UnityEngine.Networking;
 
 namespace IFramework.Engine {
     public class NetImageResource : AbstractNetResource {
+
+        private string savePath;
         
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetImageResource Allocate(string path) {
+        public static NetImageResource Allocate(string url) {
             NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
             if (resource != null) {
-                resource.AssetName = path;
-                // resource.fileName = path.GetHashCode().ToString() + Platform.AssetBundleNameByUrl();
-                resource.request = UnityWebRequestTexture.GetTexture(path.Substring(ResourcesUrlType.NET_IMAGE.Length));
+                resource.AssetName = url;
+                resource.request = UnityWebRequestTexture.GetTexture(url.Substring(ResourcesUrlType.NET_IMAGE.Length));
             }
             return resource;
         }
@@ -45,12 +46,7 @@ namespace IFramework.Engine {
         /// <summary>
         /// 保存路径
         /// </summary>
-        protected override string SavePath {
-            get {
-                string path = Platform.PersistentImagePath + this.AssetName.GetHashCode();
-                return "";
-            }
-        }
+        protected override string SavePath => savePath;
         
         /// <summary>
         /// 获取对象
