@@ -26,7 +26,7 @@ namespace IFramework.Engine {
     public class NetVideoResourceCreator : IResourceCreator {
 
         public bool Match(ResourceSearcher searcher) {
-            return searcher.AssetName.StartsWith(ResourcesUrlType.NET_VIDEO);
+            return searcher.AssetName.StartsWith(ResourcesUrlType.VIDEO);
         }
 
         public IResource Create(ResourceSearcher searcher) {

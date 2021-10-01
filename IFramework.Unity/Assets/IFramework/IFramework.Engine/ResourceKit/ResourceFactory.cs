@@ -41,7 +41,8 @@ namespace IFramework.Engine {
             new AssetResourceCreator(),
             new ResourceCreator(),
             new NetImageResourceCreator(),
-            new NetVideoResourceCreator()
+            new NetVideoResourceCreator(),
+            new NetAudioResourceCreator()
         };
 
         /// <summary>

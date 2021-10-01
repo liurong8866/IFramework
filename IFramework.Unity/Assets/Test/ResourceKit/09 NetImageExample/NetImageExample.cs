@@ -1,18 +1,23 @@
+using System;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class NetImageExample : MonoBehaviour {
 
+    private VideoPlayer videoPlayer;
     ResourceLoader loader = new ResourceLoader();
+
+    private void Awake() {
+        videoPlayer = gameObject.GetComponent<VideoPlayer>();
+    }
 
     void Start() {
         Image image = transform.Find("Image").GetComponent<Image>();
         loader.AddToLoad<Texture2D>(
-            ResourcesUrlType.NET_IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg",
-            // ResourcesUrlType.NET_VIDEO + "https://vd3.bdstatic.com/mda-ka5ayxd86t7z2h1r/mda-ka5ayxd86t7z2h1r.mp4?pd=22",
-
+            ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg",
             (b, res) => {
                 if (b) {
                     var texture = res.Asset as Texture2D;

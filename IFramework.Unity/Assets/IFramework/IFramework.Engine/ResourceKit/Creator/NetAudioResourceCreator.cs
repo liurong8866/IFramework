@@ -23,14 +23,16 @@
  *****************************************************************************/
 
 namespace IFramework.Engine {
-    public class NetImageResourceCreator : IResourceCreator {
+    public class NetAudioResourceCreator : IResourceCreator {
 
         public bool Match(ResourceSearcher searcher) {
-            return searcher.AssetName.StartsWith(ResourcesUrlType.IMAGE);
+            return searcher.AssetName.StartsWith(ResourcesUrlType.AUDIO_MP3) 
+                   || searcher.AssetName.StartsWith(ResourcesUrlType.AUDIO_WAV)
+                   || searcher.AssetName.StartsWith(ResourcesUrlType.AUDIO_OGG) ;
         }
 
         public IResource Create(ResourceSearcher searcher) {
-            return NetImageResource.Allocate(searcher.AssetName);
+            return NetAudioResource.Allocate(searcher.AssetName);
         }
 
     }
