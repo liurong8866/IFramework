@@ -53,7 +53,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配实例
         /// </summary>
-        public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null) {
+        public static AssetResource Allocate(string assetName, string assetBundleName = null, Type assetType = null)
+        {
             AssetResource resource = ObjectPool<AssetResource>.Instance.Allocate();
 
             if (resource != null) {
@@ -68,7 +69,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化AssetBundleName
         /// </summary>
-        protected void InitAssetBundleName() {
+        protected void InitAssetBundleName()
+        {
             assetBundleNameConfig = null;
 
             // 在config文件中查找资源
@@ -91,7 +93,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load() {
+        public override bool Load()
+        {
             if (!IsLoadable || assetBundleNameConfig.IsNullOrEmpty()) return false;
 
             Object obj;
@@ -145,7 +148,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override void LoadASync() {
+        public override void LoadASync()
+        {
             if (!IsLoadable) return;
 
             // TODO 注释后支持直接AssetName引用，原代码必须含有AssetBundleName
@@ -157,7 +161,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override IEnumerator LoadAsync(Action callback) {
+        public override IEnumerator LoadAsync(Action callback)
+        {
             // 如果没有等待加载的资源，则退出
             if (Counter <= 0) {
                 OnResourceLoadFailed();
@@ -238,19 +243,23 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源依赖
         /// </summary>
-        public override List<string> GetDependResourceList() {
+        public override List<string> GetDependResourceList()
+        {
             return assetBundleNameConfig != null ? new List<string>() { assetBundleNameConfig } : null;
         }
 
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<AssetResource>.Instance.Recycle(this);
         }
 
-        public override void OnRecycled() {
+        public override void OnRecycled()
+        {
             assetBundleNameConfig = null;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
         }
     }

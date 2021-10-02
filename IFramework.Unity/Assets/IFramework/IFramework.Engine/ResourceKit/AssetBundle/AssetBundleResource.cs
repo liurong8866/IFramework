@@ -49,7 +49,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配实例
         /// </summary>
-        public static AssetBundleResource Allocate(string assetName) {
+        public static AssetBundleResource Allocate(string assetName)
+        {
             AssetBundleResource resource = ObjectPool<AssetBundleResource>.Instance.Allocate();
             resource.AssetName = assetName;
             resource.AssetType = typeof(AssetBundle);
@@ -60,14 +61,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化AssetBundleName
         /// </summary>
-        private void InitAssetBundleName() {
+        private void InitAssetBundleName()
+        {
             dependResources = AssetBundleConfig.ConfigFile.GetAllDependenciesByUrl(AssetName);
         }
 
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load() {
+        public override bool Load()
+        {
             if (!IsLoadable) return false;
 
             State = ResourceState.Loading;
@@ -93,7 +96,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override void LoadASync() {
+        public override void LoadASync()
+        {
             if (!IsLoadable) return;
 
             State = ResourceState.Loading;
@@ -103,7 +107,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载
         /// </summary>
-        public override IEnumerator LoadAsync(Action callback) {
+        public override IEnumerator LoadAsync(Action callback)
+        {
             // 如果没有等待加载的资源，则退出
             if (Counter <= 0) {
                 OnResourceLoadFailed();
@@ -157,7 +162,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public override List<string> GetDependResourceList() {
+        public override List<string> GetDependResourceList()
+        {
             return dependResources?.ToList();
         }
 
@@ -173,17 +179,20 @@ namespace IFramework.Engine
             }
         }
 
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<AssetBundleResource>.Instance.Recycle(this);
         }
 
-        public override void OnRecycled() {
+        public override void OnRecycled()
+        {
             base.OnRecycled();
             unloadFlag = true;
             dependResources = null;
         }
 
-        protected override void OnReleaseResource() {
+        protected override void OnReleaseResource()
+        {
             if (AssetBundle != null) {
                 AssetBundle.Unload(unloadFlag);
                 AssetBundle = null;

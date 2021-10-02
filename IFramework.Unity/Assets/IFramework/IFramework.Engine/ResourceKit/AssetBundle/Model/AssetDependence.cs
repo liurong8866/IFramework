@@ -37,7 +37,8 @@ namespace IFramework.Engine
 
         public string[] Depends;
 
-        public AssetDependence(string assetBundleName, string[] depends) {
+        public AssetDependence(string assetBundleName, string[] depends)
+        {
             this.AssetBundleName = assetBundleName;
 
             if (depends.IsNotNullOrEmpty()) {
@@ -45,7 +46,8 @@ namespace IFramework.Engine
             }
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             string result = "AssetName: " + AssetBundleName;
 
             if (Depends != null) {

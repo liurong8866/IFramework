@@ -33,14 +33,16 @@ namespace IFramework.Test.Extention
 
     public class ExtentionTest : MonoBehaviour
     {
-        private void Start() {
+        private void Start()
+        {
             ObjectExtentionTest();
 
             // GameObjectExtentionTest();
             // TransformExtentiontest();
         }
 
-        private void ObjectExtentionTest() {
+        private void ObjectExtentionTest()
+        {
             Object gameObject = new GameObject();
 
             gameObject
@@ -68,7 +70,8 @@ namespace IFramework.Test.Extention
             gameObject.InvokeAction<Object>((a) => { a.DestroySelf(); });
         }
 
-        private void GameObjectExtentionTest() {
+        private void GameObjectExtentionTest()
+        {
             var gameObject = new GameObject();
             gameObject.Name("testObject");
             var transform = gameObject.transform;
@@ -107,7 +110,8 @@ namespace IFramework.Test.Extention
             // transform.Layer("Default");
         }
 
-        private void TransformExtentiontest() {
+        private void TransformExtentiontest()
+        {
             GameObject obj = new GameObject();
 
             obj.transform

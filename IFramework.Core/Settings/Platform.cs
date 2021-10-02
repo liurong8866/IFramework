@@ -77,7 +77,8 @@ namespace IFramework.Core
         /// <summary>
         /// 运行时平台名称
         /// </summary>
-        public static string GetPlatformName(RuntimePlatform platform) {
+        public static string GetPlatformName(RuntimePlatform platform)
+        {
             switch (platform) {
                 case RuntimePlatform.WindowsPlayer:
                     return "Windows";
@@ -228,14 +229,16 @@ namespace IFramework.Core
         /// <summary>
         /// 根据路径获得资源名
         /// </summary>
-        public static string GetAssetBundleNameByUrl(string url) {
+        public static string GetAssetBundleNameByUrl(string url)
+        {
             return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
         }
 
         /// <summary>
         /// 根据资源名获得资源路径
         /// </summary>
-        public static string GetUrlByAssetBundleName(string name) {
+        public static string GetUrlByAssetBundleName(string name)
+        {
             // 优先返回PersistentAsset路径
             string url = Path.Combine(PersistentData.Root, name);
             return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
@@ -247,7 +250,8 @@ namespace IFramework.Core
         /// <param name="path">资源路径</param>
         /// <param name="extend">是否包含扩展名</param>
         /// <returns></returns>
-        public static string GetFileNameByPath(string path, bool extend = true) {
+        public static string GetFileNameByPath(string path, bool extend = true)
+        {
             // 找到最后一个/
             int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) + 1;
 
@@ -267,7 +271,8 @@ namespace IFramework.Core
         /// <summary>
         /// 获取资源路径，不包含文件名
         /// </summary>
-        public static string GetFilePathByPath(string path) {
+        public static string GetFilePathByPath(string path)
+        {
             // 找到最后一个/
             int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) - 1;
             return path.Substring(0, startIndex);
@@ -278,7 +283,8 @@ namespace IFramework.Core
         /// <summary>
         /// 先从外部资源获取，如果没有则返回内部资源路径
         /// </summary>
-        private static string GetPersistentOrStreamPath(string relativePath) {
+        private static string GetPersistentOrStreamPath(string relativePath)
+        {
             string path = Path.Combine(PersistentData.Root, relativePath);
 
             if (File.Exists(path)) {
@@ -294,7 +300,8 @@ namespace IFramework.Core
         /// <param name="root"></param>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private static string ResourcePath(string path, string root, string folder) {
+        private static string ResourcePath(string path, string root, string folder)
+        {
             if (path == null) {
                 path = Path.Combine(root, folder);
                 DirectoryUtils.Create(path);

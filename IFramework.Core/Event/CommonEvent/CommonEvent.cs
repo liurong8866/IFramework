@@ -41,7 +41,8 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public bool RegisterEvent<T>(T key, TEvent action) where T : IConvertible {
+        public bool RegisterEvent<T>(T key, TEvent action) where T : IConvertible
+        {
             int keyValue = key.ToInt32(null);
 
             if (!listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
@@ -54,7 +55,8 @@ namespace IFramework.Core
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public void UnRegisterEvent<T>(T key, TEvent action) where T : IConvertible {
+        public void UnRegisterEvent<T>(T key, TEvent action) where T : IConvertible
+        {
             if (listenerMap.TryGetValue(key.ToInt32(null), out EventListener<TEvent> listener)) {
                 listener?.Remove(action);
             }
@@ -63,7 +65,8 @@ namespace IFramework.Core
         /// <summary>
         /// 取消注册某一类型事件
         /// </summary>
-        public void UnRegisterEvent<T>(T key) where T : IConvertible {
+        public void UnRegisterEvent<T>(T key) where T : IConvertible
+        {
             var keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
@@ -76,7 +79,8 @@ namespace IFramework.Core
         /// <summary>
         /// 发送消息
         /// </summary>
-        public bool SendEvent<T>(T key) where T : IConvertible {
+        public bool SendEvent<T>(T key) where T : IConvertible
+        {
             int keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
@@ -90,7 +94,8 @@ namespace IFramework.Core
         /// <summary>
         /// 发送消息
         /// </summary>
-        public bool SendEvent<T>(T key, params object[] param) where T : IConvertible {
+        public bool SendEvent<T>(T key, params object[] param) where T : IConvertible
+        {
             int keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
@@ -104,7 +109,8 @@ namespace IFramework.Core
         /// <summary>
         /// 回收资源
         /// </summary>
-        public void OnRecycled() {
+        public void OnRecycled()
+        {
             listenerMap.Clear();
         }
 
@@ -117,35 +123,40 @@ namespace IFramework.Core
         /// <summary>
         /// 发送无参数消息
         /// </summary>
-        public static bool Send<T>(T key) where T : IConvertible {
+        public static bool Send<T>(T key) where T : IConvertible
+        {
             return Instance.SendEvent(key);
         }
 
         /// <summary>
         /// 发送有参数消息
         /// </summary>
-        public static bool Send<T>(T key, params object[] param) where T : IConvertible {
+        public static bool Send<T>(T key, params object[] param) where T : IConvertible
+        {
             return Instance.SendEvent(key, param);
         }
 
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static bool Register<T>(T key, TEvent action) where T : IConvertible {
+        public static bool Register<T>(T key, TEvent action) where T : IConvertible
+        {
             return Instance.RegisterEvent(key, action);
         }
 
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible {
+        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible
+        {
             Instance.UnRegisterEvent(key, action);
         }
 
         /// <summary>
         /// 取消注册某一类型事件
         /// </summary>
-        public static void UnRegister<T>(T key) where T : IConvertible {
+        public static void UnRegister<T>(T key) where T : IConvertible
+        {
             Instance.UnRegisterEvent(key);
         }
     }
@@ -158,7 +169,8 @@ namespace IFramework.Core
         private LinkedList<T> eventList;
 
         // 调用方法
-        public bool Invoke(int key, params object[] param) {
+        public bool Invoke(int key, params object[] param)
+        {
             if (eventList == null || eventList.Count == 0) {
                 return false;
             }
@@ -182,7 +194,8 @@ namespace IFramework.Core
         }
 
         // 添加监听消息
-        public bool Add(T listener) {
+        public bool Add(T listener)
+        {
             eventList ??= new LinkedList<T>();
             if (eventList.Contains(listener)) return false;
 
@@ -191,14 +204,16 @@ namespace IFramework.Core
         }
 
         // 移除监听消息
-        public void Remove(T listener) {
+        public void Remove(T listener)
+        {
             if (eventList != null && eventList.Count > 0) {
                 eventList.Remove(listener);
             }
         }
 
         // 清空所有监听消息
-        public void Clear() {
+        public void Clear()
+        {
             if (eventList != null && eventList.Count > 0) {
                 eventList.Clear();
             }

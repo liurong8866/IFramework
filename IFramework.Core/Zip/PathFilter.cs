@@ -16,7 +16,8 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="PathFilter"></see>.
         /// </summary>
         /// <param name="filter">The <see cref="NameFilter">filter</see> expression to apply.</param>
-        public PathFilter(string filter) {
+        public PathFilter(string filter)
+        {
             nameFilter = new NameFilter(filter);
         }
 
@@ -30,7 +31,8 @@ namespace IFramework.Core.Zip
         /// <param name="name">The name to test.</param>
         /// <returns>True if the name matches, false otherwise.</returns>
         /// <remarks><see cref="Path.GetFullPath(string)"/> is used to get the full path before matching.</remarks>
-        public virtual bool IsMatch(string name) {
+        public virtual bool IsMatch(string name)
+        {
             bool result = false;
 
             if (name != null) {
@@ -67,7 +69,8 @@ namespace IFramework.Core.Zip
         /// <param name="maxSize">The maximum file size to include.</param>
         public ExtendedPathFilter(string filter,
                                   long minSize, long maxSize)
-                : base(filter) {
+                : base(filter)
+        {
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -80,7 +83,8 @@ namespace IFramework.Core.Zip
         /// <param name="maxDate">The maximum <see cref="DateTime"/> to include.</param>
         public ExtendedPathFilter(string filter,
                                   DateTime minDate, DateTime maxDate)
-                : base(filter) {
+                : base(filter)
+        {
             MinDate = minDate;
             MaxDate = maxDate;
         }
@@ -96,7 +100,8 @@ namespace IFramework.Core.Zip
         public ExtendedPathFilter(string filter,
                                   long minSize, long maxSize,
                                   DateTime minDate, DateTime maxDate)
-                : base(filter) {
+                : base(filter)
+        {
             MinSize = minSize;
             MaxSize = maxSize;
             MinDate = minDate;
@@ -113,7 +118,8 @@ namespace IFramework.Core.Zip
         /// <param name="name">The filename to test.</param>
         /// <returns>True if the filter matches, false otherwise.</returns>
         /// <exception cref="System.IO.FileNotFoundException">The <see paramref="fileName"/> doesnt exist</exception>
-        public override bool IsMatch(string name) {
+        public override bool IsMatch(string name)
+        {
             bool result = base.IsMatch(name);
 
             if (result) {
@@ -219,7 +225,8 @@ namespace IFramework.Core.Zip
         /// <param name="minSize">The minimum file size to include.</param>
         /// <param name="maxSize">The maximum file size to include.</param>
         public NameAndSizeFilter(string filter, long minSize, long maxSize)
-                : base(filter) {
+                : base(filter)
+        {
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -229,7 +236,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The filename to test.</param>
         /// <returns>True if the filter matches, false otherwise.</returns>
-        public override bool IsMatch(string name) {
+        public override bool IsMatch(string name)
+        {
             bool result = base.IsMatch(name);
 
             if (result) {

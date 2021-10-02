@@ -44,7 +44,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 查找所有类Package.asset包，确定打包空间
         /// </summary>
-        public static List<AssetBundlePackage> GetPackageList() {
+        public static List<AssetBundlePackage> GetPackageList()
+        {
             //找到所有.asset文件，筛选出Package类型及子类生成的文件
             var list = AssetDatabase.GetAllAssetPaths()
                                     .Where(path => path.EndsWith(".asset"))
@@ -69,7 +70,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 划分默认包、子包
         /// </summary>
-        public static void SplitPackage(AssetBundlePackage defaultPackage, List<AssetBundlePackage> subPackages) {
+        public static void SplitPackage(AssetBundlePackage defaultPackage, List<AssetBundlePackage> subPackages)
+        {
             // 获取所有标记的AssetBundle资源
             string[] assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
 

@@ -34,18 +34,21 @@ namespace IFramework.Core
     {
         protected BindableNumeric() { }
 
-        protected BindableNumeric(T value) {
+        protected BindableNumeric(T value)
+        {
             this.value = value;
         }
 
         // 绑定事件
         public Action<T> OnChange { get; set; }
 
-        protected override T GetValue() {
+        protected override T GetValue()
+        {
             return value;
         }
 
-        protected override void SetValue(T value) {
+        protected override void SetValue(T value)
+        {
             if (IsValueChanged(value)) {
                 this.value = value;
                 OnChange?.Invoke(value);
@@ -56,7 +59,8 @@ namespace IFramework.Core
         /// <summary>
         /// 注销事件
         /// </summary>
-        public override void Dispose() {
+        public override void Dispose()
+        {
             OnChange = null;
         }
     }

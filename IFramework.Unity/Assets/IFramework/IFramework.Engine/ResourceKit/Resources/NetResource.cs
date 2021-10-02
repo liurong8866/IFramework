@@ -39,14 +39,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load() {
+        public override bool Load()
+        {
             throw new NotImplementedException("请使用LoadASync方法加载网络资源！");
         }
 
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override void LoadASync() {
+        public override void LoadASync()
+        {
             if (!IsLoadable || AssetName.IsNullOrEmpty() || Counter <= 0) return;
 
             State = ResourceState.Loading;
@@ -56,7 +58,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 重写异步加载方法
         /// </summary>
-        public override IEnumerator LoadAsync(Action callback) {
+        public override IEnumerator LoadAsync(Action callback)
+        {
             if (Counter <= 0) {
                 OnResourceLoadFailed();
                 callback();
@@ -85,7 +88,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 缓存数据
         /// </summary>
-        private void SaveData() {
+        private void SaveData()
+        {
             // 如果文件不存在，则保存
             if (!File.Exists(FullName)) {
                 try {
@@ -121,7 +125,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
         /// </summary>
-        ~AbstractNetResource() {
+        ~AbstractNetResource()
+        {
             //必须为false
             Dispose(false);
         }
@@ -129,7 +134,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现IDisposable中的Dispose方法
         /// </summary>
-        public override void Dispose() {
+        public override void Dispose()
+        {
             base.Dispose();
             //必须为true
             Dispose(true);
@@ -141,7 +147,8 @@ namespace IFramework.Engine
         /// 非密封类修饰用
         /// </summary>
         /// <param name="disposing">是否注销托管资源</param>
-        protected virtual void Dispose(bool disposing) {
+        protected virtual void Dispose(bool disposing)
+        {
             // 不要多次处理 
             if (!disposed) {
                 if (disposing) {

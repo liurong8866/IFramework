@@ -35,7 +35,8 @@ namespace IFramework.Engine
 
         private readonly IResource resource;
 
-        public CallbackCleaner(IResource resource, Action<bool, IResource> callback) {
+        public CallbackCleaner(IResource resource, Action<bool, IResource> callback)
+        {
             this.resource = resource;
             this.callbacks = callback;
         }
@@ -43,14 +44,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放监听的事件
         /// </summary>
-        public void Release() {
+        public void Release()
+        {
             resource.UnRegisterOnLoadedEvent(callbacks);
         }
 
         /// <summary>
         /// 判断是否是当前资源
         /// </summary>
-        public bool Is(IResource resource) {
+        public bool Is(IResource resource)
+        {
             return this.resource.AssetName == resource.AssetName;
         }
     }

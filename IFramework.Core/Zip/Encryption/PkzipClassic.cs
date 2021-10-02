@@ -16,7 +16,8 @@ namespace IFramework.Core.Zip.Encryption
         /// </summary>
         /// <param name="seed">The seed value to initialise keys with.</param>
         /// <returns>A new key value.</returns>
-        static public byte[] GenerateKeys(byte[] seed) {
+        static public byte[] GenerateKeys(byte[] seed)
+        {
             if (seed == null) {
                 throw new ArgumentNullException(nameof(seed));
             }
@@ -66,7 +67,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <returns>
         /// The transformed value
         /// </returns>
-        protected byte TransformByte() {
+        protected byte TransformByte()
+        {
             uint temp = ((keys[2] & 0xFFFF) | 2);
             return (byte) ((temp * (temp ^ 1)) >> 8);
         }
@@ -75,7 +77,8 @@ namespace IFramework.Core.Zip.Encryption
         /// Set the key schedule for encryption/decryption.
         /// </summary>
         /// <param name="keyData">The data use to set the keys from.</param>
-        protected void SetKeys(byte[] keyData) {
+        protected void SetKeys(byte[] keyData)
+        {
             if (keyData == null) {
                 throw new ArgumentNullException(nameof(keyData));
             }
@@ -92,7 +95,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Update encryption keys
         /// </summary>
-        protected void UpdateKeys(byte ch) {
+        protected void UpdateKeys(byte ch)
+        {
             keys[0] = Crc32.ComputeCrc32(keys[0], ch);
             keys[1] = keys[1] + (byte) keys[0];
             keys[1] = keys[1] * 134775813 + 1;
@@ -102,7 +106,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Reset the internal state.
         /// </summary>
-        protected void Reset() {
+        protected void Reset()
+        {
             keys[0] = 0;
             keys[1] = 0;
             keys[2] = 0;
@@ -124,7 +129,8 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicEncryptCryptoTransform"></see>
         /// </summary>
         /// <param name="keyBlock">The key block to use.</param>
-        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock) {
+        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock)
+        {
             SetKeys(keyBlock);
         }
 
@@ -137,7 +143,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="inputOffset">The offset into the byte array from which to begin using data.</param>
         /// <param name="inputCount">The number of bytes in the byte array to use as data.</param>
         /// <returns>The computed transform.</returns>
-        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount) {
+        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+        {
             byte[] result = new byte[inputCount];
             TransformBlock(inputBuffer, inputOffset, inputCount, result, 0);
             return result;
@@ -153,7 +160,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="outputBuffer">The output to which to write the transform.</param>
         /// <param name="outputOffset">The offset into the output byte array from which to begin writing data.</param>
         /// <returns>The number of bytes written.</returns>
-        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset) {
+        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+        {
             for (int i = inputOffset; i < inputOffset + inputCount; ++i) {
                 byte oldbyte = inputBuffer[i];
                 outputBuffer[outputOffset++] = (byte) (inputBuffer[i] ^ TransformByte());
@@ -197,7 +205,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             Reset();
         }
 
@@ -213,7 +222,8 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicDecryptCryptoTransform"></see>.
         /// </summary>
         /// <param name="keyBlock">The key block to decrypt with.</param>
-        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock) {
+        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock)
+        {
             SetKeys(keyBlock);
         }
 
@@ -226,7 +236,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="inputOffset">The offset into the byte array from which to begin using data.</param>
         /// <param name="inputCount">The number of bytes in the byte array to use as data.</param>
         /// <returns>The computed transform.</returns>
-        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount) {
+        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+        {
             byte[] result = new byte[inputCount];
             TransformBlock(inputBuffer, inputOffset, inputCount, result, 0);
             return result;
@@ -242,7 +253,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="outputBuffer">The output to which to write the transform.</param>
         /// <param name="outputOffset">The offset into the output byte array from which to begin writing data.</param>
         /// <returns>The number of bytes written.</returns>
-        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset) {
+        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+        {
             for (int i = inputOffset; i < inputOffset + inputCount; ++i) {
                 var newByte = (byte) (inputBuffer[i] ^ TransformByte());
                 outputBuffer[outputOffset++] = newByte;
@@ -286,7 +298,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             Reset();
         }
 
@@ -327,7 +340,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Generate an initial vector.
         /// </summary>
-        public override void GenerateIV() {
+        public override void GenerateIV()
+        {
             // Do nothing.
         }
 
@@ -368,7 +382,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Generate a new random key.
         /// </summary>
-        public override void GenerateKey() {
+        public override void GenerateKey()
+        {
             key = new byte[12];
             var rnd = new Random();
             rnd.NextBytes(key);
@@ -382,7 +397,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <returns>Returns a new PkzipClassic encryptor</returns>
         public override ICryptoTransform CreateEncryptor(
             byte[] rgbKey,
-            byte[] rgbIv) {
+            byte[] rgbIv)
+        {
             key = rgbKey;
             return new PkzipClassicEncryptCryptoTransform(Key);
         }
@@ -395,7 +411,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <returns>Returns a new decryptor.</returns>
         public override ICryptoTransform CreateDecryptor(
             byte[] rgbKey,
-            byte[] rgbIv) {
+            byte[] rgbIv)
+        {
             key = rgbKey;
             return new PkzipClassicDecryptCryptoTransform(Key);
         }

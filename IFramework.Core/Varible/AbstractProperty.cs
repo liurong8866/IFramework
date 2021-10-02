@@ -37,7 +37,8 @@ namespace IFramework.Core
 
         public AbstractProperty() { }
 
-        public AbstractProperty(T value) {
+        public AbstractProperty(T value)
+        {
             this.value = value;
         }
 
@@ -52,11 +53,13 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否值改变
         /// </summary>
-        protected virtual bool IsValueChanged(T value) {
+        protected virtual bool IsValueChanged(T value)
+        {
             return value == null || !value.Equals(this.value) || !setted;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return Value.ToString();
         }
 
@@ -64,10 +67,12 @@ namespace IFramework.Core
 
         // 子类需要实现的抽象方法
         protected abstract T GetValue();
+
         protected abstract void SetValue(T value);
 
         //重载运算符"=="
-        public static bool operator ==(AbstractProperty<T> m, AbstractProperty<T> n) {
+        public static bool operator ==(AbstractProperty<T> m, AbstractProperty<T> n)
+        {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
@@ -78,7 +83,8 @@ namespace IFramework.Core
             return m.Value.Equals(n.Value);
         }
 
-        public static bool operator ==(AbstractProperty<T> m, T n) {
+        public static bool operator ==(AbstractProperty<T> m, T n)
+        {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
@@ -89,7 +95,8 @@ namespace IFramework.Core
             return m.Value.Equals(n);
         }
 
-        public static bool operator ==(T m, AbstractProperty<T> n) {
+        public static bool operator ==(T m, AbstractProperty<T> n)
+        {
             if (ReferenceEquals(m, n)) {
                 return true;
             }
@@ -100,19 +107,23 @@ namespace IFramework.Core
             return m.Equals(n.Value);
         }
 
-        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n) {
+        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n)
+        {
             return !(m == n);
         }
 
-        public static bool operator !=(AbstractProperty<T> m, T n) {
+        public static bool operator !=(AbstractProperty<T> m, T n)
+        {
             return !(m == n);
         }
 
-        public static bool operator !=(T m, AbstractProperty<T> n) {
+        public static bool operator !=(T m, AbstractProperty<T> n)
+        {
             return !(m == n);
         }
 
-        public override bool Equals(Object obj) {
+        public override bool Equals(Object obj)
+        {
             if (obj == null) {
                 return false;
             }
@@ -134,14 +145,16 @@ namespace IFramework.Core
             return Value.Equals(obj);
         }
 
-        public bool Equals(AbstractProperty<T> abstractProperty) {
+        public bool Equals(AbstractProperty<T> abstractProperty)
+        {
             if ((object) abstractProperty == null) {
                 return false;
             }
             return Value.Equals(abstractProperty.Value);
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Value.GetHashCode();
         }
     }

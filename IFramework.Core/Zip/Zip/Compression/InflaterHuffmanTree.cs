@@ -30,7 +30,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         public static InflaterHuffmanTree defDistTree;
 
-        static InflaterHuffmanTree() {
+        static InflaterHuffmanTree()
+        {
             try {
                 byte[] codeLengths = new byte[288];
                 int i = 0;
@@ -72,13 +73,15 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name = "codeLengths">
         /// the array of code lengths
         /// </param>
-        public InflaterHuffmanTree(byte[] codeLengths) {
+        public InflaterHuffmanTree(byte[] codeLengths)
+        {
             BuildTree(codeLengths);
         }
 
         #endregion
 
-        private void BuildTree(byte[] codeLengths) {
+        private void BuildTree(byte[] codeLengths)
+        {
             int[] blCount = new int[MAX_BITLEN + 1];
             int[] nextCode = new int[MAX_BITLEN + 1];
 
@@ -165,7 +168,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// the next symbol, or -1 if not enough input is available.
         /// </returns>
-        public int GetSymbol(StreamManipulator input) {
+        public int GetSymbol(StreamManipulator input)
+        {
             int lookahead, symbol;
 
             if ((lookahead = input.PeekBits(9)) >= 0) {

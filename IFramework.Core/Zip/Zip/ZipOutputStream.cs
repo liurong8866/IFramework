@@ -90,7 +90,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception name ="ArgumentOutOfRangeException">
         /// The converted comment is longer than 0xffff bytes.
         /// </exception>
-        public void SetComment(string comment) {
+        public void SetComment(string comment)
+        {
             // TODO: Its not yet clear how to handle unicode comments here.
             byte[] commentBytes = ZipConstants.ConvertToArray(comment);
 
@@ -109,7 +110,8 @@ namespace IFramework.Core.Zip.Zip
         /// Level specified is not supported.
         /// </exception>
         /// <see cref="IFramework.Core.Zip.Zip.Compression.Deflater"/>
-        public void SetLevel(int level) {
+        public void SetLevel(int level)
+        {
             deflater_.SetLevel(level);
             defaultCompressionLevel = level;
         }
@@ -118,7 +120,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get the current deflater compression level
         /// </summary>
         /// <returns>The current compression level</returns>
-        public int GetLevel() {
+        public int GetLevel()
+        {
             return deflater_.GetLevel();
         }
 
@@ -137,7 +140,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Write an unsigned short in little endian byte order.
         /// </summary>
-        private void WriteLeShort(int value) {
+        private void WriteLeShort(int value)
+        {
             unchecked {
                 baseOutputStream_.WriteByte((byte) (value & 0xff));
                 baseOutputStream_.WriteByte((byte) ((value >> 8) & 0xff));
@@ -147,7 +151,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Write an int in little endian byte order.
         /// </summary>
-        private void WriteLeInt(int value) {
+        private void WriteLeInt(int value)
+        {
             WriteLeShort(value);
             WriteLeShort(value >> 16);
         }
@@ -155,7 +160,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Write an int in little endian byte order.
         /// </summary>
-        private void WriteLeLong(long value) {
+        private void WriteLeLong(long value)
+        {
             unchecked {
                 WriteLeInt((int) value);
                 WriteLeInt((int) (value >> 32));
@@ -186,7 +192,8 @@ namespace IFramework.Core.Zip.Zip
         /// Entry name is too long<br/>
         /// Finish has already been called<br/>
         /// </exception>
-        public void PutNextEntry(ZipEntry entry) {
+        public void PutNextEntry(ZipEntry entry)
+        {
             if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
@@ -400,7 +407,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="System.InvalidOperationException">
         /// No entry is active.
         /// </exception>
-        public void CloseEntry() {
+        public void CloseEntry()
+        {
             if (curEntry == null) {
                 throw new InvalidOperationException("No open entry");
             }
@@ -495,7 +503,8 @@ namespace IFramework.Core.Zip.Zip
             curEntry = null;
         }
 
-        private void WriteEncryptionHeader(long crcValue) {
+        private void WriteEncryptionHeader(long crcValue)
+        {
             offset += ZipConstants.CRYPTO_HEADER_SIZE;
             InitializePassword(Password);
             byte[] cryptBuffer = new byte[ZipConstants.CRYPTO_HEADER_SIZE];
@@ -506,7 +515,8 @@ namespace IFramework.Core.Zip.Zip
             baseOutputStream_.Write(cryptBuffer, 0, cryptBuffer.Length);
         }
 
-        private static void AddExtraDataAes(ZipEntry entry, ZipExtraData extraData) {
+        private static void AddExtraDataAes(ZipEntry entry, ZipExtraData extraData)
+        {
             // Vendor Version: AE-1 IS 1. AE-2 is 2. With AE-2 no CRC is required and 0 is stored.
             const int vendorVersion = 2;
             // Vendor ID is the two ASCII characters "AE".
@@ -523,7 +533,8 @@ namespace IFramework.Core.Zip.Zip
 
         // Replaces WriteEncryptionHeader for AES
         //
-        private void WriteAesHeader(ZipEntry entry) {
+        private void WriteAesHeader(ZipEntry entry)
+        {
             byte[] salt;
             byte[] pwdVerifier;
             InitializeAESPassword(entry, Password, out salt, out pwdVerifier);
@@ -550,7 +561,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="ZipException">Archive size is invalid</exception>
         /// <exception cref="System.InvalidOperationException">No entry is active.</exception>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             if (curEntry == null) {
                 throw new InvalidOperationException("No open entry.");
             }
@@ -588,7 +600,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private void CopyAndEncrypt(byte[] buffer, int offset, int count) {
+        private void CopyAndEncrypt(byte[] buffer, int offset, int count)
+        {
             const int copyBufferSize = 4096;
             byte[] localBuffer = new byte[copyBufferSize];
 
@@ -616,7 +629,8 @@ namespace IFramework.Core.Zip.Zip
         /// Comment exceeds the maximum length<br/>
         /// Entry name exceeds the maximum length
         /// </exception>
-        public override void Finish() {
+        public override void Finish()
+        {
             if (entries == null) {
                 return;
             }

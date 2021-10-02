@@ -38,7 +38,8 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否为空
         /// </summary>
-        public static bool IsNullOrEmpty(this object value) {
+        public static bool IsNullOrEmpty(this object value)
+        {
             bool result;
 
             if (value == null) {
@@ -53,28 +54,32 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNullOrEmpty(this ICollection value) {
+        public static bool IsNullOrEmpty(this ICollection value)
+        {
             return (value == null || value.Count == 0);
         }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this object value) {
+        public static bool IsNotNullOrEmpty(this object value)
+        {
             return !IsNullOrEmpty(value);
         }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this ICollection value) {
+        public static bool IsNotNullOrEmpty(this ICollection value)
+        {
             return !IsNullOrEmpty(value);
         }
 
         /// <summary>
         /// 转换字符串
         /// </summary>
-        public static string ToString(this object value) {
+        public static string ToString(this object value)
+        {
             string result = "";
 
             if (!value.IsNullOrEmpty()) {
@@ -86,7 +91,8 @@ namespace IFramework.Core
         /// <summary>
         /// 转换字符串
         /// </summary>
-        public static string ToString(this object value, string defaultvalue) {
+        public static string ToString(this object value, string defaultvalue)
+        {
             string result = defaultvalue;
 
             if (!value.IsNullOrEmpty()) {
@@ -98,63 +104,72 @@ namespace IFramework.Core
         /// <summary>
         /// 对象转换Short
         /// </summary>
-        public static short ToShort(this object value) {
+        public static short ToShort(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToInt16(value);
         }
 
         /// <summary>
         /// 对象转换Int
         /// </summary>
-        public static int ToInt(this object value) {
+        public static int ToInt(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToInt32(value);
         }
 
         /// <summary>
         /// 对象转换Long
         /// </summary>
-        public static long ToLong(this object value) {
+        public static long ToLong(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToInt64(value);
         }
 
         /// <summary>
         /// 字符串转换Float
         /// </summary>
-        public static float ToFloat(this object value) {
+        public static float ToFloat(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToSingle(value);
         }
 
         /// <summary>
         /// 字符串转换Double
         /// </summary>
-        public static double ToDouble(this object value) {
+        public static double ToDouble(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToDouble(value);
         }
 
         /// <summary>
         /// 字符串转换Decimal
         /// </summary>
-        public static decimal ToDecimal(this object value) {
+        public static decimal ToDecimal(this object value)
+        {
             return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value);
         }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value) {
+        public static DateTime ToDateTime(this object value)
+        {
             return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01"));
         }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value, DateTime defaultValue) {
+        public static DateTime ToDateTime(this object value, DateTime defaultValue)
+        {
             return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value);
         }
 
         /// <summary>
         /// SQL 防止意外字符导致错误
         /// </summary>
-        public static string ToSqlString(this object value) {
+        public static string ToSqlString(this object value)
+        {
             string result;
 
             if (value == null) {
@@ -169,7 +184,8 @@ namespace IFramework.Core
         /// <summary>
         /// SQL 防止意外字符导致错误
         /// </summary>
-        public static string ToSqlString2(this object value) {
+        public static string ToSqlString2(this object value)
+        {
             string result;
 
             if (value == null) {
@@ -184,7 +200,8 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为整型数值
         /// </summary>
-        public static bool IsInteger(this object value) {
+        public static bool IsInteger(this object value)
+        {
             return (value is SByte || value is Int16 || value is Int32
                  || value is Int64 || value is Byte || value is UInt16
                  || value is UInt32 || value is UInt64);
@@ -193,14 +210,16 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为浮点型
         /// </summary>
-        public static bool IsFloat(this object value) {
+        public static bool IsFloat(this object value)
+        {
             return (value is float | value is double | value is Decimal);
         }
 
         /// <summary>
         /// 是否为数字
         /// </summary>
-        public static bool IsNumeric(this object value) {
+        public static bool IsNumeric(this object value)
+        {
             if (!(value is Byte ||
                   value is Int16 ||
                   value is Int32 ||
@@ -220,7 +239,8 @@ namespace IFramework.Core
         /// <summary>
         /// 取得介于min与max范围内的值，如果不在范围内，取最近的值
         /// </summary>
-        public static T Between<T>(this T value, T min, T max) where T : struct, IComparable<T> {
+        public static T Between<T>(this T value, T min, T max) where T : struct, IComparable<T>
+        {
             T result = value;
 
             if (value.CompareTo(min) < 0) {
@@ -235,7 +255,8 @@ namespace IFramework.Core
         /// <summary>
         /// 取得介于min与max范围内的值,如果不在范围内，取默认值
         /// </summary>
-        public static T Between<T>(this T value, T min, T max, T defaultvalue) where T : struct, IComparable<T> {
+        public static T Between<T>(this T value, T min, T max, T defaultvalue) where T : struct, IComparable<T>
+        {
             T result = value;
 
             if (value.CompareTo(min) < 0) {
@@ -250,7 +271,8 @@ namespace IFramework.Core
         /// <summary>
         /// 克隆对象
         /// </summary>
-        public static T Clone<T>(this T value) {
+        public static T Clone<T>(this T value)
+        {
             using (Stream objectStream = new MemoryStream()) {
                 //利用 System.Runtime.Serialization序列化与反序列化完成引用对象的复制  
                 IFormatter formatter = new BinaryFormatter();

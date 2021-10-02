@@ -42,7 +42,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="entry">The <see cref="TarEntry">TarEntry</see> for this event</param>
         /// <param name="message">message for this event.  Null is no message</param>
-        protected virtual void OnProgressMessageEvent(TarEntry entry, string message) {
+        protected virtual void OnProgressMessageEvent(TarEntry entry, string message)
+        {
             ProgressMessageHandler handler = ProgressMessageEvent;
 
             if (handler != null) {
@@ -61,7 +62,8 @@ namespace IFramework.Core.Zip.Tar
         /// Initalise a TarArchive for input.
         /// </summary>
         /// <param name="stream">The <see cref="TarInputStream"/> to use for input.</param>
-        protected TarArchive(TarInputStream stream) {
+        protected TarArchive(TarInputStream stream)
+        {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -72,7 +74,8 @@ namespace IFramework.Core.Zip.Tar
         /// Initialise a TarArchive for output.
         /// </summary>
         /// <param name="stream">The <see cref="TarOutputStream"/> to use for output.</param>
-        protected TarArchive(TarOutputStream stream) {
+        protected TarArchive(TarOutputStream stream)
+        {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -91,7 +94,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="inputStream">The stream to retrieve archive data from.</param>
         /// <returns>Returns a new <see cref="TarArchive"/> suitable for reading from.</returns>
-        public static TarArchive CreateInputTarArchive(Stream inputStream) {
+        public static TarArchive CreateInputTarArchive(Stream inputStream)
+        {
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
@@ -113,7 +117,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="inputStream">A stream containing the tar archive contents</param>
         /// <param name="blockFactor">The blocking factor to apply</param>
         /// <returns>Returns a <see cref="TarArchive"/> suitable for reading.</returns>
-        public static TarArchive CreateInputTarArchive(Stream inputStream, int blockFactor) {
+        public static TarArchive CreateInputTarArchive(Stream inputStream, int blockFactor)
+        {
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
@@ -129,7 +134,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="outputStream">The <see cref="Stream"/> to write to</param>
         /// <returns>Returns a <see cref="TarArchive"/> suitable for writing.</returns>
-        public static TarArchive CreateOutputTarArchive(Stream outputStream) {
+        public static TarArchive CreateOutputTarArchive(Stream outputStream)
+        {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
@@ -151,7 +157,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="outputStream">The stream to write to</param>
         /// <param name="blockFactor">The blocking factor to use for buffering.</param>
         /// <returns>Returns a <see cref="TarArchive"/> suitable for writing.</returns>
-        public static TarArchive CreateOutputTarArchive(Stream outputStream, int blockFactor) {
+        public static TarArchive CreateOutputTarArchive(Stream outputStream, int blockFactor)
+        {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
@@ -171,7 +178,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="keepExistingFiles">
         /// If true, do not overwrite existing files.
         /// </param>
-        public void SetKeepOldFiles(bool keepExistingFiles) {
+        public void SetKeepOldFiles(bool keepExistingFiles)
+        {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
@@ -210,7 +218,8 @@ namespace IFramework.Core.Zip.Tar
         /// If true, translate ascii text files.
         /// </param>
         [Obsolete("Use the AsciiTranslate property")]
-        public void SetAsciiTranslation(bool translateAsciiFiles) {
+        public void SetAsciiTranslation(bool translateAsciiFiles)
+        {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
@@ -279,7 +288,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="groupName">
         /// The group name to use in the headers.
         /// </param>
-        public void SetUserInfo(int userId, string userName, int groupId, string groupName) {
+        public void SetUserInfo(int userId, string userName, int groupId, string groupName)
+        {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
@@ -424,7 +434,8 @@ namespace IFramework.Core.Zip.Tar
         /// Close the archive.
         /// </summary>
         [Obsolete("Use Close instead")]
-        public void CloseArchive() {
+        public void CloseArchive()
+        {
             Close();
         }
 
@@ -434,7 +445,8 @@ namespace IFramework.Core.Zip.Tar
         /// NOTE That this method uses the <see cref="ProgressMessageEvent"> progress event</see> to actually list
         /// the contents. If the progress display event is not set, nothing will be listed!
         /// </summary>
-        public void ListContents() {
+        public void ListContents()
+        {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
@@ -455,7 +467,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="destinationDirectory">
         /// The destination directory into which to extract.
         /// </param>
-        public void ExtractContents(string destinationDirectory) {
+        public void ExtractContents(string destinationDirectory)
+        {
             if (isDisposed) {
                 throw new ObjectDisposedException("TarArchive");
             }
@@ -484,7 +497,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="entry">
         /// The TarEntry returned by tarIn.GetNextEntry().
         /// </param>
-        private void ExtractEntry(string destDir, TarEntry entry) {
+        private void ExtractEntry(string destDir, TarEntry entry)
+        {
             OnProgressMessageEvent(entry, null);
             string name = entry.Name;
 
@@ -574,7 +588,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="recurse">
         /// If true, process the children of directory entries.
         /// </param>
-        public void WriteEntry(TarEntry sourceEntry, bool recurse) {
+        public void WriteEntry(TarEntry sourceEntry, bool recurse)
+        {
             if (sourceEntry == null) {
                 throw new ArgumentNullException(nameof(sourceEntry));
             }
@@ -610,7 +625,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="recurse">
         /// If true, process the children of directory entries.
         /// </param>
-        private void WriteEntryCore(TarEntry sourceEntry, bool recurse) {
+        private void WriteEntryCore(TarEntry sourceEntry, bool recurse)
+        {
             string tempFileName = null;
             string entryFilename = sourceEntry.File;
             var entry = (TarEntry) sourceEntry.Clone();
@@ -696,7 +712,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -706,7 +723,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources;
         /// false to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing) {
+        protected virtual void Dispose(bool disposing)
+        {
             if (!isDisposed) {
                 isDisposed = true;
 
@@ -726,7 +744,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Closes the archive and releases any associated resources.
         /// </summary>
-        public virtual void Close() {
+        public virtual void Close()
+        {
             Dispose(true);
         }
 
@@ -734,11 +753,13 @@ namespace IFramework.Core.Zip.Tar
         /// Ensures that resources are freed and other cleanup operations are performed
         /// when the garbage collector reclaims the <see cref="TarArchive"/>.
         /// </summary>
-        ~TarArchive() {
+        ~TarArchive()
+        {
             Dispose(false);
         }
 
-        private static void EnsureDirectoryExists(string directoryName) {
+        private static void EnsureDirectoryExists(string directoryName)
+        {
             if (!Directory.Exists(directoryName)) {
                 try {
                     Directory.CreateDirectory(directoryName);
@@ -753,7 +774,8 @@ namespace IFramework.Core.Zip.Tar
         // It no longer reads entire files into memory but is still a weak test!
         // This assumes that byte values 0-7, 14-31 or 255 are binary
         // and that all non text files contain one of these values
-        private static bool IsBinary(string filename) {
+        private static bool IsBinary(string filename)
+        {
             using (FileStream fs = File.OpenRead(filename)) {
                 int sampleSize = Math.Min(4096, (int) fs.Length);
                 byte[] content = new byte[sampleSize];

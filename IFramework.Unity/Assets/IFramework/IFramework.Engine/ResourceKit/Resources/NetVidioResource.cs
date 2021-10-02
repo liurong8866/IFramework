@@ -37,7 +37,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetVideoResource Allocate(string path) {
+        public static NetVideoResource Allocate(string path)
+        {
             NetVideoResource resource = ObjectPool<NetVideoResource>.Instance.Allocate();
 
             if (resource != null) {
@@ -67,7 +68,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult() {
+        protected override Object ResolveResult()
+        {
             // VideoClip videoClip = request.downloadHandler;
             // VideoClip videoClip = Resources.Load(Platform.FilePathPrefix + FullName, typeof(VideoClip)) as VideoClip;
             // return videoClip;
@@ -78,7 +80,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<NetVideoResource>.Instance.Recycle(this);
         }
     }

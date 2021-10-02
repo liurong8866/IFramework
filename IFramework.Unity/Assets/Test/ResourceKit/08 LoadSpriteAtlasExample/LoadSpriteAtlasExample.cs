@@ -21,27 +21,30 @@ public class LoadSpriteAtlasExample : MonoBehaviour
 {
     [SerializeField] private Image mImage;
 
-    private void Awake() {
+    private void Awake()
+    {
         // 注册事件, 只有当啊 Atlas设置 build in 勾选后触发
         SpriteAtlasManager.atlasRequested += OnAtlasRequested;
     }
 
-    private void Start() {
+    private void Start()
+    {
         ResourceLoader loader = ResourceLoader.Allocate();
         SpriteAtlas spriteAtlas = loader.Load<SpriteAtlas>("spriteatlasV");
-        
+
         // Include in Build 勾选时到逻辑
-//        Sprite square = spriteAtlas.GetSprite("CharCommunity_010");
-//        Log.Info(spriteAtlas.spriteCount);
-//        Sprite[] array = new Sprite[spriteAtlas.spriteCount];
-//        spriteAtlas.GetSprites(array);
-//        foreach (Sprite sprite in array) {
-//            Log.Info(sprite.name);
-//        }
-//        mImage.sprite = square;
+        //        Sprite square = spriteAtlas.GetSprite("CharCommunity_010");
+        //        Log.Info(spriteAtlas.spriteCount);
+        //        Sprite[] array = new Sprite[spriteAtlas.spriteCount];
+        //        spriteAtlas.GetSprites(array);
+        //        foreach (Sprite sprite in array) {
+        //            Log.Info(sprite.name);
+        //        }
+        //        mImage.sprite = square;
     }
 
-    private void OnAtlasRequested(string tag, Action<SpriteAtlas> action) {
+    private void OnAtlasRequested(string tag, Action<SpriteAtlas> action)
+    {
         // 加载纹理集
         // unity2017.1版本：当收到回调后必须立刻用纹理集填充
         // SpriteAtlas atlas = LoadAtlas(tag);
@@ -59,7 +62,8 @@ public class LoadSpriteAtlasExample : MonoBehaviour
         StartCoroutine(DoLoadAsset(action, tag));
     }
 
-    private IEnumerator DoLoadAsset(Action<SpriteAtlas> action, string tag) {
+    private IEnumerator DoLoadAsset(Action<SpriteAtlas> action, string tag)
+    {
         // var ab = AssetBundle.LoadFromFileAsync(tag);
         // yield return ab;
         // var sa = ab.assetBundle.LoadAsset(tag);

@@ -64,7 +64,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of the <see cref="ZipEntryFactory"/> class.
         /// </summary>
         /// <remarks>A default <see cref="INameTransform"/>, and the LastWriteTime for files is used.</remarks>
-        public ZipEntryFactory() {
+        public ZipEntryFactory()
+        {
             nameTransform = new ZipNameTransform();
         }
 
@@ -72,7 +73,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="ZipEntryFactory"/> using the specified <see cref="TimeSetting"/>
         /// </summary>
         /// <param name="timeSetting">The <see cref="TimeSetting">time setting</see> to use when creating <see cref="ZipEntry">Zip entries</see>.</param>
-        public ZipEntryFactory(TimeSetting timeSetting) {
+        public ZipEntryFactory(TimeSetting timeSetting)
+        {
             this.timeSetting = timeSetting;
             nameTransform = new ZipNameTransform();
         }
@@ -81,7 +83,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="ZipEntryFactory"/> using the specified <see cref="DateTime"/>
         /// </summary>
         /// <param name="time">The time to set all <see cref="ZipEntry.DateTime"/> values to.</param>
-        public ZipEntryFactory(DateTime time) {
+        public ZipEntryFactory(DateTime time)
+        {
             timeSetting = TimeSetting.Fixed;
             FixedDateTime = time;
             nameTransform = new ZipNameTransform();
@@ -165,7 +168,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="fileName">The name of the file to create a new entry for.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName) {
+        public ZipEntry MakeFileEntry(string fileName)
+        {
             return MakeFileEntry(fileName, null, true);
         }
 
@@ -175,7 +179,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="fileName">The name of the file to create a new entry for.</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName, bool useFileSystem) {
+        public ZipEntry MakeFileEntry(string fileName, bool useFileSystem)
+        {
             return MakeFileEntry(fileName, null, useFileSystem);
         }
 
@@ -186,7 +191,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="entryName">An alternative name to be used for the new entry. Null if not applicable.</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName, string entryName, bool useFileSystem) {
+        public ZipEntry MakeFileEntry(string fileName, string entryName, bool useFileSystem)
+        {
             var result = new ZipEntry(nameTransform.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName));
             result.IsUnicodeText = isUnicodeText;
             int externalAttributes = 0;
@@ -245,7 +251,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="directoryName">The raw untransformed name for the new directory</param>
         /// <returns>Returns a new <see cref="ZipEntry"></see> representing a directory.</returns>
-        public ZipEntry MakeDirectoryEntry(string directoryName) {
+        public ZipEntry MakeDirectoryEntry(string directoryName)
+        {
             return MakeDirectoryEntry(directoryName, true);
         }
 
@@ -255,7 +262,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="directoryName">The raw untransformed name for the new directory</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
         /// <returns>Returns a new <see cref="ZipEntry"></see> representing a directory.</returns>
-        public ZipEntry MakeDirectoryEntry(string directoryName, bool useFileSystem) {
+        public ZipEntry MakeDirectoryEntry(string directoryName, bool useFileSystem)
+        {
             var result = new ZipEntry(nameTransform.TransformDirectory(directoryName));
             result.IsUnicodeText = isUnicodeText;
             result.Size = 0;

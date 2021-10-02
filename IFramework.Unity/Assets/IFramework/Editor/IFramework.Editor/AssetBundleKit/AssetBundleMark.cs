@@ -32,11 +32,13 @@ namespace IFramework.Editor
     public class AssetBundleMark
     {
         [InitializeOnLoadMethod]
-        static void OnLoad() {
+        static void OnLoad()
+        {
             Selection.selectionChanged = SelectionChanged;
         }
 
-        private static void SelectionChanged() {
+        private static void SelectionChanged()
+        {
             var path = EditorUtils.GetSelectedPath();
 
             if (!string.IsNullOrEmpty(path)) {
@@ -50,14 +52,16 @@ namespace IFramework.Editor
         /// <summary>
         /// 标记资源为AssetBundle
         /// </summary>
-        public static void MarkAssetBundle() {
+        public static void MarkAssetBundle()
+        {
             MarkAssetBundle(EditorUtils.GetSelectedPath());
         }
 
         /// <summary>
         /// 标记资源为AssetBundle
         /// </summary>
-        public static void MarkAssetBundle(string path) {
+        public static void MarkAssetBundle(string path)
+        {
             if (path.IsNotNullOrEmpty()) {
                 // 根据路径获取AssetBundle
                 AssetImporter ai = AssetImporter.GetAtPath(path);
@@ -85,7 +89,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 检查是否标记过。根据文件路径与assetBundleName比较
         /// </summary>
-        public static bool CheckMarked(string path) {
+        public static bool CheckMarked(string path)
+        {
             AssetImporter ai = AssetImporter.GetAtPath(path);
 
             // if (ai.assetBundleName.IsNullOrEmpty()) return false;

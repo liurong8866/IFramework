@@ -37,7 +37,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Initialise a default instance of <see cref="TarEntry"/>.
         /// </summary>
-        private TarEntry() {
+        private TarEntry()
+        {
             header = new TarHeader();
         }
 
@@ -48,7 +49,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "headerBuffer">
         /// The header bytes from a tar archive entry.
         /// </param>
-        public TarEntry(byte[] headerBuffer) {
+        public TarEntry(byte[] headerBuffer)
+        {
             header = new TarHeader();
             header.ParseBuffer(headerBuffer);
         }
@@ -57,7 +59,8 @@ namespace IFramework.Core.Zip.Tar
         /// Construct a TarEntry using the <paramref name="header">header</paramref> provided
         /// </summary>
         /// <param name="header">Header details for entry</param>
-        public TarEntry(TarHeader header) {
+        public TarEntry(TarHeader header)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
@@ -72,7 +75,8 @@ namespace IFramework.Core.Zip.Tar
         /// Clone this tar entry.
         /// </summary>
         /// <returns>Returns a clone of this entry.</returns>
-        public object Clone() {
+        public object Clone()
+        {
             var entry = new TarEntry();
             entry.file = file;
             entry.header = (TarHeader) header.Clone();
@@ -88,7 +92,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="name">The name to use for the entry</param>
         /// <returns>Returns the newly created <see cref="TarEntry"/></returns>
-        public static TarEntry CreateTarEntry(string name) {
+        public static TarEntry CreateTarEntry(string name)
+        {
             var entry = new TarEntry();
             NameTarHeader(entry.header, name);
             return entry;
@@ -100,7 +105,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name = "fileName">The file name that the entry represents.</param>
         /// <returns>Returns the newly created <see cref="TarEntry"/></returns>
-        public static TarEntry CreateEntryFromFile(string fileName) {
+        public static TarEntry CreateEntryFromFile(string fileName)
+        {
             var entry = new TarEntry();
             entry.GetFileTarHeader(entry.header, fileName);
             return entry;
@@ -114,7 +120,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// True if the entries are equal; false if not.
         /// </returns>
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             var localEntry = obj as TarEntry;
 
             if (localEntry != null) {
@@ -127,7 +134,8 @@ namespace IFramework.Core.Zip.Tar
         /// Derive a Hash value for the current <see cref="object"/>
         /// </summary>
         /// <returns>A Hash code for the current <see cref="object"/></returns>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Name.GetHashCode();
         }
 
@@ -142,7 +150,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// True if entry is a descendant of this.
         /// </returns>
-        public bool IsDescendent(TarEntry toTest) {
+        public bool IsDescendent(TarEntry toTest)
+        {
             if (toTest == null) {
                 throw new ArgumentNullException(nameof(toTest));
             }
@@ -208,7 +217,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="groupId">
         /// This entry's new group id.
         /// </param>
-        public void SetIds(int userId, int groupId) {
+        public void SetIds(int userId, int groupId)
+        {
             UserId = userId;
             GroupId = groupId;
         }
@@ -222,7 +232,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="groupName">
         /// This entry's new group name.
         /// </param>
-        public void SetNames(string userName, string groupName) {
+        public void SetNames(string userName, string groupName)
+        {
             UserName = userName;
             GroupName = groupName;
         }
@@ -283,7 +294,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="file">
         /// The file from which to get the header information.
         /// </param>
-        public void GetFileTarHeader(TarHeader header, string file) {
+        public void GetFileTarHeader(TarHeader header, string file)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
@@ -354,7 +366,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// An array of TarEntry's for this entry's children.
         /// </returns>
-        public TarEntry[] GetDirectoryEntries() {
+        public TarEntry[] GetDirectoryEntries()
+        {
             if ((file == null) || !Directory.Exists(file)) {
                 return new TarEntry[0];
             }
@@ -373,7 +386,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "outBuffer">
         /// The tar entry header buffer to fill in.
         /// </param>
-        public void WriteEntryHeader(byte[] outBuffer) {
+        public void WriteEntryHeader(byte[] outBuffer)
+        {
             header.WriteHeader(outBuffer);
         }
 
@@ -387,7 +401,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="newName">
         /// The new name to place into the header buffer.
         /// </param>
-        static public void AdjustEntryName(byte[] buffer, string newName) {
+        static public void AdjustEntryName(byte[] buffer, string newName)
+        {
             TarHeader.GetNameBytes(newName, buffer, 0, TarHeader.NAMELEN);
         }
 
@@ -400,7 +415,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="name">
         /// The tar entry name.
         /// </param>
-        static public void NameTarHeader(TarHeader header, string name) {
+        static public void NameTarHeader(TarHeader header, string name)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }

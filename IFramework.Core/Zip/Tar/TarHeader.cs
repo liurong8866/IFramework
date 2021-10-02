@@ -245,7 +245,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Initialise a default TarHeader instance
         /// </summary>
-        public TarHeader() {
+        public TarHeader()
+        {
             Magic = TMAGIC;
             Version = " ";
             Name = "";
@@ -280,7 +281,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <returns>The entry's name.</returns>
         [Obsolete("Use the Name property instead", true)]
-        public string GetName() {
+        public string GetName()
+        {
             return name;
         }
 
@@ -474,7 +476,8 @@ namespace IFramework.Core.Zip.Tar
         /// Create a new <see cref="TarHeader"/> that is a copy of the current instance.
         /// </summary>
         /// <returns>A new <see cref="Object"/> that is a copy of the current instance.</returns>
-        public object Clone() {
+        public object Clone()
+        {
             return MemberwiseClone();
         }
 
@@ -486,7 +489,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "header">
         /// The tar entry header buffer to get information from.
         /// </param>
-        public void ParseBuffer(byte[] header) {
+        public void ParseBuffer(byte[] header)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
@@ -532,7 +536,8 @@ namespace IFramework.Core.Zip.Tar
         /// 'Write' header information to buffer provided, updating the <see cref="Checksum">check sum</see>.
         /// </summary>
         /// <param name="outBuffer">output buffer for header information</param>
-        public void WriteHeader(byte[] outBuffer) {
+        public void WriteHeader(byte[] outBuffer)
+        {
             if (outBuffer == null) {
                 throw new ArgumentNullException(nameof(outBuffer));
             }
@@ -572,7 +577,8 @@ namespace IFramework.Core.Zip.Tar
         /// Get a hash code for the current object.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Name.GetHashCode();
         }
 
@@ -581,7 +587,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="obj">The object to compare with.</param>
         /// <returns>true if the objects are equal, false otherwise.</returns>
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             var localHeader = obj as TarHeader;
             bool result;
 
@@ -615,14 +622,16 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="userName">Value to apply as a default for userName.</param>
         /// <param name="groupId">Value to apply as a default for groupId.</param>
         /// <param name="groupName">Value to apply as a default for groupName.</param>
-        static internal void SetValueDefaults(int userId, string userName, int groupId, string groupName) {
+        static internal void SetValueDefaults(int userId, string userName, int groupId, string groupName)
+        {
             defaultUserId = userIdAsSet = userId;
             defaultUser = userNameAsSet = userName;
             defaultGroupId = groupIdAsSet = groupId;
             defaultGroupName = groupNameAsSet = groupName;
         }
 
-        static internal void RestoreSetValues() {
+        static internal void RestoreSetValues()
+        {
             defaultUserId = userIdAsSet;
             defaultUser = userNameAsSet;
             defaultGroupId = groupIdAsSet;
@@ -631,7 +640,8 @@ namespace IFramework.Core.Zip.Tar
 
         // Return value that may be stored in octal or binary. Length must exceed 8.
         //
-        static private long ParseBinaryOrOctal(byte[] header, int offset, int length) {
+        static private long ParseBinaryOrOctal(byte[] header, int offset, int length)
+        {
             if (header[offset] >= 0x80) {
                 // File sizes over 8GB are stored in 8 right-justified bytes of binary indicated by setting the high-order bit of the leftmost byte of a numeric field.
                 long result = 0;
@@ -651,7 +661,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "offset">The offset into the buffer from which to parse.</param>
         /// <param name = "length">The number of header bytes to parse.</param>
         /// <returns>The long equivalent of the octal string.</returns>
-        static public long ParseOctal(byte[] header, int offset, int length) {
+        static public long ParseOctal(byte[] header, int offset, int length)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
@@ -694,7 +705,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The name parsed.
         /// </returns>
-        static public StringBuilder ParseName(byte[] header, int offset, int length) {
+        static public StringBuilder ParseName(byte[] header, int offset, int length)
+        {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
@@ -730,7 +742,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="bufferOffset">The index of the first byte to add</param>
         /// <param name="length">The number of characters/bytes to add</param>
         /// <returns>The next free index in the <paramref name="buffer"/></returns>
-        public static int GetNameBytes(StringBuilder name, int nameOffset, byte[] buffer, int bufferOffset, int length) {
+        public static int GetNameBytes(StringBuilder name, int nameOffset, byte[] buffer, int bufferOffset, int length)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -750,7 +763,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="bufferOffset">The index of the first byte to add</param>
         /// <param name="length">The number of characters/bytes to add</param>
         /// <returns>The next free index in the <paramref name="buffer"/></returns>
-        public static int GetNameBytes(string name, int nameOffset, byte[] buffer, int bufferOffset, int length) {
+        public static int GetNameBytes(string name, int nameOffset, byte[] buffer, int bufferOffset, int length)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -788,7 +802,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The index of the next free byte in the buffer
         /// </returns>
-        public static int GetNameBytes(StringBuilder name, byte[] buffer, int offset, int length) {
+        public static int GetNameBytes(StringBuilder name, byte[] buffer, int offset, int length)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -807,7 +822,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">The offset into the buffer from which to start adding</param>
         /// <param name="length">The number of header bytes to add</param>
         /// <returns>The index of the next free byte in the buffer</returns>
-        public static int GetNameBytes(string name, byte[] buffer, int offset, int length) {
+        public static int GetNameBytes(string name, byte[] buffer, int offset, int length)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -827,7 +843,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="bufferOffset">The offset to start adding at.</param>
         /// <param name="length">The number of ascii characters to add.</param>
         /// <returns>The next free index in the buffer.</returns>
-        public static int GetAsciiBytes(string toAdd, int nameOffset, byte[] buffer, int bufferOffset, int length) {
+        public static int GetAsciiBytes(string toAdd, int nameOffset, byte[] buffer, int bufferOffset, int length)
+        {
             if (toAdd == null) {
                 throw new ArgumentNullException(nameof(toAdd));
             }
@@ -865,7 +882,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The offset of the character next byte after the octal string
         /// </returns>
-        public static int GetOctalBytes(long value, byte[] buffer, int offset, int length) {
+        public static int GetOctalBytes(long value, byte[] buffer, int offset, int length)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -896,7 +914,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "offset">The offset into the buffer to store the value</param>
         /// <param name = "length">The length of the octal string. Must be 12.</param>
         /// <returns>Index of next byte</returns>
-        private static int GetBinaryOrOctalBytes(long value, byte[] buffer, int offset, int length) {
+        private static int GetBinaryOrOctalBytes(long value, byte[] buffer, int offset, int length)
+        {
             if (value > 0x1FFFFFFFF) {
                 // Octal 77777777777 (11 digits)
                 // Put value as binary, right-justified into the buffer. Set high order bit of left-most byte.
@@ -922,7 +941,8 @@ namespace IFramework.Core.Zip.Tar
         /// The final space is already there, from checksumming
         /// </param>
         /// <returns>The modified buffer offset</returns>
-        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length) {
+        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length)
+        {
             GetOctalBytes(value, buffer, offset, length - 1);
         }
 
@@ -932,7 +952,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name = "buffer">The tar entry's header buffer.</param>
         /// <returns>The computed checksum.</returns>
-        private static int ComputeCheckSum(byte[] buffer) {
+        private static int ComputeCheckSum(byte[] buffer)
+        {
             int sum = 0;
 
             for (int i = 0; i < buffer.Length; ++i) {
@@ -946,7 +967,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name = "buffer">The tar entry's header buffer.</param>
         /// <returns>The checksum for the buffer</returns>
-        private static int MakeCheckSum(byte[] buffer) {
+        private static int MakeCheckSum(byte[] buffer)
+        {
             int sum = 0;
 
             for (int i = 0; i < CHKSUMOFS; ++i) {
@@ -963,11 +985,13 @@ namespace IFramework.Core.Zip.Tar
             return sum;
         }
 
-        private static int GetCTime(DateTime dateTime) {
+        private static int GetCTime(DateTime dateTime)
+        {
             return unchecked((int) ((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR));
         }
 
-        private static DateTime GetDateTimeFromCTime(long ticks) {
+        private static DateTime GetDateTimeFromCTime(long ticks)
+        {
             DateTime result;
 
             try {

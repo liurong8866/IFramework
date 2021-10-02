@@ -38,7 +38,8 @@ namespace IFramework.Core
         /* 实现对象池单例                */
         /*-----------------------------*/
 
-        protected ObjectPool() {
+        protected ObjectPool()
+        {
             factory = new DefaultFactory<T>();
         }
 
@@ -46,7 +47,8 @@ namespace IFramework.Core
 
         void ISingleton.OnInit() { }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             SingletonProperty<ObjectPool<T>>.Dispose();
         }
 
@@ -59,7 +61,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="maxCount">最大容量</param>
         /// <param name="initCount">初始化的最大数量</param>
-        public void Init(int maxCount, int initCount) {
+        public void Init(int maxCount, int initCount)
+        {
             Capacity = maxCount;
 
             if (maxCount > 0) {
@@ -93,7 +96,8 @@ namespace IFramework.Core
         /// <summary>
         /// 分配对象
         /// </summary>
-        public override T Allocate() {
+        public override T Allocate()
+        {
             T t = base.Allocate();
             t.IsRecycled = false;
             return t;
@@ -102,7 +106,8 @@ namespace IFramework.Core
         /// <summary>
         /// 回收对象
         /// </summary>
-        public override bool Recycle(T t) {
+        public override bool Recycle(T t)
+        {
             // 如果对象已被回收，则返回
             if (t == null || t.IsRecycled) return false;
 

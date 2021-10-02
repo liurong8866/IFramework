@@ -173,7 +173,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// useful for the GZIP/PKZIP formats.
         /// </param>
         /// <exception cref="System.ArgumentOutOfRangeException">if lvl is out of range.</exception>
-        public Deflater(int level, bool noZlibHeaderOrFooter) {
+        public Deflater(int level, bool noZlibHeaderOrFooter)
+        {
             if (level == DEFAULT_COMPRESSION) {
                 level = 6;
             }
@@ -195,7 +196,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// just created with the same compression level and strategy as it
         /// had before.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             state = (noZlibHeaderOrFooter ? BUSY_STATE : INIT_STATE);
             totalOut = 0;
             pending.Reset();
@@ -230,7 +232,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// private.  It is used by DeflaterOutputStream to implement
         /// flush().
         /// </summary>
-        public void Flush() {
+        public void Flush()
+        {
             state |= IS_FLUSHING;
         }
 
@@ -239,7 +242,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// to give more input after this method was called.  This method must
         /// be called to force all bytes to be flushed.
         /// </summary>
-        public void Finish() {
+        public void Finish()
+        {
             state |= (IS_FLUSHING | IS_FINISHING);
         }
 
@@ -276,7 +280,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// if the buffer was finished() or ended().
         /// </exception>
-        public void SetInput(byte[] input) {
+        public void SetInput(byte[] input)
+        {
             SetInput(input, 0, input.Length);
         }
 
@@ -298,7 +303,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// if the buffer was Finish()ed or if previous input is still pending.
         /// </exception>
-        public void SetInput(byte[] input, int offset, int count) {
+        public void SetInput(byte[] input, int offset, int count)
+        {
             if ((state & IS_FINISHING) != 0) {
                 throw new InvalidOperationException("Finish() already called");
             }
@@ -314,7 +320,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="level">
         /// the new compression level.
         /// </param>
-        public void SetLevel(int level) {
+        public void SetLevel(int level)
+        {
             if (level == DEFAULT_COMPRESSION) {
                 level = 6;
             }
@@ -332,7 +339,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Get current compression level
         /// </summary>
         /// <returns>Returns the current compression level</returns>
-        public int GetLevel() {
+        public int GetLevel()
+        {
             return level;
         }
 
@@ -345,7 +353,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="strategy">
         /// The new compression strategy.
         /// </param>
-        public void SetStrategy(DeflateStrategy strategy) {
+        public void SetStrategy(DeflateStrategy strategy)
+        {
             engine.Strategy = strategy;
         }
 
@@ -359,7 +368,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// The number of compressed bytes added to the output, or 0 if either
         /// IsNeedingInput() or IsFinished returns true or length is zero.
         /// </returns>
-        public int Deflate(byte[] output) {
+        public int Deflate(byte[] output)
+        {
             return Deflate(output, 0, output.Length);
         }
 
@@ -385,7 +395,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// If offset or length don't match the array length.
         /// </exception>
-        public int Deflate(byte[] output, int offset, int length) {
+        public int Deflate(byte[] output, int offset, int length)
+        {
             int origLength = length;
 
             if (state == CLOSED_STATE) {
@@ -479,7 +490,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// if SetInput () or Deflate () were already called or another dictionary was already set.
         /// </exception>
-        public void SetDictionary(byte[] dictionary) {
+        public void SetDictionary(byte[] dictionary)
+        {
             SetDictionary(dictionary, 0, dictionary.Length);
         }
 
@@ -503,7 +515,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// If SetInput () or Deflate() were already called or another dictionary was already set.
         /// </exception>
-        public void SetDictionary(byte[] dictionary, int index, int count) {
+        public void SetDictionary(byte[] dictionary, int index, int count)
+        {
             if (state != INIT_STATE) {
                 throw new InvalidOperationException();
             }

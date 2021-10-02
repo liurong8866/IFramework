@@ -61,7 +61,8 @@ namespace IFramework.Core
         /// <summary>
         /// 资源释放
         /// </summary>
-        public virtual void Dispose() {
+        public virtual void Dispose()
+        {
             instance = null;
         }
     }

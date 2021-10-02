@@ -36,7 +36,8 @@ namespace IFramework
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
         /// </summary>
-        ~Disposeble() {
+        ~Disposeble()
+        {
             //必须为false
             Dispose(false);
         }
@@ -44,7 +45,8 @@ namespace IFramework
         /// <summary>
         /// 实现IDisposable中的Dispose方法
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             //必须为true
             Dispose(true);
             //通知垃圾回收机制不再调用终结器（析构器） 调用虚拟的Dispose方法。禁止Finalization（终结操作） 
@@ -55,7 +57,8 @@ namespace IFramework
         /// 非密封类修饰用
         /// </summary>
         /// <param name="disposing">是否注销托管资源</param>
-        protected virtual void Dispose(bool disposing) {
+        protected virtual void Dispose(bool disposing)
+        {
             // 不要多次处理 
             if (!disposed) {
                 if (disposing) {

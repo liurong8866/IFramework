@@ -46,7 +46,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="directory">The directory causing the failure.</param>
         /// <param name="e">The exception for this event.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
-        public bool OnDirectoryFailure(string directory, Exception e) {
+        public bool OnDirectoryFailure(string directory, Exception e)
+        {
             bool result = false;
             DirectoryFailureHandler handler = directoryFailure;
 
@@ -64,7 +65,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="file">The file causing the failure.</param>
         /// <param name="e">The exception for this failure.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
-        public bool OnFileFailure(string file, Exception e) {
+        public bool OnFileFailure(string file, Exception e)
+        {
             FileFailureHandler handler = fileFailure;
             bool result = (handler != null);
 
@@ -81,7 +83,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="file">The file being processed.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
-        public bool OnProcessFile(string file) {
+        public bool OnProcessFile(string file)
+        {
             bool result = true;
             ProcessFileHandler handler = processFile;
 
@@ -98,7 +101,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="file">The file whose processing has been completed.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
-        public bool OnCompletedFile(string file) {
+        public bool OnCompletedFile(string file)
+        {
             bool result = true;
             CompletedFileHandler handler = completedFile;
 
@@ -116,7 +120,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="directory">The directory being processed.</param>
         /// <param name="hasMatchingFiles">Flag indicating if the directory has matching files as determined by the current filter.</param>
         /// <returns>A <see cref="bool"/> of true if the operation should continue; false otherwise.</returns>
-        public bool OnProcessDirectory(string directory, bool hasMatchingFiles) {
+        public bool OnProcessDirectory(string directory, bool hasMatchingFiles)
+        {
             bool result = true;
             EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
 
@@ -187,7 +192,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="FastZip"/>
         /// </summary>
         /// <param name="events">The <see cref="FastZipEvents">events</see> to use during operations.</param>
-        public FastZip(FastZipEvents events) {
+        public FastZip(FastZipEvents events)
+        {
             this.events = events;
         }
 
@@ -301,7 +307,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
         public void CreateZip(string zipFileName, string sourceDirectory,
-                              bool recurse, string fileFilter, string directoryFilter) {
+                              bool recurse, string fileFilter, string directoryFilter)
+        {
             CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter);
         }
 
@@ -312,7 +319,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The file filter to apply.</param>
-        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter) {
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter)
+        {
             CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null);
         }
 
@@ -325,7 +333,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
         /// <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
-        public void CreateZip(Stream outputStream, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter) {
+        public void CreateZip(Stream outputStream, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter)
+        {
             NameTransform = new ZipNameTransform(sourceDirectory);
             this.sourceDirectory = sourceDirectory;
 
@@ -366,7 +375,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="zipFileName">The zip file to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
         /// <param name="fileFilter">A filter to apply to files.</param>
-        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter) {
+        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter)
+        {
             ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, restoreDateTimeOnExtract);
         }
 
@@ -382,7 +392,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
         public void ExtractZip(string zipFileName, string targetDirectory,
                                Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
-                               string fileFilter, string directoryFilter, bool restoreDateTime) {
+                               string fileFilter, string directoryFilter, bool restoreDateTime)
+        {
             Stream inputStream = File.Open(zipFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             ExtractZip(inputStream, targetDirectory, overwrite, confirmDelegate, fileFilter, directoryFilter, restoreDateTime, true);
         }
@@ -401,7 +412,8 @@ namespace IFramework.Core.Zip.Zip
         public void ExtractZip(Stream inputStream, string targetDirectory,
                                Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
                                string fileFilter, string directoryFilter, bool restoreDateTime,
-                               bool isStreamOwner) {
+                               bool isStreamOwner)
+        {
             if ((overwrite == Overwrite.Prompt) && (confirmDelegate == null)) {
                 throw new ArgumentNullException(nameof(confirmDelegate));
             }
@@ -442,7 +454,8 @@ namespace IFramework.Core.Zip.Zip
 
         #region Internal Processing
 
-        private void ProcessDirectory(object sender, DirectoryEventArgs e) {
+        private void ProcessDirectory(object sender, DirectoryEventArgs e)
+        {
             if (!e.HasMatchingFiles && CreateEmptyDirectories) {
                 if (events != null) {
                     events.OnProcessDirectory(e.Name, e.HasMatchingFiles);
@@ -457,7 +470,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private void ProcessFile(object sender, ScanEventArgs e) {
+        private void ProcessFile(object sender, ScanEventArgs e)
+        {
             if ((events != null) && (events.processFile != null)) {
                 events.processFile(sender, e);
             }
@@ -485,7 +499,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private void AddFileContents(string name, Stream stream) {
+        private void AddFileContents(string name, Stream stream)
+        {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -507,7 +522,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private void ExtractFileEntry(ZipEntry entry, string targetName) {
+        private void ExtractFileEntry(ZipEntry entry, string targetName)
+        {
             bool proceed = true;
 
             if (overwrite != Overwrite.Always) {
@@ -570,7 +586,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private void ExtractEntry(ZipEntry entry) {
+        private void ExtractEntry(ZipEntry entry)
+        {
             bool doExtraction = entry.IsCompressionMethodSupported();
             string targetName = entry.Name;
 
@@ -625,11 +642,13 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private static int MakeExternalAttributes(FileInfo info) {
+        private static int MakeExternalAttributes(FileInfo info)
+        {
             return (int) info.Attributes;
         }
 
-        private static bool NameIsValid(string name) {
+        private static bool NameIsValid(string name)
+        {
             return !string.IsNullOrEmpty(name) &&
                    (name.IndexOfAny(Path.GetInvalidPathChars()) < 0);
         }

@@ -40,7 +40,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="bufferSize">
         /// size to use for internal buffer
         /// </param>
-        public PendingBuffer(int bufferSize) {
+        public PendingBuffer(int bufferSize)
+        {
             buffer = new byte[bufferSize];
         }
 
@@ -49,7 +50,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Clear internal state/buffers
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             start = end = bitCount = 0;
         }
 
@@ -59,7 +61,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="value">
         /// The value to write
         /// </param>
-        public void WriteByte(int value) {
+        public void WriteByte(int value)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
@@ -75,7 +78,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="value">
         /// The value to write.
         /// </param>
-        public void WriteShort(int value) {
+        public void WriteShort(int value)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
@@ -90,7 +94,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// write an integer LSB first
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteInt(int value) {
+        public void WriteInt(int value)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) )
 			{
@@ -109,7 +114,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="block">data to write</param>
         /// <param name="offset">offset of first byte to write</param>
         /// <param name="length">number of bytes to write</param>
-        public void WriteBlock(byte[] block, int offset, int length) {
+        public void WriteBlock(byte[] block, int offset, int length)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
@@ -130,7 +136,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Align internal buffer on a byte boundary
         /// </summary>
-        public void AlignToByte() {
+        public void AlignToByte()
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
@@ -153,7 +160,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="b">source of bits</param>
         /// <param name="count">number of bits to write</param>
-        public void WriteBits(int b, int count) {
+        public void WriteBits(int b, int count)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
@@ -179,7 +187,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Write a short value to internal buffer most significant byte first
         /// </summary>
         /// <param name="s">value to write</param>
-        public void WriteShortMsb(int s) {
+        public void WriteShortMsb(int s)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (start != 0) ) 
 			{
@@ -205,7 +214,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="offset">The offset into output array.</param>
         /// <param name="length">The maximum number of bytes to store.</param>
         /// <returns>The number of bytes flushed.</returns>
-        public int Flush(byte[] output, int offset, int length) {
+        public int Flush(byte[] output, int offset, int length)
+        {
             if (bitCount >= 8) {
                 buffer[end++] = unchecked((byte) bits);
                 bits >>= 8;
@@ -232,7 +242,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// The internal buffer contents converted to a byte array.
         /// </returns>
-        public byte[] ToByteArray() {
+        public byte[] ToByteArray()
+        {
             AlignToByte();
             byte[] result = new byte[end - start];
             Array.Copy(buffer, start, result, 0, result.Length);

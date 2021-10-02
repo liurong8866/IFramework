@@ -25,7 +25,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="outputStream">stream to write to</param>
         /// <param name="blockFactor">blocking factor</param>
-        public TarOutputStream(Stream outputStream, int blockFactor) {
+        public TarOutputStream(Stream outputStream, int blockFactor)
+        {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
@@ -89,7 +90,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">The offset relative to the <paramref name="origin"/> to seek to</param>
         /// <param name="origin">The <see cref="SeekOrigin"/> to seek from.</param>
         /// <returns>The new position in the stream.</returns>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             return outputStream.Seek(offset, origin);
         }
 
@@ -97,7 +99,8 @@ namespace IFramework.Core.Zip.Tar
         /// Set the length of the current stream
         /// </summary>
         /// <param name="value">The new stream length.</param>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             outputStream.SetLength(value);
         }
 
@@ -106,7 +109,8 @@ namespace IFramework.Core.Zip.Tar
         /// by one byte or returns -1 if at the end of the stream.
         /// </summary>
         /// <returns>The byte value or -1 if at end of stream</returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             return outputStream.ReadByte();
         }
 
@@ -120,14 +124,16 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The total number of bytes read, or zero if at the end of the stream.
         /// The number of bytes may be less than the <paramref name="count">count</paramref>
         /// requested if data is not avialable.</returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             return outputStream.Read(buffer, offset, count);
         }
 
         /// <summary>
         /// All buffered data is written to destination
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             outputStream.Flush();
         }
 
@@ -135,7 +141,8 @@ namespace IFramework.Core.Zip.Tar
         /// Ends the TAR archive without closing the underlying OutputStream.
         /// The result is that the EOF block of nulls is written.
         /// </summary>
-        public void Finish() {
+        public void Finish()
+        {
             if (IsEntryOpen) {
                 CloseEntry();
             }
@@ -147,7 +154,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <remarks>This means that Finish() is called followed by calling the
         /// TarBuffer's Close().</remarks>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (!isClosed) {
                 isClosed = true;
                 Finish();
@@ -169,7 +177,8 @@ namespace IFramework.Core.Zip.Tar
         /// The TarBuffer record size.
         /// </returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize() {
+        public int GetRecordSize()
+        {
             return buffer.RecordSize;
         }
 
@@ -192,7 +201,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="entry">
         /// The TarEntry to be written to the archive.
         /// </param>
-        public void PutNextEntry(TarEntry entry) {
+        public void PutNextEntry(TarEntry entry)
+        {
             if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
@@ -234,7 +244,8 @@ namespace IFramework.Core.Zip.Tar
         /// to the output stream before this entry is closed and the
         /// next entry written.
         /// </summary>
-        public void CloseEntry() {
+        public void CloseEntry()
+        {
             if (assemblyBufferLength > 0) {
                 Array.Clear(assemblyBuffer, assemblyBufferLength, assemblyBuffer.Length - assemblyBufferLength);
                 buffer.WriteBlock(assemblyBuffer);
@@ -257,7 +268,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="value">
         /// The byte to be written.
         /// </param>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             Write(new[] { value }, 0, 1);
         }
 
@@ -279,7 +291,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "count">
         /// The number of bytes to write.
         /// </param>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -351,7 +364,8 @@ namespace IFramework.Core.Zip.Tar
         /// Write an EOF (end of archive) block to the tar archive.
         /// The	end of the archive is indicated	by two blocks consisting entirely of zero bytes.
         /// </summary>
-        private void WriteEofBlock() {
+        private void WriteEofBlock()
+        {
             Array.Clear(blockBuffer, 0, blockBuffer.Length);
             buffer.WriteBlock(blockBuffer);
             buffer.WriteBlock(blockBuffer);

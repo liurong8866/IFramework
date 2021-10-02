@@ -60,7 +60,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="ArgumentNullException">
         /// deflater instance is null
         /// </exception>
-        public DeflaterOutputStream(Stream baseOutputStream, Deflater deflater, int bufferSize) {
+        public DeflaterOutputStream(Stream baseOutputStream, Deflater deflater, int bufferSize)
+        {
             if (baseOutputStream == null) {
                 throw new ArgumentNullException(nameof(baseOutputStream));
             }
@@ -91,7 +92,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="BaseZipException">
         /// Not all input is deflated
         /// </exception>
-        public virtual void Finish() {
+        public virtual void Finish()
+        {
             deflater_.Finish();
 
             while (!deflater_.IsFinished) {
@@ -181,7 +183,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="length">
         /// Number of bytes in buffer to encrypt
         /// </param>
-        protected void EncryptBlock(byte[] buffer, int offset, int length) {
+        protected void EncryptBlock(byte[] buffer, int offset, int length)
+        {
             cryptoTransform_.TransformBlock(buffer, 0, length, buffer, 0);
         }
 
@@ -189,7 +192,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Initializes encryption keys based on given <paramref name="password"/>.
         /// </summary>
         /// <param name="password">The password.</param>
-        protected void InitializePassword(string password) {
+        protected void InitializePassword(string password)
+        {
             var pkManaged = new PkzipClassicManaged();
             byte[] key = PkzipClassic.GenerateKeys(ZipConstants.ConvertToArray(password));
             cryptoTransform_ = pkManaged.CreateEncryptor(key, null);
@@ -199,7 +203,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Initializes encryption keys based on given password.
         /// </summary>
         protected void InitializeAESPassword(ZipEntry entry, string rawPassword,
-                                             out byte[] salt, out byte[] pwdVerifier) {
+                                             out byte[] salt, out byte[] pwdVerifier)
+        {
             salt = new byte[entry.AesSaltLen];
 
             // Salt needs to be cryptographically random, and unique per file
@@ -220,7 +225,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <code>def.deflate()</code> until all bytes from the input buffers
         /// are processed.
         /// </summary>
-        protected void Deflate() {
+        protected void Deflate()
+        {
             while (!deflater_.IsNeedingInput) {
                 int deflateCount = deflater_.Deflate(buffer_, 0, buffer_.Length);
 
@@ -288,7 +294,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="origin">The <see cref="SeekOrigin"/> to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("DeflaterOutputStream Seek not supported");
         }
 
@@ -297,7 +304,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The new stream length.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("DeflaterOutputStream SetLength not supported");
         }
 
@@ -306,7 +314,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <returns>The byte read cast to an int.  THe value is -1 if at the end of the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             throw new NotSupportedException("DeflaterOutputStream ReadByte not supported");
         }
 
@@ -318,7 +327,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="count">The maximum number of bytes to read.</param>
         /// <returns>The actual number of bytes read.  Zero if end of stream is detected.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("DeflaterOutputStream Read not supported");
         }
 
@@ -326,7 +336,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Flushes the stream by calling <see cref="DeflaterOutputStream.Flush">Flush</see> on the deflater and then
         /// on the underlying stream.  This ensures that all bytes are flushed.
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             deflater_.Flush();
             Deflate();
             baseOutputStream_.Flush();
@@ -336,7 +347,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Calls <see cref="Finish"/> and closes the underlying
         /// stream when <see cref="IsStreamOwner"></see> is true.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (!isClosed_) {
                 isClosed_ = true;
 
@@ -357,7 +369,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             }
         }
 
-        private void GetAuthCodeIfAES() {
+        private void GetAuthCodeIfAES()
+        {
             if (cryptoTransform_ is ZipAesTransform) {
                 AESAuthCode = ((ZipAesTransform) cryptoTransform_).GetAuthCode();
             }
@@ -369,7 +382,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="value">
         /// The byte value.
         /// </param>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             byte[] b = new byte[1];
             b[0] = value;
             Write(b, 0, 1);
@@ -387,7 +401,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="count">
         /// The number of bytes to write.
         /// </param>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             deflater_.SetInput(buffer, offset, count);
             Deflate();
         }

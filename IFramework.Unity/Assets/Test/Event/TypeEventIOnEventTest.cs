@@ -29,12 +29,14 @@ namespace IFramework.Test.Event
 {
     public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
     {
-        private void Start() {
+        private void Start()
+        {
             this.RegisterEvent<OnLeftMouseClickEvent>();
             this.RegisterEvent<OnRightMouseClickEvent>();
         }
 
-        private void Update() {
+        private void Update()
+        {
             if (Input.GetMouseButton(0)) {
                 TypeEvent.Send(new OnLeftMouseClickEvent());
             }
@@ -43,23 +45,24 @@ namespace IFramework.Test.Event
             }
         }
 
-        public void OnEvent(OnLeftMouseClickEvent t) {
+        public void OnEvent(OnLeftMouseClickEvent t)
+        {
             "点击左键".LogInfo();
         }
 
-        public void OnEvent(OnRightMouseClickEvent t) {
+        public void OnEvent(OnRightMouseClickEvent t)
+        {
             "点击右键".LogInfo();
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             this.UnRegisterEvent<OnLeftMouseClickEvent>();
             this.UnRegisterEvent<OnRightMouseClickEvent>();
         }
     }
 
-    public struct OnLeftMouseClickEvent
-    { }
+    public struct OnLeftMouseClickEvent { }
 
-    public struct OnRightMouseClickEvent
-    { }
+    public struct OnRightMouseClickEvent { }
 }

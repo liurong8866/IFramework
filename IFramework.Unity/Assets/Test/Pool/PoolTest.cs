@@ -29,12 +29,14 @@ namespace IFramework.Test.Pool
 {
     public class PoolTest : MonoBehaviour
     {
-        private void Start() {
+        private void Start()
+        {
             // SimplePoolTest();
             ObjectPoolTest();
         }
 
-        private void SimplePoolTest() {
+        private void SimplePoolTest()
+        {
             SimplePool<Bullet> bulletPool = new SimplePool<Bullet>(
                 () => { return new Bullet(); },
                 bullet => { bullet.state = "未发射"; }, 100);
@@ -53,7 +55,8 @@ namespace IFramework.Test.Pool
             Debug.Log(bulletPool.Count);
         }
 
-        private void ObjectPoolTest() {
+        private void ObjectPoolTest()
+        {
             ObjectPool<Bullet2> pool = ObjectPool<Bullet2>.Instance;
             pool.Init(10, 5);
             Debug.Log(pool.Count);
@@ -89,7 +92,8 @@ namespace IFramework.Test.Pool
         /// <summary>
         /// 回收对象时触发的事件
         /// </summary>
-        public void OnRecycled() {
+        public void OnRecycled()
+        {
             state = "未发射";
         }
 

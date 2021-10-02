@@ -29,7 +29,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="stream">The stream to buffer.</param>
         /// <param name="bufferSize">The size to use for the buffer</param>
         /// <remarks>A minimum buffer size of 1KB is permitted.  Lower sizes are treated as 1KB.</remarks>
-        public InflaterInputBuffer(Stream stream, int bufferSize) {
+        public InflaterInputBuffer(Stream stream, int bufferSize)
+        {
             inputStream = stream;
 
             if (bufferSize < 1024) {
@@ -82,7 +83,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Call <see cref="Inflater.SetInput(byte[], int, int)"/> passing the current clear text buffer contents.
         /// </summary>
         /// <param name="inflater">The inflater to set input for.</param>
-        public void SetInflaterInput(Inflater inflater) {
+        public void SetInflaterInput(Inflater inflater)
+        {
             if (available > 0) {
                 inflater.SetInput(clearText, clearTextLength - available, available);
                 available = 0;
@@ -92,7 +94,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Fill the buffer from the underlying input stream.
         /// </summary>
-        public void Fill() {
+        public void Fill()
+        {
             rawLength = 0;
             int toRead = rawData.Length;
 
@@ -120,7 +123,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="buffer">The buffer to fill</param>
         /// <returns>Returns the number of bytes read.</returns>
-        public int ReadRawBuffer(byte[] buffer) {
+        public int ReadRawBuffer(byte[] buffer)
+        {
             return ReadRawBuffer(buffer, 0, buffer.Length);
         }
 
@@ -131,7 +135,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="offset">The offset to start reading data into.</param>
         /// <param name="length">The number of bytes to read.</param>
         /// <returns>Returns the number of bytes read.</returns>
-        public int ReadRawBuffer(byte[] outBuffer, int offset, int length) {
+        public int ReadRawBuffer(byte[] outBuffer, int offset, int length)
+        {
             if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
@@ -162,7 +167,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="offset">The offset to start adding data at.</param>
         /// <param name="length">The number of bytes to read.</param>
         /// <returns>Returns the number of bytes actually read.</returns>
-        public int ReadClearTextBuffer(byte[] outBuffer, int offset, int length) {
+        public int ReadClearTextBuffer(byte[] outBuffer, int offset, int length)
+        {
             if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
@@ -190,7 +196,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read a <see cref="byte"/> from the input stream.
         /// </summary>
         /// <returns>Returns the byte read.</returns>
-        public int ReadLeByte() {
+        public int ReadLeByte()
+        {
             if (available <= 0) {
                 Fill();
 
@@ -207,7 +214,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read an <see cref="short"/> in little endian byte order.
         /// </summary>
         /// <returns>The short value read case to an int.</returns>
-        public int ReadLeShort() {
+        public int ReadLeShort()
+        {
             return ReadLeByte() | (ReadLeByte() << 8);
         }
 
@@ -215,7 +223,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read an <see cref="int"/> in little endian byte order.
         /// </summary>
         /// <returns>The int value read.</returns>
-        public int ReadLeInt() {
+        public int ReadLeInt()
+        {
             return ReadLeShort() | (ReadLeShort() << 16);
         }
 
@@ -223,7 +232,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read a <see cref="long"/> in little endian byte order.
         /// </summary>
         /// <returns>The long value read.</returns>
-        public long ReadLeLong() {
+        public long ReadLeLong()
+        {
             return (uint) ReadLeInt() | ((long) ReadLeInt() << 32);
         }
 
@@ -321,7 +331,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name = "bufferSize">
         /// Size of the buffer to use
         /// </param>
-        public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize) {
+        public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize)
+        {
             if (baseInputStream == null) {
                 throw new ArgumentNullException(nameof(baseInputStream));
             }
@@ -365,7 +376,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="count">The number of bytes</paramref> to skip is less than or equal to zero.
         /// </exception>
-        public long Skip(long count) {
+        public long Skip(long count)
+        {
             if (count <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
@@ -397,7 +409,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Clear any cryptographic state.
         /// </summary>
-        protected void StopDecrypting() {
+        protected void StopDecrypting()
+        {
             inputBuffer.CryptoTransform = null;
         }
 
@@ -415,7 +428,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="BaseZipException">
         /// Stream ends early
         /// </exception>
-        protected void Fill() {
+        protected void Fill()
+        {
             // Protect against redundant calls
             if (inputBuffer.Available <= 0) {
                 inputBuffer.Fill();
@@ -473,7 +487,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             baseInputStream.Flush();
         }
 
@@ -485,7 +500,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("Seek not supported");
         }
 
@@ -495,7 +511,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("InflaterInputStream SetLength not supported");
         }
 
@@ -507,7 +524,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("InflaterInputStream Write not supported");
         }
 
@@ -517,7 +535,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             throw new NotSupportedException("InflaterInputStream WriteByte not supported");
         }
 
@@ -525,7 +544,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
         /// is true the underlying stream is also closed.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (!isClosed) {
                 isClosed = true;
 
@@ -551,7 +571,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="BaseZipException">
         /// Inflater needs a dictionary
         /// </exception>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             if (inf.IsNeedingDictionary) {
                 throw new BaseZipException("Need a dictionary");
             }

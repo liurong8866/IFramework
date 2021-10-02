@@ -45,7 +45,8 @@ namespace IFramework.Editor
         public const string CON_MENU_TOOL_CLEAR = "IFramework/Clear Data";
 
         [MenuItem(CON_MENU_TOOL_RESKIT, false, 1)]
-        private static void AssetBundleWindow() {
+        private static void AssetBundleWindow()
+        {
             AssetBundleKit.OpenAssetBundleWindow();
         }
 
@@ -53,7 +54,8 @@ namespace IFramework.Editor
         private static void UiKitWindow() { }
 
         [MenuItem(CON_MENU_TOOL_CLEAR, false, 31)]
-        private static void Clear() {
+        private static void Clear()
+        {
             Log.Info("缓存数据清理 开始！");
             PlayerPrefs.DeleteAll();
             Directory.Delete(Application.persistentDataPath, true);
@@ -70,7 +72,8 @@ namespace IFramework.Editor
         public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
 
         [MenuItem(CON_MENU_BIND, false, 30)]
-        private static void UiKitBind() {
+        private static void UiKitBind()
+        {
             UiKit.BindScript();
         }
 
@@ -85,7 +88,8 @@ namespace IFramework.Editor
         public const string CON_MENU_ASSET_GENCODE = "Assets/I Kit - Generate Code";
 
         [MenuItem(CON_MENU_ASSET_MARK, false, 120)]
-        private static void MarkAssetBundle() {
+        private static void MarkAssetBundle()
+        {
             AssetBundleKit.MarkAssetBundle();
         }
 
@@ -94,12 +98,14 @@ namespace IFramework.Editor
 
         // 控制是否可用
         [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
-        private static bool AssetCreateCodeValidate() {
+        private static bool AssetCreateCodeValidate()
+        {
             return false;
         }
 
         [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
-        private static void OpguiWindowLifeCircle() {
+        private static void OpguiWindowLifeCircle()
+        {
             GuiWindowLifeCircle.Open();
         }
     }

@@ -34,20 +34,23 @@ namespace IFramework.Test.Viarable
         private ConfigBool autoGenerateName;
         private ConfigBool isSimulation;
 
-        private void Awake() {
+        private void Awake()
+        {
             platformIndex = new ConfigInt("platformIndex");
             autoGenerateName = new ConfigBool("autoGenerateName", true);
             isSimulation = new ConfigBool("isSimulation", true);
             bool unused = autoGenerateName.Value;
         }
 
-        [MenuItem("IFramework/Test/Window")]
-        public static void Open() {
+        //        [MenuItem("IFramework/Test/Window")]
+        public static void Open()
+        {
             ViarableGui window = GetWindow<ViarableGui>();
             window.Show();
         }
 
-        private void OnGUI() {
+        private void OnGUI()
+        {
             // 选择平台
             platformIndex.Value = GUILayout.Toolbar(platformIndex.Value, new[] { "Window", "MacOS", "iOS", "Android", "WebGL", "PS4", "PS5", "XboxOne" });
             GUILayout.Space(10);

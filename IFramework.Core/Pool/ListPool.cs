@@ -41,7 +41,8 @@ namespace IFramework.Core
         /// <summary>
         /// 出栈：获取某个List对象
         /// </summary>
-        public static List<T> Allocate() {
+        public static List<T> Allocate()
+        {
             if (cache.Count == 0) {
                 return new List<T>(capacity);
             }
@@ -51,7 +52,8 @@ namespace IFramework.Core
         /// <summary>
         /// 入栈：将List对象添加到栈中
         /// </summary>
-        public static void Release(List<T> release) {
+        public static void Release(List<T> release)
+        {
             release.Clear();
             cache.Push(release);
         }
@@ -62,7 +64,8 @@ namespace IFramework.Core
         /// <summary>
         /// 给List拓展 自身入栈 的方法
         /// </summary>
-        public static void Recycle<T>(this List<T> self) {
+        public static void Recycle<T>(this List<T> self)
+        {
             ListPool<T>.Release(self);
         }
     }

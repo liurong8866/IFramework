@@ -31,11 +31,13 @@ namespace IFramework.Core
     /// </summary>
     public class Countor : ICountor, IDisposable
     {
-        public Countor() {
+        public Countor()
+        {
             Counter = 0;
         }
 
-        public Countor(Action action) {
+        public Countor(Action action)
+        {
             Counter = 0;
             OnZero = action;
         }
@@ -53,7 +55,8 @@ namespace IFramework.Core
         /// <summary>
         /// 记录
         /// </summary>
-        public bool Hold(object owner = null) {
+        public bool Hold(object owner = null)
+        {
             Counter++;
             return true;
         }
@@ -61,7 +64,8 @@ namespace IFramework.Core
         /// <summary>
         /// 释放
         /// </summary>
-        public bool UnHold(object owner = null) {
+        public bool UnHold(object owner = null)
+        {
             Counter--;
 
             if (Counter == 0) {
@@ -74,7 +78,8 @@ namespace IFramework.Core
         /// 重置为0
         /// </summary>
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
-        public void Reset(bool invokeAction = false) {
+        public void Reset(bool invokeAction = false)
+        {
             Counter = 0;
 
             if (invokeAction) {
@@ -82,11 +87,13 @@ namespace IFramework.Core
             }
         }
 
-        public virtual void Dispose() {
+        public virtual void Dispose()
+        {
             OnZero = null;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return Counter.ToString();
         }
     }

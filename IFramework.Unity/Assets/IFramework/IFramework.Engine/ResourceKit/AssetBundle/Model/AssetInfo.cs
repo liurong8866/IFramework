@@ -65,7 +65,8 @@ namespace IFramework.Engine
 
         public AssetInfo() { }
 
-        public AssetInfo(string assetName, string assetBundleName, int assetBundleIndex, short assetType, short assetTypeCode = 0) {
+        public AssetInfo(string assetName, string assetBundleName, int assetBundleIndex, short assetType, short assetTypeCode = 0)
+        {
             AssetName = assetName;
             AssetBundleName = assetBundleName;
             AssetBundleIndex = assetBundleIndex;

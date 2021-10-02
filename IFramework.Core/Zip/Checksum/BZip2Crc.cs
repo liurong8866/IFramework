@@ -113,14 +113,16 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// Initialise a default instance of <see cref="BZip2Crc"></see>
         /// </summary>
-        public BZip2Crc() {
+        public BZip2Crc()
+        {
             Reset();
         }
 
         /// <summary>
         /// Resets the CRC data checksum as if no update was ever called.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             checkValue = CRC_INIT;
         }
 
@@ -145,7 +147,8 @@ namespace IFramework.Core.Zip.Checksum
         /// the byte is taken as the lower 8 bits of bval
         /// </param>
         /// <remarks>Reversed Data = false</remarks>
-        public void Update(int bval) {
+        public void Update(int bval)
+        {
             checkValue = unchecked(crcTable[(byte) (((checkValue >> 24) & 0xFF) ^ bval)] ^ (checkValue << 8));
         }
 
@@ -154,7 +157,8 @@ namespace IFramework.Core.Zip.Checksum
         /// a block of data.
         /// </summary>
         /// <param name="buffer">Contains the data to update the CRC with.</param>
-        public void Update(byte[] buffer) {
+        public void Update(byte[] buffer)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -167,7 +171,8 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name = "buffer">Contains the data to update the CRC with.</param>
         /// <param name = "offset">The offset into the buffer where the data starts</param>
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
-        public void Update(byte[] buffer, int offset, int count) {
+        public void Update(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }

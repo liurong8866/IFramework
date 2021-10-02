@@ -58,7 +58,8 @@ namespace IFramework.Core
         /// <summary>
         /// 资源释放
         /// </summary>
-        public static void Dispose() {
+        public static void Dispose()
+        {
             if (instance != null) {
                 Object.Destroy(instance.gameObject);
                 instance = null;

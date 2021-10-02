@@ -30,7 +30,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <returns>
         /// the value of the bits, or -1 if not enough bits available.  */
         /// </returns>
-        public int PeekBits(int bitCount) {
+        public int PeekBits(int bitCount)
+        {
             if (bitsInBuffer_ < bitCount) {
                 if (windowStart_ == windowEnd_) {
                     return -1; // ok
@@ -49,7 +50,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// the bit buffer.
         /// </summary>
         /// <param name="bitCount">The number of bits to drop.</param>
-        public void DropBits(int bitCount) {
+        public void DropBits(int bitCount)
+        {
             buffer_ >>= bitCount;
             bitsInBuffer_ -= bitCount;
         }
@@ -62,7 +64,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <returns>
         /// the value of the bits, or -1 if not enough bits available.
         /// </returns>
-        public int GetBits(int bitCount) {
+        public int GetBits(int bitCount)
+        {
             int bits = PeekBits(bitCount);
 
             if (bits >= 0) {
@@ -95,7 +98,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Skips to the next byte boundary.
         /// </summary>
-        public void SkipToByteBoundary() {
+        public void SkipToByteBoundary()
+        {
             buffer_ >>= (bitsInBuffer_ & 7);
             bitsInBuffer_ &= ~7;
         }
@@ -131,7 +135,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="InvalidOperationException">
         /// Bit buffer isnt byte aligned
         /// </exception>
-        public int CopyBytes(byte[] output, int offset, int length) {
+        public int CopyBytes(byte[] output, int offset, int length)
+        {
             if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
@@ -172,7 +177,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Resets state and empties internal buffers
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             buffer_ = 0;
             windowStart_ = windowEnd_ = bitsInBuffer_ = 0;
         }
@@ -184,7 +190,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="buffer">data to be input</param>
         /// <param name="offset">offset of first byte of input</param>
         /// <param name="count">number of bytes of input to add.</param>
-        public void SetInput(byte[] buffer, int offset, int count) {
+        public void SetInput(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }

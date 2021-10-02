@@ -33,7 +33,8 @@ namespace IFramework.Test
         public void Setup() { }
 
         [Test]
-        public void TestCamal() {
+        public void TestCamal()
+        {
             string a = "hello_world_nihao".ToCamel('_');
             string b = "hello_world_".ToCamel('_');
             string c = "_world_nihao".ToCamel('_');
@@ -43,7 +44,8 @@ namespace IFramework.Test
         }
 
         [Test]
-        public void TestPascal() {
+        public void TestPascal()
+        {
             string a = "hello_world_nihao".ToPascal('_');
             string b = "hello_world_".ToPascal('_');
             string c = "_world_nihao".ToPascal('_');

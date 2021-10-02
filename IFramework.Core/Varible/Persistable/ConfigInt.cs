@@ -35,29 +35,34 @@ namespace IFramework.Core
 
         public ConfigInt(string key, int value) : base(key, value) { }
 
-        public ConfigInt(string key, int value, bool overwrite) : base(key, value) {
+        public ConfigInt(string key, int value, bool overwrite) : base(key, value)
+        {
             if (overwrite) {
                 Save(value);
             }
         }
 
-        public override int Get() {
+        public override int Get()
+        {
             return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : value;
         }
 
-        public override void Save(int value) {
+        public override void Save(int value)
+        {
             PlayerPrefs.SetInt(key, value);
             PlayerPrefs.Save();
         }
 
         //重载运算符"++"
-        public static ConfigInt operator ++(ConfigInt self) {
+        public static ConfigInt operator ++(ConfigInt self)
+        {
             self.Value = Addition(self.Value, 1);
             return self;
         }
 
         //重载运算符"--"
-        public static ConfigInt operator --(ConfigInt self) {
+        public static ConfigInt operator --(ConfigInt self)
+        {
             self.Value = Subtraction(self.Value, 1);
             return self;
         }

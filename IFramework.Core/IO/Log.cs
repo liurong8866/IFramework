@@ -46,69 +46,82 @@ namespace IFramework.Core
         }
 
         // INFO
-        public static void Info(object content) {
+        public static void Info(object content)
+        {
             if (logLevel >= LogLevel.Info) {
                 Debug.Log(content.ToString());
             }
         }
 
-        public static void Info(string format, params object[] param) {
+        public static void Info(string format, params object[] param)
+        {
             if (logLevel >= LogLevel.Info) {
                 Debug.LogFormat(format, param);
             }
         }
 
-        public static void LogInfo(this object self) {
+        public static void LogInfo(this object self)
+        {
             Info(self);
         }
 
-        public static void LogInfo(this object self, string format) {
+        public static void LogInfo(this object self, string format)
+        {
             Info(format, self);
         }
 
         // WARNING
-        public static void Warning(object self) {
+        public static void Warning(object self)
+        {
             if (logLevel >= LogLevel.Warning) {
                 Debug.LogWarning(self);
             }
         }
 
-        public static void Warning(string format, params object[] param) {
+        public static void Warning(string format, params object[] param)
+        {
             if (logLevel >= LogLevel.Warning) {
                 Debug.LogWarningFormat(format, param);
             }
         }
 
-        public static void LogWarning(this object self) {
+        public static void LogWarning(this object self)
+        {
             Warning(self);
         }
 
-        public static void LogWarning(this object self, string format) {
+        public static void LogWarning(this object self, string format)
+        {
             Warning(format, self);
         }
 
         // ERROR
-        public static void Error(object self) {
+        public static void Error(object self)
+        {
             if (logLevel >= LogLevel.Error) {
                 Debug.LogError(self);
             }
         }
 
-        public static void Error(string format, params object[] param) {
+        public static void Error(string format, params object[] param)
+        {
             if (logLevel >= LogLevel.Error) {
                 Debug.LogErrorFormat(format, param);
             }
         }
 
-        public static void LogError(this object self) {
+        public static void LogError(this object self)
+        {
             Error(self);
         }
 
-        public static void LogError(this object self, string format) {
+        public static void LogError(this object self, string format)
+        {
             Error(format, self);
         }
 
-        public static void Clear() {
+        public static void Clear()
+        {
             // var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
             // var type = assembly.GetType("UnityEditor.LogEntries");
 

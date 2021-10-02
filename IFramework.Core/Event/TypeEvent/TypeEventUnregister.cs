@@ -32,7 +32,8 @@ namespace IFramework.Core
 
         public ITypeEvent typeEvent;
 
-        public void Dispose() {
+        public void Dispose()
+        {
             typeEvent.UnRegisterEvent(actions);
         }
     }

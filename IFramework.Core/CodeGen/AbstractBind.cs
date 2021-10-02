@@ -30,17 +30,13 @@ namespace IFramework.Core
     {
         [SerializeField] protected BindType bindType = BindType.DefaultElement;
 
-        public string Comment {
-            get { return CustomComment; }
-        }
+        public string Comment => CustomComment;
 
-        public Transform Transform {
-            get { return transform; }
-        }
+        public Transform Transform => transform;
 
         public BindType BindType {
-            get { return bindType; }
-            set { bindType = value; }
+            get => bindType;
+            set => bindType = value;
         }
 
         [HideInInspector] public string CustomComponentName;
@@ -64,7 +60,8 @@ namespace IFramework.Core
             set { mComponentName = value; }
         }
 
-        private string GetDefaultComponentName() {
+        private string GetDefaultComponentName()
+        {
             // if (GetComponent<ViewController>()) return GetComponent<ViewController>().GetType().FullName;
             //
             // if (GetComponent("SkeletonAnimation")) return "SkeletonAnimation";

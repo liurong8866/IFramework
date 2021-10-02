@@ -33,7 +33,8 @@ namespace IFramework.Core
     /// <typeparam name="T"></typeparam>
     public class NoPublicConstructorFactory<T> : IFactory<T> where T : class
     {
-        public T Create() {
+        public T Create()
+        {
             // 找到所有私有构造函数
             ConstructorInfo[] constructors = typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
 

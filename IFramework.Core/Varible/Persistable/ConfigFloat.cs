@@ -35,29 +35,34 @@ namespace IFramework.Core
 
         public ConfigFloat(string key, float value) : base(key, value) { }
 
-        public ConfigFloat(string key, float value, bool overwrite) : base(key, value) {
+        public ConfigFloat(string key, float value, bool overwrite) : base(key, value)
+        {
             if (overwrite) {
                 Save(value);
             }
         }
 
-        public override float Get() {
+        public override float Get()
+        {
             return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : value;
         }
 
-        public override void Save(float value) {
+        public override void Save(float value)
+        {
             PlayerPrefs.SetFloat(key, value);
             PlayerPrefs.Save();
         }
 
         //重载运算符"++"
-        public static ConfigFloat operator ++(ConfigFloat m) {
+        public static ConfigFloat operator ++(ConfigFloat m)
+        {
             m.Value = Addition(m.Value, 1.0f);
             return m;
         }
 
         //重载运算符"--"
-        public static ConfigFloat operator --(ConfigFloat m) {
+        public static ConfigFloat operator --(ConfigFloat m)
+        {
             m.Value = Subtraction(m.Value, 1.0f);
             return m;
         }

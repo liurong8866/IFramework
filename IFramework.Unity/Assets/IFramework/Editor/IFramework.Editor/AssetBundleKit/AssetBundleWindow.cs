@@ -38,17 +38,20 @@ namespace IFramework.Editor
         private Vector2 scrollPosition;
         private List<string> signedList;
 
-        public static void Open() {
+        public static void Open()
+        {
             //创建窗口
             AssetBundleWindow window = GetWindow<AssetBundleWindow>(false, "资源管理器");
             window.Show();
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             KeyEvent.Register(EventEnums.AssetBundleMark, key => isViewChanged = true);
         }
 
-        private void LoadMarkedList() {
+        private void LoadMarkedList()
+        {
             signedList = AssetDatabase.GetAllAssetBundleNames()
                                       .SelectMany(asset => {
                                            var result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
@@ -68,7 +71,8 @@ namespace IFramework.Editor
         }
 
         //绘制窗口时调用
-        private void OnGUI() {
+        private void OnGUI()
+        {
             if (isViewChanged) {
                 LoadMarkedList();
                 isViewChanged = false;

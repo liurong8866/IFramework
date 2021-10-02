@@ -16,7 +16,8 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="ScanEventArgs"/>
         /// </summary>
         /// <param name="name">The file or directory name.</param>
-        public ScanEventArgs(string name) {
+        public ScanEventArgs(string name)
+        {
             this.name = name;
         }
 
@@ -58,7 +59,8 @@ namespace IFramework.Core.Zip
         /// <param name="name">The file or directory name if known.</param>
         /// <param name="processed">The number of bytes processed so far</param>
         /// <param name="target">The total number of bytes to process, 0 if not known</param>
-        public ProgressEventArgs(string name, long processed, long target) {
+        public ProgressEventArgs(string name, long processed, long target)
+        {
             this.name = name;
             this.processed = processed;
             this.target = target;
@@ -137,7 +139,8 @@ namespace IFramework.Core.Zip
         /// <param name="name">The name for this directory.</param>
         /// <param name="hasMatchingFiles">Flag value indicating if any matching files are contained in this directory.</param>
         public DirectoryEventArgs(string name, bool hasMatchingFiles)
-                : base(name) {
+                : base(name)
+        {
             this.hasMatchingFiles = hasMatchingFiles;
         }
 
@@ -171,7 +174,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The name to apply.</param>
         /// <param name="e">The exception to use.</param>
-        public ScanFailureEventArgs(string name, Exception e) {
+        public ScanFailureEventArgs(string name, Exception e)
+        {
             this.name = name;
             exception = e;
             continueRunning = true;
@@ -262,7 +266,8 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>
         /// </summary>
         /// <param name="filter">The <see cref="PathFilter">file filter</see> to apply when scanning.</param>
-        public FileSystemScanner(string filter) {
+        public FileSystemScanner(string filter)
+        {
             fileFilter = new PathFilter(filter);
         }
 
@@ -271,7 +276,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter"> directory filter</see> to apply.</param>
-        public FileSystemScanner(string fileFilter, string directoryFilter) {
+        public FileSystemScanner(string fileFilter, string directoryFilter)
+        {
             this.fileFilter = new PathFilter(fileFilter);
             this.directoryFilter = new PathFilter(directoryFilter);
         }
@@ -280,7 +286,8 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>
         /// </summary>
         /// <param name="fileFilter">The file <see cref="IScanFilter">filter</see> to apply.</param>
-        public FileSystemScanner(IScanFilter fileFilter) {
+        public FileSystemScanner(IScanFilter fileFilter)
+        {
             this.fileFilter = fileFilter;
         }
 
@@ -289,7 +296,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="fileFilter">The file <see cref="IScanFilter">filter</see>  to apply.</param>
         /// <param name="directoryFilter">The directory <see cref="IScanFilter">filter</see>  to apply.</param>
-        public FileSystemScanner(IScanFilter fileFilter, IScanFilter directoryFilter) {
+        public FileSystemScanner(IScanFilter fileFilter, IScanFilter directoryFilter)
+        {
             this.fileFilter = fileFilter;
             this.directoryFilter = directoryFilter;
         }
@@ -330,7 +338,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="directory">The directory name.</param>
         /// <param name="e">The exception detected.</param>
-        private bool OnDirectoryFailure(string directory, Exception e) {
+        private bool OnDirectoryFailure(string directory, Exception e)
+        {
             DirectoryFailureHandler handler = directoryFailure;
             bool result = (handler != null);
 
@@ -347,7 +356,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="file">The file name.</param>
         /// <param name="e">The exception detected.</param>
-        private bool OnFileFailure(string file, Exception e) {
+        private bool OnFileFailure(string file, Exception e)
+        {
             FileFailureHandler handler = fileFailure;
             bool result = (handler != null);
 
@@ -363,7 +373,8 @@ namespace IFramework.Core.Zip
         /// Raise the ProcessFile event.
         /// </summary>
         /// <param name="file">The file name.</param>
-        private void OnProcessFile(string file) {
+        private void OnProcessFile(string file)
+        {
             ProcessFileHandler handler = processFile;
 
             if (handler != null) {
@@ -377,7 +388,8 @@ namespace IFramework.Core.Zip
         /// Raise the complete file event
         /// </summary>
         /// <param name="file">The file name</param>
-        private void OnCompleteFile(string file) {
+        private void OnCompleteFile(string file)
+        {
             CompletedFileHandler handler = completedFile;
 
             if (handler != null) {
@@ -392,7 +404,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="directory">The directory name.</param>
         /// <param name="hasMatchingFiles">Flag indicating if the directory has matching files.</param>
-        private void OnProcessDirectory(string directory, bool hasMatchingFiles) {
+        private void OnProcessDirectory(string directory, bool hasMatchingFiles)
+        {
             EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
 
             if (handler != null) {
@@ -407,12 +420,14 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="directory">The base directory to scan.</param>
         /// <param name="recurse">True to recurse subdirectories, false to scan a single directory.</param>
-        public void Scan(string directory, bool recurse) {
+        public void Scan(string directory, bool recurse)
+        {
             alive = true;
             ScanDir(directory, recurse);
         }
 
-        private void ScanDir(string directory, bool recurse) {
+        private void ScanDir(string directory, bool recurse)
+        {
             try {
                 string[] names = Directory.GetFiles(directory);
                 bool hasMatch = false;

@@ -8,7 +8,8 @@ namespace Test.ResourceKit._06_LoadSceneExample
     {
         private ResourceLoader loader = null;
 
-        private void Start() {
+        private void Start()
+        {
             loader = new ResourceLoader();
 
             // 同步

@@ -63,7 +63,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现接口
         /// </summary>
-        public void OnRecycled() {
+        public void OnRecycled()
+        {
             ReleaseAllResource();
         }
 
@@ -72,7 +73,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 回收函数
         /// </summary>
-        public void Recycle() {
+        public void Recycle()
+        {
             if (unloadObjectList.IsNotNullOrEmpty()) {
                 foreach (Object obj in unloadObjectList) {
                     obj.DestroySelf();
@@ -86,7 +88,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配资源函数
         /// </summary>
-        public static ResourceLoader Allocate() {
+        public static ResourceLoader Allocate()
+        {
             return ObjectPool<ResourceLoader>.Instance.Allocate();
         }
 
@@ -95,7 +98,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public Object Load(string assetName) {
+        public Object Load(string assetName)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             IResource resource = Load(searcher);
             return resource.Asset;
@@ -104,7 +108,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public Object Load(string assetName, string bundleName) {
+        public Object Load(string assetName, string bundleName)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName);
             IResource resource = Load(searcher);
             return resource.Asset;
@@ -113,7 +118,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public T Load<T>(string assetName) where T : Object {
+        public T Load<T>(string assetName) where T : Object
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, null, typeof(T));
             IResource resource = Load(searcher);
             return resource.Asset as T;
@@ -122,7 +128,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public T Load<T>(string assetName, string bundleName) where T : Object {
+        public T Load<T>(string assetName, string bundleName) where T : Object
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName, typeof(T));
             IResource resource = Load(searcher);
             return resource.Asset as T;
@@ -131,7 +138,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public IResource Load(ResourceSearcher searcher) {
+        public IResource Load(ResourceSearcher searcher)
+        {
             // 添加到加载任务列表
             AddToLoad(searcher);
 
@@ -152,7 +160,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载Sprite
         /// </summary>
-        public Sprite LoadSprite(string spriteName, string bundleName = null) {
+        public Sprite LoadSprite(string spriteName, string bundleName = null)
+        {
             // 如果是模拟器模式，直接加载Resources文件夹下到资源
             if (Platform.IsSimulation) {
                 // 如果未缓存，则缓存
@@ -176,7 +185,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public void LoadAsync(Action callback = null) {
+        public void LoadAsync(Action callback = null)
+        {
             this.currentCallback = callback;
             // 异步加载
             LoadAsyncMethod();
@@ -185,7 +195,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        private void LoadAsyncMethod() {
+        private void LoadAsyncMethod()
+        {
             // 如果加载完毕，调用回调方法
             if (loadingCount == 0) {
                 currentCallback.InvokeSafe();
@@ -224,7 +235,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public void AddToLoad(List<string> list) {
+        public void AddToLoad(List<string> list)
+        {
             if (list == null) return;
 
             foreach (string assetName in list) {
@@ -236,7 +248,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public ResourceLoader AddToLoad(string assetName, Action<bool, IResource> callback = null, bool last = true) {
+        public ResourceLoader AddToLoad(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             AddToLoad(searcher, callback, last);
             return this;
@@ -245,7 +258,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public ResourceLoader AddToLoad<T>(string assetName, Action<bool, IResource> callback = null, bool last = true) {
+        public ResourceLoader AddToLoad<T>(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, null, typeof(T));
             AddToLoad(searcher, callback, last);
             return this;
@@ -254,7 +268,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public ResourceLoader AddToLoad(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true) {
+        public ResourceLoader AddToLoad(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName);
             AddToLoad(searcher, callback, last);
             return this;
@@ -263,7 +278,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
-        public ResourceLoader AddToLoad<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true) {
+        public ResourceLoader AddToLoad<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName, bundleName, typeof(T));
             AddToLoad(searcher, callback, last);
             return this;
@@ -275,7 +291,8 @@ namespace IFramework.Engine
         /// <param name="searcher">查询器</param>
         /// <param name="callback">完成后</param>
         /// <param name="last"></param>
-        private void AddToLoad(ResourceSearcher searcher, Action<bool, IResource> callback = null, bool last = true) {
+        private void AddToLoad(ResourceSearcher searcher, Action<bool, IResource> callback = null, bool last = true)
+        {
             // 在缓存的资源中查找
             IResource resource = GetResourceInCache(searcher);
 
@@ -315,7 +332,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加资源到列表
         /// </summary>
-        private void AddToLoadList(IResource resource, bool last) {
+        private void AddToLoadList(IResource resource, bool last)
+        {
             using ResourceSearcher searcher = ResourceSearcher.Allocate(resource.AssetName, resource.AssetBundleName, resource.AssetType);
 
             // 在缓存的资源中查找，再次确保
@@ -338,7 +356,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 在缓存的资源中查找
         /// </summary>
-        private IResource GetResourceInCache(ResourceSearcher searcher) {
+        private IResource GetResourceInCache(ResourceSearcher searcher)
+        {
             return resourceList.IsNullOrEmpty()
                     ? null
                     : resourceList.FirstOrDefault(resource => searcher.Match(resource));
@@ -351,7 +370,8 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="result"></param>
         /// <param name="resource"></param>
-        private void OnResourceLoaded(bool result, IResource resource) {
+        private void OnResourceLoaded(bool result, IResource resource)
+        {
             loadingCount--;
 
             // 在这里使用了递归调用
@@ -368,7 +388,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放资源
         /// </summary>
-        public void ReleaseResource(string assetName) {
+        public void ReleaseResource(string assetName)
+        {
             if (assetName.IsNullOrEmpty()) return;
 
             // 清空模拟器模式下加载的资源
@@ -406,7 +427,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放资源
         /// </summary>
-        public void ReleaseResource(string[] assetNames) {
+        public void ReleaseResource(string[] assetNames)
+        {
             if (assetNames.IsNullOrEmpty()) return;
 
             foreach (string assetName in assetNames) {
@@ -417,7 +439,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放所有资源
         /// </summary>
-        public void ReleaseAllResource() {
+        public void ReleaseAllResource()
+        {
             currentCallback = null;
             loadingCount = 0;
             waitForLoadList.Clear();
@@ -452,7 +475,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放所有加载的资源
         /// </summary>
-        public void ReleaseAllInstantiateResource() {
+        public void ReleaseAllInstantiateResource()
+        {
             foreach (IResource resource in resourceList) {
                 if (resource.UnloadImage) {
                     if (waitForLoadList.Remove(resource)) loadingCount--;
@@ -468,7 +492,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放某资源的回调事件
         /// </summary>
-        private void RemoveCallback(IResource resource, bool release) {
+        private void RemoveCallback(IResource resource, bool release)
+        {
             if (!callbackCleanerList.IsNullOrEmpty()) {
                 LinkedListNode<CallbackCleaner> currentNode = callbackCleanerList.First;
 
@@ -489,7 +514,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放所有回调事件
         /// </summary>
-        private void RemoveAllCallbacks(bool release) {
+        private void RemoveAllCallbacks(bool release)
+        {
             if (callbackCleanerList != null) {
                 int count = callbackCleanerList.Count;
 
@@ -505,14 +531,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现Disposable接口
         /// </summary>
-        protected override void DisposeManaged() {
+        protected override void DisposeManaged()
+        {
             ReleaseAllResource();
         }
 
         /// <summary>
         /// 回收资源时销毁
         /// </summary>
-        public void DestroyOnRecycle(Object obj) {
+        public void DestroyOnRecycle(Object obj)
+        {
             if (unloadObjectList == null) {
                 unloadObjectList = new List<Object>();
             }

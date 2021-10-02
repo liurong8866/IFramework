@@ -8,7 +8,8 @@ namespace IFramework.Test.AssetResourceKit
     {
         ResourceLoader mResLoader = ResourceLoader.Allocate();
 
-        private void Start() {
+        private void Start()
+        {
             mResLoader.Load<GameObject>(ResourcesUrlType.RESOURCES + "Jin")
                       .Instantiate()
                       .Name("这是使用 Resource 加载的对象");
@@ -26,7 +27,8 @@ namespace IFramework.Test.AssetResourceKit
                       .Name("这是使用通过 AssetName + AssetBundle 加载的对象Malong");
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             mResLoader.Recycle();
             mResLoader = null;
         }

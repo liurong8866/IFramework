@@ -30,12 +30,14 @@ namespace IFramework.Test.RefCounter
 {
     public class RefCounterTest : MonoBehaviour
     {
-        private void Start() {
+        private void Start()
+        {
             // SimpleCounterTest();
             SafeCounterTest();
         }
 
-        public void SimpleCounterTest() {
+        public void SimpleCounterTest()
+        {
             Countor simpleRefCounter = new Countor();
             simpleRefCounter.Hold();
             simpleRefCounter.Hold();
@@ -47,7 +49,8 @@ namespace IFramework.Test.RefCounter
             simpleRefCounter.Counter.LogInfo();
         }
 
-        public void SafeCounterTest() {
+        public void SafeCounterTest()
+        {
             SafeCountor safeCounter = new SafeCountor();
             UserInfo user = new UserInfo();
             safeCounter.Hold(new UserInfo());

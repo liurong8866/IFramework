@@ -40,7 +40,8 @@ namespace IFramework.Engine
 
         public List<AssetBundleInfo> AssetBundleList { get; } = new List<AssetBundleInfo>();
 
-        public void Reset() {
+        public void Reset()
+        {
             foreach (AssetBundleInfo assetGroup in AssetBundleList) {
                 assetGroup.Reset();
             }
@@ -52,7 +53,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加AssetBundle资源名
         /// </summary>
-        public int AddAssetBundleInfo(string assetBundleName, string[] depends, out AssetBundleInfo assetBundleInfo) {
+        public int AddAssetBundleInfo(string assetBundleName, string[] depends, out AssetBundleInfo assetBundleInfo)
+        {
             assetBundleInfo = null;
             if (assetBundleName.IsNullOrEmpty()) return -1;
 
@@ -76,7 +78,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 通过URL找到所有依赖资源
         /// </summary>
-        public string[] GetAllDependenciesByUrl(string url) {
+        public string[] GetAllDependenciesByUrl(string url)
+        {
             string assetBundleName = Platform.GetUrlByAssetBundleName(url);
             string[] depends = null;
 
@@ -93,7 +96,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源信息
         /// </summary>
-        public AssetInfo GetAssetInfo(ResourceSearcher searcher) {
+        public AssetInfo GetAssetInfo(ResourceSearcher searcher)
+        {
             // 如果assetTable为空，则初始化AssetTable
             if (assetTable == null) {
                 assetTable = new AssetTable();
@@ -112,7 +116,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 保存数据关系
         /// </summary>
-        public void Save(string path) {
+        public void Save(string path)
+        {
             AssetBundleDatas data = new AssetBundleDatas {
                 AssetBundles = new AssetBundleData[AssetBundleList.Count]
             };
@@ -126,7 +131,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从配置文件加载关系
         /// </summary>
-        public void LoadFromFile(string path) {
+        public void LoadFromFile(string path)
+        {
             AssetBundleDatas bundles = SerializeUtils.DeserializeFromFile<AssetBundleDatas>(path);
             SetSerializeData(bundles);
         }
@@ -134,7 +140,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从配置文件加载关系
         /// </summary>
-        public IEnumerator LoadFromFileAsync(string path) {
+        public IEnumerator LoadFromFileAsync(string path)
+        {
             using UnityWebRequest webRequest = new UnityWebRequest(path);
             yield return webRequest.SendWebRequest();
 
@@ -153,7 +160,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 加载后设置序列化数据
         /// </summary>
-        private void SetSerializeData(AssetBundleDatas data) {
+        private void SetSerializeData(AssetBundleDatas data)
+        {
             if (data?.AssetBundles == null) return;
 
             // 添加AssetBundleList缓存

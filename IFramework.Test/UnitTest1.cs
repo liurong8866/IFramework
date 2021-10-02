@@ -9,7 +9,8 @@ namespace IFramework.Test
         public void Setup() { }
 
         [Test]
-        public void Test1() {
+        public void Test1()
+        {
             string fileNameByPath = Platform.GetFileNameByPath("", false);
             fileNameByPath = Platform.GetFileNameByPath("/.", false);
             fileNameByPath = Platform.GetFileNameByPath("/.png", false);

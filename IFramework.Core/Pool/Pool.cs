@@ -40,7 +40,8 @@ namespace IFramework.Core
         /// <summary>
         /// 分配对象
         /// </summary>
-        public virtual T Allocate() {
+        public virtual T Allocate()
+        {
             return cache.Count == 0 ? factory.Create() : cache.Pop();
         }
 

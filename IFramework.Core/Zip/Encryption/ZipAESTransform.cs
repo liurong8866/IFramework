@@ -11,17 +11,21 @@ namespace IFramework.Core.Zip.Encryption
         private class IncrementalHash : HMACSHA1
         {
             private bool finalised;
+
             public IncrementalHash(byte[] key) : base(key) { }
 
-            public static IncrementalHash CreateHmac(string n, byte[] key) {
+            public static IncrementalHash CreateHmac(string n, byte[] key)
+            {
                 return new IncrementalHash(key);
             }
 
-            public void AppendData(byte[] buffer, int offset, int count) {
+            public void AppendData(byte[] buffer, int offset, int count)
+            {
                 TransformBlock(buffer, offset, count, buffer, offset);
             }
 
-            public byte[] GetHashAndReset() {
+            public byte[] GetHashAndReset()
+            {
                 if (!finalised) {
                     byte[] dummy = new byte[0];
                     TransformFinalBlock(dummy, 0, 0);
@@ -66,7 +70,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="blockSize">The encryption strength, in bytes eg 16 for 128 bits.</param>
         /// <param name="writeMode">True when creating a zip, false when reading. For the AuthCode.</param>
         ///
-        public ZipAesTransform(string key, byte[] saltBytes, int blockSize, bool writeMode) {
+        public ZipAesTransform(string key, byte[] saltBytes, int blockSize, bool writeMode)
+        {
             if (blockSize != 16 && blockSize != 32) // 24 valid for AES but not supported by Winzip
                 throw new Exception("Invalid blocksize " + blockSize + ". Must be 16 or 32.");
 
@@ -95,7 +100,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Implement the ICryptoTransform method.
         /// </summary>
-        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset) {
+        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+        {
             // Pass the data stream to the hash algorithm for generating the Auth Code.
             // This does not change the inputBuffer. Do this before decryption for read mode.
             if (!writeMode) {
@@ -139,7 +145,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Returns the 10 byte AUTH CODE to be checked or appended immediately following the AES data stream.
         /// </summary>
-        public byte[] GetAuthCode() {
+        public byte[] GetAuthCode()
+        {
             if (authCode == null) {
                 authCode = hmacsha1.GetHashAndReset();
             }
@@ -151,7 +158,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount) {
+        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+        {
             throw new NotImplementedException("ZipAESTransform.TransformFinalBlock");
         }
 
@@ -186,7 +194,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             encryptor.Dispose();
         }
 

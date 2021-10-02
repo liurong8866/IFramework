@@ -37,7 +37,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetAudioResource Allocate(string path) {
+        public static NetAudioResource Allocate(string path)
+        {
             NetAudioResource resource = ObjectPool<NetAudioResource>.Instance.Allocate();
 
             if (resource != null) {
@@ -80,14 +81,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult() {
+        protected override Object ResolveResult()
+        {
             return ((DownloadHandlerAudioClip) request.downloadHandler).audioClip;
         }
 
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<NetAudioResource>.Instance.Recycle(this);
         }
     }

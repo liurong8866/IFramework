@@ -33,7 +33,8 @@ namespace QFramework.Example
     {
         private ResourceLoader mResLoader = ResourceLoader.Allocate();
 
-        private void Start() {
+        private void Start()
+        {
             mResLoader.Load<GameObject>(ResourcesUrlType.RESOURCES + "GameObject")
                       .Instantiate()
                       .Name("这是使用 ResKit 加载的对象");
@@ -51,7 +52,8 @@ namespace QFramework.Example
                       .Name("这是使用通过 AssetName  和 AssetBundle-pack2 加载的对象");
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             mResLoader.Recycle();
             mResLoader = null;
         }

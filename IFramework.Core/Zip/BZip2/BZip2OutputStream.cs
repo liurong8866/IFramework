@@ -124,7 +124,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Valid block sizes are in the range 1..9, with 1 giving
         /// the lowest compression and 9 the highest.
         /// </remarks>
-        public BZip2OutputStream(Stream stream, int blockSize) {
+        public BZip2OutputStream(Stream stream, int blockSize)
+        {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
@@ -151,7 +152,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Ensures that resources are freed and other cleanup operations
         /// are performed when the garbage collector reclaims the BZip2OutputStream.
         /// </summary>
-        ~BZip2OutputStream() {
+        ~BZip2OutputStream()
+        {
             Dispose(false);
         }
 
@@ -209,7 +211,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="offset">The point relative to the offset from which to being seeking.</param>
         /// <param name="origin">The reference point from which to begin seeking.</param>
         /// <returns>The new position in the stream.</returns>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("BZip2OutputStream Seek not supported");
         }
 
@@ -217,7 +220,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Sets the length of this stream to the given value.
         /// </summary>
         /// <param name="value">The new stream length.</param>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("BZip2OutputStream SetLength not supported");
         }
 
@@ -225,7 +229,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Read a byte from the stream advancing the position.
         /// </summary>
         /// <returns>The byte read cast to an int; -1 if end of stream.</returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             throw new NotSupportedException("BZip2OutputStream ReadByte not supported");
         }
 
@@ -238,7 +243,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <returns>The total number of bytes read. This might be less than the number of bytes
         /// requested if that number of bytes are not currently available, or zero
         /// if the end of the stream is reached.</returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("BZip2OutputStream Read not supported");
         }
 
@@ -248,7 +254,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="buffer">The buffer containing data to write.</param>
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -274,7 +281,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Write a byte to the stream.
         /// </summary>
         /// <param name="value">The byte to write to the stream.</param>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             int b = (256 + value) % 256;
 
             if (currentChar != -1) {
@@ -299,7 +307,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void MakeMaps() {
+        private void MakeMaps()
+        {
             nInUse = 0;
 
             for (int i = 0; i < 256; i++) {
@@ -314,7 +323,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Get the number of bytes written to output.
         /// </summary>
-        private void WriteRun() {
+        private void WriteRun()
+        {
             if (last < allowableBlockSize) {
                 inUse[currentChar] = true;
 
@@ -374,7 +384,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Releases the unmanaged resources used by the <see cref="BZip2OutputStream"/> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        override protected void Dispose(bool disposing) {
+        override protected void Dispose(bool disposing)
+        {
             try {
                 try {
                     base.Dispose(disposing);
@@ -405,11 +416,13 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Flush output buffers
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             baseStream.Flush();
         }
 
-        private void Initialize() {
+        private void Initialize()
+        {
             bytesOut = 0;
             nBlocksRandomised = 0;
             /*--- Write header `magic' bytes indicating file-format == huffmanised,
@@ -422,7 +435,8 @@ namespace IFramework.Core.Zip.BZip2
             combinedCrc = 0;
         }
 
-        private void InitBlock() {
+        private void InitBlock()
+        {
             mCrc.Reset();
             last = -1;
 
@@ -433,7 +447,8 @@ namespace IFramework.Core.Zip.BZip2
             allowableBlockSize = BZip2Constants.BASE_BLOCK_SIZE * blockSize100K - 20;
         }
 
-        private void EndBlock() {
+        private void EndBlock()
+        {
             if (last < 0) {
                 // dont do anything for empty files, (makes empty files compatible with original Bzip)
                 return;
@@ -480,7 +495,8 @@ namespace IFramework.Core.Zip.BZip2
             MoveToFrontCodeAndSend();
         }
 
-        private void EndCompression() {
+        private void EndCompression()
+        {
             /*--
             Now another magic 48-bit number, 0x177245385090, to
             indicate the end of the last block.  (sqrt(pi), if
@@ -501,7 +517,8 @@ namespace IFramework.Core.Zip.BZip2
             BsFinishedWithStream();
         }
 
-        private void BsFinishedWithStream() {
+        private void BsFinishedWithStream()
+        {
             while (bsLive > 0) {
                 int ch = (bsBuff >> 24);
                 baseStream.WriteByte((byte) ch); // write 8-bit
@@ -511,7 +528,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void BsW(int n, int v) {
+        private void BsW(int n, int v)
+        {
             while (bsLive >= 8) {
                 int ch = (bsBuff >> 24);
 
@@ -526,22 +544,26 @@ namespace IFramework.Core.Zip.BZip2
             bsLive += n;
         }
 
-        private void BsPutUChar(int c) {
+        private void BsPutUChar(int c)
+        {
             BsW(8, c);
         }
 
-        private void BsPutint(int u) {
+        private void BsPutint(int u)
+        {
             BsW(8, (u >> 24) & 0xFF);
             BsW(8, (u >> 16) & 0xFF);
             BsW(8, (u >> 8) & 0xFF);
             BsW(8, u & 0xFF);
         }
 
-        private void BsPutIntVs(int numBits, int c) {
+        private void BsPutIntVs(int numBits, int c)
+        {
             BsW(numBits, c);
         }
 
-        private void SendMtfValues() {
+        private void SendMtfValues()
+        {
             char[][] len = new char[BZip2Constants.GROUP_COUNT][];
 
             for (int i = 0; i < BZip2Constants.GROUP_COUNT; ++i) {
@@ -869,13 +891,15 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void MoveToFrontCodeAndSend() {
+        private void MoveToFrontCodeAndSend()
+        {
             BsPutIntVs(24, origPtr);
             GenerateMtfValues();
             SendMtfValues();
         }
 
-        private void SimpleSort(int lo, int hi, int d) {
+        private void SimpleSort(int lo, int hi, int d)
+        {
             int i, j, h, bigN, hp;
             int v;
             bigN = hi - lo + 1;
@@ -955,7 +979,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void Vswap(int p1, int p2, int n) {
+        private void Vswap(int p1, int p2, int n)
+        {
             int temp = 0;
 
             while (n > 0) {
@@ -968,7 +993,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void QSort3(int loSt, int hiSt, int dSt) {
+        private void QSort3(int loSt, int hiSt, int dSt)
+        {
             int unLo, unHi, ltLo, gtHi, med, n, m;
             int lo, hi, d;
             StackElement[] stack = new StackElement[QSORT_STACK_SIZE];
@@ -1086,7 +1112,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void MainSort() {
+        private void MainSort()
+        {
             int i, j, ss, sb;
             int[] runningOrder = new int[256];
             int[] copy = new int[256];
@@ -1281,7 +1308,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void RandomiseBlock() {
+        private void RandomiseBlock()
+        {
             int i;
             int rNToGo = 0;
             int rTPos = 0;
@@ -1307,7 +1335,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void DoReversibleTransformation() {
+        private void DoReversibleTransformation()
+        {
             workLimit = workFactor * last;
             workDone = 0;
             blockRandomised = false;
@@ -1335,7 +1364,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private bool FullGtU(int i1, int i2) {
+        private bool FullGtU(int i1, int i2)
+        {
             int k;
             byte c1, c2;
             int s1, s2;
@@ -1462,7 +1492,8 @@ namespace IFramework.Core.Zip.BZip2
             return false;
         }
 
-        private void AllocateCompressStructures() {
+        private void AllocateCompressStructures()
+        {
             int n = BZip2Constants.BASE_BLOCK_SIZE * blockSize100K;
             block = new byte[(n + 1 + BZip2Constants.OVERSHOOT_BYTES)];
             quadrant = new int[(n + BZip2Constants.OVERSHOOT_BYTES)];
@@ -1487,7 +1518,8 @@ namespace IFramework.Core.Zip.BZip2
             szptr = new short[2 * n];
         }
 
-        private void GenerateMtfValues() {
+        private void GenerateMtfValues()
+        {
             char[] yy = new char[256];
             int i, j;
             char tmp;
@@ -1585,11 +1617,13 @@ namespace IFramework.Core.Zip.BZip2
             nMtf = wr;
         }
 
-        private static void Panic() {
+        private static void Panic()
+        {
             throw new BZip2Exception("BZip2 output stream panic");
         }
 
-        private static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen) {
+        private static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen)
+        {
             /*--
             Nodes and heap entries run from 1.  Entry 0
             for both the heap and nodes is a sentinel.
@@ -1727,7 +1761,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize) {
+        private static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize)
+        {
             int vec = 0;
 
             for (int n = minLen; n <= maxLen; ++n) {
@@ -1741,7 +1776,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private static byte Med3(byte a, byte b, byte c) {
+        private static byte Med3(byte a, byte b, byte c)
+        {
             byte t;
 
             if (a > b) {

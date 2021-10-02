@@ -39,7 +39,8 @@ namespace IFramework.Core
         /// <param name="creater">工厂生产方法</param>
         /// <param name="onRecycle">恢复初始状态方法</param>
         /// <param name="count">缓冲数量</param>
-        public SimplePool(Func<T> creater, Action<T> onRecycle = null, int count = 0) {
+        public SimplePool(Func<T> creater, Action<T> onRecycle = null, int count = 0)
+        {
             factory = new CustomFactory<T>(creater);
             this.onRecycle = onRecycle;
 
@@ -51,7 +52,8 @@ namespace IFramework.Core
         /// <summary>
         /// 回收对象
         /// </summary>
-        public override bool Recycle(T t) {
+        public override bool Recycle(T t)
+        {
             onRecycle.InvokeSafe(t);
 
             if (t != null) {

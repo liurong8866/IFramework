@@ -26,7 +26,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="inputStream">stream to source data from</param>
         /// <param name="blockFactor">block factor to apply to archive</param>
-        public TarInputStream(Stream inputStream, int blockFactor) {
+        public TarInputStream(Stream inputStream, int blockFactor)
+        {
             this.inputStream = inputStream;
             tarBuffer = TarBuffer.CreateInputTarBuffer(inputStream, blockFactor);
         }
@@ -88,7 +89,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             inputStream.Flush();
         }
 
@@ -99,7 +101,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="origin">The <see cref="SeekOrigin"/> to start seeking from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("TarInputStream Seek not supported");
         }
 
@@ -109,7 +112,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="value">The new stream length.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("TarInputStream SetLength not supported");
         }
 
@@ -121,7 +125,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">The offset in the buffer of the frist byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("TarInputStream Write not supported");
         }
 
@@ -131,7 +136,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="value">The byte value to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             throw new NotSupportedException("TarInputStream WriteByte not supported");
         }
 
@@ -139,7 +145,8 @@ namespace IFramework.Core.Zip.Tar
         /// Reads a byte from the current tar archive entry.
         /// </summary>
         /// <returns>A byte cast to an int; -1 if the at the end of the stream.</returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             byte[] oneByteBuffer = new byte[1];
             int num = Read(oneByteBuffer, 0, 1);
 
@@ -168,7 +175,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The number of bytes read, or 0 at end of stream/EOF.
         /// </returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -232,7 +240,8 @@ namespace IFramework.Core.Zip.Tar
         /// Closes this stream. Calls the TarBuffer's close() method.
         /// The underlying stream is closed by the TarBuffer.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (disposing) {
                 tarBuffer.Close();
             }
@@ -244,7 +253,8 @@ namespace IFramework.Core.Zip.Tar
         /// Set the entry factory for this instance.
         /// </summary>
         /// <param name="factory">The factory for creating new entries</param>
-        public void SetEntryFactory(IEntryFactory factory) {
+        public void SetEntryFactory(IEntryFactory factory)
+        {
             entryFactory = factory;
         }
 
@@ -262,7 +272,8 @@ namespace IFramework.Core.Zip.Tar
         /// TarBuffer record size.
         /// </returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize() {
+        public int GetRecordSize()
+        {
             return tarBuffer.RecordSize;
         }
 
@@ -289,7 +300,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="skipCount">
         /// The number of bytes to skip.
         /// </param>
-        public void Skip(long skipCount) {
+        public void Skip(long skipCount)
+        {
             // TODO: REVIEW efficiency of TarInputStream.Skip
             // This is horribly inefficient, but it ensures that we
             // properly skip over bytes via the TarBuffer...
@@ -341,7 +353,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The next TarEntry in the archive, or null.
         /// </returns>
-        public TarEntry GetNextEntry() {
+        public TarEntry GetNextEntry()
+        {
             if (hasHitEof) {
                 return null;
             }
@@ -454,7 +467,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="outputStream">
         /// The OutputStream into which to write the entry's data.
         /// </param>
-        public void CopyEntryContents(Stream outputStream) {
+        public void CopyEntryContents(Stream outputStream)
+        {
             byte[] tempBuffer = new byte[32 * 1024];
 
             while (true) {
@@ -467,7 +481,8 @@ namespace IFramework.Core.Zip.Tar
             }
         }
 
-        private void SkipToNextEntry() {
+        private void SkipToNextEntry()
+        {
             long numToSkip = entrySize - entryOffset;
 
             if (numToSkip > 0) {
@@ -525,7 +540,8 @@ namespace IFramework.Core.Zip.Tar
             /// </summary>
             /// <param name="name">The name to use for the entry</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntry(string name) {
+            public TarEntry CreateEntry(string name)
+            {
                 return TarEntry.CreateTarEntry(name);
             }
 
@@ -534,7 +550,8 @@ namespace IFramework.Core.Zip.Tar
             /// </summary>
             /// <param name="fileName">The name of the file to retrieve details from.</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntryFromFile(string fileName) {
+            public TarEntry CreateEntryFromFile(string fileName)
+            {
                 return TarEntry.CreateEntryFromFile(fileName);
             }
 
@@ -543,7 +560,8 @@ namespace IFramework.Core.Zip.Tar
             /// </summary>
             /// <param name="headerBuffer">The buffer containing entry details.</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntry(byte[] headerBuffer) {
+            public TarEntry CreateEntry(byte[] headerBuffer)
+            {
                 return new TarEntry(headerBuffer);
             }
         }

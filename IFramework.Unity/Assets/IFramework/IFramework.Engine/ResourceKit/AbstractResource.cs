@@ -51,7 +51,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        protected AbstractResource() {
+        protected AbstractResource()
+        {
             IsRecycled = false;
             OnZero = OnEmpty;
         }
@@ -59,7 +60,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        protected AbstractResource(string assetName) {
+        protected AbstractResource(string assetName)
+        {
             IsRecycled = false;
             this.assetName = assetName;
             OnZero = OnEmpty;
@@ -126,7 +128,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放资源
         /// </summary>
-        public virtual bool Release() {
+        public virtual bool Release()
+        {
             switch (state) {
                 case ResourceState.Loading: return false;
                 case ResourceState.Waiting: return true;
@@ -142,7 +145,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放Resource
         /// </summary>
-        protected virtual void OnReleaseResource() {
+        protected virtual void OnReleaseResource()
+        {
             //如果Image 直接释放了，这里会直接变成NULL
             if (asset == null) return;
 
@@ -157,32 +161,37 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public virtual List<string> GetDependResourceList() {
+        public virtual List<string> GetDependResourceList()
+        {
             return null;
         }
 
         /// <summary>
         /// 记录依赖资源
         /// </summary>
-        protected void HoldDependResource() {
+        protected void HoldDependResource()
+        {
             DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle));
         }
 
         /// <summary>
         /// 释放依赖资源
         /// </summary>
-        protected void UnHoldDependResource() {
+        protected void UnHoldDependResource()
+        {
             DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold()));
         }
 
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
-        public bool IsDependResourceLoaded() {
+        public bool IsDependResourceLoaded()
+        {
             return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready);
         }
 
-        private bool DoLoopDependResource(Func<IResource, bool> action, Type assetType = null) {
+        private bool DoLoopDependResource(Func<IResource, bool> action, Type assetType = null)
+        {
             // 获取依赖资源
             List<string> depends = GetDependResourceList();
             if (depends.IsNullOrEmpty()) return true;
@@ -201,7 +210,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 注册资源加载完毕事件
         /// </summary>
-        public void RegisterOnLoadedEvent(Action<bool, IResource> listener) {
+        public void RegisterOnLoadedEvent(Action<bool, IResource> listener)
+        {
             if (listener == null) return;
 
             if (state == ResourceState.Ready) {
@@ -214,7 +224,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 注销资源加载完毕事件
         /// </summary>
-        public void UnRegisterOnLoadedEvent(Action<bool, IResource> listener) {
+        public void UnRegisterOnLoadedEvent(Action<bool, IResource> listener)
+        {
             if (listener == null) return;
             if (OnResourceLoaded == null) return;
 
@@ -224,7 +235,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源加载失败调用方法
         /// </summary>
-        protected void OnResourceLoadFailed() {
+        protected void OnResourceLoadFailed()
+        {
             state = ResourceState.Waiting;
             NotifyResourceLoaded(false);
         }
@@ -232,7 +244,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源加载完毕通知
         /// </summary>
-        private void NotifyResourceLoaded(bool result) {
+        private void NotifyResourceLoaded(bool result)
+        {
             if (OnResourceLoaded == null) return;
 
             OnResourceLoaded(result, this);
@@ -243,14 +256,16 @@ namespace IFramework.Engine
 
         public bool IsRecycled { get; set; }
 
-        public virtual void OnRecycled() {
+        public virtual void OnRecycled()
+        {
             assetName = null;
             OnResourceLoaded = null;
         }
 
         public abstract void Recycle();
 
-        protected virtual void OnEmpty() {
+        protected virtual void OnEmpty()
+        {
             if (state == ResourceState.Loading) return;
 
             Release();
@@ -258,7 +273,8 @@ namespace IFramework.Engine
 
         public abstract IEnumerator LoadAsync(Action callback);
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】";
         }
     }

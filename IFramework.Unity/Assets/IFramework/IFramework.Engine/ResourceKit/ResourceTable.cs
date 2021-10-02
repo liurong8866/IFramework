@@ -30,7 +30,8 @@ namespace IFramework.Engine
 {
     public sealed class ResourceTable : Table<IResource>
     {
-        public IResource GetResource(ResourceSearcher searcher) {
+        public IResource GetResource(ResourceSearcher searcher)
+        {
             string assetName = searcher.AssetName;
             List<IResource> resources = Get(assetName.ToLowerInvariant());
 

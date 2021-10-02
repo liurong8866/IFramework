@@ -55,7 +55,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target) {
+        public string GetPlatformName(BuildTarget target)
+        {
             switch (target) {
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
@@ -114,7 +115,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
-        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName) {
+        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
+        {
         #if UNITY_EDITOR
             return AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
         #else
@@ -125,7 +127,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径、类型获取资源
         /// </summary>
-        public Object LoadAssetAtPath(string assetPath, Type assetType) {
+        public Object LoadAssetAtPath(string assetPath, Type assetType)
+        {
         #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(assetPath, assetType);
         #else
@@ -136,7 +139,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径获取资源
         /// </summary>
-        public T LoadAssetAtPath<T>(string assetPath) where T : Object {
+        public T LoadAssetAtPath<T>(string assetPath) where T : Object
+        {
         #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
         #else
@@ -149,7 +153,8 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
+        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
+        {
         #if UNITY_EDITOR
             AssetDatabase.RemoveUnusedAssetBundleNames();
 

@@ -35,8 +35,9 @@ namespace IFramework.Editor
     /// </summary>
     public class GuiWindowLifeCircle : EditorWindow
     {
-        [MenuItem("IFramework/Test/LifeCircle")]
-        public static void Open() {
+        //        [MenuItem("IFramework/Test/LifeCircle")]
+        public static void Open()
+        {
             //创建窗口
             // Rect wr = new Rect(0, 0, 500, 500);
             GuiWindowLifeCircle window = GetWindow<GuiWindowLifeCircle>("资源管理器");
@@ -72,13 +73,15 @@ namespace IFramework.Editor
         private float maxVal = 10.0f;
         private float maxLimit = 20.0f;
 
-        public void Awake() {
+        public void Awake()
+        {
             //在资源中读取一张贴图
             texture = Resources.Load("1") as Texture;
         }
 
         //绘制窗口时调用
-        private void OnGUI() {
+        private void OnGUI()
+        {
             //输入框控件
             text = EditorGUILayout.TextField("输入文字:", text);
 
@@ -157,29 +160,35 @@ namespace IFramework.Editor
 
         private void Update() { }
 
-        private void OnFocus() {
+        private void OnFocus()
+        {
             Debug.Log("当窗口获得焦点时调用一次");
         }
 
-        private void OnLostFocus() {
+        private void OnLostFocus()
+        {
             Debug.Log("当窗口丢失焦点时调用一次");
         }
 
-        private void OnHierarchyChange() {
+        private void OnHierarchyChange()
+        {
             Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次");
         }
 
-        private void OnProjectChange() {
+        private void OnProjectChange()
+        {
             Debug.Log("当Project视图中的资源发生改变时调用一次");
         }
 
-        private void OnInspectorUpdate() {
+        private void OnInspectorUpdate()
+        {
             //Debug.Log("窗口面板的更新");
             //这里开启窗口的重绘，不然窗口信息不会刷新
             Repaint();
         }
 
-        private void OnSelectionChange() {
+        private void OnSelectionChange()
+        {
             //当窗口出去开启状态，并且在Hierarchy视图中选择某游戏对象时调用
             foreach (Transform t in Selection.transforms) {
                 //有可能是多选，这里开启一个循环打印选中游戏对象的名称
@@ -187,7 +196,8 @@ namespace IFramework.Editor
             }
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             Debug.Log("当窗口关闭时调用");
         }
     }

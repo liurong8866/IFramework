@@ -28,7 +28,8 @@ namespace IFramework.Test.Model
     {
         public UserInfo() { }
 
-        public UserInfo(string userName, string password, int age, string sex) {
+        public UserInfo(string userName, string password, int age, string sex)
+        {
             this.UserName = userName;
             this.Age = age;
             this.Sex = sex;
@@ -40,7 +41,8 @@ namespace IFramework.Test.Model
 
         public string Sex { get; set; }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"username: {UserName}, age: {Age}, sex: {Sex}";
         }
     }

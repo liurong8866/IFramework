@@ -36,7 +36,8 @@ namespace IFramework.Core
         /// <summary>
         /// 通过反射创建普通类实例
         /// </summary>
-        public static T CreateSingleton<T>() where T : class, ISingleton {
+        public static T CreateSingleton<T>() where T : class, ISingleton
+        {
             // bool res = {TypeA}.IsAssignableFrom({TypeB}) ;
             // 如果TypeA和TypeB类型一样则返回true；
             // 如果TypeA是TypeB的父类则返回true;
@@ -55,7 +56,8 @@ namespace IFramework.Core
         /// <summary>
         /// 通过反射创建MonoBehaviour类实例
         /// </summary>
-        public static T CreateMonoSingleton<T>() where T : class, ISingleton {
+        public static T CreateMonoSingleton<T>() where T : class, ISingleton
+        {
             T instance = null;
             Type type = typeof(T);
 
@@ -98,7 +100,8 @@ namespace IFramework.Core
         /// <param name="dontDestroy">不要销毁 标签</param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private static T AttachComponent<T>(string path, bool dontDestroy) where T : class {
+        private static T AttachComponent<T>(string path, bool dontDestroy) where T : class
+        {
             //找到需要附加的GameObject
             GameObject gameObject = FindGameObject(path, dontDestroy);
 
@@ -121,7 +124,8 @@ namespace IFramework.Core
         /// <param name="path">组件路径（应该就是Hierarchy下的树结构路径）</param>
         /// <param name="dontDestroy">不要销毁 标签</param>
         /// <returns></returns>
-        private static GameObject FindGameObject(string path, bool dontDestroy) {
+        private static GameObject FindGameObject(string path, bool dontDestroy)
+        {
             // 如果路径为空，返回NULL
             if (string.IsNullOrEmpty(path)) return null;
 
@@ -140,7 +144,8 @@ namespace IFramework.Core
         /// <param name="build">true</param>
         /// <param name="dontDestroy">不要销毁 标签</param>
         /// <returns></returns>
-        private static GameObject FindGameObject(GameObject root, string[] subPath, int index, bool build, bool dontDestroy) {
+        private static GameObject FindGameObject(GameObject root, string[] subPath, int index, bool build, bool dontDestroy)
+        {
             GameObject client = null;
 
             // 如果没有父节点，说明是路径第一个节点，直接查找自路径

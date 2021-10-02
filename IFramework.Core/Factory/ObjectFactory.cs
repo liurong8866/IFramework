@@ -33,7 +33,8 @@ namespace IFramework.Core
         /// 无参数构造函数类实例
         /// </summary>
         /// <returns></returns>
-        public static T Create<T>() where T : class {
+        public static T Create<T>() where T : class
+        {
             return Activator.CreateInstance(typeof(T)) as T;
         }
 
@@ -43,7 +44,8 @@ namespace IFramework.Core
         /// <param name="args">需要实例化的类构造函数的参数，根据参数不同调用不同构造函数</param>
         /// <typeparam name="T">要实例化的类</typeparam>
         /// <returns></returns>
-        public static T Create<T>(params object[] args) where T : class {
+        public static T Create<T>(params object[] args) where T : class
+        {
             return Activator.CreateInstance(typeof(T), args) as T;
         }
 
@@ -52,7 +54,8 @@ namespace IFramework.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T CreateNoPublicConstructor<T>() where T : class {
+        public static T CreateNoPublicConstructor<T>() where T : class
+        {
             // 获取私有构造函数
             var constructorInfos = typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
 

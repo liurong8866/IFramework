@@ -20,7 +20,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="transform">Instance of ZipAESTransform</param>
         /// <param name="mode">Read or Write</param>
         public ZipAesStream(Stream stream, ZipAesTransform transform, CryptoStreamMode mode)
-                : base(stream, transform, mode) {
+                : base(stream, transform, mode)
+        {
             this.stream = stream;
             this.transform = transform;
             slideBuffer = new byte[1024];
@@ -52,7 +53,8 @@ namespace IFramework.Core.Zip.Encryption
         /// Reads a sequence of bytes from the current CryptoStream into buffer,
         /// and advances the position within the stream by the number of bytes read.
         /// </summary>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             int nBytes = 0;
 
             while (nBytes < count) {
@@ -129,7 +131,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="buffer">An array of bytes. This method copies count bytes from buffer to the current stream. </param>
         /// <param name="offset">The byte offset in buffer at which to begin copying bytes to the current stream. </param>
         /// <param name="count">The number of bytes to be written to the current stream. </param>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             // ZipAESStream is used for reading but not for writing. Writing uses the ZipAESTransform directly.
             throw new NotImplementedException();
         }

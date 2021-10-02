@@ -40,11 +40,11 @@
         </Content>
         <Compile Remove="Environment\Zip.cs" />
         <Content Include="Environment\Zip.cs">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Compile Remove="Environment\Environment.cs" />
         <Content Include="Environment\Environment.cs">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

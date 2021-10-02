@@ -40,7 +40,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成常量名
         /// </summary>
-        public static void GenerateConstScript() {
+        public static void GenerateConstScript()
+        {
             Log.Info("生成脚本: 开始！");
             // 生成文件路径
             string path = Path.Combine(Application.dataPath, Constant.ENVIRONMENT_PATH, Constant.ASSET_BUNDLE_SCRIPT_FILE);
@@ -52,7 +53,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成脚本
         /// </summary>
-        private static void Generate(string nameSpace, string outputPath) {
+        private static void Generate(string nameSpace, string outputPath)
+        {
             // 初始化要生成的AssetBundle
             List<AssetBundleScriptModel> assetModelList = InitAssetBundleModel();
             // 创建一个编译单元
@@ -114,7 +116,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 初始化要生成的AssetBundle
         /// </summary>
-        private static List<AssetBundleScriptModel> InitAssetBundleModel() {
+        private static List<AssetBundleScriptModel> InitAssetBundleModel()
+        {
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig);
             List<AssetBundleInfo> assetBundleList = assetBundleConfig.AssetBundleList;
@@ -142,7 +145,8 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="assetModle"></param>
         /// <param name="classCode"></param>
-        private static void GenerateFields(AssetBundleScriptModel assetModle, CodeTypeDeclaration classCode) {
+        private static void GenerateFields(AssetBundleScriptModel assetModle, CodeTypeDeclaration classCode)
+        {
             // 用于检查是否重复
             ISet<string> checkRepeatSet = new HashSet<string>();
 
@@ -171,7 +175,8 @@ namespace IFramework.Editor
         public readonly string Name;
         public string[] assets;
 
-        public AssetBundleScriptModel(string name) {
+        public AssetBundleScriptModel(string name)
+        {
             this.Name = name;
         }
     }

@@ -32,7 +32,8 @@ namespace IFramework.Core
         /// <summary>
         /// 读取文件
         /// </summary>
-        public static string Read(string path) {
+        public static string Read(string path)
+        {
             using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
 
             // 读取文件到字节数组
@@ -44,7 +45,8 @@ namespace IFramework.Core
         /// <summary>
         /// 写入文件
         /// </summary>
-        public static void Write(string path, string content, FileMode fileMode = FileMode.Create) {
+        public static void Write(string path, string content, FileMode fileMode = FileMode.Create)
+        {
             using FileStream fileStream = new FileStream(path, fileMode, FileAccess.Write);
             byte[] data = Encoding.UTF8.GetBytes(content);
             fileStream.Write(data, 0, data.Length);
@@ -54,7 +56,8 @@ namespace IFramework.Core
         /// <summary>
         /// 写入文件
         /// </summary>
-        public static void Write(string path, byte[] data, FileMode fileMode = FileMode.Create) {
+        public static void Write(string path, byte[] data, FileMode fileMode = FileMode.Create)
+        {
             using FileStream fileStream = new FileStream(path, fileMode, FileAccess.Write);
             fileStream.Write(data, 0, data.Length);
             fileStream.Flush();
@@ -66,7 +69,8 @@ namespace IFramework.Core
         /// <param name="path"></param>
         /// <param name="size">缓冲区大小</param>
         /// <returns></returns>
-        public static string ReadSeek(string path, int size = 1024) {
+        public static string ReadSeek(string path, int size = 1024)
+        {
             using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
             StringBuilder sb = new StringBuilder();
 
@@ -85,7 +89,8 @@ namespace IFramework.Core
         /// <summary>
         /// 写入文件
         /// </summary>
-        public static void WriteSeek(string path, string content, int size, FileMode fileMode = FileMode.Create) {
+        public static void WriteSeek(string path, string content, int size, FileMode fileMode = FileMode.Create)
+        {
             using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Write);
 
             // 定义缓冲区，默认1024k

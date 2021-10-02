@@ -67,14 +67,16 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// Initialise a default instance of <see cref="Adler32"></see>
         /// </summary>
-        public Adler32() {
+        public Adler32()
+        {
             Reset();
         }
 
         /// <summary>
         /// Resets the Adler32 data checksum as if no update was ever called.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             checkValue = 1;
         }
 
@@ -91,7 +93,8 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name="bval">
         /// The data value to add. The high byte of the int is ignored.
         /// </param>
-        public void Update(int bval) {
+        public void Update(int bval)
+        {
             // We could make a length 1 byte array and call update again, but I
             // would rather not have that overhead
             uint s1 = checkValue & 0xFFFF;
@@ -106,7 +109,8 @@ namespace IFramework.Core.Zip.Checksum
         /// a block of data.
         /// </summary>
         /// <param name="buffer">Contains the data to update the checksum with.</param>
-        public void Update(byte[] buffer) {
+        public void Update(byte[] buffer)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -119,7 +123,8 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name = "buffer">Contains the data to update the CRC with.</param>
         /// <param name = "offset">The offset into the buffer where the data starts</param>
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
-        public void Update(byte[] buffer, int offset, int count) {
+        public void Update(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }

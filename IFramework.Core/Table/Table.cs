@@ -37,14 +37,16 @@ namespace IFramework.Core
         /// <summary>
         /// 获取数据
         /// </summary>
-        public List<T> Get(string key) {
+        public List<T> Get(string key)
+        {
             return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>();
         }
 
         /// <summary>
         /// 添加数据
         /// </summary>
-        public void Add(string key, T data) {
+        public void Add(string key, T data)
+        {
             // 如果字典中有该键，则直接添加到该键对应的List中
             if (dictionary.ContainsKey(key)) {
                 dictionary[key].Add(data);
@@ -62,7 +64,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="data">需要传的数据</param>
         /// <param name="getKey">获取key的代理方法</param>
-        public void Add(T data, Func<T, string> getKey) {
+        public void Add(T data, Func<T, string> getKey)
+        {
             // 根据外部方法获得key
             string key = getKey(data);
             Add(key, data);
@@ -71,14 +74,16 @@ namespace IFramework.Core
         /// <summary>
         /// 删除数据
         /// </summary>
-        public void Remove(string key) {
+        public void Remove(string key)
+        {
             dictionary.Remove(key);
         }
 
         /// <summary>
         /// 删除数据
         /// </summary>
-        public void Remove(T data, Func<T, string> getKey) {
+        public void Remove(T data, Func<T, string> getKey)
+        {
             // 根据外部方法获得key
             string key = getKey(data);
             Remove(key);
@@ -87,7 +92,8 @@ namespace IFramework.Core
         /// <summary>
         /// 清空字典
         /// </summary>
-        public void Clear() {
+        public void Clear()
+        {
             foreach (List<T> value in dictionary.Values) {
                 value.Clear();
             }
@@ -97,7 +103,8 @@ namespace IFramework.Core
         /// <summary>
         /// 回收方法
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             //先回收字典元素对象
             foreach (List<T> value in dictionary.Values) {
                 value.Recycle();
@@ -111,11 +118,13 @@ namespace IFramework.Core
         /// <summary>
         /// 实现迭代器
         /// </summary>
-        public IEnumerator<T> GetEnumerator() {
+        public IEnumerator<T> GetEnumerator()
+        {
             return dictionary.SelectMany(d => d.Value).GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        IEnumerator IEnumerable.GetEnumerator()
+        {
             return GetEnumerator();
         }
     }

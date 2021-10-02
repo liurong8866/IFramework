@@ -31,7 +31,8 @@ namespace IFramework.Engine
     /// </summary>
     public class AssetBundleScene : AssetResource
     {
-        public static AssetBundleScene Allocate(string name) {
+        public static AssetBundleScene Allocate(string name)
+        {
             AssetBundleScene res = ObjectPool<AssetBundleScene>.Instance.Allocate();
 
             if (res != null) {
@@ -45,7 +46,8 @@ namespace IFramework.Engine
 
         public AssetBundleScene(string assetName) : base(assetName) { }
 
-        public override bool Load() {
+        public override bool Load()
+        {
             if (!IsLoadable) return false;
 
             // 如果配置文件没有对应的Asset，则退出
@@ -67,11 +69,13 @@ namespace IFramework.Engine
             return true;
         }
 
-        public override void LoadASync() {
+        public override void LoadASync()
+        {
             Load();
         }
 
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<AssetBundleScene>.Instance.Recycle(this);
         }
     }

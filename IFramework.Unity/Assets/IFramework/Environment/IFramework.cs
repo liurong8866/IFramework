@@ -36,14 +36,13 @@ namespace IFramework.Engine
         /// 场景开始前初始化
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitBeforeSceneLoad(){
-            
+        public static void InitBeforeSceneLoad()
+        {
             Log.Info("初始化 PlatformEnvironment");
             PlatformEnvironment.Instance.Init(Environment.Instance);
-
             Log.Info("初始化 ResourceManager");
             ResourceManager.Init();
-            
+
             // 异步加载
             // ResourceManager.Instance.StartInitAsync();
         }

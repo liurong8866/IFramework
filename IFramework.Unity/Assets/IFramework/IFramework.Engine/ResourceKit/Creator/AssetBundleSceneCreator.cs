@@ -26,7 +26,8 @@ namespace IFramework.Engine
 {
     public sealed class AssetBundleSceneCreator : IResourceCreator
     {
-        public bool Match(ResourceSearcher searcher) {
+        public bool Match(ResourceSearcher searcher)
+        {
             AssetInfo assetInfo = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
 
             if (assetInfo != null) {
@@ -35,7 +36,8 @@ namespace IFramework.Engine
             return false;
         }
 
-        public IResource Create(ResourceSearcher searcher) {
+        public IResource Create(ResourceSearcher searcher)
+        {
             return AssetBundleScene.Allocate(searcher.AssetName);
         }
     }

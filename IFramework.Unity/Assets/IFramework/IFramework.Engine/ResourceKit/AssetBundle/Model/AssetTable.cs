@@ -36,7 +36,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源
         /// </summary>
-        public AssetInfo GetAssetInfo(ResourceSearcher searcher) {
+        public AssetInfo GetAssetInfo(ResourceSearcher searcher)
+        {
             // 在缓存中获取资源
             string assetName = searcher.AssetName.ToLowerInvariant();
             List<AssetInfo> assetInfoList = Get(assetName);

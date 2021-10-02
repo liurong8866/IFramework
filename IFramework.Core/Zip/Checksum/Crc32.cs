@@ -98,21 +98,24 @@ namespace IFramework.Core.Zip.Checksum
 
         #endregion
 
-        internal static uint ComputeCrc32(uint oldCrc, byte bval) {
+        internal static uint ComputeCrc32(uint oldCrc, byte bval)
+        {
             return crcTable[(oldCrc ^ bval) & 0xFF] ^ (oldCrc >> 8);
         }
 
         /// <summary>
         /// Initialise a default instance of <see cref="Crc32"></see>
         /// </summary>
-        public Crc32() {
+        public Crc32()
+        {
             Reset();
         }
 
         /// <summary>
         /// Resets the CRC data checksum as if no update was ever called.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             checkValue = crcInit;
         }
 
@@ -131,7 +134,8 @@ namespace IFramework.Core.Zip.Checksum
         /// the byte is taken as the lower 8 bits of bval
         /// </param>
         /// <remarks>Reversed Data = true</remarks>
-        public void Update(int bval) {
+        public void Update(int bval)
+        {
             checkValue = crcTable[(checkValue ^ bval) & 0xFF] ^ (checkValue >> 8);
         }
 
@@ -140,7 +144,8 @@ namespace IFramework.Core.Zip.Checksum
         /// a block of data.
         /// </summary>
         /// <param name="buffer">Contains the data to update the CRC with.</param>
-        public void Update(byte[] buffer) {
+        public void Update(byte[] buffer)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -153,7 +158,8 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name = "buffer">Contains the data to update the CRC with.</param>
         /// <param name = "offset">The offset into the buffer where the data starts</param>
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
-        public void Update(byte[] buffer, int offset, int count) {
+        public void Update(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }

@@ -36,7 +36,8 @@ namespace IFramework.Core
 
         public SafeCountor() { }
 
-        public SafeCountor(Action action) {
+        public SafeCountor(Action action)
+        {
             OnZero = action;
         }
 
@@ -59,7 +60,8 @@ namespace IFramework.Core
         /// <summary>
         /// 记录
         /// </summary>
-        public bool Hold(object owner) {
+        public bool Hold(object owner)
+        {
             if (!owners.Add(owner)) {
                 Log.Warning("对象已经被记录");
                 return false;
@@ -70,7 +72,8 @@ namespace IFramework.Core
         /// <summary>
         /// 释放
         /// </summary>
-        public bool UnHold(object owner) {
+        public bool UnHold(object owner)
+        {
             if (!owners.Remove(owner)) {
                 Log.Warning("没有找到要释放的对象");
                 return false;
@@ -86,7 +89,8 @@ namespace IFramework.Core
         /// 重置为0
         /// </summary>
         /// <param name="invokeAction">是否唤醒OnZero事件</param>
-        public void Reset(bool invokeAction = false) {
+        public void Reset(bool invokeAction = false)
+        {
             owners.Clear();
 
             if (invokeAction) {
@@ -94,7 +98,8 @@ namespace IFramework.Core
             }
         }
 
-        public virtual void Dispose() {
+        public virtual void Dispose()
+        {
             OnZero = null;
         }
     }

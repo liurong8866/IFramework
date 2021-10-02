@@ -29,7 +29,8 @@ namespace IFramework.Test.Singelton
 {
     public class MonoSingletonAttributeTest : MonoBehaviour
     {
-        private void Start() {
+        private void Start()
+        {
             var monoSingletonAttributeTestDemo = MonoSingletonAttributeTestDemo.Instance;
         }
     }
@@ -40,7 +41,8 @@ namespace IFramework.Test.Singelton
     {
         private MonoSingletonAttributeTestDemo() { }
 
-        private void Start() {
+        private void Start()
+        {
             Debug.Log("我是自定义特性");
         }
     }

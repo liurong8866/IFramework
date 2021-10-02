@@ -49,7 +49,8 @@ namespace IFramework.Test.Viarable
         private ConfigFloat money = new ConfigFloat("money");
         private ConfigBool isOpen = new ConfigBool("isOpen", true);
 
-        private void Start() {
+        private void Start()
+        {
             // ConverterTest();
             // forAdd();
 
@@ -76,7 +77,8 @@ namespace IFramework.Test.Viarable
             // Log.Info(bb.Equals(2f))
         }
 
-        private void ForAdd() {
+        private void ForAdd()
+        {
             int a = 1;
             BindInt b = new BindInt(1);
 
@@ -94,7 +96,8 @@ namespace IFramework.Test.Viarable
         /// <summary>
         /// 高精度可以接收低精度 +；
         /// </summary>
-        private void ConverterTest() {
+        private void ConverterTest()
+        {
             {
                 object a1 = 0.0f;
                 object a2 = 0.00000d;
@@ -221,7 +224,8 @@ namespace IFramework.Test.Viarable
             c = c / b;
         }
 
-        private void ConfigIntTest() {
+        private void ConfigIntTest()
+        {
             ConfigInt intNum = new ConfigInt("intNum");
             ConfigInt intNum2 = new ConfigInt("intNum2", 10, true);
             intNum++;
@@ -270,7 +274,8 @@ namespace IFramework.Test.Viarable
             configInt.Add(1).Sub(2).Mul(2).Div(10);
         }
 
-        private void ConfigFloatTest() {
+        private void ConfigFloatTest()
+        {
             // AbstractConfigNumeric<int> intNum = new ConfigInt("intNum");
             // AbstractConfigNumeric<int> intNum2 = new ConfigInt("intNum2", 10);
             ConfigFloat intNum = new ConfigFloat("ConfigFloat");
@@ -301,7 +306,8 @@ namespace IFramework.Test.Viarable
             // intNum = 10 % intNum2;
         }
 
-        private void ConfigBoolTest() {
+        private void ConfigBoolTest()
+        {
             ConfigBool configBool = new ConfigBool("configBool", false);
             ConfigBool configBool2 = new ConfigBool("configBool", true);
             configBool.Value.LogInfo("设置前{0}");
@@ -341,7 +347,8 @@ namespace IFramework.Test.Viarable
             }
         }
 
-        private void TeatInt() {
+        private void TeatInt()
+        {
             BindInt bindInt = new BindInt(100);
             BindInt bindInt2 = new BindInt(100);
             Log.Info(bindInt);
@@ -409,7 +416,8 @@ namespace IFramework.Test.Viarable
             Log.Info(bindInt);
         }
 
-        private void TestIntCompare() {
+        private void TestIntCompare()
+        {
             BindInt opratorInt = new BindInt();
             int comp = 2; // 采用基础类型 用于对比
             Log.Info("--------检查同类型数据----------");
@@ -504,7 +512,8 @@ namespace IFramework.Test.Viarable
             Log.Info(comp >= 2.0000f);
         }
 
-        private void TeatFloat() {
+        private void TeatFloat()
+        {
             BindFloat bindFloat = new BindFloat(100.00f);
             BindFloat bindFloat2 = new BindFloat(100.00f);
             Log.Info(bindFloat);
@@ -585,7 +594,8 @@ namespace IFramework.Test.Viarable
             Log.Info(bindFloat);
         }
 
-        private void TestFloatCompare() {
+        private void TestFloatCompare()
+        {
             BindFloat bindFloat = new BindFloat();
             float comp = 2; // 采用基础类型 用于对比
             Log.Info("--------检查同类型数据----------");
@@ -689,7 +699,8 @@ namespace IFramework.Test.Viarable
             Log.Info(comp >= 2.0000f);
         }
 
-        private void TestString() {
+        private void TestString()
+        {
             string a = "hello world";
             string b = "hello world";
             string c = new StringBuilder("hello world").ToString();
@@ -728,7 +739,8 @@ namespace IFramework.Test.Viarable
             Log.Info(bindString1.Equals(a));
         }
 
-        private void TestBool() {
+        private void TestBool()
+        {
             BindBool bindBool = new BindBool(true);
             BindBool bindBool2 = new BindBool(true);
             BindBool bindBool3 = new BindBool(false);
@@ -769,7 +781,8 @@ namespace IFramework.Test.Viarable
             }
         }
 
-        private void TestConfigNumber() {
+        private void TestConfigNumber()
+        {
             health.OnChange = i => { Log.Info("我变了" + i); };
             health.Value++;
             health.Value++;

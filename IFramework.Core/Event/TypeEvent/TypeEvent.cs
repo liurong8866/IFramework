@@ -35,7 +35,8 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public IDisposable RegisterEvent<T>(Action<T> action) {
+        public IDisposable RegisterEvent<T>(Action<T> action)
+        {
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
@@ -54,7 +55,8 @@ namespace IFramework.Core
         /// <summary>
         /// 注销事件
         /// </summary>
-        public void UnRegisterEvent<T>(Action<T> action) {
+        public void UnRegisterEvent<T>(Action<T> action)
+        {
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
@@ -68,7 +70,8 @@ namespace IFramework.Core
         /// <summary>
         /// 发送事件
         /// </summary>
-        public void SendEvent<T>() where T : new() {
+        public void SendEvent<T>() where T : new()
+        {
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
@@ -81,7 +84,8 @@ namespace IFramework.Core
         /// <summary>
         /// 发送事件
         /// </summary>
-        public void SendEvent<T>(T t) {
+        public void SendEvent<T>(T t)
+        {
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
@@ -94,7 +98,8 @@ namespace IFramework.Core
         /// <summary>
         /// 清空事件
         /// </summary>
-        public void Clear() {
+        public void Clear()
+        {
             foreach (var keyValue in typeEventDict) {
                 keyValue.Value.Dispose();
             }
@@ -116,28 +121,32 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static IDisposable Register<T>(Action<T> action) {
+        public static IDisposable Register<T>(Action<T> action)
+        {
             return eventer.RegisterEvent(action);
         }
 
         /// <summary>
         /// 注销事件
         /// </summary>
-        public static void UnRegister<T>(Action<T> action) {
+        public static void UnRegister<T>(Action<T> action)
+        {
             eventer.UnRegisterEvent(action);
         }
 
         /// <summary>
         /// 发送事件
         /// </summary>
-        public static void Send<T>() where T : new() {
+        public static void Send<T>() where T : new()
+        {
             eventer.SendEvent<T>();
         }
 
         /// <summary>
         /// 发送事件
         /// </summary>
-        public static void Send<T>(T t) {
+        public static void Send<T>(T t)
+        {
             eventer.SendEvent(t);
         }
     }

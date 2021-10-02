@@ -9,7 +9,8 @@ namespace IFramework.Test.ResourceKit
     {
         private IResource resource;
 
-        private void Start() {
+        private void Start()
+        {
             // ResourceManager.Init();
             resource = Resource.Allocate(ResourcesUrlType.RESOURCES + "Test");
 
@@ -18,7 +19,8 @@ namespace IFramework.Test.ResourceKit
             StartCoroutine(MyMethod());
         }
 
-        private IEnumerator MyMethod() {
+        private IEnumerator MyMethod()
+        {
             Debug.Log("Before Waiting 2 seconds");
             yield return new WaitForSeconds(2);
 

@@ -62,7 +62,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="pending">
         /// Pending buffer to use
         /// </param>>
-        public DeflaterEngine(DeflaterPending pending) {
+        public DeflaterEngine(DeflaterPending pending)
+        {
             this.pending = pending;
             huffman = new DeflaterHuffman(pending);
             adler = new Adler32();
@@ -83,7 +84,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="flush">True to flush input buffers</param>
         /// <param name="finish">Finish deflation with the current input.</param>
         /// <returns>Returns true if progress has been made.</returns>
-        public bool Deflate(bool flush, bool finish) {
+        public bool Deflate(bool flush, bool finish)
+        {
             bool progress;
 
             do {
@@ -119,7 +121,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">The buffer containing input data.</param>
         /// <param name="offset">The offset of the first byte of data.</param>
         /// <param name="count">The number of bytes of data to use as input.</param>
-        public void SetInput(byte[] buffer, int offset, int count) {
+        public void SetInput(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -152,7 +155,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Determines if more <see cref="SetInput">input</see> is needed.
         /// </summary>
         /// <returns>Return true if input is needed via <see cref="SetInput">SetInput</see></returns>
-        public bool NeedsInput() {
+        public bool NeedsInput()
+        {
             return (inputEnd == inputOff);
         }
 
@@ -162,7 +166,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">The buffer containing the dictionary data</param>
         /// <param name="offset">The offset in the buffer for the first byte of data</param>
         /// <param name="length">The length of the dictionary data.</param>
-        public void SetDictionary(byte[] buffer, int offset, int length) {
+        public void SetDictionary(byte[] buffer, int offset, int length)
+        {
         #if DebugDeflation
 			if (DeflaterConstants.DEBUGGING && (strstart != 1) )
 			{
@@ -194,7 +199,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Reset internal state
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             huffman.Reset();
             adler.Reset();
             blockStart = strstart = 1;
@@ -215,7 +221,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Reset Adler checksum
         /// </summary>
-        public void ResetAdler() {
+        public void ResetAdler()
+        {
             adler.Reset();
         }
 
@@ -245,7 +252,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Set the deflate level (0-9)
         /// </summary>
         /// <param name="level">The value to set the level to.</param>
-        public void SetLevel(int level) {
+        public void SetLevel(int level)
+        {
             if ((level < 0) || (level > 9)) {
                 throw new ArgumentOutOfRangeException(nameof(level));
             }
@@ -297,7 +305,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Fill the window
         /// </summary>
-        public void FillWindow() {
+        public void FillWindow()
+        {
             /* If the window is almost full and there is insufficient lookahead,
              * move the upper half to the lower one to make room in the upper half.
              */
@@ -326,7 +335,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             }
         }
 
-        private void UpdateHash() {
+        private void UpdateHash()
+        {
             /*
                         if (DEBUGGING) {
                             Console.WriteLine("updateHash: "+strstart);
@@ -340,7 +350,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// value for this hash.
         /// </summary>
         /// <returns>The previous hash value</returns>
-        private int InsertString() {
+        private int InsertString()
+        {
             short match;
             int hash = ((ins_h << DeflaterConstants.HASH_SHIFT) ^ window[strstart + (DeflaterConstants.MIN_MATCH - 1)]) & DeflaterConstants.HASH_MASK;
         #if DebugDeflation
@@ -362,7 +373,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             return match & 0xffff;
         }
 
-        private void SlideWindow() {
+        private void SlideWindow()
+        {
             Array.Copy(window, DeflaterConstants.WSIZE, window, 0, DeflaterConstants.WSIZE);
             matchStart -= DeflaterConstants.WSIZE;
             strstart -= DeflaterConstants.WSIZE;
@@ -392,7 +404,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="curMatch"></param>
         /// <returns>True if a match greater than the minimum length is found</returns>
-        private bool FindLongestMatch(int curMatch) {
+        private bool FindLongestMatch(int curMatch)
+        {
             int match;
             int scan = strstart;
             // scanMax is the highest position that we can look at
@@ -517,7 +530,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             return matchLen >= DeflaterConstants.MIN_MATCH;
         }
 
-        private bool DeflateStored(bool flush, bool finish) {
+        private bool DeflateStored(bool flush, bool finish)
+        {
             if (!flush && (lookahead == 0)) {
                 return false;
             }
@@ -547,7 +561,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             return true;
         }
 
-        private bool DeflateFast(bool flush, bool finish) {
+        private bool DeflateFast(bool flush, bool finish)
+        {
             if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
                 return false;
             }
@@ -625,7 +640,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             return true;
         }
 
-        private bool DeflateSlow(bool flush, bool finish) {
+        private bool DeflateSlow(bool flush, bool finish)
+        {
             if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
                 return false;
             }

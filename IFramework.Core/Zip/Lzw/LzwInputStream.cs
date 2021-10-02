@@ -61,7 +61,8 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="baseInputStream">
         /// The stream to read compressed data from (baseInputStream LZW format)
         /// </param>
-        public LzwInputStream(Stream baseInputStream) {
+        public LzwInputStream(Stream baseInputStream)
+        {
             this.baseInputStream = baseInputStream;
         }
 
@@ -69,7 +70,8 @@ namespace IFramework.Core.Zip.Lzw
         /// See <see cref="System.IO.Stream.ReadByte"/>
         /// </summary>
         /// <returns></returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             int b = Read(one, 0, 1);
 
             if (b == 1)
@@ -91,7 +93,8 @@ namespace IFramework.Core.Zip.Lzw
         /// The number of bytes to decompress
         /// </param>
         /// <returns>The number of bytes read. Zero signals the end of stream</returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             if (!headerParsed)
                 ParseHeader();
 
@@ -294,14 +297,16 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="bitPosition"></param>
         /// <returns></returns>
-        private int ResetBuf(int bitPosition) {
+        private int ResetBuf(int bitPosition)
+        {
             int pos = bitPosition >> 3;
             Array.Copy(data, pos, data, 0, end - pos);
             end -= pos;
             return 0;
         }
 
-        private void Fill() {
+        private void Fill()
+        {
             got = baseInputStream.Read(data, end, data.Length - 1 - end);
 
             if (got > 0) {
@@ -309,7 +314,8 @@ namespace IFramework.Core.Zip.Lzw
             }
         }
 
-        private void ParseHeader() {
+        private void ParseHeader()
+        {
             headerParsed = true;
             byte[] hdr = new byte[LzwConstants.HDR_SIZE];
             int result = baseInputStream.Read(hdr, 0, hdr.Length);
@@ -398,7 +404,8 @@ namespace IFramework.Core.Zip.Lzw
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             baseInputStream.Flush();
         }
 
@@ -410,7 +417,8 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("Seek not supported");
         }
 
@@ -420,7 +428,8 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("InflaterInputStream SetLength not supported");
         }
 
@@ -432,7 +441,8 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("InflaterInputStream Write not supported");
         }
 
@@ -442,7 +452,8 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             throw new NotSupportedException("InflaterInputStream WriteByte not supported");
         }
 
@@ -450,7 +461,8 @@ namespace IFramework.Core.Zip.Lzw
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
         /// is true the underlying stream is also closed.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (!isClosed) {
                 isClosed = true;
 

@@ -189,7 +189,8 @@ namespace IFramework.Core.Zip.Zip
         /// It is not generally useful, use the constructor specifying the name only.
         /// </remarks>
         internal ZipEntry(string name, int versionRequiredToExtract, int madeByInfo,
-                          CompressionMethod method) {
+                          CompressionMethod method)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
@@ -215,7 +216,8 @@ namespace IFramework.Core.Zip.Zip
         /// The entry to copy.
         /// </param>
         [Obsolete("Use Clone instead")]
-        public ZipEntry(ZipEntry entry) {
+        public ZipEntry(ZipEntry entry)
+        {
             if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
@@ -392,7 +394,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="attributes">The attributes to test.</param>
         /// <returns>Returns true if the external attributes are known to be DOS/Windows
         /// based and have the same attributes set as the value passed.</returns>
-        private bool HasDosAttributes(int attributes) {
+        private bool HasDosAttributes(int attributes)
+        {
             bool result = false;
 
             if ((known & Known.ExternalAttributes) != 0) {
@@ -529,7 +532,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Force this entry to be recorded using Zip64 extensions.
         /// </summary>
-        public void ForceZip64() {
+        public void ForceZip64()
+        {
             forceZip64 = true;
         }
 
@@ -537,7 +541,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get a value indicating wether Zip64 extensions were forced.
         /// </summary>
         /// <returns>A <see cref="bool"/> value of true if Zip64 extensions have been forced on; false if not.</returns>
-        public bool IsZip64Forced() {
+        public bool IsZip64Forced()
+        {
             return forceZip64;
         }
 
@@ -844,7 +849,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="localHeader">True if the extra data fields should be handled
         /// for a local header, rather than for a central header.
         /// </param>
-        internal void ProcessExtraData(bool localHeader) {
+        internal void ProcessExtraData(bool localHeader)
+        {
             var extraData = new ZipExtraData(extra);
 
             if (extraData.Find(0x0001)) {
@@ -911,7 +917,8 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private DateTime GetDateTime(ZipExtraData extraData) {
+        private DateTime GetDateTime(ZipExtraData extraData)
+        {
             // Check for NT timestamp
             // NOTE: Disable by default to match behavior of InfoZIP
         #if RESPECT_NT_TIMESTAMP
@@ -943,7 +950,8 @@ namespace IFramework.Core.Zip.Zip
 
         // For AES the method in the entry is 99, and the real compression method is in the extradata
         //
-        private void ProcessAesExtraData(ZipExtraData extraData) {
+        private void ProcessAesExtraData(ZipExtraData extraData)
+        {
             if (extraData.Find(0x9901)) {
                 // Set version and flag for Zipfile.CreateAndInitDecryptionStream
                 versionToExtract = ZipConstants.VERSION_AES; // Ver 5.1 = AES see "Version" getter
@@ -1038,7 +1046,8 @@ namespace IFramework.Core.Zip.Zip
         /// Test entry to see if data can be extracted.
         /// </summary>
         /// <returns>Returns true if data can be extracted for this entry; false otherwise.</returns>
-        public bool IsCompressionMethodSupported() {
+        public bool IsCompressionMethodSupported()
+        {
             return IsCompressionMethodSupported(CompressionMethod);
         }
 
@@ -1048,7 +1057,8 @@ namespace IFramework.Core.Zip.Zip
         /// Creates a copy of this zip entry.
         /// </summary>
         /// <returns>An <see cref="Object"/> that is a copy of the current instance.</returns>
-        public object Clone() {
+        public object Clone()
+        {
             var result = (ZipEntry) MemberwiseClone();
 
             // Ensure extra data is unique if it exists.
@@ -1065,7 +1075,8 @@ namespace IFramework.Core.Zip.Zip
         /// Gets a string representation of this ZipEntry.
         /// </summary>
         /// <returns>A readable textual representation of this <see cref="ZipEntry"/></returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return name;
         }
 
@@ -1075,7 +1086,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="method">The compression method to test.</param>
         /// <returns>Returns true if the compression method is supported; false otherwise</returns>
-        public static bool IsCompressionMethodSupported(CompressionMethod method) {
+        public static bool IsCompressionMethodSupported(CompressionMethod method)
+        {
             return
                     (method == CompressionMethod.Deflated) ||
                     (method == CompressionMethod.Stored);
@@ -1093,7 +1105,8 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// The <seealso cref="ZipNameTransform">Zip name transform</seealso> class is more flexible.
         /// </remarks>
-        public static string CleanName(string name) {
+        public static string CleanName(string name)
+        {
             if (name == null) {
                 return string.Empty;
             }

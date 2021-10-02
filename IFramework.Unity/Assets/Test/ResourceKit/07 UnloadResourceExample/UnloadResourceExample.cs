@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class UnloadResourceExample : MonoBehaviour
 {
-    IEnumerator Start() {
+    IEnumerator Start()
+    {
         Image image = transform.Find("Image").GetComponent<Image>();
         ResourceLoader resLoader = ResourceLoader.Allocate();
         Texture2D texture2D = resLoader.Load<Texture2D>("Code");

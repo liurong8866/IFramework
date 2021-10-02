@@ -39,7 +39,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static Resource Allocate(string name) {
+        public static Resource Allocate(string name)
+        {
             Resource resource = ObjectPool<Resource>.Instance.Allocate();
 
             if (resource != null) {
@@ -52,7 +53,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load() {
+        public override bool Load()
+        {
             if (!IsLoadable || AssetName.IsNullOrEmpty()) return false;
 
             State = ResourceState.Loading;
@@ -70,7 +72,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
-        public override void LoadASync() {
+        public override void LoadASync()
+        {
             if (!IsLoadable || AssetName.IsNullOrEmpty()) return;
 
             State = ResourceState.Loading;
@@ -80,7 +83,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 重写异步加载方法
         /// </summary>
-        public override IEnumerator LoadAsync(Action callback) {
+        public override IEnumerator LoadAsync(Action callback)
+        {
             ResourceRequest request = AssetType != null ? Resources.LoadAsync(path, AssetType) : Resources.LoadAsync(path);
             yield return request;
 
@@ -98,7 +102,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<Resource>.Instance.Recycle(this);
         }
     }

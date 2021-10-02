@@ -62,7 +62,8 @@ namespace IFramework.Core
         /// <summary>
         /// 资源释放
         /// </summary>
-        public virtual void Dispose() {
+        public virtual void Dispose()
+        {
             instance = null;
             Destroy(gameObject);
         }
@@ -70,7 +71,8 @@ namespace IFramework.Core
         /// <summary>
         /// 应用程序退出：释放当前对象并销毁相关GameObject
         /// </summary>
-        protected virtual void OnApplicationQuit() {
+        protected virtual void OnApplicationQuit()
+        {
             isApplicationQuit = true;
             if (instance == null) return;
 
@@ -81,7 +83,8 @@ namespace IFramework.Core
         /// <summary>
         /// 释放当前对象
         /// </summary>
-        protected virtual void OnDestroy() {
+        protected virtual void OnDestroy()
+        {
             instance = null;
         }
 

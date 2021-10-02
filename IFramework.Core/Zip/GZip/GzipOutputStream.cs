@@ -90,7 +90,8 @@ namespace IFramework.Core.Zip.GZip
         /// Level specified is not supported.
         /// </exception>
         /// <see cref="Deflater"/>
-        public void SetLevel(int level) {
+        public void SetLevel(int level)
+        {
             if (level < Deflater.BEST_SPEED) {
                 throw new ArgumentOutOfRangeException(nameof(level));
             }
@@ -101,7 +102,8 @@ namespace IFramework.Core.Zip.GZip
         /// Get the current compression level.
         /// </summary>
         /// <returns>The current compression level.</returns>
-        public int GetLevel() {
+        public int GetLevel()
+        {
             return deflater_.GetLevel();
         }
 
@@ -115,7 +117,8 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="buffer">Buffer to write</param>
         /// <param name="offset">Offset of first byte in buf to write</param>
         /// <param name="count">Number of bytes to write</param>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             if (state == OutputState.Header) {
                 WriteHeader();
             }
@@ -131,7 +134,8 @@ namespace IFramework.Core.Zip.GZip
         /// Writes remaining compressed output data to the output stream
         /// and closes it.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             try {
                 Finish();
             }
@@ -153,7 +157,8 @@ namespace IFramework.Core.Zip.GZip
         /// <summary>
         /// Finish compression and write any footer information required to stream
         /// </summary>
-        public override void Finish() {
+        public override void Finish()
+        {
             // If no data has been written a header should be added.
             if (state == OutputState.Header) {
                 WriteHeader();
@@ -182,7 +187,8 @@ namespace IFramework.Core.Zip.GZip
 
         #region Support Routines
 
-        private void WriteHeader() {
+        private void WriteHeader()
+        {
             if (state == OutputState.Header) {
                 state = OutputState.Footer;
                 var modTime = (int) ((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals

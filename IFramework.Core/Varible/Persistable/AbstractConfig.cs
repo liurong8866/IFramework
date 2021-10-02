@@ -31,16 +31,19 @@ namespace IFramework.Core
     {
         protected string key;
 
-        protected AbstractConfig(string key, T value) {
+        protected AbstractConfig(string key, T value)
+        {
             this.key = key;
             this.value = value;
         }
 
-        protected override T GetValue() {
+        protected override T GetValue()
+        {
             return Get();
         }
 
-        protected override void SetValue(T value) {
+        protected override void SetValue(T value)
+        {
             if (IsValueChanged(value)) {
                 this.value = value;
                 Save(value);

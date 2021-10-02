@@ -34,7 +34,8 @@ namespace IFramework.Core
         /// <summary>
         /// 创建目录,如果存在则不动作，支持创建多级路径
         /// </summary>
-        public static void Create(string path) {
+        public static void Create(string path)
+        {
             if (!Exists(path)) {
                 Directory.CreateDirectory(path);
             }
@@ -43,7 +44,8 @@ namespace IFramework.Core
         /// <summary>
         /// 删除文件夹，包括其中的文件
         /// </summary>
-        public static void Remove(string path) {
+        public static void Remove(string path)
+        {
             if (Directory.Exists(path)) {
                 Directory.Delete(path, true);
             }
@@ -52,7 +54,8 @@ namespace IFramework.Core
         /// <summary>
         /// 清空目录（保留路径）
         /// </summary>
-        public static void Clear(string path) {
+        public static void Clear(string path)
+        {
             if (Directory.Exists(path)) {
                 Directory.Delete(path, true);
             }
@@ -62,14 +65,16 @@ namespace IFramework.Core
         /// <summary>
         /// 判断路径是否存在
         /// </summary>
-        public static bool Exists(string path) {
+        public static bool Exists(string path)
+        {
             return Directory.Exists(path);
         }
 
         /// <summary>
         /// 合并两个路径
         /// </summary>
-        public static string CombinePath(string first, string second) {
+        public static string CombinePath(string first, string second)
+        {
             return Path.Combine(first, second);
         }
 
@@ -79,7 +84,8 @@ namespace IFramework.Core
         /// <param name="sourcePath">数据源</param>
         /// <param name="destPath">目标文件夹</param>
         /// <param name="recursion">是否拷贝子目录</param>
-        public static void Copy(string sourcePath, string destPath, bool recursion = true) {
+        public static void Copy(string sourcePath, string destPath, bool recursion = true)
+        {
             // 如果数据源路径不存在，则抛出异常
             if (!Directory.Exists(sourcePath)) {
                 throw new DirectoryNotFoundException(sourcePath);
@@ -123,7 +129,8 @@ namespace IFramework.Core
         /// <param name="folderPath">文件夹路径</param>
         /// <param name="recursion">是否递归</param>
         /// <returns></returns>
-        public static List<string> GetFiles(string folderPath, bool recursion = true) {
+        public static List<string> GetFiles(string folderPath, bool recursion = true)
+        {
             List<string> fileList;
 
             if (!recursion) {
@@ -150,7 +157,8 @@ namespace IFramework.Core
         /// <param name="fileName">要查找的文件名</param>
         /// <param name="recursion">是否递归</param>
         /// <returns></returns>
-        public static List<string> GetFiles(string folderPath, string fileName, bool recursion = true) {
+        public static List<string> GetFiles(string folderPath, string fileName, bool recursion = true)
+        {
             List<string> fileList = new List<string>();
             DirectoryInfo directory = new DirectoryInfo(folderPath);
 
@@ -183,7 +191,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="path">文件、文件夹路径</param>
         /// <param name="floor">向上第几层</param>
-        public static string GetParentPath(string path, int floor = 1) {
+        public static string GetParentPath(string path, int floor = 1)
+        {
             string parentPath = path;
 
             for (int i = 0; i < floor; ++i) {

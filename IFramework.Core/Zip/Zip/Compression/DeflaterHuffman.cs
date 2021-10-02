@@ -83,7 +83,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 
             #region Constructors
 
-            public Tree(DeflaterHuffman dh, int elems, int minCodes, int maxLength) {
+            public Tree(DeflaterHuffman dh, int elems, int minCodes, int maxLength)
+            {
                 this.dh = dh;
                 minNumCodes = minCodes;
                 this.maxLength = maxLength;
@@ -96,7 +97,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// <summary>
             /// Resets the internal state of the tree
             /// </summary>
-            public void Reset() {
+            public void Reset()
+            {
                 for (int i = 0; i < freqs.Length; i++) {
                     freqs[i] = 0;
                 }
@@ -104,7 +106,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                 length = null;
             }
 
-            public void WriteSymbol(int code) {
+            public void WriteSymbol(int code)
+            {
                 //				if (DeflaterConstants.DEBUGGING) {
                 //					freqs[code]--;
                 //					//  	  Console.Write("writeSymbol("+freqs.length+","+code+"): ");
@@ -118,7 +121,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// <exception cref="BaseZipException">
             /// At least one frequency is non-zero
             /// </exception>
-            public void CheckEmpty() {
+            public void CheckEmpty()
+            {
                 bool empty = true;
 
                 for (int i = 0; i < freqs.Length; i++) {
@@ -135,7 +139,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// </summary>
             /// <param name="staticCodes">new codes</param>
             /// <param name="staticLengths">length for new codes</param>
-            public void SetStaticCodes(short[] staticCodes, byte[] staticLengths) {
+            public void SetStaticCodes(short[] staticCodes, byte[] staticLengths)
+            {
                 codes = staticCodes;
                 length = staticLengths;
             }
@@ -143,7 +148,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// <summary>
             /// Build dynamic codes and lengths
             /// </summary>
-            public void BuildCodes() {
+            public void BuildCodes()
+            {
                 int numSymbols = freqs.Length;
                 int[] nextCode = new int[maxLength];
                 int code = 0;
@@ -181,7 +187,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                 }
             }
 
-            public void BuildTree() {
+            public void BuildTree()
+            {
                 int numSymbols = freqs.Length;
                 /* heap is a priority queue, sorted by frequency, least frequent
                 * nodes first.  The heap is a binary tree, with the property, that
@@ -302,7 +309,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// Get encoded length
             /// </summary>
             /// <returns>Encoded length, the sum of frequencies * lengths</returns>
-            public int GetEncodedLength() {
+            public int GetEncodedLength()
+            {
                 int len = 0;
 
                 for (int i = 0; i < freqs.Length; i++) {
@@ -315,7 +323,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// Scan a literal or distance tree to determine the frequencies of the codes
             /// in the bit length tree.
             /// </summary>
-            public void CalcBLFreq(Tree blTree) {
+            public void CalcBLFreq(Tree blTree)
+            {
                 int max_count;   /* max repeat count */
                 int min_count;   /* min repeat count */
                 int count;       /* repeat count of the current code */
@@ -369,7 +378,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             /// Write tree values
             /// </summary>
             /// <param name="blTree">Tree to write</param>
-            public void WriteTree(Tree blTree) {
+            public void WriteTree(Tree blTree)
+            {
                 int max_count;   // max repeat count
                 int min_count;   // min repeat count
                 int count;       // repeat count of the current code
@@ -424,7 +434,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                 }
             }
 
-            private void BuildLength(int[] childs) {
+            private void BuildLength(int[] childs)
+            {
                 length = new byte[freqs.Length];
                 int numNodes = childs.Length / 2;
                 int numLeafs = (numNodes + 1) / 2;
@@ -538,7 +549,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         #endregion
 
-        static DeflaterHuffman() {
+        static DeflaterHuffman()
+        {
             // See RFC 1951 3.2.6
             // Literal codes
             staticLCodes = new short[LITERAL_NUM];
@@ -579,7 +591,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Construct instance with pending buffer
         /// </summary>
         /// <param name="pending">Pending buffer to use</param>
-        public DeflaterHuffman(DeflaterPending pending) {
+        public DeflaterHuffman(DeflaterPending pending)
+        {
             this.pending = pending;
             literalTree = new Tree(this, LITERAL_NUM, 257, 15);
             distTree = new Tree(this, DIST_NUM, 1, 15);
@@ -591,7 +604,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Reset internal state
         /// </summary>		
-        public void Reset() {
+        public void Reset()
+        {
             last_lit = 0;
             extra_bits = 0;
             literalTree.Reset();
@@ -603,7 +617,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Write all trees to pending buffer
         /// </summary>
         /// <param name="blTreeCodes">The number/rank of treecodes to send.</param>
-        public void SendAllTrees(int blTreeCodes) {
+        public void SendAllTrees(int blTreeCodes)
+        {
             blTree.BuildCodes();
             literalTree.BuildCodes();
             distTree.BuildCodes();
@@ -626,7 +641,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Compress current buffer writing data to pending buffer
         /// </summary>
-        public void CompressBlock() {
+        public void CompressBlock()
+        {
             for (int i = 0; i < last_lit; i++) {
                 int litlen = l_buf[i] & 0xff;
                 int dist = d_buf[i];
@@ -682,7 +698,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="storedOffset">Index of first byte to write</param>
         /// <param name="storedLength">Counter of bytes to write</param>
         /// <param name="lastBlock">True if this is the last block</param>
-        public void FlushStoredBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock) {
+        public void FlushStoredBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock)
+        {
         #if DebugDeflation
 			//			if (DeflaterConstants.DEBUGGING) {
 			//				//Console.WriteLine("Flushing stored block "+ storedLength);
@@ -703,7 +720,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="storedOffset">Index of first byte to flush</param>
         /// <param name="storedLength">Counter of bytes to flush</param>
         /// <param name="lastBlock">True if this is the last block</param>
-        public void FlushBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock) {
+        public void FlushBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock)
+        {
             literalTree.freqs[EOF_SYMBOL]++;
 
             // Build trees
@@ -772,7 +790,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Get value indicating if internal buffer is full
         /// </summary>
         /// <returns>true if buffer is full</returns>
-        public bool IsFull() {
+        public bool IsFull()
+        {
             return last_lit >= BUFSIZE;
         }
 
@@ -781,7 +800,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="literal">Literal value to add to buffer.</param>
         /// <returns>Value indicating internal buffer is full</returns>
-        public bool TallyLit(int literal) {
+        public bool TallyLit(int literal)
+        {
             //			if (DeflaterConstants.DEBUGGING) {
             //				if (lit > 32 && lit < 127) {
             //					//Console.WriteLine("("+(char)lit+")");
@@ -801,7 +821,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="distance">Distance code</param>
         /// <param name="length">Length</param>
         /// <returns>Value indicating if internal buffer is full</returns>
-        public bool TallyDist(int distance, int length) {
+        public bool TallyDist(int distance, int length)
+        {
             //			if (DeflaterConstants.DEBUGGING) {
             //				//Console.WriteLine("[" + distance + "," + length + "]");
             //			}
@@ -827,14 +848,16 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="toReverse">Value to reverse bits</param>
         /// <returns>Value with bits reversed</returns>
-        public static short BitReverse(int toReverse) {
+        public static short BitReverse(int toReverse)
+        {
             return (short) (bit4Reverse[toReverse & 0xF] << 12 |
                             bit4Reverse[(toReverse >> 4) & 0xF] << 8 |
                             bit4Reverse[(toReverse >> 8) & 0xF] << 4 |
                             bit4Reverse[toReverse >> 12]);
         }
 
-        private static int Lcode(int length) {
+        private static int Lcode(int length)
+        {
             if (length == 255) {
                 return 285;
             }
@@ -847,7 +870,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             return code + length;
         }
 
-        private static int Dcode(int distance) {
+        private static int Dcode(int distance)
+        {
             int code = 0;
 
             while (distance >= 4) {

@@ -86,7 +86,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
         public ZipInputStream(Stream baseInputStream)
-                : base(baseInputStream, new Inflater(true)) {
+                : base(baseInputStream, new Inflater(true))
+        {
             internalReader = ReadingNotAvailable;
         }
 
@@ -96,7 +97,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         public ZipInputStream(Stream baseInputStream, int bufferSize)
-                : base(baseInputStream, new Inflater(true), bufferSize) {
+                : base(baseInputStream, new Inflater(true), bufferSize)
+        {
             internalReader = ReadingNotAvailable;
         }
 
@@ -138,7 +140,8 @@ namespace IFramework.Core.Zip.Zip
         /// Password is not set, password is invalid, compression method is invalid,
         /// version required to extract is not supported
         /// </exception>
-        public ZipEntry GetNextEntry() {
+        public ZipEntry GetNextEntry()
+        {
             if (crc == null) {
                 throw new InvalidOperationException("Closed.");
             }
@@ -244,7 +247,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Read data descriptor at the end of compressed data.
         /// </summary>
-        private void ReadDataDescriptor() {
+        private void ReadDataDescriptor()
+        {
             if (inputBuffer.ReadLeInt() != ZipConstants.DATA_DESCRIPTOR_SIGNATURE) {
                 throw new ZipException("Data descriptor signature not found");
             }
@@ -266,7 +270,8 @@ namespace IFramework.Core.Zip.Zip
         /// Complete cleanup as the final part of closing.
         /// </summary>
         /// <param name="testCrc">True if the crc value should be tested</param>
-        private void CompleteCloseEntry(bool testCrc) {
+        private void CompleteCloseEntry(bool testCrc)
+        {
             StopDecrypting();
 
             if ((flags & 8) != 0) {
@@ -295,7 +300,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ZipException">
         /// The Zip stream ends early
         /// </exception>
-        public void CloseEntry() {
+        public void CloseEntry()
+        {
             if (crc == null) {
                 throw new InvalidOperationException("Closed");
             }
@@ -367,7 +373,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// The byte or -1 if end of stream is reached.
         /// </returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             byte[] b = new byte[1];
 
             if (Read(b, 0, 1) <= 0) {
@@ -383,14 +390,16 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="offset">The offset at which data read should be stored.</param>
         /// <param name="count">The maximum number of bytes to read.</param>
         /// <returns>Returns the number of bytes actually read.</returns>
-        private int ReadingNotAvailable(byte[] destination, int offset, int count) {
+        private int ReadingNotAvailable(byte[] destination, int offset, int count)
+        {
             throw new InvalidOperationException("Unable to read from this stream");
         }
 
         /// <summary>
         /// Handle attempts to read from this entry by throwing an exception
         /// </summary>
-        private int ReadingNotSupported(byte[] destination, int offset, int count) {
+        private int ReadingNotSupported(byte[] destination, int offset, int count)
+        {
             throw new ZipException("The compression method for this entry is not supported");
         }
 
@@ -402,7 +411,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="offset">The offset to start reading at.</param>
         /// <param name="count">The maximum number of bytes to read.</param>
         /// <returns>The actual number of bytes read.</returns>
-        private int InitialRead(byte[] destination, int offset, int count) {
+        private int InitialRead(byte[] destination, int offset, int count)
+        {
             if (!CanDecompressEntry) {
                 throw new ZipException("Library cannot extract this entry. Version required is (" + entry.Version + ")");
             }
@@ -454,7 +464,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="count">The number of bytes to attempt to read.</param>
         /// <returns>Returns the number of bytes read.</returns>
         /// <remarks>Zero bytes read means end of stream.</remarks>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -488,7 +499,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="InvalidOperationException">
         /// The stream is not open.
         /// </exception>
-        private int BodyRead(byte[] buffer, int offset, int count) {
+        private int BodyRead(byte[] buffer, int offset, int count)
+        {
             if (crc == null) {
                 throw new InvalidOperationException("Closed");
             }
@@ -559,7 +571,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Closes the zip input stream
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             internalReader = ReadingNotAvailable;
             crc = null;
             entry = null;

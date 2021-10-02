@@ -4,7 +4,8 @@ using UnityEngine;
 public class IoTest : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void Start() {
+    private void Start()
+    {
         string path = "test1/test2";
         string result = "";
         result = Path.GetExtension(path);

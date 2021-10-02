@@ -467,7 +467,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// data[0]..data[count - 1] converted to a string
         /// </returns>
-        public static string ConvertToString(byte[] data, int count) {
+        public static string ConvertToString(byte[] data, int count)
+        {
             if (data == null) {
                 return string.Empty;
             }
@@ -483,7 +484,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// <paramref name="data">data</paramref>converted to a string
         /// </returns>
-        public static string ConvertToString(byte[] data) {
+        public static string ConvertToString(byte[] data)
+        {
             if (data == null) {
                 return string.Empty;
             }
@@ -501,7 +503,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// <paramref name="data">data</paramref>converted to a string
         /// </returns>
-        public static string ConvertToStringExt(int flags, byte[] data, int count) {
+        public static string ConvertToStringExt(int flags, byte[] data, int count)
+        {
             if (data == null) {
                 return string.Empty;
             }
@@ -522,7 +525,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>
         /// <paramref name="data">data</paramref>converted to a string
         /// </returns>
-        public static string ConvertToStringExt(int flags, byte[] data) {
+        public static string ConvertToStringExt(int flags, byte[] data)
+        {
             if (data == null) {
                 return string.Empty;
             }
@@ -540,7 +544,8 @@ namespace IFramework.Core.Zip.Zip
         /// String to convert to an array
         /// </param>
         /// <returns>Converted array</returns>
-        public static byte[] ConvertToArray(string str) {
+        public static byte[] ConvertToArray(string str)
+        {
             if (str == null) {
                 return new byte[0];
             }
@@ -555,7 +560,8 @@ namespace IFramework.Core.Zip.Zip
         /// String to convert to an array
         /// </param>
         /// <returns>Converted array</returns>
-        public static byte[] ConvertToArray(int flags, string str) {
+        public static byte[] ConvertToArray(int flags, string str)
+        {
             if (str == null) {
                 return new byte[0];
             }
@@ -572,7 +578,8 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// Private to prevent instances being created.
         /// </remarks>
-        private ZipConstants() {
+        private ZipConstants()
+        {
             // Do nothing
         }
     }

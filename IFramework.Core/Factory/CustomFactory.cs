@@ -33,11 +33,13 @@ namespace IFramework.Core
     {
         protected Func<T> creater;
 
-        public CustomFactory(Func<T> creater) {
+        public CustomFactory(Func<T> creater)
+        {
             this.creater = creater;
         }
 
-        public T Create() {
+        public T Create()
+        {
             return creater();
         }
     }

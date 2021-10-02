@@ -49,7 +49,8 @@ namespace IFramework.Engine
 
         /*----------------------------- 初始化Manager 自动加载 -----------------------------*/
 
-        public static void Init() {
+        public static void Init()
+        {
             if (isInit) return;
 
             isInit = true;
@@ -62,14 +63,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 只是为了解决调用异步初始化方法问题
         /// </summary>
-        public void InitAsync() {
+        public void InitAsync()
+        {
             StartCoroutine(DoInitAsync());
         }
 
         /// <summary>
         /// 异步初始化
         /// </summary>
-        private static IEnumerator DoInitAsync() {
+        private static IEnumerator DoInitAsync()
+        {
             if (isInit) yield break;
 
             isInit = true;
@@ -82,7 +85,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化各种对象池
         /// </summary>
-        private static void InitPool() {
+        private static void InitPool()
+        {
             ObjectPool<Resource>.Instance.Init(40, 20);
             ObjectPool<AssetResource>.Instance.Init(40, 20);
             ObjectPool<AssetBundleResource>.Instance.Init(40, 20);
@@ -93,7 +97,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化Manager自身（异步）
         /// </summary>
-        private void InitResourceManager() {
+        private void InitResourceManager()
+        {
             if (Platform.IsSimulation) {
                 // 获取所有AssetBundle资源信息
                 AssetBundleConfig config = new AssetBundleConfig();
@@ -125,7 +130,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化Manager自身（异步）
         /// </summary>
-        private IEnumerator InitResourceManagerAsync() {
+        private IEnumerator InitResourceManagerAsync()
+        {
             if (Platform.IsSimulation) {
                 AssetBundleConfig config = new AssetBundleConfig();
                 Environment.Instance.InitAssetBundleConfig(config);
@@ -161,7 +167,8 @@ namespace IFramework.Engine
         /// <param name="searcher">查询器</param>
         /// <param name="create">如果没有，是否创建</param>
         /// <returns></returns>
-        public IResource GetResource(ResourceSearcher searcher, bool create = false) {
+        public IResource GetResource(ResourceSearcher searcher, bool create = false)
+        {
             // 从资源表中获取资源
             IResource resource = resourceTable.GetResource(searcher);
             if (resource != null) return resource;
@@ -180,7 +187,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源
         /// </summary>
-        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource {
+        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource
+        {
             return GetResource(searcher, create) as T;
         }
 
@@ -189,7 +197,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加加载任务到队列
         /// </summary>
-        public void AddResourceLoadTask(IResourceLoadTask task) {
+        public void AddResourceLoadTask(IResourceLoadTask task)
+        {
             if (task == null) return;
 
             // 放置队列末尾
@@ -202,7 +211,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 如果没有到达缓冲池上限，同时开启多个资源的加载
         /// </summary>
-        private void NextResourceLoadTask() {
+        private void NextResourceLoadTask()
+        {
             // 任务列表空，不执行
             if (asyncLoadTasks.Count == 0) return;
 
@@ -225,7 +235,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 当资源加载完毕后，更新当前协程数量
         /// </summary>
-        private void OnResourceLoadTaskFinish() {
+        private void OnResourceLoadTaskFinish()
+        {
             // 执行完毕，当前协程数-1
             currentCoroutineCount--;
 
@@ -235,7 +246,8 @@ namespace IFramework.Engine
 
         /*----------------------------- 释放资源 -----------------------------*/
 
-        private void Update() {
+        private void Update()
+        {
             if (isResourceMapDirty) {
                 RemoveUnusedResource();
             }
@@ -244,14 +256,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否脏数据
         /// </summary>
-        public void ClearOnUpdate() {
+        public void ClearOnUpdate()
+        {
             isResourceMapDirty = true;
         }
 
         /// <summary>
         /// 清除不在使用的资源
         /// </summary>
-        private void RemoveUnusedResource() {
+        private void RemoveUnusedResource()
+        {
             if (!isResourceMapDirty) return;
 
             isResourceMapDirty = false;

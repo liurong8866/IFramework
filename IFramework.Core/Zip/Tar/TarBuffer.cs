@@ -80,7 +80,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The record size in bytes.
         /// This is equal to the <see cref="BlockFactor"/> multiplied by the <see cref="BLOCK_SIZE"/></returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize() {
+        public int GetRecordSize()
+        {
             return recordSize;
         }
 
@@ -97,7 +98,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <returns>The block factor; the number of blocks per record.</returns>
         [Obsolete("Use BlockFactor property instead")]
-        public int GetBlockFactor() {
+        public int GetBlockFactor()
+        {
             return blockFactor;
         }
 
@@ -111,7 +113,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="inputStream">Stream to buffer</param>
         /// <returns>A new <see cref="TarBuffer"/> suitable for input.</returns>
-        public static TarBuffer CreateInputTarBuffer(Stream inputStream) {
+        public static TarBuffer CreateInputTarBuffer(Stream inputStream)
+        {
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
@@ -124,7 +127,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="inputStream">Stream to buffer</param>
         /// <param name="blockFactor">Blocking factor to apply</param>
         /// <returns>A new <see cref="TarBuffer"/> suitable for input.</returns>
-        public static TarBuffer CreateInputTarBuffer(Stream inputStream, int blockFactor) {
+        public static TarBuffer CreateInputTarBuffer(Stream inputStream, int blockFactor)
+        {
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
@@ -144,7 +148,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="outputStream">output stream for buffer</param>
         /// <returns>A new <see cref="TarBuffer"/> suitable for output.</returns>
-        public static TarBuffer CreateOutputTarBuffer(Stream outputStream) {
+        public static TarBuffer CreateOutputTarBuffer(Stream outputStream)
+        {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
@@ -157,7 +162,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="outputStream">Output stream to write to.</param>
         /// <param name="blockFactor">Blocking factor to apply</param>
         /// <returns>A new <see cref="TarBuffer"/> suitable for output.</returns>
-        public static TarBuffer CreateOutputTarBuffer(Stream outputStream, int blockFactor) {
+        public static TarBuffer CreateOutputTarBuffer(Stream outputStream, int blockFactor)
+        {
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
@@ -175,7 +181,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Initialization common to all constructors.
         /// </summary>
-        private void Initialize(int archiveBlockFactor) {
+        private void Initialize(int archiveBlockFactor)
+        {
             blockFactor = archiveBlockFactor;
             recordSize = archiveBlockFactor * BLOCK_SIZE;
             recordBuffer = new byte[RecordSize];
@@ -200,7 +207,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "block">The data block to check.</param>
         /// <returns>Returns true if the block is an EOF block; false otherwise.</returns>
         [Obsolete("Use IsEndOfArchiveBlock instead")]
-        public bool IsEofBlock(byte[] block) {
+        public bool IsEofBlock(byte[] block)
+        {
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
@@ -226,7 +234,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name = "block">The data block to check.</param>
         /// <returns>Returns true if the block is an EOF block; false otherwise.</returns>
-        public static bool IsEndOfArchiveBlock(byte[] block) {
+        public static bool IsEndOfArchiveBlock(byte[] block)
+        {
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
@@ -246,7 +255,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Skip over a block on the input stream.
         /// </summary>
-        public void SkipBlock() {
+        public void SkipBlock()
+        {
             if (inputStream == null) {
                 throw new TarException("no input stream defined");
             }
@@ -265,7 +275,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The block of data read.
         /// </returns>
-        public byte[] ReadBlock() {
+        public byte[] ReadBlock()
+        {
             if (inputStream == null) {
                 throw new TarException("TarBuffer.ReadBlock - no input stream defined");
             }
@@ -287,7 +298,8 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// false if End-Of-File, else true.
         /// </returns>
-        private bool ReadRecord() {
+        private bool ReadRecord()
+        {
             if (inputStream == null) {
                 throw new TarException("no input stream stream defined");
             }
@@ -352,7 +364,8 @@ namespace IFramework.Core.Zip.Tar
         /// The absolute block number = (<see cref="GetCurrentRecordNum">record number</see> * <see cref="BlockFactor">block factor</see>) + <see cref="GetCurrentBlockNum">block number</see>.
         /// </remarks>
         [Obsolete("Use CurrentBlock property instead")]
-        public int GetCurrentBlockNum() {
+        public int GetCurrentBlockNum()
+        {
             return currentBlockIndex;
         }
 
@@ -373,7 +386,8 @@ namespace IFramework.Core.Zip.Tar
         /// The current zero based record number.
         /// </returns>
         [Obsolete("Use CurrentRecord property instead")]
-        public int GetCurrentRecordNum() {
+        public int GetCurrentRecordNum()
+        {
             return currentRecordIndex;
         }
 
@@ -383,7 +397,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="block">
         /// The data to write to the archive.
         /// </param>
-        public void WriteBlock(byte[] block) {
+        public void WriteBlock(byte[] block)
+        {
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
@@ -416,7 +431,8 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">
         /// The offset of the record data within buffer.
         /// </param>
-        public void WriteBlock(byte[] buffer, int offset) {
+        public void WriteBlock(byte[] buffer, int offset)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -445,7 +461,8 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Write a TarBuffer record to the archive.
         /// </summary>
-        private void WriteRecord() {
+        private void WriteRecord()
+        {
             if (outputStream == null) {
                 throw new TarException("TarBuffer.WriteRecord no output stream defined");
             }
@@ -460,7 +477,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <remarks>Any trailing bytes are set to zero which is by definition correct behaviour
         /// for the end of a tar stream.</remarks>
-        private void WriteFinalRecord() {
+        private void WriteFinalRecord()
+        {
             if (outputStream == null) {
                 throw new TarException("TarBuffer.WriteFinalRecord no output stream defined");
             }
@@ -477,7 +495,8 @@ namespace IFramework.Core.Zip.Tar
         /// Close the TarBuffer. If this is an output buffer, also flush the
         /// current block before closing.
         /// </summary>
-        public void Close() {
+        public void Close()
+        {
             if (outputStream != null) {
                 WriteFinalRecord();
 

@@ -6,7 +6,8 @@ namespace IFramework.Test.Singelton
     public class SingletonPropertyTest : MonoBehaviour
     {
         // Start is called before the first frame update
-        private void Start() {
+        private void Start()
+        {
             SingletonPropertyTestDemo a = SingletonPropertyTestDemo.Instance;
             SingletonPropertyTestDemo b = SingletonPropertyTestDemo.Instance;
             Debug.Log(a == b);
@@ -22,7 +23,8 @@ namespace IFramework.Test.Singelton
         private SingletonPropertyTestDemo() { }
 
         // Start is called before the first frame update
-        private void Start() {
+        private void Start()
+        {
             Debug.Log("这是属性方法实现的单例 继承了MonoBehaviour");
         }
 
@@ -30,11 +32,13 @@ namespace IFramework.Test.Singelton
             get { return SingletonProperty<SingletonPropertyTestDemo>.Instance; }
         }
 
-        public void OnInit() {
+        public void OnInit()
+        {
             Debug.Log("这是属性方法实现的单例初始化");
         }
 
-        public void Say() {
+        public void Say()
+        {
             Debug.Log("hello world");
         }
     }

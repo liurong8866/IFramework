@@ -40,7 +40,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance.
         /// </summary>
         /// <param name="tag">The tag ID.</param>
-        public RawTaggedData(short tag) {
+        public RawTaggedData(short tag)
+        {
             this.tag = tag;
         }
 
@@ -60,7 +61,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="offset">The index to start extracting values from.</param>
         /// <param name="count">The number of bytes available.</param>
-        public void SetData(byte[] data, int offset, int count) {
+        public void SetData(byte[] data, int offset, int count)
+        {
             if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -72,7 +74,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
-        public byte[] GetData() {
+        public byte[] GetData()
+        {
             return data;
         }
 
@@ -141,7 +144,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="index">The index to start extracting values from.</param>
         /// <param name="count">The number of bytes available.</param>
-        public void SetData(byte[] data, int index, int count) {
+        public void SetData(byte[] data, int index, int count)
+        {
             using (MemoryStream ms = new MemoryStream(data, index, count, false))
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 // bit 0           if set, modification time is present
@@ -179,7 +183,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
-        public byte[] GetData() {
+        public byte[] GetData()
+        {
             using (MemoryStream ms = new MemoryStream())
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 helperStream.IsStreamOwner = false;
@@ -219,7 +224,8 @@ namespace IFramework.Core.Zip.Zip
         /// The minimum representable time is 1901-12-13 20:45:52,
         /// and the maximum representable time is 2038-01-19 03:14:07.
         /// </remarks>
-        public static bool IsValidValue(DateTime value) {
+        public static bool IsValidValue(DateTime value)
+        {
             return ((value >= new DateTime(1901, 12, 13, 20, 45, 52)) ||
                     (value <= new DateTime(2038, 1, 19, 03, 14, 07)));
         }
@@ -308,7 +314,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="index">The index to start extracting values from.</param>
         /// <param name="count">The number of bytes available.</param>
-        public void SetData(byte[] data, int index, int count) {
+        public void SetData(byte[] data, int index, int count)
+        {
             using (MemoryStream ms = new MemoryStream(data, index, count, false))
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 helperStream.ReadLeInt(); // Reserved
@@ -339,7 +346,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
-        public byte[] GetData() {
+        public byte[] GetData()
+        {
             using (MemoryStream ms = new MemoryStream())
             using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                 helperStream.IsStreamOwner = false;
@@ -364,7 +372,8 @@ namespace IFramework.Core.Zip.Zip
         /// number of 1.0E-07 seconds (1/10th microseconds!) past WinNT "epoch",
         /// which is "01-Jan-1601 00:00:00 UTC". 28 May 60056 is the upper limit
         /// </remarks>
-        public static bool IsValidValue(DateTime value) {
+        public static bool IsValidValue(DateTime value)
+        {
             bool result = true;
 
             try {
@@ -458,7 +467,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Initialise a default instance.
         /// </summary>
-        public ZipExtraData() {
+        public ZipExtraData()
+        {
             Clear();
         }
 
@@ -466,7 +476,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise with known extra data.
         /// </summary>
         /// <param name="data">The extra data.</param>
-        public ZipExtraData(byte[] data) {
+        public ZipExtraData(byte[] data)
+        {
             if (data == null) {
                 this.data = new byte[0];
             }
@@ -481,7 +492,8 @@ namespace IFramework.Core.Zip.Zip
         /// Get the raw extra data value
         /// </summary>
         /// <returns>Returns the raw byte[] extra data this instance represents.</returns>
-        public byte[] GetEntryData() {
+        public byte[] GetEntryData()
+        {
             if (Length > ushort.MaxValue) {
                 throw new ZipException("Data exceeds maximum length");
             }
@@ -491,7 +503,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Clear the stored data.
         /// </summary>
-        public void Clear() {
+        public void Clear()
+        {
             if ((data == null) || (data.Length != 0)) {
                 data = new byte[0];
             }
@@ -509,7 +522,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="tag">The tag to locate data for.</param>
         /// <returns>Returns a <see cref="Stream"/> containing tag data or null if no tag was found.</returns>
-        public Stream GetStreamForTag(int tag) {
+        public Stream GetStreamForTag(int tag)
+        {
             Stream result = null;
 
             if (Find(tag)) {
@@ -524,7 +538,8 @@ namespace IFramework.Core.Zip.Zip
         /// <typeparam name="T">The tag to search for.</typeparam>
         /// <returns>Returns a <see cref="ITaggedData">tagged value</see> or null if none found.</returns>
         public T GetData<T>()
-                where T : class, ITaggedData, new() {
+                where T : class, ITaggedData, new()
+        {
             T result = new T();
 
             if (Find(result.TagId)) {
@@ -570,7 +585,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="headerId">The identifier for the value to find.</param>
         /// <returns>Returns true if the value was found; false otherwise.</returns>
-        public bool Find(int headerId) {
+        public bool Find(int headerId)
+        {
             readValueStart = data.Length;
             readValueLength = 0;
             index = 0;
@@ -600,7 +616,8 @@ namespace IFramework.Core.Zip.Zip
         /// Add a new entry to extra data.
         /// </summary>
         /// <param name="taggedData">The <see cref="ITaggedData"/> value to add.</param>
-        public void AddEntry(ITaggedData taggedData) {
+        public void AddEntry(ITaggedData taggedData)
+        {
             if (taggedData == null) {
                 throw new ArgumentNullException(nameof(taggedData));
             }
@@ -613,7 +630,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="headerId">The ID for this entry.</param>
         /// <param name="fieldData">The data to add.</param>
         /// <remarks>If the ID already exists its contents are replaced.</remarks>
-        public void AddEntry(int headerId, byte[] fieldData) {
+        public void AddEntry(int headerId, byte[] fieldData)
+        {
             if ((headerId > ushort.MaxValue) || (headerId < 0)) {
                 throw new ArgumentOutOfRangeException(nameof(headerId));
             }
@@ -652,7 +670,8 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>Add data using <see cref="AddData(byte[])"/>, <see cref="AddLeShort"/>, <see cref="AddLeInt"/>, or <see cref="AddLeLong"/>.
         /// The new entry is completed and actually added by calling <see cref="AddNewEntry"/></remarks>
         /// <seealso cref="AddEntry(ITaggedData)"/>
-        public void StartNewEntry() {
+        public void StartNewEntry()
+        {
             newEntry = new MemoryStream();
         }
 
@@ -660,7 +679,8 @@ namespace IFramework.Core.Zip.Zip
         /// Add entry data added since <see cref="StartNewEntry"/> using the ID passed.
         /// </summary>
         /// <param name="headerId">The identifier to use for this entry.</param>
-        public void AddNewEntry(int headerId) {
+        public void AddNewEntry(int headerId)
+        {
             byte[] newData = newEntry.ToArray();
             newEntry = null;
             AddEntry(headerId, newData);
@@ -671,7 +691,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="data">The byte to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddData(byte data) {
+        public void AddData(byte data)
+        {
             newEntry.WriteByte(data);
         }
 
@@ -680,7 +701,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="data">The data to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddData(byte[] data) {
+        public void AddData(byte[] data)
+        {
             if (data == null) {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -692,7 +714,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddLeShort(int toAdd) {
+        public void AddLeShort(int toAdd)
+        {
             unchecked {
                 newEntry.WriteByte((byte) toAdd);
                 newEntry.WriteByte((byte) (toAdd >> 8));
@@ -704,7 +727,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddLeInt(int toAdd) {
+        public void AddLeInt(int toAdd)
+        {
             unchecked {
                 AddLeShort((short) toAdd);
                 AddLeShort((short) (toAdd >> 16));
@@ -716,7 +740,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddLeLong(long toAdd) {
+        public void AddLeLong(long toAdd)
+        {
             unchecked {
                 AddLeInt((int) (toAdd & 0xffffffff));
                 AddLeInt((int) (toAdd >> 32));
@@ -728,7 +753,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="headerId">The identifier of the field to delete.</param>
         /// <returns>Returns true if the field was found and deleted.</returns>
-        public bool Delete(int headerId) {
+        public bool Delete(int headerId)
+        {
             bool result = false;
 
             if (Find(headerId)) {
@@ -749,7 +775,8 @@ namespace IFramework.Core.Zip.Zip
         /// Read a long in little endian form from the last <see cref="Find">found</see> data value
         /// </summary>
         /// <returns>Returns the long value read.</returns>
-        public long ReadLong() {
+        public long ReadLong()
+        {
             ReadCheck(8);
             return (ReadInt() & 0xffffffff) | (((long) ReadInt()) << 32);
         }
@@ -758,7 +785,8 @@ namespace IFramework.Core.Zip.Zip
         /// Read an integer in little endian form from the last <see cref="Find">found</see> data value.
         /// </summary>
         /// <returns>Returns the integer read.</returns>
-        public int ReadInt() {
+        public int ReadInt()
+        {
             ReadCheck(4);
 
             int result = data[index] + (data[index + 1] << 8) +
@@ -771,7 +799,8 @@ namespace IFramework.Core.Zip.Zip
         /// Read a short value in little endian form from the last <see cref="Find">found</see> data value.
         /// </summary>
         /// <returns>Returns the short value read.</returns>
-        public int ReadShort() {
+        public int ReadShort()
+        {
             ReadCheck(2);
             int result = data[index] + (data[index + 1] << 8);
             index += 2;
@@ -782,7 +811,8 @@ namespace IFramework.Core.Zip.Zip
         /// Read a byte from an extra data
         /// </summary>
         /// <returns>The byte value read or -1 if the end of data has been reached.</returns>
-        public int ReadByte() {
+        public int ReadByte()
+        {
             int result = -1;
 
             if ((index < data.Length) && (readValueStart + readValueLength > index)) {
@@ -796,12 +826,14 @@ namespace IFramework.Core.Zip.Zip
         /// Skip data during reading.
         /// </summary>
         /// <param name="amount">The number of bytes to skip.</param>
-        public void Skip(int amount) {
+        public void Skip(int amount)
+        {
             ReadCheck(amount);
             index += amount;
         }
 
-        private void ReadCheck(int length) {
+        private void ReadCheck(int length)
+        {
             if ((readValueStart > data.Length) ||
                 (readValueStart < 4)) {
                 throw new ZipException("Find must be called before calling a Read method");
@@ -820,7 +852,8 @@ namespace IFramework.Core.Zip.Zip
         /// Internal form of <see cref="ReadShort"/> that reads data at any location.
         /// </summary>
         /// <returns>Returns the short value read.</returns>
-        private int ReadShortInternal() {
+        private int ReadShortInternal()
+        {
             if (index > data.Length - 2) {
                 throw new ZipException("End of extra data");
             }
@@ -829,7 +862,8 @@ namespace IFramework.Core.Zip.Zip
             return result;
         }
 
-        private void SetShort(ref int index, int source) {
+        private void SetShort(ref int index, int source)
+        {
             data[index] = (byte) source;
             data[index + 1] = (byte) (source >> 8);
             index += 2;
@@ -842,7 +876,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Dispose of this instance.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             if (newEntry != null) {
                 newEntry.Dispose();
             }

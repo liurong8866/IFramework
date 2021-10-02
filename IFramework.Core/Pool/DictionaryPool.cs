@@ -39,7 +39,8 @@ namespace IFramework.Core
         /// 出栈：从栈中获取某个字典数据
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<TKey, TValue> Allocate() {
+        public static Dictionary<TKey, TValue> Allocate()
+        {
             if (cache.Count == 0) {
                 return new Dictionary<TKey, TValue>(capacity);
             }
@@ -50,7 +51,8 @@ namespace IFramework.Core
         /// 入栈：将字典数据存储到栈中 
         /// </summary>
         /// <param name="release"></param>
-        public static void Release(Dictionary<TKey, TValue> release) {
+        public static void Release(Dictionary<TKey, TValue> release)
+        {
             release.Clear();
             cache.Push(release);
         }
@@ -61,7 +63,8 @@ namespace IFramework.Core
         /// <summary>
         /// 对字典拓展 自身入栈 的方法
         /// </summary>
-        public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self) {
+        public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self)
+        {
             DictionaryPool<TKey, TValue>.Release(self);
         }
     }

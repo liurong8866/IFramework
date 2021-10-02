@@ -37,7 +37,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialises a new instance of <see cref="WindowsNameTransform"/>
         /// </summary>
         /// <param name="baseDirectory"></param>
-        public WindowsNameTransform(string baseDirectory) {
+        public WindowsNameTransform(string baseDirectory)
+        {
             if (baseDirectory == null) {
                 throw new ArgumentNullException(nameof(baseDirectory), "Directory name is invalid");
             }
@@ -47,7 +48,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Initialise a default instance of <see cref="WindowsNameTransform"/>
         /// </summary>
-        public WindowsNameTransform() {
+        public WindowsNameTransform()
+        {
             // Do nothing.
         }
 
@@ -77,7 +79,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="name">The directory name to transform.</param>
         /// <returns>The transformed name.</returns>
-        public string TransformDirectory(string name) {
+        public string TransformDirectory(string name)
+        {
             name = TransformFile(name);
 
             if (name.Length > 0) {
@@ -96,7 +99,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="name">The file name to transform.</param>
         /// <returns>The transformed name.</returns>
-        public string TransformFile(string name) {
+        public string TransformFile(string name)
+        {
             if (name != null) {
                 name = MakeValidName(name, replacementChar);
 
@@ -122,7 +126,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="name">The name to test.</param>
         /// <returns>Returns true if the name is a valid zip name; false otherwise.</returns>
         /// <remarks>The filename isnt a true windows path in some fundamental ways like no absolute paths, no rooted paths etc.</remarks>
-        public static bool IsValidName(string name) {
+        public static bool IsValidName(string name)
+        {
             bool result =
                             (name != null) &&
                             (name.Length <= MAX_PATH) &&
@@ -137,7 +142,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="name">The name to make valid</param>
         /// <param name="replacement">The replacement character to use for any invalid characters.</param>
         /// <returns>Returns a valid name</returns>
-        public static string MakeValidName(string name, char replacement) {
+        public static string MakeValidName(string name, char replacement)
+        {
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }

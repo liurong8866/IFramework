@@ -33,7 +33,8 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
     {
         ResourceLoader loader;
 
-        private void Start() {
+        private void Start()
+        {
             loader = ResourceLoader.Allocate();
             Image image = transform.Find("Image").GetComponent<Image>();
             RawImage rawImage = transform.Find("RawImage").GetComponent<RawImage>();
@@ -89,7 +90,8 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             // );
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             loader.Recycle();
             loader = null;
         }

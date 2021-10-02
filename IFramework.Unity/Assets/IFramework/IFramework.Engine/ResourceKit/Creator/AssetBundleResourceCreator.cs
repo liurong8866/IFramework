@@ -26,11 +26,13 @@ namespace IFramework.Engine
 {
     public sealed class AssetBundleResourceCreator : IResourceCreator
     {
-        public bool Match(ResourceSearcher searcher) {
+        public bool Match(ResourceSearcher searcher)
+        {
             return searcher.AssetType == typeof(UnityEngine.AssetBundle);
         }
 
-        public IResource Create(ResourceSearcher searcher) {
+        public IResource Create(ResourceSearcher searcher)
+        {
             return AssetBundleResource.Allocate(searcher.AssetName);
         }
     }

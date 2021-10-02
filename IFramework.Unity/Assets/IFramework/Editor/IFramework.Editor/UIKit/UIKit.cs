@@ -29,7 +29,8 @@ namespace IFramework.Editor
 {
     public class UiKit
     {
-        public static void BindScript() {
+        public static void BindScript()
+        {
             Selection.activeGameObject.AddComponent<Bind>();
         }
     }

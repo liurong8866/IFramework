@@ -49,7 +49,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 生产方法
         /// </summary>
-        public static IResource Create(ResourceSearcher searcher) {
+        public static IResource Create(ResourceSearcher searcher)
+        {
             IResource resource = creators
                                  // 找到对应资源的创建者
                                 .Where(creator => creator.Match(searcher))
@@ -67,21 +68,24 @@ namespace IFramework.Engine
         /// <summary>
         /// 添加生产者
         /// </summary>
-        public static void AddCreator(IResourceCreator creator) {
+        public static void AddCreator(IResourceCreator creator)
+        {
             creators.Add(creator);
         }
 
         /// <summary>
         /// 添加生产者
         /// </summary>
-        public static void AddCreator<T>() where T : IResourceCreator, new() {
+        public static void AddCreator<T>() where T : IResourceCreator, new()
+        {
             creators.Add(new T());
         }
 
         /// <summary>
         /// 删除生产者
         /// </summary>
-        public static void RemoveCreator<T>() where T : IResourceCreator, new() {
+        public static void RemoveCreator<T>() where T : IResourceCreator, new()
+        {
             creators.RemoveAll(creator => creator.GetType() == typeof(T));
         }
     }

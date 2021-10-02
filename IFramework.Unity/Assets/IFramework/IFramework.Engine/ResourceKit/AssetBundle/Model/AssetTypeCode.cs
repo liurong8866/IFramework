@@ -54,7 +54,8 @@ namespace IFramework.Engine
         public static readonly Type TextAssetType = typeof(TextAsset);
         public static readonly Type AssetBundleType = typeof(AssetBundle);
 
-        public static short ToCode(this Type type) {
+        public static short ToCode(this Type type)
+        {
             if (type == GameObjectType) {
                 return GAME_OBJECT;
             }
@@ -93,7 +94,8 @@ namespace IFramework.Engine
             return 0;
         }
 
-        public static Type ToType(this short code) {
+        public static Type ToType(this short code)
+        {
             if (code == GAME_OBJECT) {
                 return GameObjectType;
             }

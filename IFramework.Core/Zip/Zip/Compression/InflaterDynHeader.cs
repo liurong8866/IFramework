@@ -24,7 +24,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         #endregion
 
-        public bool Decode(StreamManipulator input) {
+        public bool Decode(StreamManipulator input)
+        {
             decode_loop:
 
             for (;;) {
@@ -148,13 +149,15 @@ namespace IFramework.Core.Zip.Zip.Compression
             }
         }
 
-        public InflaterHuffmanTree BuildLitLenTree() {
+        public InflaterHuffmanTree BuildLitLenTree()
+        {
             byte[] litlenLens = new byte[lnum];
             Array.Copy(litdistLens, 0, litlenLens, 0, lnum);
             return new InflaterHuffmanTree(litlenLens);
         }
 
-        public InflaterHuffmanTree BuildDistTree() {
+        public InflaterHuffmanTree BuildDistTree()
+        {
             byte[] distLens = new byte[dnum];
             Array.Copy(litdistLens, lnum, distLens, 0, dnum);
             return new InflaterHuffmanTree(distLens);

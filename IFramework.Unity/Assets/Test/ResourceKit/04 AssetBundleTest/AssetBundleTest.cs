@@ -32,7 +32,8 @@ namespace Test.ResourceKit._03_AssetBundleTest
         private AssetResource assetResource;
         private AssetBundleResource assetBundleResource;
 
-        private void Start() {
+        private void Start()
+        {
             // 脱离了ResourceLoader，不可以直接调用，因为 Asset资源依赖AssetBundle，有依赖关系，单独不可以调用
 
             // assetBundleResource = AssetBundleResource.Allocate("malong-prefab");
@@ -55,7 +56,8 @@ namespace Test.ResourceKit._03_AssetBundleTest
             // assetResource.Asset.Instantiate().Name("我是通过AssetResource 加载的 pack2");
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             // assetResource.Dispose();
         }
     }

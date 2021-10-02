@@ -37,7 +37,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓冲池获取对象
         /// </summary>
-        public static NetImageResource Allocate(string path) {
+        public static NetImageResource Allocate(string path)
+        {
             NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
 
             if (resource != null) {
@@ -67,14 +68,16 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult() {
+        protected override Object ResolveResult()
+        {
             return ((DownloadHandlerTexture) request.downloadHandler).texture;
         }
 
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() {
+        public override void Recycle()
+        {
             ObjectPool<NetImageResource>.Instance.Recycle(this);
         }
     }

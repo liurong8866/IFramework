@@ -29,7 +29,8 @@ namespace IFramework.Editor
 {
     public static class EditorUtils
     {
-        public static string GetSelectedPath() {
+        public static string GetSelectedPath()
+        {
             string path = string.Empty;
 
             foreach (var obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets)) {

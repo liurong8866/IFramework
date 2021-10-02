@@ -9,11 +9,13 @@ public class NetImageExample : MonoBehaviour
     private VideoPlayer videoPlayer;
     ResourceLoader loader = new ResourceLoader();
 
-    private void Awake() {
+    private void Awake()
+    {
         videoPlayer = gameObject.GetComponent<VideoPlayer>();
     }
 
-    void Start() {
+    void Start()
+    {
         Image image = transform.Find("Image").GetComponent<Image>();
 
         loader.AddToLoad<Texture2D>(

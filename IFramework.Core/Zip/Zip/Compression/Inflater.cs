@@ -169,7 +169,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Sun JDK you should provide one byte of input more than needed in
         /// this case.
         /// </param>
-        public Inflater(bool noHeader) {
+        public Inflater(bool noHeader)
+        {
             this.noHeader = noHeader;
             adler = new Adler32();
             input = new StreamManipulator();
@@ -183,7 +184,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Resets the inflater so that a new stream can be decompressed.  All
         /// pending input and output will be discarded.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             mode = noHeader ? DECODE_BLOCKS : DECODE_HEADER;
             totalIn = 0;
             totalOut = 0;
@@ -205,7 +207,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="BaseZipException">
         /// The header is invalid.
         /// </exception>
-        private bool DecodeHeader() {
+        private bool DecodeHeader()
+        {
             int header = input.PeekBits(16);
 
             if (header < 0) {
@@ -247,7 +250,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// False if more input is needed.
         /// </returns>
-        private bool DecodeDict() {
+        private bool DecodeDict()
+        {
             while (neededBits > 0) {
                 int dictByte = input.PeekBits(8);
 
@@ -271,7 +275,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="BaseZipException">
         /// if deflated stream is invalid.
         /// </exception>
-        private bool DecodeHuffman() {
+        private bool DecodeHuffman()
+        {
             int free = outputWindow.GetFreeSpace();
 
             while (free >= 258) {
@@ -367,7 +372,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="BaseZipException">
         /// If checksum doesn't match.
         /// </exception>
-        private bool DecodeChksum() {
+        private bool DecodeChksum()
+        {
             while (neededBits > 0) {
                 int chkByte = input.PeekBits(8);
 
@@ -395,7 +401,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="BaseZipException">
         /// if deflated stream is invalid.
         /// </exception>
-        private bool Decode() {
+        private bool Decode()
+        {
             switch (mode) {
                 case DECODE_HEADER:
                     return DecodeHeader();
@@ -501,7 +508,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// The dictionary.
         /// </param>
-        public void SetDictionary(byte[] buffer) {
+        public void SetDictionary(byte[] buffer)
+        {
             SetDictionary(buffer, 0, buffer.Length);
         }
 
@@ -526,7 +534,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="BaseZipException">
         /// The adler checksum for the buffer is invalid
         /// </exception>
-        public void SetDictionary(byte[] buffer, int index, int count) {
+        public void SetDictionary(byte[] buffer, int index, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -559,7 +568,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// the input.
         /// </param>
-        public void SetInput(byte[] buffer) {
+        public void SetInput(byte[] buffer)
+        {
             SetInput(buffer, 0, buffer.Length);
         }
 
@@ -582,7 +592,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// The index and/or count are wrong.
         /// </exception>
-        public void SetInput(byte[] buffer, int index, int count) {
+        public void SetInput(byte[] buffer, int index, int count)
+        {
             input.SetInput(buffer, index, count);
             totalIn += count;
         }
@@ -606,7 +617,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.FormatException">
         /// if deflated stream is invalid.
         /// </exception>
-        public int Inflate(byte[] buffer) {
+        public int Inflate(byte[] buffer)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -640,7 +652,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.FormatException">
         /// if deflated stream is invalid.
         /// </exception>
-        public int Inflate(byte[] buffer, int offset, int count) {
+        public int Inflate(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }

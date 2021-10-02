@@ -31,14 +31,16 @@ namespace IFramework.Core
     /// </summary>
     public static class TextureExtention
     {
-        public static Sprite CreateSprite(this Texture2D self) {
+        public static Sprite CreateSprite(this Texture2D self)
+        {
             return Sprite.Create(self, new Rect(0, 0, self.width, self.height), Vector2.one * 0.5f);
         }
 
         // 屏幕截图
         // var screenshotTexture2D = Camera.main.CaptureCamera(new Rect(0, 0, Screen.width, Screen.height));
         // Log.I(screenshotTexture2D.width);
-        public static Texture2D CaptureCamera(this Camera camera, Rect rect) {
+        public static Texture2D CaptureCamera(this Camera camera, Rect rect)
+        {
             var renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             camera.targetTexture = renderTexture;
             camera.Render();
@@ -52,7 +54,8 @@ namespace IFramework.Core
             return screenShot;
         }
 
-        public static Color HtmlStringToColor(this string htmlString) {
+        public static Color HtmlStringToColor(this string htmlString)
+        {
             Color retColor;
             var parseSucceed = ColorUtility.TryParseHtmlString(htmlString, out retColor);
             return parseSucceed ? retColor : Color.black;

@@ -96,7 +96,8 @@ namespace IFramework.Core.Zip.GZip
         /// The number of uncompressed bytes to be read
         /// </param>
         /// <returns>Returns the number of bytes actually read.</returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             // A GZIP file can contain multiple blocks of compressed data, although this is quite rare.
             // A compressed block could potentially be empty, so we need to loop until we reach EOF or
             // we find data.
@@ -143,7 +144,8 @@ namespace IFramework.Core.Zip.GZip
 
         #region Support routines
 
-        private bool ReadHeader() {
+        private bool ReadHeader()
+        {
             // Initialize CRC for this block
             crc = new Crc32();
 
@@ -304,7 +306,8 @@ namespace IFramework.Core.Zip.GZip
             return true;
         }
 
-        private void ReadFooter() {
+        private void ReadFooter()
+        {
             byte[] footer = new byte[8];
 
             // End of stream; reclaim all bytes from inf, read the final byte count, and reset the inflator

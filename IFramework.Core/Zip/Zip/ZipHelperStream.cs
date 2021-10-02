@@ -72,7 +72,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise an instance of this class.
         /// </summary>
         /// <param name="name">The name of the file to open.</param>
-        public ZipHelperStream(string name) {
+        public ZipHelperStream(string name)
+        {
             stream = new FileStream(name, FileMode.Open, FileAccess.ReadWrite);
             isOwner = true;
         }
@@ -81,7 +82,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="ZipHelperStream"/>.
         /// </summary>
         /// <param name="stream">The stream to use.</param>
-        public ZipHelperStream(Stream stream) {
+        public ZipHelperStream(Stream stream)
+        {
             this.stream = stream;
         }
 
@@ -123,23 +125,28 @@ namespace IFramework.Core.Zip.Zip
             get { return stream.CanWrite; }
         }
 
-        public override void Flush() {
+        public override void Flush()
+        {
             stream.Flush();
         }
 
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             return stream.Seek(offset, origin);
         }
 
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             stream.SetLength(value);
         }
 
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             return stream.Read(buffer, offset, count);
         }
 
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             stream.Write(buffer, offset, count);
         }
 
@@ -149,7 +156,8 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>
         /// The underlying stream is closed only if <see cref="IsStreamOwner"/> is true.
         /// </remarks>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             Stream toClose = stream;
             stream = null;
 
@@ -163,7 +171,8 @@ namespace IFramework.Core.Zip.Zip
 
         // Write the local file header
         // TODO: ZipHelperStream.WriteLocalHeader is not yet used and needs checking for ZipFile and ZipOuptutStream usage
-        private void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData) {
+        private void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
+        {
             CompressionMethod method = entry.CompressionMethod;
             bool headerInfoAvailable = true; // How to get this?
             bool patchEntryHeader = false;
@@ -261,7 +270,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="minimumBlockSize">Minimum size of the block.</param>
         /// <param name="maximumVariableData">The maximum variable data.</param>
         /// <returns>Eeturns the offset of the first byte after the signature; -1 if not found</returns>
-        public long LocateBlockWithSignature(int signature, long endLocation, int minimumBlockSize, int maximumVariableData) {
+        public long LocateBlockWithSignature(int signature, long endLocation, int minimumBlockSize, int maximumVariableData)
+        {
             long pos = endLocation - minimumBlockSize;
 
             if (pos < 0) {
@@ -285,7 +295,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="noOfEntries">The number of entries in the central directory.</param>
         /// <param name="sizeEntries">The size of entries in the central directory.</param>
         /// <param name="centralDirOffset">The offset of the dentral directory.</param>
-        public void WriteZip64EndOfCentralDirectory(long noOfEntries, long sizeEntries, long centralDirOffset) {
+        public void WriteZip64EndOfCentralDirectory(long noOfEntries, long sizeEntries, long centralDirOffset)
+        {
             long centralSignatureOffset = stream.Position;
             WriteLeInt(ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE);
             WriteLeLong(44);                            // Size of this record (total size of remaining fields in header or full size - 12)
@@ -320,7 +331,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="startOfCentralDirectory">The start of the central directory.</param>
         /// <param name="comment">The archive comment.  (This can be null).</param>
         public void WriteEndOfCentralDirectory(long noOfEntries, long sizeEntries,
-                                               long startOfCentralDirectory, byte[] comment) {
+                                               long startOfCentralDirectory, byte[] comment)
+        {
             if ((noOfEntries >= 0xffff) ||
                 (startOfCentralDirectory >= 0xffffffff) ||
                 (sizeEntries >= 0xffffffff)) {
@@ -381,7 +393,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="EndOfStreamException">
         /// The file ends prematurely
         /// </exception>
-        public int ReadLeShort() {
+        public int ReadLeShort()
+        {
             int byteValue1 = stream.ReadByte();
 
             if (byteValue1 < 0) {
@@ -405,7 +418,8 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="System.IO.EndOfStreamException">
         /// The file ends prematurely
         /// </exception>
-        public int ReadLeInt() {
+        public int ReadLeInt()
+        {
             return ReadLeShort() | (ReadLeShort() << 16);
         }
 
@@ -413,7 +427,8 @@ namespace IFramework.Core.Zip.Zip
         /// Read a long in little endian byte order.
         /// </summary>
         /// <returns>The value read.</returns>
-        public long ReadLeLong() {
+        public long ReadLeLong()
+        {
             return (uint) ReadLeInt() | ((long) ReadLeInt() << 32);
         }
 
@@ -421,7 +436,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write an unsigned short in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeShort(int value) {
+        public void WriteLeShort(int value)
+        {
             stream.WriteByte((byte) (value & 0xff));
             stream.WriteByte((byte) ((value >> 8) & 0xff));
         }
@@ -430,7 +446,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write a ushort in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeUshort(ushort value) {
+        public void WriteLeUshort(ushort value)
+        {
             stream.WriteByte((byte) (value & 0xff));
             stream.WriteByte((byte) (value >> 8));
         }
@@ -439,7 +456,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write an int in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeInt(int value) {
+        public void WriteLeInt(int value)
+        {
             WriteLeShort(value);
             WriteLeShort(value >> 16);
         }
@@ -448,7 +466,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write a uint in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeUint(uint value) {
+        public void WriteLeUint(uint value)
+        {
             WriteLeUshort((ushort) (value & 0xffff));
             WriteLeUshort((ushort) (value >> 16));
         }
@@ -457,7 +476,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write a long in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeLong(long value) {
+        public void WriteLeLong(long value)
+        {
             WriteLeInt((int) value);
             WriteLeInt((int) (value >> 32));
         }
@@ -466,7 +486,8 @@ namespace IFramework.Core.Zip.Zip
         /// Write a ulong in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
-        public void WriteLeUlong(ulong value) {
+        public void WriteLeUlong(ulong value)
+        {
             WriteLeUint((uint) (value & 0xffffffff));
             WriteLeUint((uint) (value >> 32));
         }
@@ -478,7 +499,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="entry">The entry to write a descriptor for.</param>
         /// <returns>Returns the number of descriptor bytes written.</returns>
-        public int WriteDataDescriptor(ZipEntry entry) {
+        public int WriteDataDescriptor(ZipEntry entry)
+        {
             if (entry == null) {
                 throw new ArgumentNullException(nameof(entry));
             }
@@ -512,7 +534,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="zip64">if set to <c>true</c> [zip64].</param>
         /// <param name="data">The data to fill in.</param>
         /// <returns>Returns the number of bytes read in the descriptor.</returns>
-        public void ReadDataDescriptor(bool zip64, DescriptorData data) {
+        public void ReadDataDescriptor(bool zip64, DescriptorData data)
+        {
             int intValue = ReadLeInt();
 
             // In theory this may not be a descriptor according to PKZIP appnote.

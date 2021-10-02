@@ -34,7 +34,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="InvalidOperationException">
         /// if window is full
         /// </exception>
-        public void Write(int value) {
+        public void Write(int value)
+        {
             if (windowFilled++ == WindowSize) {
                 throw new InvalidOperationException("Window full");
             }
@@ -42,7 +43,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             windowEnd &= WindowMask;
         }
 
-        private void SlowRepeat(int repStart, int length, int distance) {
+        private void SlowRepeat(int repStart, int length, int distance)
+        {
             while (length-- > 0) {
                 window[windowEnd++] = window[repStart++];
                 windowEnd &= WindowMask;
@@ -58,7 +60,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="InvalidOperationException">
         /// If the repeated data overflows the window
         /// </exception>
-        public void Repeat(int length, int distance) {
+        public void Repeat(int length, int distance)
+        {
             if ((windowFilled += length) > WindowSize) {
                 throw new InvalidOperationException("Window full");
             }
@@ -88,7 +91,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="input">source of data</param>
         /// <param name="length">length of data to copy</param>
         /// <returns>the number of bytes copied</returns>
-        public int CopyStored(StreamManipulator input, int length) {
+        public int CopyStored(StreamManipulator input, int length)
+        {
             length = Math.Min(Math.Min(length, WindowSize - windowFilled), input.AvailableBytes);
             int copied;
             int tailLen = WindowSize - windowEnd;
@@ -117,7 +121,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="InvalidOperationException">
         /// If window isnt empty
         /// </exception>
-        public void CopyDict(byte[] dictionary, int offset, int length) {
+        public void CopyDict(byte[] dictionary, int offset, int length)
+        {
             if (dictionary == null) {
                 throw new ArgumentNullException(nameof(dictionary));
             }
@@ -138,7 +143,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Get remaining unfilled space in window
         /// </summary>
         /// <returns>Number of bytes left in window</returns>
-        public int GetFreeSpace() {
+        public int GetFreeSpace()
+        {
             return WindowSize - windowFilled;
         }
 
@@ -146,7 +152,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Get bytes available for output in window
         /// </summary>
         /// <returns>Number of bytes filled</returns>
-        public int GetAvailable() {
+        public int GetAvailable()
+        {
             return windowFilled;
         }
 
@@ -160,7 +167,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <exception cref="InvalidOperationException">
         /// If a window underflow occurs
         /// </exception>
-        public int CopyOutput(byte[] output, int offset, int len) {
+        public int CopyOutput(byte[] output, int offset, int len)
+        {
             int copyEnd = windowEnd;
 
             if (len > windowFilled) {
@@ -189,7 +197,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Reset by clearing window so <see cref="GetAvailable">GetAvailable</see> returns 0
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             windowFilled = windowEnd = 0;
         }
     }

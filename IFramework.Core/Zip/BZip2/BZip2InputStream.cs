@@ -93,7 +93,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Construct instance for reading from stream
         /// </summary>
         /// <param name="stream">Data source</param>
-        public BZip2InputStream(Stream stream) {
+        public BZip2InputStream(Stream stream)
+        {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
@@ -166,7 +167,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Flushes the stream.
         /// </summary>
-        public override void Flush() {
+        public override void Flush()
+        {
             baseStream.Flush();
         }
 
@@ -177,7 +179,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="origin">A value of type <see cref="SeekOrigin"/> indicating the reference point used to obtain the new position.</param>
         /// <returns>The new position of the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotSupportedException("BZip2InputStream Seek not supported");
         }
 
@@ -187,7 +190,8 @@ namespace IFramework.Core.Zip.BZip2
         /// </summary>
         /// <param name="value">The new length for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotSupportedException("BZip2InputStream SetLength not supported");
         }
 
@@ -199,7 +203,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="offset">The offset to start obtaining data from.</param>
         /// <param name="count">The number of bytes of data to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException("BZip2InputStream Write not supported");
         }
 
@@ -209,7 +214,8 @@ namespace IFramework.Core.Zip.BZip2
         /// </summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) {
+        public override void WriteByte(byte value)
+        {
             throw new NotSupportedException("BZip2InputStream WriteByte not supported");
         }
 
@@ -223,7 +229,8 @@ namespace IFramework.Core.Zip.BZip2
         /// than the number of bytes requested if that number of bytes are not
         /// currently available or zero if the end of the stream is reached.
         /// </returns>
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -242,7 +249,8 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Closes the stream, releasing any associated resources.
         /// </summary>
-        protected override void Dispose(bool disposing) {
+        protected override void Dispose(bool disposing)
+        {
             if (disposing && IsStreamOwner) {
                 baseStream.Dispose();
             }
@@ -252,7 +260,8 @@ namespace IFramework.Core.Zip.BZip2
         /// Read a byte from stream advancing position
         /// </summary>
         /// <returns>byte read or -1 on end of stream</returns>
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             if (streamEnd) {
                 return -1; // ok
             }
@@ -281,7 +290,8 @@ namespace IFramework.Core.Zip.BZip2
 
         #endregion
 
-        private void MakeMaps() {
+        private void MakeMaps()
+        {
             nInUse = 0;
 
             for (int i = 0; i < 256; ++i) {
@@ -293,7 +303,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void Initialize() {
+        private void Initialize()
+        {
             char magic1 = BsGetUChar();
             char magic2 = BsGetUChar();
             char magic3 = BsGetUChar();
@@ -307,7 +318,8 @@ namespace IFramework.Core.Zip.BZip2
             computedCombinedCrc = 0;
         }
 
-        private void InitBlock() {
+        private void InitBlock()
+        {
             char magic1 = BsGetUChar();
             char magic2 = BsGetUChar();
             char magic3 = BsGetUChar();
@@ -332,7 +344,8 @@ namespace IFramework.Core.Zip.BZip2
             currentState = START_BLOCK_STATE;
         }
 
-        private void EndBlock() {
+        private void EndBlock()
+        {
             computedBlockCrc = (int) mCrc.Value;
 
             // -- A bad CRC is considered a fatal error. --
@@ -345,7 +358,8 @@ namespace IFramework.Core.Zip.BZip2
             computedCombinedCrc = computedCombinedCrc ^ (uint) computedBlockCrc;
         }
 
-        private void Complete() {
+        private void Complete()
+        {
             storedCombinedCrc = BsGetInt32();
 
             if (storedCombinedCrc != (int) computedCombinedCrc) {
@@ -354,7 +368,8 @@ namespace IFramework.Core.Zip.BZip2
             streamEnd = true;
         }
 
-        private void FillBuffer() {
+        private void FillBuffer()
+        {
             int thech = 0;
 
             try {
@@ -371,7 +386,8 @@ namespace IFramework.Core.Zip.BZip2
             bsLive += 8;
         }
 
-        private int BsR(int n) {
+        private int BsR(int n)
+        {
             while (bsLive < n) {
                 FillBuffer();
             }
@@ -380,15 +396,18 @@ namespace IFramework.Core.Zip.BZip2
             return v;
         }
 
-        private char BsGetUChar() {
+        private char BsGetUChar()
+        {
             return (char) BsR(8);
         }
 
-        private int BsGetIntVs(int numBits) {
+        private int BsGetIntVs(int numBits)
+        {
             return BsR(numBits);
         }
 
-        private int BsGetInt32() {
+        private int BsGetInt32()
+        {
             int result = BsR(8);
             result = (result << 8) | BsR(8);
             result = (result << 8) | BsR(8);
@@ -396,7 +415,8 @@ namespace IFramework.Core.Zip.BZip2
             return result;
         }
 
-        private void RecvDecodingTables() {
+        private void RecvDecodingTables()
+        {
             char[][] len = new char[BZip2Constants.GROUP_COUNT][];
 
             for (int i = 0; i < BZip2Constants.GROUP_COUNT; ++i) {
@@ -487,7 +507,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void GetAndMoveToFrontDecode() {
+        private void GetAndMoveToFrontDecode()
+        {
             byte[] yy = new byte[256];
             int nextSym;
             int limitLast = BZip2Constants.BASE_BLOCK_SIZE * blockSize100K;
@@ -634,7 +655,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupBlock() {
+        private void SetupBlock()
+        {
             int[] cftab = new int[257];
             cftab[0] = 0;
             Array.Copy(unzftab, 0, cftab, 1, 256);
@@ -664,7 +686,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupRandPartA() {
+        private void SetupRandPartA()
+        {
             if (i2 <= last) {
                 chPrev = ch2;
                 ch2 = ll8[tPos];
@@ -692,7 +715,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupNoRandPartA() {
+        private void SetupNoRandPartA()
+        {
             if (i2 <= last) {
                 chPrev = ch2;
                 ch2 = ll8[tPos];
@@ -709,7 +733,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupRandPartB() {
+        private void SetupRandPartB()
+        {
             if (ch2 != chPrev) {
                 currentState = RAND_PART_A_STATE;
                 count = 1;
@@ -743,7 +768,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupRandPartC() {
+        private void SetupRandPartC()
+        {
             if (j2 < z) {
                 currentChar = ch2;
                 mCrc.Update(ch2);
@@ -757,7 +783,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupNoRandPartB() {
+        private void SetupNoRandPartB()
+        {
             if (ch2 != chPrev) {
                 currentState = NO_RAND_PART_A_STATE;
                 count = 1;
@@ -780,7 +807,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetupNoRandPartC() {
+        private void SetupNoRandPartC()
+        {
             if (j2 < z) {
                 currentChar = ch2;
                 mCrc.Update(ch2);
@@ -794,7 +822,8 @@ namespace IFramework.Core.Zip.BZip2
             }
         }
 
-        private void SetDecompressStructureSizes(int newSize100K) {
+        private void SetDecompressStructureSizes(int newSize100K)
+        {
             if (!(0 <= newSize100K && newSize100K <= 9 && 0 <= blockSize100K && blockSize100K <= 9)) {
                 throw new BZip2Exception("Invalid block size");
             }
@@ -808,23 +837,28 @@ namespace IFramework.Core.Zip.BZip2
             tt = new int[n];
         }
 
-        private static void CompressedStreamEof() {
+        private static void CompressedStreamEof()
+        {
             throw new EndOfStreamException("BZip2 input stream end of compressed stream");
         }
 
-        private static void BlockOverrun() {
+        private static void BlockOverrun()
+        {
             throw new BZip2Exception("BZip2 input stream block overrun");
         }
 
-        private static void BadBlockHeader() {
+        private static void BadBlockHeader()
+        {
             throw new BZip2Exception("BZip2 input stream bad block header");
         }
 
-        private static void CrcError() {
+        private static void CrcError()
+        {
             throw new BZip2Exception("BZip2 input stream crc error");
         }
 
-        private static void HbCreateDecodeTables(int[] limit, int[] baseArray, int[] perm, char[] length, int minLen, int maxLen, int alphaSize) {
+        private static void HbCreateDecodeTables(int[] limit, int[] baseArray, int[] perm, char[] length, int minLen, int maxLen, int alphaSize)
+        {
             int pp = 0;
 
             for (int i = minLen; i <= maxLen; ++i) {

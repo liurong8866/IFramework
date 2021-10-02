@@ -22,7 +22,8 @@ namespace IFramework.Core.Zip.Zip
         /// Initialize a new instance of <see cref="ZipNameTransform"></see>
         /// </summary>
         /// <param name="trimPrefix">The string to trim from the front of paths if found.</param>
-        public ZipNameTransform(string trimPrefix) {
+        public ZipNameTransform(string trimPrefix)
+        {
             TrimPrefix = trimPrefix;
         }
 
@@ -31,7 +32,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Static constructor.
         /// </summary>
-        static ZipNameTransform() {
+        static ZipNameTransform()
+        {
             char[] invalidPathChars;
             invalidPathChars = Path.GetInvalidPathChars();
             int howMany = invalidPathChars.Length + 2;
@@ -53,7 +55,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="name">The directory name to transform.</param>
         /// <returns>The transformed name.</returns>
-        public string TransformDirectory(string name) {
+        public string TransformDirectory(string name)
+        {
             name = TransformFile(name);
 
             if (name.Length > 0) {
@@ -72,7 +75,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="name">The file name to transform.</param>
         /// <returns>The transformed name.</returns>
-        public string TransformFile(string name) {
+        public string TransformFile(string name)
+        {
             if (name != null) {
                 string lowerName = name.ToLowerInvariant();
 
@@ -129,7 +133,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="name">The name to force valid</param>
         /// <param name="replacement">The replacement character to use.</param>
         /// <returns>Returns a valid name</returns>
-        private static string MakeValidName(string name, char replacement) {
+        private static string MakeValidName(string name, char replacement)
+        {
             int index = name.IndexOfAny(invalidEntryChars);
 
             if (index >= 0) {
@@ -166,7 +171,8 @@ namespace IFramework.Core.Zip.Zip
         /// An empty name is valid for a file where the input comes from standard input.
         /// A null name is not considered valid.
         /// </remarks>
-        public static bool IsValidName(string name, bool relaxed) {
+        public static bool IsValidName(string name, bool relaxed)
+        {
             bool result = (name != null);
 
             if (result) {
@@ -194,7 +200,8 @@ namespace IFramework.Core.Zip.Zip
         /// An empty name is valid where the input comes from standard input.
         /// A null name is not considered valid.
         /// </remarks>
-        public static bool IsValidName(string name) {
+        public static bool IsValidName(string name)
+        {
             bool result =
                             (name != null) &&
                             (name.IndexOfAny(invalidEntryChars) < 0) &&

@@ -27,7 +27,8 @@ namespace IFramework.Core.Zip
         /// Construct an instance based on the filter expression passed
         /// </summary>
         /// <param name="filter">The filter expression.</param>
-        public NameFilter(string filter) {
+        public NameFilter(string filter)
+        {
             this.filter = filter;
             inclusions = new List<Regex>();
             exclusions = new List<Regex>();
@@ -41,7 +42,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="expression">The expression to test.</param>
         /// <returns>True if expression is a valid <see cref="System.Text.RegularExpressions.Regex"/> false otherwise.</returns>
-        public static bool IsValidExpression(string expression) {
+        public static bool IsValidExpression(string expression)
+        {
             bool result = true;
 
             try {
@@ -60,7 +62,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="toTest">The filter expression to test.</param>
         /// <returns>True if the expression is valid, false otherwise.</returns>
-        public static bool IsValidFilterExpression(string toTest) {
+        public static bool IsValidFilterExpression(string toTest)
+        {
             bool result = true;
 
             try {
@@ -98,7 +101,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="original">The original string</param>
         /// <returns>Returns an array of <see cref="T:System.String"/> values containing the individual filter elements.</returns>
-        public static string[] SplitQuoted(string original) {
+        public static string[] SplitQuoted(string original)
+        {
             char escape = '\\';
             char[] separators = { ';' };
             var result = new List<string>();
@@ -143,7 +147,8 @@ namespace IFramework.Core.Zip
         /// Convert this filter to its string equivalent.
         /// </summary>
         /// <returns>The string equivalent for this filter.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return filter;
         }
 
@@ -152,7 +157,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The value to test.</param>
         /// <returns>True if the value is included, false otherwise.</returns>
-        public bool IsIncluded(string name) {
+        public bool IsIncluded(string name)
+        {
             bool result = false;
 
             if (inclusions.Count == 0) {
@@ -174,7 +180,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The value to test.</param>
         /// <returns>True if the value is excluded, false otherwise.</returns>
-        public bool IsExcluded(string name) {
+        public bool IsExcluded(string name)
+        {
             bool result = false;
 
             foreach (Regex r in exclusions) {
@@ -193,7 +200,8 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The value to test.</param>
         /// <returns>True if the value matches, false otherwise.</returns>
-        public bool IsMatch(string name) {
+        public bool IsMatch(string name)
+        {
             return (IsIncluded(name) && !IsExcluded(name));
         }
 
@@ -202,7 +210,8 @@ namespace IFramework.Core.Zip
         /// <summary>
         /// Compile this filter.
         /// </summary>
-        private void Compile() {
+        private void Compile()
+        {
             // TODO: Check to see if combining RE's makes it faster/smaller.
             // simple scheme would be to have one RE for inclusion and one for exclusion.
             if (filter == null) {

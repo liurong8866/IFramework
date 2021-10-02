@@ -74,46 +74,54 @@ namespace IFramework.Core
         /* Show & Hide                 */
         /*-----------------------------*/
 
-        public static GameObject Show(this GameObject self) {
+        public static GameObject Show(this GameObject self)
+        {
             if (self) {
                 self.SetActive(true);
             }
             return self;
         }
 
-        public static GameObject Hide(this GameObject self) {
+        public static GameObject Hide(this GameObject self)
+        {
             if (self) {
                 self.SetActive(false);
             }
             return self;
         }
 
-        public static Behaviour Enable(this Behaviour self) {
+        public static Behaviour Enable(this Behaviour self)
+        {
             self.enabled = true;
             return self;
         }
 
-        public static Behaviour Disable(this Behaviour self) {
+        public static Behaviour Disable(this Behaviour self)
+        {
             self.enabled = false;
             return self;
         }
 
-        public static T Show<T>(this T self) where T : Component {
+        public static T Show<T>(this T self) where T : Component
+        {
             self.gameObject.Show();
             return self;
         }
 
-        public static T Hide<T>(this T self) where T : Component {
+        public static T Hide<T>(this T self) where T : Component
+        {
             self.gameObject.Hide();
             return self;
         }
 
-        public static T Enable<T>(this T self) where T : Behaviour {
+        public static T Enable<T>(this T self) where T : Behaviour
+        {
             self.enabled = true;
             return self;
         }
 
-        public static T Disable<T>(this T self) where T : Behaviour {
+        public static T Disable<T>(this T self) where T : Behaviour
+        {
             self.enabled = false;
             return self;
         }
@@ -122,19 +130,22 @@ namespace IFramework.Core
         /* Destroy                    */
         /*----------------------------*/
 
-        public static void DestroyGameObject<T>(this T self) where T : Component {
+        public static void DestroyGameObject<T>(this T self) where T : Component
+        {
             if (self && self.gameObject) {
                 self.gameObject.DestroySelf();
             }
         }
 
-        public static void DestroyGameObjectImmediate<T>(this T self) where T : Component {
+        public static void DestroyGameObjectImmediate<T>(this T self) where T : Component
+        {
             if (self && self.gameObject) {
                 self.gameObject.DestroySelfImmediate();
             }
         }
 
-        public static T DestroyGameObjectDelay<T>(this T self, float delay) where T : Component {
+        public static T DestroyGameObjectDelay<T>(this T self, float delay) where T : Component
+        {
             if (self && self.gameObject) {
                 self.gameObject.DestroySelfDelay(delay);
             }
@@ -145,22 +156,26 @@ namespace IFramework.Core
         /* Layer                      */
         /*----------------------------*/
 
-        public static GameObject Layer(this GameObject self, int layer) {
+        public static GameObject Layer(this GameObject self, int layer)
+        {
             self.layer = layer;
             return self;
         }
 
-        public static GameObject Layer(this GameObject self, string layerName) {
+        public static GameObject Layer(this GameObject self, string layerName)
+        {
             self.layer = LayerMask.NameToLayer(layerName);
             return self;
         }
 
-        public static T Layer<T>(this T self, int layer) where T : Component {
+        public static T Layer<T>(this T self, int layer) where T : Component
+        {
             self.gameObject.layer = layer;
             return self;
         }
 
-        public static T Layer<T>(this T self, string layerName) where T : Component {
+        public static T Layer<T>(this T self, string layerName) where T : Component
+        {
             self.gameObject.layer = LayerMask.NameToLayer(layerName);
             return self;
         }
@@ -169,16 +184,19 @@ namespace IFramework.Core
         /* Component                  */
         /*----------------------------*/
 
-        public static T AddComponentSafe<T>(this GameObject self) where T : Component {
+        public static T AddComponentSafe<T>(this GameObject self) where T : Component
+        {
             var component = self.gameObject.GetComponent<T>();
             return component ? component : self.gameObject.AddComponent<T>();
         }
 
-        public static T AddComponentSafe<T>(this Component component) where T : Component {
+        public static T AddComponentSafe<T>(this Component component) where T : Component
+        {
             return component.gameObject.AddComponentSafe<T>();
         }
 
-        public static Component AddComponentSafe(this GameObject self, Type type) {
+        public static Component AddComponentSafe(this GameObject self, Type type)
+        {
             var component = self.gameObject.GetComponent(type);
             return component ? component : self.gameObject.AddComponent(type);
         }

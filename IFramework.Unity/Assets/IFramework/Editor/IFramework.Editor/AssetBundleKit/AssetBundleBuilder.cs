@@ -36,7 +36,8 @@ namespace IFramework.Editor
 {
     public static class AssetBundleBuilder
     {
-        public static void BuildAssetBundles() {
+        public static void BuildAssetBundles()
+        {
             Log.Clear();
 
             // 打包AssetBundle
@@ -52,7 +53,8 @@ namespace IFramework.Editor
         /// 打包 AssetBundle
         /// </summary>
         /// <param name="buildTarget">目标平台</param>
-        public static void BuildAssetBundles(BuildTarget buildTarget) {
+        public static void BuildAssetBundles(BuildTarget buildTarget)
+        {
             string platformName = Environment.Instance.GetPlatformName(buildTarget);
             Log.Info("开始打包: [{0}]: 开始", platformName);
             AssetDatabase.RemoveUnusedAssetBundleNames();
@@ -89,7 +91,8 @@ namespace IFramework.Editor
         /// <param name="outputPath">输出目录</param>
         /// <param name="package">待打包资源</param>
         /// <param name="buildTarget">目标平台</param>
-        private static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget) {
+        private static void Build(string outputPath, AssetBundlePackage package, BuildTarget buildTarget)
+        {
             // 没有则创建
             DirectoryUtils.Create(outputPath);
 
@@ -113,7 +116,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 构建AssetBundle 关系配置文件
         /// </summary>
-        private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath = null) {
+        private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath = null)
+        {
             if (assetBundleNames.IsNullOrEmpty()) return;
 
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
@@ -125,7 +129,8 @@ namespace IFramework.Editor
         /// <summary>
         /// 强制清除所有AssetBundles
         /// </summary>
-        public static void ForceClearAssetBundles() {
+        public static void ForceClearAssetBundles()
+        {
             DirectoryUtils.Clear(Constant.ASSET_BUNDLE_PATH);
             DirectoryUtils.Clear(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_PATH));
             AssetDatabase.Refresh();

@@ -54,7 +54,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 静态方法生成实例
         /// </summary>
-        public static ResourceSearcher Allocate(string assetName, string assetBundleName = null, Type assetType = null) {
+        public static ResourceSearcher Allocate(string assetName, string assetBundleName = null, Type assetType = null)
+        {
             ResourceSearcher searcher = ObjectPool<ResourceSearcher>.Instance.Allocate();
             searcher.AssetName = assetName.ToLowerInvariant();
             searcher.AssetBundleName = assetBundleName?.ToLowerInvariant();
@@ -66,7 +67,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 匹配资源
         /// </summary>
-        public bool Match(IResource resource) {
+        public bool Match(IResource resource)
+        {
             // 判断名称不相同则退出
             if (resource.AssetName != AssetName) return false;
 
@@ -84,7 +86,8 @@ namespace IFramework.Engine
             return isMatch;
         }
 
-        public void OnRecycled() {
+        public void OnRecycled()
+        {
             AssetName = null;
             AssetBundleName = null;
             AssetType = null;
@@ -92,15 +95,18 @@ namespace IFramework.Engine
 
         public bool IsRecycled { get; set; }
 
-        public void Recycle() {
+        public void Recycle()
+        {
             ObjectPool<ResourceSearcher>.Instance.Recycle(this);
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"AssetName:{AssetName} AssetBundleName:{AssetBundleName} TypeName:{AssetType}";
         }
 
-        protected override void DisposeManaged() {
+        protected override void DisposeManaged()
+        {
             Recycle();
         }
     }

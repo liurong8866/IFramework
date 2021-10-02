@@ -33,7 +33,8 @@ namespace IFramework.Core
     /// </summary>
     public static class AnimatorExtension
     {
-        public static void AddAnimatorParameterIfExists(this Animator animator, string parameterName, AnimatorControllerParameterType type, List<string> parameterList) {
+        public static void AddAnimatorParameterIfExists(this Animator animator, string parameterName, AnimatorControllerParameterType type, List<string> parameterList)
+        {
             if (animator.HasParameterOfType(parameterName, type)) {
                 parameterList.Add(parameterName);
             }
@@ -46,7 +47,8 @@ namespace IFramework.Core
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
         /// <param name="parameterList">parameterList.</param>
-        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value, List<string> parameterList) {
+        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value, List<string> parameterList)
+        {
             if (parameterList.Contains(parameterName)) {
                 self.SetBool(parameterName, value);
             }
@@ -58,7 +60,8 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="parameterList">parameterList.</param>
-        public static void UpdateAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList) {
+        public static void UpdateAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
+        {
             if (parameterList.Contains(parameterName)) {
                 self.SetTrigger(parameterName);
             }
@@ -70,7 +73,8 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="parameterList">If set to <c>true</c> value.</param>
-        public static void SetAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList) {
+        public static void SetAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
+        {
             if (parameterList.Contains(parameterName)) {
                 self.SetTrigger(parameterName);
             }
@@ -83,7 +87,8 @@ namespace IFramework.Core
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
         /// <param name="parameterList">parameterList.</param>
-        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value, List<string> parameterList) {
+        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value, List<string> parameterList)
+        {
             if (parameterList.Contains(parameterName)) {
                 self.SetFloat(parameterName, value);
             }
@@ -96,7 +101,8 @@ namespace IFramework.Core
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
         /// <param name="parameterList">parameterList.</param>
-        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value, List<string> parameterList) {
+        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value, List<string> parameterList)
+        {
             if (parameterList.Contains(parameterName)) {
                 self.SetInteger(parameterName, value);
             }
@@ -108,7 +114,8 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">If set to <c>true</c> value.</param>
-        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value) {
+        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value)
+        {
             self.SetBool(parameterName, value);
         }
 
@@ -117,7 +124,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void UpdateAnimatorTrigger(this Animator self, string parameterName) {
+        public static void UpdateAnimatorTrigger(this Animator self, string parameterName)
+        {
             self.SetTrigger(parameterName);
         }
 
@@ -126,7 +134,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void SetAnimatorTrigger(this Animator self, string parameterName) {
+        public static void SetAnimatorTrigger(this Animator self, string parameterName)
+        {
             self.SetTrigger(parameterName);
         }
 
@@ -136,7 +145,8 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value) {
+        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value)
+        {
             self.SetFloat(parameterName, value);
         }
 
@@ -146,7 +156,8 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value) {
+        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value)
+        {
             self.SetInteger(parameterName, value);
         }
 
@@ -156,13 +167,15 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">If set to <c>true</c> value.</param>
-        public static void UpdateAnimatorBoolIfExists(this Animator self, string parameterName, bool value) {
+        public static void UpdateAnimatorBoolIfExists(this Animator self, string parameterName, bool value)
+        {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Bool)) {
                 self.SetBool(parameterName, value);
             }
         }
 
-        public static void UpdateAnimatorTriggerIfExists(this Animator self, string parameterName) {
+        public static void UpdateAnimatorTriggerIfExists(this Animator self, string parameterName)
+        {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) {
                 self.SetTrigger(parameterName);
             }
@@ -173,7 +186,8 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void SetAnimatorTriggerIfExists(this Animator self, string parameterName) {
+        public static void SetAnimatorTriggerIfExists(this Animator self, string parameterName)
+        {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) {
                 self.SetTrigger(parameterName);
             }
@@ -185,7 +199,8 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorFloatIfExists(this Animator self, string parameterName, float value) {
+        public static void UpdateAnimatorFloatIfExists(this Animator self, string parameterName, float value)
+        {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Float)) {
                 self.SetFloat(parameterName, value);
             }
@@ -197,7 +212,8 @@ namespace IFramework.Core
         /// <param name="self">Animator.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorIntegerIfExists(this Animator self, string parameterName, int value) {
+        public static void UpdateAnimatorIntegerIfExists(this Animator self, string parameterName, int value)
+        {
             if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Int)) {
                 self.SetInteger(parameterName, value);
             }
@@ -210,7 +226,8 @@ namespace IFramework.Core
         /// <param name="self">Self.</param>
         /// <param name="name">Name.</param>
         /// <param name="type">Type.</param>
-        public static bool HasParameterOfType(this Animator self, string name, AnimatorControllerParameterType type) {
+        public static bool HasParameterOfType(this Animator self, string name, AnimatorControllerParameterType type)
+        {
             if (string.IsNullOrEmpty(name)) {
                 return false;
             }
