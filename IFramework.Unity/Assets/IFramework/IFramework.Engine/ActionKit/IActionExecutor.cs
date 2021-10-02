@@ -22,30 +22,15 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
-using UnityEngine;
-
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 系统初始化类
-    /// </summary>
-    public class IFramework
+    public interface IActionExecutor
     {
-        /// <summary>
-        /// 场景开始前初始化
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitBeforeSceneLoad(){
-            
-            Log.Info("初始化 PlatformEnvironment");
-            PlatformEnvironment.Instance.Init(Environment.Instance);
+        void ExecuteAction(IAction action);
+    }
 
-            Log.Info("初始化 ResourceManager");
-            ResourceManager.Init();
-            
-            // 异步加载
-            // ResourceManager.Instance.StartInitAsync();
-        }
+    public class MonoExecutor : IActionExecutor
+    {
+        public void ExecuteAction(IAction action) { }
     }
 }

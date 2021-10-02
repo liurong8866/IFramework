@@ -22,30 +22,32 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
+using System.Collections;
 using UnityEngine;
 
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 系统初始化类
-    /// </summary>
-    public class IFramework
+    public static class ActionExtension
     {
         /// <summary>
-        /// 场景开始前初始化
+        /// MonoBehaviour 的扩展方法
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitBeforeSceneLoad(){
-            
-            Log.Info("初始化 PlatformEnvironment");
-            PlatformEnvironment.Instance.Init(Environment.Instance);
+        public static T ExecuteNode<T>(this T self, IAction command) where T : MonoBehaviour
+        {
+            self.StartCoroutine(command.Execute());
+            return self;
+        }
 
-            Log.Info("初始化 ResourceManager");
-            ResourceManager.Init();
-            
-            // 异步加载
-            // ResourceManager.Instance.StartInitAsync();
+        /// <summary>
+        /// IAction 的扩展方法
+        /// </summary>
+        public static IEnumerator Execute(this IAction self)
+        {
+            if (self.Finished) self.Reset();
+
+            while (!self.Execute(Time.deltaTime)) {
+                yield return null;
+            }
         }
     }
 }

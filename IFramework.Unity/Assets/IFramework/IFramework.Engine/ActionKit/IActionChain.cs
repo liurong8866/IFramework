@@ -22,30 +22,29 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using IFramework.Core;
+using System;
 using UnityEngine;
 
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 系统初始化类
-    /// </summary>
-    public class IFramework
+    public interface IActionChain : IAction
     {
-        /// <summary>
-        /// 场景开始前初始化
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitBeforeSceneLoad(){
-            
-            Log.Info("初始化 PlatformEnvironment");
-            PlatformEnvironment.Instance.Init(Environment.Instance);
+        MonoBehaviour Executer { get; set; }
 
-            Log.Info("初始化 ResourceManager");
-            ResourceManager.Init();
-            
-            // 异步加载
-            // ResourceManager.Instance.StartInitAsync();
-        }
+        IActionChain Append(IAction node);
+
+        IDisposeWhen Begin();
+    }
+
+    public interface IDisposeWhen : IDisposeEventRegister
+    {
+        IDisposeEventRegister DisposeWhen(Func<bool> condition);
+    }
+
+    public interface IDisposeEventRegister
+    {
+        void OnDisposed(System.Action onDisposedEvent);
+
+        IDisposeEventRegister OnFinished(System.Action onFinishedEvent);
     }
 }

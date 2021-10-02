@@ -24,14 +24,14 @@
 
 using System;
 
-namespace IFramework
+namespace IFramework.Core
 {
     /// <summary>
     /// Dispose模式
     /// </summary>
     public abstract class Disposeble : IDisposable
     {
-        private bool disposed = false;
+        protected bool disposed = false;
 
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
