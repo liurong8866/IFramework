@@ -17,15 +17,13 @@ namespace IFramework.Core.Zip.Tar
         /// Initialises a new instance of the InvalidHeaderException class with a specified message.
         /// </summary>
         /// <param name="message">Message describing the exception cause.</param>
-        public InvalidHeaderException(string message)
-                : base(message) { }
+        public InvalidHeaderException(string message) : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of InvalidHeaderException
         /// </summary>
         /// <param name="message">Message describing the problem.</param>
         /// <param name="exception">The exception that is the cause of the current exception.</param>
-        public InvalidHeaderException(string message, Exception exception)
-                : base(message, exception) { }
+        public InvalidHeaderException(string message, Exception exception) : base(message, exception) { }
     }
 }

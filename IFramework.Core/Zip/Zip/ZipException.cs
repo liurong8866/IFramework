@@ -16,15 +16,13 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="ZipException" /> with its message string.
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
-        public ZipException(string message)
-                : base(message) { }
+        public ZipException(string message) : base(message) { }
 
         /// <summary>
         /// Initialise a new instance of <see cref="ZipException" />.
         /// </summary>
         /// <param name="message">A <see cref="string"/> that describes the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that caused this exception.</param>
-        public ZipException(string message, Exception innerException)
-                : base(message, innerException) { }
+        public ZipException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

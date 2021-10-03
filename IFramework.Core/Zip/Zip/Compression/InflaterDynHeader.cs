@@ -19,14 +19,13 @@ namespace IFramework.Core.Zip.Zip.Compression
         private static readonly int[] repMin = { 3, 3, 11 };
         private static readonly int[] repBits = { 2, 3, 7 };
 
-        private static readonly int[] blOrder =
-                { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+        private static readonly int[] blOrder = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
         #endregion
 
         public bool Decode(StreamManipulator input)
         {
-            decode_loop:
+        decode_loop:
 
             for (;;) {
                 switch (mode) {
@@ -76,7 +75,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                             }
                             input.DropBits(3);
                             //  		System.err.println("blLens["+BL_ORDER[ptr]+"]: "+len);
-                            blLens[blOrder[ptr]] = (byte) len;
+                            blLens[blOrder[ptr]] = (byte)len;
                             ptr++;
                         }
                         blTree = new InflaterHuffmanTree(blLens);
@@ -91,7 +90,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                             /* Normal case: symbol in [0..15] */
 
                             //  		  System.err.println("litdistLens["+ptr+"]: "+symbol);
-                            litdistLens[ptr++] = lastLen = (byte) symbol;
+                            litdistLens[ptr++] = lastLen = (byte)symbol;
 
                             if (ptr == num) {
                                 /* Finished */

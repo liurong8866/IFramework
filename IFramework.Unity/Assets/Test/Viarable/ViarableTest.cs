@@ -1,28 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
-using System;
 using System.Text;
 using IFramework.Core;
 using UnityEngine;
@@ -31,23 +6,23 @@ namespace IFramework.Test.Viarable
 {
     public class ViarableTest : MonoBehaviour
     {
-        private Bindable<int> health = new Bindable<int>();
+        private readonly Bindable<int> health = new Bindable<int>();
 
         private BindInt bindInt = new BindInt();
         private BindFloat bindFloat = new BindFloat();
         private BindShort bindShort = new BindShort();
         private BindLong bindLong = new BindLong();
-        private BindDouble bindDouble = new BindDouble();
+        private readonly BindDouble bindDouble = new BindDouble();
         private BindDecimal bindDecimal = new BindDecimal();
 
         private BindString bindString = new BindString();
         private BindBool bindBool = new BindBool();
         private BindChar bindChar = new BindChar();
 
-        private ConfigInt loginNum = new ConfigInt("loginNum");
-        private ConfigInt taobaoNum = new ConfigInt("taobaoNum");
-        private ConfigFloat money = new ConfigFloat("money");
-        private ConfigBool isOpen = new ConfigBool("isOpen", true);
+        private readonly ConfigInt loginNum = new ConfigInt("loginNum");
+        private readonly ConfigInt taobaoNum = new ConfigInt("taobaoNum");
+        private readonly ConfigFloat money = new ConfigFloat("money");
+        private readonly ConfigBool isOpen = new ConfigBool("isOpen", true);
 
         private void Start()
         {
@@ -144,20 +119,20 @@ namespace IFramework.Test.Viarable
                 double result55 = conv.ToDouble();
                 decimal result66 = conv.ToDecimal();
                 result11 = result1 % 10;
-                result11 = (int) (result1 % 10.0f);
-                result11 = (int) (result1 % 10.0d);
-                result11 = (int) (result1 % 10.0m);
-                result22 = (short) (result2 % 10);
-                result22 = (short) (result2 % 10.10d);
-                result22 = (short) (result2 % 10.10d);
-                result22 = (short) (result2 % 10.10m);
+                result11 = (int)(result1 % 10.0f);
+                result11 = (int)(result1 % 10.0d);
+                result11 = (int)(result1 % 10.0m);
+                result22 = (short)(result2 % 10);
+                result22 = (short)(result2 % 10.10d);
+                result22 = (short)(result2 % 10.10d);
+                result22 = (short)(result2 % 10.10m);
                 result33 = result3 % 10;
-                result33 = (long) (result3 % 10.0f);
-                result33 = (long) (result3 % 10.0d);
-                result33 = (long) (result3 % 10.0m);
+                result33 = (long)(result3 % 10.0f);
+                result33 = (long)(result3 % 10.0d);
+                result33 = (long)(result3 % 10.0m);
                 result44 = result4 % 10;
                 result44 = result4 % 10.0f;
-                result44 = (float) (result4 % 10.0d);
+                result44 = (float)(result4 % 10.0d);
                 // result44 = (float)(result4 % 10.0m);  // 未实现 % 
                 result55 = result5 % 10;
                 result55 = result5 % 10.0f;
@@ -705,7 +680,7 @@ namespace IFramework.Test.Viarable
             string b = "hello world";
             string c = new StringBuilder("hello world").ToString();
             char[] cTemp = { 'h', 'e', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd' };
-            String d = new String(cTemp);
+            string d = new string(cTemp);
             BindString bindString1 = new BindString("hello world");
             BindString bindString2 = new BindString("hello world");
             Log.Info("1--------------");

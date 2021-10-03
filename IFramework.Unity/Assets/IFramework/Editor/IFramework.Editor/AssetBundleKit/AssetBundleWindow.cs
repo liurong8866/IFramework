@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,29 +21,24 @@ namespace IFramework.Editor
             window.Show();
         }
 
-        private void OnEnable()
-        {
-            KeyEvent.Register(EventEnums.AssetBundleMark, key => isViewChanged = true);
-        }
+        private void OnEnable() { KeyEvent.Register(EventEnums.AssetBundleMark, key => isViewChanged = true); }
 
         private void LoadMarkedList()
         {
-            signedList = AssetDatabase.GetAllAssetBundleNames()
-                                      .SelectMany(asset => {
-                                           var result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
+            signedList = AssetDatabase.GetAllAssetBundleNames().SelectMany(asset => {
+                string[] result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
 
-                                           return result.Select(assetName => {
-                                                             if (AssetBundleMark.CheckMarked(assetName)) {
-                                                                 return assetName;
-                                                             }
+                return result.Select(assetName => {
+                    if (AssetBundleMark.CheckMarked(assetName)) {
+                        return assetName;
+                    }
 
-                                                             if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
-                                                                 return Path.GetDirectoryName(assetName);
-                                                             }
-                                                             return null;
-                                                         }).Where(assetName => assetName != null)
-                                                        .Distinct();
-                                       }).ToList();
+                    if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
+                        return Path.GetDirectoryName(assetName);
+                    }
+                    return null;
+                }).Where(assetName => assetName != null).Distinct();
+            }).ToList();
         }
 
         //绘制窗口时调用
@@ -126,9 +97,7 @@ namespace IFramework.Editor
                 GUILayout.Label(assetsName);
 
                 if (GUILayout.Button("选中", GUILayout.Width(60))) {
-                    Selection.objects = new[] {
-                        AssetDatabase.LoadAssetAtPath<Object>(assetsName)
-                    };
+                    Selection.objects = new[] { AssetDatabase.LoadAssetAtPath<Object>(assetsName) };
                 }
 
                 if (GUILayout.Button("取消标记", GUILayout.Width(60))) {

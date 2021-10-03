@@ -124,106 +124,106 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Normal file type.
         /// </summary>
-        public const byte LF_NORMAL = (byte) '0';
+        public const byte LF_NORMAL = (byte)'0';
 
         /// <summary>
         /// Link file type.
         /// </summary>
-        public const byte LF_LINK = (byte) '1';
+        public const byte LF_LINK = (byte)'1';
 
         /// <summary>
         /// Symbolic link file type.
         /// </summary>
-        public const byte LF_SYMLINK = (byte) '2';
+        public const byte LF_SYMLINK = (byte)'2';
 
         /// <summary>
         /// Character device file type.
         /// </summary>
-        public const byte LF_CHR = (byte) '3';
+        public const byte LF_CHR = (byte)'3';
 
         /// <summary>
         /// Block device file type.
         /// </summary>
-        public const byte LF_BLK = (byte) '4';
+        public const byte LF_BLK = (byte)'4';
 
         /// <summary>
         /// Directory file type.
         /// </summary>
-        public const byte LF_DIR = (byte) '5';
+        public const byte LF_DIR = (byte)'5';
 
         /// <summary>
         /// FIFO (pipe) file type.
         /// </summary>
-        public const byte LF_FIFO = (byte) '6';
+        public const byte LF_FIFO = (byte)'6';
 
         /// <summary>
         /// Contiguous file type.
         /// </summary>
-        public const byte LF_CONTIG = (byte) '7';
+        public const byte LF_CONTIG = (byte)'7';
 
         /// <summary>
         /// Posix.1 2001 global extended header
         /// </summary>
-        public const byte LF_GHDR = (byte) 'g';
+        public const byte LF_GHDR = (byte)'g';
 
         /// <summary>
         /// Posix.1 2001 extended header
         /// </summary>
-        public const byte LF_XHDR = (byte) 'x';
+        public const byte LF_XHDR = (byte)'x';
 
         // POSIX allows for upper case ascii type as extensions
 
         /// <summary>
         /// Solaris access control list file type
         /// </summary>
-        public const byte LF_ACL = (byte) 'A';
+        public const byte LF_ACL = (byte)'A';
 
         /// <summary>
         /// GNU dir dump file type
         /// This is a dir entry that contains the names of files that were in the
         /// dir at the time the dump was made
         /// </summary>
-        public const byte LF_GNU_DUMPDIR = (byte) 'D';
+        public const byte LF_GNU_DUMPDIR = (byte)'D';
 
         /// <summary>
         /// Solaris Extended Attribute File
         /// </summary>
-        public const byte LF_EXTATTR = (byte) 'E';
+        public const byte LF_EXTATTR = (byte)'E';
 
         /// <summary>
         /// Inode (metadata only) no file content
         /// </summary>
-        public const byte LF_META = (byte) 'I';
+        public const byte LF_META = (byte)'I';
 
         /// <summary>
         /// Identifies the next file on the tape as having a long link name
         /// </summary>
-        public const byte LF_GNU_LONGLINK = (byte) 'K';
+        public const byte LF_GNU_LONGLINK = (byte)'K';
 
         /// <summary>
         /// Identifies the next file on the tape as having a long name
         /// </summary>
-        public const byte LF_GNU_LONGNAME = (byte) 'L';
+        public const byte LF_GNU_LONGNAME = (byte)'L';
 
         /// <summary>
         /// Continuation of a file that began on another volume
         /// </summary>
-        public const byte LF_GNU_MULTIVOL = (byte) 'M';
+        public const byte LF_GNU_MULTIVOL = (byte)'M';
 
         /// <summary>
         /// For storing filenames that dont fit in the main header (old GNU)
         /// </summary>
-        public const byte LF_GNU_NAMES = (byte) 'N';
+        public const byte LF_GNU_NAMES = (byte)'N';
 
         /// <summary>
         /// GNU Sparse file
         /// </summary>
-        public const byte LF_GNU_SPARSE = (byte) 'S';
+        public const byte LF_GNU_SPARSE = (byte)'S';
 
         /// <summary>
         /// GNU Tape/volume header ignore on extraction
         /// </summary>
-        public const byte LF_GNU_VOLHDR = (byte) 'V';
+        public const byte LF_GNU_VOLHDR = (byte)'V';
 
         /// <summary>
         /// The magic tag representing a POSIX tar archive.  (would be written with a trailing NULL)
@@ -236,7 +236,7 @@ namespace IFramework.Core.Zip.Tar
         public const string GNU_TMAGIC = "ustar  ";
 
         private const long TIME_CONVERSION_FACTOR = 10000000L; // 1 tick == 100 nanoseconds
-        private readonly static DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        private static readonly DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         #endregion
 
@@ -267,7 +267,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when attempting to set the property to null.</exception>
         public string Name {
-            get { return name; }
+            get => name;
             set {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
@@ -281,18 +281,12 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <returns>The entry's name.</returns>
         [Obsolete("Use the Name property instead", true)]
-        public string GetName()
-        {
-            return name;
-        }
+        public string GetName() { return name; }
 
         /// <summary>
         /// Get/set the entry's Unix style permission mode.
         /// </summary>
-        public int Mode {
-            get { return mode; }
-            set { mode = value; }
-        }
+        public int Mode { get; set; }
 
         /// <summary>
         /// The entry's user id.
@@ -301,10 +295,7 @@ namespace IFramework.Core.Zip.Tar
         /// This is only directly relevant to unix systems.
         /// The default is zero.
         /// </remarks>
-        public int UserId {
-            get { return userId; }
-            set { userId = value; }
-        }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Get/set the entry's group id.
@@ -313,17 +304,14 @@ namespace IFramework.Core.Zip.Tar
         /// This is only directly relevant to linux/unix systems.
         /// The default value is zero.
         /// </remarks>
-        public int GroupId {
-            get { return groupId; }
-            set { groupId = value; }
-        }
+        public int GroupId { get; set; }
 
         /// <summary>
         /// Get/set the entry's size.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when setting the size to less than zero.</exception>
         public long Size {
-            get { return size; }
+            get => size;
             set {
                 if (value < 0) {
                     throw new ArgumentOutOfRangeException(nameof(value), "Cannot be less than zero");
@@ -340,7 +328,7 @@ namespace IFramework.Core.Zip.Tar
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when setting the date time to less than 1/1/1970.</exception>
         public DateTime ModTime {
-            get { return modTime; }
+            get => modTime;
             set {
                 if (value < dateTime1970) {
                     throw new ArgumentOutOfRangeException(nameof(value), "ModTime cannot be before Jan 1st 1970");
@@ -352,31 +340,24 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get the entry's checksum.  This is only valid/updated after writing or reading an entry.
         /// </summary>
-        public int Checksum {
-            get { return checksum; }
-        }
+        public int Checksum { get; private set; }
 
         /// <summary>
         /// Get value of true if the header checksum is valid, false otherwise.
         /// </summary>
-        public bool IsChecksumValid {
-            get { return isChecksumValid; }
-        }
+        public bool IsChecksumValid { get; private set; }
 
         /// <summary>
         /// Get/set the entry's type flag.
         /// </summary>
-        public byte TypeFlag {
-            get { return typeFlag; }
-            set { typeFlag = value; }
-        }
+        public byte TypeFlag { get; set; }
 
         /// <summary>
         /// The entry's link name.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when attempting to set LinkName to null.</exception>
         public string LinkName {
-            get { return linkName; }
+            get => linkName;
             set {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
@@ -390,7 +371,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when attempting to set Magic to null.</exception>
         public string Magic {
-            get { return magic; }
+            get => magic;
             set {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
@@ -404,7 +385,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when attempting to set Version to null.</exception>
         public string Version {
-            get { return version; }
+            get => version;
 
             set {
                 if (value == null) {
@@ -418,7 +399,7 @@ namespace IFramework.Core.Zip.Tar
         /// The entry's user name.
         /// </summary>
         public string UserName {
-            get { return userName; }
+            get => userName;
             set {
                 if (value != null) {
                     userName = value.Substring(0, Math.Min(UNAMELEN, value.Length));
@@ -441,7 +422,7 @@ namespace IFramework.Core.Zip.Tar
         /// This is only directly relevant to unix systems.
         /// </remarks>
         public string GroupName {
-            get { return groupName; }
+            get => groupName;
             set {
                 if (value == null) {
                     groupName = "None";
@@ -455,18 +436,12 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get/set the entry's major device number.
         /// </summary>
-        public int DevMajor {
-            get { return devMajor; }
-            set { devMajor = value; }
-        }
+        public int DevMajor { get; set; }
 
         /// <summary>
         /// Get/set the entry's minor device number.
         /// </summary>
-        public int DevMinor {
-            get { return devMinor; }
-            set { devMinor = value; }
-        }
+        public int DevMinor { get; set; }
 
         #endregion
 
@@ -476,10 +451,7 @@ namespace IFramework.Core.Zip.Tar
         /// Create a new <see cref="TarHeader"/> that is a copy of the current instance.
         /// </summary>
         /// <returns>A new <see cref="Object"/> that is a copy of the current instance.</returns>
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public object Clone() { return MemberwiseClone(); }
 
         #endregion
 
@@ -497,17 +469,17 @@ namespace IFramework.Core.Zip.Tar
             int offset = 0;
             name = ParseName(header, offset, NAMELEN).ToString();
             offset += NAMELEN;
-            mode = (int) ParseOctal(header, offset, MODELEN);
+            Mode = (int)ParseOctal(header, offset, MODELEN);
             offset += MODELEN;
-            UserId = (int) ParseOctal(header, offset, UIDLEN);
+            UserId = (int)ParseOctal(header, offset, UIDLEN);
             offset += UIDLEN;
-            GroupId = (int) ParseOctal(header, offset, GIDLEN);
+            GroupId = (int)ParseOctal(header, offset, GIDLEN);
             offset += GIDLEN;
             Size = ParseBinaryOrOctal(header, offset, SIZELEN);
             offset += SIZELEN;
             ModTime = GetDateTimeFromCTime(ParseOctal(header, offset, MODTIMELEN));
             offset += MODTIMELEN;
-            checksum = (int) ParseOctal(header, offset, CHKSUMLEN);
+            Checksum = (int)ParseOctal(header, offset, CHKSUMLEN);
             offset += CHKSUMLEN;
             TypeFlag = header[offset++];
             LinkName = ParseName(header, offset, NAMELEN).ToString();
@@ -522,14 +494,14 @@ namespace IFramework.Core.Zip.Tar
                 offset += UNAMELEN;
                 GroupName = ParseName(header, offset, GNAMELEN).ToString();
                 offset += GNAMELEN;
-                DevMajor = (int) ParseOctal(header, offset, DEVLEN);
+                DevMajor = (int)ParseOctal(header, offset, DEVLEN);
                 offset += DEVLEN;
-                DevMinor = (int) ParseOctal(header, offset, DEVLEN);
+                DevMinor = (int)ParseOctal(header, offset, DEVLEN);
                 offset += DEVLEN;
                 string prefix = ParseName(header, offset, PREFIXLEN).ToString();
                 if (!string.IsNullOrEmpty(prefix)) Name = prefix + '/' + Name;
             }
-            isChecksumValid = Checksum == MakeCheckSum(header);
+            IsChecksumValid = Checksum == MakeCheckSum(header);
         }
 
         /// <summary>
@@ -543,7 +515,7 @@ namespace IFramework.Core.Zip.Tar
             }
             int offset = 0;
             offset = GetNameBytes(Name, outBuffer, offset, NAMELEN);
-            offset = GetOctalBytes(mode, outBuffer, offset, MODELEN);
+            offset = GetOctalBytes(Mode, outBuffer, offset, MODELEN);
             offset = GetOctalBytes(UserId, outBuffer, offset, UIDLEN);
             offset = GetOctalBytes(GroupId, outBuffer, offset, GIDLEN);
             offset = GetBinaryOrOctalBytes(Size, outBuffer, offset, SIZELEN);
@@ -551,7 +523,7 @@ namespace IFramework.Core.Zip.Tar
             int csOffset = offset;
 
             for (int c = 0; c < CHKSUMLEN; ++c) {
-                outBuffer[offset++] = (byte) ' ';
+                outBuffer[offset++] = (byte)' ';
             }
             outBuffer[offset++] = TypeFlag;
             offset = GetNameBytes(LinkName, outBuffer, offset, NAMELEN);
@@ -560,7 +532,7 @@ namespace IFramework.Core.Zip.Tar
             offset = GetNameBytes(UserName, outBuffer, offset, UNAMELEN);
             offset = GetNameBytes(GroupName, outBuffer, offset, GNAMELEN);
 
-            if ((TypeFlag == LF_CHR) || (TypeFlag == LF_BLK)) {
+            if (TypeFlag == LF_CHR || TypeFlag == LF_BLK) {
                 offset = GetOctalBytes(DevMajor, outBuffer, offset, DEVLEN);
                 offset = GetOctalBytes(DevMinor, outBuffer, offset, DEVLEN);
             }
@@ -568,19 +540,16 @@ namespace IFramework.Core.Zip.Tar
             for (; offset < outBuffer.Length;) {
                 outBuffer[offset++] = 0;
             }
-            checksum = ComputeCheckSum(outBuffer);
-            GetCheckSumOctalBytes(checksum, outBuffer, csOffset, CHKSUMLEN);
-            isChecksumValid = true;
+            Checksum = ComputeCheckSum(outBuffer);
+            GetCheckSumOctalBytes(Checksum, outBuffer, csOffset, CHKSUMLEN);
+            IsChecksumValid = true;
         }
 
         /// <summary>
         /// Get a hash code for the current object.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }
+        public override int GetHashCode() { return Name.GetHashCode(); }
 
         /// <summary>
         /// Determines if this instance is equal to the specified object.
@@ -589,25 +558,25 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>true if the objects are equal, false otherwise.</returns>
         public override bool Equals(object obj)
         {
-            var localHeader = obj as TarHeader;
+            TarHeader localHeader = obj as TarHeader;
             bool result;
 
             if (localHeader != null) {
-                result = (name == localHeader.name)
-                      && (mode == localHeader.mode)
-                      && (UserId == localHeader.UserId)
-                      && (GroupId == localHeader.GroupId)
-                      && (Size == localHeader.Size)
-                      && (ModTime == localHeader.ModTime)
-                      && (Checksum == localHeader.Checksum)
-                      && (TypeFlag == localHeader.TypeFlag)
-                      && (LinkName == localHeader.LinkName)
-                      && (Magic == localHeader.Magic)
-                      && (Version == localHeader.Version)
-                      && (UserName == localHeader.UserName)
-                      && (GroupName == localHeader.GroupName)
-                      && (DevMajor == localHeader.DevMajor)
-                      && (DevMinor == localHeader.DevMinor);
+                result = name == localHeader.name
+                      && Mode == localHeader.Mode
+                      && UserId == localHeader.UserId
+                      && GroupId == localHeader.GroupId
+                      && Size == localHeader.Size
+                      && ModTime == localHeader.ModTime
+                      && Checksum == localHeader.Checksum
+                      && TypeFlag == localHeader.TypeFlag
+                      && LinkName == localHeader.LinkName
+                      && Magic == localHeader.Magic
+                      && Version == localHeader.Version
+                      && UserName == localHeader.UserName
+                      && GroupName == localHeader.GroupName
+                      && DevMajor == localHeader.DevMajor
+                      && DevMinor == localHeader.DevMinor;
             }
             else {
                 result = false;
@@ -622,7 +591,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="userName">Value to apply as a default for userName.</param>
         /// <param name="groupId">Value to apply as a default for groupId.</param>
         /// <param name="groupName">Value to apply as a default for groupName.</param>
-        static internal void SetValueDefaults(int userId, string userName, int groupId, string groupName)
+        internal static void SetValueDefaults(int userId, string userName, int groupId, string groupName)
         {
             defaultUserId = userIdAsSet = userId;
             defaultUser = userNameAsSet = userName;
@@ -630,7 +599,7 @@ namespace IFramework.Core.Zip.Tar
             defaultGroupName = groupNameAsSet = groupName;
         }
 
-        static internal void RestoreSetValues()
+        internal static void RestoreSetValues()
         {
             defaultUserId = userIdAsSet;
             defaultUser = userNameAsSet;
@@ -640,14 +609,14 @@ namespace IFramework.Core.Zip.Tar
 
         // Return value that may be stored in octal or binary. Length must exceed 8.
         //
-        static private long ParseBinaryOrOctal(byte[] header, int offset, int length)
+        private static long ParseBinaryOrOctal(byte[] header, int offset, int length)
         {
             if (header[offset] >= 0x80) {
                 // File sizes over 8GB are stored in 8 right-justified bytes of binary indicated by setting the high-order bit of the leftmost byte of a numeric field.
                 long result = 0;
 
                 for (int pos = length - 8; pos < length; pos++) {
-                    result = result << 8 | header[offset + pos];
+                    result = (result << 8) | header[offset + pos];
                 }
                 return result;
             }
@@ -661,7 +630,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "offset">The offset into the buffer from which to parse.</param>
         /// <param name = "length">The number of header bytes to parse.</param>
         /// <returns>The long equivalent of the octal string.</returns>
-        static public long ParseOctal(byte[] header, int offset, int length)
+        public static long ParseOctal(byte[] header, int offset, int length)
         {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
@@ -675,12 +644,12 @@ namespace IFramework.Core.Zip.Tar
                     break;
                 }
 
-                if (header[i] == (byte) ' ' || header[i] == '0') {
+                if (header[i] == (byte)' ' || header[i] == '0') {
                     if (stillPadding) {
                         continue;
                     }
 
-                    if (header[i] == (byte) ' ') {
+                    if (header[i] == (byte)' ') {
                         break;
                     }
                 }
@@ -705,7 +674,7 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// The name parsed.
         /// </returns>
-        static public StringBuilder ParseName(byte[] header, int offset, int length)
+        public static StringBuilder ParseName(byte[] header, int offset, int length)
         {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
@@ -722,13 +691,13 @@ namespace IFramework.Core.Zip.Tar
             if (offset + length > header.Length) {
                 throw new ArgumentException("Exceeds header size", nameof(length));
             }
-            var result = new StringBuilder(length);
+            StringBuilder result = new StringBuilder(length);
 
             for (int i = offset; i < offset + length; ++i) {
                 if (header[i] == 0) {
                     break;
                 }
-                result.Append((char) header[i]);
+                result.Append((char)header[i]);
             }
             return result;
         }
@@ -775,7 +744,7 @@ namespace IFramework.Core.Zip.Tar
             int i;
 
             for (i = 0; i < length && nameOffset + i < name.Length; ++i) {
-                buffer[bufferOffset + i] = (byte) name[nameOffset + i];
+                buffer[bufferOffset + i] = (byte)name[nameOffset + i];
             }
 
             for (; i < length; ++i) {
@@ -855,12 +824,11 @@ namespace IFramework.Core.Zip.Tar
             int i;
 
             for (i = 0; i < length && nameOffset + i < toAdd.Length; ++i) {
-                buffer[bufferOffset + i] = (byte) toAdd[nameOffset + i];
+                buffer[bufferOffset + i] = (byte)toAdd[nameOffset + i];
             }
 
             // If length is beyond the toAdd string length (which is OK by the prev loop condition), eg if a field has fixed length and the string is shorter, make sure all of the extra chars are written as NULLs, so that the reader func would ignore them and get back the original string
-            for (; i < length; ++i)
-                buffer[bufferOffset + i] = 0;
+            for (; i < length; ++i) buffer[bufferOffset + i] = 0;
             return bufferOffset + length;
         }
 
@@ -894,14 +862,14 @@ namespace IFramework.Core.Zip.Tar
             --localIndex;
 
             if (value > 0) {
-                for (long v = value; (localIndex >= 0) && (v > 0); --localIndex) {
-                    buffer[offset + localIndex] = (byte) ((byte) '0' + (byte) (v & 7));
+                for (long v = value; localIndex >= 0 && v > 0; --localIndex) {
+                    buffer[offset + localIndex] = (byte)((byte)'0' + (byte)(v & 7));
                     v >>= 3;
                 }
             }
 
             for (; localIndex >= 0; --localIndex) {
-                buffer[offset + localIndex] = (byte) '0';
+                buffer[offset + localIndex] = (byte)'0';
             }
             return offset + length;
         }
@@ -920,7 +888,7 @@ namespace IFramework.Core.Zip.Tar
                 // Octal 77777777777 (11 digits)
                 // Put value as binary, right-justified into the buffer. Set high order bit of left-most byte.
                 for (int pos = length - 1; pos > 0; pos--) {
-                    buffer[offset + pos] = (byte) value;
+                    buffer[offset + pos] = (byte)value;
                     value = value >> 8;
                 }
                 buffer[offset] = 0x80;
@@ -941,10 +909,7 @@ namespace IFramework.Core.Zip.Tar
         /// The final space is already there, from checksumming
         /// </param>
         /// <returns>The modified buffer offset</returns>
-        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length)
-        {
-            GetOctalBytes(value, buffer, offset, length - 1);
-        }
+        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length) { GetOctalBytes(value, buffer, offset, length - 1); }
 
         /// <summary>
         /// Compute the checksum for a tar entry header.
@@ -976,7 +941,7 @@ namespace IFramework.Core.Zip.Tar
             }
 
             for (int i = 0; i < CHKSUMLEN; ++i) {
-                sum += (byte) ' ';
+                sum += (byte)' ';
             }
 
             for (int i = CHKSUMOFS + CHKSUMLEN; i < buffer.Length; ++i) {
@@ -985,10 +950,7 @@ namespace IFramework.Core.Zip.Tar
             return sum;
         }
 
-        private static int GetCTime(DateTime dateTime)
-        {
-            return unchecked((int) ((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR));
-        }
+        private static int GetCTime(DateTime dateTime) { return unchecked((int)((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR)); }
 
         private static DateTime GetDateTimeFromCTime(long ticks)
         {
@@ -1006,36 +968,28 @@ namespace IFramework.Core.Zip.Tar
         #region Instance Fields
 
         private string name;
-        private int mode;
-        private int userId;
-        private int groupId;
         private long size;
         private DateTime modTime;
-        private int checksum;
-        private bool isChecksumValid;
-        private byte typeFlag;
         private string linkName;
         private string magic;
         private string version;
         private string userName;
         private string groupName;
-        private int devMajor;
-        private int devMinor;
 
         #endregion
 
         #region Class Fields
 
         // Values used during recursive operations.
-        static internal int userIdAsSet;
-        static internal int groupIdAsSet;
-        static internal string userNameAsSet;
-        static internal string groupNameAsSet = "None";
+        internal static int userIdAsSet;
+        internal static int groupIdAsSet;
+        internal static string userNameAsSet;
+        internal static string groupNameAsSet = "None";
 
-        static internal int defaultUserId;
-        static internal int defaultGroupId;
-        static internal string defaultGroupName = "None";
-        static internal string defaultUser;
+        internal static int defaultUserId;
+        internal static int defaultGroupId;
+        internal static string defaultGroupName = "None";
+        internal static string defaultUser;
 
         #endregion
     }

@@ -48,12 +48,7 @@ namespace IFramework.Core.Zip.Lzw
         /// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
         /// </summary>
         /// <remarks>The default value is true.</remarks>
-        private bool isStreamOwner = true;
-
-        public bool IsStreamOwner {
-            get { return isStreamOwner; }
-            set { isStreamOwner = value; }
-        }
+        public bool IsStreamOwner { get; set; } = true;
 
         /// <summary>
         /// Creates a LzwInputStream
@@ -61,10 +56,7 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="baseInputStream">
         /// The stream to read compressed data from (baseInputStream LZW format)
         /// </param>
-        public LzwInputStream(Stream baseInputStream)
-        {
-            this.baseInputStream = baseInputStream;
-        }
+        public LzwInputStream(Stream baseInputStream) { this.baseInputStream = baseInputStream; }
 
         /// <summary>
         /// See <see cref="System.IO.Stream.ReadByte"/>
@@ -73,9 +65,7 @@ namespace IFramework.Core.Zip.Lzw
         public override int ReadByte()
         {
             int b = Read(one, 0, 1);
-
-            if (b == 1)
-                return (one[0] & 0xff);
+            if (b == 1) return one[0] & 0xff;
 
             return -1;
         }
@@ -95,11 +85,8 @@ namespace IFramework.Core.Zip.Lzw
         /// <returns>The number of bytes read. Zero signals the end of stream</returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (!headerParsed)
-                ParseHeader();
-
-            if (eof)
-                return 0;
+            if (!headerParsed) ParseHeader();
+            if (eof) return 0;
 
             int start = offset;
             /* Using local copies of various variables speeds things up by as
@@ -123,7 +110,7 @@ namespace IFramework.Core.Zip.Lzw
             int sSize = lStack.Length - lStackP;
 
             if (sSize > 0) {
-                int num = (sSize >= count) ? count : sSize;
+                int num = sSize >= count ? count : sSize;
                 Array.Copy(lStack, lStackP, buffer, offset, num);
                 offset += num;
                 count -= num;
@@ -136,13 +123,13 @@ namespace IFramework.Core.Zip.Lzw
             }
 
             // loop, filling local buffer until enough data has been decompressed
-            MainLoop:
+        MainLoop:
 
             do {
                 if (end < EXTRA) {
                     Fill();
                 }
-                int bitIn = (got > 0) ? (end - end % lNBits) << 3 : (end << 3) - (lNBits - 1);
+                int bitIn = got > 0 ? (end - end % lNBits) << 3 : (end << 3) - (lNBits - 1);
 
                 while (lBitPos < bitIn) {
                     #region A
@@ -164,11 +151,9 @@ namespace IFramework.Core.Zip.Lzw
                     // check for code-width expansion
                     if (lFreeEnt > lMaxCode) {
                         int nBytes = lNBits << 3;
-
-                        lBitPos = (lBitPos - 1) +
-                                nBytes - (lBitPos - 1 + nBytes) % nBytes;
+                        lBitPos = lBitPos - 1 + nBytes - (lBitPos - 1 + nBytes) % nBytes;
                         lNBits++;
-                        lMaxCode = (lNBits == maxBits) ? lMaxMaxCode : (1 << lNBits) - 1;
+                        lMaxCode = lNBits == maxBits ? lMaxMaxCode : (1 << lNBits) - 1;
                         lBitMask = (1 << lNBits) - 1;
                         lBitPos = ResetBuf(lBitPos);
                         goto MainLoop;
@@ -180,19 +165,14 @@ namespace IFramework.Core.Zip.Lzw
 
                     // read next code
                     int pos = lBitPos >> 3;
-
-                    int code = (((lData[pos] & 0xFF) |
-                                 ((lData[pos + 1] & 0xFF) << 8) |
-                                 ((lData[pos + 2] & 0xFF) << 16)) >>
-                                (lBitPos & 0x7)) & lBitMask;
+                    int code = (((lData[pos] & 0xFF) | ((lData[pos + 1] & 0xFF) << 8) | ((lData[pos + 2] & 0xFF) << 16)) >> (lBitPos & 0x7)) & lBitMask;
                     lBitPos += lNBits;
 
                     // handle first iteration
                     if (lOldCode == -1) {
-                        if (code >= 256)
-                            throw new LzwException("corrupt input: " + code + " > 255");
+                        if (code >= 256) throw new LzwException("corrupt input: " + code + " > 255");
 
-                        lFinChar = (byte) (lOldCode = code);
+                        lFinChar = (byte)(lOldCode = code);
                         buffer[offset++] = lFinChar;
                         count--;
                         continue;
@@ -203,7 +183,7 @@ namespace IFramework.Core.Zip.Lzw
                         Array.Copy(zeros, 0, lTabPrefix, 0, zeros.Length);
                         lFreeEnt = TBL_FIRST - 1;
                         int nBytes = lNBits << 3;
-                        lBitPos = (lBitPos - 1) + nBytes - (lBitPos - 1 + nBytes) % nBytes;
+                        lBitPos = lBitPos - 1 + nBytes - (lBitPos - 1 + nBytes) % nBytes;
                         lNBits = LzwConstants.INIT_BITS;
                         lMaxCode = (1 << lNBits) - 1;
                         lBitMask = lMaxCode;
@@ -224,8 +204,7 @@ namespace IFramework.Core.Zip.Lzw
                     // Handle KwK case
                     if (code >= lFreeEnt) {
                         if (code > lFreeEnt) {
-                            throw new LzwException("corrupt input: code=" + code +
-                                                   ", freeEnt=" + lFreeEnt);
+                            throw new LzwException("corrupt input: code=" + code + ", freeEnt=" + lFreeEnt);
                         }
                         lStack[--lStackP] = lFinChar;
                         code = lOldCode;
@@ -242,7 +221,7 @@ namespace IFramework.Core.Zip.Lzw
 
                     // And put them out in forward order
                     sSize = lStack.Length - lStackP;
-                    int num = (sSize >= count) ? count : sSize;
+                    int num = sSize >= count ? count : sSize;
                     Array.Copy(lStack, lStackP, buffer, offset, num);
                     offset += num;
                     count -= num;
@@ -321,13 +300,10 @@ namespace IFramework.Core.Zip.Lzw
             int result = baseInputStream.Read(hdr, 0, hdr.Length);
 
             // Check the magic marker
-            if (result < 0)
-                throw new LzwException("Failed to read LZW header");
+            if (result < 0) throw new LzwException("Failed to read LZW header");
 
-            if (hdr[0] != (LzwConstants.MAGIC >> 8) || hdr[1] != (LzwConstants.MAGIC & 0xff)) {
-                throw new LzwException(String.Format(
-                                           "Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}",
-                                           hdr[0], hdr[1]));
+            if (hdr[0] != LzwConstants.MAGIC >> 8 || hdr[1] != (LzwConstants.MAGIC & 0xff)) {
+                throw new LzwException(string.Format("Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}", hdr[0], hdr[1]));
             }
 
             // Check the 3rd header byte
@@ -335,9 +311,7 @@ namespace IFramework.Core.Zip.Lzw
             maxBits = hdr[2] & LzwConstants.BIT_MASK;
 
             if (maxBits > LzwConstants.MAX_BITS) {
-                throw new LzwException("Stream compressed with " + maxBits +
-                                       " bits, but decompression can only handle " +
-                                       LzwConstants.MAX_BITS + " bits.");
+                throw new LzwException("Stream compressed with " + maxBits + " bits, but decompression can only handle " + LzwConstants.MAX_BITS + " bits.");
             }
 
             if ((hdr[2] & LzwConstants.RESERVED_MASK) > 0) {
@@ -356,9 +330,7 @@ namespace IFramework.Core.Zip.Lzw
             tabSuffix = new byte[1 << maxBits];
             stack = new byte[1 << maxBits];
             stackP = stack.Length;
-
-            for (int idx = 255; idx >= 0; idx--)
-                tabSuffix[idx] = (byte) idx;
+            for (int idx = 255; idx >= 0; idx--) tabSuffix[idx] = (byte)idx;
         }
 
         #region Stream Overrides
@@ -366,30 +338,22 @@ namespace IFramework.Core.Zip.Lzw
         /// <summary>
         /// Gets a value indicating whether the current stream supports reading
         /// </summary>
-        public override bool CanRead {
-            get { return baseInputStream.CanRead; }
-        }
+        public override bool CanRead => baseInputStream.CanRead;
 
         /// <summary>
         /// Gets a value of false indicating seeking is not supported for this stream.
         /// </summary>
-        public override bool CanSeek {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
         /// <summary>
         /// Gets a value of false indicating that this stream is not writeable.
         /// </summary>
-        public override bool CanWrite {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         /// <summary>
         /// A value representing the length of the stream in bytes.
         /// </summary>
-        public override long Length {
-            get { return got; }
-        }
+        public override long Length => got;
 
         /// <summary>
         /// The current position within the stream.
@@ -397,17 +361,14 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <exception cref="NotSupportedException">Attempting to set the position</exception>
         public override long Position {
-            get { return baseInputStream.Position; }
-            set { throw new NotSupportedException("InflaterInputStream Position not supported"); }
+            get => baseInputStream.Position;
+            set => throw new NotSupportedException("InflaterInputStream Position not supported");
         }
 
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush()
-        {
-            baseInputStream.Flush();
-        }
+        public override void Flush() { baseInputStream.Flush(); }
 
         /// <summary>
         /// Sets the position within the current stream
@@ -417,10 +378,7 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException("Seek not supported");
-        }
+        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("Seek not supported"); }
 
         /// <summary>
         /// Set the length of the current stream
@@ -428,10 +386,7 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException("InflaterInputStream SetLength not supported");
-        }
+        public override void SetLength(long value) { throw new NotSupportedException("InflaterInputStream SetLength not supported"); }
 
         /// <summary>
         /// Writes a sequence of bytes to stream and advances the current position
@@ -441,10 +396,7 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException("InflaterInputStream Write not supported");
-        }
+        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("InflaterInputStream Write not supported"); }
 
         /// <summary>
         /// Writes one byte to the current stream and advances the current position
@@ -452,10 +404,7 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value)
-        {
-            throw new NotSupportedException("InflaterInputStream WriteByte not supported");
-        }
+        public override void WriteByte(byte value) { throw new NotSupportedException("InflaterInputStream WriteByte not supported"); }
 
         /// <summary>
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
@@ -476,7 +425,7 @@ namespace IFramework.Core.Zip.Lzw
 
         #region Instance Fields
 
-        private Stream baseInputStream;
+        private readonly Stream baseInputStream;
 
         /// <summary>
         /// Flag indicating wether this instance has been closed or not.

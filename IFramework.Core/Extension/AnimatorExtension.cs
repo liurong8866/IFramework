@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -114,30 +90,21 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">If set to <c>true</c> value.</param>
-        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value)
-        {
-            self.SetBool(parameterName, value);
-        }
+        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value) { self.SetBool(parameterName, value); }
 
         /// <summary>
         /// Updates the animator trigger without checking the parameter's existence
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void UpdateAnimatorTrigger(this Animator self, string parameterName)
-        {
-            self.SetTrigger(parameterName);
-        }
+        public static void UpdateAnimatorTrigger(this Animator self, string parameterName) { self.SetTrigger(parameterName); }
 
         /// <summary>
         /// Triggers an animator trigger without checking for the parameter's existence.
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void SetAnimatorTrigger(this Animator self, string parameterName)
-        {
-            self.SetTrigger(parameterName);
-        }
+        public static void SetAnimatorTrigger(this Animator self, string parameterName) { self.SetTrigger(parameterName); }
 
         /// <summary>
         /// Updates the animator float without checking for the parameter's existence.
@@ -145,10 +112,7 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value)
-        {
-            self.SetFloat(parameterName, value);
-        }
+        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value) { self.SetFloat(parameterName, value); }
 
         /// <summary>
         /// Updates the animator integer without checking for the parameter's existence.
@@ -156,10 +120,7 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value)
-        {
-            self.SetInteger(parameterName, value);
-        }
+        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value) { self.SetInteger(parameterName, value); }
 
         /// <summary>
         /// Updates the animator bool after checking the parameter's existence.
@@ -231,7 +192,7 @@ namespace IFramework.Core
             if (string.IsNullOrEmpty(name)) {
                 return false;
             }
-            var parameters = self.parameters;
+            AnimatorControllerParameter[] parameters = self.parameters;
             return parameters.Any(currParam => currParam.type == type && currParam.name == name);
         }
     }

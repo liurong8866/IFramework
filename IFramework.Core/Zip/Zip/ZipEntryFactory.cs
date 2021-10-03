@@ -53,7 +53,7 @@ namespace IFramework.Core.Zip.Zip
             /// using the <see cref="ZipEntryFactory(TimeSetting)"/> with the setting set
             /// to <see cref="TimeSetting.Fixed"/> which will use the <see cref="DateTime"/> when this class was constructed.
             /// The <see cref="FixedDateTime"/> property can also be used to set this value.</remarks>
-            Fixed,
+            Fixed
         }
 
         #endregion
@@ -64,10 +64,7 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of the <see cref="ZipEntryFactory"/> class.
         /// </summary>
         /// <remarks>A default <see cref="INameTransform"/>, and the LastWriteTime for files is used.</remarks>
-        public ZipEntryFactory()
-        {
-            nameTransform = new ZipNameTransform();
-        }
+        public ZipEntryFactory() { nameTransform = new ZipNameTransform(); }
 
         /// <summary>
         /// Initialise a new instance of <see cref="ZipEntryFactory"/> using the specified <see cref="TimeSetting"/>
@@ -75,7 +72,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="timeSetting">The <see cref="TimeSetting">time setting</see> to use when creating <see cref="ZipEntry">Zip entries</see>.</param>
         public ZipEntryFactory(TimeSetting timeSetting)
         {
-            this.timeSetting = timeSetting;
+            this.Setting = timeSetting;
             nameTransform = new ZipNameTransform();
         }
 
@@ -85,7 +82,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="time">The time to set all <see cref="ZipEntry.DateTime"/> values to.</param>
         public ZipEntryFactory(DateTime time)
         {
-            timeSetting = TimeSetting.Fixed;
+            Setting = TimeSetting.Fixed;
             FixedDateTime = time;
             nameTransform = new ZipNameTransform();
         }
@@ -101,7 +98,7 @@ namespace IFramework.Core.Zip.Zip
         /// Setting this property to null will cause a default <see cref="ZipNameTransform">name transform</see> to be used.
         /// </remarks>
         public INameTransform NameTransform {
-            get { return nameTransform; }
+            get => nameTransform;
             set {
                 if (value == null) {
                     nameTransform = new ZipNameTransform();
@@ -115,16 +112,13 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get / set the <see cref="TimeSetting"/> in use.
         /// </summary>
-        public TimeSetting Setting {
-            get { return timeSetting; }
-            set { timeSetting = value; }
-        }
+        public TimeSetting Setting { get; set; }
 
         /// <summary>
         /// Get / set the <see cref="DateTime"/> value to use when <see cref="Setting"/> is set to <see cref="TimeSetting.Fixed"/>
         /// </summary>
         public DateTime FixedDateTime {
-            get { return fixedDateTime; }
+            get => fixedDateTime;
             set {
                 if (value.Year < 1970) {
                     throw new ArgumentException("Value is too old to be valid", nameof(value));
@@ -137,27 +131,18 @@ namespace IFramework.Core.Zip.Zip
         /// A bitmask defining the attributes to be retrieved from the actual file.
         /// </summary>
         /// <remarks>The default is to get all possible attributes from the actual file.</remarks>
-        public int GetAttributes {
-            get { return getAttributes; }
-            set { getAttributes = value; }
-        }
+        public int GetAttributes { get; set; } = -1;
 
         /// <summary>
         /// A bitmask defining which attributes are to be set on.
         /// </summary>
         /// <remarks>By default no attributes are set on.</remarks>
-        public int SetAttributes {
-            get { return setAttributes; }
-            set { setAttributes = value; }
-        }
+        public int SetAttributes { get; set; }
 
         /// <summary>
         /// Get set a value indicating wether unidoce text should be set on.
         /// </summary>
-        public bool IsUnicodeText {
-            get { return isUnicodeText; }
-            set { isUnicodeText = value; }
-        }
+        public bool IsUnicodeText { get; set; }
 
         #endregion
 
@@ -168,10 +153,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="fileName">The name of the file to create a new entry for.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName)
-        {
-            return MakeFileEntry(fileName, null, true);
-        }
+        public ZipEntry MakeFileEntry(string fileName) { return MakeFileEntry(fileName, null, true); }
 
         /// <summary>
         /// Make a new <see cref="ZipEntry"/> for a file.
@@ -179,10 +161,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="fileName">The name of the file to create a new entry for.</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName, bool useFileSystem)
-        {
-            return MakeFileEntry(fileName, null, useFileSystem);
-        }
+        public ZipEntry MakeFileEntry(string fileName, bool useFileSystem) { return MakeFileEntry(fileName, null, useFileSystem); }
 
         /// <summary>
         /// Make a new <see cref="ZipEntry"/> from a name.
@@ -193,18 +172,18 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
         public ZipEntry MakeFileEntry(string fileName, string entryName, bool useFileSystem)
         {
-            var result = new ZipEntry(nameTransform.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName));
-            result.IsUnicodeText = isUnicodeText;
+            ZipEntry result = new ZipEntry(nameTransform.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName));
+            result.IsUnicodeText = IsUnicodeText;
             int externalAttributes = 0;
-            bool useAttributes = (setAttributes != 0);
+            bool useAttributes = SetAttributes != 0;
             FileInfo fi = null;
 
             if (useFileSystem) {
                 fi = new FileInfo(fileName);
             }
 
-            if ((fi != null) && fi.Exists) {
-                switch (timeSetting) {
+            if (fi != null && fi.Exists) {
+                switch (Setting) {
                     case TimeSetting.CreateTime:
                         result.DateTime = fi.CreationTime;
                         break;
@@ -226,21 +205,20 @@ namespace IFramework.Core.Zip.Zip
                     case TimeSetting.Fixed:
                         result.DateTime = fixedDateTime;
                         break;
-                    default:
-                        throw new ZipException("Unhandled time setting in MakeFileEntry");
+                    default: throw new ZipException("Unhandled time setting in MakeFileEntry");
                 }
                 result.Size = fi.Length;
                 useAttributes = true;
-                externalAttributes = ((int) fi.Attributes & getAttributes);
+                externalAttributes = (int)fi.Attributes & GetAttributes;
             }
             else {
-                if (timeSetting == TimeSetting.Fixed) {
+                if (Setting == TimeSetting.Fixed) {
                     result.DateTime = fixedDateTime;
                 }
             }
 
             if (useAttributes) {
-                externalAttributes |= setAttributes;
+                externalAttributes |= SetAttributes;
                 result.ExternalFileAttributes = externalAttributes;
             }
             return result;
@@ -251,10 +229,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="directoryName">The raw untransformed name for the new directory</param>
         /// <returns>Returns a new <see cref="ZipEntry"></see> representing a directory.</returns>
-        public ZipEntry MakeDirectoryEntry(string directoryName)
-        {
-            return MakeDirectoryEntry(directoryName, true);
-        }
+        public ZipEntry MakeDirectoryEntry(string directoryName) { return MakeDirectoryEntry(directoryName, true); }
 
         /// <summary>
         /// Make a new <see cref="ZipEntry"></see> for a directory.
@@ -264,8 +239,8 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns a new <see cref="ZipEntry"></see> representing a directory.</returns>
         public ZipEntry MakeDirectoryEntry(string directoryName, bool useFileSystem)
         {
-            var result = new ZipEntry(nameTransform.TransformDirectory(directoryName));
-            result.IsUnicodeText = isUnicodeText;
+            ZipEntry result = new ZipEntry(nameTransform.TransformDirectory(directoryName));
+            result.IsUnicodeText = IsUnicodeText;
             result.Size = 0;
             int externalAttributes = 0;
             DirectoryInfo di = null;
@@ -274,8 +249,8 @@ namespace IFramework.Core.Zip.Zip
                 di = new DirectoryInfo(directoryName);
             }
 
-            if ((di != null) && di.Exists) {
-                switch (timeSetting) {
+            if (di != null && di.Exists) {
+                switch (Setting) {
                     case TimeSetting.CreateTime:
                         result.DateTime = di.CreationTime;
                         break;
@@ -297,19 +272,18 @@ namespace IFramework.Core.Zip.Zip
                     case TimeSetting.Fixed:
                         result.DateTime = fixedDateTime;
                         break;
-                    default:
-                        throw new ZipException("Unhandled time setting in MakeDirectoryEntry");
+                    default: throw new ZipException("Unhandled time setting in MakeDirectoryEntry");
                 }
-                externalAttributes = ((int) di.Attributes & getAttributes);
+                externalAttributes = (int)di.Attributes & GetAttributes;
             }
             else {
-                if (timeSetting == TimeSetting.Fixed) {
+                if (Setting == TimeSetting.Fixed) {
                     result.DateTime = fixedDateTime;
                 }
             }
 
             // Always set directory attribute on.
-            externalAttributes |= (setAttributes | 16);
+            externalAttributes |= SetAttributes | 16;
             result.ExternalFileAttributes = externalAttributes;
             return result;
         }
@@ -320,11 +294,6 @@ namespace IFramework.Core.Zip.Zip
 
         private INameTransform nameTransform;
         private DateTime fixedDateTime = DateTime.Now;
-        private TimeSetting timeSetting;
-        private bool isUnicodeText;
-
-        private int getAttributes = -1;
-        private int setAttributes;
 
         #endregion
     }

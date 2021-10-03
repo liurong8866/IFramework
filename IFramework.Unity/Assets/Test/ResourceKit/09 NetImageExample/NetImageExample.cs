@@ -7,27 +7,22 @@ using UnityEngine.Video;
 public class NetImageExample : MonoBehaviour
 {
     private VideoPlayer videoPlayer;
-    ResourceLoader loader = new ResourceLoader();
+    private readonly ResourceLoader loader = new ResourceLoader();
 
-    private void Awake()
-    {
-        videoPlayer = gameObject.GetComponent<VideoPlayer>();
-    }
+    private void Awake() { videoPlayer = gameObject.GetComponent<VideoPlayer>(); }
 
-    void Start()
+    private void Start()
     {
         Image image = transform.Find("Image").GetComponent<Image>();
 
-        loader.AddToLoad<Texture2D>(
-            ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg",
-            (b, res) => {
-                if (b) {
-                    var texture = res.Asset as Texture2D;
-                    var sprite = texture.CreateSprite();
-                    image.sprite = sprite;
-                    loader.DestroyOnRecycle(sprite);
-                }
-            });
+        loader.AddToLoad<Texture2D>(ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg", (b, res) => {
+            if (b) {
+                Texture2D texture = res.Asset as Texture2D;
+                Sprite sprite = texture.CreateSprite();
+                image.sprite = sprite;
+                loader.DestroyOnRecycle(sprite);
+            }
+        });
         loader.LoadAsync();
     }
 }

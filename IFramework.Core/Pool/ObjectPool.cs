@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 
 namespace IFramework.Core
@@ -31,27 +7,13 @@ namespace IFramework.Core
     /// </summary>
     public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new()
     {
-        /*-----------------------------*/
-        /* 实现对象池单例                */
-        /*-----------------------------*/
-
-        protected ObjectPool()
-        {
-            factory = new DefaultFactory<T>();
-        }
+        protected ObjectPool() { factory = new DefaultFactory<T>(); }
 
         public static ObjectPool<T> Instance => SingletonProperty<ObjectPool<T>>.Instance;
 
         void ISingleton.OnInit() { }
 
-        public void Dispose()
-        {
-            SingletonProperty<ObjectPool<T>>.Dispose();
-        }
-
-        /*-----------------------------*/
-        /* 初始化对象池                  */
-        /*-----------------------------*/
+        public void Dispose() { SingletonProperty<ObjectPool<T>>.Dispose(); }
 
         /// <summary>
         /// 初始化对象池

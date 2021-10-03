@@ -38,46 +38,29 @@ namespace IFramework.Core.Zip.Zip.Compression
         // probability, to avoid transmitting the lengths for unused bit length codes.
         private static readonly int[] BL_ORDER = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
-        private static readonly byte[] bit4Reverse = {
-            0,
-            8,
-            4,
-            12,
-            2,
-            10,
-            6,
-            14,
-            1,
-            9,
-            5,
-            13,
-            3,
-            11,
-            7,
-            15
-        };
+        private static readonly byte[] bit4Reverse = { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 };
 
-        private static short[] staticLCodes;
-        private static byte[] staticLLength;
-        private static short[] staticDCodes;
-        private static byte[] staticDLength;
+        private static readonly short[] staticLCodes;
+        private static readonly byte[] staticLLength;
+        private static readonly short[] staticDCodes;
+        private static readonly byte[] staticDLength;
 
         private class Tree
         {
             #region Instance Fields
 
-            public short[] freqs;
+            public readonly short[] freqs;
 
             public byte[] length;
 
-            public int minNumCodes;
+            public readonly int minNumCodes;
 
             public int numCodes;
 
             private short[] codes;
             private readonly int[] bl_counts;
             private readonly int maxLength;
-            private DeflaterHuffman dh;
+            private readonly DeflaterHuffman dh;
 
             #endregion
 
@@ -360,7 +343,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                     }
 
                     if (count < min_count) {
-                        blTree.freqs[curlen] += (short) count;
+                        blTree.freqs[curlen] += (short)count;
                     }
                     else if (curlen != 0) {
                         blTree.freqs[REP_3_6]++;
@@ -463,7 +446,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                         // A leaf node
                         int bitLength = lengths[i];
                         bl_counts[bitLength - 1]++;
-                        length[childs[2 * i]] = (byte) lengths[i];
+                        length[childs[2 * i]] = (byte)lengths[i];
                     }
                 }
 
@@ -514,7 +497,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 
                         if (childs[childPtr + 1] == -1) {
                             // We found another leaf
-                            length[childs[childPtr]] = (byte) bits;
+                            length[childs[childPtr]] = (byte)bits;
                             n--;
                         }
                     }
@@ -537,13 +520,13 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         public DeflaterPending pending;
 
-        private Tree literalTree;
-        private Tree distTree;
-        private Tree blTree;
+        private readonly Tree literalTree;
+        private readonly Tree distTree;
+        private readonly Tree blTree;
 
         // Buffer for distances
-        private short[] d_buf;
-        private byte[] l_buf;
+        private readonly short[] d_buf;
+        private readonly byte[] l_buf;
         private int last_lit;
         private int extra_bits;
 
@@ -741,10 +724,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                     blTreeCodes = i + 1;
                 }
             }
-
-            int opt_len = 14 + blTreeCodes * 3 + blTree.GetEncodedLength() +
-                          literalTree.GetEncodedLength() + distTree.GetEncodedLength() +
-                          extra_bits;
+            int opt_len = 14 + blTreeCodes * 3 + blTree.GetEncodedLength() + literalTree.GetEncodedLength() + distTree.GetEncodedLength() + extra_bits;
             int static_len = extra_bits;
 
             for (int i = 0; i < LITERAL_NUM; i++) {
@@ -790,10 +770,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Get value indicating if internal buffer is full
         /// </summary>
         /// <returns>true if buffer is full</returns>
-        public bool IsFull()
-        {
-            return last_lit >= BUFSIZE;
-        }
+        public bool IsFull() { return last_lit >= BUFSIZE; }
 
         /// <summary>
         /// Add literal to buffer
@@ -810,7 +787,7 @@ namespace IFramework.Core.Zip.Zip.Compression
             //				}
             //			}
             d_buf[last_lit] = 0;
-            l_buf[last_lit++] = (byte) literal;
+            l_buf[last_lit++] = (byte)literal;
             literalTree.freqs[literal]++;
             return IsFull();
         }
@@ -826,8 +803,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             //			if (DeflaterConstants.DEBUGGING) {
             //				//Console.WriteLine("[" + distance + "," + length + "]");
             //			}
-            d_buf[last_lit] = (short) distance;
-            l_buf[last_lit++] = (byte) (length - 3);
+            d_buf[last_lit] = (short)distance;
+            l_buf[last_lit++] = (byte)(length - 3);
             int lc = Lcode(length - 3);
             literalTree.freqs[lc]++;
 
@@ -848,13 +825,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="toReverse">Value to reverse bits</param>
         /// <returns>Value with bits reversed</returns>
-        public static short BitReverse(int toReverse)
-        {
-            return (short) (bit4Reverse[toReverse & 0xF] << 12 |
-                            bit4Reverse[(toReverse >> 4) & 0xF] << 8 |
-                            bit4Reverse[(toReverse >> 8) & 0xF] << 4 |
-                            bit4Reverse[toReverse >> 12]);
-        }
+        public static short BitReverse(int toReverse) { return (short)((bit4Reverse[toReverse & 0xF] << 12) | (bit4Reverse[(toReverse >> 4) & 0xF] << 8) | (bit4Reverse[(toReverse >> 8) & 0xF] << 4) | bit4Reverse[toReverse >> 12]); }
 
         private static int Lcode(int length)
         {

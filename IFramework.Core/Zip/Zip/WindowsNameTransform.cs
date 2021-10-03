@@ -16,7 +16,6 @@ namespace IFramework.Core.Zip.Zip
         private const int MAX_PATH = 260;
 
         private string baseDirectory;
-        private bool trimIncomingPaths;
         private char replacementChar = '_';
 
         /// <summary>
@@ -24,11 +23,8 @@ namespace IFramework.Core.Zip.Zip
         /// Path.GetInvalidPathChars() only returns a subset invalid on all platforms.
         /// </summary>
         private static readonly char[] invalidEntryChars = {
-            '"', '<', '>', '|', '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005',
-            '\u0006', '\a', '\b', '\t', '\n', '\v', '\f', '\r', '\u000e', '\u000f',
-            '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016',
-            '\u0017', '\u0018', '\u0019', '\u001a', '\u001b', '\u001c', '\u001d',
-            '\u001e', '\u001f',
+            '"', '<', '>', '|', '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\a', '\b', '\t', '\n', '\v', '\f', '\r', '\u000e', '\u000f', '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016', '\u0017',
+            '\u0018', '\u0019', '\u001a', '\u001b', '\u001c', '\u001d', '\u001e', '\u001f',
             // extra characters for masks, etc.
             '*', '?', ':'
         };
@@ -57,7 +53,7 @@ namespace IFramework.Core.Zip.Zip
         /// Gets or sets a value containing the target directory to prefix values with.
         /// </summary>
         public string BaseDirectory {
-            get { return baseDirectory; }
+            get => baseDirectory;
             set {
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
@@ -69,10 +65,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Gets or sets a value indicating wether paths on incoming values should be removed.
         /// </summary>
-        public bool TrimIncomingPaths {
-            get { return trimIncomingPaths; }
-            set { trimIncomingPaths = value; }
-        }
+        public bool TrimIncomingPaths { get; set; }
 
         /// <summary>
         /// Transform a Zip directory name to a windows directory name.
@@ -104,7 +97,7 @@ namespace IFramework.Core.Zip.Zip
             if (name != null) {
                 name = MakeValidName(name, replacementChar);
 
-                if (trimIncomingPaths) {
+                if (TrimIncomingPaths) {
                     name = Path.GetFileName(name);
                 }
 
@@ -128,11 +121,7 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>The filename isnt a true windows path in some fundamental ways like no absolute paths, no rooted paths etc.</remarks>
         public static bool IsValidName(string name)
         {
-            bool result =
-                            (name != null) &&
-                            (name.Length <= MAX_PATH) &&
-                            (string.Compare(name, MakeValidName(name, '_'), StringComparison.Ordinal) == 0)
-                    ;
+            bool result = name != null && name.Length <= MAX_PATH && string.Compare(name, MakeValidName(name, '_'), StringComparison.Ordinal) == 0;
             return result;
         }
 
@@ -150,12 +139,12 @@ namespace IFramework.Core.Zip.Zip
             name = WindowsPathUtils.DropPathRoot(name.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
             // Drop any leading slashes.
-            while ((name.Length > 0) && (name[0] == Path.DirectorySeparatorChar)) {
+            while (name.Length > 0 && name[0] == Path.DirectorySeparatorChar) {
                 name = name.Remove(0, 1);
             }
 
             // Drop any trailing slashes.
-            while ((name.Length > 0) && (name[name.Length - 1] == Path.DirectorySeparatorChar)) {
+            while (name.Length > 0 && name[name.Length - 1] == Path.DirectorySeparatorChar) {
                 name = name.Remove(name.Length - 1, 1);
             }
 
@@ -171,7 +160,7 @@ namespace IFramework.Core.Zip.Zip
             index = name.IndexOfAny(invalidEntryChars);
 
             if (index >= 0) {
-                var builder = new StringBuilder(name);
+                StringBuilder builder = new StringBuilder(name);
 
                 while (index >= 0) {
                     builder[index] = replacement;
@@ -198,7 +187,7 @@ namespace IFramework.Core.Zip.Zip
         /// Gets or set the character to replace invalid characters during transformations.
         /// </summary>
         public char Replacement {
-            get { return replacementChar; }
+            get => replacementChar;
             set {
                 for (int i = 0; i < invalidEntryChars.Length; ++i) {
                     if (invalidEntryChars[i] == value) {
@@ -206,7 +195,7 @@ namespace IFramework.Core.Zip.Zip
                     }
                 }
 
-                if ((value == Path.DirectorySeparatorChar) || (value == Path.AltDirectorySeparatorChar)) {
+                if (value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar) {
                     throw new ArgumentException("invalid replacement character");
                 }
                 replacementChar = value;

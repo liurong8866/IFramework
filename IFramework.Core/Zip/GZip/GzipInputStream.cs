@@ -64,8 +64,7 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="baseInputStream">
         /// The stream to read compressed data from (baseInputStream GZIP format)
         /// </param>
-        public GZipInputStream(Stream baseInputStream)
-                : this(baseInputStream, 4096) { }
+        public GZipInputStream(Stream baseInputStream) : this(baseInputStream, 4096) { }
 
         /// <summary>
         /// Creates a GZIPInputStream with the specified buffer size
@@ -76,8 +75,7 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="size">
         /// Size of the buffer to use
         /// </param>
-        public GZipInputStream(Stream baseInputStream, int size)
-                : base(baseInputStream, new Inflater(true), size) { }
+        public GZipInputStream(Stream baseInputStream, int size) : base(baseInputStream, new Inflater(true), size) { }
 
         #endregion
 
@@ -161,7 +159,7 @@ namespace IFramework.Core.Zip.GZip
             }
 
             // 1. Check the two magic bytes
-            var headCrc = new Crc32();
+            Crc32 headCrc = new Crc32();
             int magic = inputBuffer.ReadLeByte();
 
             if (magic < 0) {
@@ -169,7 +167,7 @@ namespace IFramework.Core.Zip.GZip
             }
             headCrc.Update(magic);
 
-            if (magic != (GZipConstants.GZIP_MAGIC >> 8)) {
+            if (magic != GZipConstants.GZIP_MAGIC >> 8) {
                 throw new GZipException("Error GZIP header, first magic byte doesn't match");
             }
 
@@ -238,7 +236,7 @@ namespace IFramework.Core.Zip.GZip
                 len1 = inputBuffer.ReadLeByte();
                 len2 = inputBuffer.ReadLeByte();
 
-                if ((len1 < 0) || (len2 < 0)) {
+                if (len1 < 0 || len2 < 0) {
                     throw new EndOfStreamException("EOS reading GZIP header");
                 }
                 headCrc.Update(len1);
@@ -298,7 +296,7 @@ namespace IFramework.Core.Zip.GZip
                 }
                 crcval = (crcval << 8) | tempByte;
 
-                if (crcval != ((int) headCrc.Value & 0xffff)) {
+                if (crcval != ((int)headCrc.Value & 0xffff)) {
                     throw new GZipException("Header CRC value mismatch");
                 }
             }
@@ -330,16 +328,12 @@ namespace IFramework.Core.Zip.GZip
             // Calculate CRC
             int crcval = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8) | ((footer[2] & 0xff) << 16) | (footer[3] << 24);
 
-            if (crcval != (int) crc.Value) {
-                throw new GZipException("GZIP crc sum mismatch, theirs \"" + crcval + "\" and ours \"" + (int) crc.Value);
+            if (crcval != (int)crc.Value) {
+                throw new GZipException("GZIP crc sum mismatch, theirs \"" + crcval + "\" and ours \"" + (int)crc.Value);
             }
 
             // NOTE The total here is the original total modulo 2 ^ 32.
-            uint total =
-                    (uint) footer[4] & 0xff |
-                    ((uint) footer[5] & 0xff) << 8 |
-                    ((uint) footer[6] & 0xff) << 16 |
-                    (uint) footer[7] << 24;
+            uint total = ((uint)footer[4] & 0xff) | (((uint)footer[5] & 0xff) << 8) | (((uint)footer[6] & 0xff) << 16) | ((uint)footer[7] << 24);
 
             if (bytesRead != total) {
                 throw new GZipException("Number of bytes mismatch in footer");

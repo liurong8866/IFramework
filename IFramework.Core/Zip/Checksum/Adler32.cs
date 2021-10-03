@@ -55,7 +55,7 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// largest prime smaller than 65536
         /// </summary>
-        private readonly static uint @base = 65521;
+        private static readonly uint @base = 65521;
 
         /// <summary>
         /// The CRC data checksum so far.
@@ -67,25 +67,17 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// Initialise a default instance of <see cref="Adler32"></see>
         /// </summary>
-        public Adler32()
-        {
-            Reset();
-        }
+        public Adler32() { Reset(); }
 
         /// <summary>
         /// Resets the Adler32 data checksum as if no update was ever called.
         /// </summary>
-        public void Reset()
-        {
-            checkValue = 1;
-        }
+        public void Reset() { checkValue = 1; }
 
         /// <summary>
         /// Returns the Adler32 data checksum computed so far.
         /// </summary>
-        public long Value {
-            get { return checkValue; }
-        }
+        public long Value => checkValue;
 
         /// <summary>
         /// Updates the checksum with the byte b.
@@ -99,7 +91,7 @@ namespace IFramework.Core.Zip.Checksum
             // would rather not have that overhead
             uint s1 = checkValue & 0xFFFF;
             uint s2 = checkValue >> 16;
-            s1 = (s1 + ((uint) bval & 0xFF)) % @base;
+            s1 = (s1 + ((uint)bval & 0xFF)) % @base;
             s2 = (s1 + s2) % @base;
             checkValue = (s2 << 16) + s1;
         }
@@ -161,7 +153,7 @@ namespace IFramework.Core.Zip.Checksum
                 count -= n;
 
                 while (--n >= 0) {
-                    s1 = s1 + (uint) (buffer[offset++] & 0xff);
+                    s1 = s1 + (uint)(buffer[offset++] & 0xff);
                     s2 = s2 + s1;
                 }
                 s1 %= @base;

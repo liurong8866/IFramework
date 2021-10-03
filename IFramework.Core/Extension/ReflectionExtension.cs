@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Reflection;
 
@@ -40,9 +16,9 @@ namespace IFramework.Core
 
         public static Assembly GetAssemblyCSharp()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (var a in assemblies) {
+            foreach (Assembly a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp,")) {
                     return a;
                 }
@@ -54,9 +30,9 @@ namespace IFramework.Core
 
         public static Assembly GetAssemblyCSharpEditor()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (var a in assemblies) {
+            foreach (Assembly a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp-Editor,")) {
                     return a;
                 }
@@ -75,7 +51,7 @@ namespace IFramework.Core
         /// <returns></returns>
         public static object InvokeByReflect(this object obj, string methodName, params object[] args)
         {
-            var methodInfo = obj.GetType().GetMethod(methodName);
+            MethodInfo methodInfo = obj.GetType().GetMethod(methodName);
             return methodInfo == null ? null : methodInfo.Invoke(obj, args);
         }
 
@@ -87,7 +63,7 @@ namespace IFramework.Core
         /// <returns></returns>
         public static object GetFieldByReflect(this object obj, string fieldName)
         {
-            var fieldInfo = obj.GetType().GetField(fieldName);
+            FieldInfo fieldInfo = obj.GetType().GetField(fieldName);
             return fieldInfo == null ? null : fieldInfo.GetValue(obj);
         }
 
@@ -100,7 +76,7 @@ namespace IFramework.Core
         /// <returns></returns>
         public static object GetPropertyByReflect(this object obj, string propertyName, object[] index = null)
         {
-            var propertyInfo = obj.GetType().GetProperty(propertyName);
+            PropertyInfo propertyInfo = obj.GetType().GetProperty(propertyName);
             return propertyInfo == null ? null : propertyInfo.GetValue(obj, index);
         }
 
@@ -108,37 +84,25 @@ namespace IFramework.Core
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this PropertyInfo prop, Type attributeType, bool inherit)
-        {
-            return prop.GetCustomAttributes(attributeType, inherit).Length > 0;
-        }
+        public static bool HasAttribute(this PropertyInfo prop, Type attributeType, bool inherit) { return prop.GetCustomAttributes(attributeType, inherit).Length > 0; }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this FieldInfo field, Type attributeType, bool inherit)
-        {
-            return field.GetCustomAttributes(attributeType, inherit).Length > 0;
-        }
+        public static bool HasAttribute(this FieldInfo field, Type attributeType, bool inherit) { return field.GetCustomAttributes(attributeType, inherit).Length > 0; }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this Type type, Type attributeType, bool inherit)
-        {
-            return type.GetCustomAttributes(attributeType, inherit).Length > 0;
-        }
+        public static bool HasAttribute(this Type type, Type attributeType, bool inherit) { return type.GetCustomAttributes(attributeType, inherit).Length > 0; }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this MethodInfo method, Type attributeType, bool inherit)
-        {
-            return method.GetCustomAttributes(attributeType, inherit).Length > 0;
-        }
+        public static bool HasAttribute(this MethodInfo method, Type attributeType, bool inherit) { return method.GetCustomAttributes(attributeType, inherit).Length > 0; }
 
         /// <summary>
         /// 获取第一个特性
@@ -149,10 +113,8 @@ namespace IFramework.Core
         /// <returns></returns>
         public static T GetFirstAttribute<T>(this MethodInfo method, bool inherit) where T : Attribute
         {
-            var attrs = (T[]) method.GetCustomAttributes(typeof(T), inherit);
-
-            if (attrs.Length > 0)
-                return attrs[0];
+            T[] attrs = (T[])method.GetCustomAttributes(typeof(T), inherit);
+            if (attrs.Length > 0) return attrs[0];
 
             return null;
         }
@@ -162,10 +124,8 @@ namespace IFramework.Core
         /// </summary>
         public static T GetFirstAttribute<T>(this FieldInfo field, bool inherit) where T : Attribute
         {
-            var attrs = (T[]) field.GetCustomAttributes(typeof(T), inherit);
-
-            if (attrs.Length > 0)
-                return attrs[0];
+            T[] attrs = (T[])field.GetCustomAttributes(typeof(T), inherit);
+            if (attrs.Length > 0) return attrs[0];
 
             return null;
         }
@@ -175,10 +135,8 @@ namespace IFramework.Core
         /// </summary>
         public static T GetFirstAttribute<T>(this PropertyInfo prop, bool inherit) where T : Attribute
         {
-            var attrs = (T[]) prop.GetCustomAttributes(typeof(T), inherit);
-
-            if (attrs.Length > 0)
-                return attrs[0];
+            T[] attrs = (T[])prop.GetCustomAttributes(typeof(T), inherit);
+            if (attrs.Length > 0) return attrs[0];
 
             return null;
         }
@@ -188,10 +146,8 @@ namespace IFramework.Core
         /// </summary>
         public static T GetFirstAttribute<T>(this Type type, bool inherit) where T : Attribute
         {
-            var attrs = (T[]) type.GetCustomAttributes(typeof(T), inherit);
-
-            if (attrs.Length > 0)
-                return attrs[0];
+            T[] attrs = (T[])type.GetCustomAttributes(typeof(T), inherit);
+            if (attrs.Length > 0) return attrs[0];
 
             return null;
         }

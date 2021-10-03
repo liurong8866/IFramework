@@ -23,7 +23,6 @@ namespace IFramework.Core.Zip.Zip.Compression
         private int end;
 
         private uint bits;
-        private int bitCount;
 
         #endregion
 
@@ -40,20 +39,14 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="bufferSize">
         /// size to use for internal buffer
         /// </param>
-        public PendingBuffer(int bufferSize)
-        {
-            buffer = new byte[bufferSize];
-        }
+        public PendingBuffer(int bufferSize) { buffer = new byte[bufferSize]; }
 
         #endregion
 
         /// <summary>
         /// Clear internal state/buffers
         /// </summary>
-        public void Reset()
-        {
-            start = end = bitCount = 0;
-        }
+        public void Reset() { start = end = BitCount = 0; }
 
         /// <summary>
         /// Write a byte to buffer
@@ -69,7 +62,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            buffer[end++] = unchecked((byte) value);
+            buffer[end++] = unchecked((byte)value);
         }
 
         /// <summary>
@@ -86,8 +79,8 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            buffer[end++] = unchecked((byte) value);
-            buffer[end++] = unchecked((byte) (value >> 8));
+            buffer[end++] = unchecked((byte)value);
+            buffer[end++] = unchecked((byte)(value >> 8));
         }
 
         /// <summary>
@@ -102,10 +95,10 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            buffer[end++] = unchecked((byte) value);
-            buffer[end++] = unchecked((byte) (value >> 8));
-            buffer[end++] = unchecked((byte) (value >> 16));
-            buffer[end++] = unchecked((byte) (value >> 24));
+            buffer[end++] = unchecked((byte)value);
+            buffer[end++] = unchecked((byte)(value >> 8));
+            buffer[end++] = unchecked((byte)(value >> 16));
+            buffer[end++] = unchecked((byte)(value >> 24));
         }
 
         /// <summary>
@@ -129,9 +122,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// The number of bits written to the buffer
         /// </summary>
-        public int BitCount {
-            get { return bitCount; }
-        }
+        public int BitCount { get; private set; }
 
         /// <summary>
         /// Align internal buffer on a byte boundary
@@ -144,15 +135,15 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            if (bitCount > 0) {
-                buffer[end++] = unchecked((byte) bits);
+            if (BitCount > 0) {
+                buffer[end++] = unchecked((byte)bits);
 
-                if (bitCount > 8) {
-                    buffer[end++] = unchecked((byte) (bits >> 8));
+                if (BitCount > 8) {
+                    buffer[end++] = unchecked((byte)(bits >> 8));
                 }
             }
             bits = 0;
-            bitCount = 0;
+            BitCount = 0;
         }
 
         /// <summary>
@@ -172,14 +163,14 @@ namespace IFramework.Core.Zip.Zip.Compression
 			//				//Console.WriteLine("writeBits("+b+","+count+")");
 			//			}
         #endif
-            bits |= (uint) (b << bitCount);
-            bitCount += count;
+            bits |= (uint)(b << BitCount);
+            BitCount += count;
 
-            if (bitCount >= 16) {
-                buffer[end++] = unchecked((byte) bits);
-                buffer[end++] = unchecked((byte) (bits >> 8));
+            if (BitCount >= 16) {
+                buffer[end++] = unchecked((byte)bits);
+                buffer[end++] = unchecked((byte)(bits >> 8));
                 bits >>= 16;
-                bitCount -= 16;
+                BitCount -= 16;
             }
         }
 
@@ -195,16 +186,14 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            buffer[end++] = unchecked((byte) (s >> 8));
-            buffer[end++] = unchecked((byte) s);
+            buffer[end++] = unchecked((byte)(s >> 8));
+            buffer[end++] = unchecked((byte)s);
         }
 
         /// <summary>
         /// Indicates if buffer has been flushed
         /// </summary>
-        public bool IsFlushed {
-            get { return end == 0; }
-        }
+        public bool IsFlushed => end == 0;
 
         /// <summary>
         /// Flushes the pending buffer into the given output array.  If the
@@ -216,10 +205,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>The number of bytes flushed.</returns>
         public int Flush(byte[] output, int offset, int length)
         {
-            if (bitCount >= 8) {
-                buffer[end++] = unchecked((byte) bits);
+            if (BitCount >= 8) {
+                buffer[end++] = unchecked((byte)bits);
                 bits >>= 8;
-                bitCount -= 8;
+                BitCount -= 8;
             }
 
             if (length > end - start) {

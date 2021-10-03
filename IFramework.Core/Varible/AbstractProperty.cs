@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 
 namespace IFramework.Core
@@ -37,10 +13,7 @@ namespace IFramework.Core
 
         public AbstractProperty() { }
 
-        public AbstractProperty(T value)
-        {
-            this.value = value;
-        }
+        public AbstractProperty(T value) { this.value = value; }
 
         // 解决因其他原因导致值未设置，而不触发事件问题
         protected bool setted = false;
@@ -53,15 +26,9 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否值改变
         /// </summary>
-        protected virtual bool IsValueChanged(T value)
-        {
-            return value == null || !value.Equals(this.value) || !setted;
-        }
+        protected virtual bool IsValueChanged(T value) { return value == null || !value.Equals(this.value) || !setted; }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+        public override string ToString() { return Value.ToString(); }
 
         public virtual void Dispose() { }
 
@@ -77,7 +44,7 @@ namespace IFramework.Core
                 return true;
             }
 
-            if (((object) m == null) || ((object) n == null)) {
+            if ((object)m == null || (object)n == null) {
                 return false;
             }
             return m.Value.Equals(n.Value);
@@ -89,7 +56,7 @@ namespace IFramework.Core
                 return true;
             }
 
-            if (((object) m == null) || (n == null)) {
+            if ((object)m == null || n == null) {
                 return false;
             }
             return m.Value.Equals(n);
@@ -101,28 +68,19 @@ namespace IFramework.Core
                 return true;
             }
 
-            if ((m == null) || ((object) n == null)) {
+            if (m == null || (object)n == null) {
                 return false;
             }
             return m.Equals(n.Value);
         }
 
-        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n)
-        {
-            return !(m == n);
-        }
+        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n) { return !(m == n); }
 
-        public static bool operator !=(AbstractProperty<T> m, T n)
-        {
-            return !(m == n);
-        }
+        public static bool operator !=(AbstractProperty<T> m, T n) { return !(m == n); }
 
-        public static bool operator !=(T m, AbstractProperty<T> n)
-        {
-            return !(m == n);
-        }
+        public static bool operator !=(T m, AbstractProperty<T> n) { return !(m == n); }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null) {
                 return false;
@@ -147,15 +105,12 @@ namespace IFramework.Core
 
         public bool Equals(AbstractProperty<T> abstractProperty)
         {
-            if ((object) abstractProperty == null) {
+            if ((object)abstractProperty == null) {
                 return false;
             }
             return Value.Equals(abstractProperty.Value);
         }
 
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+        public override int GetHashCode() { return Value.GetHashCode(); }
     }
 }

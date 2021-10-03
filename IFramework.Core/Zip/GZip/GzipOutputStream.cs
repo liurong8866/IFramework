@@ -41,7 +41,7 @@ namespace IFramework.Core.Zip.GZip
             Header,
             Footer,
             Finished,
-            Closed,
+            Closed
         }
 
         #region Instance Fields
@@ -63,8 +63,7 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="baseOutputStream">
         /// The stream to read data (to be compressed) from
         /// </param>
-        public GZipOutputStream(Stream baseOutputStream)
-                : this(baseOutputStream, 4096) { }
+        public GZipOutputStream(Stream baseOutputStream) : this(baseOutputStream, 4096) { }
 
         /// <summary>
         /// Creates a GZipOutputStream with the specified buffer size
@@ -102,10 +101,7 @@ namespace IFramework.Core.Zip.GZip
         /// Get the current compression level.
         /// </summary>
         /// <returns>The current compression level.</returns>
-        public int GetLevel()
-        {
-            return deflater_.GetLevel();
-        }
+        public int GetLevel() { return deflater_.GetLevel(); }
 
         #endregion
 
@@ -167,17 +163,12 @@ namespace IFramework.Core.Zip.GZip
             if (state == OutputState.Footer) {
                 state = OutputState.Finished;
                 base.Finish();
-                var totalin = (uint) (deflater_.TotalIn & 0xffffffff);
-                var crcval = (uint) (crc.Value & 0xffffffff);
+                uint totalin = (uint)(deflater_.TotalIn & 0xffffffff);
+                uint crcval = (uint)(crc.Value & 0xffffffff);
                 byte[] gzipFooter;
 
                 unchecked {
-                    gzipFooter = new[] {
-                        (byte) crcval, (byte) (crcval >> 8),
-                        (byte) (crcval >> 16), (byte) (crcval >> 24),
-                        (byte) totalin, (byte) (totalin >> 8),
-                        (byte) (totalin >> 16), (byte) (totalin >> 24)
-                    };
+                    gzipFooter = new[] { (byte)crcval, (byte)(crcval >> 8), (byte)(crcval >> 16), (byte)(crcval >> 24), (byte)totalin, (byte)(totalin >> 8), (byte)(totalin >> 16), (byte)(totalin >> 24) };
                 }
                 baseOutputStream_.Write(gzipFooter, 0, gzipFooter.Length);
             }
@@ -191,7 +182,7 @@ namespace IFramework.Core.Zip.GZip
         {
             if (state == OutputState.Header) {
                 state = OutputState.Footer;
-                var modTime = (int) ((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals
+                int modTime = (int)((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals
 
                 byte[] gzipHeader = {
                     // The two magic bytes
@@ -204,8 +195,7 @@ namespace IFramework.Core.Zip.GZip
                     0,
 
                     // The modification time
-                    (byte) modTime, (byte) (modTime >> 8),
-                    (byte) (modTime >> 16), (byte) (modTime >> 24),
+                    (byte)modTime, (byte)(modTime >> 8), (byte)(modTime >> 16), (byte)(modTime >> 24),
 
                     // The extra flags
                     0,

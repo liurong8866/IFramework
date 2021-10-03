@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,13 +8,12 @@ namespace IFramework.Engine
 {
     public class Zip
     {
-        private List<string> searchDirList = new List<string>();
+        private readonly List<string> searchDirList = new List<string>();
 
-        private ZipFile zipFile = null;
+        public ZipFile ZipFile { get; } = null;
 
-        public ZipFile ZipFile => zipFile;
-
-        public Zip() {
+        public Zip()
+        {
             searchDirList.Add(Platform.PersistentData.Root);
         #if (UNITY_ANDROID) && !UNITY_EDITOR
 			if (zipFile == null)
@@ -48,7 +23,8 @@ namespace IFramework.Engine
         #endif
         }
 
-        ~Zip() {
+        ~Zip()
+        {
         #if UNITY_ANDROID && !UNITY_EDITOR
 			if (zipFile != null)
 			{
@@ -61,7 +37,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 在包内查找是否有改资源
         /// </summary>
-        private bool FindResourceInAppInternal(string fileRelativePath) {
+        private bool FindResourceInAppInternal(string fileRelativePath)
+        {
         #if UNITY_IPHONE && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePathInternal(fileRelativePath);
             return absoluteFilePath.IsNotNullOrEmpty();
@@ -74,11 +51,10 @@ namespace IFramework.Engine
         #endif
         }
 
-        private void AddSearchPath(string dir) {
-            searchDirList.Add(dir);
-        }
+        private void AddSearchPath(string dir) { searchDirList.Add(dir); }
 
-        public bool FileExists(string fileRelativePath) {
+        public bool FileExists(string fileRelativePath)
+        {
         #if UNITY_IPHONE && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePath(fileRelativePath);
 			return (absoluteFilePath.IsNotNullOrEmpty() && File.Exists(absoluteFilePath));
@@ -99,11 +75,12 @@ namespace IFramework.Engine
 			}
         #else
             string filePathStandalone = Path.Combine(Platform.StreamingAssets.Root, fileRelativePath);
-            return (filePathStandalone.IsNotNullOrEmpty() && File.Exists(filePathStandalone));
+            return filePathStandalone.IsNotNullOrEmpty() && File.Exists(filePathStandalone);
         #endif
         }
 
-        public Stream OpenReadStream(string absFilePath) {
+        public Stream OpenReadStream(string absFilePath)
+        {
             if (absFilePath.IsNullOrEmpty()) {
                 return null;
             }
@@ -122,7 +99,8 @@ namespace IFramework.Engine
             return fileInfo.OpenRead();
         }
 
-        public List<string> GetFileInInner(string fileName) {
+        public List<string> GetFileInInner(string fileName)
+        {
         #if UNITY_ANDROID && !UNITY_EDITOR
 			//Android 包内
 			return GetFileInZip(zipFile, fileName);
@@ -130,7 +108,8 @@ namespace IFramework.Engine
             return DirectoryUtils.GetFiles(Path.Combine(Platform.StreamingAssets.AssetBundlePath, Environment.Instance.RuntimePlatformName), fileName);
         }
 
-        public byte[] ReadSync(string fileRelativePath) {
+        public byte[] ReadSync(string fileRelativePath)
+        {
             string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 
             if (!string.IsNullOrEmpty(absoluteFilePath)) {
@@ -139,7 +118,8 @@ namespace IFramework.Engine
             return ReadSyncInternal(fileRelativePath);
         }
 
-        public byte[] ReadSyncByAbsoluteFilePath(string absoluteFilePath) {
+        public byte[] ReadSyncByAbsoluteFilePath(string absoluteFilePath)
+        {
             if (File.Exists(absoluteFilePath)) {
                 FileInfo fileInfo = new FileInfo(absoluteFilePath);
                 return ReadFile(fileInfo);
@@ -147,7 +127,8 @@ namespace IFramework.Engine
             return null;
         }
 
-        private byte[] ReadSyncExtenal(string fileRelativePath) {
+        private byte[] ReadSyncExtenal(string fileRelativePath)
+        {
             string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 
             if (!string.IsNullOrEmpty(absoluteFilePath)) {
@@ -157,7 +138,8 @@ namespace IFramework.Engine
             return null;
         }
 
-        private byte[] ReadSyncInternal(string fileRelativePath) {
+        private byte[] ReadSyncInternal(string fileRelativePath)
+        {
         #if UNITY_ANDROID && !UNITY_EDITOR
 			return ReadDataInAndriodApk(fileRelativePath);
         #else
@@ -171,7 +153,8 @@ namespace IFramework.Engine
             return null;
         }
 
-        private byte[] ReadFile(FileInfo fileInfo) {
+        private byte[] ReadFile(FileInfo fileInfo)
+        {
             using (FileStream fileStream = fileInfo.OpenRead()) {
                 byte[] byteData = new byte[fileStream.Length];
                 fileStream.Read(byteData, 0, byteData.Length);
@@ -179,7 +162,8 @@ namespace IFramework.Engine
             }
         }
 
-        private string FindFilePathInExteral(string file) {
+        private string FindFilePathInExteral(string file)
+        {
             string filePath;
 
             for (int i = 0; i < searchDirList.Count; ++i) {
@@ -192,7 +176,8 @@ namespace IFramework.Engine
             return string.Empty;
         }
 
-        private string FindFilePath(string file) {
+        private string FindFilePath(string file)
+        {
             // 先到搜索列表里找
             string filePath = FindFilePathInExteral(file);
 
@@ -209,7 +194,8 @@ namespace IFramework.Engine
             return null;
         }
 
-        private string FindFilePathInternal(string file) {
+        private string FindFilePathInternal(string file)
+        {
             string filePath = Path.Combine(Platform.StreamingAssets.Root, file);
 
             if (File.Exists(filePath)) {
@@ -218,24 +204,26 @@ namespace IFramework.Engine
             return null;
         }
 
-        private Stream OpenStreamInZip(string absPath) {
+        private Stream OpenStreamInZip(string absPath)
+        {
             string tag = "!/assets/";
             string androidFolder = absPath.Substring(0, absPath.IndexOf(tag, StringComparison.Ordinal));
             int startIndex = androidFolder.Length + tag.Length;
             string relativePath = absPath.Substring(startIndex, absPath.Length - startIndex);
-            ZipEntry zipEntry = zipFile.GetEntry(string.Format("assets/{0}", relativePath));
+            ZipEntry zipEntry = ZipFile.GetEntry(string.Format("assets/{0}", relativePath));
 
             if (zipEntry != null) {
-                return zipFile.GetInputStream(zipEntry);
+                return ZipFile.GetInputStream(zipEntry);
             }
             Log.Error("未找到文件: {0}", absPath);
             return null;
         }
 
-        public List<string> GetFileInZip(ZipFile zipFile, string fileName) {
+        public List<string> GetFileInZip(ZipFile zipFile, string fileName)
+        {
             List<string> outResult = new List<string>();
 
-            foreach (var entry in zipFile) {
+            foreach (object entry in zipFile) {
                 ZipEntry e = entry as ZipEntry;
 
                 if (e != null) {
@@ -249,17 +237,18 @@ namespace IFramework.Engine
             return outResult;
         }
 
-        private byte[] ReadDataInAndriodApk(string fileRelativePath) {
+        private byte[] ReadDataInAndriodApk(string fileRelativePath)
+        {
             byte[] byteData = null;
 
-            if (zipFile == null) {
+            if (ZipFile == null) {
                 Log.Error("未能打开apk");
                 return null;
             }
-            ZipEntry zipEntry = zipFile.GetEntry(string.Format("assets/{0}", fileRelativePath));
+            ZipEntry zipEntry = ZipFile.GetEntry(string.Format("assets/{0}", fileRelativePath));
 
             if (zipEntry != null) {
-                var stream = zipFile.GetInputStream(zipEntry);
+                Stream stream = ZipFile.GetInputStream(zipEntry);
                 byteData = new byte[zipEntry.Size];
                 stream.Read(byteData, 0, byteData.Length);
                 stream.Close();

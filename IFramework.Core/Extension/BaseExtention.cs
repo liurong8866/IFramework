@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections;
 using System.IO;
@@ -46,7 +22,7 @@ namespace IFramework.Core
                 result = true;
             }
             else {
-                result = String.IsNullOrEmpty(value.ToString());
+                result = string.IsNullOrEmpty(value.ToString());
             }
             return result;
         }
@@ -54,26 +30,17 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNullOrEmpty(this ICollection value)
-        {
-            return (value == null || value.Count == 0);
-        }
+        public static bool IsNullOrEmpty(this ICollection value) { return value == null || value.Count == 0; }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this object value)
-        {
-            return !IsNullOrEmpty(value);
-        }
+        public static bool IsNotNullOrEmpty(this object value) { return !IsNullOrEmpty(value); }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this ICollection value)
-        {
-            return !IsNullOrEmpty(value);
-        }
+        public static bool IsNotNullOrEmpty(this ICollection value) { return !IsNullOrEmpty(value); }
 
         /// <summary>
         /// 转换字符串
@@ -104,66 +71,42 @@ namespace IFramework.Core
         /// <summary>
         /// 对象转换Short
         /// </summary>
-        public static short ToShort(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt16(value);
-        }
+        public static short ToShort(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt16(value); }
 
         /// <summary>
         /// 对象转换Int
         /// </summary>
-        public static int ToInt(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt32(value);
-        }
+        public static int ToInt(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt32(value); }
 
         /// <summary>
         /// 对象转换Long
         /// </summary>
-        public static long ToLong(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt64(value);
-        }
+        public static long ToLong(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt64(value); }
 
         /// <summary>
         /// 字符串转换Float
         /// </summary>
-        public static float ToFloat(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToSingle(value);
-        }
+        public static float ToFloat(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToSingle(value); }
 
         /// <summary>
         /// 字符串转换Double
         /// </summary>
-        public static double ToDouble(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToDouble(value);
-        }
+        public static double ToDouble(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToDouble(value); }
 
         /// <summary>
         /// 字符串转换Decimal
         /// </summary>
-        public static decimal ToDecimal(this object value)
-        {
-            return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value);
-        }
+        public static decimal ToDecimal(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value); }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value)
-        {
-            return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01"));
-        }
+        public static DateTime ToDateTime(this object value) { return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01")); }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value, DateTime defaultValue)
-        {
-            return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value);
-        }
+        public static DateTime ToDateTime(this object value, DateTime defaultValue) { return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value); }
 
         /// <summary>
         /// SQL 防止意外字符导致错误
@@ -200,38 +143,19 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为整型数值
         /// </summary>
-        public static bool IsInteger(this object value)
-        {
-            return (value is SByte || value is Int16 || value is Int32
-                 || value is Int64 || value is Byte || value is UInt16
-                 || value is UInt32 || value is UInt64);
-        }
+        public static bool IsInteger(this object value) { return value is sbyte || value is short || value is int || value is long || value is byte || value is ushort || value is uint || value is ulong; }
 
         /// <summary>
         /// 是否为浮点型
         /// </summary>
-        public static bool IsFloat(this object value)
-        {
-            return (value is float | value is double | value is Decimal);
-        }
+        public static bool IsFloat(this object value) { return value is float | value is double | value is decimal; }
 
         /// <summary>
         /// 是否为数字
         /// </summary>
         public static bool IsNumeric(this object value)
         {
-            if (!(value is Byte ||
-                  value is Int16 ||
-                  value is Int32 ||
-                  value is Int64 ||
-                  value is SByte ||
-                  value is UInt16 ||
-                  value is UInt32 ||
-                  value is UInt64 ||
-                  value is Decimal ||
-                  value is Double ||
-                  value is Single))
-                return false;
+            if (!(value is byte || value is short || value is int || value is long || value is sbyte || value is ushort || value is uint || value is ulong || value is decimal || value is double || value is float)) return false;
 
             return true;
         }
@@ -278,7 +202,7 @@ namespace IFramework.Core
                 IFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(objectStream, value);
                 objectStream.Seek(0, SeekOrigin.Begin);
-                return (T) formatter.Deserialize(objectStream);
+                return (T)formatter.Deserialize(objectStream);
             }
         }
     }

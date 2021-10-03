@@ -6,7 +6,7 @@ namespace Test.ResourceKit._06_LoadSceneExample
 {
     public class LoadSceneExample : MonoBehaviour
     {
-        private ResourceLoader loader = null;
+        private ResourceLoader loader;
 
         private void Start()
         {

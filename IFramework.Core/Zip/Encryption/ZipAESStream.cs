@@ -19,8 +19,7 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="stream">The stream on which to perform the cryptographic transformation.</param>
         /// <param name="transform">Instance of ZipAESTransform</param>
         /// <param name="mode">Read or Write</param>
-        public ZipAesStream(Stream stream, ZipAesTransform transform, CryptoStreamMode mode)
-                : base(stream, transform, mode)
+        public ZipAesStream(Stream stream, ZipAesTransform transform, CryptoStreamMode mode) : base(stream, transform, mode)
         {
             this.stream = stream;
             this.transform = transform;
@@ -38,16 +37,16 @@ namespace IFramework.Core.Zip.Encryption
         // The final n bytes of the AES stream contain the Auth Code.
         private const int AUTH_CODE_LENGTH = 10;
 
-        private Stream stream;
-        private ZipAesTransform transform;
-        private byte[] slideBuffer;
+        private readonly Stream stream;
+        private readonly ZipAesTransform transform;
+        private readonly byte[] slideBuffer;
         private int slideBufStartPos;
 
         private int slideBufFreePos;
 
         // Blocksize is always 16 here, even for AES-256 which has transform.InputBlockSize of 32.
         private const int CRYPTO_BLOCK_SIZE = 16;
-        private int blockAndAuth;
+        private readonly int blockAndAuth;
 
         /// <summary>
         /// Reads a sequence of bytes from the current CryptoStream into buffer,
@@ -84,11 +83,7 @@ namespace IFramework.Core.Zip.Encryption
 
                 if (byteCount >= blockAndAuth) {
                     // At least a 16 byte block and an auth code remains.
-                    transform.TransformBlock(slideBuffer,
-                                             slideBufStartPos,
-                                             CRYPTO_BLOCK_SIZE,
-                                             buffer,
-                                             offset);
+                    transform.TransformBlock(slideBuffer, slideBufStartPos, CRYPTO_BLOCK_SIZE, buffer, offset);
                     nBytes += CRYPTO_BLOCK_SIZE;
                     offset += CRYPTO_BLOCK_SIZE;
                     slideBufStartPos += CRYPTO_BLOCK_SIZE;
@@ -98,25 +93,18 @@ namespace IFramework.Core.Zip.Encryption
                     if (byteCount > AUTH_CODE_LENGTH) {
                         // At least one byte of data plus auth code
                         int finalBlock = byteCount - AUTH_CODE_LENGTH;
-
-                        transform.TransformBlock(slideBuffer,
-                                                 slideBufStartPos,
-                                                 finalBlock,
-                                                 buffer,
-                                                 offset);
+                        transform.TransformBlock(slideBuffer, slideBufStartPos, finalBlock, buffer, offset);
                         nBytes += finalBlock;
                         slideBufStartPos += finalBlock;
                     }
-                    else if (byteCount < AUTH_CODE_LENGTH)
-                        throw new Exception("Internal error missed auth code"); // Coding bug
+                    else if (byteCount < AUTH_CODE_LENGTH) throw new Exception("Internal error missed auth code"); // Coding bug
 
                     // Final block done. Check Auth code.
                     byte[] calcAuthCode = transform.GetAuthCode();
 
                     for (int i = 0; i < AUTH_CODE_LENGTH; i++) {
                         if (calcAuthCode[i] != slideBuffer[slideBufStartPos + i]) {
-                            throw new Exception("AES Authentication Code does not match. This is a super-CRC check on the data in the file after compression and encryption. \r\n"
-                                              + "The file may be damaged.");
+                            throw new Exception("AES Authentication Code does not match. This is a super-CRC check on the data in the file after compression and encryption. \r\n" + "The file may be damaged.");
                         }
                     }
                     break; // Reached the auth code

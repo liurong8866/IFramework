@@ -19,8 +19,7 @@ namespace IFramework.Core.Zip
         /// Initializes a new instance of the BaseZipException class with a specified error message.
         /// </summary>
         /// <param name="message">A message describing the exception.</param>
-        public BaseZipException(string message)
-                : base(message) { }
+        public BaseZipException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the BaseZipException class with a specified
@@ -28,7 +27,6 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="message">A message describing the exception.</param>
         /// <param name="innerException">The inner exception</param>
-        public BaseZipException(string message, Exception innerException)
-                : base(message, innerException) { }
+        public BaseZipException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

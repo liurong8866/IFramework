@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
@@ -47,23 +23,14 @@ namespace IFramework.Editor
         public static List<AssetBundlePackage> GetPackageList()
         {
             //找到所有.asset文件，筛选出Package类型及子类生成的文件
-            var list = AssetDatabase.GetAllAssetPaths()
-                                    .Where(path => path.EndsWith(".asset"))
-                                    .Select(path => {
-                                         Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
+            List<AssetBundlePackage> list = AssetDatabase.GetAllAssetPaths().Where(path => path.EndsWith(".asset")).Select(path => {
+                Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
 
-                                         if (package) {
-                                             return new AssetBundlePackage {
-                                                 Path = path,
-                                                 Folder = path.RemoveString(package.name + ".asset"),
-                                                 Name = package.name,
-                                                 NameSpace = package.NameSpace
-                                             };
-                                         }
-                                         return null;
-                                     })
-                                    .Where(data => data != null)
-                                    .ToList();
+                if (package) {
+                    return new AssetBundlePackage { Path = path, Folder = path.RemoveString(package.name + ".asset"), Name = package.name, NameSpace = package.NameSpace };
+                }
+                return null;
+            }).Where(data => data != null).ToList();
             return list;
         }
 
@@ -77,10 +44,7 @@ namespace IFramework.Editor
 
             foreach (string assetBundleName in assetBundleNames) {
                 // 生成资源信息
-                AssetBundleBuild assetBundleBuild = new AssetBundleBuild {
-                    assetBundleName = assetBundleName,
-                    assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName)
-                };
+                AssetBundleBuild assetBundleBuild = new AssetBundleBuild { assetBundleName = assetBundleName, assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName) };
                 bool idDefault = true;
 
                 // 判断资源是否在子包目录下，如果在，则认为是子包资源
