@@ -41,7 +41,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 执行
         /// </summary>
-        public bool Execute(float delta)
+        public bool Execute()
         {
             // 有可能被别的地方调用
             if (Finished) {
@@ -55,7 +55,7 @@ namespace IFramework.Engine
             }
 
             if (!Finished) {
-                OnExecute(delta);
+                OnExecute();
             }
 
             if (Finished) {
@@ -109,7 +109,7 @@ namespace IFramework.Engine
 
         protected virtual void OnBegin() { }
 
-        protected virtual void OnExecute(float delta) { }
+        protected virtual void OnExecute() { }
 
         protected virtual void OnEnd() { }
 

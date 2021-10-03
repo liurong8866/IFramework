@@ -31,18 +31,18 @@ namespace IFramework.Engine
     [Serializable]
     public class DelayFrameAction : AbstractAction, IPoolable, IResetable
     {
-        // 记录初始帧数，便于对比
-        private int startFrame;
-        
         // 延迟帧数
         [SerializeField] public int FrameCount;
-        
+        // 延迟事件
         public Action OnDelayFrameFinish { get; set; }
-        
+        // 帧数计数器
+        private int startFrame;
+
         /// <summary>
         /// 从对象池中申请对象
         /// </summary>
-        public static DelayFrameAction Allocate(int frameCount, Action acton = null) {
+        public static DelayFrameAction Allocate(int frameCount, Action acton = null)
+        {
             DelayFrameAction retNode = ObjectPool<DelayFrameAction>.Instance.Allocate();
             retNode.FrameCount = frameCount;
             retNode.OnDelayFrameFinish = acton;
@@ -62,7 +62,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 执行事件
         /// </summary>
-        protected override void OnExecute(float delta)
+        protected override void OnExecute()
         {
             Finished = Time.frameCount - startFrame >= FrameCount;
 
@@ -75,12 +75,12 @@ namespace IFramework.Engine
         {
             base.OnReset();
             startFrame = Time.frameCount;
-        } 
+        }
 
         protected override void OnDispose()
         {
             ObjectPool<DelayFrameAction>.Instance.Recycle(this);
-        } 
+        }
 
         public void OnRecycled()
         {
@@ -91,25 +91,29 @@ namespace IFramework.Engine
 
         public bool IsRecycled { get; set; }
     }
-    
+
     /// <summary>
     /// 扩展方法
     /// </summary>
     public static class DelayFrameActionExtensions
     {
-        public static void DelayFrame<T>(this T self, int frameCount, Action action) where T : MonoBehaviour {
+        public static void DelayFrame<T>(this T self, int frameCount, Action action) where T : MonoBehaviour
+        {
             self.Execute(DelayFrameAction.Allocate(frameCount, action));
         }
 
-        public static void NextFrame<T>(this T self, Action action) where T : MonoBehaviour {
+        public static void NextFrame<T>(this T self, Action action) where T : MonoBehaviour
+        {
             self.Execute(DelayFrameAction.Allocate(1, action));
         }
 
-        public static IActionChain DelayFrame(this IActionChain self, int frameCount) {
+        public static IActionChain DelayFrame(this IActionChain self, int frameCount)
+        {
             return self.Append(DelayFrameAction.Allocate(frameCount));
         }
 
-        public static IActionChain NextFrame(this IActionChain self) {
+        public static IActionChain NextFrame(this IActionChain self)
+        {
             return self.Append(DelayFrameAction.Allocate(1));
         }
     }

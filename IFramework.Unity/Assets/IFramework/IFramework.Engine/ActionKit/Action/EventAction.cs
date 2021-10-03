@@ -51,7 +51,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 执行事件
         /// </summary>
-        protected override void OnExecute(float delta)
+        protected override void OnExecute()
         {
             onExecuteEvent.InvokeSafe();
             Finished = true;

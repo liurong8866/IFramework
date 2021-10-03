@@ -33,9 +33,9 @@ namespace IFramework.Engine
     public interface IAction : IDisposable, IResetable
     {
         /// <summary>
-        /// 执行
+        /// 执行事件
         /// </summary>
-        bool Execute(float delta);
+        bool Execute();
 
         /// <summary>
         /// 结束

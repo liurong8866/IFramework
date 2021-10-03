@@ -24,7 +24,7 @@ public class EventActionTest : MonoBehaviour
 
     private void Update()
     {
-        if (eventAction != null && !eventAction.Finished && eventAction.Execute(Time.deltaTime)) {
+        if (eventAction != null && !eventAction.Finished && eventAction.Execute()) {
             Log.Info("eventNode2 执行完成");
         }
     }

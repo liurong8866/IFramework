@@ -21,7 +21,7 @@ public class DelayActionTest : MonoBehaviour
     
     private void Update()
     {
-        if (mDelay3s != null && !mDelay3s.Finished && mDelay3s.Execute(Time.deltaTime)) {
+        if (mDelay3s != null && !mDelay3s.Finished && mDelay3s.Execute()) {
             Log.Info("Delay3s 执行完成");
         }
     }

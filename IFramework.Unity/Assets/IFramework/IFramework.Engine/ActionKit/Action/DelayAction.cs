@@ -34,10 +34,11 @@ namespace IFramework.Engine
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
     {
+        // 延迟时间
         [SerializeField] public float DelayTime;
-
+        // 延迟事件
         public Action OnDelayFinish { get; set; }
-
+        // 时间计数器
         private float currentSeconds;
 
         /// <summary>
@@ -54,7 +55,13 @@ namespace IFramework.Engine
         /// <summary>
         /// 执行事件
         /// </summary>
-        protected override void OnExecute(float delta)
+        protected override void OnExecute()
+        {
+            base.OnExecute();
+            OnExecute(Time.deltaTime);
+        }
+
+        protected void OnExecute(float delta)
         {
             // 判断是否超时，过了时间视为延迟结束
             currentSeconds += delta;
@@ -68,9 +75,10 @@ namespace IFramework.Engine
         protected override void OnReset()
         {
             currentSeconds = 0.0f;
-        } 
+        }
 
-        protected override void OnDispose() {
+        protected override void OnDispose()
+        {
             ObjectPool<DelayAction>.Instance.Recycle(this);
         }
 
@@ -89,7 +97,7 @@ namespace IFramework.Engine
     /// </summary>
     public static class DelayActionExtensions
     {
-        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour 
+        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
         {
             self.Execute(DelayAction.Allocate(seconds, action));
         }

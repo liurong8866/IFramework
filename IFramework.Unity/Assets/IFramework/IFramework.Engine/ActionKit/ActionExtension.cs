@@ -34,18 +34,18 @@ namespace IFramework.Engine
         /// </summary>
         public static T Execute<T>(this T self, IAction command) where T : MonoBehaviour
         {
-            self.StartCoroutine(command.Execute());
+            self.StartCoroutine(command.ExecuteAction());
             return self;
         }
 
         /// <summary>
         /// IAction 的扩展方法
         /// </summary>
-        public static IEnumerator Execute(this IAction self)
+        public static IEnumerator ExecuteAction(this IAction self)
         {
             if (self.Finished) self.Reset();
 
-            while (!self.Execute(Time.deltaTime)) {
+            while (!self.Execute()) {
                 yield return null;
             }
         }
