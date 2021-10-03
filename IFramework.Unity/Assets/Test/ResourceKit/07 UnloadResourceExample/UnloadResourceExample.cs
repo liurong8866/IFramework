@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UnloadResourceExample : MonoBehaviour
 {
-    IEnumerator Start()
+    private IEnumerator Start()
     {
         Image image = transform.Find("Image").GetComponent<Image>();
         ResourceLoader resLoader = ResourceLoader.Allocate();

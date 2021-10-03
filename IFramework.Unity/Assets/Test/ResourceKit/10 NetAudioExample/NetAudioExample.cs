@@ -6,7 +6,7 @@ public class NetAudioExample : MonoBehaviour
 {
     private VideoPlayer videoPlayer;
     private AudioSource audioSource;
-    ResourceLoader loader = new ResourceLoader();
+    private readonly ResourceLoader loader = new ResourceLoader();
 
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class NetAudioExample : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
     }
 
-    void Start()
+    private void Start()
     {
         loader.AddToLoad<AudioClip>(
             // ResourcesUrlType.VIDEO + "https://vd3.bdstatic.com/mda-ka5ayxd86t7z2h1r/mda-ka5ayxd86t7z2h1r.mp4",

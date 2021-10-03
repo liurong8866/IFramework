@@ -36,8 +36,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (bufferSize < 1024) {
                 bufferSize = 1024;
             }
-            rawData = new byte[bufferSize];
-            clearText = rawData;
+            RawData = new byte[bufferSize];
+            ClearText = RawData;
         }
 
         #endregion
@@ -45,39 +45,28 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Get the length of bytes bytes in the <see cref="RawData"/>
         /// </summary>
-        public int RawLength {
-            get { return rawLength; }
-        }
+        public int RawLength { get; private set; }
 
         /// <summary>
         /// Get the contents of the raw data buffer.
         /// </summary>
         /// <remarks>This may contain encrypted data.</remarks>
-        public byte[] RawData {
-            get { return rawData; }
-        }
+        public byte[] RawData { get; }
 
         /// <summary>
         /// Get the number of useable bytes in <see cref="ClearText"/>
         /// </summary>
-        public int ClearTextLength {
-            get { return clearTextLength; }
-        }
+        public int ClearTextLength { get; private set; }
 
         /// <summary>
         /// Get the contents of the clear text buffer.
         /// </summary>
-        public byte[] ClearText {
-            get { return clearText; }
-        }
+        public byte[] ClearText { get; private set; }
 
         /// <summary>
         /// Get/set the number of bytes available
         /// </summary>
-        public int Available {
-            get { return available; }
-            set { available = value; }
-        }
+        public int Available { get; set; }
 
         /// <summary>
         /// Call <see cref="Inflater.SetInput(byte[], int, int)"/> passing the current clear text buffer contents.
@@ -85,9 +74,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="inflater">The inflater to set input for.</param>
         public void SetInflaterInput(Inflater inflater)
         {
-            if (available > 0) {
-                inflater.SetInput(clearText, clearTextLength - available, available);
-                available = 0;
+            if (Available > 0) {
+                inflater.SetInput(ClearText, ClearTextLength - Available, Available);
+                Available = 0;
             }
         }
 
@@ -96,26 +85,26 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         public void Fill()
         {
-            rawLength = 0;
-            int toRead = rawData.Length;
+            RawLength = 0;
+            int toRead = RawData.Length;
 
             while (toRead > 0) {
-                int count = inputStream.Read(rawData, rawLength, toRead);
+                int count = inputStream.Read(RawData, RawLength, toRead);
 
                 if (count <= 0) {
                     break;
                 }
-                rawLength += count;
+                RawLength += count;
                 toRead -= count;
             }
 
             if (cryptoTransform != null) {
-                clearTextLength = cryptoTransform.TransformBlock(rawData, 0, rawLength, clearText, 0);
+                ClearTextLength = cryptoTransform.TransformBlock(RawData, 0, RawLength, ClearText, 0);
             }
             else {
-                clearTextLength = rawLength;
+                ClearTextLength = RawLength;
             }
-            available = clearTextLength;
+            Available = ClearTextLength;
         }
 
         /// <summary>
@@ -123,10 +112,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="buffer">The buffer to fill</param>
         /// <returns>Returns the number of bytes read.</returns>
-        public int ReadRawBuffer(byte[] buffer)
-        {
-            return ReadRawBuffer(buffer, 0, buffer.Length);
-        }
+        public int ReadRawBuffer(byte[] buffer) { return ReadRawBuffer(buffer, 0, buffer.Length); }
 
         /// <summary>
         /// Read a buffer directly from the input stream
@@ -144,18 +130,18 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             int currentLength = length;
 
             while (currentLength > 0) {
-                if (available <= 0) {
+                if (Available <= 0) {
                     Fill();
 
-                    if (available <= 0) {
+                    if (Available <= 0) {
                         return 0;
                     }
                 }
-                int toCopy = Math.Min(currentLength, available);
-                Array.Copy(rawData, rawLength - available, outBuffer, currentOffset, toCopy);
+                int toCopy = Math.Min(currentLength, Available);
+                Array.Copy(RawData, RawLength - Available, outBuffer, currentOffset, toCopy);
                 currentOffset += toCopy;
                 currentLength -= toCopy;
-                available -= toCopy;
+                Available -= toCopy;
             }
             return length;
         }
@@ -176,18 +162,18 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             int currentLength = length;
 
             while (currentLength > 0) {
-                if (available <= 0) {
+                if (Available <= 0) {
                     Fill();
 
-                    if (available <= 0) {
+                    if (Available <= 0) {
                         return 0;
                     }
                 }
-                int toCopy = Math.Min(currentLength, available);
-                Array.Copy(clearText, clearTextLength - available, outBuffer, currentOffset, toCopy);
+                int toCopy = Math.Min(currentLength, Available);
+                Array.Copy(ClearText, ClearTextLength - Available, outBuffer, currentOffset, toCopy);
                 currentOffset += toCopy;
                 currentLength -= toCopy;
-                available -= toCopy;
+                Available -= toCopy;
             }
             return length;
         }
@@ -198,15 +184,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <returns>Returns the byte read.</returns>
         public int ReadLeByte()
         {
-            if (available <= 0) {
+            if (Available <= 0) {
                 Fill();
 
-                if (available <= 0) {
+                if (Available <= 0) {
                     throw new ZipException("EOF in header");
                 }
             }
-            byte result = rawData[rawLength - available];
-            available -= 1;
+            byte result = RawData[RawLength - Available];
+            Available -= 1;
             return result;
         }
 
@@ -214,28 +200,19 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read an <see cref="short"/> in little endian byte order.
         /// </summary>
         /// <returns>The short value read case to an int.</returns>
-        public int ReadLeShort()
-        {
-            return ReadLeByte() | (ReadLeByte() << 8);
-        }
+        public int ReadLeShort() { return ReadLeByte() | (ReadLeByte() << 8); }
 
         /// <summary>
         /// Read an <see cref="int"/> in little endian byte order.
         /// </summary>
         /// <returns>The int value read.</returns>
-        public int ReadLeInt()
-        {
-            return ReadLeShort() | (ReadLeShort() << 16);
-        }
+        public int ReadLeInt() { return ReadLeShort() | (ReadLeShort() << 16); }
 
         /// <summary>
         /// Read a <see cref="long"/> in little endian byte order.
         /// </summary>
         /// <returns>The long value read.</returns>
-        public long ReadLeLong()
-        {
-            return (uint) ReadLeInt() | ((long) ReadLeInt() << 32);
-        }
+        public long ReadLeLong() { return (uint)ReadLeInt() | ((long)ReadLeInt() << 32); }
 
         /// <summary>
         /// Get/set the <see cref="ICryptoTransform"/> to apply to any data.
@@ -246,38 +223,31 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 cryptoTransform = value;
 
                 if (cryptoTransform != null) {
-                    if (rawData == clearText) {
+                    if (RawData == ClearText) {
                         if (internalClearText == null) {
-                            internalClearText = new byte[rawData.Length];
+                            internalClearText = new byte[RawData.Length];
                         }
-                        clearText = internalClearText;
+                        ClearText = internalClearText;
                     }
-                    clearTextLength = rawLength;
+                    ClearTextLength = RawLength;
 
-                    if (available > 0) {
-                        cryptoTransform.TransformBlock(rawData, rawLength - available, available, clearText, rawLength - available);
+                    if (Available > 0) {
+                        cryptoTransform.TransformBlock(RawData, RawLength - Available, Available, ClearText, RawLength - Available);
                     }
                 }
                 else {
-                    clearText = rawData;
-                    clearTextLength = rawLength;
+                    ClearText = RawData;
+                    ClearTextLength = RawLength;
                 }
             }
         }
 
         #region Instance Fields
 
-        private int rawLength;
-        private byte[] rawData;
-
-        private int clearTextLength;
-        private byte[] clearText;
         private byte[] internalClearText;
 
-        private int available;
-
         private ICryptoTransform cryptoTransform;
-        private Stream inputStream;
+        private readonly Stream inputStream;
 
         #endregion
     }
@@ -302,8 +272,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name = "baseInputStream">
         /// The InputStream to read bytes from
         /// </param>
-        public InflaterInputStream(Stream baseInputStream)
-                : this(baseInputStream, new Inflater(), 4096) { }
+        public InflaterInputStream(Stream baseInputStream) : this(baseInputStream, new Inflater(), 4096) { }
 
         /// <summary>
         /// Create an InflaterInputStream with the specified decompressor
@@ -315,8 +284,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name = "inf">
         /// The decompressor used to decompress data read from baseInputStream
         /// </param>
-        public InflaterInputStream(Stream baseInputStream, Inflater inf)
-                : this(baseInputStream, inf, 4096) { }
+        public InflaterInputStream(Stream baseInputStream, Inflater inf) : this(baseInputStream, inf, 4096) { }
 
         /// <summary>
         /// Create an InflaterInputStream with the specified decompressor
@@ -356,12 +324,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
         /// </summary>
         /// <remarks>The default value is true.</remarks>
-        private bool isStreamOwner = true;
-
-        public bool IsStreamOwner {
-            get { return isStreamOwner; }
-            set { isStreamOwner = value; }
-        }
+        public bool IsStreamOwner { get; set; } = true;
 
         /// <summary>
         /// Skip specified number of bytes of uncompressed data
@@ -390,15 +353,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             int length = 2048;
 
             if (count < length) {
-                length = (int) count;
+                length = (int)count;
             }
             byte[] tmp = new byte[length];
             int readCount = 1;
             long toSkip = count;
 
-            while ((toSkip > 0) && (readCount > 0)) {
+            while (toSkip > 0 && readCount > 0) {
                 if (toSkip < length) {
-                    length = (int) toSkip;
+                    length = (int)toSkip;
                 }
                 readCount = baseInputStream.Read(tmp, 0, length);
                 toSkip -= readCount;
@@ -409,10 +372,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Clear any cryptographic state.
         /// </summary>
-        protected void StopDecrypting()
-        {
-            inputBuffer.CryptoTransform = null;
-        }
+        protected void StopDecrypting() { inputBuffer.CryptoTransform = null; }
 
         /// <summary>
         /// Returns 0 once the end of the stream (EOF) has been reached.
@@ -487,10 +447,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush()
-        {
-            baseInputStream.Flush();
-        }
+        public override void Flush() { baseInputStream.Flush(); }
 
         /// <summary>
         /// Sets the position within the current stream
@@ -500,10 +457,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException("Seek not supported");
-        }
+        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("Seek not supported"); }
 
         /// <summary>
         /// Set the length of the current stream
@@ -511,10 +465,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException("InflaterInputStream SetLength not supported");
-        }
+        public override void SetLength(long value) { throw new NotSupportedException("InflaterInputStream SetLength not supported"); }
 
         /// <summary>
         /// Writes a sequence of bytes to stream and advances the current position
@@ -524,10 +475,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException("InflaterInputStream Write not supported");
-        }
+        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("InflaterInputStream Write not supported"); }
 
         /// <summary>
         /// Writes one byte to the current stream and advances the current position
@@ -535,10 +483,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value)
-        {
-            throw new NotSupportedException("InflaterInputStream WriteByte not supported");
-        }
+        public override void WriteByte(byte value) { throw new NotSupportedException("InflaterInputStream WriteByte not supported"); }
 
         /// <summary>
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
@@ -614,7 +559,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Base stream the inflater reads from.
         /// </summary>
-        private Stream baseInputStream;
+        private readonly Stream baseInputStream;
 
         /// <summary>
         /// The compressed size

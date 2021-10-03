@@ -17,8 +17,7 @@ namespace IFramework.Core.Zip.Tar
         /// Construct TarOutputStream using default block factor
         /// </summary>
         /// <param name="outputStream">stream to write to</param>
-        public TarOutputStream(Stream outputStream)
-                : this(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
+        public TarOutputStream(Stream outputStream) : this(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR) { }
 
         /// <summary>
         /// Construct TarOutputStream with user specified block factor
@@ -44,44 +43,36 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <remarks>The default value is true.</remarks>
         public bool IsStreamOwner {
-            get { return buffer.IsStreamOwner; }
-            set { buffer.IsStreamOwner = value; }
+            get => buffer.IsStreamOwner;
+            set => buffer.IsStreamOwner = value;
         }
 
         /// <summary>
         /// true if the stream supports reading; otherwise, false.
         /// </summary>
-        public override bool CanRead {
-            get { return outputStream.CanRead; }
-        }
+        public override bool CanRead => outputStream.CanRead;
 
         /// <summary>
         /// true if the stream supports seeking; otherwise, false.
         /// </summary>
-        public override bool CanSeek {
-            get { return outputStream.CanSeek; }
-        }
+        public override bool CanSeek => outputStream.CanSeek;
 
         /// <summary>
         /// true if stream supports writing; otherwise, false.
         /// </summary>
-        public override bool CanWrite {
-            get { return outputStream.CanWrite; }
-        }
+        public override bool CanWrite => outputStream.CanWrite;
 
         /// <summary>
         /// length of stream in bytes
         /// </summary>
-        public override long Length {
-            get { return outputStream.Length; }
-        }
+        public override long Length => outputStream.Length;
 
         /// <summary>
         /// gets or sets the position within the current stream.
         /// </summary>
         public override long Position {
-            get { return outputStream.Position; }
-            set { outputStream.Position = value; }
+            get => outputStream.Position;
+            set => outputStream.Position = value;
         }
 
         /// <summary>
@@ -90,29 +81,20 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">The offset relative to the <paramref name="origin"/> to seek to</param>
         /// <param name="origin">The <see cref="SeekOrigin"/> to seek from.</param>
         /// <returns>The new position in the stream.</returns>
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            return outputStream.Seek(offset, origin);
-        }
+        public override long Seek(long offset, SeekOrigin origin) { return outputStream.Seek(offset, origin); }
 
         /// <summary>
         /// Set the length of the current stream
         /// </summary>
         /// <param name="value">The new stream length.</param>
-        public override void SetLength(long value)
-        {
-            outputStream.SetLength(value);
-        }
+        public override void SetLength(long value) { outputStream.SetLength(value); }
 
         /// <summary>
         /// Read a byte from the stream and advance the position within the stream
         /// by one byte or returns -1 if at the end of the stream.
         /// </summary>
         /// <returns>The byte value or -1 if at end of stream</returns>
-        public override int ReadByte()
-        {
-            return outputStream.ReadByte();
-        }
+        public override int ReadByte() { return outputStream.ReadByte(); }
 
         /// <summary>
         /// read bytes from the current stream and advance the position within the
@@ -124,18 +106,12 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The total number of bytes read, or zero if at the end of the stream.
         /// The number of bytes may be less than the <paramref name="count">count</paramref>
         /// requested if data is not avialable.</returns>
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return outputStream.Read(buffer, offset, count);
-        }
+        public override int Read(byte[] buffer, int offset, int count) { return outputStream.Read(buffer, offset, count); }
 
         /// <summary>
         /// All buffered data is written to destination
         /// </summary>
-        public override void Flush()
-        {
-            outputStream.Flush();
-        }
+        public override void Flush() { outputStream.Flush(); }
 
         /// <summary>
         /// Ends the TAR archive without closing the underlying OutputStream.
@@ -166,9 +142,7 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get the record size being used by this stream's TarBuffer.
         /// </summary>
-        public int RecordSize {
-            get { return buffer.RecordSize; }
-        }
+        public int RecordSize => buffer.RecordSize;
 
         /// <summary>
         /// Get the record size being used by this stream's TarBuffer.
@@ -177,17 +151,12 @@ namespace IFramework.Core.Zip.Tar
         /// The TarBuffer record size.
         /// </returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize()
-        {
-            return buffer.RecordSize;
-        }
+        public int GetRecordSize() { return buffer.RecordSize; }
 
         /// <summary>
         /// Get a value indicating wether an entry is open, requiring more data to be written.
         /// </summary>
-        private bool IsEntryOpen {
-            get { return (currBytes < currSize); }
-        }
+        private bool IsEntryOpen => currBytes < currSize;
 
         /// <summary>
         /// Put an entry on the output stream. This writes the entry's
@@ -208,7 +177,7 @@ namespace IFramework.Core.Zip.Tar
             }
 
             if (entry.TarHeader.Name.Length > TarHeader.NAMELEN) {
-                var longHeader = new TarHeader();
+                TarHeader longHeader = new TarHeader();
                 longHeader.TypeFlag = TarHeader.LF_GNU_LONGNAME;
                 longHeader.Name = longHeader.Name + "././@LongLink";
                 longHeader.Mode = 420; //644 by default
@@ -254,9 +223,7 @@ namespace IFramework.Core.Zip.Tar
             }
 
             if (currBytes < currSize) {
-                string errorText = string.Format(
-                    "Entry closed at '{0}' before the '{1}' bytes specified in the header were written",
-                    currBytes, currSize);
+                string errorText = string.Format("Entry closed at '{0}' before the '{1}' bytes specified in the header were written", currBytes, currSize);
                 throw new TarException(errorText);
             }
         }
@@ -268,10 +235,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="value">
         /// The byte to be written.
         /// </param>
-        public override void WriteByte(byte value)
-        {
-            Write(new[] { value }, 0, 1);
-        }
+        public override void WriteByte(byte value) { Write(new[] { value }, 0, 1); }
 
         /// <summary>
         /// Writes bytes to the current tar archive entry. This method
@@ -309,9 +273,8 @@ namespace IFramework.Core.Zip.Tar
                 throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
             }
 
-            if ((currBytes + count) > currSize) {
-                string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes",
-                                                 count, currSize);
+            if (currBytes + count > currSize) {
+                string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes", count, currSize);
                 throw new ArgumentOutOfRangeException(nameof(count), errorText);
             }
 
@@ -323,7 +286,7 @@ namespace IFramework.Core.Zip.Tar
             //        eliminate some of the buffer copying.
             //
             if (assemblyBufferLength > 0) {
-                if ((assemblyBufferLength + count) >= blockBuffer.Length) {
+                if (assemblyBufferLength + count >= blockBuffer.Length) {
                     int aLen = blockBuffer.Length - assemblyBufferLength;
                     Array.Copy(assemblyBuffer, 0, blockBuffer, 0, assemblyBufferLength);
                     Array.Copy(buffer, offset, blockBuffer, assemblyBufferLength, aLen);

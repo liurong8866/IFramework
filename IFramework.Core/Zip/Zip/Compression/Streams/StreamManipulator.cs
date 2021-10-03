@@ -32,16 +32,14 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </returns>
         public int PeekBits(int bitCount)
         {
-            if (bitsInBuffer_ < bitCount) {
+            if (AvailableBits < bitCount) {
                 if (windowStart_ == windowEnd_) {
                     return -1; // ok
                 }
-
-                buffer_ |= (uint) ((window_[windowStart_++] & 0xff |
-                                    (window_[windowStart_++] & 0xff) << 8) << bitsInBuffer_);
-                bitsInBuffer_ += 16;
+                buffer_ |= (uint)(((window_[windowStart_++] & 0xff) | ((window_[windowStart_++] & 0xff) << 8)) << AvailableBits);
+                AvailableBits += 16;
             }
-            return (int) (buffer_ & ((1 << bitCount) - 1));
+            return (int)(buffer_ & ((1 << bitCount) - 1));
         }
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public void DropBits(int bitCount)
         {
             buffer_ >>= bitCount;
-            bitsInBuffer_ -= bitCount;
+            AvailableBits -= bitCount;
         }
 
         /// <summary>
@@ -81,9 +79,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <returns>
         /// the number of bits available.
         /// </returns>
-        public int AvailableBits {
-            get { return bitsInBuffer_; }
-        }
+        public int AvailableBits { get; private set; }
 
         /// <summary>
         /// Gets the number of bytes available.
@@ -91,25 +87,21 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <returns>
         /// The number of bytes available.
         /// </returns>
-        public int AvailableBytes {
-            get { return windowEnd_ - windowStart_ + (bitsInBuffer_ >> 3); }
-        }
+        public int AvailableBytes => windowEnd_ - windowStart_ + (AvailableBits >> 3);
 
         /// <summary>
         /// Skips to the next byte boundary.
         /// </summary>
         public void SkipToByteBoundary()
         {
-            buffer_ >>= (bitsInBuffer_ & 7);
-            bitsInBuffer_ &= ~7;
+            buffer_ >>= AvailableBits & 7;
+            AvailableBits &= ~7;
         }
 
         /// <summary>
         /// Returns true when SetInput can be called
         /// </summary>
-        public bool IsNeedingInput {
-            get { return windowStart_ == windowEnd_; }
-        }
+        public bool IsNeedingInput => windowStart_ == windowEnd_;
 
         /// <summary>
         /// Copies bytes from input buffer to output buffer starting
@@ -141,16 +133,16 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            if ((bitsInBuffer_ & 7) != 0) {
+            if ((AvailableBits & 7) != 0) {
                 // bits_in_buffer may only be 0 or a multiple of 8
                 throw new InvalidOperationException("Bit buffer is not byte aligned!");
             }
             int count = 0;
 
-            while ((bitsInBuffer_ > 0) && (length > 0)) {
-                output[offset++] = (byte) buffer_;
+            while (AvailableBits > 0 && length > 0) {
+                output[offset++] = (byte)buffer_;
                 buffer_ >>= 8;
-                bitsInBuffer_ -= 8;
+                AvailableBits -= 8;
                 length--;
                 count++;
             }
@@ -168,8 +160,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 
             if (((windowStart_ - windowEnd_) & 1) != 0) {
                 // We always want an even number of bytes in input, see peekBits
-                buffer_ = (uint) (window_[windowStart_++] & 0xff);
-                bitsInBuffer_ = 8;
+                buffer_ = (uint)(window_[windowStart_++] & 0xff);
+                AvailableBits = 8;
             }
             return count + length;
         }
@@ -180,7 +172,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public void Reset()
         {
             buffer_ = 0;
-            windowStart_ = windowEnd_ = bitsInBuffer_ = 0;
+            windowStart_ = windowEnd_ = AvailableBits = 0;
         }
 
         /// <summary>
@@ -211,14 +203,14 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 
             // We want to throw an ArrayIndexOutOfBoundsException early.
             // Note the check also handles integer wrap around.
-            if ((offset > end) || (end > buffer.Length)) {
+            if (offset > end || end > buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
             if ((count & 1) != 0) {
                 // We always want an even number of bytes in input, see PeekBits
-                buffer_ |= (uint) ((buffer[offset++] & 0xff) << bitsInBuffer_);
-                bitsInBuffer_ += 8;
+                buffer_ |= (uint)((buffer[offset++] & 0xff) << AvailableBits);
+                AvailableBits += 8;
             }
             window_ = buffer;
             windowStart_ = offset;
@@ -232,7 +224,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         private int windowEnd_;
 
         private uint buffer_;
-        private int bitsInBuffer_;
 
         #endregion
     }

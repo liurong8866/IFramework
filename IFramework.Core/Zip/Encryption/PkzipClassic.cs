@@ -16,7 +16,7 @@ namespace IFramework.Core.Zip.Encryption
         /// </summary>
         /// <param name="seed">The seed value to initialise keys with.</param>
         /// <returns>A new key value.</returns>
-        static public byte[] GenerateKeys(byte[] seed)
+        public static byte[] GenerateKeys(byte[] seed)
         {
             if (seed == null) {
                 throw new ArgumentNullException(nameof(seed));
@@ -25,32 +25,27 @@ namespace IFramework.Core.Zip.Encryption
             if (seed.Length == 0) {
                 throw new ArgumentException("Length is zero", nameof(seed));
             }
-
-            uint[] newKeys = {
-                0x12345678,
-                0x23456789,
-                0x34567890
-            };
+            uint[] newKeys = { 0x12345678, 0x23456789, 0x34567890 };
 
             for (int i = 0; i < seed.Length; ++i) {
                 newKeys[0] = Crc32.ComputeCrc32(newKeys[0], seed[i]);
-                newKeys[1] = newKeys[1] + (byte) newKeys[0];
+                newKeys[1] = newKeys[1] + (byte)newKeys[0];
                 newKeys[1] = newKeys[1] * 134775813 + 1;
-                newKeys[2] = Crc32.ComputeCrc32(newKeys[2], (byte) (newKeys[1] >> 24));
+                newKeys[2] = Crc32.ComputeCrc32(newKeys[2], (byte)(newKeys[1] >> 24));
             }
             byte[] result = new byte[12];
-            result[0] = (byte) (newKeys[0] & 0xff);
-            result[1] = (byte) ((newKeys[0] >> 8) & 0xff);
-            result[2] = (byte) ((newKeys[0] >> 16) & 0xff);
-            result[3] = (byte) ((newKeys[0] >> 24) & 0xff);
-            result[4] = (byte) (newKeys[1] & 0xff);
-            result[5] = (byte) ((newKeys[1] >> 8) & 0xff);
-            result[6] = (byte) ((newKeys[1] >> 16) & 0xff);
-            result[7] = (byte) ((newKeys[1] >> 24) & 0xff);
-            result[8] = (byte) (newKeys[2] & 0xff);
-            result[9] = (byte) ((newKeys[2] >> 8) & 0xff);
-            result[10] = (byte) ((newKeys[2] >> 16) & 0xff);
-            result[11] = (byte) ((newKeys[2] >> 24) & 0xff);
+            result[0] = (byte)(newKeys[0] & 0xff);
+            result[1] = (byte)((newKeys[0] >> 8) & 0xff);
+            result[2] = (byte)((newKeys[0] >> 16) & 0xff);
+            result[3] = (byte)((newKeys[0] >> 24) & 0xff);
+            result[4] = (byte)(newKeys[1] & 0xff);
+            result[5] = (byte)((newKeys[1] >> 8) & 0xff);
+            result[6] = (byte)((newKeys[1] >> 16) & 0xff);
+            result[7] = (byte)((newKeys[1] >> 24) & 0xff);
+            result[8] = (byte)(newKeys[2] & 0xff);
+            result[9] = (byte)((newKeys[2] >> 8) & 0xff);
+            result[10] = (byte)((newKeys[2] >> 16) & 0xff);
+            result[11] = (byte)((newKeys[2] >> 24) & 0xff);
             return result;
         }
     }
@@ -69,8 +64,8 @@ namespace IFramework.Core.Zip.Encryption
         /// </returns>
         protected byte TransformByte()
         {
-            uint temp = ((keys[2] & 0xFFFF) | 2);
-            return (byte) ((temp * (temp ^ 1)) >> 8);
+            uint temp = (keys[2] & 0xFFFF) | 2;
+            return (byte)((temp * (temp ^ 1)) >> 8);
         }
 
         /// <summary>
@@ -87,9 +82,9 @@ namespace IFramework.Core.Zip.Encryption
                 throw new InvalidOperationException("Key length is not valid");
             }
             keys = new uint[3];
-            keys[0] = (uint) ((keyData[3] << 24) | (keyData[2] << 16) | (keyData[1] << 8) | keyData[0]);
-            keys[1] = (uint) ((keyData[7] << 24) | (keyData[6] << 16) | (keyData[5] << 8) | keyData[4]);
-            keys[2] = (uint) ((keyData[11] << 24) | (keyData[10] << 16) | (keyData[9] << 8) | keyData[8]);
+            keys[0] = (uint)((keyData[3] << 24) | (keyData[2] << 16) | (keyData[1] << 8) | keyData[0]);
+            keys[1] = (uint)((keyData[7] << 24) | (keyData[6] << 16) | (keyData[5] << 8) | keyData[4]);
+            keys[2] = (uint)((keyData[11] << 24) | (keyData[10] << 16) | (keyData[9] << 8) | keyData[8]);
         }
 
         /// <summary>
@@ -98,9 +93,9 @@ namespace IFramework.Core.Zip.Encryption
         protected void UpdateKeys(byte ch)
         {
             keys[0] = Crc32.ComputeCrc32(keys[0], ch);
-            keys[1] = keys[1] + (byte) keys[0];
+            keys[1] = keys[1] + (byte)keys[0];
             keys[1] = keys[1] * 134775813 + 1;
-            keys[2] = Crc32.ComputeCrc32(keys[2], (byte) (keys[1] >> 24));
+            keys[2] = Crc32.ComputeCrc32(keys[2], (byte)(keys[1] >> 24));
         }
 
         /// <summary>
@@ -129,10 +124,7 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicEncryptCryptoTransform"></see>
         /// </summary>
         /// <param name="keyBlock">The key block to use.</param>
-        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock)
-        {
-            SetKeys(keyBlock);
-        }
+        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock) { SetKeys(keyBlock); }
 
         #region ICryptoTransform Members
 
@@ -164,7 +156,7 @@ namespace IFramework.Core.Zip.Encryption
         {
             for (int i = inputOffset; i < inputOffset + inputCount; ++i) {
                 byte oldbyte = inputBuffer[i];
-                outputBuffer[outputOffset++] = (byte) (inputBuffer[i] ^ TransformByte());
+                outputBuffer[outputOffset++] = (byte)(inputBuffer[i] ^ TransformByte());
                 UpdateKeys(oldbyte);
             }
             return inputCount;
@@ -173,30 +165,22 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Gets a value indicating whether the current transform can be reused.
         /// </summary>
-        public bool CanReuseTransform {
-            get { return true; }
-        }
+        public bool CanReuseTransform => true;
 
         /// <summary>
         /// Gets the size of the input data blocks in bytes.
         /// </summary>
-        public int InputBlockSize {
-            get { return 1; }
-        }
+        public int InputBlockSize => 1;
 
         /// <summary>
         /// Gets the size of the output data blocks in bytes.
         /// </summary>
-        public int OutputBlockSize {
-            get { return 1; }
-        }
+        public int OutputBlockSize => 1;
 
         /// <summary>
         /// Gets a value indicating whether multiple blocks can be transformed.
         /// </summary>
-        public bool CanTransformMultipleBlocks {
-            get { return true; }
-        }
+        public bool CanTransformMultipleBlocks => true;
 
         #endregion
 
@@ -205,10 +189,7 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose()
-        {
-            Reset();
-        }
+        public void Dispose() { Reset(); }
 
         #endregion
     }
@@ -222,10 +203,7 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicDecryptCryptoTransform"></see>.
         /// </summary>
         /// <param name="keyBlock">The key block to decrypt with.</param>
-        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock)
-        {
-            SetKeys(keyBlock);
-        }
+        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock) { SetKeys(keyBlock); }
 
         #region ICryptoTransform Members
 
@@ -256,7 +234,7 @@ namespace IFramework.Core.Zip.Encryption
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
             for (int i = inputOffset; i < inputOffset + inputCount; ++i) {
-                var newByte = (byte) (inputBuffer[i] ^ TransformByte());
+                byte newByte = (byte)(inputBuffer[i] ^ TransformByte());
                 outputBuffer[outputOffset++] = newByte;
                 UpdateKeys(newByte);
             }
@@ -266,30 +244,22 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Gets a value indicating whether the current transform can be reused.
         /// </summary>
-        public bool CanReuseTransform {
-            get { return true; }
-        }
+        public bool CanReuseTransform => true;
 
         /// <summary>
         /// Gets the size of the input data blocks in bytes.
         /// </summary>
-        public int InputBlockSize {
-            get { return 1; }
-        }
+        public int InputBlockSize => 1;
 
         /// <summary>
         /// Gets the size of the output data blocks in bytes.
         /// </summary>
-        public int OutputBlockSize {
-            get { return 1; }
-        }
+        public int OutputBlockSize => 1;
 
         /// <summary>
         /// Gets a value indicating whether multiple blocks can be transformed.
         /// </summary>
-        public bool CanTransformMultipleBlocks {
-            get { return true; }
-        }
+        public bool CanTransformMultipleBlocks => true;
 
         #endregion
 
@@ -298,10 +268,7 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose()
-        {
-            Reset();
-        }
+        public void Dispose() { Reset(); }
 
         #endregion
     }
@@ -317,7 +284,7 @@ namespace IFramework.Core.Zip.Encryption
         /// </summary>
         /// <remarks>The only valid block size is 8.</remarks>
         public override int BlockSize {
-            get { return 8; }
+            get => 8;
 
             set {
                 if (value != 8) {
@@ -364,7 +331,7 @@ namespace IFramework.Core.Zip.Encryption
                 if (key == null) {
                     GenerateKey();
                 }
-                return (byte[]) key.Clone();
+                return (byte[])key.Clone();
             }
 
             set {
@@ -375,7 +342,7 @@ namespace IFramework.Core.Zip.Encryption
                 if (value.Length != 12) {
                     throw new CryptographicException("Key size is illegal");
                 }
-                key = (byte[]) value.Clone();
+                key = (byte[])value.Clone();
             }
         }
 
@@ -385,7 +352,7 @@ namespace IFramework.Core.Zip.Encryption
         public override void GenerateKey()
         {
             key = new byte[12];
-            var rnd = new Random();
+            Random rnd = new Random();
             rnd.NextBytes(key);
         }
 
@@ -395,9 +362,7 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="rgbKey">The key to use for this encryptor.</param>
         /// <param name="rgbIv">Initialisation vector for the new encryptor.</param>
         /// <returns>Returns a new PkzipClassic encryptor</returns>
-        public override ICryptoTransform CreateEncryptor(
-            byte[] rgbKey,
-            byte[] rgbIv)
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIv)
         {
             key = rgbKey;
             return new PkzipClassicEncryptCryptoTransform(Key);
@@ -409,9 +374,7 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="rgbKey">Keys to use for this new decryptor.</param>
         /// <param name="rgbIv">Initialisation vector for the new decryptor.</param>
         /// <returns>Returns a new decryptor.</returns>
-        public override ICryptoTransform CreateDecryptor(
-            byte[] rgbKey,
-            byte[] rgbIv)
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIv)
         {
             key = rgbKey;
             return new PkzipClassicDecryptCryptoTransform(Key);

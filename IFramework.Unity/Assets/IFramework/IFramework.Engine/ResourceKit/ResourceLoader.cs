@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,10 +39,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现接口
         /// </summary>
-        public void OnRecycled()
-        {
-            ReleaseAllResource();
-        }
+        public void OnRecycled() { ReleaseAllResource(); }
 
         public bool IsRecycled { get; set; }
 
@@ -88,10 +61,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配资源函数
         /// </summary>
-        public static ResourceLoader Allocate()
-        {
-            return ObjectPool<ResourceLoader>.Instance.Allocate();
-        }
+        public static ResourceLoader Allocate() { return ObjectPool<ResourceLoader>.Instance.Allocate(); }
 
         /*----------------------------- 同步加载资源 -----------------------------*/
 
@@ -187,7 +157,7 @@ namespace IFramework.Engine
         /// </summary>
         public void LoadAsync(Action callback = null)
         {
-            this.currentCallback = callback;
+            currentCallback = callback;
             // 异步加载
             LoadAsyncMethod();
         }
@@ -344,7 +314,7 @@ namespace IFramework.Engine
             resource.Hold();
 
             // 资源添加到缓存
-            this.resourceList.Add(resource);
+            resourceList.Add(resource);
 
             // 放入等待加载列表
             if (resource.State != ResourceState.Ready) {
@@ -356,12 +326,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 在缓存的资源中查找
         /// </summary>
-        private IResource GetResourceInCache(ResourceSearcher searcher)
-        {
-            return resourceList.IsNullOrEmpty()
-                    ? null
-                    : resourceList.FirstOrDefault(resource => searcher.Match(resource));
-        }
+        private IResource GetResourceInCache(ResourceSearcher searcher) { return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource)); }
 
         /*----------------------------- 资源加载完毕后回调 -----------------------------*/
 
@@ -403,7 +368,7 @@ namespace IFramework.Engine
 
             // 在缓存中查找资源，如果没有则返回
             using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
-            IResource resource = ResourceManager.Instance.GetResource((searcher));
+            IResource resource = ResourceManager.Instance.GetResource(searcher);
             if (resource == null) return;
 
             // 清除待下载列表中的资源
@@ -447,7 +412,7 @@ namespace IFramework.Engine
 
             // 释放模拟器模式资源
             if (Platform.IsSimulation) {
-                foreach (var sprite in spriteMap) {
+                foreach (KeyValuePair<string, Sprite> sprite in spriteMap) {
                     sprite.Value.DestroySelf();
                 }
                 spriteMap.Clear();
@@ -531,10 +496,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现Disposable接口
         /// </summary>
-        protected override void DisposeManaged()
-        {
-            ReleaseAllResource();
-        }
+        protected override void DisposeManaged() { ReleaseAllResource(); }
 
         /// <summary>
         /// 回收资源时销毁

@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using UnityEditor;
 using UnityEngine;
 
@@ -69,9 +45,9 @@ namespace IFramework.Editor
         private string password = "pwd123456";
 
         private float minVal = -10.0f;
-        private float minLimit = -20.0f;
+        private readonly float minLimit = -20.0f;
         private float maxVal = 10.0f;
-        private float maxLimit = 20.0f;
+        private readonly float maxLimit = 20.0f;
 
         public void Awake()
         {
@@ -160,25 +136,13 @@ namespace IFramework.Editor
 
         private void Update() { }
 
-        private void OnFocus()
-        {
-            Debug.Log("当窗口获得焦点时调用一次");
-        }
+        private void OnFocus() { Debug.Log("当窗口获得焦点时调用一次"); }
 
-        private void OnLostFocus()
-        {
-            Debug.Log("当窗口丢失焦点时调用一次");
-        }
+        private void OnLostFocus() { Debug.Log("当窗口丢失焦点时调用一次"); }
 
-        private void OnHierarchyChange()
-        {
-            Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次");
-        }
+        private void OnHierarchyChange() { Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次"); }
 
-        private void OnProjectChange()
-        {
-            Debug.Log("当Project视图中的资源发生改变时调用一次");
-        }
+        private void OnProjectChange() { Debug.Log("当Project视图中的资源发生改变时调用一次"); }
 
         private void OnInspectorUpdate()
         {
@@ -196,9 +160,6 @@ namespace IFramework.Editor
             }
         }
 
-        private void OnDestroy()
-        {
-            Debug.Log("当窗口关闭时调用");
-        }
+        private void OnDestroy() { Debug.Log("当窗口关闭时调用"); }
     }
 }

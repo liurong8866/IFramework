@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using IFramework.Core;
 using UnityEngine;
@@ -29,7 +5,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 延时执行动作
+    /// 延时执行动作节点
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
@@ -72,15 +48,9 @@ namespace IFramework.Engine
             }
         }
 
-        protected override void OnReset()
-        {
-            currentSeconds = 0.0f;
-        }
+        protected override void OnReset() { currentSeconds = 0.0f; }
 
-        protected override void OnDispose()
-        {
-            ObjectPool<DelayAction>.Instance.Recycle(this);
-        }
+        protected override void OnDispose() { ObjectPool<DelayAction>.Instance.Recycle(this); }
 
         public void OnRecycled()
         {
@@ -100,17 +70,11 @@ namespace IFramework.Engine
         /// <summary>
         /// 延迟N秒
         /// </summary>
-        public static IActionChain Delay(this IActionChain self, float seconds)
-        {
-            return self.Append(DelayAction.Allocate(seconds));
-        }
-        
+        public static IActionChain Delay(this IActionChain self, float seconds) { return self.Append(DelayAction.Allocate(seconds)); }
+
         /// <summary>
         /// 延迟N秒执行某事件
         /// </summary>
-        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
-        {
-            self.Execute(DelayAction.Allocate(seconds, action));
-        }
+        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour { self.Execute(DelayAction.Allocate(seconds, action)); }
     }
 }

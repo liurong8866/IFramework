@@ -37,10 +37,7 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Initialise a default instance of <see cref="TarEntry"/>.
         /// </summary>
-        private TarEntry()
-        {
-            header = new TarHeader();
-        }
+        private TarEntry() { header = new TarHeader(); }
 
         /// <summary>
         /// Construct an entry from an archive's header bytes. File is set
@@ -64,7 +61,7 @@ namespace IFramework.Core.Zip.Tar
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
-            this.header = (TarHeader) header.Clone();
+            this.header = (TarHeader)header.Clone();
         }
 
         #endregion
@@ -77,9 +74,9 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>Returns a clone of this entry.</returns>
         public object Clone()
         {
-            var entry = new TarEntry();
+            TarEntry entry = new TarEntry();
             entry.file = file;
-            entry.header = (TarHeader) header.Clone();
+            entry.header = (TarHeader)header.Clone();
             entry.Name = Name;
             return entry;
         }
@@ -94,7 +91,7 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>Returns the newly created <see cref="TarEntry"/></returns>
         public static TarEntry CreateTarEntry(string name)
         {
-            var entry = new TarEntry();
+            TarEntry entry = new TarEntry();
             NameTarHeader(entry.header, name);
             return entry;
         }
@@ -107,7 +104,7 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>Returns the newly created <see cref="TarEntry"/></returns>
         public static TarEntry CreateEntryFromFile(string fileName)
         {
-            var entry = new TarEntry();
+            TarEntry entry = new TarEntry();
             entry.GetFileTarHeader(entry.header, fileName);
             return entry;
         }
@@ -122,7 +119,7 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public override bool Equals(object obj)
         {
-            var localEntry = obj as TarEntry;
+            TarEntry localEntry = obj as TarEntry;
 
             if (localEntry != null) {
                 return Name.Equals(localEntry.Name);
@@ -134,10 +131,7 @@ namespace IFramework.Core.Zip.Tar
         /// Derive a Hash value for the current <see cref="object"/>
         /// </summary>
         /// <returns>A Hash code for the current <see cref="object"/></returns>
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }
+        public override int GetHashCode() { return Name.GetHashCode(); }
 
         /// <summary>
         /// Determine if the given entry is a descendant of this entry.
@@ -164,48 +158,46 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// This entry's TarHeader.
         /// </returns>
-        public TarHeader TarHeader {
-            get { return header; }
-        }
+        public TarHeader TarHeader => header;
 
         /// <summary>
         /// Get/Set this entry's name.
         /// </summary>
         public string Name {
-            get { return header.Name; }
-            set { header.Name = value; }
+            get => header.Name;
+            set => header.Name = value;
         }
 
         /// <summary>
         /// Get/set this entry's user id.
         /// </summary>
         public int UserId {
-            get { return header.UserId; }
-            set { header.UserId = value; }
+            get => header.UserId;
+            set => header.UserId = value;
         }
 
         /// <summary>
         /// Get/set this entry's group id.
         /// </summary>
         public int GroupId {
-            get { return header.GroupId; }
-            set { header.GroupId = value; }
+            get => header.GroupId;
+            set => header.GroupId = value;
         }
 
         /// <summary>
         /// Get/set this entry's user name.
         /// </summary>
         public string UserName {
-            get { return header.UserName; }
-            set { header.UserName = value; }
+            get => header.UserName;
+            set => header.UserName = value;
         }
 
         /// <summary>
         /// Get/set this entry's group name.
         /// </summary>
         public string GroupName {
-            get { return header.GroupName; }
-            set { header.GroupName = value; }
+            get => header.GroupName;
+            set => header.GroupName = value;
         }
 
         /// <summary>
@@ -242,8 +234,8 @@ namespace IFramework.Core.Zip.Tar
         /// Get/Set the modification time for this entry
         /// </summary>
         public DateTime ModTime {
-            get { return header.ModTime; }
-            set { header.ModTime = value; }
+            get => header.ModTime;
+            set => header.ModTime = value;
         }
 
         /// <summary>
@@ -252,16 +244,14 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>
         /// This entry's file.
         /// </returns>
-        public string File {
-            get { return file; }
-        }
+        public string File => file;
 
         /// <summary>
         /// Get/set this entry's recorded file size.
         /// </summary>
         public long Size {
-            get { return header.Size; }
-            set { header.Size = value; }
+            get => header.Size;
+            set => header.Size = value;
         }
 
         /// <summary>
@@ -277,7 +267,7 @@ namespace IFramework.Core.Zip.Tar
                 }
 
                 if (header != null) {
-                    if ((header.TypeFlag == TarHeader.LF_DIR) || Name.EndsWith("/", StringComparison.Ordinal)) {
+                    if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) {
                         return true;
                     }
                 }
@@ -337,14 +327,14 @@ namespace IFramework.Core.Zip.Tar
             while (name.StartsWith("/", StringComparison.Ordinal)) {
                 name = name.Substring(1);
             }
-            header.LinkName = String.Empty;
+            header.LinkName = string.Empty;
             header.Name = name;
 
             if (Directory.Exists(file)) {
                 header.Mode = 1003; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_DIR;
 
-                if ((header.Name.Length == 0) || header.Name[header.Name.Length - 1] != '/') {
+                if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') {
                     header.Name = header.Name + "/";
                 }
                 header.Size = 0;
@@ -368,7 +358,7 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public TarEntry[] GetDirectoryEntries()
         {
-            if ((file == null) || !Directory.Exists(file)) {
+            if (file == null || !Directory.Exists(file)) {
                 return new TarEntry[0];
             }
             string[] list = Directory.GetFileSystemEntries(file);
@@ -386,10 +376,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "outBuffer">
         /// The tar entry header buffer to fill in.
         /// </param>
-        public void WriteEntryHeader(byte[] outBuffer)
-        {
-            header.WriteHeader(outBuffer);
-        }
+        public void WriteEntryHeader(byte[] outBuffer) { header.WriteHeader(outBuffer); }
 
         /// <summary>
         /// Convenience method that will modify an entry's name directly
@@ -401,10 +388,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="newName">
         /// The new name to place into the header buffer.
         /// </param>
-        static public void AdjustEntryName(byte[] buffer, string newName)
-        {
-            TarHeader.GetNameBytes(newName, buffer, 0, TarHeader.NAMELEN);
-        }
+        public static void AdjustEntryName(byte[] buffer, string newName) { TarHeader.GetNameBytes(newName, buffer, 0, TarHeader.NAMELEN); }
 
         /// <summary>
         /// Fill in a TarHeader given only the entry's name.
@@ -415,7 +399,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="name">
         /// The tar entry name.
         /// </param>
-        static public void NameTarHeader(TarHeader header, string name)
+        public static void NameTarHeader(TarHeader header, string name)
         {
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
@@ -432,9 +416,9 @@ namespace IFramework.Core.Zip.Tar
             header.Size = 0;
             header.ModTime = DateTime.UtcNow;
             header.TypeFlag = isDir ? TarHeader.LF_DIR : TarHeader.LF_NORMAL;
-            header.LinkName = String.Empty;
-            header.UserName = String.Empty;
-            header.GroupName = String.Empty;
+            header.LinkName = string.Empty;
+            header.UserName = string.Empty;
+            header.GroupName = string.Empty;
             header.DevMajor = 0;
             header.DevMinor = 0;
         }

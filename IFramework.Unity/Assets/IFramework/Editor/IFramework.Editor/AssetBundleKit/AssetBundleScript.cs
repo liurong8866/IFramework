@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -88,11 +64,7 @@ namespace IFramework.Editor
                 assetClass.Members.Add(classCode);
 
                 //添加字段 ASSET_BUNDLE_NAME
-                CodeMemberField bundleNameField = new CodeMemberField {
-                    Attributes = MemberAttributes.Public | MemberAttributes.Const,
-                    Name = "ASSET_BUNDLE_NAME",
-                    Type = new CodeTypeReference(typeof(System.String))
-                };
+                CodeMemberField bundleNameField = new CodeMemberField { Attributes = MemberAttributes.Public | MemberAttributes.Const, Name = "ASSET_BUNDLE_NAME", Type = new CodeTypeReference(typeof(string)) };
                 bundleNameField.InitExpression = new CodePrimitiveExpression(bundleName.ToLowerInvariant());
                 classCode.Members.Add(bundleNameField);
 
@@ -101,11 +73,7 @@ namespace IFramework.Editor
             }
             // 设置编译器
             CSharpCodeProvider provider = new CSharpCodeProvider();
-
-            CodeGeneratorOptions options = new CodeGeneratorOptions {
-                BlankLinesBetweenMembers = false,
-                BracingStyle = "CS"
-            };
+            CodeGeneratorOptions options = new CodeGeneratorOptions { BlankLinesBetweenMembers = false, BracingStyle = "CS" };
 
             // 写入文件
             using (StreamWriter sw = new StreamWriter(outputPath)) {
@@ -129,11 +97,7 @@ namespace IFramework.Editor
 
                 foreach (AssetDependence depend in depends) {
                     AssetBundleScriptModel model = new AssetBundleScriptModel(depend.AssetBundleName);
-
-                    model.assets = assetGroup.AssetInfos
-                                             .Where(info => info.AssetBundleName == depend.AssetBundleName)
-                                             .Select(info => info.AssetName)
-                                             .ToArray();
+                    model.assets = assetGroup.AssetInfos.Where(info => info.AssetBundleName == depend.AssetBundleName).Select(info => info.AssetName).ToArray();
                     assetModelList.Add(model);
                 }
             }
@@ -154,7 +118,7 @@ namespace IFramework.Editor
                 CodeMemberField assetField = new CodeMemberField { Attributes = MemberAttributes.Public | MemberAttributes.Const };
                 string content = Platform.GetFileNameByPath(asset, false);
                 assetField.Name = content.ToUpperInvariant().Replace("@", "_").Replace("!", "_").Replace("-", "_");
-                assetField.Type = new CodeTypeReference(typeof(System.String));
+                assetField.Type = new CodeTypeReference(typeof(string));
 
                 // 如果不是[开头，并且不重复
                 if (!assetField.Name.StartsWith("[") && !assetField.Name.StartsWith(" [") && !checkRepeatSet.Contains(assetField.Name)) {
@@ -175,9 +139,6 @@ namespace IFramework.Editor
         public readonly string Name;
         public string[] assets;
 
-        public AssetBundleScriptModel(string name)
-        {
-            this.Name = name;
-        }
+        public AssetBundleScriptModel(string name) { Name = name; }
     }
 }

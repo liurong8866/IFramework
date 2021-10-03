@@ -22,10 +22,7 @@ namespace IFramework.Core.Zip.Zip
         /// Initialize a new instance of <see cref="ZipNameTransform"></see>
         /// </summary>
         /// <param name="trimPrefix">The string to trim from the front of paths if found.</param>
-        public ZipNameTransform(string trimPrefix)
-        {
-            TrimPrefix = trimPrefix;
-        }
+        public ZipNameTransform(string trimPrefix) { TrimPrefix = trimPrefix; }
 
         #endregion
 
@@ -80,19 +77,19 @@ namespace IFramework.Core.Zip.Zip
             if (name != null) {
                 string lowerName = name.ToLowerInvariant();
 
-                if ((trimPrefix != null) && (lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0)) {
+                if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) {
                     name = name.Substring(trimPrefix.Length);
                 }
                 name = name.Replace(@"\", "/");
                 name = WindowsPathUtils.DropPathRoot(name);
 
                 // Drop any leading slashes.
-                while ((name.Length > 0) && (name[0] == '/')) {
+                while (name.Length > 0 && name[0] == '/') {
                     name = name.Remove(0, 1);
                 }
 
                 // Drop any trailing slashes.
-                while ((name.Length > 0) && (name[name.Length - 1] == '/')) {
+                while (name.Length > 0 && name[name.Length - 1] == '/') {
                     name = name.Remove(name.Length - 1, 1);
                 }
 
@@ -117,7 +114,7 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>The prefix is trimmed before any conversion from
         /// a windows path is done.</remarks>
         public string TrimPrefix {
-            get { return trimPrefix; }
+            get => trimPrefix;
             set {
                 trimPrefix = value;
 
@@ -138,7 +135,7 @@ namespace IFramework.Core.Zip.Zip
             int index = name.IndexOfAny(invalidEntryChars);
 
             if (index >= 0) {
-                var builder = new StringBuilder(name);
+                StringBuilder builder = new StringBuilder(name);
 
                 while (index >= 0) {
                     builder[index] = replacement;
@@ -173,16 +170,14 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         public static bool IsValidName(string name, bool relaxed)
         {
-            bool result = (name != null);
+            bool result = name != null;
 
             if (result) {
                 if (relaxed) {
                     result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;
                 }
                 else {
-                    result =
-                            (name.IndexOfAny(invalidEntryChars) < 0) &&
-                            (name.IndexOf('/') != 0);
+                    result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0;
                 }
             }
             return result;
@@ -202,11 +197,7 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         public static bool IsValidName(string name)
         {
-            bool result =
-                            (name != null) &&
-                            (name.IndexOfAny(invalidEntryChars) < 0) &&
-                            (name.IndexOf('/') != 0)
-                    ;
+            bool result = name != null && name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0;
             return result;
         }
 

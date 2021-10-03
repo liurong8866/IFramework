@@ -1,7 +1,7 @@
 using System.Collections;
+using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
-using IFramework.Core;
 
 namespace IFramework.Test.ResourceKit
 {

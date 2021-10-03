@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -75,10 +51,7 @@ namespace IFramework.Core
         /*----------------------------*/
 
         // 用于支持链式调用中类型转换
-        public static T As<T>(this object self) where T : class
-        {
-            return self as T;
-        }
+        public static T As<T>(this object self) where T : class { return self as T; }
 
         public static T Name<T>(this T self, string name) where T : Object
         {
@@ -86,49 +59,25 @@ namespace IFramework.Core
             return self;
         }
 
-        public static T Instantiate<T>(this T self) where T : Object
-        {
-            return Object.Instantiate(self);
-        }
+        public static T Instantiate<T>(this T self) where T : Object { return Object.Instantiate(self); }
 
         /*----------------------------*/
         /* Invoke                     */
         /*----------------------------*/
 
-        public static void InvokeSafe(this Action action)
-        {
-            action?.Invoke();
-        }
+        public static void InvokeSafe(this Action action) { action?.Invoke(); }
 
-        public static void InvokeSafe<T>(this Action<T> action, T param)
-        {
-            action?.Invoke(param);
-        }
+        public static void InvokeSafe<T>(this Action<T> action, T param) { action?.Invoke(param); }
 
-        public static void InvokeSafe<T, K>(this Action<T, K> action, T param1, K param2)
-        {
-            action?.Invoke(param1, param2);
-        }
+        public static void InvokeSafe<T, K>(this Action<T, K> action, T param1, K param2) { action?.Invoke(param1, param2); }
 
-        public static void InvokeSafe(this Delegate action, params object[] param)
-        {
-            action?.DynamicInvoke(param);
-        }
+        public static void InvokeSafe(this Delegate action, params object[] param) { action?.DynamicInvoke(param); }
 
-        public static T InvokeSafe<T>(this Func<T> function)
-        {
-            return function != null ? function() : default;
-        }
+        public static T InvokeSafe<T>(this Func<T> function) { return function != null ? function() : default; }
 
-        public static TResult InvokeSafe<T, TResult>(this Func<T, TResult> function, T param)
-        {
-            return function != null ? function.Invoke(param) : default;
-        }
+        public static TResult InvokeSafe<T, TResult>(this Func<T, TResult> function, T param) { return function != null ? function.Invoke(param) : default; }
 
-        public static TResult InvokeSafe<T, K, TResult>(this Func<T, K, TResult> function, T param1, K param2)
-        {
-            return function != null ? function.Invoke(param1, param2) : default;
-        }
+        public static TResult InvokeSafe<T, K, TResult>(this Func<T, K, TResult> function, T param1, K param2) { return function != null ? function.Invoke(param1, param2) : default; }
 
         public static T InvokeAction<T>(this T self, Action<T> action) where T : Object
         {
@@ -173,14 +122,8 @@ namespace IFramework.Core
         /* Json                       */
         /*----------------------------*/
 
-        public static string ToJson<T>(this T self) where T : class
-        {
-            return JsonUtility.ToJson(self, true);
-        }
+        public static string ToJson<T>(this T self) where T : class { return JsonUtility.ToJson(self, true); }
 
-        public static T FromJson<T>(this string json) where T : class
-        {
-            return JsonUtility.FromJson<T>(json);
-        }
+        public static T FromJson<T>(this string json) where T : class { return JsonUtility.FromJson<T>(json); }
     }
 }

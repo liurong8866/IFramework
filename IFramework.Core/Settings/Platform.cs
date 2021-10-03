@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.IO;
 using UnityEditor;
@@ -52,24 +28,15 @@ namespace IFramework.Core
         public static BuildTarget CurrentBuildPlatform {
             get {
                 switch (Configure.CurrentPlatform.Value) {
-                    case 0:
-                        return BuildTarget.StandaloneWindows;
-                    case 1:
-                        return BuildTarget.StandaloneOSX;
-                    case 2:
-                        return BuildTarget.iOS;
-                    case 3:
-                        return BuildTarget.Android;
-                    case 4:
-                        return BuildTarget.WebGL;
-                    case 5:
-                        return BuildTarget.PS4;
-                    case 6:
-                        return BuildTarget.PS5;
-                    case 7:
-                        return BuildTarget.XboxOne;
-                    default:
-                        return BuildTarget.StandaloneWindows;
+                    case 0: return BuildTarget.StandaloneWindows;
+                    case 1: return BuildTarget.StandaloneOSX;
+                    case 2: return BuildTarget.iOS;
+                    case 3: return BuildTarget.Android;
+                    case 4: return BuildTarget.WebGL;
+                    case 5: return BuildTarget.PS4;
+                    case 6: return BuildTarget.PS5;
+                    case 7: return BuildTarget.XboxOne;
+                    default: return BuildTarget.StandaloneWindows;
                 }
             }
         }
@@ -80,30 +47,19 @@ namespace IFramework.Core
         public static string GetPlatformName(RuntimePlatform platform)
         {
             switch (platform) {
-                case RuntimePlatform.WindowsPlayer:
-                    return "Windows";
-                case RuntimePlatform.OSXPlayer:
-                    return "MacOS";
-                case RuntimePlatform.LinuxPlayer:
-                    return "Linux";
-                case RuntimePlatform.IPhonePlayer:
-                    return "iOS";
-                case RuntimePlatform.Android:
-                    return "Android";
-                case RuntimePlatform.WebGLPlayer:
-                    return "WebGL";
-                case RuntimePlatform.PS4:
-                    return "PS4";
-                case RuntimePlatform.PS5:
-                    return "PS5";
-                case RuntimePlatform.XboxOne:
-                    return "XboxOne";
+                case RuntimePlatform.WindowsPlayer: return "Windows";
+                case RuntimePlatform.OSXPlayer: return "MacOS";
+                case RuntimePlatform.LinuxPlayer: return "Linux";
+                case RuntimePlatform.IPhonePlayer: return "iOS";
+                case RuntimePlatform.Android: return "Android";
+                case RuntimePlatform.WebGLPlayer: return "WebGL";
+                case RuntimePlatform.PS4: return "PS4";
+                case RuntimePlatform.PS5: return "PS5";
+                case RuntimePlatform.XboxOne: return "XboxOne";
                 case RuntimePlatform.WSAPlayerARM:
                 case RuntimePlatform.WSAPlayerX64:
-                case RuntimePlatform.WSAPlayerX86:
-                    return "WSAPlayer";
-                default:
-                    return null;
+                case RuntimePlatform.WSAPlayerX86: return "WSAPlayer";
+                default: return null;
             }
         }
 
@@ -229,10 +185,7 @@ namespace IFramework.Core
         /// <summary>
         /// 根据路径获得资源名
         /// </summary>
-        public static string GetAssetBundleNameByUrl(string url)
-        {
-            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
-        }
+        public static string GetAssetBundleNameByUrl(string url) { return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", ""); }
 
         /// <summary>
         /// 根据资源名获得资源路径

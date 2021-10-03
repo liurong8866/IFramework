@@ -48,7 +48,7 @@ namespace IFramework.Core.Zip
 
             try {
                 #pragma warning disable 0219
-                var exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                Regex exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 #pragma warning restore 0219
             }
             catch (ArgumentException) {
@@ -71,7 +71,7 @@ namespace IFramework.Core.Zip
                     string[] items = SplitQuoted(toTest);
 
                     for (int i = 0; i < items.Length; ++i) {
-                        if ((items[i] != null) && (items[i].Length > 0)) {
+                        if (items[i] != null && items[i].Length > 0) {
                             string toCompile;
 
                             if (items[i][0] == '+') {
@@ -84,7 +84,7 @@ namespace IFramework.Core.Zip
                                 toCompile = items[i];
                             }
                             #pragma warning disable 0219
-                            var testRegex = new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            Regex testRegex = new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                             #pragma warning restore 0219
                         }
                     }
@@ -105,11 +105,11 @@ namespace IFramework.Core.Zip
         {
             char escape = '\\';
             char[] separators = { ';' };
-            var result = new List<string>();
+            List<string> result = new List<string>();
 
             if (!string.IsNullOrEmpty(original)) {
                 int endIndex = -1;
-                var b = new StringBuilder();
+                StringBuilder b = new StringBuilder();
 
                 while (endIndex < original.Length) {
                     endIndex += 1;
@@ -125,8 +125,7 @@ namespace IFramework.Core.Zip
                         }
 
                         // include escape if this is not an escaped separator
-                        if (Array.IndexOf(separators, original[endIndex]) < 0)
-                            b.Append(escape);
+                        if (Array.IndexOf(separators, original[endIndex]) < 0) b.Append(escape);
                         b.Append(original[endIndex]);
                     }
                     else {
@@ -147,10 +146,7 @@ namespace IFramework.Core.Zip
         /// Convert this filter to its string equivalent.
         /// </summary>
         /// <returns>The string equivalent for this filter.</returns>
-        public override string ToString()
-        {
-            return filter;
-        }
+        public override string ToString() { return filter; }
 
         /// <summary>
         /// Test a value to see if it is included by the filter.
@@ -200,10 +196,7 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The value to test.</param>
         /// <returns>True if the value matches, false otherwise.</returns>
-        public bool IsMatch(string name)
-        {
-            return (IsIncluded(name) && !IsExcluded(name));
-        }
+        public bool IsMatch(string name) { return IsIncluded(name) && !IsExcluded(name); }
 
         #endregion
 
@@ -220,8 +213,8 @@ namespace IFramework.Core.Zip
             string[] items = SplitQuoted(filter);
 
             for (int i = 0; i < items.Length; ++i) {
-                if ((items[i] != null) && (items[i].Length > 0)) {
-                    bool include = (items[i][0] != '-');
+                if (items[i] != null && items[i].Length > 0) {
+                    bool include = items[i][0] != '-';
                     string toCompile;
 
                     if (items[i][0] == '+') {
@@ -249,9 +242,9 @@ namespace IFramework.Core.Zip
 
         #region Instance Fields
 
-        private string filter;
-        private List<Regex> inclusions;
-        private List<Regex> exclusions;
+        private readonly string filter;
+        private readonly List<Regex> inclusions;
+        private readonly List<Regex> exclusions;
 
         #endregion
     }

@@ -198,7 +198,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         public void Reset()
         {
-            state = (noZlibHeaderOrFooter ? BUSY_STATE : INIT_STATE);
+            state = noZlibHeaderOrFooter ? BUSY_STATE : INIT_STATE;
             totalOut = 0;
             pending.Reset();
             engine.Reset();
@@ -207,23 +207,17 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Gets the current adler checksum of the data that was processed so far.
         /// </summary>
-        public int Adler {
-            get { return engine.Adler; }
-        }
+        public int Adler => engine.Adler;
 
         /// <summary>
         /// Gets the number of input bytes processed so far.
         /// </summary>
-        public long TotalIn {
-            get { return engine.TotalIn; }
-        }
+        public long TotalIn => engine.TotalIn;
 
         /// <summary>
         /// Gets the number of output bytes so far.
         /// </summary>
-        public long TotalOut {
-            get { return totalOut; }
-        }
+        public long TotalOut => totalOut;
 
         /// <summary>
         /// Flushes the current input block.  Further calls to deflate() will
@@ -232,28 +226,20 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// private.  It is used by DeflaterOutputStream to implement
         /// flush().
         /// </summary>
-        public void Flush()
-        {
-            state |= IS_FLUSHING;
-        }
+        public void Flush() { state |= IS_FLUSHING; }
 
         /// <summary>
         /// Finishes the deflater with the current input block.  It is an error
         /// to give more input after this method was called.  This method must
         /// be called to force all bytes to be flushed.
         /// </summary>
-        public void Finish()
-        {
-            state |= (IS_FLUSHING | IS_FINISHING);
-        }
+        public void Finish() { state |= IS_FLUSHING | IS_FINISHING; }
 
         /// <summary>
         /// Returns true if the stream was finished and no more output bytes
         /// are available.
         /// </summary>
-        public bool IsFinished {
-            get { return (state == FINISHED_STATE) && pending.IsFlushed; }
-        }
+        public bool IsFinished => state == FINISHED_STATE && pending.IsFlushed;
 
         /// <summary>
         /// Returns true, if the input buffer is empty.
@@ -261,9 +247,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// NOTE: This method can also return true when the stream
         /// was finished.
         /// </summary>
-        public bool IsNeedingInput {
-            get { return engine.NeedsInput(); }
-        }
+        public bool IsNeedingInput => engine.NeedsInput();
 
         /// <summary>
         /// Sets the data which should be compressed next.  This should be only
@@ -280,10 +264,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// if the buffer was finished() or ended().
         /// </exception>
-        public void SetInput(byte[] input)
-        {
-            SetInput(input, 0, input.Length);
-        }
+        public void SetInput(byte[] input) { SetInput(input, 0, input.Length); }
 
         /// <summary>
         /// Sets the data which should be compressed next.  This should be
@@ -339,10 +320,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Get current compression level
         /// </summary>
         /// <returns>Returns the current compression level</returns>
-        public int GetLevel()
-        {
-            return level;
-        }
+        public int GetLevel() { return level; }
 
         /// <summary>
         /// Sets the compression strategy. Strategy is one of
@@ -353,10 +331,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="strategy">
         /// The new compression strategy.
         /// </param>
-        public void SetStrategy(DeflateStrategy strategy)
-        {
-            engine.Strategy = strategy;
-        }
+        public void SetStrategy(DeflateStrategy strategy) { engine.Strategy = strategy; }
 
         /// <summary>
         /// Deflates the current input block with to the given array.
@@ -368,10 +343,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// The number of compressed bytes added to the output, or 0 if either
         /// IsNeedingInput() or IsFinished returns true or length is zero.
         /// </returns>
-        public int Deflate(byte[] output)
-        {
-            return Deflate(output, 0, output.Length);
-        }
+        public int Deflate(byte[] output) { return Deflate(output, 0, output.Length); }
 
         /// <summary>
         /// Deflates the current input block to the given array.
@@ -405,8 +377,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 
             if (state < BUSY_STATE) {
                 // output header
-                int header = (DEFLATED +
-                              ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
+                int header = (DEFLATED + ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
                 int level_flags = (level - 1) >> 1;
 
                 if (level_flags < 0 || level_flags > 3) {
@@ -418,7 +389,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                     // Dictionary was set
                     header |= DeflaterConstants.PRESET_DICT;
                 }
-                header += 31 - (header % 31);
+                header += 31 - header % 31;
                 pending.WriteShortMsb(header);
 
                 if ((state & IS_SETDICT) != 0) {
@@ -451,7 +422,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                                  * is needed by the zlib inflater, and we must fill
                                  * the next byte, so that all bits are flushed.
                                  */
-                                int neededbits = 8 + ((-pending.BitCount) & 7);
+                                int neededbits = 8 + (-pending.BitCount & 7);
 
                                 while (neededbits > 0) {
                                     /* write a static tree block consisting solely of
@@ -490,10 +461,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.InvalidOperationException">
         /// if SetInput () or Deflate () were already called or another dictionary was already set.
         /// </exception>
-        public void SetDictionary(byte[] dictionary)
-        {
-            SetDictionary(dictionary, 0, dictionary.Length);
-        }
+        public void SetDictionary(byte[] dictionary) { SetDictionary(dictionary, 0, dictionary.Length); }
 
         /// <summary>
         /// Sets the dictionary which should be used in the deflate process.
@@ -534,7 +502,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// If true no Zlib/RFC1950 headers or footers are generated
         /// </summary>
-        private bool noZlibHeaderOrFooter;
+        private readonly bool noZlibHeaderOrFooter;
 
         /// <summary>
         /// The current state.
@@ -549,12 +517,12 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// The pending output.
         /// </summary>
-        private DeflaterPending pending;
+        private readonly DeflaterPending pending;
 
         /// <summary>
         /// The deflater engine.
         /// </summary>
-        private DeflaterEngine engine;
+        private readonly DeflaterEngine engine;
 
         #endregion
     }

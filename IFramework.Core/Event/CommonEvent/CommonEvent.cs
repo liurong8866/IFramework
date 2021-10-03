@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections.Generic;
 
@@ -67,7 +43,7 @@ namespace IFramework.Core
         /// </summary>
         public void UnRegisterEvent<T>(T key) where T : IConvertible
         {
-            var keyValue = key.ToInt32(null);
+            int keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 listener?.Clear();
@@ -109,10 +85,7 @@ namespace IFramework.Core
         /// <summary>
         /// 回收资源
         /// </summary>
-        public void OnRecycled()
-        {
-            listenerMap.Clear();
-        }
+        public void OnRecycled() { listenerMap.Clear(); }
 
         public bool IsRecycled { get; set; }
 
@@ -123,42 +96,27 @@ namespace IFramework.Core
         /// <summary>
         /// 发送无参数消息
         /// </summary>
-        public static bool Send<T>(T key) where T : IConvertible
-        {
-            return Instance.SendEvent(key);
-        }
+        public static bool Send<T>(T key) where T : IConvertible { return Instance.SendEvent(key); }
 
         /// <summary>
         /// 发送有参数消息
         /// </summary>
-        public static bool Send<T>(T key, params object[] param) where T : IConvertible
-        {
-            return Instance.SendEvent(key, param);
-        }
+        public static bool Send<T>(T key, params object[] param) where T : IConvertible { return Instance.SendEvent(key, param); }
 
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static bool Register<T>(T key, TEvent action) where T : IConvertible
-        {
-            return Instance.RegisterEvent(key, action);
-        }
+        public static bool Register<T>(T key, TEvent action) where T : IConvertible { return Instance.RegisterEvent(key, action); }
 
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible
-        {
-            Instance.UnRegisterEvent(key, action);
-        }
+        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible { Instance.UnRegisterEvent(key, action); }
 
         /// <summary>
         /// 取消注册某一类型事件
         /// </summary>
-        public static void UnRegister<T>(T key) where T : IConvertible
-        {
-            Instance.UnRegisterEvent(key);
-        }
+        public static void UnRegister<T>(T key) where T : IConvertible { Instance.UnRegisterEvent(key); }
     }
 
     /// <summary>

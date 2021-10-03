@@ -24,7 +24,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// #ZipLib will determine use based on entry values when added to archive.
         /// </summary>
-        Dynamic,
+        Dynamic
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// WinZip special for AES encryption, Now supported by #Zip.
         /// </summary>
-        WinZipAes = 99,
+        WinZipAes = 99
     }
 
     /// <summary>
@@ -445,10 +445,9 @@ namespace IFramework.Core.Zip.Zip
         /// European users, however be careful about compatability.
         /// </summary>
         public static int DefaultCodePage {
-            get { return defaultCodePage; }
+            get => defaultCodePage;
             set {
-                if ((value < 0) || (value > 65535) ||
-                    (value == 1) || (value == 2) || (value == 3) || (value == 42)) {
+                if (value < 0 || value > 65535 || value == 1 || value == 2 || value == 3 || value == 42) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 defaultCodePage = value;
@@ -509,7 +508,7 @@ namespace IFramework.Core.Zip.Zip
                 return string.Empty;
             }
 
-            if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
+            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, count);
             }
             return ConvertToString(data, count);
@@ -531,7 +530,7 @@ namespace IFramework.Core.Zip.Zip
                 return string.Empty;
             }
 
-            if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
+            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, data.Length);
             }
             return ConvertToString(data, data.Length);
@@ -566,7 +565,7 @@ namespace IFramework.Core.Zip.Zip
                 return new byte[0];
             }
 
-            if ((flags & (int) GeneralBitFlags.UnicodeText) != 0) {
+            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetBytes(str);
             }
             return ConvertToArray(str);

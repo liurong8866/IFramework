@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.U2D;

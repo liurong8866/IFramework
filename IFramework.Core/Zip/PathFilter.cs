@@ -16,10 +16,7 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="PathFilter"></see>.
         /// </summary>
         /// <param name="filter">The <see cref="NameFilter">filter</see> expression to apply.</param>
-        public PathFilter(string filter)
-        {
-            nameFilter = new NameFilter(filter);
-        }
+        public PathFilter(string filter) { nameFilter = new NameFilter(filter); }
 
         #endregion
 
@@ -36,7 +33,7 @@ namespace IFramework.Core.Zip
             bool result = false;
 
             if (name != null) {
-                string cooked = (name.Length > 0) ? Path.GetFullPath(name) : "";
+                string cooked = name.Length > 0 ? Path.GetFullPath(name) : "";
                 result = nameFilter.IsMatch(cooked);
             }
             return result;
@@ -67,9 +64,7 @@ namespace IFramework.Core.Zip
         /// <param name="filter">The filter to apply.</param>
         /// <param name="minSize">The minimum file size to include.</param>
         /// <param name="maxSize">The maximum file size to include.</param>
-        public ExtendedPathFilter(string filter,
-                                  long minSize, long maxSize)
-                : base(filter)
+        public ExtendedPathFilter(string filter, long minSize, long maxSize) : base(filter)
         {
             MinSize = minSize;
             MaxSize = maxSize;
@@ -81,9 +76,7 @@ namespace IFramework.Core.Zip
         /// <param name="filter">The filter to apply.</param>
         /// <param name="minDate">The minimum <see cref="DateTime"/> to include.</param>
         /// <param name="maxDate">The maximum <see cref="DateTime"/> to include.</param>
-        public ExtendedPathFilter(string filter,
-                                  DateTime minDate, DateTime maxDate)
-                : base(filter)
+        public ExtendedPathFilter(string filter, DateTime minDate, DateTime maxDate) : base(filter)
         {
             MinDate = minDate;
             MaxDate = maxDate;
@@ -97,10 +90,7 @@ namespace IFramework.Core.Zip
         /// <param name="maxSize">The maximum file size to include.</param>
         /// <param name="minDate">The minimum <see cref="DateTime"/> to include.</param>
         /// <param name="maxDate">The maximum <see cref="DateTime"/> to include.</param>
-        public ExtendedPathFilter(string filter,
-                                  long minSize, long maxSize,
-                                  DateTime minDate, DateTime maxDate)
-                : base(filter)
+        public ExtendedPathFilter(string filter, long minSize, long maxSize, DateTime minDate, DateTime maxDate) : base(filter)
         {
             MinSize = minSize;
             MaxSize = maxSize;
@@ -123,14 +113,8 @@ namespace IFramework.Core.Zip
             bool result = base.IsMatch(name);
 
             if (result) {
-                var fileInfo = new FileInfo(name);
-
-                result =
-                        (MinSize <= fileInfo.Length) &&
-                        (MaxSize >= fileInfo.Length) &&
-                        (MinDate <= fileInfo.LastWriteTime) &&
-                        (MaxDate >= fileInfo.LastWriteTime)
-                        ;
+                FileInfo fileInfo = new FileInfo(name);
+                result = MinSize <= fileInfo.Length && MaxSize >= fileInfo.Length && MinDate <= fileInfo.LastWriteTime && MaxDate >= fileInfo.LastWriteTime;
             }
             return result;
         }
@@ -145,9 +129,9 @@ namespace IFramework.Core.Zip
         /// <remarks>The default value is zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException">value is less than zero; greater than <see cref="MaxSize"/></exception>
         public long MinSize {
-            get { return minSize; }
+            get => minSize;
             set {
-                if ((value < 0) || (maxSize < value)) {
+                if (value < 0 || maxSize < value) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 minSize = value;
@@ -160,9 +144,9 @@ namespace IFramework.Core.Zip
         /// <remarks>The default value is <see cref="System.Int64.MaxValue"/></remarks>
         /// <exception cref="ArgumentOutOfRangeException">value is less than zero or less than <see cref="MinSize"/></exception>
         public long MaxSize {
-            get { return maxSize; }
+            get => maxSize;
             set {
-                if ((value < 0) || (minSize > value)) {
+                if (value < 0 || minSize > value) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 maxSize = value;
@@ -174,7 +158,7 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <remarks>Files with a LastWrite time less than this value are excluded by the filter.</remarks>
         public DateTime MinDate {
-            get { return minDate; }
+            get => minDate;
 
             set {
                 if (value > maxDate) {
@@ -189,7 +173,7 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <remarks>Files with a LastWrite time greater than this value are excluded by the filter.</remarks>
         public DateTime MaxDate {
-            get { return maxDate; }
+            get => maxDate;
 
             set {
                 if (minDate > value) {
@@ -224,8 +208,7 @@ namespace IFramework.Core.Zip
         /// <param name="filter">The filter to apply.</param>
         /// <param name="minSize">The minimum file size to include.</param>
         /// <param name="maxSize">The maximum file size to include.</param>
-        public NameAndSizeFilter(string filter, long minSize, long maxSize)
-                : base(filter)
+        public NameAndSizeFilter(string filter, long minSize, long maxSize) : base(filter)
         {
             MinSize = minSize;
             MaxSize = maxSize;
@@ -241,12 +224,9 @@ namespace IFramework.Core.Zip
             bool result = base.IsMatch(name);
 
             if (result) {
-                var fileInfo = new FileInfo(name);
+                FileInfo fileInfo = new FileInfo(name);
                 long length = fileInfo.Length;
-
-                result =
-                        (MinSize <= length) &&
-                        (MaxSize >= length);
+                result = MinSize <= length && MaxSize >= length;
             }
             return result;
         }
@@ -255,9 +235,9 @@ namespace IFramework.Core.Zip
         /// Get/set the minimum size for a file that will match this filter.
         /// </summary>
         public long MinSize {
-            get { return minSize; }
+            get => minSize;
             set {
-                if ((value < 0) || (maxSize < value)) {
+                if (value < 0 || maxSize < value) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 minSize = value;
@@ -268,9 +248,9 @@ namespace IFramework.Core.Zip
         /// Get/set the maximum size for a file that will match this filter.
         /// </summary>
         public long MaxSize {
-            get { return maxSize; }
+            get => maxSize;
             set {
-                if ((value < 0) || (minSize > value)) {
+                if (value < 0 || minSize > value) {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 maxSize = value;

@@ -52,7 +52,7 @@ namespace IFramework.Core.Zip.Zip
             DirectoryFailureHandler handler = directoryFailure;
 
             if (handler != null) {
-                var args = new ScanFailureEventArgs(directory, e);
+                ScanFailureEventArgs args = new ScanFailureEventArgs(directory, e);
                 handler(this, args);
                 result = args.ContinueRunning;
             }
@@ -68,10 +68,10 @@ namespace IFramework.Core.Zip.Zip
         public bool OnFileFailure(string file, Exception e)
         {
             FileFailureHandler handler = fileFailure;
-            bool result = (handler != null);
+            bool result = handler != null;
 
             if (result) {
-                var args = new ScanFailureEventArgs(file, e);
+                ScanFailureEventArgs args = new ScanFailureEventArgs(file, e);
                 handler(this, args);
                 result = args.ContinueRunning;
             }
@@ -89,7 +89,7 @@ namespace IFramework.Core.Zip.Zip
             ProcessFileHandler handler = processFile;
 
             if (handler != null) {
-                var args = new ScanEventArgs(file);
+                ScanEventArgs args = new ScanEventArgs(file);
                 handler(this, args);
                 result = args.ContinueRunning;
             }
@@ -107,7 +107,7 @@ namespace IFramework.Core.Zip.Zip
             CompletedFileHandler handler = completedFile;
 
             if (handler != null) {
-                var args = new ScanEventArgs(file);
+                ScanEventArgs args = new ScanEventArgs(file);
                 handler(this, args);
                 result = args.ContinueRunning;
             }
@@ -126,7 +126,7 @@ namespace IFramework.Core.Zip.Zip
             EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
 
             if (handler != null) {
-                var args = new DirectoryEventArgs(directory, hasMatchingFiles);
+                DirectoryEventArgs args = new DirectoryEventArgs(directory, hasMatchingFiles);
                 handler(this, args);
                 result = args.ContinueRunning;
             }
@@ -139,14 +139,9 @@ namespace IFramework.Core.Zip.Zip
         /// <value>The minimum period of time between <see cref="progress"/> events.</value>
         /// <seealso cref="progress"/>
         /// <remarks>The default interval is three seconds.</remarks>
-        public TimeSpan ProgressInterval {
-            get { return progressInterval; }
-            set { progressInterval = value; }
-        }
+        public TimeSpan ProgressInterval { get; set; } = TimeSpan.FromSeconds(3);
 
         #region Instance Fields
-
-        private TimeSpan progressInterval = TimeSpan.FromSeconds(3);
 
         #endregion
     }
@@ -192,10 +187,7 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="FastZip"/>
         /// </summary>
         /// <param name="events">The <see cref="FastZipEvents">events</see> to use during operations.</param>
-        public FastZip(FastZipEvents events)
-        {
-            this.events = events;
-        }
+        public FastZip(FastZipEvents events) { this.events = events; }
 
         #endregion
 
@@ -204,33 +196,27 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get/set a value indicating wether empty directories should be created.
         /// </summary>
-        public bool CreateEmptyDirectories {
-            get { return createEmptyDirectories; }
-            set { createEmptyDirectories = value; }
-        }
+        public bool CreateEmptyDirectories { get; set; }
 
         /// <summary>
         /// Get / set the password value.
         /// </summary>
-        public string Password {
-            get { return password; }
-            set { password = value; }
-        }
+        public string Password { get; set; }
 
         /// <summary>
         /// Get or set the <see cref="INameTransform"></see> active when creating Zip files.
         /// </summary>
         /// <seealso cref="EntryFactory"></seealso>
         public INameTransform NameTransform {
-            get { return entryFactory.NameTransform; }
-            set { entryFactory.NameTransform = value; }
+            get => entryFactory.NameTransform;
+            set => entryFactory.NameTransform = value;
         }
 
         /// <summary>
         /// Get or set the <see cref="IEntryFactory"></see> active when creating Zip files.
         /// </summary>
         public IEntryFactory EntryFactory {
-            get { return entryFactory; }
+            get => entryFactory;
             set {
                 if (value == null) {
                     entryFactory = new ZipEntryFactory();
@@ -252,38 +238,26 @@ namespace IFramework.Core.Zip.Zip
         /// NOTE: Setting the size for entries before they are added is the best solution!
         /// By default the EntryFactory used by FastZip will set fhe file size.
         /// </remarks>
-        public UseZip64 UseZip64 {
-            get { return useZip64; }
-            set { useZip64 = value; }
-        }
+        public UseZip64 UseZip64 { get; set; } = UseZip64.Dynamic;
 
         /// <summary>
         /// Get/set a value indicating wether file dates and times should
         /// be restored when extracting files from an archive.
         /// </summary>
         /// <remarks>The default value is false.</remarks>
-        public bool RestoreDateTimeOnExtract {
-            get { return restoreDateTimeOnExtract; }
-            set { restoreDateTimeOnExtract = value; }
-        }
+        public bool RestoreDateTimeOnExtract { get; set; }
 
         /// <summary>
         /// Get/set a value indicating whether file attributes should
         /// be restored during extract operations
         /// </summary>
-        public bool RestoreAttributesOnExtract {
-            get { return restoreAttributesOnExtract; }
-            set { restoreAttributesOnExtract = value; }
-        }
+        public bool RestoreAttributesOnExtract { get; set; }
 
         /// <summary>
         /// Get/set the Compression Level that will be used
         /// when creating the zip
         /// </summary>
-        public Deflater.CompressionLevel CompressionLevel {
-            get { return compressionLevel; }
-            set { compressionLevel = value; }
-        }
+        public Deflater.CompressionLevel CompressionLevel { get; set; } = Deflater.CompressionLevel.DEFAULT_COMPRESSION;
 
         #endregion
 
@@ -306,11 +280,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
-        public void CreateZip(string zipFileName, string sourceDirectory,
-                              bool recurse, string fileFilter, string directoryFilter)
-        {
-            CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter);
-        }
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter) { CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter); }
 
         /// <summary>
         /// Create a zip file/archive.
@@ -319,10 +289,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The file filter to apply.</param>
-        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter)
-        {
-            CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null);
-        }
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter) { CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null); }
 
         /// <summary>
         /// Create a zip archive sending output to the <paramref name="outputStream"/> passed.
@@ -339,13 +306,13 @@ namespace IFramework.Core.Zip.Zip
             this.sourceDirectory = sourceDirectory;
 
             using (this.outputStream = new ZipOutputStream(outputStream)) {
-                this.outputStream.SetLevel((int) CompressionLevel);
+                this.outputStream.SetLevel((int)CompressionLevel);
 
-                if (password != null) {
-                    this.outputStream.Password = password;
+                if (Password != null) {
+                    this.outputStream.Password = Password;
                 }
                 this.outputStream.UseZip64 = UseZip64;
-                var scanner = new FileSystemScanner(fileFilter, directoryFilter);
+                FileSystemScanner scanner = new FileSystemScanner(fileFilter, directoryFilter);
                 scanner.processFile += ProcessFile;
 
                 if (CreateEmptyDirectories) {
@@ -375,10 +342,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="zipFileName">The zip file to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
         /// <param name="fileFilter">A filter to apply to files.</param>
-        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter)
-        {
-            ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, restoreDateTimeOnExtract);
-        }
+        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter) { ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, RestoreDateTimeOnExtract); }
 
         /// <summary>
         /// Extract the contents of a zip file.
@@ -390,9 +354,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="fileFilter">A filter to apply to files.</param>
         /// <param name="directoryFilter">A filter to apply to directories.</param>
         /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
-        public void ExtractZip(string zipFileName, string targetDirectory,
-                               Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
-                               string fileFilter, string directoryFilter, bool restoreDateTime)
+        public void ExtractZip(string zipFileName, string targetDirectory, Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate, string fileFilter, string directoryFilter, bool restoreDateTime)
         {
             Stream inputStream = File.Open(zipFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             ExtractZip(inputStream, targetDirectory, overwrite, confirmDelegate, fileFilter, directoryFilter, restoreDateTime, true);
@@ -409,12 +371,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="directoryFilter">A filter to apply to directories.</param>
         /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
         /// <param name="isStreamOwner">Flag indicating whether the inputStream will be closed by this method.</param>
-        public void ExtractZip(Stream inputStream, string targetDirectory,
-                               Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
-                               string fileFilter, string directoryFilter, bool restoreDateTime,
-                               bool isStreamOwner)
+        public void ExtractZip(Stream inputStream, string targetDirectory, Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate, string fileFilter, string directoryFilter, bool restoreDateTime, bool isStreamOwner)
         {
-            if ((overwrite == Overwrite.Prompt) && (confirmDelegate == null)) {
+            if (overwrite == Overwrite.Prompt && confirmDelegate == null) {
                 throw new ArgumentNullException(nameof(confirmDelegate));
             }
             continueRunning = true;
@@ -423,17 +382,17 @@ namespace IFramework.Core.Zip.Zip
             extractNameTransform = new WindowsNameTransform(targetDirectory);
             this.fileFilter = new NameFilter(fileFilter);
             this.directoryFilter = new NameFilter(directoryFilter);
-            restoreDateTimeOnExtract = restoreDateTime;
+            RestoreDateTimeOnExtract = restoreDateTime;
 
             using (zipFile = new ZipFile(inputStream)) {
-                if (password != null) {
-                    zipFile.Password = password;
+                if (Password != null) {
+                    zipFile.Password = Password;
                 }
                 zipFile.IsStreamOwner = isStreamOwner;
                 IEnumerator enumerator = zipFile.GetEnumerator();
 
                 while (continueRunning && enumerator.MoveNext()) {
-                    var entry = (ZipEntry) enumerator.Current;
+                    ZipEntry entry = (ZipEntry)enumerator.Current;
 
                     if (entry.IsFile) {
                         // TODO Path.GetDirectory can fail here on invalid characters.
@@ -472,7 +431,7 @@ namespace IFramework.Core.Zip.Zip
 
         private void ProcessFile(object sender, ScanEventArgs e)
         {
-            if ((events != null) && (events.processFile != null)) {
+            if (events != null && events.processFile != null) {
                 events.processFile(sender, e);
             }
 
@@ -509,9 +468,8 @@ namespace IFramework.Core.Zip.Zip
                 buffer = new byte[4096];
             }
 
-            if ((events != null) && (events.progress != null)) {
-                StreamUtils.Copy(stream, outputStream, buffer,
-                                 events.progress, events.ProgressInterval, this, name);
+            if (events != null && events.progress != null) {
+                StreamUtils.Copy(stream, outputStream, buffer, events.progress, events.ProgressInterval, this, name);
             }
             else {
                 StreamUtils.Copy(stream, outputStream, buffer);
@@ -528,7 +486,7 @@ namespace IFramework.Core.Zip.Zip
 
             if (overwrite != Overwrite.Always) {
                 if (File.Exists(targetName)) {
-                    if ((overwrite == Overwrite.Prompt) && (confirmDelegate != null)) {
+                    if (overwrite == Overwrite.Prompt && confirmDelegate != null) {
                         proceed = confirmDelegate(targetName);
                     }
                     else {
@@ -549,9 +507,8 @@ namespace IFramework.Core.Zip.Zip
                                 buffer = new byte[4096];
                             }
 
-                            if ((events != null) && (events.progress != null)) {
-                                StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer,
-                                                 events.progress, events.ProgressInterval, this, entry.Name, entry.Size);
+                            if (events != null && events.progress != null) {
+                                StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer, events.progress, events.ProgressInterval, this, entry.Name, entry.Size);
                             }
                             else {
                                 StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer);
@@ -562,14 +519,14 @@ namespace IFramework.Core.Zip.Zip
                             }
                         }
 
-                        if (restoreDateTimeOnExtract) {
+                        if (RestoreDateTimeOnExtract) {
                             File.SetLastWriteTime(targetName, entry.DateTime);
                         }
 
-                        if (RestoreAttributesOnExtract && entry.IsDosEntry && (entry.ExternalFileAttributes != -1)) {
-                            var fileAttributes = (FileAttributes) entry.ExternalFileAttributes;
+                        if (RestoreAttributesOnExtract && entry.IsDosEntry && entry.ExternalFileAttributes != -1) {
+                            FileAttributes fileAttributes = (FileAttributes)entry.ExternalFileAttributes;
                             // TODO: FastZip - Setting of other file attributes on extraction is a little trickier.
-                            fileAttributes &= (FileAttributes.Archive | FileAttributes.Normal | FileAttributes.ReadOnly | FileAttributes.Hidden);
+                            fileAttributes &= FileAttributes.Archive | FileAttributes.Normal | FileAttributes.ReadOnly | FileAttributes.Hidden;
                             File.SetAttributes(targetName, fileAttributes);
                         }
                     }
@@ -598,7 +555,7 @@ namespace IFramework.Core.Zip.Zip
                 else if (entry.IsDirectory) {
                     targetName = extractNameTransform.TransformDirectory(targetName);
                 }
-                doExtraction = !(string.IsNullOrEmpty(targetName));
+                doExtraction = !string.IsNullOrEmpty(targetName);
             }
 
             // TODO: Fire delegate/throw exception were compression method not supported, or name is invalid?
@@ -642,16 +599,9 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private static int MakeExternalAttributes(FileInfo info)
-        {
-            return (int) info.Attributes;
-        }
+        private static int MakeExternalAttributes(FileInfo info) { return (int)info.Attributes; }
 
-        private static bool NameIsValid(string name)
-        {
-            return !string.IsNullOrEmpty(name) &&
-                   (name.IndexOfAny(Path.GetInvalidPathChars()) < 0);
-        }
+        private static bool NameIsValid(string name) { return !string.IsNullOrEmpty(name) && name.IndexOfAny(Path.GetInvalidPathChars()) < 0; }
 
         #endregion
 
@@ -667,16 +617,9 @@ namespace IFramework.Core.Zip.Zip
         private Overwrite overwrite;
         private ConfirmOverwriteDelegate confirmDelegate;
 
-        private bool restoreDateTimeOnExtract;
-        private bool restoreAttributesOnExtract;
-        private bool createEmptyDirectories;
-        private FastZipEvents events;
+        private readonly FastZipEvents events;
         private IEntryFactory entryFactory = new ZipEntryFactory();
         private INameTransform extractNameTransform;
-        private UseZip64 useZip64 = UseZip64.Dynamic;
-        private Deflater.CompressionLevel compressionLevel = Deflater.CompressionLevel.DEFAULT_COMPRESSION;
-
-        private string password;
 
         #endregion
     }

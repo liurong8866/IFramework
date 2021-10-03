@@ -73,10 +73,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name = "codeLengths">
         /// the array of code lengths
         /// </param>
-        public InflaterHuffmanTree(byte[] codeLengths)
-        {
-            BuildTree(codeLengths);
-        }
+        public InflaterHuffmanTree(byte[] codeLengths) { BuildTree(codeLengths); }
 
         #endregion
 
@@ -124,7 +121,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int start = code & 0x1ff80;
 
                 for (int i = start; i < end; i += 1 << 7) {
-                    tree[DeflaterHuffman.BitReverse(i)] = (short) ((-treePtr << 4) | bits);
+                    tree[DeflaterHuffman.BitReverse(i)] = (short)((-treePtr << 4) | bits);
                     treePtr += 1 << (bits - 9);
                 }
             }
@@ -140,7 +137,7 @@ namespace IFramework.Core.Zip.Zip.Compression
 
                 if (bits <= 9) {
                     do {
-                        tree[revcode] = (short) ((i << 4) | bits);
+                        tree[revcode] = (short)((i << 4) | bits);
                         revcode += 1 << bits;
                     } while (revcode < 512);
                 }
@@ -150,7 +147,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                     subTree = -(subTree >> 4);
 
                     do {
-                        tree[subTree | (revcode >> 9)] = (short) ((i << 4) | bits);
+                        tree[subTree | (revcode >> 9)] = (short)((i << 4) | bits);
                         revcode += 1 << bits;
                     } while (revcode < treeLen);
                 }

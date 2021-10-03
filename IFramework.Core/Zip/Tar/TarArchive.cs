@@ -99,7 +99,7 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
-            var tarStream = inputStream as TarInputStream;
+            TarInputStream tarStream = inputStream as TarInputStream;
             TarArchive result;
 
             if (tarStream != null) {
@@ -139,7 +139,7 @@ namespace IFramework.Core.Zip.Tar
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
-            var tarStream = outputStream as TarOutputStream;
+            TarOutputStream tarStream = outputStream as TarOutputStream;
             TarArchive result;
 
             if (tarStream != null) {
@@ -434,10 +434,7 @@ namespace IFramework.Core.Zip.Tar
         /// Close the archive.
         /// </summary>
         [Obsolete("Use Close instead")]
-        public void CloseArchive()
-        {
-            Close();
-        }
+        public void CloseArchive() { Close(); }
 
         /// <summary>
         /// Perform the "list" command for the archive contents.
@@ -479,9 +476,7 @@ namespace IFramework.Core.Zip.Tar
                 if (entry == null) {
                     break;
                 }
-
-                if (entry.TarHeader.TypeFlag == TarHeader.LF_LINK || entry.TarHeader.TypeFlag == TarHeader.LF_SYMLINK)
-                    continue;
+                if (entry.TarHeader.TypeFlag == TarHeader.LF_LINK || entry.TarHeader.TypeFlag == TarHeader.LF_SYMLINK) continue;
 
                 ExtractEntry(destinationDirectory, entry);
             }
@@ -517,7 +512,7 @@ namespace IFramework.Core.Zip.Tar
                 string parentDirectory = Path.GetDirectoryName(destFile);
                 EnsureDirectoryExists(parentDirectory);
                 bool process = true;
-                var fileInfo = new FileInfo(destFile);
+                FileInfo fileInfo = new FileInfo(destFile);
 
                 if (fileInfo.Exists) {
                     if (keepOldFiles) {
@@ -554,7 +549,7 @@ namespace IFramework.Core.Zip.Tar
                         if (asciiTrans) {
                             for (int off = 0, b = 0; b < numRead; ++b) {
                                 if (rdbuf[b] == 10) {
-                                    string s = Encoding.ASCII.GetString(rdbuf, off, (b - off));
+                                    string s = Encoding.ASCII.GetString(rdbuf, off, b - off);
                                     outw.WriteLine(s);
                                     off = b + 1;
                                 }
@@ -600,8 +595,7 @@ namespace IFramework.Core.Zip.Tar
 
             try {
                 if (recurse) {
-                    TarHeader.SetValueDefaults(sourceEntry.UserId, sourceEntry.UserName,
-                                               sourceEntry.GroupId, sourceEntry.GroupName);
+                    TarHeader.SetValueDefaults(sourceEntry.UserId, sourceEntry.UserName, sourceEntry.GroupId, sourceEntry.GroupName);
                 }
                 WriteEntryCore(sourceEntry, recurse);
             }
@@ -629,7 +623,7 @@ namespace IFramework.Core.Zip.Tar
         {
             string tempFileName = null;
             string entryFilename = sourceEntry.File;
-            var entry = (TarEntry) sourceEntry.Clone();
+            TarEntry entry = (TarEntry)sourceEntry.Clone();
 
             if (applyUserInfoOverrides) {
                 entry.GroupId = groupId;
@@ -653,7 +647,7 @@ namespace IFramework.Core.Zip.Tar
                                 }
                                 byte[] data = Encoding.ASCII.GetBytes(line);
                                 outStream.Write(data, 0, data.Length);
-                                outStream.WriteByte((byte) '\n');
+                                outStream.WriteByte((byte)'\n');
                             }
                             outStream.Flush();
                         }
@@ -671,7 +665,7 @@ namespace IFramework.Core.Zip.Tar
             }
 
             if (pathPrefix != null) {
-                newName = (newName == null) ? pathPrefix + "/" + entry.Name : pathPrefix + "/" + newName;
+                newName = newName == null ? pathPrefix + "/" + entry.Name : pathPrefix + "/" + newName;
             }
 
             if (newName != null) {
@@ -744,19 +738,13 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Closes the archive and releases any associated resources.
         /// </summary>
-        public virtual void Close()
-        {
-            Dispose(true);
-        }
+        public virtual void Close() { Dispose(true); }
 
         /// <summary>
         /// Ensures that resources are freed and other cleanup operations are performed
         /// when the garbage collector reclaims the <see cref="TarArchive"/>.
         /// </summary>
-        ~TarArchive()
-        {
-            Dispose(false);
-        }
+        ~TarArchive() { Dispose(false); }
 
         private static void EnsureDirectoryExists(string directoryName)
         {
@@ -777,14 +765,14 @@ namespace IFramework.Core.Zip.Tar
         private static bool IsBinary(string filename)
         {
             using (FileStream fs = File.OpenRead(filename)) {
-                int sampleSize = Math.Min(4096, (int) fs.Length);
+                int sampleSize = Math.Min(4096, (int)fs.Length);
                 byte[] content = new byte[sampleSize];
                 int bytesRead = fs.Read(content, 0, sampleSize);
 
                 for (int i = 0; i < bytesRead; ++i) {
                     byte b = content[i];
 
-                    if ((b < 8) || ((b > 13) && (b < 32)) || (b == 255)) {
+                    if (b < 8 || b > 13 && b < 32 || b == 255) {
                         return true;
                     }
                 }
@@ -807,8 +795,8 @@ namespace IFramework.Core.Zip.Tar
 
         private bool applyUserInfoOverrides;
 
-        private TarInputStream tarIn;
-        private TarOutputStream tarOut;
+        private readonly TarInputStream tarIn;
+        private readonly TarOutputStream tarOut;
         private bool isDisposed;
 
         #endregion

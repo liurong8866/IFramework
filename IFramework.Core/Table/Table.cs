@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,10 +13,7 @@ namespace IFramework.Core
         /// <summary>
         /// 获取数据
         /// </summary>
-        public List<T> Get(string key)
-        {
-            return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>();
-        }
+        public List<T> Get(string key) { return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>(); }
 
         /// <summary>
         /// 添加数据
@@ -74,10 +47,7 @@ namespace IFramework.Core
         /// <summary>
         /// 删除数据
         /// </summary>
-        public void Remove(string key)
-        {
-            dictionary.Remove(key);
-        }
+        public void Remove(string key) { dictionary.Remove(key); }
 
         /// <summary>
         /// 删除数据
@@ -118,14 +88,8 @@ namespace IFramework.Core
         /// <summary>
         /// 实现迭代器
         /// </summary>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return dictionary.SelectMany(d => d.Value).GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() { return dictionary.SelectMany(d => d.Value).GetEnumerator(); }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
     }
 }

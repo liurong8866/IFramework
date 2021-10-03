@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -133,8 +109,8 @@ namespace IFramework.Engine
             switch (state) {
                 case ResourceState.Loading: return false;
                 case ResourceState.Waiting: return true;
-                case ResourceState.Ready:   break;
-                default:                    throw new ArgumentOutOfRangeException();
+                case ResourceState.Ready: break;
+                default: throw new ArgumentOutOfRangeException();
             }
             OnReleaseResource();
             state = ResourceState.Waiting;
@@ -161,34 +137,22 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public virtual List<string> GetDependResourceList()
-        {
-            return null;
-        }
+        public virtual List<string> GetDependResourceList() { return null; }
 
         /// <summary>
         /// 记录依赖资源
         /// </summary>
-        protected void HoldDependResource()
-        {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle));
-        }
+        protected void HoldDependResource() { DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle)); }
 
         /// <summary>
         /// 释放依赖资源
         /// </summary>
-        protected void UnHoldDependResource()
-        {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold()));
-        }
+        protected void UnHoldDependResource() { DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold())); }
 
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
-        public bool IsDependResourceLoaded()
-        {
-            return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready);
-        }
+        public bool IsDependResourceLoaded() { return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready); }
 
         private bool DoLoopDependResource(Func<IResource, bool> action, Type assetType = null)
         {
@@ -273,9 +237,6 @@ namespace IFramework.Engine
 
         public abstract IEnumerator LoadAsync(Action callback);
 
-        public override string ToString()
-        {
-            return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】";
-        }
+        public override string ToString() { return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】"; }
     }
 }

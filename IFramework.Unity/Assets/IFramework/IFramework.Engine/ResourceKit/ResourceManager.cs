@@ -1,27 +1,3 @@
-/*****************************************************************************
- * MIT License
- * 
- * Copyright (c) 2021 liurong
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *****************************************************************************/
-
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -35,17 +11,17 @@ namespace IFramework.Engine
     public sealed class ResourceManager : MonoSingleton<ResourceManager>
     {
         // 是否被初始化
-        private static bool isInit = false;
+        private static bool isInit;
         // 当前协程数量
-        [SerializeField] private int currentCoroutineCount = 0;
+        [SerializeField] private int currentCoroutineCount;
         // 最大协程数量
-        private int maxCoroutineCount = 8;
+        private readonly int maxCoroutineCount = 8;
         // 异步加载任务列表
         private readonly LinkedList<IResourceLoadTask> asyncLoadTasks = new LinkedList<IResourceLoadTask>();
         // 资源列表
         private readonly ResourceTable resourceTable = new ResourceTable();
         // Resource在ResourceManager中 删除的问题，定时收集列表中的Resource然后删除
-        private bool isResourceMapDirty = false;
+        private bool isResourceMapDirty;
 
         /*----------------------------- 初始化Manager 自动加载 -----------------------------*/
 
@@ -63,10 +39,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 只是为了解决调用异步初始化方法问题
         /// </summary>
-        public void InitAsync()
-        {
-            StartCoroutine(DoInitAsync());
-        }
+        public void InitAsync() { StartCoroutine(DoInitAsync()); }
 
         /// <summary>
         /// 异步初始化
@@ -187,10 +160,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源
         /// </summary>
-        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource
-        {
-            return GetResource(searcher, create) as T;
-        }
+        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource { return GetResource(searcher, create) as T; }
 
         /*----------------------------- 异步加载资源 -----------------------------*/
 
@@ -256,10 +226,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否脏数据
         /// </summary>
-        public void ClearOnUpdate()
-        {
-            isResourceMapDirty = true;
-        }
+        public void ClearOnUpdate() { isResourceMapDirty = true; }
 
         /// <summary>
         /// 清除不在使用的资源

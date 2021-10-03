@@ -38,36 +38,22 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Copy lengths for literal codes 257..285
         /// </summary>
-        private static readonly int[] CPLENS = {
-            3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
-            35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258
-        };
+        private static readonly int[] CPLENS = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258 };
 
         /// <summary>
         /// Extra bits for literal codes 257..285
         /// </summary>
-        private static readonly int[] CPLEXT = {
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
-            3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0
-        };
+        private static readonly int[] CPLEXT = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0 };
 
         /// <summary>
         /// Copy offsets for distance codes 0..29
         /// </summary>
-        private static readonly int[] CPDIST = {
-            1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
-            257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
-            8193, 12289, 16385, 24577
-        };
+        private static readonly int[] CPDIST = { 1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577 };
 
         /// <summary>
         /// Extra bits for distance codes
         /// </summary>
-        private static readonly int[] CPDEXT = {
-            0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
-            7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
-            12, 12, 13, 13
-        };
+        private static readonly int[] CPDEXT = { 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13 };
 
         /// <summary>
         /// These are the possible states for an inflater
@@ -139,13 +125,13 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// True means, that the inflated stream doesn't contain a Zlib header or
         /// footer.
         /// </summary>
-        private bool noHeader;
+        private readonly bool noHeader;
 
         private readonly StreamManipulator input;
-        private OutputWindow outputWindow;
+        private readonly OutputWindow outputWindow;
         private InflaterDynHeader dynHeader;
         private InflaterHuffmanTree litlenTree, distTree;
-        private Adler32 adler;
+        private readonly Adler32 adler;
 
         #endregion
 
@@ -223,7 +209,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                 throw new BaseZipException("Header checksum illegal");
             }
 
-            if ((header & 0x0f00) != (Deflater.DEFLATED << 8)) {
+            if ((header & 0x0f00) != Deflater.DEFLATED << 8) {
                 throw new BaseZipException("Compression Method unknown");
             }
 
@@ -356,8 +342,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                         free -= repLength;
                         mode = DECODE_HUFFMAN;
                         break;
-                    default:
-                        throw new BaseZipException("Inflater unknown mode");
+                    default: throw new BaseZipException("Inflater unknown mode");
                 }
             }
             return true;
@@ -385,8 +370,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                 neededBits -= 8;
             }
 
-            if ((int) adler.Value != readAdler) {
-                throw new BaseZipException("Adler chksum doesn't match: " + (int) adler.Value + " vs. " + readAdler);
+            if ((int)adler.Value != readAdler) {
+                throw new BaseZipException("Adler chksum doesn't match: " + (int)adler.Value + " vs. " + readAdler);
             }
             mode = FINISHED;
             return false;
@@ -404,12 +389,9 @@ namespace IFramework.Core.Zip.Zip.Compression
         private bool Decode()
         {
             switch (mode) {
-                case DECODE_HEADER:
-                    return DecodeHeader();
-                case DECODE_DICT:
-                    return DecodeDict();
-                case DECODE_CHKSUM:
-                    return DecodeChksum();
+                case DECODE_HEADER: return DecodeHeader();
+                case DECODE_DICT: return DecodeDict();
+                case DECODE_CHKSUM: return DecodeChksum();
                 case DECODE_BLOCKS:
                     if (isLastBlock) {
                         if (noHeader) {
@@ -443,8 +425,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                             dynHeader = new InflaterDynHeader();
                             mode = DECODE_DYN_HEADER;
                             break;
-                        default:
-                            throw new BaseZipException("Unknown block type " + type);
+                        default: throw new BaseZipException("Unknown block type " + type);
                     }
                     return true;
                 case DECODE_STORED_LEN1: {
@@ -490,12 +471,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 case DECODE_HUFFMAN:
                 case DECODE_HUFFMAN_LENBITS:
                 case DECODE_HUFFMAN_DIST:
-                case DECODE_HUFFMAN_DISTBITS:
-                    return DecodeHuffman();
-                case FINISHED:
-                    return false;
-                default:
-                    throw new BaseZipException("Inflater.Decode unknown mode");
+                case DECODE_HUFFMAN_DISTBITS: return DecodeHuffman();
+                case FINISHED: return false;
+                default: throw new BaseZipException("Inflater.Decode unknown mode");
             }
         }
 
@@ -508,10 +486,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// The dictionary.
         /// </param>
-        public void SetDictionary(byte[] buffer)
-        {
-            SetDictionary(buffer, 0, buffer.Length);
-        }
+        public void SetDictionary(byte[] buffer) { SetDictionary(buffer, 0, buffer.Length); }
 
         /// <summary>
         /// Sets the preset dictionary.  This should only be called, if
@@ -553,7 +528,7 @@ namespace IFramework.Core.Zip.Zip.Compression
             }
             adler.Update(buffer, index, count);
 
-            if ((int) adler.Value != readAdler) {
+            if ((int)adler.Value != readAdler) {
                 throw new BaseZipException("Wrong adler checksum");
             }
             adler.Reset();
@@ -568,10 +543,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// the input.
         /// </param>
-        public void SetInput(byte[] buffer)
-        {
-            SetInput(buffer, 0, buffer.Length);
-        }
+        public void SetInput(byte[] buffer) { SetInput(buffer, 0, buffer.Length); }
 
         /// <summary>
         /// Sets the input.  This should only be called, if needsInput()
@@ -703,7 +675,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                         }
                     }
                 }
-            } while (Decode() || ((outputWindow.GetAvailable() > 0) && (mode != DECODE_CHKSUM)));
+            } while (Decode() || outputWindow.GetAvailable() > 0 && mode != DECODE_CHKSUM);
             return bytesCopied;
         }
 
@@ -712,24 +684,18 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// You should then call setInput().
         /// NOTE: This method also returns true when the stream is finished.
         /// </summary>
-        public bool IsNeedingInput {
-            get { return input.IsNeedingInput; }
-        }
+        public bool IsNeedingInput => input.IsNeedingInput;
 
         /// <summary>
         /// Returns true, if a preset dictionary is needed to inflate the input.
         /// </summary>
-        public bool IsNeedingDictionary {
-            get { return mode == DECODE_DICT && neededBits == 0; }
-        }
+        public bool IsNeedingDictionary => mode == DECODE_DICT && neededBits == 0;
 
         /// <summary>
         /// Returns true, if the inflater has finished.  This means, that no
         /// input is needed and no output can be produced.
         /// </summary>
-        public bool IsFinished {
-            get { return mode == FINISHED && outputWindow.GetAvailable() == 0; }
-        }
+        public bool IsFinished => mode == FINISHED && outputWindow.GetAvailable() == 0;
 
         /// <summary>
         /// Gets the adler checksum.  This is either the checksum of all
@@ -740,9 +706,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// the adler checksum.
         /// </returns>
-        public int Adler {
-            get { return IsNeedingDictionary ? readAdler : (int) adler.Value; }
-        }
+        public int Adler => IsNeedingDictionary ? readAdler : (int)adler.Value;
 
         /// <summary>
         /// Gets the total number of output bytes returned by Inflate().
@@ -750,9 +714,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// the total number of output bytes.
         /// </returns>
-        public long TotalOut {
-            get { return totalOut; }
-        }
+        public long TotalOut => totalOut;
 
         /// <summary>
         /// Gets the total number of processed compressed input bytes.
@@ -760,9 +722,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// The total number of bytes of processed input bytes.
         /// </returns>
-        public long TotalIn {
-            get { return totalIn - RemainingInput; }
-        }
+        public long TotalIn => totalIn - RemainingInput;
 
         /// <summary>
         /// Gets the number of unprocessed input bytes.  Useful, if the end of the
@@ -772,9 +732,8 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <returns>
         /// The number of bytes of the input which have not been processed.
         /// </returns>
-        public int RemainingInput {
-            // TODO: This should be a long?
-            get { return input.AvailableBytes; }
-        }
+        public int RemainingInput =>
+                // TODO: This should be a long?
+                input.AvailableBytes;
     }
 }
