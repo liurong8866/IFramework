@@ -32,7 +32,7 @@ namespace IFramework.Engine
         /// <summary>
         /// MonoBehaviour 的扩展方法
         /// </summary>
-        public static T ExecuteNode<T>(this T self, IAction command) where T : MonoBehaviour
+        public static T Execute<T>(this T self, IAction command) where T : MonoBehaviour
         {
             self.StartCoroutine(command.Execute());
             return self;

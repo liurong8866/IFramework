@@ -25,12 +25,16 @@
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.IO;
 using System.Reflection;
 
 namespace IFramework.Core
 {
     public class Example
     {
+        /// <summary>
+        /// 代码生成示例
+        /// </summary>
         private void GenerateCode()
         {
             //准备一个代码编译器单元
@@ -57,7 +61,7 @@ namespace IFramework.Core
             string outputFile = "Customer.cs";
 
             //添加字段
-            CodeMemberField field = new CodeMemberField(typeof(String), "_Id") { Attributes = MemberAttributes.Private };
+            CodeMemberField field = new CodeMemberField(typeof(string), "_Id") { Attributes = MemberAttributes.Private };
             customerClass.Members.Add(field);
 
             //添加属性
@@ -66,7 +70,7 @@ namespace IFramework.Core
                 Name = "Id",
                 HasGet = true,
                 HasSet = true,
-                Type = new CodeTypeReference(typeof(String))
+                Type = new CodeTypeReference(typeof(string))
             };
             property.Comments.Add(new CodeCommentStatement("这是Id属性"));
             property.GetStatements.Add(new CodeMethodReturnStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), "_Id")));
@@ -83,7 +87,7 @@ namespace IFramework.Core
             //生成代码
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CodeGeneratorOptions options = new CodeGeneratorOptions { BracingStyle = "C", BlankLinesBetweenMembers = true };
-            using System.IO.StreamWriter sw = new System.IO.StreamWriter(outputFile);
+            using StreamWriter sw = new StreamWriter(outputFile);
             provider.GenerateCodeFromCompileUnit(unit, sw, options);
         }
     }

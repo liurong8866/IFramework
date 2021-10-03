@@ -38,7 +38,7 @@ namespace IFramework.Engine
 
         public Action OnDelayFinish { get; set; }
 
-        public float CurrentSeconds { get; set; }
+        private float currentSeconds;
 
         /// <summary>
         /// 从缓存池中申请对象
@@ -48,17 +48,17 @@ namespace IFramework.Engine
             DelayAction retNode = ObjectPool<DelayAction>.Instance.Allocate();
             retNode.DelayTime = delayTime;
             retNode.OnDelayFinish = onDelayFinish;
-            retNode.CurrentSeconds = 0.0f;
             return retNode;
         }
 
         /// <summary>
-        /// 执行
+        /// 执行事件
         /// </summary>
         protected override void OnExecute(float delta)
         {
-            CurrentSeconds += delta;
-            Finished = CurrentSeconds >= DelayTime;
+            // 判断是否超时，过了时间视为延迟结束
+            currentSeconds += delta;
+            Finished = currentSeconds >= DelayTime;
 
             if (Finished) {
                 OnDelayFinish.InvokeSafe();
@@ -67,11 +67,10 @@ namespace IFramework.Engine
 
         protected override void OnReset()
         {
-            CurrentSeconds = 0.0f;
-        }
+            currentSeconds = 0.0f;
+        } 
 
-        protected override void OnDispose()
-        {
+        protected override void OnDispose() {
             ObjectPool<DelayAction>.Instance.Recycle(this);
         }
 
@@ -90,9 +89,9 @@ namespace IFramework.Engine
     /// </summary>
     public static class DelayActionExtensions
     {
-        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
+        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour 
         {
-            self.ExecuteNode(DelayAction.Allocate(seconds, action));
+            self.Execute(DelayAction.Allocate(seconds, action));
         }
 
         public static IActionChain Delay(this IActionChain self, float seconds)

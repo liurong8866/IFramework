@@ -33,29 +33,35 @@ namespace IFramework.Engine
     public class EventAction : AbstractAction, IPoolable
     {
         private Action onExecuteEvent;
-        
+
         /// <summary>
         /// 从对象池中申请对象
         /// </summary>
-        public static EventAction Allocate(Action[] onExecuteEvents) {
+        public static EventAction Allocate(params Action[] onExecuteEvents)
+        {
             EventAction eventAction = ObjectPool<EventAction>.Instance.Allocate();
-            Array.ForEach(onExecuteEvents, onExecuteEvent => eventAction.onExecuteEvent += onExecuteEvent);
+
+            //如果有多个事件，则循环添加
+            foreach (Action executeEvent in onExecuteEvents) {
+                eventAction.onExecuteEvent += executeEvent;
+            }
             return eventAction;
         }
-        
+
         /// <summary>
-        /// 执行
+        /// 执行事件
         /// </summary>
         protected override void OnExecute(float delta)
         {
             onExecuteEvent.InvokeSafe();
             Finished = true;
         }
-        
-        protected override void OnDispose() {
+
+        protected override void OnDispose()
+        {
             ObjectPool<EventAction>.Instance.Recycle(this);
         }
-        
+
         public void OnRecycled()
         {
             Reset();
