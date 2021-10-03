@@ -24,13 +24,12 @@
 
 using System;
 using IFramework.Core;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 事件动作节点
+    /// 事件执行动作
     /// </summary>
     public class EventAction : AbstractAction, IPoolable
     {
@@ -39,11 +38,14 @@ namespace IFramework.Engine
         /// <summary>
         /// 从对象池中申请对象
         /// </summary>
-        public static EventAction Allocate([NotNull] params Action[] actions)
+        public static EventAction Allocate(params Action[] actions)
         {
             EventAction eventAction = ObjectPool<EventAction>.Instance.Allocate();
+
             //如果有多个事件，则循环添加
-            Array.ForEach(actions, action => { eventAction.onExecuteEvent += action; });
+            foreach (Action action in actions) {
+                eventAction.onExecuteEvent += action;
+            }
             return eventAction;
         }
 
@@ -69,7 +71,7 @@ namespace IFramework.Engine
 
         public bool IsRecycled { get; set; }
     }
-
+    
     /// <summary>
     /// 扩展方法
     /// </summary>
@@ -78,9 +80,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 执行某事件
         /// </summary>
-        public static void Action<T>(this T self, [NotNull] params Action[] actions) where T : MonoBehaviour
+        public static void Action<T>(this T self,  Action action) where T : MonoBehaviour
         {
-            self.Execute(EventAction.Allocate(actions));
+            self.Execute(EventAction.Allocate(action));
         }
     }
 }

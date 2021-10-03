@@ -31,6 +31,9 @@ namespace IFramework.Core
     /// </summary>
     public class ObjectPool<T> : Pool<T>, ISingleton where T : class, IPoolable, new()
     {
+        // 最大对象
+        private int capacity;
+
         /*-----------------------------*/
         /* 实现对象池单例                */
         /*-----------------------------*/
@@ -77,12 +80,11 @@ namespace IFramework.Core
         /// 对象池容量
         /// </summary>
         public int Capacity {
-            get => capacity;
+            get { return capacity; }
             set {
                 capacity = value;
 
                 // 如果当前数量超出最大容量，则释放无用数据
-                // ReSharper disable once InvertIf
                 if (capacity > 0 && capacity < Count) {
                     for (int i = Count; i > capacity; i--) {
                         cache.Pop();

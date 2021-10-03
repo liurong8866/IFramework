@@ -21,7 +21,6 @@ public class EventActionTest : MonoBehaviour
         this.Execute(eventNode2);
         
         this.Action(()=>{"hello world".LogInfo();});
-        this.Action();
         
     }
 

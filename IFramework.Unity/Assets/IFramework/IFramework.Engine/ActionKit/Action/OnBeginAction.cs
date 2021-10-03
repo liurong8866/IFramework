@@ -29,9 +29,9 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 开始时动作节点
+    /// 开始时执行的动作
     /// </summary>
-    public class OnBeginAction : AbstractAction, IPoolable
+    public class OnBeginAction : AbstractAction, IPoolable, IRecyclable
     {
         private Action<OnBeginAction> beginAction;
 
@@ -47,17 +47,16 @@ namespace IFramework.Engine
             beginAction.InvokeSafe();
         }
 
-        public bool IsRecycled { get; set; }
-
-        protected override void OnDispose()
-        {
-            ObjectPool<OnBeginAction>.Instance.Recycle(this);
-        }
-
         public void OnRecycled()
         {
-            Reset();
             beginAction = null;
+        }
+
+        public bool IsRecycled { get; set; }
+
+        public void Recycle()
+        {
+            ObjectPool<OnBeginAction>.Instance.Recycle(this);
         }
     }
 }

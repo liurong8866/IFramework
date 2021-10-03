@@ -28,7 +28,7 @@ using IFramework.Core;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 执行节点的基础抽象类
+    /// 执行节点到基础抽象类
     /// </summary>
     public abstract class AbstractAction : Disposeble, IAction
     {
@@ -39,7 +39,7 @@ namespace IFramework.Engine
         protected bool onBeginCalled = false;
 
         /// <summary>
-        /// 执行事件
+        /// 执行
         /// </summary>
         public bool Execute()
         {
