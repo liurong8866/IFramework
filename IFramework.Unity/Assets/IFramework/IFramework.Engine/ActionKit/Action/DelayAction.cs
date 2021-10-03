@@ -29,7 +29,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 延时执行动作
+    /// 延时动作节点
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable

@@ -29,7 +29,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 延迟帧动作
+    /// 延迟帧动作节点
     /// </summary>
     [Serializable]
     public class DelayFrameAction : AbstractAction, IPoolable, IResetable

@@ -22,42 +22,10 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System;
-using IFramework.Core;
-using UnityEngine;
-
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 开始时动作节点
-    /// </summary>
-    public class OnBeginAction : AbstractAction, IPoolable
+    public interface INode
     {
-        private Action<OnBeginAction> beginAction;
-
-        public static OnBeginAction Allocate(Action<OnBeginAction> action)
-        {
-            OnBeginAction onBeginAction = ObjectPool<OnBeginAction>.Instance.Allocate();
-            onBeginAction.beginAction = action;
-            return onBeginAction;
-        }
-
-        protected override void OnBegin()
-        {
-            beginAction.InvokeSafe();
-        }
-
-        public bool IsRecycled { get; set; }
-
-        protected override void OnDispose()
-        {
-            ObjectPool<OnBeginAction>.Instance.Recycle(this);
-        }
-
-        public void OnRecycled()
-        {
-            Reset();
-            beginAction = null;
-        }
+        IAction CurrentNode { get; }
     }
 }
