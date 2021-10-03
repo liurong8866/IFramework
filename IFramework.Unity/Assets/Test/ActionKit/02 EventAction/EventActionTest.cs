@@ -20,6 +20,8 @@ public class EventActionTest : MonoBehaviour
         EventAction eventNode2 = EventAction.Allocate();
         this.Execute(eventNode2);
         
+        this.Action(()=>{"hello world".LogInfo();});
+        
     }
 
     private void Update()

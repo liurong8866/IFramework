@@ -22,32 +22,41 @@
  * SOFTWARE.
  *****************************************************************************/
 
-using System.Collections;
+using System;
+using IFramework.Core;
 using UnityEngine;
 
 namespace IFramework.Engine
 {
-    public static class ActionExtension
+    /// <summary>
+    /// 开始时执行的动作
+    /// </summary>
+    public class OnBeginAction : AbstractAction, IPoolable, IRecyclable
     {
-        /// <summary>
-        /// MonoBehaviour 的扩展方法
-        /// </summary>
-        public static T Execute<T>(this T self, IAction command) where T : MonoBehaviour
+        private Action<OnBeginAction> beginAction;
+
+        public static OnBeginAction Allocate(Action<OnBeginAction> action)
         {
-            self.StartCoroutine(command.ExecuteAction());
-            return self;
+            OnBeginAction onBeginAction = ObjectPool<OnBeginAction>.Instance.Allocate();
+            onBeginAction.beginAction = action;
+            return onBeginAction;
         }
 
-        /// <summary>
-        /// IAction 的扩展方法
-        /// </summary>
-        public static IEnumerator ExecuteAction(this IAction self)
+        protected override void OnBegin()
         {
-            if (self.Finished) self.Reset();
+            beginAction.InvokeSafe();
+        }
 
-            while (!self.Execute()) {
-                yield return null;
-            }
+        public void OnRecycled()
+        {
+            beginAction = null;
+        }
+
+        public bool IsRecycled { get; set; }
+
+        public void Recycle()
+        {
+            ObjectPool<OnBeginAction>.Instance.Recycle(this);
         }
     }
 }

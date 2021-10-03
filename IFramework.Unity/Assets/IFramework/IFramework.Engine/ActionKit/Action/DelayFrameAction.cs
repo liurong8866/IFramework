@@ -28,6 +28,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 延迟帧动作
+    /// </summary>
     [Serializable]
     public class DelayFrameAction : AbstractAction, IPoolable, IResetable
     {
@@ -43,10 +46,10 @@ namespace IFramework.Engine
         /// </summary>
         public static DelayFrameAction Allocate(int frameCount, Action acton = null)
         {
-            DelayFrameAction retNode = ObjectPool<DelayFrameAction>.Instance.Allocate();
-            retNode.FrameCount = frameCount;
-            retNode.OnDelayFrameFinish = acton;
-            return retNode;
+            DelayFrameAction delayFrameAction = ObjectPool<DelayFrameAction>.Instance.Allocate();
+            delayFrameAction.FrameCount = frameCount;
+            delayFrameAction.OnDelayFrameFinish = acton;
+            return delayFrameAction;
         }
 
         /// <summary>
@@ -97,24 +100,36 @@ namespace IFramework.Engine
     /// </summary>
     public static class DelayFrameActionExtensions
     {
-        public static void DelayFrame<T>(this T self, int frameCount, Action action) where T : MonoBehaviour
-        {
-            self.Execute(DelayFrameAction.Allocate(frameCount, action));
-        }
-
-        public static void NextFrame<T>(this T self, Action action) where T : MonoBehaviour
-        {
-            self.Execute(DelayFrameAction.Allocate(1, action));
-        }
-
+        /// <summary>
+        /// 延迟N帧
+        /// </summary>
         public static IActionChain DelayFrame(this IActionChain self, int frameCount)
         {
             return self.Append(DelayFrameAction.Allocate(frameCount));
         }
 
+        /// <summary>
+        /// 延迟N帧执行某事件
+        /// </summary>
+        public static void DelayFrame<T>(this T self, int frameCount, Action action) where T : MonoBehaviour
+        {
+            self.Execute(DelayFrameAction.Allocate(frameCount, action));
+        }
+
+        /// <summary>
+        /// 延迟一帧
+        /// </summary>
         public static IActionChain NextFrame(this IActionChain self)
         {
             return self.Append(DelayFrameAction.Allocate(1));
+        }
+
+        /// <summary>
+        /// 下一帧执行某事件
+        /// </summary>
+        public static void NextFrame<T>(this T self, Action action) where T : MonoBehaviour
+        {
+            self.Execute(DelayFrameAction.Allocate(1, action));
         }
     }
 }

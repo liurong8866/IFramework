@@ -29,7 +29,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 延时执行节点
+    /// 延时执行动作
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
@@ -44,12 +44,12 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓存池中申请对象
         /// </summary>
-        public static DelayAction Allocate(float delayTime, Action onDelayFinish = null)
+        public static DelayAction Allocate(float delayTime, Action action = null)
         {
-            DelayAction retNode = ObjectPool<DelayAction>.Instance.Allocate();
-            retNode.DelayTime = delayTime;
-            retNode.OnDelayFinish = onDelayFinish;
-            return retNode;
+            DelayAction delayAction = ObjectPool<DelayAction>.Instance.Allocate();
+            delayAction.DelayTime = delayTime;
+            delayAction.OnDelayFinish = action;
+            return delayAction;
         }
 
         /// <summary>
@@ -97,14 +97,20 @@ namespace IFramework.Engine
     /// </summary>
     public static class DelayActionExtensions
     {
-        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
-        {
-            self.Execute(DelayAction.Allocate(seconds, action));
-        }
-
+        /// <summary>
+        /// 延迟N秒
+        /// </summary>
         public static IActionChain Delay(this IActionChain self, float seconds)
         {
             return self.Append(DelayAction.Allocate(seconds));
+        }
+        
+        /// <summary>
+        /// 延迟N秒执行某事件
+        /// </summary>
+        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
+        {
+            self.Execute(DelayAction.Allocate(seconds, action));
         }
     }
 }
