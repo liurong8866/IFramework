@@ -19,7 +19,7 @@ namespace IFramework.Engine
 
         protected override void OnBegin()
         {
-            beginAction.InvokeSafe();
+            beginAction.InvokeSafe(this);
         }
 
         public bool IsRecycled { get; set; }

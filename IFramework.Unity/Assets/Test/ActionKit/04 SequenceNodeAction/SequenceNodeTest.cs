@@ -10,6 +10,8 @@ public class SequenceNodeTest : MonoBehaviour
         SequenceNode sequenceNode = new SequenceNode();
         DelayAction delayAction = DelayAction.Allocate(3, () => { "等待3秒".LogInfo(); });
         sequenceNode.Append(delayAction);
+        sequenceNode.Append(DelayFrameAction.Allocate(1, ()=>{"DelayFrameAction".LogInfo();}));
+        sequenceNode.Append(EventAction.Allocate(()=>{"EventAction".LogInfo();}));
         sequenceNode.Execute(this);
         // sequenceNode.Execute(); // 这是不会有结果的
         "======= 以下为序列：顺序执行 =========".LogInfo();
