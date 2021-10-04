@@ -16,7 +16,7 @@ namespace IFramework.Engine
         public Action OnDelayFinish { get; set; }
         // 时间计数器
         private float currentSeconds;
-
+        
         /// <summary>
         /// 从缓存池中申请对象
         /// </summary>
@@ -33,7 +33,6 @@ namespace IFramework.Engine
         /// </summary>
         protected override void OnExecute()
         {
-            base.OnExecute();
             OnExecute(Time.deltaTime);
         }
 
@@ -88,6 +87,5 @@ namespace IFramework.Engine
         {
             self.Execute(DelayAction.Allocate(seconds));
         }
-        
     }
 }

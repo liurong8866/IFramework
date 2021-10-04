@@ -17,6 +17,9 @@ public class DelayActionTest : MonoBehaviour
         
         DelayAction delay2s = DelayAction.Allocate(2.0f, () => { Log.Info("延时 2s"); });
         this.Execute(delay2s);
+
+        DelayAction delay3 = new DelayAction();
+        delay2s.Execute();
         
         delay2s.Dispose();
     }

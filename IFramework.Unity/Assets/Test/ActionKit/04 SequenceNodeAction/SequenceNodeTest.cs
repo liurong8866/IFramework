@@ -16,6 +16,9 @@ public class SequenceNodeTest : MonoBehaviour
         sequenceNode.Execute();
         
         
+        // sequenceNode.Execute();
+
+
         // this.Sequence()
         //     .Event(() => Debug.Log(Time.frameCount))
         //     .Delay(1.5f)

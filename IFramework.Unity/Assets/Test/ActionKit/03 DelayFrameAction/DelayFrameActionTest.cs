@@ -6,11 +6,11 @@ public class DelayFrameActionTest : MonoBehaviour
 {
     private void Start()
     {
-        // Debug.Log(Time.frameCount);
-        // DelayFrameAction delayFrameAction = DelayFrameAction.Allocate(1, () => { Debug.Log(Time.frameCount); });
-        // this.Execute(delayFrameAction);
-        // this.DelayFrame(2, () => { Debug.Log(Time.frameCount); });
-        // this.DelayFrame(100, () => { Debug.Log(Time.frameCount); });
+        Debug.Log(Time.frameCount);
+        DelayFrameAction delayFrameAction = DelayFrameAction.Allocate(1, () => { Debug.Log(Time.frameCount); });
+        this.Execute(delayFrameAction);
+        this.DelayFrame(2, () => { Debug.Log(Time.frameCount); });
+        this.DelayFrame(100, () => { Debug.Log(Time.frameCount); });
         
         Log.Info("================");
         
