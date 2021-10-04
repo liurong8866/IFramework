@@ -30,6 +30,32 @@ namespace IFramework.Engine
             }
         }
 
+        /// <summary>
+        /// 执行事件
+        /// </summary>
+        protected override void OnExecute()
+        {
+            if (Count > 0) {
+                // 如果有异常，则进行销毁，不再进行下边的操作
+                if (executeNodes[0].Disposed && !executeNodes[0].Finished) {
+                    Dispose();
+                    return;
+                }
+
+                while (executeNodes[0].Execute()) {
+                    executeNodes.RemoveAt(0);
+                    OnCurrentActionFinished();
+                    if (Count == 0) break;
+                }
+            }
+            Finished = Count == 0;
+        }
+
+        /// <summary>
+        /// 当前事件结束触发的事件
+        /// </summary>
+        protected virtual void OnCurrentActionFinished() { }
+
         protected override void OnReset()
         {
             executeNodes.Clear();
@@ -38,6 +64,31 @@ namespace IFramework.Engine
             foreach (IAction node in originalNodes) {
                 node.Reset();
                 executeNodes.Add(node);
+            }
+        }
+        
+        /// <summary>
+        /// 添加节点
+        /// </summary>
+        public SequenceNode Append(IAction appendedNode) {
+            originalNodes.Add(appendedNode);
+            executeNodes.Add(appendedNode);
+            return this;
+        }
+
+        protected override void OnDispose()
+        {
+            if (originalNodes != null) {
+                originalNodes.ForEach(node => node.Dispose());
+                originalNodes.Clear();
+                originalNodes.Recycle();
+                originalNodes = null;
+            }
+
+            // ReSharper disable once InvertIf
+            if (executeNodes != null) {
+                executeNodes.Recycle();
+                executeNodes = null;
             }
         }
     }
