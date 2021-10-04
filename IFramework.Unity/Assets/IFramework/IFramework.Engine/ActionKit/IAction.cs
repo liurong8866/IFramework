@@ -36,7 +36,7 @@ namespace IFramework.Engine
         /// <summary>
         /// MonoBehaviour 的扩展方法
         /// </summary>
-        public static T Execute<T>(this T self, IAction command) where T : MonoBehaviour
+        public static MonoBehaviour Execute(this MonoBehaviour self, IAction command)
         {
             self.StartCoroutine(command.ExecuteAction());
             return self;
@@ -45,7 +45,7 @@ namespace IFramework.Engine
         /// <summary>
         /// IAction 的扩展方法
         /// </summary>
-        public static IEnumerator ExecuteAction(this IAction self)
+        private static IEnumerator ExecuteAction(this IAction self)
         {
             if (self.Finished) self.Reset();
 
