@@ -74,19 +74,20 @@ namespace IFramework.Engine
     public static class DelayActionExtensions
     {
         /// <summary>
-        /// 延迟N秒
-        /// </summary>
-        public static IActionChain Delay(this IActionChain self, float seconds)
-        {
-            return self.Append(DelayAction.Allocate(seconds));
-        }
-
-        /// <summary>
         /// 延迟N秒执行某事件
         /// </summary>
         public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
         {
             self.Execute(DelayAction.Allocate(seconds, action));
         }
+        
+        /// <summary>
+        /// 延迟N秒
+        /// </summary>
+        public static void Delay<T>(this T self, float seconds) where T : MonoBehaviour
+        {
+            self.Execute(DelayAction.Allocate(seconds));
+        }
+        
     }
 }

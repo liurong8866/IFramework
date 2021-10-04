@@ -77,14 +77,6 @@ namespace IFramework.Engine
     public static class DelayFrameActionExtensions
     {
         /// <summary>
-        /// 延迟N帧
-        /// </summary>
-        public static IActionChain DelayFrame(this IActionChain self, int frameCount)
-        {
-            return self.Append(DelayFrameAction.Allocate(frameCount));
-        }
-
-        /// <summary>
         /// 延迟N帧执行某事件
         /// </summary>
         public static void DelayFrame<T>(this T self, int frameCount, Action action) where T : MonoBehaviour
@@ -93,11 +85,11 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 延迟一帧
+        /// 延迟N帧执行某事件
         /// </summary>
-        public static IActionChain NextFrame(this IActionChain self)
+        public static void DelayFrame<T>(this T self, int frameCount) where T : MonoBehaviour
         {
-            return self.Append(DelayFrameAction.Allocate(1));
+            self.Execute(DelayFrameAction.Allocate(frameCount));
         }
 
         /// <summary>
@@ -106,6 +98,14 @@ namespace IFramework.Engine
         public static void NextFrame<T>(this T self, Action action) where T : MonoBehaviour
         {
             self.Execute(DelayFrameAction.Allocate(1, action));
+        }
+
+        /// <summary>
+        /// 下一帧执行某事件
+        /// </summary>
+        public static void NextFrame<T>(this T self) where T : MonoBehaviour
+        {
+            self.Execute(DelayFrameAction.Allocate(1));
         }
     }
 }
