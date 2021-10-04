@@ -1,17 +1,16 @@
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 序列节点链
-    /// </summary>
-    public class SequenceNodeChain : AbstractActionChain
+    public class RepeatNodeChain : AbstractActionChain
     {
+        private RepeatNode repeatNode;
         private SequenceNode sequenceNode;
 
-        protected override AbstractAction Node => sequenceNode;
+        protected override AbstractAction Node => repeatNode;
 
-        public SequenceNodeChain()
+        public RepeatNodeChain(int repeatCount)
         {
             sequenceNode = new SequenceNode();
+            repeatNode = new RepeatNode(sequenceNode, repeatCount);
         }
 
         public override IActionChain Append(IAction node)
@@ -23,7 +22,9 @@ namespace IFramework.Engine
         protected override void OnDispose()
         {
             base.OnDispose();
-            sequenceNode.Dispose();
+            repeatNode?.Dispose();
+            repeatNode = null;
+            sequenceNode?.Dispose();
             sequenceNode = null;
         }
     }

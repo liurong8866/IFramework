@@ -7,6 +7,6 @@ namespace IFramework.Engine
     public class ActionData
     {
         [SerializeField] public string ActionName;
-        [SerializeField] public string AcitonData;
+        [SerializeField] public string Data;
     }
 }

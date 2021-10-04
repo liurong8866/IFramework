@@ -3,6 +3,9 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// 出生点节点
+    /// </summary>
     public class SpawnNode : AbstractAction
     {
         private int finishCount;
@@ -29,14 +32,18 @@ namespace IFramework.Engine
             }
         }
 
-        protected override void OnDispose()
+        /// <summary>
+        /// 执行事件
+        /// </summary>
+        protected override void OnExecute()
         {
-            foreach (AbstractAction node in nodes) {
-                node.OnEndedCallback -= IncreaseFinishCount;
-                node.Dispose();
+            for (int i = nodes.Count - 1; i >= 0; i--) {
+                AbstractAction node = nodes[i];
+
+                if (!node.Finished && node.Execute()) {
+                    Finished = nodes.Count == finishCount;
+                }
             }
-            nodes.Recycle();
-            nodes = null;
         }
 
         protected override void OnReset()
@@ -53,15 +60,14 @@ namespace IFramework.Engine
             base.Finish();
         }
 
-        protected override void OnExecute()
+        protected override void OnDispose()
         {
-            for (int i = nodes.Count - 1; i >= 0; i--) {
-                AbstractAction node = nodes[i];
-
-                if (!node.Finished && node.Execute()) {
-                    Finished = nodes.Count == finishCount;
-                }
+            foreach (AbstractAction node in nodes) {
+                node.OnEndedCallback -= IncreaseFinishCount;
+                node.Dispose();
             }
+            nodes.Recycle();
+            nodes = null;
         }
 
         private void IncreaseFinishCount()
