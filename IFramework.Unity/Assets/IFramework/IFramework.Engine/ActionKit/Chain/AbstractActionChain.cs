@@ -42,7 +42,7 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 开始执行事件链
+        /// 开始执行
         /// </summary>
         public IDisposeWhen Begin()
         {

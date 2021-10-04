@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using IFramework.Core;
+using JetBrains.Annotations;
 
 namespace IFramework.Engine
 {
@@ -10,6 +11,13 @@ namespace IFramework.Engine
         // 真正执行的节点
         protected List<IAction> executeNodes = ListPool<IAction>.Allocate();
 
+        public SequenceNode([param: NotNull] params IAction[] nodes) {
+            foreach (IAction node in nodes) {
+                originalNodes.Add(node);
+                executeNodes.Add(node);
+            }
+        }
+        
         /// <summary>
         /// 总节点数量
         /// </summary>

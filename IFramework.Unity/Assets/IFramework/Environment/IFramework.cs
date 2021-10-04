@@ -14,14 +14,14 @@ namespace IFramework.Engine
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void InitBeforeSceneLoad(){
             
-            Log.Info("初始化 PlatformEnvironment");
+            // Log.Info("初始化 PlatformEnvironment");
             PlatformEnvironment.Instance.Init(Environment.Instance);
 
-            Log.Info("初始化 ResourceManager");
-            ResourceManager.Init();
+            // Log.Info("初始化 ResourceManager");
+            // ResourceManager.Init();
             
-            // 异步加载
-            // ResourceManager.Instance.StartInitAsync();
+            // Log.Info("异步加载初始化 ResourceManager");
+            ResourceManager.Instance.InitAsync();
         }
     }
 }

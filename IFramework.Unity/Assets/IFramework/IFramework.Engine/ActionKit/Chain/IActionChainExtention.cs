@@ -24,9 +24,9 @@ namespace IFramework.Engine
         /// </summary>
         public static IActionChain Repeat<T>(this T self, int count = -1) where T : MonoBehaviour
         {
-            RepeatNodeChain retNodeChain = new RepeatNodeChain(count) { Executer = self };
-            retNodeChain.DisposeWhenGameObjectDestroyed(self);
-            return retNodeChain;
+            RepeatNodeChain chain = new RepeatNodeChain(count) { Executer = self };
+            chain.DisposeWhenGameObjectDestroyed(self);
+            return chain;
         }
 
         /// <summary>
