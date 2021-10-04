@@ -36,7 +36,7 @@ namespace IFramework.Engine
             OnExecute(Time.deltaTime);
         }
 
-        protected void OnExecute(float delta)
+        private void OnExecute(float delta)
         {
             // 判断是否超时，过了时间视为延迟结束
             currentSeconds += delta;

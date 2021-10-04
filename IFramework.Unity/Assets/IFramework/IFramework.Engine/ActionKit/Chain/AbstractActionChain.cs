@@ -9,7 +9,8 @@ namespace IFramework.Engine
     /// </summary>
     public abstract class AbstractActionChain : AbstractAction, IActionChain, IDisposeWhen
     {
-        private bool disposeWhenCondition;
+        // TODO 观察注释后有无问题
+        // private bool disposeWhenCondition;
         private Func<bool> disposeCondition;
         private Action onDisposedEvent;
 
@@ -33,7 +34,8 @@ namespace IFramework.Engine
         /// </summary>
         protected override void OnExecute()
         {
-            if (disposeWhenCondition && disposeCondition != null && disposeCondition.Invoke()) {
+            // if (disposeWhenCondition && disposeCondition != null && disposeCondition.Invoke()) {
+            if (disposeCondition != null && disposeCondition.Invoke()) {
                 Finish();
             }
             else {
@@ -69,7 +71,7 @@ namespace IFramework.Engine
 
         public IDisposeEventRegister DisposeWhen(Func<bool> condition)
         {
-            disposeWhenCondition = true;
+            // disposeWhenCondition = true;
             disposeCondition = condition;
             return this;
         }
@@ -77,7 +79,7 @@ namespace IFramework.Engine
         protected override void OnDispose()
         {
             Executer = null;
-            disposeWhenCondition = false;
+            // disposeWhenCondition = false;
             disposeCondition = null;
             onDisposedEvent.InvokeSafe();
             onDisposedEvent = null;

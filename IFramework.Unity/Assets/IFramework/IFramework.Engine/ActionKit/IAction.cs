@@ -16,6 +16,11 @@ namespace IFramework.Engine
         bool Execute();
 
         /// <summary>
+        /// 执行事件
+        /// </summary>
+        bool ExecuteSync();
+        
+        /// <summary>
         /// 结束
         /// </summary>
         void Finish();
