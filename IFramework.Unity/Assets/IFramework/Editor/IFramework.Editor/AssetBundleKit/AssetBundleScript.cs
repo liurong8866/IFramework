@@ -37,6 +37,9 @@ namespace IFramework.Editor
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             // 生成命名空间
             CodeNamespace codeNamespace = new CodeNamespace(nameSpace);
+            // 取消当前文件代码格式检查
+            codeNamespace.Comments.Add(new CodeCommentStatement("ReSharper disable All"));
+            
             // 添加命名空间到编译单元
             codeCompileUnit.Namespaces.Add(codeNamespace);
 
@@ -52,6 +55,7 @@ namespace IFramework.Editor
             foreach (AssetBundleScriptModel assetModle in assetModelList) {
                 // 驼峰格式
                 string bundleName = assetModle.Name;
+                
                 // 首字母不能是数字
                 if (bundleName[0].IsNumeric()) continue;
 
@@ -60,6 +64,7 @@ namespace IFramework.Editor
 
                 //准备要生成的类的定义
                 CodeTypeDeclaration classCode = new CodeTypeDeclaration(className);
+                
                 // 把类添加到命名空间下
                 assetClass.Members.Add(classCode);
 
@@ -76,9 +81,8 @@ namespace IFramework.Editor
             CodeGeneratorOptions options = new CodeGeneratorOptions { BlankLinesBetweenMembers = false, BracingStyle = "CS" };
 
             // 写入文件
-            using (StreamWriter sw = new StreamWriter(outputPath)) {
-                provider.GenerateCodeFromCompileUnit(codeCompileUnit, sw, options);
-            }
+            using StreamWriter sw = new StreamWriter(outputPath);
+            provider.GenerateCodeFromCompileUnit(codeCompileUnit, sw, options);
         }
 
         /// <summary>
