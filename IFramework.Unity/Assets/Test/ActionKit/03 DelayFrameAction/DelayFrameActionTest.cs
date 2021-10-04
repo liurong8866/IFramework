@@ -6,24 +6,28 @@ public class DelayFrameActionTest : MonoBehaviour
 {
     private void Start()
     {
-        Debug.Log(Time.frameCount);
-        DelayFrameAction delayFrameAction = DelayFrameAction.Allocate(1, () => { Debug.Log(Time.frameCount); });
+        DelayFrameAction delayFrameAction = DelayFrameAction.Allocate(0, () => { Debug.Log(Time.frameCount); });
         this.Execute(delayFrameAction);
-        this.DelayFrame(2, () => { Debug.Log(Time.frameCount); });
-        this.DelayFrame(100, () => { Debug.Log(Time.frameCount); });
         
-        Log.Info("================");
+        DelayFrameAction delayFrameAction2 = DelayFrameAction.Allocate(2, () => { Debug.Log(Time.frameCount); });
+        delayFrameAction2.Execute(this);
+
+        
+        this.DelayFrame(4, () => { Debug.Log(Time.frameCount); });
+        this.DelayFrame(6, () => { Debug.Log(Time.frameCount); });
+        
+        "======= 以下为序列：顺序执行 =========".LogInfo();
         
         this.Sequence()
-            .Event(() => Debug.Log(Time.frameCount))
+            .Event(() => Debug.Log("序列：" + Time.frameCount))
             .DelayFrame(2)
-            .Event(() => Debug.Log(Time.frameCount))
-            .DelayFrame(10)
-            .Event(() => Debug.Log(Time.frameCount))
-            .NextFrame()
-            .Event(() => Debug.Log(Time.frameCount))
-            .NextFrame()
-            .Event(() => Debug.Log(Time.frameCount))
+            .Event(() => Debug.Log("序列：" + Time.frameCount))
+            .DelayFrame(4)
+            .Event(() => Debug.Log("序列：" + Time.frameCount))
+            .DelayFrame(6)
+            .Event(() => Debug.Log("序列：" + Time.frameCount))
+            .DelayFrame(8)
+            .Event(() => Debug.Log("序列：" + Time.frameCount))
             .Begin();
         
         this.NextFrame(() => { Debug.Log("NextFrame："+Time.frameCount); });

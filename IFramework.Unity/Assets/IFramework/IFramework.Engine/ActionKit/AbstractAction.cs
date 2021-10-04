@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using IFramework.Core;
+using UnityEngine;
 
 namespace IFramework.Engine
 {
@@ -8,14 +10,14 @@ namespace IFramework.Engine
     /// </summary>
     public abstract class AbstractAction : Disposable, IAction
     {
+        protected bool onBeginCalled;
+
         public Action OnBeganCallback;
         public Action OnEndedCallback;
         public Action OnDisposedCallback;
 
-        protected bool onBeginCalled;
-
         /// <summary>
-        /// 执行
+        /// 执行事件
         /// </summary>
         public bool Execute()
         {
@@ -42,14 +44,24 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 重置
+        /// 执行事件直到结束
         /// </summary>
-        public void Reset()
+        public T Execute<T>(T mono) where T : MonoBehaviour
         {
-            Finished = false;
-            onBeginCalled = false;
-            disposed = false;
-            OnReset();
+            mono.StartCoroutine(ExecuteAsync());
+            return mono;
+        }
+
+        /// <summary>
+        /// IAction 的扩展方法
+        /// </summary>
+        private IEnumerator ExecuteAsync()
+        {
+            if (Finished) Reset();
+
+            while (!Execute()) {
+                yield return null;
+            }
         }
 
         /// <summary>
@@ -66,9 +78,15 @@ namespace IFramework.Engine
         public bool Finished { get; protected set; }
 
         /// <summary>
-        /// 是否释放
+        /// 重置
         /// </summary>
-        public bool Disposed => disposed;
+        public void Reset()
+        {
+            Finished = false;
+            onBeginCalled = false;
+            disposed = false;
+            OnReset();
+        }
 
         /// <summary>
         /// 托管资源：由CLR管理分配和释放的资源，即由CLR里new出来的对象；

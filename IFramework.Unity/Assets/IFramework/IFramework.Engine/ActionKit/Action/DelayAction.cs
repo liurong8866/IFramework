@@ -9,13 +9,13 @@ namespace IFramework.Engine
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
-    {
+    { 
+        // 时间计数器
+        private float currentSeconds;
         // 延迟时间
         [SerializeField] public float DelayTime;
         // 延迟事件
         public Action OnDelayFinish { get; set; }
-        // 时间计数器
-        private float currentSeconds;
         
         /// <summary>
         /// 从缓存池中申请对象
@@ -35,7 +35,7 @@ namespace IFramework.Engine
         {
             OnExecute(Time.deltaTime);
         }
-
+        
         private void OnExecute(float delta)
         {
             // 判断是否超时，过了时间视为延迟结束

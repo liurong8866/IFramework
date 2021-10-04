@@ -45,7 +45,7 @@ namespace IFramework.Engine
                 }
             }
         }
-
+        
         protected override void OnReset()
         {
             nodes.ForEach(node => node.Reset());

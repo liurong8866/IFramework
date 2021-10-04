@@ -52,7 +52,6 @@ namespace IFramework.Engine
 
         protected override void OnReset()
         {
-            base.OnReset();
             startFrame = Time.frameCount;
         }
 

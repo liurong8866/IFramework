@@ -8,23 +8,27 @@ public class EventActionTest : MonoBehaviour
 
     private void Awake()
     {
-        eventAction = EventAction.Allocate(() => { Log.Info("event 3 called"); }, () => { Log.Info("event 4 called"); });
+        eventAction = EventAction.Allocate(() => { Log.Info("event 4 called"); }, () => { Log.Info("event 5 called"); });
     }
 
     private void Start()
     {
+        // 方法调用
         EventAction eventNode = EventAction.Allocate(() => { Log.Info("event 1 called"); }, () => { Log.Info("event 2 called"); });
-        this.Execute(eventNode);
+        eventNode.Execute(this);
+        
+        // IAction 扩展方法调用
         EventAction eventNode2 = EventAction.Allocate();
         this.Execute(eventNode2);
-        this.Action(() => { "hello world".LogInfo(); });
-        this.Action();
+        
+        // 扩展方法调用
+        this.Action(() => { "event 3 called".LogInfo(); });
     }
 
     private void Update()
     {
         if (eventAction != null && !eventAction.Finished && eventAction.Execute()) {
-            Log.Info("eventNode2 执行完成");
+            Log.Info("eventNode  执行完成");
         }
     }
 }

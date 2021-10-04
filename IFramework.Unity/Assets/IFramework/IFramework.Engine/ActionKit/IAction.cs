@@ -8,7 +8,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 执行节点的基础接口
     /// </summary>
-    public interface IAction : IDisposable, IResetable
+    public interface IAction : IResetable, IDisposable
     {
         /// <summary>
         /// 执行事件
@@ -16,9 +16,9 @@ namespace IFramework.Engine
         bool Execute();
 
         /// <summary>
-        /// 执行事件
+        /// 执行事件直到结束
         /// </summary>
-        bool ExecuteSync();
+        T Execute<T>(T mono) where T : MonoBehaviour;
         
         /// <summary>
         /// 结束
@@ -29,11 +29,6 @@ namespace IFramework.Engine
         /// 是否结束
         /// </summary>
         bool Finished { get; }
-
-        /// <summary>
-        /// 是否释放
-        /// </summary>
-        bool Disposed { get; }
     }
 
     public static class IActionExtension
@@ -41,22 +36,10 @@ namespace IFramework.Engine
         /// <summary>
         /// MonoBehaviour 的扩展方法
         /// </summary>
-        public static MonoBehaviour Execute(this MonoBehaviour self, IAction command)
+        public static T Execute<T>(this T self, IAction action) where T : MonoBehaviour
         {
-            self.StartCoroutine(command.ExecuteAction());
+            action.Execute(self);
             return self;
-        }
-
-        /// <summary>
-        /// IAction 的扩展方法
-        /// </summary>
-        private static IEnumerator ExecuteAction(this IAction self)
-        {
-            if (self.Finished) self.Reset();
-
-            while (!self.Execute()) {
-                yield return null;
-            }
         }
     }
 }

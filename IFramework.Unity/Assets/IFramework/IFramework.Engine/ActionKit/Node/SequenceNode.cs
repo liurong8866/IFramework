@@ -48,10 +48,11 @@ namespace IFramework.Engine
         {
             if (Count > 0) {
                 // 如果有异常，则进行销毁，不再进行下边的操作
-                if (executeNodes[0].Disposed && !executeNodes[0].Finished) {
-                    Dispose();
-                    return;
-                }
+                // if (executeNodes[0].Disposed && !executeNodes[0].Finished) {
+                // if (executeNodes[0].Finished) {
+                //     Dispose();
+                //     return;
+                // }
 
                 while (executeNodes[0].Execute()) {
                     executeNodes.RemoveAt(0);
