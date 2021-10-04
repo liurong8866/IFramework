@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IFramework.Core
 {
@@ -11,7 +12,7 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public IDisposable RegisterEvent<T>(Action<T> action)
+        public IDisposable RegisterEvent<T>([NotNull] Action<T> action)
         {
             Type type = typeof(T);
 
@@ -22,7 +23,7 @@ namespace IFramework.Core
             }
             else {
                 TypeEventRegister<T> reg = new TypeEventRegister<T>();
-                reg.actions += action;
+                reg.actions = action;
                 typeEventDict.Add(type, reg);
             }
             return new TypeEventUnregister<T> { actions = action, typeEvent = this };

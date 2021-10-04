@@ -29,7 +29,7 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 取消注册某一事件
+        /// 取消注册某一事件（因为事件是可以+多个的）
         /// </summary>
         public void UnRegisterEvent<T>(T key, TEvent action) where T : IConvertible
         {
@@ -39,7 +39,7 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 取消注册某一类型事件
+        /// 取消注册某一类型全部事件
         /// </summary>
         public void UnRegisterEvent<T>(T key) where T : IConvertible
         {
@@ -92,9 +92,7 @@ namespace IFramework.Core
 
         public bool IsRecycled { get; set; }
 
-        /*----------------------------*/
-        /* 静态方法调用单例方法           */
-        /*----------------------------*/
+        /*----------------------------- 静态方法调用单例方法 -----------------------------*/
 
         /// <summary>
         /// 发送无参数消息
