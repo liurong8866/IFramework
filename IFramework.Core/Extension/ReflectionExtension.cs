@@ -84,25 +84,37 @@ namespace IFramework.Core
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this PropertyInfo prop, Type attributeType, bool inherit) { return prop.GetCustomAttributes(attributeType, inherit).Length > 0; }
+        public static bool HasAttribute(this PropertyInfo prop, Type attributeType, bool inherit)
+        {
+            return prop.GetCustomAttributes(attributeType, inherit).Length > 0;
+        }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this FieldInfo field, Type attributeType, bool inherit) { return field.GetCustomAttributes(attributeType, inherit).Length > 0; }
+        public static bool HasAttribute(this FieldInfo field, Type attributeType, bool inherit)
+        {
+            return field.GetCustomAttributes(attributeType, inherit).Length > 0;
+        }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this Type type, Type attributeType, bool inherit) { return type.GetCustomAttributes(attributeType, inherit).Length > 0; }
+        public static bool HasAttribute(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetCustomAttributes(attributeType, inherit).Length > 0;
+        }
 
         /// <summary>
         /// 拥有特性
         /// </summary>
         /// <returns></returns>
-        public static bool HasAttribute(this MethodInfo method, Type attributeType, bool inherit) { return method.GetCustomAttributes(attributeType, inherit).Length > 0; }
+        public static bool HasAttribute(this MethodInfo method, Type attributeType, bool inherit)
+        {
+            return method.GetCustomAttributes(attributeType, inherit).Length > 0;
+        }
 
         /// <summary>
         /// 获取第一个特性

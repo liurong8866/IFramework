@@ -16,7 +16,10 @@ namespace IFramework.Core
         /// 单例特性构造函数
         /// </summary>
         /// <param name="pathInHierarchy">需要附加的GameObject在Hierarchy中的全路径</param>
-        public MonoSingletonAttribute(string pathInHierarchy) { PathInHierarchy = pathInHierarchy; }
+        public MonoSingletonAttribute(string pathInHierarchy)
+        {
+            PathInHierarchy = pathInHierarchy;
+        }
 
         // 获取Hierarchy中的全路径
         public string PathInHierarchy { get; }

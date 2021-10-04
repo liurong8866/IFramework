@@ -7,17 +7,35 @@ namespace IFramework.Core
     /// </summary>
     public abstract class AbstractPropertyNumeric<T> : AbstractProperty<T> where T : struct, IConvertible, IComparable
     {
-        public int ToInt() { return Value.ToInt(); }
+        public int ToInt()
+        {
+            return Value.ToInt();
+        }
 
-        public long ToLong() { return Value.ToLong(); }
+        public long ToLong()
+        {
+            return Value.ToLong();
+        }
 
-        public short ToShort() { return Value.ToShort(); }
+        public short ToShort()
+        {
+            return Value.ToShort();
+        }
 
-        public float ToFloat() { return Value.ToFloat(); }
+        public float ToFloat()
+        {
+            return Value.ToFloat();
+        }
 
-        public double ToDouble() { return Value.ToDouble(); }
+        public double ToDouble()
+        {
+            return Value.ToDouble();
+        }
 
-        public decimal ToDecimal() { return Value.ToDecimal(); }
+        public decimal ToDecimal()
+        {
+            return Value.ToDecimal();
+        }
 
         //"+"方法
         public static T Addition(object m, object n)
@@ -172,39 +190,84 @@ namespace IFramework.Core
         }
 
         //重载运算符"+"
-        public static T operator +(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return Addition(m.Value, n.Value); }
+        public static T operator +(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Addition(m.Value, n.Value);
+        }
 
-        public static T operator +(AbstractPropertyNumeric<T> m, T n) { return Addition(m.Value, n); }
+        public static T operator +(AbstractPropertyNumeric<T> m, T n)
+        {
+            return Addition(m.Value, n);
+        }
 
-        public static T operator +(T m, AbstractPropertyNumeric<T> n) { return Addition(m, n.Value); }
+        public static T operator +(T m, AbstractPropertyNumeric<T> n)
+        {
+            return Addition(m, n.Value);
+        }
 
         //重载运算符"-"
-        public static T operator -(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return Subtraction(m.Value, n.Value); }
+        public static T operator -(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Subtraction(m.Value, n.Value);
+        }
 
-        public static T operator -(AbstractPropertyNumeric<T> m, T n) { return Subtraction(m.Value, n); }
+        public static T operator -(AbstractPropertyNumeric<T> m, T n)
+        {
+            return Subtraction(m.Value, n);
+        }
 
-        public static T operator -(T m, AbstractPropertyNumeric<T> n) { return Subtraction(m, n.Value); }
+        public static T operator -(T m, AbstractPropertyNumeric<T> n)
+        {
+            return Subtraction(m, n.Value);
+        }
 
         //重载运算符"*"
-        public static T operator *(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return Multiply(m.Value, n.Value); }
+        public static T operator *(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Multiply(m.Value, n.Value);
+        }
 
-        public static T operator *(AbstractPropertyNumeric<T> m, T n) { return Multiply(m.Value, n); }
+        public static T operator *(AbstractPropertyNumeric<T> m, T n)
+        {
+            return Multiply(m.Value, n);
+        }
 
-        public static T operator *(T m, AbstractPropertyNumeric<T> n) { return Multiply(m, n.Value); }
+        public static T operator *(T m, AbstractPropertyNumeric<T> n)
+        {
+            return Multiply(m, n.Value);
+        }
 
         //重载运算符"/"
-        public static T operator /(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return Division(m.Value, n.Value); }
+        public static T operator /(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Division(m.Value, n.Value);
+        }
 
-        public static T operator /(AbstractPropertyNumeric<T> m, T n) { return Division(m.Value, n); }
+        public static T operator /(AbstractPropertyNumeric<T> m, T n)
+        {
+            return Division(m.Value, n);
+        }
 
-        public static T operator /(T m, AbstractPropertyNumeric<T> n) { return Division(m, n.Value); }
+        public static T operator /(T m, AbstractPropertyNumeric<T> n)
+        {
+            return Division(m, n.Value);
+        }
 
         //重载运算符"%"
-        public static T operator %(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return Module(m.Value, n.Value); }
+        public static T operator %(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return Module(m.Value, n.Value);
+        }
 
-        public static T operator %(AbstractPropertyNumeric<T> m, T n) { return Module(m.Value, n); }
+        public static T operator %(AbstractPropertyNumeric<T> m, T n)
+        {
+            return Module(m.Value, n);
+        }
 
-        public static T operator %(T m, AbstractPropertyNumeric<T> n) { return Module(m, n.Value); }
+        public static T operator %(T m, AbstractPropertyNumeric<T> n)
+        {
+            return Module(m, n.Value);
+        }
 
         //重载运算符"++"
         public static AbstractPropertyNumeric<T> operator ++(AbstractPropertyNumeric<T> self)
@@ -258,39 +321,84 @@ namespace IFramework.Core
         }
 
         //重载运算符"!="
-        public static bool operator !=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return !(m == n); }
+        public static bool operator !=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return !(m == n);
+        }
 
-        public static bool operator !=(AbstractPropertyNumeric<T> m, object n) { return !(m == n); }
+        public static bool operator !=(AbstractPropertyNumeric<T> m, object n)
+        {
+            return !(m == n);
+        }
 
-        public static bool operator !=(object m, AbstractPropertyNumeric<T> n) { return !(m == n); }
+        public static bool operator !=(object m, AbstractPropertyNumeric<T> n)
+        {
+            return !(m == n);
+        }
 
         //重载运算符">"
-        public static bool operator >(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return m.Value.ToDouble() > n.Value.ToDouble(); }
+        public static bool operator >(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return m.Value.ToDouble() > n.Value.ToDouble();
+        }
 
-        public static bool operator >(AbstractPropertyNumeric<T> m, object n) { return m.Value.ToDouble() > n.ToDouble(); }
+        public static bool operator >(AbstractPropertyNumeric<T> m, object n)
+        {
+            return m.Value.ToDouble() > n.ToDouble();
+        }
 
-        public static bool operator >(object m, AbstractPropertyNumeric<T> n) { return m.ToDouble() > n.Value.ToDouble(); }
+        public static bool operator >(object m, AbstractPropertyNumeric<T> n)
+        {
+            return m.ToDouble() > n.Value.ToDouble();
+        }
 
         //重载运算符"<"
-        public static bool operator <(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return m.Value.ToDouble() < n.Value.ToDouble(); }
+        public static bool operator <(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return m.Value.ToDouble() < n.Value.ToDouble();
+        }
 
-        public static bool operator <(AbstractPropertyNumeric<T> m, object n) { return m.Value.ToDouble() < n.ToDouble(); }
+        public static bool operator <(AbstractPropertyNumeric<T> m, object n)
+        {
+            return m.Value.ToDouble() < n.ToDouble();
+        }
 
-        public static bool operator <(object m, AbstractPropertyNumeric<T> n) { return m.ToDouble() < n.Value.ToDouble(); }
+        public static bool operator <(object m, AbstractPropertyNumeric<T> n)
+        {
+            return m.ToDouble() < n.Value.ToDouble();
+        }
 
         //重载运算符">="
-        public static bool operator >=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return m.Value.ToDouble() >= n.Value.ToDouble(); }
+        public static bool operator >=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return m.Value.ToDouble() >= n.Value.ToDouble();
+        }
 
-        public static bool operator >=(AbstractPropertyNumeric<T> m, object n) { return m.Value.ToDouble() >= n.ToDouble(); }
+        public static bool operator >=(AbstractPropertyNumeric<T> m, object n)
+        {
+            return m.Value.ToDouble() >= n.ToDouble();
+        }
 
-        public static bool operator >=(object m, AbstractPropertyNumeric<T> n) { return m.ToDouble() >= n.Value.ToDouble(); }
+        public static bool operator >=(object m, AbstractPropertyNumeric<T> n)
+        {
+            return m.ToDouble() >= n.Value.ToDouble();
+        }
 
         //重载运算符"<="
-        public static bool operator <=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n) { return m.Value.ToDouble() <= n.Value.ToDouble(); }
+        public static bool operator <=(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
+        {
+            return m.Value.ToDouble() <= n.Value.ToDouble();
+        }
 
-        public static bool operator <=(AbstractPropertyNumeric<T> m, object n) { return m.Value.ToDouble() <= n.ToDouble(); }
+        public static bool operator <=(AbstractPropertyNumeric<T> m, object n)
+        {
+            return m.Value.ToDouble() <= n.ToDouble();
+        }
 
-        public static bool operator <=(object m, AbstractPropertyNumeric<T> n) { return m.ToDouble() <= n.Value.ToDouble(); }
+        public static bool operator <=(object m, AbstractPropertyNumeric<T> n)
+        {
+            return m.ToDouble() <= n.Value.ToDouble();
+        }
 
         //重写Equals方法
         public override bool Equals(object obj)
@@ -319,6 +427,9 @@ namespace IFramework.Core
             return Value.Equals(bindable.Value);
         }
 
-        public override int GetHashCode() { return Value.GetHashCode(); }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }

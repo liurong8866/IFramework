@@ -21,9 +21,15 @@ namespace IFramework.Test.Event
             }
         }
 
-        public void OnEvent(OnLeftMouseClickEvent t) { "点击左键".LogInfo(); }
+        public void OnEvent(OnLeftMouseClickEvent t)
+        {
+            "点击左键".LogInfo();
+        }
 
-        public void OnEvent(OnRightMouseClickEvent t) { "点击右键".LogInfo(); }
+        public void OnEvent(OnRightMouseClickEvent t)
+        {
+            "点击右键".LogInfo();
+        }
 
         private void OnDisable()
         {

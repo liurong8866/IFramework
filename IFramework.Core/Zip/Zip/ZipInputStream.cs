@@ -84,14 +84,20 @@ namespace IFramework.Core.Zip.Zip
         /// Creates a new Zip input stream, for reading a zip archive.
         /// </summary>
         /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
-        public ZipInputStream(Stream baseInputStream) : base(baseInputStream, new Inflater(true)) { internalReader = ReadingNotAvailable; }
+        public ZipInputStream(Stream baseInputStream) : base(baseInputStream, new Inflater(true))
+        {
+            internalReader = ReadingNotAvailable;
+        }
 
         /// <summary>
         /// Creates a new Zip input stream, for reading a zip archive.
         /// </summary>
         /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
         /// <param name="bufferSize">Size of the buffer.</param>
-        public ZipInputStream(Stream baseInputStream, int bufferSize) : base(baseInputStream, new Inflater(true), bufferSize) { internalReader = ReadingNotAvailable; }
+        public ZipInputStream(Stream baseInputStream, int bufferSize) : base(baseInputStream, new Inflater(true), bufferSize)
+        {
+            internalReader = ReadingNotAvailable;
+        }
 
         #endregion
 
@@ -373,12 +379,18 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="offset">The offset at which data read should be stored.</param>
         /// <param name="count">The maximum number of bytes to read.</param>
         /// <returns>Returns the number of bytes actually read.</returns>
-        private int ReadingNotAvailable(byte[] destination, int offset, int count) { throw new InvalidOperationException("Unable to read from this stream"); }
+        private int ReadingNotAvailable(byte[] destination, int offset, int count)
+        {
+            throw new InvalidOperationException("Unable to read from this stream");
+        }
 
         /// <summary>
         /// Handle attempts to read from this entry by throwing an exception
         /// </summary>
-        private int ReadingNotSupported(byte[] destination, int offset, int count) { throw new ZipException("The compression method for this entry is not supported"); }
+        private int ReadingNotSupported(byte[] destination, int offset, int count)
+        {
+            throw new ZipException("The compression method for this entry is not supported");
+        }
 
         /// <summary>
         /// Perform the initial read on an entry which may include

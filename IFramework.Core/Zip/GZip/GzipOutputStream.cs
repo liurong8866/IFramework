@@ -101,7 +101,10 @@ namespace IFramework.Core.Zip.GZip
         /// Get the current compression level.
         /// </summary>
         /// <returns>The current compression level.</returns>
-        public int GetLevel() { return deflater_.GetLevel(); }
+        public int GetLevel()
+        {
+            return deflater_.GetLevel();
+        }
 
         #endregion
 

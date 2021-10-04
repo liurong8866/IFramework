@@ -78,6 +78,9 @@ namespace IFramework.Engine
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() { ObjectPool<Resource>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<Resource>.Instance.Recycle(this);
+        }
     }
 }

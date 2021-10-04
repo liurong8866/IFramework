@@ -136,13 +136,25 @@ namespace IFramework.Editor
 
         private void Update() { }
 
-        private void OnFocus() { Debug.Log("当窗口获得焦点时调用一次"); }
+        private void OnFocus()
+        {
+            Debug.Log("当窗口获得焦点时调用一次");
+        }
 
-        private void OnLostFocus() { Debug.Log("当窗口丢失焦点时调用一次"); }
+        private void OnLostFocus()
+        {
+            Debug.Log("当窗口丢失焦点时调用一次");
+        }
 
-        private void OnHierarchyChange() { Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次"); }
+        private void OnHierarchyChange()
+        {
+            Debug.Log("当Hierarchy视图中的任何对象发生改变时调用一次");
+        }
 
-        private void OnProjectChange() { Debug.Log("当Project视图中的资源发生改变时调用一次"); }
+        private void OnProjectChange()
+        {
+            Debug.Log("当Project视图中的资源发生改变时调用一次");
+        }
 
         private void OnInspectorUpdate()
         {
@@ -160,6 +172,9 @@ namespace IFramework.Editor
             }
         }
 
-        private void OnDestroy() { Debug.Log("当窗口关闭时调用"); }
+        private void OnDestroy()
+        {
+            Debug.Log("当窗口关闭时调用");
+        }
     }
 }

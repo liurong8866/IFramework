@@ -24,13 +24,22 @@ namespace IFramework.Test.Singelton
 
         public static MonoSingletonPropertyTestDemo Instance => MonoSingletonProperty<MonoSingletonPropertyTestDemo>.Instance;
 
-        public void Say() { Debug.Log("hello world"); }
+        public void Say()
+        {
+            Debug.Log("hello world");
+        }
 
-        public void OnInit() { Debug.Log("这是单例初始化"); }
+        public void OnInit()
+        {
+            Debug.Log("这是单例初始化");
+        }
     }
 
     public class Aaa : MonoBehaviour
     {
-        public void Say2() { Debug.Log("我是AAA"); }
+        public void Say2()
+        {
+            Debug.Log("我是AAA");
+        }
     }
 }

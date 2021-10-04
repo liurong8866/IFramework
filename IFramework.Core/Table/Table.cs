@@ -13,7 +13,10 @@ namespace IFramework.Core
         /// <summary>
         /// 获取数据
         /// </summary>
-        public List<T> Get(string key) { return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>(); }
+        public List<T> Get(string key)
+        {
+            return dictionary.TryGetValue(key, out List<T> list) ? list : new List<T>();
+        }
 
         /// <summary>
         /// 添加数据
@@ -47,7 +50,10 @@ namespace IFramework.Core
         /// <summary>
         /// 删除数据
         /// </summary>
-        public void Remove(string key) { dictionary.Remove(key); }
+        public void Remove(string key)
+        {
+            dictionary.Remove(key);
+        }
 
         /// <summary>
         /// 删除数据
@@ -88,8 +94,14 @@ namespace IFramework.Core
         /// <summary>
         /// 实现迭代器
         /// </summary>
-        public IEnumerator<T> GetEnumerator() { return dictionary.SelectMany(d => d.Value).GetEnumerator(); }
+        public IEnumerator<T> GetEnumerator()
+        {
+            return dictionary.SelectMany(d => d.Value).GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

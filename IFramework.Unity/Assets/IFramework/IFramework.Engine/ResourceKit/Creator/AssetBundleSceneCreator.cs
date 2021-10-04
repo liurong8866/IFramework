@@ -12,6 +12,9 @@ namespace IFramework.Engine
             return false;
         }
 
-        public IResource Create(ResourceSearcher searcher) { return AssetBundleScene.Allocate(searcher.AssetName); }
+        public IResource Create(ResourceSearcher searcher)
+        {
+            return AssetBundleScene.Allocate(searcher.AssetName);
+        }
     }
 }

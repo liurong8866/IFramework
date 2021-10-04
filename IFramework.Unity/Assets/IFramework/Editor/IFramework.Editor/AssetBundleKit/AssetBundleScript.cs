@@ -39,7 +39,7 @@ namespace IFramework.Editor
             CodeNamespace codeNamespace = new CodeNamespace(nameSpace);
             // 取消当前文件代码格式检查
             codeNamespace.Comments.Add(new CodeCommentStatement("ReSharper disable All"));
-            
+
             // 添加命名空间到编译单元
             codeCompileUnit.Namespaces.Add(codeNamespace);
 
@@ -55,7 +55,7 @@ namespace IFramework.Editor
             foreach (AssetBundleScriptModel assetModle in assetModelList) {
                 // 驼峰格式
                 string bundleName = assetModle.Name;
-                
+
                 // 首字母不能是数字
                 if (bundleName[0].IsNumeric()) continue;
 
@@ -64,7 +64,7 @@ namespace IFramework.Editor
 
                 //准备要生成的类的定义
                 CodeTypeDeclaration classCode = new CodeTypeDeclaration(className);
-                
+
                 // 把类添加到命名空间下
                 assetClass.Members.Add(classCode);
 
@@ -143,6 +143,9 @@ namespace IFramework.Editor
         public readonly string Name;
         public string[] assets;
 
-        public AssetBundleScriptModel(string name) { Name = name; }
+        public AssetBundleScriptModel(string name)
+        {
+            Name = name;
+        }
     }
 }

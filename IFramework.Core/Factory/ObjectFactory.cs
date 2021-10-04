@@ -9,7 +9,10 @@ namespace IFramework.Core
         /// 无参数构造函数类实例
         /// </summary>
         /// <returns></returns>
-        public static T Create<T>() where T : class { return Activator.CreateInstance(typeof(T)) as T; }
+        public static T Create<T>() where T : class
+        {
+            return Activator.CreateInstance(typeof(T)) as T;
+        }
 
         /// <summary>
         /// 有参数构造函数类实例
@@ -17,7 +20,10 @@ namespace IFramework.Core
         /// <param name="args">需要实例化的类构造函数的参数，根据参数不同调用不同构造函数</param>
         /// <typeparam name="T">要实例化的类</typeparam>
         /// <returns></returns>
-        public static T Create<T>(params object[] args) where T : class { return Activator.CreateInstance(typeof(T), args) as T; }
+        public static T Create<T>(params object[] args) where T : class
+        {
+            return Activator.CreateInstance(typeof(T), args) as T;
+        }
 
         /// <summary>
         /// 动态创建类的实例：创建无参/私有的构造函数  泛型扩展

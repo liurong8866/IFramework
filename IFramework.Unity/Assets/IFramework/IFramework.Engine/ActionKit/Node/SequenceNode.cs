@@ -66,11 +66,12 @@ namespace IFramework.Engine
                 executeNodes.Add(node);
             }
         }
-        
+
         /// <summary>
         /// 添加节点
         /// </summary>
-        public SequenceNode Append(IAction appendedNode) {
+        public SequenceNode Append(IAction appendedNode)
+        {
             originalNodes.Add(appendedNode);
             executeNodes.Add(appendedNode);
             return this;

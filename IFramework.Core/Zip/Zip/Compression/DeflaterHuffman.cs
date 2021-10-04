@@ -770,7 +770,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Get value indicating if internal buffer is full
         /// </summary>
         /// <returns>true if buffer is full</returns>
-        public bool IsFull() { return last_lit >= BUFSIZE; }
+        public bool IsFull()
+        {
+            return last_lit >= BUFSIZE;
+        }
 
         /// <summary>
         /// Add literal to buffer
@@ -825,7 +828,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </summary>
         /// <param name="toReverse">Value to reverse bits</param>
         /// <returns>Value with bits reversed</returns>
-        public static short BitReverse(int toReverse) { return (short)((bit4Reverse[toReverse & 0xF] << 12) | (bit4Reverse[(toReverse >> 4) & 0xF] << 8) | (bit4Reverse[(toReverse >> 8) & 0xF] << 4) | bit4Reverse[toReverse >> 12]); }
+        public static short BitReverse(int toReverse)
+        {
+            return (short)((bit4Reverse[toReverse & 0xF] << 12) | (bit4Reverse[(toReverse >> 4) & 0xF] << 8) | (bit4Reverse[(toReverse >> 8) & 0xF] << 4) | bit4Reverse[toReverse >> 12]);
+        }
 
         private static int Lcode(int length)
         {

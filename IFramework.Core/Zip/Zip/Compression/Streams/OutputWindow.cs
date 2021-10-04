@@ -143,13 +143,19 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Get remaining unfilled space in window
         /// </summary>
         /// <returns>Number of bytes left in window</returns>
-        public int GetFreeSpace() { return WindowSize - windowFilled; }
+        public int GetFreeSpace()
+        {
+            return WindowSize - windowFilled;
+        }
 
         /// <summary>
         /// Get bytes available for output in window
         /// </summary>
         /// <returns>Number of bytes filled</returns>
-        public int GetAvailable() { return windowFilled; }
+        public int GetAvailable()
+        {
+            return windowFilled;
+        }
 
         /// <summary>
         /// Copy contents of window to output
@@ -191,6 +197,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Reset by clearing window so <see cref="GetAvailable">GetAvailable</see> returns 0
         /// </summary>
-        public void Reset() { windowFilled = windowEnd = 0; }
+        public void Reset()
+        {
+            windowFilled = windowEnd = 0;
+        }
     }
 }

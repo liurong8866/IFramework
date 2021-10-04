@@ -124,7 +124,10 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicEncryptCryptoTransform"></see>
         /// </summary>
         /// <param name="keyBlock">The key block to use.</param>
-        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock) { SetKeys(keyBlock); }
+        internal PkzipClassicEncryptCryptoTransform(byte[] keyBlock)
+        {
+            SetKeys(keyBlock);
+        }
 
         #region ICryptoTransform Members
 
@@ -189,7 +192,10 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() { Reset(); }
+        public void Dispose()
+        {
+            Reset();
+        }
 
         #endregion
     }
@@ -203,7 +209,10 @@ namespace IFramework.Core.Zip.Encryption
         /// Initialise a new instance of <see cref="PkzipClassicDecryptCryptoTransform"></see>.
         /// </summary>
         /// <param name="keyBlock">The key block to decrypt with.</param>
-        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock) { SetKeys(keyBlock); }
+        internal PkzipClassicDecryptCryptoTransform(byte[] keyBlock)
+        {
+            SetKeys(keyBlock);
+        }
 
         #region ICryptoTransform Members
 
@@ -268,7 +277,10 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() { Reset(); }
+        public void Dispose()
+        {
+            Reset();
+        }
 
         #endregion
     }

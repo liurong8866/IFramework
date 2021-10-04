@@ -14,7 +14,10 @@ namespace IFramework.Core
         // 绑定事件
         public Action<T> OnChange { get; set; }
 
-        protected override T GetValue() { return value; }
+        protected override T GetValue()
+        {
+            return value;
+        }
 
         protected override void SetValue(T value)
         {
@@ -28,6 +31,9 @@ namespace IFramework.Core
         /// <summary>
         /// 注销事件
         /// </summary>
-        public override void Dispose() { OnChange = null; }
+        public override void Dispose()
+        {
+            OnChange = null;
+        }
     }
 }

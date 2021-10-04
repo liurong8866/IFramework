@@ -5,14 +5,14 @@ namespace IFramework.Core
     /// <summary>
     /// Dispose模式
     /// </summary>
-    public abstract class Disposeble : IDisposable
+    public abstract class Disposable : IDisposable
     {
         protected bool disposed;
 
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法
         /// </summary>
-        ~Disposeble()
+        ~Disposable()
         {
             //必须为false
             Dispose(false);

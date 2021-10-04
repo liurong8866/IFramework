@@ -166,7 +166,10 @@ namespace IFramework.Core
             return component ? component : self.gameObject.AddComponent<T>();
         }
 
-        public static T AddComponentSafe<T>(this Component component) where T : Component { return component.gameObject.AddComponentSafe<T>(); }
+        public static T AddComponentSafe<T>(this Component component) where T : Component
+        {
+            return component.gameObject.AddComponentSafe<T>();
+        }
 
         public static Component AddComponentSafe(this GameObject self, Type type)
         {

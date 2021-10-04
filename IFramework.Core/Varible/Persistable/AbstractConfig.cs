@@ -13,7 +13,10 @@ namespace IFramework.Core
             this.value = value;
         }
 
-        protected override T GetValue() { return Get(); }
+        protected override T GetValue()
+        {
+            return Get();
+        }
 
         protected override void SetValue(T value)
         {

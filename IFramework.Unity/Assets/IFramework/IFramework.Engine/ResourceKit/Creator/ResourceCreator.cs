@@ -5,7 +5,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 匹配方法
         /// </summary>
-        public bool Match(ResourceSearcher searcher) { return searcher.AssetName.StartsWith(ResourcesUrlType.RESOURCES); }
+        public bool Match(ResourceSearcher searcher)
+        {
+            return searcher.AssetName.StartsWith(ResourcesUrlType.RESOURCES);
+        }
 
         /// <summary>
         /// 创建资源

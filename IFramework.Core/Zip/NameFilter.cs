@@ -146,7 +146,10 @@ namespace IFramework.Core.Zip
         /// Convert this filter to its string equivalent.
         /// </summary>
         /// <returns>The string equivalent for this filter.</returns>
-        public override string ToString() { return filter; }
+        public override string ToString()
+        {
+            return filter;
+        }
 
         /// <summary>
         /// Test a value to see if it is included by the filter.
@@ -196,7 +199,10 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The value to test.</param>
         /// <returns>True if the value matches, false otherwise.</returns>
-        public bool IsMatch(string name) { return IsIncluded(name) && !IsExcluded(name); }
+        public bool IsMatch(string name)
+        {
+            return IsIncluded(name) && !IsExcluded(name);
+        }
 
         #endregion
 

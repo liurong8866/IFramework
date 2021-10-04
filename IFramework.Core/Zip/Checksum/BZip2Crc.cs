@@ -63,12 +63,18 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// Initialise a default instance of <see cref="BZip2Crc"></see>
         /// </summary>
-        public BZip2Crc() { Reset(); }
+        public BZip2Crc()
+        {
+            Reset();
+        }
 
         /// <summary>
         /// Resets the CRC data checksum as if no update was ever called.
         /// </summary>
-        public void Reset() { checkValue = CRC_INIT; }
+        public void Reset()
+        {
+            checkValue = CRC_INIT;
+        }
 
         /// <summary>
         /// Returns the CRC data checksum computed so far.
@@ -88,7 +94,10 @@ namespace IFramework.Core.Zip.Checksum
         /// the byte is taken as the lower 8 bits of bval
         /// </param>
         /// <remarks>Reversed Data = false</remarks>
-        public void Update(int bval) { checkValue = unchecked(crcTable[(byte)(((checkValue >> 24) & 0xFF) ^ bval)] ^ (checkValue << 8)); }
+        public void Update(int bval)
+        {
+            checkValue = unchecked(crcTable[(byte)(((checkValue >> 24) & 0xFF) ^ bval)] ^ (checkValue << 8));
+        }
 
         /// <summary>
         /// Updates the CRC data checksum with the bytes taken from

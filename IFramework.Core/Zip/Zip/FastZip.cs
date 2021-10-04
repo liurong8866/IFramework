@@ -187,7 +187,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="FastZip"/>
         /// </summary>
         /// <param name="events">The <see cref="FastZipEvents">events</see> to use during operations.</param>
-        public FastZip(FastZipEvents events) { this.events = events; }
+        public FastZip(FastZipEvents events)
+        {
+            this.events = events;
+        }
 
         #endregion
 
@@ -280,7 +283,10 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
-        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter) { CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter); }
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter)
+        {
+            CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter);
+        }
 
         /// <summary>
         /// Create a zip file/archive.
@@ -289,7 +295,10 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The file filter to apply.</param>
-        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter) { CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null); }
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter)
+        {
+            CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null);
+        }
 
         /// <summary>
         /// Create a zip archive sending output to the <paramref name="outputStream"/> passed.
@@ -342,7 +351,10 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="zipFileName">The zip file to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
         /// <param name="fileFilter">A filter to apply to files.</param>
-        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter) { ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, RestoreDateTimeOnExtract); }
+        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter)
+        {
+            ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, RestoreDateTimeOnExtract);
+        }
 
         /// <summary>
         /// Extract the contents of a zip file.
@@ -599,9 +611,15 @@ namespace IFramework.Core.Zip.Zip
             }
         }
 
-        private static int MakeExternalAttributes(FileInfo info) { return (int)info.Attributes; }
+        private static int MakeExternalAttributes(FileInfo info)
+        {
+            return (int)info.Attributes;
+        }
 
-        private static bool NameIsValid(string name) { return !string.IsNullOrEmpty(name) && name.IndexOfAny(Path.GetInvalidPathChars()) < 0; }
+        private static bool NameIsValid(string name)
+        {
+            return !string.IsNullOrEmpty(name) && name.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+        }
 
         #endregion
 

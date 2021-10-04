@@ -15,6 +15,9 @@ namespace IFramework.Core
         // 委托本身就可以一对多注册
         public Action<T> actions = obj => { };
 
-        public void Dispose() { actions = null; }
+        public void Dispose()
+        {
+            actions = null;
+        }
     }
 }

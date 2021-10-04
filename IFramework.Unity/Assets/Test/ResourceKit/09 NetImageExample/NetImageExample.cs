@@ -9,7 +9,10 @@ public class NetImageExample : MonoBehaviour
     private VideoPlayer videoPlayer;
     private readonly ResourceLoader loader = new ResourceLoader();
 
-    private void Awake() { videoPlayer = gameObject.GetComponent<VideoPlayer>(); }
+    private void Awake()
+    {
+        videoPlayer = gameObject.GetComponent<VideoPlayer>();
+    }
 
     private void Start()
     {

@@ -174,7 +174,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="length">
         /// Number of bytes in buffer to encrypt
         /// </param>
-        protected void EncryptBlock(byte[] buffer, int offset, int length) { cryptoTransform_.TransformBlock(buffer, 0, length, buffer, 0); }
+        protected void EncryptBlock(byte[] buffer, int offset, int length)
+        {
+            cryptoTransform_.TransformBlock(buffer, 0, length, buffer, 0);
+        }
 
         /// <summary>
         /// Initializes encryption keys based on given <paramref name="password"/>.
@@ -272,21 +275,30 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="origin">The <see cref="SeekOrigin"/> to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("DeflaterOutputStream Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("DeflaterOutputStream Seek not supported");
+        }
 
         /// <summary>
         /// Sets the length of this stream to the given value. Not supported by this class!
         /// </summary>
         /// <param name="value">The new stream length.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) { throw new NotSupportedException("DeflaterOutputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("DeflaterOutputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Read a byte from stream advancing position by one
         /// </summary>
         /// <returns>The byte read cast to an int.  THe value is -1 if at the end of the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override int ReadByte() { throw new NotSupportedException("DeflaterOutputStream ReadByte not supported"); }
+        public override int ReadByte()
+        {
+            throw new NotSupportedException("DeflaterOutputStream ReadByte not supported");
+        }
 
         /// <summary>
         /// Read a block of bytes from stream
@@ -296,7 +308,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="count">The maximum number of bytes to read.</param>
         /// <returns>The actual number of bytes read.  Zero if end of stream is detected.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override int Read(byte[] buffer, int offset, int count) { throw new NotSupportedException("DeflaterOutputStream Read not supported"); }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("DeflaterOutputStream Read not supported");
+        }
 
         /// <summary>
         /// Flushes the stream by calling <see cref="DeflaterOutputStream.Flush">Flush</see> on the deflater and then

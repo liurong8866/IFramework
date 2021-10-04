@@ -37,7 +37,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 初始化AssetBundleName
         /// </summary>
-        private void InitAssetBundleName() { dependResources = AssetBundleConfig.ConfigFile.GetAllDependenciesByUrl(AssetName); }
+        private void InitAssetBundleName()
+        {
+            dependResources = AssetBundleConfig.ConfigFile.GetAllDependenciesByUrl(AssetName);
+        }
 
         /// <summary>
         /// 同步加载资源
@@ -135,7 +138,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public override List<string> GetDependResourceList() { return dependResources?.ToList(); }
+        public override List<string> GetDependResourceList()
+        {
+            return dependResources?.ToList();
+        }
 
         /// <summary>
         /// 卸载图片资源
@@ -149,7 +155,10 @@ namespace IFramework.Engine
             }
         }
 
-        public override void Recycle() { ObjectPool<AssetBundleResource>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<AssetBundleResource>.Instance.Recycle(this);
+        }
 
         public override void OnRecycled()
         {

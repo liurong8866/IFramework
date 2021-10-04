@@ -154,7 +154,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// Determines if more <see cref="SetInput">input</see> is needed.
         /// </summary>
         /// <returns>Return true if input is needed via <see cref="SetInput">SetInput</see></returns>
-        public bool NeedsInput() { return inputEnd == inputOff; }
+        public bool NeedsInput()
+        {
+            return inputEnd == inputOff;
+        }
 
         /// <summary>
         /// Set compression dictionary
@@ -217,7 +220,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <summary>
         /// Reset Adler checksum
         /// </summary>
-        public void ResetAdler() { adler.Reset(); }
+        public void ResetAdler()
+        {
+            adler.Reset();
+        }
 
         /// <summary>
         /// Get current value of Adler checksum

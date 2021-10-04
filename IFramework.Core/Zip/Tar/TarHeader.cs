@@ -281,7 +281,10 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <returns>The entry's name.</returns>
         [Obsolete("Use the Name property instead", true)]
-        public string GetName() { return name; }
+        public string GetName()
+        {
+            return name;
+        }
 
         /// <summary>
         /// Get/set the entry's Unix style permission mode.
@@ -451,7 +454,10 @@ namespace IFramework.Core.Zip.Tar
         /// Create a new <see cref="TarHeader"/> that is a copy of the current instance.
         /// </summary>
         /// <returns>A new <see cref="Object"/> that is a copy of the current instance.</returns>
-        public object Clone() { return MemberwiseClone(); }
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
 
         #endregion
 
@@ -549,7 +555,10 @@ namespace IFramework.Core.Zip.Tar
         /// Get a hash code for the current object.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode() { return Name.GetHashCode(); }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
         /// <summary>
         /// Determines if this instance is equal to the specified object.
@@ -909,7 +918,10 @@ namespace IFramework.Core.Zip.Tar
         /// The final space is already there, from checksumming
         /// </param>
         /// <returns>The modified buffer offset</returns>
-        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length) { GetOctalBytes(value, buffer, offset, length - 1); }
+        private static void GetCheckSumOctalBytes(long value, byte[] buffer, int offset, int length)
+        {
+            GetOctalBytes(value, buffer, offset, length - 1);
+        }
 
         /// <summary>
         /// Compute the checksum for a tar entry header.
@@ -950,7 +962,10 @@ namespace IFramework.Core.Zip.Tar
             return sum;
         }
 
-        private static int GetCTime(DateTime dateTime) { return unchecked((int)((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR)); }
+        private static int GetCTime(DateTime dateTime)
+        {
+            return unchecked((int)((dateTime.Ticks - dateTime1970.Ticks) / TIME_CONVERSION_FACTOR));
+        }
 
         private static DateTime GetDateTimeFromCTime(long ticks)
         {

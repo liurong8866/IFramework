@@ -48,9 +48,15 @@ namespace IFramework.Engine
             }
         }
 
-        protected override void OnReset() { currentSeconds = 0.0f; }
+        protected override void OnReset()
+        {
+            currentSeconds = 0.0f;
+        }
 
-        protected override void OnDispose() { ObjectPool<DelayAction>.Instance.Recycle(this); }
+        protected override void OnDispose()
+        {
+            ObjectPool<DelayAction>.Instance.Recycle(this);
+        }
 
         public void OnRecycled()
         {
@@ -70,11 +76,17 @@ namespace IFramework.Engine
         /// <summary>
         /// 延迟N秒
         /// </summary>
-        public static IActionChain Delay(this IActionChain self, float seconds) { return self.Append(DelayAction.Allocate(seconds)); }
+        public static IActionChain Delay(this IActionChain self, float seconds)
+        {
+            return self.Append(DelayAction.Allocate(seconds));
+        }
 
         /// <summary>
         /// 延迟N秒执行某事件
         /// </summary>
-        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour { self.Execute(DelayAction.Allocate(seconds, action)); }
+        public static void Delay<T>(this T self, float seconds, Action action) where T : MonoBehaviour
+        {
+            self.Execute(DelayAction.Allocate(seconds, action));
+        }
     }
 }

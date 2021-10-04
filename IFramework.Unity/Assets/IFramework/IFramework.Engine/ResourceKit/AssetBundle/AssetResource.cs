@@ -216,12 +216,24 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源依赖
         /// </summary>
-        public override List<string> GetDependResourceList() { return assetBundleNameConfig != null ? new List<string> { assetBundleNameConfig } : null; }
+        public override List<string> GetDependResourceList()
+        {
+            return assetBundleNameConfig != null ? new List<string> { assetBundleNameConfig } : null;
+        }
 
-        public override void Recycle() { ObjectPool<AssetResource>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<AssetResource>.Instance.Recycle(this);
+        }
 
-        public override void OnRecycled() { assetBundleNameConfig = null; }
+        public override void OnRecycled()
+        {
+            assetBundleNameConfig = null;
+        }
 
-        public override string ToString() { return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:"; }
+        public override string ToString()
+        {
+            return $"Type:Asset\t {base.ToString()}\t FromAssetBundle:";
+        }
     }
 }

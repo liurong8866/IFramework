@@ -10,7 +10,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源调用的超级类，配置了多个适配器，根据资源请求类型动态选择资源器加载
     /// </summary>
-    public sealed class ResourceLoader : Disposeble, IPoolable, IRecyclable
+    public sealed class ResourceLoader : Disposable, IPoolable, IRecyclable
     {
         // 资源列表
         private readonly List<IResource> resourceList = new List<IResource>();
@@ -39,7 +39,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现接口
         /// </summary>
-        public void OnRecycled() { ReleaseAllResource(); }
+        public void OnRecycled()
+        {
+            ReleaseAllResource();
+        }
 
         public bool IsRecycled { get; set; }
 
@@ -61,7 +64,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 分配资源函数
         /// </summary>
-        public static ResourceLoader Allocate() { return ObjectPool<ResourceLoader>.Instance.Allocate(); }
+        public static ResourceLoader Allocate()
+        {
+            return ObjectPool<ResourceLoader>.Instance.Allocate();
+        }
 
         /*----------------------------- 同步加载资源 -----------------------------*/
 
@@ -326,7 +332,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 在缓存的资源中查找
         /// </summary>
-        private IResource GetResourceInCache(ResourceSearcher searcher) { return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource)); }
+        private IResource GetResourceInCache(ResourceSearcher searcher)
+        {
+            return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
+        }
 
         /*----------------------------- 资源加载完毕后回调 -----------------------------*/
 
@@ -496,7 +505,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 实现Disposable接口
         /// </summary>
-        protected override void DisposeManaged() { ReleaseAllResource(); }
+        protected override void DisposeManaged()
+        {
+            ReleaseAllResource();
+        }
 
         /// <summary>
         /// 回收资源时销毁

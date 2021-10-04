@@ -80,7 +80,10 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() { inputStream.Flush(); }
+        public override void Flush()
+        {
+            inputStream.Flush();
+        }
 
         /// <summary>
         /// Set the streams position.  This operation is not supported and will throw a NotSupportedException
@@ -89,7 +92,10 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="origin">The <see cref="SeekOrigin"/> to start seeking from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("TarInputStream Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("TarInputStream Seek not supported");
+        }
 
         /// <summary>
         /// Sets the length of the stream
@@ -97,7 +103,10 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="value">The new stream length.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) { throw new NotSupportedException("TarInputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("TarInputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Writes a block of bytes to this stream using data from a buffer.
@@ -107,7 +116,10 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="offset">The offset in the buffer of the frist byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("TarInputStream Write not supported"); }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("TarInputStream Write not supported");
+        }
 
         /// <summary>
         /// Writes a byte to the current position in the file stream.
@@ -115,7 +127,10 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <param name="value">The byte value to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) { throw new NotSupportedException("TarInputStream WriteByte not supported"); }
+        public override void WriteByte(byte value)
+        {
+            throw new NotSupportedException("TarInputStream WriteByte not supported");
+        }
 
         /// <summary>
         /// Reads a byte from the current tar archive entry.
@@ -229,7 +244,10 @@ namespace IFramework.Core.Zip.Tar
         /// Set the entry factory for this instance.
         /// </summary>
         /// <param name="factory">The factory for creating new entries</param>
-        public void SetEntryFactory(IEntryFactory factory) { entryFactory = factory; }
+        public void SetEntryFactory(IEntryFactory factory)
+        {
+            entryFactory = factory;
+        }
 
         /// <summary>
         /// Get the record size being used by this stream's TarBuffer.
@@ -243,7 +261,10 @@ namespace IFramework.Core.Zip.Tar
         /// TarBuffer record size.
         /// </returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize() { return tarBuffer.RecordSize; }
+        public int GetRecordSize()
+        {
+            return tarBuffer.RecordSize;
+        }
 
         /// <summary>
         /// Get the available data that can be read from the current
@@ -498,21 +519,30 @@ namespace IFramework.Core.Zip.Tar
             /// </summary>
             /// <param name="name">The name to use for the entry</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntry(string name) { return TarEntry.CreateTarEntry(name); }
+            public TarEntry CreateEntry(string name)
+            {
+                return TarEntry.CreateTarEntry(name);
+            }
 
             /// <summary>
             /// Create a tar entry with details obtained from <paramref name="fileName">file</paramref>
             /// </summary>
             /// <param name="fileName">The name of the file to retrieve details from.</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntryFromFile(string fileName) { return TarEntry.CreateEntryFromFile(fileName); }
+            public TarEntry CreateEntryFromFile(string fileName)
+            {
+                return TarEntry.CreateEntryFromFile(fileName);
+            }
 
             /// <summary>
             /// Create an entry based on details in <paramref name="headerBuffer">header</paramref>
             /// </summary>
             /// <param name="headerBuffer">The buffer containing entry details.</param>
             /// <returns>A new <see cref="TarEntry"/></returns>
-            public TarEntry CreateEntry(byte[] headerBuffer) { return new TarEntry(headerBuffer); }
+            public TarEntry CreateEntry(byte[] headerBuffer)
+            {
+                return new TarEntry(headerBuffer);
+            }
         }
 
         #region Instance Fields

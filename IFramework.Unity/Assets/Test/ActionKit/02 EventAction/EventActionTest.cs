@@ -6,7 +6,10 @@ public class EventActionTest : MonoBehaviour
 {
     private EventAction eventAction;
 
-    private void Awake() { eventAction = EventAction.Allocate(() => { Log.Info("event 3 called"); }, () => { Log.Info("event 4 called"); }); }
+    private void Awake()
+    {
+        eventAction = EventAction.Allocate(() => { Log.Info("event 3 called"); }, () => { Log.Info("event 4 called"); });
+    }
 
     private void Start()
     {
@@ -14,7 +17,6 @@ public class EventActionTest : MonoBehaviour
         this.Execute(eventNode);
         EventAction eventNode2 = EventAction.Allocate();
         this.Execute(eventNode2);
-
         this.Action(() => { "hello world".LogInfo(); });
         this.Action();
     }

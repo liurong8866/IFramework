@@ -21,7 +21,10 @@ namespace IFramework.Editor
             window.Show();
         }
 
-        private void OnEnable() { KeyEvent.Register(EventEnums.AssetBundleMark, key => isViewChanged = true); }
+        private void OnEnable()
+        {
+            KeyEvent.Register(EventEnums.AssetBundleMark, key => isViewChanged = true);
+        }
 
         private void LoadMarkedList()
         {

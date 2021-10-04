@@ -85,7 +85,10 @@ namespace IFramework.Core
         /// <summary>
         /// 回收资源
         /// </summary>
-        public void OnRecycled() { listenerMap.Clear(); }
+        public void OnRecycled()
+        {
+            listenerMap.Clear();
+        }
 
         public bool IsRecycled { get; set; }
 
@@ -96,27 +99,42 @@ namespace IFramework.Core
         /// <summary>
         /// 发送无参数消息
         /// </summary>
-        public static bool Send<T>(T key) where T : IConvertible { return Instance.SendEvent(key); }
+        public static bool Send<T>(T key) where T : IConvertible
+        {
+            return Instance.SendEvent(key);
+        }
 
         /// <summary>
         /// 发送有参数消息
         /// </summary>
-        public static bool Send<T>(T key, params object[] param) where T : IConvertible { return Instance.SendEvent(key, param); }
+        public static bool Send<T>(T key, params object[] param) where T : IConvertible
+        {
+            return Instance.SendEvent(key, param);
+        }
 
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static bool Register<T>(T key, TEvent action) where T : IConvertible { return Instance.RegisterEvent(key, action); }
+        public static bool Register<T>(T key, TEvent action) where T : IConvertible
+        {
+            return Instance.RegisterEvent(key, action);
+        }
 
         /// <summary>
         /// 取消注册某一事件
         /// </summary>
-        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible { Instance.UnRegisterEvent(key, action); }
+        public static void UnRegister<T>(T key, TEvent action) where T : IConvertible
+        {
+            Instance.UnRegisterEvent(key, action);
+        }
 
         /// <summary>
         /// 取消注册某一类型事件
         /// </summary>
-        public static void UnRegister<T>(T key) where T : IConvertible { Instance.UnRegisterEvent(key); }
+        public static void UnRegister<T>(T key) where T : IConvertible
+        {
+            Instance.UnRegisterEvent(key);
+        }
     }
 
     /// <summary>

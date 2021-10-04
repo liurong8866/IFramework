@@ -25,7 +25,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="KeysRequiredEventArgs"></see>
         /// </summary>
         /// <param name="name">The name of the file for which keys are required.</param>
-        public KeysRequiredEventArgs(string name) { FileName = name; }
+        public KeysRequiredEventArgs(string name)
+        {
+            FileName = name;
+        }
 
         /// <summary>
         /// Initialise a new instance of <see cref="KeysRequiredEventArgs"></see>
@@ -128,7 +131,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="TestStatus"/>
         /// </summary>
         /// <param name="file">The <see cref="ZipFile"/> this status applies to.</param>
-        public TestStatus(ZipFile file) { File = file; }
+        public TestStatus(ZipFile file)
+        {
+            File = file;
+        }
 
         #endregion
 
@@ -174,7 +180,10 @@ namespace IFramework.Core.Zip.Zip
             EntryValid = false;
         }
 
-        internal void SetOperation(TestOperation operation) { Operation = operation; }
+        internal void SetOperation(TestOperation operation)
+        {
+            Operation = operation;
+        }
 
         internal void SetEntry(ZipEntry entry)
         {
@@ -183,7 +192,10 @@ namespace IFramework.Core.Zip.Zip
             BytesTested = 0;
         }
 
-        internal void SetBytesTested(long value) { BytesTested = value; }
+        internal void SetBytesTested(long value)
+        {
+            BytesTested = value;
+        }
 
         #endregion
 
@@ -444,7 +456,10 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Finalize this instance.
         /// </summary>
-        ~ZipFile() { Dispose(false); }
+        ~ZipFile()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// Closes the ZipFile.  If the stream is <see cref="IsStreamOwner">owned</see> then this also closes the underlying input stream.
@@ -719,7 +734,10 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="testData">Perform low level data Crc check</param>
         /// <returns>true if all tests pass, false otherwise</returns>
         /// <remarks>Testing will terminate on the first error found.</remarks>
-        public bool TestArchive(bool testData) { return TestArchive(testData, TestStrategy.FindFirstError, null); }
+        public bool TestArchive(bool testData)
+        {
+            return TestArchive(testData, TestStrategy.FindFirstError, null);
+        }
 
         /// <summary>
         /// Test an archive for integrity/validity
@@ -1221,7 +1239,10 @@ namespace IFramework.Core.Zip.Zip
         /// Begin updating to this <see cref="ZipFile"/> archive.
         /// </summary>
         /// <param name="archiveStorage">The storage to use during the update.</param>
-        public void BeginUpdate(IArchiveStorage archiveStorage) { BeginUpdate(archiveStorage, new DynamicDiskDataSource()); }
+        public void BeginUpdate(IArchiveStorage archiveStorage)
+        {
+            BeginUpdate(archiveStorage, new DynamicDiskDataSource());
+        }
 
         /// <summary>
         /// Begin updating this <see cref="ZipFile"/> archive.
@@ -1283,7 +1304,10 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <seealso cref="BeginUpdate()"></seealso>
         /// <seealso cref="CommitUpdate"></seealso>
-        public void AbortUpdate() { PostUpdateCleanup(); }
+        public void AbortUpdate()
+        {
+            PostUpdateCleanup();
+        }
 
         /// <summary>
         /// Set the file comment to be recorded when the current update is <see cref="CommitUpdate">commited</see>.
@@ -2652,7 +2676,10 @@ namespace IFramework.Core.Zip.Zip
 
         #region IDisposable Members
 
-        void IDisposable.Dispose() { Close(); }
+        void IDisposable.Dispose()
+        {
+            Close();
+        }
 
         #endregion
 
@@ -2676,7 +2703,10 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources;
         /// false to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing) { DisposeInternal(disposing); }
+        protected virtual void Dispose(bool disposing)
+        {
+            DisposeInternal(disposing);
+        }
 
         #endregion
 
@@ -2716,9 +2746,15 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="System.IO.EndOfStreamException">
         /// The file ends prematurely
         /// </exception>
-        private uint ReadLeUint() { return (uint)(ReadLeUshort() | (ReadLeUshort() << 16)); }
+        private uint ReadLeUint()
+        {
+            return (uint)(ReadLeUshort() | (ReadLeUshort() << 16));
+        }
 
-        private ulong ReadLeUlong() { return ReadLeUint() | ((ulong)ReadLeUint() << 32); }
+        private ulong ReadLeUlong()
+        {
+            return ReadLeUint() | ((ulong)ReadLeUint() << 32);
+        }
 
         #endregion
 
@@ -2900,7 +2936,10 @@ namespace IFramework.Core.Zip.Zip
         /// The local header signature is invalid, the entry and central header file name lengths are different
         /// or the local and entry compression methods dont match
         /// </exception>
-        private long LocateEntry(ZipEntry entry) { return TestLocalHeader(entry, HeaderTest.Extract); }
+        private long LocateEntry(ZipEntry entry)
+        {
+            return TestLocalHeader(entry, HeaderTest.Extract);
+        }
 
         private Stream CreateAndInitDecryptionStream(Stream baseStream, ZipEntry entry)
         {
@@ -3049,7 +3088,10 @@ namespace IFramework.Core.Zip.Zip
             /// Initialise a <see cref="ZipString"/> using a string in its binary 'raw' form.
             /// </summary>
             /// <param name="rawString"></param>
-            public ZipString(byte[] rawString) { rawComment = rawString; }
+            public ZipString(byte[] rawString)
+            {
+                rawComment = rawString;
+            }
 
             #endregion
 
@@ -3132,7 +3174,10 @@ namespace IFramework.Core.Zip.Zip
         {
             #region Constructors
 
-            public ZipEntryEnumerator(ZipEntry[] entries) { array = entries; }
+            public ZipEntryEnumerator(ZipEntry[] entries)
+            {
+                array = entries;
+            }
 
             #endregion
 
@@ -3140,9 +3185,15 @@ namespace IFramework.Core.Zip.Zip
 
             public object Current => array[index];
 
-            public void Reset() { index = -1; }
+            public void Reset()
+            {
+                index = -1;
+            }
 
-            public bool MoveNext() { return ++index < array.Length; }
+            public bool MoveNext()
+            {
+                return ++index < array.Length;
+            }
 
             #endregion
 
@@ -3162,7 +3213,10 @@ namespace IFramework.Core.Zip.Zip
         {
             #region Constructors
 
-            public UncompressedStream(Stream baseStream) { this.baseStream = baseStream; }
+            public UncompressedStream(Stream baseStream)
+            {
+                this.baseStream = baseStream;
+            }
 
             #endregion
 
@@ -3174,7 +3228,10 @@ namespace IFramework.Core.Zip.Zip
             /// <summary>
             /// Write any buffered data to underlying storage.
             /// </summary>
-            public override void Flush() { baseStream.Flush(); }
+            public override void Flush()
+            {
+                baseStream.Flush();
+            }
 
             /// <summary>
             /// Gets a value indicating whether the current stream supports writing.
@@ -3214,7 +3271,10 @@ namespace IFramework.Core.Zip.Zip
             /// <exception cref="T:System.ArgumentNullException">buffer is null. </exception>
             /// <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
             /// <exception cref="T:System.ArgumentOutOfRangeException">offset or count is negative. </exception>
-            public override int Read(byte[] buffer, int offset, int count) { return 0; }
+            public override int Read(byte[] buffer, int offset, int count)
+            {
+                return 0;
+            }
 
             /// <summary>
             /// Sets the position within the current stream.
@@ -3227,7 +3287,10 @@ namespace IFramework.Core.Zip.Zip
             /// <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
             /// <exception cref="T:System.NotSupportedException">The stream does not support seeking, such as if the stream is constructed from a pipe or console output. </exception>
             /// <exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed. </exception>
-            public override long Seek(long offset, SeekOrigin origin) { return 0; }
+            public override long Seek(long offset, SeekOrigin origin)
+            {
+                return 0;
+            }
 
             /// <summary>
             /// Sets the length of the current stream.
@@ -3250,7 +3313,10 @@ namespace IFramework.Core.Zip.Zip
             /// <exception cref="T:System.ArgumentNullException">buffer is null. </exception>
             /// <exception cref="T:System.ArgumentException">The sum of offset and count is greater than the buffer length. </exception>
             /// <exception cref="T:System.ArgumentOutOfRangeException">offset or count is negative. </exception>
-            public override void Write(byte[] buffer, int offset, int count) { baseStream.Write(buffer, offset, count); }
+            public override void Write(byte[] buffer, int offset, int count)
+            {
+                baseStream.Write(buffer, offset, count);
+            }
 
             private readonly
 
@@ -3367,7 +3433,10 @@ namespace IFramework.Core.Zip.Zip
             /// <exception cref="T:System.ArgumentNullException">buffer is null. </exception>
             /// <exception cref="T:System.ArgumentException">The sum of offset and count is greater than the buffer length. </exception>
             /// <exception cref="T:System.ArgumentOutOfRangeException">offset or count is negative. </exception>
-            public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException(); }
+            public override void Write(byte[] buffer, int offset, int count)
+            {
+                throw new NotSupportedException();
+            }
 
             /// <summary>
             /// When overridden in a derived class, sets the length of the current stream.
@@ -3376,7 +3445,10 @@ namespace IFramework.Core.Zip.Zip
             /// <exception cref="T:System.NotSupportedException">The stream does not support both writing and seeking, such as if the stream is constructed from a pipe or console output. </exception>
             /// <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
             /// <exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed. </exception>
-            public override void SetLength(long value) { throw new NotSupportedException(); }
+            public override void SetLength(long value)
+            {
+                throw new NotSupportedException();
+            }
 
             /// <summary>
             /// When overridden in a derived class, sets the position within the current stream.
@@ -3543,7 +3615,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instnace of <see cref="StaticDiskDataSource"/>
         /// </summary>
         /// <param name="fileName">The name of the file to obtain data from.</param>
-        public StaticDiskDataSource(string fileName) { this.fileName = fileName; }
+        public StaticDiskDataSource(string fileName)
+        {
+            this.fileName = fileName;
+        }
 
         #region IDataSource Members
 
@@ -3551,7 +3626,10 @@ namespace IFramework.Core.Zip.Zip
         /// Get a <see cref="Stream"/> providing data.
         /// </summary>
         /// <returns>Returns a <see cref="Stream"/> provising data.</returns>
-        public Stream GetSource() { return File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read); }
+        public Stream GetSource()
+        {
+            return File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+        }
 
         private readonly
 
@@ -3650,7 +3728,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initializes a new instance of the <see cref="BaseArchiveStorage"/> class.
         /// </summary>
         /// <param name="updateMode">The update mode.</param>
-        protected BaseArchiveStorage(FileUpdateMode updateMode) { UpdateMode = updateMode; }
+        protected BaseArchiveStorage(FileUpdateMode updateMode)
+        {
+            UpdateMode = updateMode;
+        }
 
         #endregion
 

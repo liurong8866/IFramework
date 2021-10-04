@@ -39,6 +39,9 @@ namespace IFramework.Core
         /// <summary>
         /// 对字典拓展 自身入栈 的方法
         /// </summary>
-        public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self) { DictionaryPool<TKey, TValue>.Release(self); }
+        public static void Recycle<TKey, TValue>(this Dictionary<TKey, TValue> self)
+        {
+            DictionaryPool<TKey, TValue>.Release(self);
+        }
     }
 }

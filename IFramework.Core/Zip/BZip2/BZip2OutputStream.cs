@@ -146,7 +146,10 @@ namespace IFramework.Core.Zip.BZip2
         /// Ensures that resources are freed and other cleanup operations
         /// are performed when the garbage collector reclaims the BZip2OutputStream.
         /// </summary>
-        ~BZip2OutputStream() { Dispose(false); }
+        ~BZip2OutputStream()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// Gets or sets a flag indicating ownership of underlying stream.
@@ -189,19 +192,28 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="offset">The point relative to the offset from which to being seeking.</param>
         /// <param name="origin">The reference point from which to begin seeking.</param>
         /// <returns>The new position in the stream.</returns>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("BZip2OutputStream Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("BZip2OutputStream Seek not supported");
+        }
 
         /// <summary>
         /// Sets the length of this stream to the given value.
         /// </summary>
         /// <param name="value">The new stream length.</param>
-        public override void SetLength(long value) { throw new NotSupportedException("BZip2OutputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("BZip2OutputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Read a byte from the stream advancing the position.
         /// </summary>
         /// <returns>The byte read cast to an int; -1 if end of stream.</returns>
-        public override int ReadByte() { throw new NotSupportedException("BZip2OutputStream ReadByte not supported"); }
+        public override int ReadByte()
+        {
+            throw new NotSupportedException("BZip2OutputStream ReadByte not supported");
+        }
 
         /// <summary>
         /// Read a block of bytes
@@ -212,7 +224,10 @@ namespace IFramework.Core.Zip.BZip2
         /// <returns>The total number of bytes read. This might be less than the number of bytes
         /// requested if that number of bytes are not currently available, or zero
         /// if the end of the stream is reached.</returns>
-        public override int Read(byte[] buffer, int offset, int count) { throw new NotSupportedException("BZip2OutputStream Read not supported"); }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("BZip2OutputStream Read not supported");
+        }
 
         /// <summary>
         /// Write a block of bytes to the stream
@@ -380,7 +395,10 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Flush output buffers
         /// </summary>
-        public override void Flush() { baseStream.Flush(); }
+        public override void Flush()
+        {
+            baseStream.Flush();
+        }
 
         private void Initialize()
         {
@@ -505,7 +523,10 @@ namespace IFramework.Core.Zip.BZip2
             bsLive += n;
         }
 
-        private void BsPutUChar(int c) { BsW(8, c); }
+        private void BsPutUChar(int c)
+        {
+            BsW(8, c);
+        }
 
         private void BsPutint(int u)
         {
@@ -515,7 +536,10 @@ namespace IFramework.Core.Zip.BZip2
             BsW(8, u & 0xFF);
         }
 
-        private void BsPutIntVs(int numBits, int c) { BsW(numBits, c); }
+        private void BsPutIntVs(int numBits, int c)
+        {
+            BsW(numBits, c);
+        }
 
         private void SendMtfValues()
         {
@@ -1566,7 +1590,10 @@ namespace IFramework.Core.Zip.BZip2
             nMtf = wr;
         }
 
-        private static void Panic() { throw new BZip2Exception("BZip2 output stream panic"); }
+        private static void Panic()
+        {
+            throw new BZip2Exception("BZip2 output stream panic");
+        }
 
         private static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen)
         {

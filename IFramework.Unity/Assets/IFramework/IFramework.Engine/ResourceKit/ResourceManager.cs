@@ -39,7 +39,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 只是为了解决调用异步初始化方法问题
         /// </summary>
-        public void InitAsync() { StartCoroutine(DoInitAsync()); }
+        public void InitAsync()
+        {
+            StartCoroutine(DoInitAsync());
+        }
 
         /// <summary>
         /// 异步初始化
@@ -160,7 +163,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取资源
         /// </summary>
-        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource { return GetResource(searcher, create) as T; }
+        public T GetResource<T>(ResourceSearcher searcher, bool create = false) where T : class, IResource
+        {
+            return GetResource(searcher, create) as T;
+        }
 
         /*----------------------------- 异步加载资源 -----------------------------*/
 
@@ -226,7 +232,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 是否脏数据
         /// </summary>
-        public void ClearOnUpdate() { isResourceMapDirty = true; }
+        public void ClearOnUpdate()
+        {
+            isResourceMapDirty = true;
+        }
 
         /// <summary>
         /// 清除不在使用的资源

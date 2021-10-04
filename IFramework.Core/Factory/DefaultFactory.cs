@@ -6,6 +6,9 @@ namespace IFramework.Core
     /// <typeparam name="T"></typeparam>
     public class DefaultFactory<T> : IFactory<T> where T : class, new()
     {
-        public T Create() { return new T(); }
+        public T Create()
+        {
+            return new T();
+        }
     }
 }

@@ -14,7 +14,10 @@ namespace IFramework.Core.Zip
         /// <param name="stream">The stream to read.</param>
         /// <param name="buffer">The buffer to fill.</param>
         /// <seealso cref="ReadFully(Stream,byte[],int,int)"/>
-        public static void ReadFully(Stream stream, byte[] buffer) { ReadFully(stream, buffer, 0, buffer.Length); }
+        public static void ReadFully(Stream stream, byte[] buffer)
+        {
+            ReadFully(stream, buffer, 0, buffer.Length);
+        }
 
         /// <summary>
         /// Read from a <see cref="Stream"/>" ensuring all the required data is read.

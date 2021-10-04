@@ -6,7 +6,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 执行节点到基础抽象类
     /// </summary>
-    public abstract class AbstractAction : Disposeble, IAction
+    public abstract class AbstractAction : Disposable, IAction
     {
         public Action OnBeganCallback;
         public Action OnEndedCallback;
@@ -55,7 +55,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 结束
         /// </summary>
-        public virtual void Finish() { Finished = true; }
+        public virtual void Finish()
+        {
+            Finished = true;
+        }
 
         /// <summary>
         /// 是否结束

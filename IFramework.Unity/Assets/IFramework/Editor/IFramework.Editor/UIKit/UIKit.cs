@@ -5,6 +5,9 @@ namespace IFramework.Editor
 {
     public class UiKit
     {
-        public static void BindScript() { Selection.activeGameObject.AddComponent<Bind>(); }
+        public static void BindScript()
+        {
+            Selection.activeGameObject.AddComponent<Bind>();
+        }
     }
 }

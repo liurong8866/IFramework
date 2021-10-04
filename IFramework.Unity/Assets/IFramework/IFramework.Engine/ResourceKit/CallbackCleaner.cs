@@ -20,11 +20,17 @@ namespace IFramework.Engine
         /// <summary>
         /// 释放监听的事件
         /// </summary>
-        public void Release() { resource.UnRegisterOnLoadedEvent(callbacks); }
+        public void Release()
+        {
+            resource.UnRegisterOnLoadedEvent(callbacks);
+        }
 
         /// <summary>
         /// 判断是否是当前资源
         /// </summary>
-        public bool Is(IResource resource) { return this.resource.AssetName == resource.AssetName; }
+        public bool Is(IResource resource)
+        {
+            return this.resource.AssetName == resource.AssetName;
+        }
     }
 }

@@ -13,7 +13,10 @@ namespace IFramework.Core
 
         public AbstractProperty() { }
 
-        public AbstractProperty(T value) { this.value = value; }
+        public AbstractProperty(T value)
+        {
+            this.value = value;
+        }
 
         // 解决因其他原因导致值未设置，而不触发事件问题
         protected bool setted = false;
@@ -26,9 +29,15 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否值改变
         /// </summary>
-        protected virtual bool IsValueChanged(T value) { return value == null || !value.Equals(this.value) || !setted; }
+        protected virtual bool IsValueChanged(T value)
+        {
+            return value == null || !value.Equals(this.value) || !setted;
+        }
 
-        public override string ToString() { return Value.ToString(); }
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
 
         public virtual void Dispose() { }
 
@@ -74,11 +83,20 @@ namespace IFramework.Core
             return m.Equals(n.Value);
         }
 
-        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n) { return !(m == n); }
+        public static bool operator !=(AbstractProperty<T> m, AbstractProperty<T> n)
+        {
+            return !(m == n);
+        }
 
-        public static bool operator !=(AbstractProperty<T> m, T n) { return !(m == n); }
+        public static bool operator !=(AbstractProperty<T> m, T n)
+        {
+            return !(m == n);
+        }
 
-        public static bool operator !=(T m, AbstractProperty<T> n) { return !(m == n); }
+        public static bool operator !=(T m, AbstractProperty<T> n)
+        {
+            return !(m == n);
+        }
 
         public override bool Equals(object obj)
         {
@@ -111,6 +129,9 @@ namespace IFramework.Core
             return Value.Equals(abstractProperty.Value);
         }
 
-        public override int GetHashCode() { return Value.GetHashCode(); }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }

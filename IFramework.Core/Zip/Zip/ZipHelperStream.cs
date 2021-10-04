@@ -65,7 +65,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance of <see cref="ZipHelperStream"/>.
         /// </summary>
         /// <param name="stream">The stream to use.</param>
-        public ZipHelperStream(Stream stream) { this.stream = stream; }
+        public ZipHelperStream(Stream stream)
+        {
+            this.stream = stream;
+        }
 
         #endregion
 
@@ -92,15 +95,30 @@ namespace IFramework.Core.Zip.Zip
 
         public override bool CanWrite => stream.CanWrite;
 
-        public override void Flush() { stream.Flush(); }
+        public override void Flush()
+        {
+            stream.Flush();
+        }
 
-        public override long Seek(long offset, SeekOrigin origin) { return stream.Seek(offset, origin); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return stream.Seek(offset, origin);
+        }
 
-        public override void SetLength(long value) { stream.SetLength(value); }
+        public override void SetLength(long value)
+        {
+            stream.SetLength(value);
+        }
 
-        public override int Read(byte[] buffer, int offset, int count) { return stream.Read(buffer, offset, count); }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            return stream.Read(buffer, offset, count);
+        }
 
-        public override void Write(byte[] buffer, int offset, int count) { stream.Write(buffer, offset, count); }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            stream.Write(buffer, offset, count);
+        }
 
         /// <summary>
         /// Close the stream.
@@ -367,13 +385,19 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="System.IO.EndOfStreamException">
         /// The file ends prematurely
         /// </exception>
-        public int ReadLeInt() { return ReadLeShort() | (ReadLeShort() << 16); }
+        public int ReadLeInt()
+        {
+            return ReadLeShort() | (ReadLeShort() << 16);
+        }
 
         /// <summary>
         /// Read a long in little endian byte order.
         /// </summary>
         /// <returns>The value read.</returns>
-        public long ReadLeLong() { return (uint)ReadLeInt() | ((long)ReadLeInt() << 32); }
+        public long ReadLeLong()
+        {
+            return (uint)ReadLeInt() | ((long)ReadLeInt() << 32);
+        }
 
         /// <summary>
         /// Write an unsigned short in little endian byte order.

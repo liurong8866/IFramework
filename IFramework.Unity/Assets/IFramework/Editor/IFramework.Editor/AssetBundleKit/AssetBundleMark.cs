@@ -8,7 +8,10 @@ namespace IFramework.Editor
     public class AssetBundleMark
     {
         [InitializeOnLoadMethod]
-        private static void OnLoad() { Selection.selectionChanged = SelectionChanged; }
+        private static void OnLoad()
+        {
+            Selection.selectionChanged = SelectionChanged;
+        }
 
         private static void SelectionChanged()
         {
@@ -25,7 +28,10 @@ namespace IFramework.Editor
         /// <summary>
         /// 标记资源为AssetBundle
         /// </summary>
-        public static void MarkAssetBundle() { MarkAssetBundle(EditorUtils.GetSelectedPath()); }
+        public static void MarkAssetBundle()
+        {
+            MarkAssetBundle(EditorUtils.GetSelectedPath());
+        }
 
         /// <summary>
         /// 标记资源为AssetBundle

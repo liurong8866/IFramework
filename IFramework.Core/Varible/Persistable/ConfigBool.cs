@@ -31,26 +31,53 @@ namespace IFramework.Core
         }
 
         //重载运算符"true"
-        public static bool operator true(ConfigBool value) { return value.Value; }
+        public static bool operator true(ConfigBool value)
+        {
+            return value.Value;
+        }
 
         //重载运算符"false"
-        public static bool operator false(ConfigBool value) { return value.Value; }
+        public static bool operator false(ConfigBool value)
+        {
+            return value.Value;
+        }
 
         //重载运算符"!"
-        public static bool operator !(ConfigBool value) { return !value.Value; }
+        public static bool operator !(ConfigBool value)
+        {
+            return !value.Value;
+        }
 
         //重载运算符"&"
-        public static bool operator &(ConfigBool m, ConfigBool n) { return m.Value & n.Value; }
+        public static bool operator &(ConfigBool m, ConfigBool n)
+        {
+            return m.Value & n.Value;
+        }
 
-        public static bool operator &(ConfigBool m, bool n) { return m.Value & n; }
+        public static bool operator &(ConfigBool m, bool n)
+        {
+            return m.Value & n;
+        }
 
-        public static bool operator &(bool m, ConfigBool n) { return m & n.Value; }
+        public static bool operator &(bool m, ConfigBool n)
+        {
+            return m & n.Value;
+        }
 
         //重载运算符"|"
-        public static bool operator |(ConfigBool m, ConfigBool n) { return m.Value | n.Value; }
+        public static bool operator |(ConfigBool m, ConfigBool n)
+        {
+            return m.Value | n.Value;
+        }
 
-        public static bool operator |(ConfigBool m, bool n) { return m.Value | n; }
+        public static bool operator |(ConfigBool m, bool n)
+        {
+            return m.Value | n;
+        }
 
-        public static bool operator |(bool m, ConfigBool n) { return m | n.Value; }
+        public static bool operator |(bool m, ConfigBool n)
+        {
+            return m | n.Value;
+        }
     }
 }

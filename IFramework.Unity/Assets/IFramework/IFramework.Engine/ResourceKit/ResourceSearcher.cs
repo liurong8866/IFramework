@@ -3,7 +3,7 @@ using IFramework.Core;
 
 namespace IFramework.Engine
 {
-    public class ResourceSearcher : Disposeble, IPoolable, IRecyclable
+    public class ResourceSearcher : Disposable, IPoolable, IRecyclable
     {
         /// <summary>
         /// 资源名称
@@ -71,10 +71,19 @@ namespace IFramework.Engine
 
         public bool IsRecycled { get; set; }
 
-        public void Recycle() { ObjectPool<ResourceSearcher>.Instance.Recycle(this); }
+        public void Recycle()
+        {
+            ObjectPool<ResourceSearcher>.Instance.Recycle(this);
+        }
 
-        public override string ToString() { return $"AssetName:{AssetName} AssetBundleName:{AssetBundleName} TypeName:{AssetType}"; }
+        public override string ToString()
+        {
+            return $"AssetName:{AssetName} AssetBundleName:{AssetBundleName} TypeName:{AssetType}";
+        }
 
-        protected override void DisposeManaged() { Recycle(); }
+        protected override void DisposeManaged()
+        {
+            Recycle();
+        }
     }
 }

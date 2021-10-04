@@ -10,7 +10,10 @@ namespace IFramework.Core
     {
         public SafeCountor() { }
 
-        public SafeCountor(Action action) { OnZero = action; }
+        public SafeCountor(Action action)
+        {
+            OnZero = action;
+        }
 
         /// <summary>
         /// 数量
@@ -65,6 +68,9 @@ namespace IFramework.Core
             }
         }
 
-        public virtual void Dispose() { OnZero = null; }
+        public virtual void Dispose()
+        {
+            OnZero = null;
+        }
     }
 }

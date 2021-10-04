@@ -137,22 +137,34 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取依赖的资源
         /// </summary>
-        public virtual List<string> GetDependResourceList() { return null; }
+        public virtual List<string> GetDependResourceList()
+        {
+            return null;
+        }
 
         /// <summary>
         /// 记录依赖资源
         /// </summary>
-        protected void HoldDependResource() { DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle)); }
+        protected void HoldDependResource()
+        {
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle));
+        }
 
         /// <summary>
         /// 释放依赖资源
         /// </summary>
-        protected void UnHoldDependResource() { DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold())); }
+        protected void UnHoldDependResource()
+        {
+            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold()));
+        }
 
         /// <summary>
         /// 是否依赖资源加载完毕
         /// </summary>
-        public bool IsDependResourceLoaded() { return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready); }
+        public bool IsDependResourceLoaded()
+        {
+            return DoLoopDependResource(resource => resource == null || resource.State != ResourceState.Ready);
+        }
 
         private bool DoLoopDependResource(Func<IResource, bool> action, Type assetType = null)
         {
@@ -237,6 +249,9 @@ namespace IFramework.Engine
 
         public abstract IEnumerator LoadAsync(Action callback);
 
-        public override string ToString() { return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】"; }
+        public override string ToString()
+        {
+            return $"AssetName:【{AssetName}】 AssetBundleName:【{AssetBundleName}】 State:【{State}】 Counter:【{Counter}】";
+        }
     }
 }

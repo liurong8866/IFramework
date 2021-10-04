@@ -14,7 +14,10 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="ScanEventArgs"/>
         /// </summary>
         /// <param name="name">The file or directory name.</param>
-        public ScanEventArgs(string name) { Name = name; }
+        public ScanEventArgs(string name)
+        {
+            Name = name;
+        }
 
         #endregion
 
@@ -111,7 +114,10 @@ namespace IFramework.Core.Zip
         /// </summary>
         /// <param name="name">The name for this directory.</param>
         /// <param name="hasMatchingFiles">Flag value indicating if any matching files are contained in this directory.</param>
-        public DirectoryEventArgs(string name, bool hasMatchingFiles) : base(name) { HasMatchingFiles = hasMatchingFiles; }
+        public DirectoryEventArgs(string name, bool hasMatchingFiles) : base(name)
+        {
+            HasMatchingFiles = hasMatchingFiles;
+        }
 
         #endregion
 
@@ -119,7 +125,6 @@ namespace IFramework.Core.Zip
         /// Get a value indicating if the directory contains any matching files or not.
         /// </summary>
         public bool HasMatchingFiles { get; }
-
     }
 
     /// <summary>
@@ -213,7 +218,10 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>
         /// </summary>
         /// <param name="filter">The <see cref="PathFilter">file filter</see> to apply when scanning.</param>
-        public FileSystemScanner(string filter) { fileFilter = new PathFilter(filter); }
+        public FileSystemScanner(string filter)
+        {
+            fileFilter = new PathFilter(filter);
+        }
 
         /// <summary>
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>
@@ -230,7 +238,10 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>
         /// </summary>
         /// <param name="fileFilter">The file <see cref="IScanFilter">filter</see> to apply.</param>
-        public FileSystemScanner(IScanFilter fileFilter) { this.fileFilter = fileFilter; }
+        public FileSystemScanner(IScanFilter fileFilter)
+        {
+            this.fileFilter = fileFilter;
+        }
 
         /// <summary>
         /// Initialise a new instance of <see cref="FileSystemScanner"></see>

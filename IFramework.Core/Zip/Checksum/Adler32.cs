@@ -67,12 +67,18 @@ namespace IFramework.Core.Zip.Checksum
         /// <summary>
         /// Initialise a default instance of <see cref="Adler32"></see>
         /// </summary>
-        public Adler32() { Reset(); }
+        public Adler32()
+        {
+            Reset();
+        }
 
         /// <summary>
         /// Resets the Adler32 data checksum as if no update was ever called.
         /// </summary>
-        public void Reset() { checkValue = 1; }
+        public void Reset()
+        {
+            checkValue = 1;
+        }
 
         /// <summary>
         /// Returns the Adler32 data checksum computed so far.

@@ -14,7 +14,10 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty(this string value) { return string.IsNullOrEmpty(value); }
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
 
         /// <summary>
         /// 截取字符串左面
@@ -196,36 +199,57 @@ namespace IFramework.Core
         /// <summary>
         /// Windows转Linux回车换行符
         /// </summary>
-        public static string ToUnixLineEndings(this string value) { return value.Replace("\r\n", "\n").Replace("\r", "\n"); }
+        public static string ToUnixLineEndings(this string value)
+        {
+            return value.Replace("\r\n", "\n").Replace("\r", "\n");
+        }
 
         /// <summary>
         /// 添加后缀
         /// </summary>
-        public static string Append(this string value, string content) { return new StringBuilder(value).Append(content).ToString(); }
+        public static string Append(this string value, string content)
+        {
+            return new StringBuilder(value).Append(content).ToString();
+        }
 
         /// <summary>
         /// 添加前缀
         /// </summary>
-        public static string AppendPrefix(this string value, string content) { return new StringBuilder(content).Append(value).ToString(); }
+        public static string AppendPrefix(this string value, string content)
+        {
+            return new StringBuilder(content).Append(value).ToString();
+        }
 
         /// <summary>
         /// 格式化字符串
         /// </summary>
-        public static string Format(this string value, params object[] args) { return string.Format(value, args); }
+        public static string Format(this string value, params object[] args)
+        {
+            return string.Format(value, args);
+        }
 
         /// <summary>
         /// 是否存在中文字符
         /// </summary>
-        public static bool HasChinese(this string input) { return Regex.IsMatch(input, @"[\u4e00-\u9fa5]"); }
+        public static bool HasChinese(this string input)
+        {
+            return Regex.IsMatch(input, @"[\u4e00-\u9fa5]");
+        }
 
         /// <summary>
         /// 是否存在空格
         /// </summary>
-        public static bool HasSpace(this string input) { return input.Contains(" "); }
+        public static bool HasSpace(this string input)
+        {
+            return input.Contains(" ");
+        }
 
         /// <summary>
         /// 删除特定字符
         /// </summary>
-        public static string RemoveString(this string str, params string[] targets) { return targets.Aggregate(str, (current, t) => current.Replace(t, string.Empty)); }
+        public static string RemoveString(this string str, params string[] targets)
+        {
+            return targets.Aggregate(str, (current, t) => current.Replace(t, string.Empty));
+        }
     }
 }

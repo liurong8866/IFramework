@@ -39,14 +39,20 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="bufferSize">
         /// size to use for internal buffer
         /// </param>
-        public PendingBuffer(int bufferSize) { buffer = new byte[bufferSize]; }
+        public PendingBuffer(int bufferSize)
+        {
+            buffer = new byte[bufferSize];
+        }
 
         #endregion
 
         /// <summary>
         /// Clear internal state/buffers
         /// </summary>
-        public void Reset() { start = end = BitCount = 0; }
+        public void Reset()
+        {
+            start = end = BitCount = 0;
+        }
 
         /// <summary>
         /// Write a byte to buffer

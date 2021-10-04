@@ -40,7 +40,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialise a new instance.
         /// </summary>
         /// <param name="tag">The tag ID.</param>
-        public RawTaggedData(short tag) { this.tag = tag; }
+        public RawTaggedData(short tag)
+        {
+            this.tag = tag;
+        }
 
         #region ITaggedData Members
 
@@ -71,7 +74,10 @@ namespace IFramework.Core.Zip.Zip
         /// Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
-        public byte[] GetData() { return Data; }
+        public byte[] GetData()
+        {
+            return Data;
+        }
 
         #endregion
 
@@ -205,7 +211,10 @@ namespace IFramework.Core.Zip.Zip
         /// The minimum representable time is 1901-12-13 20:45:52,
         /// and the maximum representable time is 2038-01-19 03:14:07.
         /// </remarks>
-        public static bool IsValidValue(DateTime value) { return value >= new DateTime(1901, 12, 13, 20, 45, 52) || value <= new DateTime(2038, 1, 19, 03, 14, 07); }
+        public static bool IsValidValue(DateTime value)
+        {
+            return value >= new DateTime(1901, 12, 13, 20, 45, 52) || value <= new DateTime(2038, 1, 19, 03, 14, 07);
+        }
 
         /// <summary>
         /// Get /set the Modification Time
@@ -438,7 +447,10 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Initialise a default instance.
         /// </summary>
-        public ZipExtraData() { Clear(); }
+        public ZipExtraData()
+        {
+            Clear();
+        }
 
         /// <summary>
         /// Initialise with known extra data.
@@ -630,7 +642,10 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>Add data using <see cref="AddData(byte[])"/>, <see cref="AddLeShort"/>, <see cref="AddLeInt"/>, or <see cref="AddLeLong"/>.
         /// The new entry is completed and actually added by calling <see cref="AddNewEntry"/></remarks>
         /// <seealso cref="AddEntry(ITaggedData)"/>
-        public void StartNewEntry() { newEntry = new MemoryStream(); }
+        public void StartNewEntry()
+        {
+            newEntry = new MemoryStream();
+        }
 
         /// <summary>
         /// Add entry data added since <see cref="StartNewEntry"/> using the ID passed.
@@ -648,7 +663,10 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="data">The byte to add.</param>
         /// <seealso cref="StartNewEntry"/>
-        public void AddData(byte data) { newEntry.WriteByte(data); }
+        public void AddData(byte data)
+        {
+            newEntry.WriteByte(data);
+        }
 
         /// <summary>
         /// Add data to a pending new entry.

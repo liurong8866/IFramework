@@ -56,7 +56,10 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="baseInputStream">
         /// The stream to read compressed data from (baseInputStream LZW format)
         /// </param>
-        public LzwInputStream(Stream baseInputStream) { this.baseInputStream = baseInputStream; }
+        public LzwInputStream(Stream baseInputStream)
+        {
+            this.baseInputStream = baseInputStream;
+        }
 
         /// <summary>
         /// See <see cref="System.IO.Stream.ReadByte"/>
@@ -368,7 +371,10 @@ namespace IFramework.Core.Zip.Lzw
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() { baseInputStream.Flush(); }
+        public override void Flush()
+        {
+            baseInputStream.Flush();
+        }
 
         /// <summary>
         /// Sets the position within the current stream
@@ -378,7 +384,10 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("Seek not supported");
+        }
 
         /// <summary>
         /// Set the length of the current stream
@@ -386,7 +395,10 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) { throw new NotSupportedException("InflaterInputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("InflaterInputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Writes a sequence of bytes to stream and advances the current position
@@ -396,7 +408,10 @@ namespace IFramework.Core.Zip.Lzw
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("InflaterInputStream Write not supported"); }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("InflaterInputStream Write not supported");
+        }
 
         /// <summary>
         /// Writes one byte to the current stream and advances the current position
@@ -404,7 +419,10 @@ namespace IFramework.Core.Zip.Lzw
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) { throw new NotSupportedException("InflaterInputStream WriteByte not supported"); }
+        public override void WriteByte(byte value)
+        {
+            throw new NotSupportedException("InflaterInputStream WriteByte not supported");
+        }
 
         /// <summary>
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>

@@ -486,7 +486,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// The dictionary.
         /// </param>
-        public void SetDictionary(byte[] buffer) { SetDictionary(buffer, 0, buffer.Length); }
+        public void SetDictionary(byte[] buffer)
+        {
+            SetDictionary(buffer, 0, buffer.Length);
+        }
 
         /// <summary>
         /// Sets the preset dictionary.  This should only be called, if
@@ -543,7 +546,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="buffer">
         /// the input.
         /// </param>
-        public void SetInput(byte[] buffer) { SetInput(buffer, 0, buffer.Length); }
+        public void SetInput(byte[] buffer)
+        {
+            SetInput(buffer, 0, buffer.Length);
+        }
 
         /// <summary>
         /// Sets the input.  This should only be called, if needsInput()

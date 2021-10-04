@@ -8,27 +8,54 @@ namespace IFramework.Core
         public BindBool(bool value) : base(value) { }
 
         //重载运算符"true"
-        public static bool operator true(BindBool value) { return value.Value; }
+        public static bool operator true(BindBool value)
+        {
+            return value.Value;
+        }
 
         //重载运算符"false"
-        public static bool operator false(BindBool value) { return value.Value; }
+        public static bool operator false(BindBool value)
+        {
+            return value.Value;
+        }
 
         //重载运算符"!"
-        public static bool operator !(BindBool value) { return !value.Value; }
+        public static bool operator !(BindBool value)
+        {
+            return !value.Value;
+        }
 
         //重载运算符"&"
-        public static bool operator &(BindBool m, BindBool n) { return m.Value & n.Value; }
+        public static bool operator &(BindBool m, BindBool n)
+        {
+            return m.Value & n.Value;
+        }
 
-        public static bool operator &(BindBool m, bool n) { return m.Value & n; }
+        public static bool operator &(BindBool m, bool n)
+        {
+            return m.Value & n;
+        }
 
-        public static bool operator &(bool m, BindBool n) { return m & n.Value; }
+        public static bool operator &(bool m, BindBool n)
+        {
+            return m & n.Value;
+        }
 
         //重载运算符"|"
-        public static bool operator |(BindBool m, BindBool n) { return m.Value | n.Value; }
+        public static bool operator |(BindBool m, BindBool n)
+        {
+            return m.Value | n.Value;
+        }
 
-        public static bool operator |(BindBool m, bool n) { return m.Value | n; }
+        public static bool operator |(BindBool m, bool n)
+        {
+            return m.Value | n;
+        }
 
-        public static bool operator |(bool m, BindBool n) { return m | n.Value; }
+        public static bool operator |(bool m, BindBool n)
+        {
+            return m | n.Value;
+        }
     }
 
     public class BindString : Bindable<string>

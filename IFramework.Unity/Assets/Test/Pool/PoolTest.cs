@@ -66,7 +66,10 @@ namespace IFramework.Test.Pool
         /// <summary>
         /// 回收对象时触发的事件
         /// </summary>
-        public void OnRecycled() { state = "未发射"; }
+        public void OnRecycled()
+        {
+            state = "未发射";
+        }
 
         /// <summary>
         /// 回收状态

@@ -9,7 +9,10 @@ namespace IFramework.Core
 
         private PlatformEnvironment() { }
 
-        public void Init(IEnvironment environment) { this.environment = environment; }
+        public void Init(IEnvironment environment)
+        {
+            this.environment = environment;
+        }
 
         /// <summary>
         /// 获取当前平台名称

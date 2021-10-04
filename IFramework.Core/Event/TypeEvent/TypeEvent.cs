@@ -97,21 +97,33 @@ namespace IFramework.Core
         /// <summary>
         /// 注册事件
         /// </summary>
-        public static IDisposable Register<T>(Action<T> action) { return eventer.RegisterEvent(action); }
+        public static IDisposable Register<T>(Action<T> action)
+        {
+            return eventer.RegisterEvent(action);
+        }
 
         /// <summary>
         /// 注销事件
         /// </summary>
-        public static void UnRegister<T>(Action<T> action) { eventer.UnRegisterEvent(action); }
+        public static void UnRegister<T>(Action<T> action)
+        {
+            eventer.UnRegisterEvent(action);
+        }
 
         /// <summary>
         /// 发送事件
         /// </summary>
-        public static void Send<T>() where T : new() { eventer.SendEvent<T>(); }
+        public static void Send<T>() where T : new()
+        {
+            eventer.SendEvent<T>();
+        }
 
         /// <summary>
         /// 发送事件
         /// </summary>
-        public static void Send<T>(T t) { eventer.SendEvent(t); }
+        public static void Send<T>(T t)
+        {
+            eventer.SendEvent(t);
+        }
     }
 }

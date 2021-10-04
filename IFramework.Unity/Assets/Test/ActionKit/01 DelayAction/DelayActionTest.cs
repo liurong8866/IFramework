@@ -6,7 +6,10 @@ public class DelayActionTest : MonoBehaviour
 {
     private DelayAction mDelay3s;
 
-    private void Awake() { mDelay3s = DelayAction.Allocate(3.0f, () => { Log.Info("延时 3s"); }); }
+    private void Awake()
+    {
+        mDelay3s = DelayAction.Allocate(3.0f, () => { Log.Info("延时 3s"); });
+    }
 
     private void Start()
     {

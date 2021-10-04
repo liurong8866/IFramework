@@ -14,9 +14,15 @@ namespace IFramework.Core.Zip.Encryption
 
             public IncrementalHash(byte[] key) : base(key) { }
 
-            public static IncrementalHash CreateHmac(string n, byte[] key) { return new IncrementalHash(key); }
+            public static IncrementalHash CreateHmac(string n, byte[] key)
+            {
+                return new IncrementalHash(key);
+            }
 
-            public void AppendData(byte[] buffer, int offset, int count) { TransformBlock(buffer, offset, count, buffer, offset); }
+            public void AppendData(byte[] buffer, int offset, int count)
+            {
+                TransformBlock(buffer, offset, count, buffer, offset);
+            }
 
             public byte[] GetHashAndReset()
             {
@@ -146,7 +152,10 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount) { throw new NotImplementedException("ZipAESTransform.TransformFinalBlock"); }
+        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+        {
+            throw new NotImplementedException("ZipAESTransform.TransformFinalBlock");
+        }
 
         /// <summary>
         /// Gets the size of the input data blocks in bytes.
@@ -171,7 +180,10 @@ namespace IFramework.Core.Zip.Encryption
         /// <summary>
         /// Cleanup internal state.
         /// </summary>
-        public void Dispose() { encryptor.Dispose(); }
+        public void Dispose()
+        {
+            encryptor.Dispose();
+        }
 
         #endregion
     }

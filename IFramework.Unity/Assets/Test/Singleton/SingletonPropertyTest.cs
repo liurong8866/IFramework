@@ -23,12 +23,21 @@ namespace IFramework.Test.Singelton
         private SingletonPropertyTestDemo() { }
 
         // Start is called before the first frame update
-        private void Start() { Debug.Log("这是属性方法实现的单例 继承了MonoBehaviour"); }
+        private void Start()
+        {
+            Debug.Log("这是属性方法实现的单例 继承了MonoBehaviour");
+        }
 
         public static SingletonPropertyTestDemo Instance => SingletonProperty<SingletonPropertyTestDemo>.Instance;
 
-        public void OnInit() { Debug.Log("这是属性方法实现的单例初始化"); }
+        public void OnInit()
+        {
+            Debug.Log("这是属性方法实现的单例初始化");
+        }
 
-        public void Say() { Debug.Log("hello world"); }
+        public void Say()
+        {
+            Debug.Log("hello world");
+        }
     }
 }

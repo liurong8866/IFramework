@@ -116,7 +116,10 @@ namespace IFramework.Core.Zip.Zip
         /// Get the current deflater compression level
         /// </summary>
         /// <returns>The current compression level</returns>
-        public int GetLevel() { return deflater_.GetLevel(); }
+        public int GetLevel()
+        {
+            return deflater_.GetLevel();
+        }
 
         /// <summary>
         /// Get / set a value indicating how Zip64 Extension usage is determined when adding entries.

@@ -59,7 +59,10 @@ namespace IFramework.Core
         /// <summary>
         /// 释放当前对象
         /// </summary>
-        protected virtual void OnDestroy() { instance = null; }
+        protected virtual void OnDestroy()
+        {
+            instance = null;
+        }
 
         /// <summary>
         /// 判断当前应用程序是否退出

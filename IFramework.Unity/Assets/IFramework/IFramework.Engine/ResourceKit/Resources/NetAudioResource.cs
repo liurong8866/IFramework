@@ -57,11 +57,17 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult() { return ((DownloadHandlerAudioClip)request.downloadHandler).audioClip; }
+        protected override Object ResolveResult()
+        {
+            return ((DownloadHandlerAudioClip)request.downloadHandler).audioClip;
+        }
 
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() { ObjectPool<NetAudioResource>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<NetAudioResource>.Instance.Recycle(this);
+        }
     }
 }

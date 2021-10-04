@@ -37,7 +37,10 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Initialise a default instance of <see cref="TarEntry"/>.
         /// </summary>
-        private TarEntry() { header = new TarHeader(); }
+        private TarEntry()
+        {
+            header = new TarHeader();
+        }
 
         /// <summary>
         /// Construct an entry from an archive's header bytes. File is set
@@ -131,7 +134,10 @@ namespace IFramework.Core.Zip.Tar
         /// Derive a Hash value for the current <see cref="object"/>
         /// </summary>
         /// <returns>A Hash code for the current <see cref="object"/></returns>
-        public override int GetHashCode() { return Name.GetHashCode(); }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
         /// <summary>
         /// Determine if the given entry is a descendant of this entry.
@@ -376,7 +382,10 @@ namespace IFramework.Core.Zip.Tar
         /// <param name = "outBuffer">
         /// The tar entry header buffer to fill in.
         /// </param>
-        public void WriteEntryHeader(byte[] outBuffer) { header.WriteHeader(outBuffer); }
+        public void WriteEntryHeader(byte[] outBuffer)
+        {
+            header.WriteHeader(outBuffer);
+        }
 
         /// <summary>
         /// Convenience method that will modify an entry's name directly
@@ -388,7 +397,10 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="newName">
         /// The new name to place into the header buffer.
         /// </param>
-        public static void AdjustEntryName(byte[] buffer, string newName) { TarHeader.GetNameBytes(newName, buffer, 0, TarHeader.NAMELEN); }
+        public static void AdjustEntryName(byte[] buffer, string newName)
+        {
+            TarHeader.GetNameBytes(newName, buffer, 0, TarHeader.NAMELEN);
+        }
 
         /// <summary>
         /// Fill in a TarHeader given only the entry's name.

@@ -16,7 +16,10 @@ namespace IFramework.Core.Zip
         /// Initialise a new instance of <see cref="PathFilter"></see>.
         /// </summary>
         /// <param name="filter">The <see cref="NameFilter">filter</see> expression to apply.</param>
-        public PathFilter(string filter) { nameFilter = new NameFilter(filter); }
+        public PathFilter(string filter)
+        {
+            nameFilter = new NameFilter(filter);
+        }
 
         #endregion
 

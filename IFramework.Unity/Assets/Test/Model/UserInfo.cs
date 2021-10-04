@@ -17,6 +17,9 @@ namespace IFramework.Test.Model
 
         public string Sex { get; set; }
 
-        public override string ToString() { return $"username: {UserName}, age: {Age}, sex: {Sex}"; }
+        public override string ToString()
+        {
+            return $"username: {UserName}, age: {Age}, sex: {Sex}";
+        }
     }
 }

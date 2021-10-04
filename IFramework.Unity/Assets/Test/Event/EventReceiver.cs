@@ -20,6 +20,9 @@ namespace IFramework.Test.Event
             }
         }
 
-        private void OnDestroy() { DefaultEvent.UnRegister(100, Action); }
+        private void OnDestroy()
+        {
+            DefaultEvent.UnRegister(100, Action);
+        }
     }
 }

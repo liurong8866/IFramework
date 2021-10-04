@@ -9,8 +9,14 @@ namespace IFramework.Core
 
     public static class OnEventExtension
     {
-        public static IDisposable RegisterEvent<T>(this IOnEvent<T> self) where T : struct { return TypeEvent.Register<T>(self.OnEvent); }
+        public static IDisposable RegisterEvent<T>(this IOnEvent<T> self) where T : struct
+        {
+            return TypeEvent.Register<T>(self.OnEvent);
+        }
 
-        public static void UnRegisterEvent<T>(this IOnEvent<T> self) where T : struct { TypeEvent.UnRegister<T>(self.OnEvent); }
+        public static void UnRegisterEvent<T>(this IOnEvent<T> self) where T : struct
+        {
+            TypeEvent.UnRegister<T>(self.OnEvent);
+        }
     }
 }

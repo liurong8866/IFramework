@@ -22,7 +22,10 @@ namespace IFramework.Core.Zip.Zip
         /// Initialize a new instance of <see cref="ZipNameTransform"></see>
         /// </summary>
         /// <param name="trimPrefix">The string to trim from the front of paths if found.</param>
-        public ZipNameTransform(string trimPrefix) { TrimPrefix = trimPrefix; }
+        public ZipNameTransform(string trimPrefix)
+        {
+            TrimPrefix = trimPrefix;
+        }
 
         #endregion
 

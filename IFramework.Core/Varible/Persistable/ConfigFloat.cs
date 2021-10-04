@@ -18,7 +18,10 @@ namespace IFramework.Core
             }
         }
 
-        public override float Get() { return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : value; }
+        public override float Get()
+        {
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : value;
+        }
 
         public override void Save(float value)
         {

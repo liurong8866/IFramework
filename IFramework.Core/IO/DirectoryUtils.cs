@@ -41,12 +41,18 @@ namespace IFramework.Core
         /// <summary>
         /// 判断路径是否存在
         /// </summary>
-        public static bool Exists(string path) { return Directory.Exists(path); }
+        public static bool Exists(string path)
+        {
+            return Directory.Exists(path);
+        }
 
         /// <summary>
         /// 合并两个路径
         /// </summary>
-        public static string CombinePath(string first, string second) { return Path.Combine(first, second); }
+        public static string CombinePath(string first, string second)
+        {
+            return Path.Combine(first, second);
+        }
 
         /// <summary>
         /// 拷贝文件夹及其子目录

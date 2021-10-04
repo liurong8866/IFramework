@@ -90,21 +90,30 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">If set to <c>true</c> value.</param>
-        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value) { self.SetBool(parameterName, value); }
+        public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value)
+        {
+            self.SetBool(parameterName, value);
+        }
 
         /// <summary>
         /// Updates the animator trigger without checking the parameter's existence
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void UpdateAnimatorTrigger(this Animator self, string parameterName) { self.SetTrigger(parameterName); }
+        public static void UpdateAnimatorTrigger(this Animator self, string parameterName)
+        {
+            self.SetTrigger(parameterName);
+        }
 
         /// <summary>
         /// Triggers an animator trigger without checking for the parameter's existence.
         /// </summary>
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
-        public static void SetAnimatorTrigger(this Animator self, string parameterName) { self.SetTrigger(parameterName); }
+        public static void SetAnimatorTrigger(this Animator self, string parameterName)
+        {
+            self.SetTrigger(parameterName);
+        }
 
         /// <summary>
         /// Updates the animator float without checking for the parameter's existence.
@@ -112,7 +121,10 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value) { self.SetFloat(parameterName, value); }
+        public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value)
+        {
+            self.SetFloat(parameterName, value);
+        }
 
         /// <summary>
         /// Updates the animator integer without checking for the parameter's existence.
@@ -120,7 +132,10 @@ namespace IFramework.Core
         /// <param name="self">self.</param>
         /// <param name="parameterName">Parameter name.</param>
         /// <param name="value">Value.</param>
-        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value) { self.SetInteger(parameterName, value); }
+        public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value)
+        {
+            self.SetInteger(parameterName, value);
+        }
 
         /// <summary>
         /// Updates the animator bool after checking the parameter's existence.

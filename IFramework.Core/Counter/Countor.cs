@@ -7,7 +7,10 @@ namespace IFramework.Core
     /// </summary>
     public class Countor : ICountor, IDisposable
     {
-        public Countor() { Counter = 0; }
+        public Countor()
+        {
+            Counter = 0;
+        }
 
         public Countor(Action action)
         {
@@ -60,8 +63,14 @@ namespace IFramework.Core
             }
         }
 
-        public virtual void Dispose() { OnZero = null; }
+        public virtual void Dispose()
+        {
+            OnZero = null;
+        }
 
-        public override string ToString() { return Counter.ToString(); }
+        public override string ToString()
+        {
+            return Counter.ToString();
+        }
     }
 }

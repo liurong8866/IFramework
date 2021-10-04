@@ -30,17 +30,26 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNullOrEmpty(this ICollection value) { return value == null || value.Count == 0; }
+        public static bool IsNullOrEmpty(this ICollection value)
+        {
+            return value == null || value.Count == 0;
+        }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this object value) { return !IsNullOrEmpty(value); }
+        public static bool IsNotNullOrEmpty(this object value)
+        {
+            return !IsNullOrEmpty(value);
+        }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this ICollection value) { return !IsNullOrEmpty(value); }
+        public static bool IsNotNullOrEmpty(this ICollection value)
+        {
+            return !IsNullOrEmpty(value);
+        }
 
         /// <summary>
         /// 转换字符串
@@ -71,42 +80,66 @@ namespace IFramework.Core
         /// <summary>
         /// 对象转换Short
         /// </summary>
-        public static short ToShort(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt16(value); }
+        public static short ToShort(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToInt16(value);
+        }
 
         /// <summary>
         /// 对象转换Int
         /// </summary>
-        public static int ToInt(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt32(value); }
+        public static int ToInt(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToInt32(value);
+        }
 
         /// <summary>
         /// 对象转换Long
         /// </summary>
-        public static long ToLong(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToInt64(value); }
+        public static long ToLong(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToInt64(value);
+        }
 
         /// <summary>
         /// 字符串转换Float
         /// </summary>
-        public static float ToFloat(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToSingle(value); }
+        public static float ToFloat(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToSingle(value);
+        }
 
         /// <summary>
         /// 字符串转换Double
         /// </summary>
-        public static double ToDouble(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToDouble(value); }
+        public static double ToDouble(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToDouble(value);
+        }
 
         /// <summary>
         /// 字符串转换Decimal
         /// </summary>
-        public static decimal ToDecimal(this object value) { return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value); }
+        public static decimal ToDecimal(this object value)
+        {
+            return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value);
+        }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value) { return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01")); }
+        public static DateTime ToDateTime(this object value)
+        {
+            return ToDateTime(value, DateTime.Parse("1970-1-1 00:00:01"));
+        }
 
         /// <summary>
         /// 转换为DateTime型
         /// </summary>
-        public static DateTime ToDateTime(this object value, DateTime defaultValue) { return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value); }
+        public static DateTime ToDateTime(this object value, DateTime defaultValue)
+        {
+            return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value);
+        }
 
         /// <summary>
         /// SQL 防止意外字符导致错误
@@ -143,12 +176,18 @@ namespace IFramework.Core
         /// <summary>
         /// 是否为整型数值
         /// </summary>
-        public static bool IsInteger(this object value) { return value is sbyte || value is short || value is int || value is long || value is byte || value is ushort || value is uint || value is ulong; }
+        public static bool IsInteger(this object value)
+        {
+            return value is sbyte || value is short || value is int || value is long || value is byte || value is ushort || value is uint || value is ulong;
+        }
 
         /// <summary>
         /// 是否为浮点型
         /// </summary>
-        public static bool IsFloat(this object value) { return value is float | value is double | value is decimal; }
+        public static bool IsFloat(this object value)
+        {
+            return value is float | value is double | value is decimal;
+        }
 
         /// <summary>
         /// 是否为数字

@@ -18,7 +18,10 @@ namespace IFramework.Core
             }
         }
 
-        public override int Get() { return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : value; }
+        public override int Get()
+        {
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : value;
+        }
 
         public override void Save(int value)
         {

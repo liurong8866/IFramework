@@ -153,7 +153,10 @@ namespace IFramework.Core.Zip.BZip2
         /// <summary>
         /// Flushes the stream.
         /// </summary>
-        public override void Flush() { baseStream.Flush(); }
+        public override void Flush()
+        {
+            baseStream.Flush();
+        }
 
         /// <summary>
         /// Set the streams position.  This operation is not supported and will throw a NotSupportedException
@@ -162,7 +165,10 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="origin">A value of type <see cref="SeekOrigin"/> indicating the reference point used to obtain the new position.</param>
         /// <returns>The new position of the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("BZip2InputStream Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("BZip2InputStream Seek not supported");
+        }
 
         /// <summary>
         /// Sets the length of this stream to the given value.
@@ -170,7 +176,10 @@ namespace IFramework.Core.Zip.BZip2
         /// </summary>
         /// <param name="value">The new length for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) { throw new NotSupportedException("BZip2InputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("BZip2InputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Writes a block of bytes to this stream using data from a buffer.
@@ -180,7 +189,10 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="offset">The offset to start obtaining data from.</param>
         /// <param name="count">The number of bytes of data to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("BZip2InputStream Write not supported"); }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("BZip2InputStream Write not supported");
+        }
 
         /// <summary>
         /// Writes a byte to the current position in the file stream.
@@ -188,7 +200,10 @@ namespace IFramework.Core.Zip.BZip2
         /// </summary>
         /// <param name="value">The value to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) { throw new NotSupportedException("BZip2InputStream WriteByte not supported"); }
+        public override void WriteByte(byte value)
+        {
+            throw new NotSupportedException("BZip2InputStream WriteByte not supported");
+        }
 
         /// <summary>
         /// Read a sequence of bytes and advances the read position by one byte.
@@ -366,9 +381,15 @@ namespace IFramework.Core.Zip.BZip2
             return v;
         }
 
-        private char BsGetUChar() { return (char)BsR(8); }
+        private char BsGetUChar()
+        {
+            return (char)BsR(8);
+        }
 
-        private int BsGetIntVs(int numBits) { return BsR(numBits); }
+        private int BsGetIntVs(int numBits)
+        {
+            return BsR(numBits);
+        }
 
         private int BsGetInt32()
         {
@@ -801,13 +822,25 @@ namespace IFramework.Core.Zip.BZip2
             tt = new int[n];
         }
 
-        private static void CompressedStreamEof() { throw new EndOfStreamException("BZip2 input stream end of compressed stream"); }
+        private static void CompressedStreamEof()
+        {
+            throw new EndOfStreamException("BZip2 input stream end of compressed stream");
+        }
 
-        private static void BlockOverrun() { throw new BZip2Exception("BZip2 input stream block overrun"); }
+        private static void BlockOverrun()
+        {
+            throw new BZip2Exception("BZip2 input stream block overrun");
+        }
 
-        private static void BadBlockHeader() { throw new BZip2Exception("BZip2 input stream bad block header"); }
+        private static void BadBlockHeader()
+        {
+            throw new BZip2Exception("BZip2 input stream bad block header");
+        }
 
-        private static void CrcError() { throw new BZip2Exception("BZip2 input stream crc error"); }
+        private static void CrcError()
+        {
+            throw new BZip2Exception("BZip2 input stream crc error");
+        }
 
         private static void HbCreateDecodeTables(int[] limit, int[] baseArray, int[] perm, char[] length, int minLen, int maxLen, int alphaSize)
         {

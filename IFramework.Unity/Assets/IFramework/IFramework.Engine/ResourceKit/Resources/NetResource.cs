@@ -15,7 +15,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 同步加载资源
         /// </summary>
-        public override bool Load() { throw new NotImplementedException("请使用LoadASync方法加载网络资源！"); }
+        public override bool Load()
+        {
+            throw new NotImplementedException("请使用LoadASync方法加载网络资源！");
+        }
 
         /// <summary>
         /// 异步加载资源

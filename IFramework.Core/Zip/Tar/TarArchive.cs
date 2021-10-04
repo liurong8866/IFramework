@@ -434,7 +434,10 @@ namespace IFramework.Core.Zip.Tar
         /// Close the archive.
         /// </summary>
         [Obsolete("Use Close instead")]
-        public void CloseArchive() { Close(); }
+        public void CloseArchive()
+        {
+            Close();
+        }
 
         /// <summary>
         /// Perform the "list" command for the archive contents.
@@ -738,13 +741,19 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Closes the archive and releases any associated resources.
         /// </summary>
-        public virtual void Close() { Dispose(true); }
+        public virtual void Close()
+        {
+            Dispose(true);
+        }
 
         /// <summary>
         /// Ensures that resources are freed and other cleanup operations are performed
         /// when the garbage collector reclaims the <see cref="TarArchive"/>.
         /// </summary>
-        ~TarArchive() { Dispose(false); }
+        ~TarArchive()
+        {
+            Dispose(false);
+        }
 
         private static void EnsureDirectoryExists(string directoryName)
         {

@@ -32,9 +32,15 @@ namespace IFramework.Core
             }
         }
 
-        public static void LogInfo(this object self) { Info(self); }
+        public static void LogInfo(this object self)
+        {
+            Info(self);
+        }
 
-        public static void LogInfo(this object self, string format) { Info(format, self); }
+        public static void LogInfo(this object self, string format)
+        {
+            Info(format, self);
+        }
 
         // WARNING
         public static void Warning(object self)
@@ -51,9 +57,15 @@ namespace IFramework.Core
             }
         }
 
-        public static void LogWarning(this object self) { Warning(self); }
+        public static void LogWarning(this object self)
+        {
+            Warning(self);
+        }
 
-        public static void LogWarning(this object self, string format) { Warning(format, self); }
+        public static void LogWarning(this object self, string format)
+        {
+            Warning(format, self);
+        }
 
         // ERROR
         public static void Error(object self)
@@ -70,9 +82,15 @@ namespace IFramework.Core
             }
         }
 
-        public static void LogError(this object self) { Error(self); }
+        public static void LogError(this object self)
+        {
+            Error(self);
+        }
 
-        public static void LogError(this object self, string format) { Error(format, self); }
+        public static void LogError(this object self, string format)
+        {
+            Error(format, self);
+        }
 
         public static void Clear()
         {

@@ -42,11 +42,17 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取对象
         /// </summary>
-        protected override Object ResolveResult() { return ((DownloadHandlerTexture)request.downloadHandler).texture; }
+        protected override Object ResolveResult()
+        {
+            return ((DownloadHandlerTexture)request.downloadHandler).texture;
+        }
 
         /// <summary>
         /// 回收资源到缓冲池
         /// </summary>
-        public override void Recycle() { ObjectPool<NetImageResource>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<NetImageResource>.Instance.Recycle(this);
+        }
     }
 }

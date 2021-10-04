@@ -8,6 +8,9 @@ namespace IFramework.Core
 
         public ITypeEvent typeEvent;
 
-        public void Dispose() { typeEvent.UnRegisterEvent(actions); }
+        public void Dispose()
+        {
+            typeEvent.UnRegisterEvent(actions);
+        }
     }
 }

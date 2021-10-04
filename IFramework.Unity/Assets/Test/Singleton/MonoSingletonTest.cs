@@ -21,8 +21,14 @@ namespace IFramework.Test.Singelton
         // 私有化构造函数，防止外部New创建
         private MonoSingletonTestDemo1() { }
 
-        public void Say() { Debug.Log("hello world"); }
+        public void Say()
+        {
+            Debug.Log("hello world");
+        }
 
-        public override void OnInit() { Debug.Log("这是单例初始化"); }
+        public override void OnInit()
+        {
+            Debug.Log("这是单例初始化");
+        }
     }
 }

@@ -45,8 +45,14 @@ namespace IFramework.Engine
             return true;
         }
 
-        public override void LoadASync() { Load(); }
+        public override void LoadASync()
+        {
+            Load();
+        }
 
-        public override void Recycle() { ObjectPool<AssetBundleScene>.Instance.Recycle(this); }
+        public override void Recycle()
+        {
+            ObjectPool<AssetBundleScene>.Instance.Recycle(this);
+        }
     }
 }

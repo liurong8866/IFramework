@@ -73,7 +73,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name = "codeLengths">
         /// the array of code lengths
         /// </param>
-        public InflaterHuffmanTree(byte[] codeLengths) { BuildTree(codeLengths); }
+        public InflaterHuffmanTree(byte[] codeLengths)
+        {
+            BuildTree(codeLengths);
+        }
 
         #endregion
 

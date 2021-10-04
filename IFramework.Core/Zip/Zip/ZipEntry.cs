@@ -494,13 +494,19 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Force this entry to be recorded using Zip64 extensions.
         /// </summary>
-        public void ForceZip64() { forceZip64 = true; }
+        public void ForceZip64()
+        {
+            forceZip64 = true;
+        }
 
         /// <summary>
         /// Get a value indicating wether Zip64 extensions were forced.
         /// </summary>
         /// <returns>A <see cref="bool"/> value of true if Zip64 extensions have been forced on; false if not.</returns>
-        public bool IsZip64Forced() { return forceZip64; }
+        public bool IsZip64Forced()
+        {
+            return forceZip64;
+        }
 
         /// <summary>
         /// Gets a value indicating if the entry requires Zip64 extensions
@@ -962,7 +968,10 @@ namespace IFramework.Core.Zip.Zip
         /// Test entry to see if data can be extracted.
         /// </summary>
         /// <returns>Returns true if data can be extracted for this entry; false otherwise.</returns>
-        public bool IsCompressionMethodSupported() { return IsCompressionMethodSupported(CompressionMethod); }
+        public bool IsCompressionMethodSupported()
+        {
+            return IsCompressionMethodSupported(CompressionMethod);
+        }
 
         #region ICloneable Members
 
@@ -988,7 +997,10 @@ namespace IFramework.Core.Zip.Zip
         /// Gets a string representation of this ZipEntry.
         /// </summary>
         /// <returns>A readable textual representation of this <see cref="ZipEntry"/></returns>
-        public override string ToString() { return Name; }
+        public override string ToString()
+        {
+            return Name;
+        }
 
         /// <summary>
         /// Test a <see cref="CompressionMethod">compression method</see> to see if this library
@@ -996,7 +1008,10 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         /// <param name="method">The compression method to test.</param>
         /// <returns>Returns true if the compression method is supported; false otherwise</returns>
-        public static bool IsCompressionMethodSupported(CompressionMethod method) { return method == CompressionMethod.Deflated || method == CompressionMethod.Stored; }
+        public static bool IsCompressionMethodSupported(CompressionMethod method)
+        {
+            return method == CompressionMethod.Deflated || method == CompressionMethod.Stored;
+        }
 
         /// <summary>
         /// Cleans a name making it conform to Zip file conventions.

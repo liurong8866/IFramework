@@ -40,6 +40,9 @@ namespace IFramework.Core
         /// <summary>
         /// 给List拓展 自身入栈 的方法
         /// </summary>
-        public static void Recycle<T>(this List<T> self) { ListPool<T>.Release(self); }
+        public static void Recycle<T>(this List<T> self)
+        {
+            ListPool<T>.Release(self);
+        }
     }
 }

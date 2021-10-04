@@ -23,9 +23,15 @@ namespace IFramework.Test.Event
             gameObject.DestroySelf();
         }
 
-        private void OnGameStartEvent(GameStartEvent gameStartEvent) { Debug.Log("游戏开始了"); }
+        private void OnGameStartEvent(GameStartEvent gameStartEvent)
+        {
+            Debug.Log("游戏开始了");
+        }
 
-        private void OnGameOverEvent(GameOverEvent gameOverEvent) { Debug.LogFormat("游戏结束，分数:{0}", gameOverEvent.score); }
+        private void OnGameOverEvent(GameOverEvent gameOverEvent)
+        {
+            Debug.LogFormat("游戏结束，分数:{0}", gameOverEvent.score);
+        }
 
         private void OnSkillEvent(ISkillEvent skillEvent)
         {

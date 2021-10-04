@@ -78,7 +78,10 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The record size in bytes.
         /// This is equal to the <see cref="BlockFactor"/> multiplied by the <see cref="BLOCK_SIZE"/></returns>
         [Obsolete("Use RecordSize property instead")]
-        public int GetRecordSize() { return RecordSize; }
+        public int GetRecordSize()
+        {
+            return RecordSize;
+        }
 
         /// <summary>
         /// Get the Blocking factor for the buffer
@@ -91,7 +94,10 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         /// <returns>The block factor; the number of blocks per record.</returns>
         [Obsolete("Use BlockFactor property instead")]
-        public int GetBlockFactor() { return BlockFactor; }
+        public int GetBlockFactor()
+        {
+            return BlockFactor;
+        }
 
         /// <summary>
         /// Construct a default TarBuffer
@@ -347,7 +353,10 @@ namespace IFramework.Core.Zip.Tar
         /// The absolute block number = (<see cref="GetCurrentRecordNum">record number</see> * <see cref="BlockFactor">block factor</see>) + <see cref="GetCurrentBlockNum">block number</see>.
         /// </remarks>
         [Obsolete("Use CurrentBlock property instead")]
-        public int GetCurrentBlockNum() { return CurrentBlock; }
+        public int GetCurrentBlockNum()
+        {
+            return CurrentBlock;
+        }
 
         /// <summary>
         /// Get the current record number.
@@ -364,7 +373,10 @@ namespace IFramework.Core.Zip.Tar
         /// The current zero based record number.
         /// </returns>
         [Obsolete("Use CurrentRecord property instead")]
-        public int GetCurrentRecordNum() { return CurrentRecord; }
+        public int GetCurrentRecordNum()
+        {
+            return CurrentRecord;
+        }
 
         /// <summary>
         /// Write a block of data to the archive.

@@ -7,7 +7,10 @@ namespace IFramework.Core
     /// </summary>
     public static class RectTransformExtension
     {
-        public static Vector2 GetPosInRootTrans(this RectTransform selfRectTransform, Transform rootTrans) { return RectTransformUtility.CalculateRelativeRectTransformBounds(rootTrans, selfRectTransform).center; }
+        public static Vector2 GetPosInRootTrans(this RectTransform selfRectTransform, Transform rootTrans)
+        {
+            return RectTransformUtility.CalculateRelativeRectTransformBounds(rootTrans, selfRectTransform).center;
+        }
 
         public static RectTransform AnchorPosX(this RectTransform selfRectTrans, float anchorPosX)
         {
@@ -41,6 +44,9 @@ namespace IFramework.Core
             return selfRectTrans;
         }
 
-        public static Vector2 GetWorldSize(this RectTransform selfRectTrans) { return RectTransformUtility.CalculateRelativeRectTransformBounds(selfRectTrans).size; }
+        public static Vector2 GetWorldSize(this RectTransform selfRectTrans)
+        {
+            return RectTransformUtility.CalculateRelativeRectTransformBounds(selfRectTrans).size;
+        }
     }
 }

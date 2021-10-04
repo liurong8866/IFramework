@@ -185,7 +185,10 @@ namespace IFramework.Core
         /// <summary>
         /// 根据路径获得资源名
         /// </summary>
-        public static string GetAssetBundleNameByUrl(string url) { return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", ""); }
+        public static string GetAssetBundleNameByUrl(string url)
+        {
+            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
+        }
 
         /// <summary>
         /// 根据资源名获得资源路径

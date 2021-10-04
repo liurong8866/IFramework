@@ -17,6 +17,9 @@ namespace IFramework.Test.Singelton
     {
         private MonoSingletonAttributeTestDemo() { }
 
-        private void Start() { Debug.Log("我是自定义特性"); }
+        private void Start()
+        {
+            Debug.Log("我是自定义特性");
+        }
     }
 }

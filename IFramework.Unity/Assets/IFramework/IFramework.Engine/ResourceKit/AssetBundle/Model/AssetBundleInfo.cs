@@ -24,7 +24,10 @@ namespace IFramework.Engine
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AssetBundleInfo(string key) { Key = key; }
+        public AssetBundleInfo(string key)
+        {
+            Key = key;
+        }
 
         /// <summary>
         /// 构造函数

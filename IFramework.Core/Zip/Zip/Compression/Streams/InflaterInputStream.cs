@@ -112,7 +112,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="buffer">The buffer to fill</param>
         /// <returns>Returns the number of bytes read.</returns>
-        public int ReadRawBuffer(byte[] buffer) { return ReadRawBuffer(buffer, 0, buffer.Length); }
+        public int ReadRawBuffer(byte[] buffer)
+        {
+            return ReadRawBuffer(buffer, 0, buffer.Length);
+        }
 
         /// <summary>
         /// Read a buffer directly from the input stream
@@ -200,19 +203,28 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Read an <see cref="short"/> in little endian byte order.
         /// </summary>
         /// <returns>The short value read case to an int.</returns>
-        public int ReadLeShort() { return ReadLeByte() | (ReadLeByte() << 8); }
+        public int ReadLeShort()
+        {
+            return ReadLeByte() | (ReadLeByte() << 8);
+        }
 
         /// <summary>
         /// Read an <see cref="int"/> in little endian byte order.
         /// </summary>
         /// <returns>The int value read.</returns>
-        public int ReadLeInt() { return ReadLeShort() | (ReadLeShort() << 16); }
+        public int ReadLeInt()
+        {
+            return ReadLeShort() | (ReadLeShort() << 16);
+        }
 
         /// <summary>
         /// Read a <see cref="long"/> in little endian byte order.
         /// </summary>
         /// <returns>The long value read.</returns>
-        public long ReadLeLong() { return (uint)ReadLeInt() | ((long)ReadLeInt() << 32); }
+        public long ReadLeLong()
+        {
+            return (uint)ReadLeInt() | ((long)ReadLeInt() << 32);
+        }
 
         /// <summary>
         /// Get/set the <see cref="ICryptoTransform"/> to apply to any data.
@@ -372,7 +384,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Clear any cryptographic state.
         /// </summary>
-        protected void StopDecrypting() { inputBuffer.CryptoTransform = null; }
+        protected void StopDecrypting()
+        {
+            inputBuffer.CryptoTransform = null;
+        }
 
         /// <summary>
         /// Returns 0 once the end of the stream (EOF) has been reached.
@@ -447,7 +462,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <summary>
         /// Flushes the baseInputStream
         /// </summary>
-        public override void Flush() { baseInputStream.Flush(); }
+        public override void Flush()
+        {
+            baseInputStream.Flush();
+        }
 
         /// <summary>
         /// Sets the position within the current stream
@@ -457,7 +475,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="origin">The <see cref="SeekOrigin"/> defining where to seek from.</param>
         /// <returns>The new position in the stream.</returns>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override long Seek(long offset, SeekOrigin origin) { throw new NotSupportedException("Seek not supported"); }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException("Seek not supported");
+        }
 
         /// <summary>
         /// Set the length of the current stream
@@ -465,7 +486,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The new length value for the stream.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void SetLength(long value) { throw new NotSupportedException("InflaterInputStream SetLength not supported"); }
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("InflaterInputStream SetLength not supported");
+        }
 
         /// <summary>
         /// Writes a sequence of bytes to stream and advances the current position
@@ -475,7 +499,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="offset">The offset of the first byte to write.</param>
         /// <param name="count">The number of bytes to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void Write(byte[] buffer, int offset, int count) { throw new NotSupportedException("InflaterInputStream Write not supported"); }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("InflaterInputStream Write not supported");
+        }
 
         /// <summary>
         /// Writes one byte to the current stream and advances the current position
@@ -483,7 +510,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </summary>
         /// <param name="value">The byte to write.</param>
         /// <exception cref="NotSupportedException">Any access</exception>
-        public override void WriteByte(byte value) { throw new NotSupportedException("InflaterInputStream WriteByte not supported"); }
+        public override void WriteByte(byte value)
+        {
+            throw new NotSupportedException("InflaterInputStream WriteByte not supported");
+        }
 
         /// <summary>
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
