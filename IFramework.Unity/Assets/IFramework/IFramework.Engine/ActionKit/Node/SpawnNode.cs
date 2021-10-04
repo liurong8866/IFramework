@@ -15,8 +15,8 @@ namespace IFramework.Engine
         {
             this.nodes.AddRange(nodes);
 
-            foreach (AbstractAction nodeAction in nodes) {
-                nodeAction.OnEndedCallback += IncreaseFinishCount;
+            foreach (AbstractAction node in nodes) {
+                node.OnEndedCallback += IncreaseFinishCount;
             }
         }
 
@@ -27,8 +27,8 @@ namespace IFramework.Engine
         {
             this.nodes.AddRange(nodes);
 
-            foreach (AbstractAction nodeAction in nodes) {
-                nodeAction.OnEndedCallback += IncreaseFinishCount;
+            foreach (AbstractAction node in nodes) {
+                node.OnEndedCallback += IncreaseFinishCount;
             }
         }
 
