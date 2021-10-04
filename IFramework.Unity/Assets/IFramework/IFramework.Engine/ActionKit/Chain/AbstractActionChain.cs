@@ -9,9 +9,9 @@ namespace IFramework.Engine
     /// </summary>
     public abstract class AbstractActionChain : AbstractAction, IActionChain, IDisposeWhen
     {
-        private bool disposeWhenCondition = false;
-        private Func<bool> disposeCondition = null;
-        private Action onDisposedEvent = null;
+        private bool disposeWhenCondition;
+        private Func<bool> disposeCondition;
+        private Action onDisposedEvent;
 
         /// <summary>
         /// 事件执行器
@@ -23,6 +23,9 @@ namespace IFramework.Engine
         /// </summary>
         protected abstract AbstractAction Node { get; }
 
+        /// <summary>
+        /// 添加事件节点
+        /// </summary>
         public abstract IActionChain Append(IAction node);
 
         /// <summary>
