@@ -5,8 +5,8 @@ namespace Test.ResourceKit._03_AssetBundleTest
 {
     public class AssetBundleTest : MonoBehaviour
     {
-        private AssetResource assetResource;
-        private AssetBundleResource assetBundleResource;
+        // private AssetResource assetResource;
+        // private AssetBundleResource assetBundleResource;
 
         private void Start()
         {

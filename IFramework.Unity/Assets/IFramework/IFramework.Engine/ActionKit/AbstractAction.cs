@@ -65,17 +65,17 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 结束
+        /// 是否结束
+        /// </summary>
+        public bool Finished { get; protected set; }
+
+        /// <summary>
+        /// 结束标记
         /// </summary>
         public virtual void Finish()
         {
             Finished = true;
         }
-
-        /// <summary>
-        /// 是否结束
-        /// </summary>
-        public bool Finished { get; protected set; }
 
         /// <summary>
         /// 重置

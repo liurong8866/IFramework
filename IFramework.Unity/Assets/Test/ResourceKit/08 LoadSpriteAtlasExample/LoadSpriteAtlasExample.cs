@@ -24,6 +24,7 @@ public class LoadSpriteAtlasExample : MonoBehaviour
     {
         // 注册事件, 只有当啊 Atlas设置 build in 勾选后触发
         SpriteAtlasManager.atlasRequested += OnAtlasRequested;
+        mImage = transform.Find("Image").GetComponent<Image>();
     }
 
     private void Start()
@@ -58,7 +59,7 @@ public class LoadSpriteAtlasExample : MonoBehaviour
         action(sa);
 
         // 异步
-        StartCoroutine(DoLoadAsset(action, tag));
+        // StartCoroutine(DoLoadAsset(action, tag));
     }
 
     private IEnumerator DoLoadAsset(Action<SpriteAtlas> action, string tag)

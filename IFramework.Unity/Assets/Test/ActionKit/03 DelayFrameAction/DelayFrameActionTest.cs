@@ -16,19 +16,6 @@ public class DelayFrameActionTest : MonoBehaviour
         this.DelayFrame(4, () => { Debug.Log(Time.frameCount); });
         this.DelayFrame(6, () => { Debug.Log(Time.frameCount); });
         
-        "======= 以下为序列：顺序执行 =========".LogInfo();
-        
-        this.Sequence()
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(2)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(4)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(6)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(8)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .Begin();
         
         this.NextFrame(() => { Debug.Log("NextFrame："+Time.frameCount); });
 

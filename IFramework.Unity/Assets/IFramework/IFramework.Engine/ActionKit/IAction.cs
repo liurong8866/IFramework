@@ -21,11 +21,6 @@ namespace IFramework.Engine
         T Execute<T>(T mono) where T : MonoBehaviour;
         
         /// <summary>
-        /// 结束
-        /// </summary>
-        void Finish();
-
-        /// <summary>
         /// 是否结束
         /// </summary>
         bool Finished { get; }
