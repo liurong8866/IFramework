@@ -10,11 +10,11 @@ namespace IFramework.Engine
     /// </summary>
     public abstract class AbstractAction : Disposable, IAction
     {
-        protected bool onBeginCalled;
+        protected bool isBegin;
 
-        public Action OnBeganCallback;
-        public Action OnEndedCallback;
-        public Action OnDisposedCallback;
+        public Action OnBeginEvent;
+        public Action OnEndEvent;
+        public Action OnDisposeEvent;
 
         /// <summary>
         /// 执行事件
@@ -26,10 +26,10 @@ namespace IFramework.Engine
                 return Finished;
             }
 
-            if (!onBeginCalled) {
-                onBeginCalled = true;
+            if (!isBegin) {
+                isBegin = true;
                 OnBegin();
-                OnBeganCallback.InvokeSafe();
+                OnBeginEvent.InvokeSafe();
             }
 
             if (!Finished) {
@@ -37,7 +37,7 @@ namespace IFramework.Engine
             }
 
             if (Finished) {
-                OnEndedCallback.InvokeSafe();
+                OnEndEvent.InvokeSafe();
                 OnEnd();
             }
             return Finished || disposed;
@@ -83,7 +83,7 @@ namespace IFramework.Engine
         public void Reset()
         {
             Finished = false;
-            onBeginCalled = false;
+            isBegin = false;
             disposed = false;
             OnReset();
         }
@@ -93,10 +93,10 @@ namespace IFramework.Engine
         /// </summary>
         protected override void DisposeManaged()
         {
-            OnBeganCallback = null;
-            OnEndedCallback = null;
-            OnDisposedCallback.InvokeSafe();
-            OnDisposedCallback = null;
+            OnBeginEvent = null;
+            OnEndEvent = null;
+            OnDisposeEvent.InvokeSafe();
+            OnDisposeEvent = null;
             OnDispose();
         }
 

@@ -16,7 +16,7 @@ namespace IFramework.Engine
             this.nodes.AddRange(nodes);
 
             foreach (AbstractAction node in nodes) {
-                node.OnEndedCallback += IncreaseFinishCount;
+                node.OnEndEvent += IncreaseFinishCount;
             }
         }
 
@@ -28,7 +28,7 @@ namespace IFramework.Engine
             this.nodes.AddRange(nodes);
 
             foreach (AbstractAction node in nodes) {
-                node.OnEndedCallback += IncreaseFinishCount;
+                node.OnEndEvent += IncreaseFinishCount;
             }
         }
 
@@ -63,7 +63,7 @@ namespace IFramework.Engine
         protected override void OnDispose()
         {
             foreach (AbstractAction node in nodes) {
-                node.OnEndedCallback -= IncreaseFinishCount;
+                node.OnEndEvent -= IncreaseFinishCount;
                 node.Dispose();
             }
             nodes.Recycle();

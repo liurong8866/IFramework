@@ -10,6 +10,11 @@ public class DelayActionTest : MonoBehaviour
     private void Awake()
     {
         mDelay4s = DelayAction.Allocate(4.0f, () => { Log.Info("延时 4s"); });
+        
+        DelayAction delayAction = DelayAction.Allocate(1.0f, () => { Debug.Log("延时完毕"); });
+        delayAction.OnBeginEvent = () => Debug.Log("开始延时");
+        delayAction.OnEndEvent = () => Debug.Log("结束延时");
+        this.Execute(delayAction);
     }
 
     private void Start()

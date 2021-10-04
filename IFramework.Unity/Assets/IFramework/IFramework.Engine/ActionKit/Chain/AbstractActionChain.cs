@@ -65,7 +65,7 @@ namespace IFramework.Engine
 
         public IDisposeEventRegister OnFinished(Action action)
         {
-            OnEndedCallback += action;
+            OnEndEvent += action;
             return this;
         }
 
