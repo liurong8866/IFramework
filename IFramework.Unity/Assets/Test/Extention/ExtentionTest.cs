@@ -86,7 +86,9 @@ namespace IFramework.Test.Extention
 
             obj.transform
                 // .Parent(transform.FindRecursion("AAA"))
-               .Name("Hello").LocalIdentity().Identity(transform.FindRecursion("AAA"));
+               .Name("Hello")
+               .LocalIdentity()
+               .Identity(transform.FindRecursion("AAA"));
             Debug.Log(obj.transform.Path());
         }
     }

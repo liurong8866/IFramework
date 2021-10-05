@@ -20,9 +20,7 @@ namespace IFramework.Core
             get {
                 if (instance == null) {
                     lock (locker) {
-                        if (instance == null) {
-                            instance = SingletonCreator.CreateSingleton<T>();
-                        }
+                        if (instance == null) { instance = SingletonCreator.CreateSingleton<T>(); }
                     }
                 }
                 return instance;

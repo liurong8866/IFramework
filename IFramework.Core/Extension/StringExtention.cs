@@ -47,17 +47,11 @@ namespace IFramework.Core
                 int len = value.Length;
 
                 //如果大于截取长度则
-                if (len > length) {
-                    result = value.Substring(0, length);
-                }
-                else {
+                if (len > length) { result = value.Substring(0, length); } else {
                     //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
                     result = greedy ? value : "";
                 }
-            }
-            else {
-                result = "";
-            }
+            } else { result = ""; }
             return result;
         }
 
@@ -89,17 +83,11 @@ namespace IFramework.Core
                 int len = value.Length;
 
                 //如果大于截取长度则
-                if (len > length) {
-                    result = value.Substring(len - length);
-                }
-                else {
+                if (len > length) { result = value.Substring(len - length); } else {
                     //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
                     result = greedy ? value : "";
                 }
-            }
-            else {
-                result = "";
-            }
+            } else { result = ""; }
             return result;
         }
 
@@ -133,23 +121,14 @@ namespace IFramework.Core
                 int len = value.Length;
 
                 //如果开始位置不正确,返回""
-                if (startIndex < 1 || startIndex > len) {
-                    result = "";
-                }
-                else {
+                if (startIndex < 1 || startIndex > len) { result = ""; } else {
                     //如果大于截取长度则
-                    if (len - startIndex > length) {
-                        result = value.Substring(startIndex - 1, length);
-                    }
-                    else {
+                    if (len - startIndex > length) { result = value.Substring(startIndex - 1, length); } else {
                         //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
                         result = greedy ? value : "";
                     }
                 }
-            }
-            else {
-                result = "";
-            }
+            } else { result = ""; }
             return result;
         }
 

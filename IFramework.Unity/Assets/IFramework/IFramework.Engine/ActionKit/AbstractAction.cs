@@ -22,9 +22,7 @@ namespace IFramework.Engine
         public bool Execute()
         {
             // 有可能被别的地方调用
-            if (Finished) {
-                return Finished;
-            }
+            if (Finished) { return Finished; }
 
             if (!isBegin) {
                 isBegin = true;
@@ -32,9 +30,7 @@ namespace IFramework.Engine
                 OnBeginEvent.InvokeSafe();
             }
 
-            if (!Finished) {
-                OnExecute();
-            }
+            if (!Finished) { OnExecute(); }
 
             if (Finished) {
                 OnEndEvent.InvokeSafe();
@@ -59,9 +55,7 @@ namespace IFramework.Engine
         {
             if (Finished) Reset();
 
-            while (!Execute()) {
-                yield return null;
-            }
+            while (!Execute()) { yield return null; }
         }
 
         /// <summary>

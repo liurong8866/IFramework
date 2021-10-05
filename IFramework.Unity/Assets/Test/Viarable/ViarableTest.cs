@@ -79,19 +79,13 @@ namespace IFramework.Test.Viarable
                 object a3 = 0.000000001d;
                 a1.ToDecimal().LogInfo();
 
-                if (a1.ToDecimal() == 0) {
-                    Log.Info("hehe");
-                }
+                if (a1.ToDecimal() == 0) { Log.Info("hehe"); }
                 a2.ToDecimal().LogInfo();
 
-                if (a2.ToDecimal() == 0) {
-                    Log.Info("hehe");
-                }
+                if (a2.ToDecimal() == 0) { Log.Info("hehe"); }
                 a3.ToDecimal().LogInfo();
 
-                if (a3.ToDecimal() == 0) {
-                    Log.Info("hehe");
-                }
+                if (a3.ToDecimal() == 0) { Log.Info("hehe"); }
                 decimal aa1 = 1 / a3.ToDecimal();
                 // aa1= 1 / a1.ToDecimal();
                 // aa1= 1 / a2.ToDecimal();
@@ -289,37 +283,21 @@ namespace IFramework.Test.Viarable
             configBool.Value = false;
             configBool.Value.LogInfo("设置后{0}");
 
-            if (configBool) {
-                configBool.LogInfo();
-            }
+            if (configBool) { configBool.LogInfo(); }
 
-            if (!configBool) {
-                configBool.LogInfo();
-            }
+            if (!configBool) { configBool.LogInfo(); }
 
-            if (configBool & true) {
-                configBool.LogInfo();
-            }
+            if (configBool & true) { configBool.LogInfo(); }
 
-            if (true & configBool) {
-                configBool.LogInfo();
-            }
+            if (true & configBool) { configBool.LogInfo(); }
 
-            if (configBool & configBool2) {
-                configBool.LogInfo();
-            }
+            if (configBool & configBool2) { configBool.LogInfo(); }
 
-            if (configBool | true) {
-                configBool.LogInfo();
-            }
+            if (configBool | true) { configBool.LogInfo(); }
 
-            if (true | configBool) {
-                configBool.LogInfo();
-            }
+            if (true | configBool) { configBool.LogInfo(); }
 
-            if (configBool | configBool2) {
-                configBool.LogInfo();
-            }
+            if (configBool | configBool2) { configBool.LogInfo(); }
         }
 
         private void TeatInt()
@@ -723,37 +701,21 @@ namespace IFramework.Test.Viarable
             bindBool.Value = false;
             bindBool.Value.LogInfo("设置后{0}");
 
-            if (bindBool == true) {
-                Debug.Log("1");
-            }
+            if (bindBool == true) { Debug.Log("1"); }
 
-            if (bindBool == false) {
-                Debug.Log("2");
-            }
+            if (bindBool == false) { Debug.Log("2"); }
 
-            if (true == bindBool) {
-                Debug.Log("3");
-            }
+            if (true == bindBool) { Debug.Log("3"); }
 
-            if (false == bindBool) {
-                Debug.Log("4");
-            }
+            if (false == bindBool) { Debug.Log("4"); }
 
-            if (bindBool == bindBool2) {
-                Debug.Log("5");
-            }
+            if (bindBool == bindBool2) { Debug.Log("5"); }
 
-            if (bindBool == bindBool3) {
-                Debug.Log("6");
-            }
+            if (bindBool == bindBool3) { Debug.Log("6"); }
 
-            if (bindBool.Equals(true)) {
-                Debug.Log("7");
-            }
+            if (bindBool.Equals(true)) { Debug.Log("7"); }
 
-            if (true.Equals(bindBool)) {
-                Debug.Log("8");
-            }
+            if (true.Equals(bindBool)) { Debug.Log("8"); }
         }
 
         private void TestConfigNumber()

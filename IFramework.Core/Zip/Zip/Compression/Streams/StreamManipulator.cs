@@ -66,9 +66,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             int bits = PeekBits(bitCount);
 
-            if (bits >= 0) {
-                DropBits(bitCount);
-            }
+            if (bits >= 0) { DropBits(bitCount); }
             return bits;
         }
 
@@ -129,9 +127,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public int CopyBytes(byte[] output, int offset, int length)
         {
-            if (length < 0) {
-                throw new ArgumentOutOfRangeException(nameof(length));
-            }
+            if (length < 0) { throw new ArgumentOutOfRangeException(nameof(length)); }
 
             if ((AvailableBits & 7) != 0) {
                 // bits_in_buffer may only be 0 or a multiple of 8
@@ -147,14 +143,10 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 count++;
             }
 
-            if (length == 0) {
-                return count;
-            }
+            if (length == 0) { return count; }
             int avail = windowEnd_ - windowStart_;
 
-            if (length > avail) {
-                length = avail;
-            }
+            if (length > avail) { length = avail; }
             Array.Copy(window_, windowStart_, output, offset, length);
             windowStart_ += length;
 
@@ -184,28 +176,18 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// <param name="count">number of bytes of input to add.</param>
         public void SetInput(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
 
-            if (offset < 0) {
-                throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
-            }
+            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative"); }
 
-            if (count < 0) {
-                throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
-            }
+            if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative"); }
 
-            if (windowStart_ < windowEnd_) {
-                throw new InvalidOperationException("Old input was not completely processed");
-            }
+            if (windowStart_ < windowEnd_) { throw new InvalidOperationException("Old input was not completely processed"); }
             int end = offset + count;
 
             // We want to throw an ArrayIndexOutOfBoundsException early.
             // Note the check also handles integer wrap around.
-            if (offset > end || end > buffer.Length) {
-                throw new ArgumentOutOfRangeException(nameof(count));
-            }
+            if (offset > end || end > buffer.Length) { throw new ArgumentOutOfRangeException(nameof(count)); }
 
             if ((count & 1) != 0) {
                 // We always want an even number of bytes in input, see PeekBits

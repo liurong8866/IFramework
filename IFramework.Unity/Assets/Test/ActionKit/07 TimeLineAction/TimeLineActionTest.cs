@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class TimeLineActionTest : MonoBehaviour
 {
-    void Start() {
+    void Start()
+    {
         TimeLine timelineNode = new TimeLine();
 
         // 第一秒输出 HelloWorld
@@ -23,7 +24,7 @@ public class TimeLineActionTest : MonoBehaviour
 
         // 监听 timeline 的 key 事件
         timelineNode.OnReceivedEvent = keyEvent => Debug.Log(keyEvent);
-        
+
         // 执行 timeline
         this.Execute(timelineNode);
     }

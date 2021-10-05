@@ -38,10 +38,7 @@ namespace IFramework.Core.Zip.Tar
         /// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
         /// </summary>
         /// <remarks>The default value is true.</remarks>
-        public bool IsStreamOwner {
-            get => tarBuffer.IsStreamOwner;
-            set => tarBuffer.IsStreamOwner = value;
-        }
+        public bool IsStreamOwner { get => tarBuffer.IsStreamOwner; set => tarBuffer.IsStreamOwner = value; }
 
         #region Stream Overrides
 
@@ -72,10 +69,7 @@ namespace IFramework.Core.Zip.Tar
         /// Setting the Position is not supported and throws a NotSupportedExceptionNotSupportedException
         /// </summary>
         /// <exception cref="NotSupportedException">Any attempt to set position</exception>
-        public override long Position {
-            get => inputStream.Position;
-            set => throw new NotSupportedException("TarInputStream Seek not supported");
-        }
+        public override long Position { get => inputStream.Position; set => throw new NotSupportedException("TarInputStream Seek not supported"); }
 
         /// <summary>
         /// Flushes the baseInputStream
@@ -168,28 +162,19 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
             int totalRead = 0;
 
-            if (entryOffset >= entrySize) {
-                return 0;
-            }
+            if (entryOffset >= entrySize) { return 0; }
             long numToRead = count;
 
-            if (numToRead + entryOffset > entrySize) {
-                numToRead = entrySize - entryOffset;
-            }
+            if (numToRead + entryOffset > entrySize) { numToRead = entrySize - entryOffset; }
 
             if (readBuffer != null) {
                 int sz = numToRead > readBuffer.Length ? readBuffer.Length : (int)numToRead;
                 Array.Copy(readBuffer, 0, buffer, offset, sz);
 
-                if (sz >= readBuffer.Length) {
-                    readBuffer = null;
-                }
-                else {
+                if (sz >= readBuffer.Length) { readBuffer = null; } else {
                     int newLen = readBuffer.Length - sz;
                     byte[] newBuf = new byte[newLen];
                     Array.Copy(readBuffer, sz, newBuf, 0, newLen);
@@ -214,8 +199,7 @@ namespace IFramework.Core.Zip.Tar
                     Array.Copy(rec, 0, buffer, offset, sz);
                     readBuffer = new byte[recLen - sz];
                     Array.Copy(rec, sz, readBuffer, 0, recLen - sz);
-                }
-                else {
+                } else {
                     sz = recLen;
                     Array.Copy(rec, 0, buffer, offset, recLen);
                 }
@@ -233,9 +217,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
-                tarBuffer.Close();
-            }
+            if (disposing) { tarBuffer.Close(); }
         }
 
         #endregion
@@ -299,9 +281,7 @@ namespace IFramework.Core.Zip.Tar
                 int toRead = num > skipBuf.Length ? skipBuf.Length : (int)num;
                 int numRead = Read(skipBuf, 0, toRead);
 
-                if (numRead == -1) {
-                    break;
-                }
+                if (numRead == -1) { break; }
                 num -= numRead;
             }
         }
@@ -340,32 +320,19 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public TarEntry GetNextEntry()
         {
-            if (hasHitEof) {
-                return null;
-            }
+            if (hasHitEof) { return null; }
 
-            if (currentEntry != null) {
-                SkipToNextEntry();
-            }
+            if (currentEntry != null) { SkipToNextEntry(); }
             byte[] headerBuf = tarBuffer.ReadBlock();
 
-            if (headerBuf == null) {
-                hasHitEof = true;
-            }
-            else
-                hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
+            if (headerBuf == null) { hasHitEof = true; } else hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
 
-            if (hasHitEof) {
-                currentEntry = null;
-            }
-            else {
+            if (hasHitEof) { currentEntry = null; } else {
                 try {
                     TarHeader header = new TarHeader();
                     header.ParseBuffer(headerBuf);
 
-                    if (!header.IsChecksumValid) {
-                        throw new TarException("Header checksum is invalid");
-                    }
+                    if (!header.IsChecksumValid) { throw new TarException("Header checksum is invalid"); }
                     entryOffset = 0;
                     entrySize = header.Size;
                     StringBuilder longName = null;
@@ -378,33 +345,27 @@ namespace IFramework.Core.Zip.Tar
                         while (numToRead > 0) {
                             int numRead = Read(nameBuffer, 0, numToRead > nameBuffer.Length ? nameBuffer.Length : (int)numToRead);
 
-                            if (numRead == -1) {
-                                throw new InvalidHeaderException("Failed to read long name entry");
-                            }
+                            if (numRead == -1) { throw new InvalidHeaderException("Failed to read long name entry"); }
                             longName.Append(TarHeader.ParseName(nameBuffer, 0, numRead));
                             numToRead -= numRead;
                         }
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    }
-                    else if (header.TypeFlag == TarHeader.LF_GHDR) {
+                    } else if (header.TypeFlag == TarHeader.LF_GHDR) {
                         // POSIX global extended header
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    }
-                    else if (header.TypeFlag == TarHeader.LF_XHDR) {
+                    } else if (header.TypeFlag == TarHeader.LF_XHDR) {
                         // POSIX extended header
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    }
-                    else if (header.TypeFlag == TarHeader.LF_GNU_VOLHDR) {
+                    } else if (header.TypeFlag == TarHeader.LF_GNU_VOLHDR) {
                         // TODO: could show volume name when verbose
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    }
-                    else if (header.TypeFlag != TarHeader.LF_NORMAL && header.TypeFlag != TarHeader.LF_OLDNORM && header.TypeFlag != TarHeader.LF_LINK && header.TypeFlag != TarHeader.LF_SYMLINK && header.TypeFlag != TarHeader.LF_DIR) {
+                    } else if (header.TypeFlag != TarHeader.LF_NORMAL && header.TypeFlag != TarHeader.LF_OLDNORM && header.TypeFlag != TarHeader.LF_LINK && header.TypeFlag != TarHeader.LF_SYMLINK && header.TypeFlag != TarHeader.LF_DIR) {
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
@@ -413,13 +374,8 @@ namespace IFramework.Core.Zip.Tar
                     if (entryFactory == null) {
                         currentEntry = new TarEntry(headerBuf);
 
-                        if (longName != null) {
-                            currentEntry.Name = longName.ToString();
-                        }
-                    }
-                    else {
-                        currentEntry = entryFactory.CreateEntry(headerBuf);
-                    }
+                        if (longName != null) { currentEntry.Name = longName.ToString(); }
+                    } else { currentEntry = entryFactory.CreateEntry(headerBuf); }
 
                     // Magic was checked here for 'ustar' but there are multiple valid possibilities
                     // so this is not done anymore.
@@ -427,8 +383,7 @@ namespace IFramework.Core.Zip.Tar
 
                     // TODO: Review How do we resolve this discrepancy?!
                     entrySize = currentEntry.Size;
-                }
-                catch (InvalidHeaderException ex) {
+                } catch (InvalidHeaderException ex) {
                     entrySize = 0;
                     entryOffset = 0;
                     currentEntry = null;
@@ -453,9 +408,7 @@ namespace IFramework.Core.Zip.Tar
             while (true) {
                 int numRead = Read(tempBuffer, 0, tempBuffer.Length);
 
-                if (numRead <= 0) {
-                    break;
-                }
+                if (numRead <= 0) { break; }
                 outputStream.Write(tempBuffer, 0, numRead);
             }
         }
@@ -464,9 +417,7 @@ namespace IFramework.Core.Zip.Tar
         {
             long numToSkip = entrySize - entryOffset;
 
-            if (numToSkip > 0) {
-                Skip(numToSkip);
-            }
+            if (numToSkip > 0) { Skip(numToSkip); }
             readBuffer = null;
         }
 

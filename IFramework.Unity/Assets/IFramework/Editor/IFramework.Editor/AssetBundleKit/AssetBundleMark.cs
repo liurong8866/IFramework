@@ -17,12 +17,7 @@ namespace IFramework.Editor
         {
             string path = EditorUtils.GetSelectedPath();
 
-            if (!string.IsNullOrEmpty(path)) {
-                Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
-            }
-            else {
-                Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
-            }
+            if (!string.IsNullOrEmpty(path)) { Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path)); } else { Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false); }
         }
 
         /// <summary>
@@ -46,8 +41,7 @@ namespace IFramework.Editor
                 if (CheckMarked(path)) {
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
                     ai.assetBundleName = null;
-                }
-                else {
+                } else {
                     DirectoryInfo dir = new DirectoryInfo(path);
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
                     ai.assetBundleName = dir.Name.Replace(".", "-");

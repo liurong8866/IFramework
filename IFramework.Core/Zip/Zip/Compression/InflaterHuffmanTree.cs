@@ -36,33 +36,20 @@ namespace IFramework.Core.Zip.Zip.Compression
                 byte[] codeLengths = new byte[288];
                 int i = 0;
 
-                while (i < 144) {
-                    codeLengths[i++] = 8;
-                }
+                while (i < 144) { codeLengths[i++] = 8; }
 
-                while (i < 256) {
-                    codeLengths[i++] = 9;
-                }
+                while (i < 256) { codeLengths[i++] = 9; }
 
-                while (i < 280) {
-                    codeLengths[i++] = 7;
-                }
+                while (i < 280) { codeLengths[i++] = 7; }
 
-                while (i < 288) {
-                    codeLengths[i++] = 8;
-                }
+                while (i < 288) { codeLengths[i++] = 8; }
                 defLitLenTree = new InflaterHuffmanTree(codeLengths);
                 codeLengths = new byte[32];
                 i = 0;
 
-                while (i < 32) {
-                    codeLengths[i++] = 5;
-                }
+                while (i < 32) { codeLengths[i++] = 5; }
                 defDistTree = new InflaterHuffmanTree(codeLengths);
-            }
-            catch (Exception) {
-                throw new BaseZipException("InflaterHuffmanTree: static tree length illegal");
-            }
+            } catch (Exception) { throw new BaseZipException("InflaterHuffmanTree: static tree length illegal"); }
         }
 
         #region Constructors
@@ -88,9 +75,7 @@ namespace IFramework.Core.Zip.Zip.Compression
             for (int i = 0; i < codeLengths.Length; i++) {
                 int bits = codeLengths[i];
 
-                if (bits > 0) {
-                    blCount[bits]++;
-                }
+                if (bits > 0) { blCount[bits]++; }
             }
             int code = 0;
             int treeSize = 512;
@@ -132,9 +117,7 @@ namespace IFramework.Core.Zip.Zip.Compression
             for (int i = 0; i < codeLengths.Length; i++) {
                 int bits = codeLengths[i];
 
-                if (bits == 0) {
-                    continue;
-                }
+                if (bits == 0) { continue; }
                 code = nextCode[bits];
                 int revcode = DeflaterHuffman.BitReverse(code);
 
@@ -143,8 +126,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                         tree[revcode] = (short)((i << 4) | bits);
                         revcode += 1 << bits;
                     } while (revcode < 512);
-                }
-                else {
+                } else {
                     int subTree = tree[revcode & 511];
                     int treeLen = 1 << (subTree & 15);
                     subTree = -(subTree >> 4);

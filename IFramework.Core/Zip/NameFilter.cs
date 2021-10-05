@@ -50,10 +50,7 @@ namespace IFramework.Core.Zip
                 #pragma warning disable 0219
                 Regex exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 #pragma warning restore 0219
-            }
-            catch (ArgumentException) {
-                result = false;
-            }
+            } catch (ArgumentException) { result = false; }
             return result;
         }
 
@@ -74,25 +71,14 @@ namespace IFramework.Core.Zip
                         if (items[i] != null && items[i].Length > 0) {
                             string toCompile;
 
-                            if (items[i][0] == '+') {
-                                toCompile = items[i].Substring(1, items[i].Length - 1);
-                            }
-                            else if (items[i][0] == '-') {
-                                toCompile = items[i].Substring(1, items[i].Length - 1);
-                            }
-                            else {
-                                toCompile = items[i];
-                            }
+                            if (items[i][0] == '+') { toCompile = items[i].Substring(1, items[i].Length - 1); } else if (items[i][0] == '-') { toCompile = items[i].Substring(1, items[i].Length - 1); } else { toCompile = items[i]; }
                             #pragma warning disable 0219
                             Regex testRegex = new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                             #pragma warning restore 0219
                         }
                     }
                 }
-            }
-            catch (ArgumentException) {
-                result = false;
-            }
+            } catch (ArgumentException) { result = false; }
             return result;
         }
 
@@ -114,28 +100,19 @@ namespace IFramework.Core.Zip
                 while (endIndex < original.Length) {
                     endIndex += 1;
 
-                    if (endIndex >= original.Length) {
-                        result.Add(b.ToString());
-                    }
-                    else if (original[endIndex] == escape) {
+                    if (endIndex >= original.Length) { result.Add(b.ToString()); } else if (original[endIndex] == escape) {
                         endIndex += 1;
 
-                        if (endIndex >= original.Length) {
-                            throw new ArgumentException("Missing terminating escape character", nameof(original));
-                        }
+                        if (endIndex >= original.Length) { throw new ArgumentException("Missing terminating escape character", nameof(original)); }
 
                         // include escape if this is not an escaped separator
                         if (Array.IndexOf(separators, original[endIndex]) < 0) b.Append(escape);
                         b.Append(original[endIndex]);
-                    }
-                    else {
+                    } else {
                         if (Array.IndexOf(separators, original[endIndex]) >= 0) {
                             result.Add(b.ToString());
                             b.Length = 0;
-                        }
-                        else {
-                            b.Append(original[endIndex]);
-                        }
+                        } else { b.Append(original[endIndex]); }
                     }
                 }
             }
@@ -160,10 +137,7 @@ namespace IFramework.Core.Zip
         {
             bool result = false;
 
-            if (inclusions.Count == 0) {
-                result = true;
-            }
-            else {
+            if (inclusions.Count == 0) { result = true; } else {
                 foreach (Regex r in inclusions) {
                     if (r.IsMatch(name)) {
                         result = true;
@@ -213,9 +187,7 @@ namespace IFramework.Core.Zip
         {
             // TODO: Check to see if combining RE's makes it faster/smaller.
             // simple scheme would be to have one RE for inclusion and one for exclusion.
-            if (filter == null) {
-                return;
-            }
+            if (filter == null) { return; }
             string[] items = SplitQuoted(filter);
 
             for (int i = 0; i < items.Length; ++i) {
@@ -223,25 +195,12 @@ namespace IFramework.Core.Zip
                     bool include = items[i][0] != '-';
                     string toCompile;
 
-                    if (items[i][0] == '+') {
-                        toCompile = items[i].Substring(1, items[i].Length - 1);
-                    }
-                    else if (items[i][0] == '-') {
-                        toCompile = items[i].Substring(1, items[i].Length - 1);
-                    }
-                    else {
-                        toCompile = items[i];
-                    }
+                    if (items[i][0] == '+') { toCompile = items[i].Substring(1, items[i].Length - 1); } else if (items[i][0] == '-') { toCompile = items[i].Substring(1, items[i].Length - 1); } else { toCompile = items[i]; }
 
                     // NOTE: Regular expressions can fail to compile here for a number of reasons that cause an exception
                     // these are left unhandled here as the caller is responsible for ensuring all is valid.
                     // several functions IsValidFilterExpression and IsValidExpression are provided for such checking
-                    if (include) {
-                        inclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
-                    }
-                    else {
-                        exclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
-                    }
+                    if (include) { inclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline)); } else { exclusions.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline)); }
                 }
             }
         }

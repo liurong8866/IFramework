@@ -36,9 +36,7 @@ namespace IFramework.Core
             }
 
             // 如果数量小于初始化容量，则新增
-            for (int i = Count; i < initCount; i++) {
-                Recycle(factory.Create());
-            }
+            for (int i = Count; i < initCount; i++) { Recycle(factory.Create()); }
         }
 
         /// <summary>
@@ -52,9 +50,7 @@ namespace IFramework.Core
                 // 如果当前数量超出最大容量，则释放无用数据
                 // ReSharper disable once InvertIf
                 if (capacity > 0 && capacity < Count) {
-                    for (int i = Count; i > capacity; i--) {
-                        cache.Pop();
-                    }
+                    for (int i = Count; i > capacity; i--) { cache.Pop(); }
                 }
             }
         }

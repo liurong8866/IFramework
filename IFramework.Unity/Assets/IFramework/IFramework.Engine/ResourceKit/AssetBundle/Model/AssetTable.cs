@@ -20,9 +20,7 @@ namespace IFramework.Engine
             if (assetInfoList.IsNullOrEmpty()) return null;
 
             // 过滤AssetBundleName
-            if (searcher.AssetBundleName.IsNotNullOrEmpty()) {
-                assetInfoList = assetInfoList.Where(info => info.AssetBundleName == searcher.AssetBundleName).ToList();
-            }
+            if (searcher.AssetBundleName.IsNotNullOrEmpty()) { assetInfoList = assetInfoList.Where(info => info.AssetBundleName == searcher.AssetBundleName).ToList(); }
 
             // 过滤AssetType，
             if (searcher.AssetType.IsNotNullOrEmpty()) {
@@ -32,9 +30,7 @@ namespace IFramework.Engine
                     List<AssetInfo> newInfo = assetInfoList.Where(info => info.AssetTypeCode == code).ToList();
 
                     // 如果找到就用，找不到就忽略
-                    if (newInfo.Any()) {
-                        assetInfoList = newInfo;
-                    }
+                    if (newInfo.Any()) { assetInfoList = newInfo; }
                 }
             }
             return assetInfoList.FirstOrDefault();

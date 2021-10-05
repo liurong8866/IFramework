@@ -19,10 +19,7 @@ public class DelayFrameActionTest : MonoBehaviour
         //
         //
         // this.NextFrame(() => { Debug.Log("NextFrame："+Time.frameCount); });
-
         OnBeginAction onBeginAction = OnBeginAction.Allocate(action => { Log.Info("hello world"); });
-        
         onBeginAction.Execute();
     }
-
 }

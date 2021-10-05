@@ -7,20 +7,23 @@ namespace IFramework.Engine.TimeLine
         private TimeLine timeLine;
         private string eventName;
 
-        public static KeyEventAction Allocate(string eventName, TimeLine timeLine) {
+        public static KeyEventAction Allocate(string eventName, TimeLine timeLine)
+        {
             KeyEventAction keyEventAction = ObjectPool<KeyEventAction>.Instance.Allocate();
             keyEventAction.eventName = eventName;
             keyEventAction.timeLine = timeLine;
             return keyEventAction;
         }
 
-        protected override void OnBegin() {
+        protected override void OnBegin()
+        {
             base.OnBegin();
             timeLine.OnReceivedEvent.InvokeSafe(eventName);
             Finish();
         }
 
-        protected override void OnDispose() {
+        protected override void OnDispose()
+        {
             ObjectPool<KeyEventAction>.Instance.Recycle(this);
         }
 

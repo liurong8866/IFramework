@@ -9,14 +9,14 @@ namespace IFramework.Engine
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
-    { 
+    {
         // 延迟时间
         [SerializeField] public float DelayTime;
         // 时间计数器
         private float currentSeconds;
         // 延迟事件
         private Action action;
-        
+
         /// <summary>
         /// 从缓存池中申请对象
         /// </summary>
@@ -35,16 +35,14 @@ namespace IFramework.Engine
         {
             OnExecute(Time.deltaTime);
         }
-        
+
         private void OnExecute(float delta)
         {
             // 判断是否超时，过了时间视为延迟结束
             currentSeconds += delta;
             Finished = currentSeconds >= DelayTime;
 
-            if (Finished) {
-                action.InvokeSafe();
-            }
+            if (Finished) { action.InvokeSafe(); }
         }
 
         protected override void OnReset()
@@ -79,7 +77,7 @@ namespace IFramework.Engine
         {
             self.Execute(DelayAction.Allocate(seconds, action));
         }
-        
+
         /// <summary>
         /// 延迟N秒
         /// </summary>

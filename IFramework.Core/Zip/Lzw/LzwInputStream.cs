@@ -129,9 +129,7 @@ namespace IFramework.Core.Zip.Lzw
         MainLoop:
 
             do {
-                if (end < EXTRA) {
-                    Fill();
-                }
+                if (end < EXTRA) { Fill(); }
                 int bitIn = got > 0 ? (end - end % lNBits) << 3 : (end << 3) - (lNBits - 1);
 
                 while (lBitPos < bitIn) {
@@ -206,9 +204,7 @@ namespace IFramework.Core.Zip.Lzw
 
                     // Handle KwK case
                     if (code >= lFreeEnt) {
-                        if (code > lFreeEnt) {
-                            throw new LzwException("corrupt input: code=" + code + ", freeEnt=" + lFreeEnt);
-                        }
+                        if (code > lFreeEnt) { throw new LzwException("corrupt input: code=" + code + ", freeEnt=" + lFreeEnt); }
                         lStack[--lStackP] = lFinChar;
                         code = lOldCode;
                     }
@@ -291,9 +287,7 @@ namespace IFramework.Core.Zip.Lzw
         {
             got = baseInputStream.Read(data, end, data.Length - 1 - end);
 
-            if (got > 0) {
-                end += got;
-            }
+            if (got > 0) { end += got; }
         }
 
         private void ParseHeader()
@@ -305,21 +299,15 @@ namespace IFramework.Core.Zip.Lzw
             // Check the magic marker
             if (result < 0) throw new LzwException("Failed to read LZW header");
 
-            if (hdr[0] != LzwConstants.MAGIC >> 8 || hdr[1] != (LzwConstants.MAGIC & 0xff)) {
-                throw new LzwException(string.Format("Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}", hdr[0], hdr[1]));
-            }
+            if (hdr[0] != LzwConstants.MAGIC >> 8 || hdr[1] != (LzwConstants.MAGIC & 0xff)) { throw new LzwException(string.Format("Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}", hdr[0], hdr[1])); }
 
             // Check the 3rd header byte
             blockMode = (hdr[2] & LzwConstants.BLOCK_MODE_MASK) > 0;
             maxBits = hdr[2] & LzwConstants.BIT_MASK;
 
-            if (maxBits > LzwConstants.MAX_BITS) {
-                throw new LzwException("Stream compressed with " + maxBits + " bits, but decompression can only handle " + LzwConstants.MAX_BITS + " bits.");
-            }
+            if (maxBits > LzwConstants.MAX_BITS) { throw new LzwException("Stream compressed with " + maxBits + " bits, but decompression can only handle " + LzwConstants.MAX_BITS + " bits."); }
 
-            if ((hdr[2] & LzwConstants.RESERVED_MASK) > 0) {
-                throw new LzwException("Unsupported bits set in the header.");
-            }
+            if ((hdr[2] & LzwConstants.RESERVED_MASK) > 0) { throw new LzwException("Unsupported bits set in the header."); }
 
             // Initialize variables
             maxMaxCode = 1 << maxBits;
@@ -363,10 +351,7 @@ namespace IFramework.Core.Zip.Lzw
         /// Throws a NotSupportedException when attempting to set the position
         /// </summary>
         /// <exception cref="NotSupportedException">Attempting to set the position</exception>
-        public override long Position {
-            get => baseInputStream.Position;
-            set => throw new NotSupportedException("InflaterInputStream Position not supported");
-        }
+        public override long Position { get => baseInputStream.Position; set => throw new NotSupportedException("InflaterInputStream Position not supported"); }
 
         /// <summary>
         /// Flushes the baseInputStream
@@ -433,9 +418,7 @@ namespace IFramework.Core.Zip.Lzw
             if (!isClosed) {
                 isClosed = true;
 
-                if (IsStreamOwner) {
-                    baseInputStream.Dispose();
-                }
+                if (IsStreamOwner) { baseInputStream.Dispose(); }
             }
         }
 

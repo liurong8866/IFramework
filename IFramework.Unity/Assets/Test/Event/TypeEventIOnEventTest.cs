@@ -13,12 +13,7 @@ namespace IFramework.Test.Event
 
         private void Update()
         {
-            if (Input.GetMouseButton(0)) {
-                TypeEvent.Send(new OnLeftMouseClickEvent());
-            }
-            else if (Input.GetMouseButton(1)) {
-                TypeEvent.Send(new OnRightMouseClickEvent());
-            }
+            if (Input.GetMouseButton(0)) { TypeEvent.Send(new OnLeftMouseClickEvent()); } else if (Input.GetMouseButton(1)) { TypeEvent.Send(new OnRightMouseClickEvent()); }
         }
 
         public void OnEvent(OnLeftMouseClickEvent t)

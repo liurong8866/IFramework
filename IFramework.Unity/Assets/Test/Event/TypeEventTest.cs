@@ -35,12 +35,7 @@ namespace IFramework.Test.Event
 
         private void OnSkillEvent(ISkillEvent skillEvent)
         {
-            if (skillEvent is PlayerSkillAEvent) {
-                Debug.Log("A 技能释放");
-            }
-            else if (skillEvent is PlayerSkillBEvent) {
-                Debug.Log("B 技能释放");
-            }
+            if (skillEvent is PlayerSkillAEvent) { Debug.Log("A 技能释放"); } else if (skillEvent is PlayerSkillBEvent) { Debug.Log("B 技能释放"); }
         }
 
         private void OnDestroy()

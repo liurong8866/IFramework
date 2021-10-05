@@ -316,10 +316,7 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>Set to null if no password is required.</remarks>
         public string Password {
             set {
-                if (string.IsNullOrEmpty(value)) {
-                    Key = null;
-                }
-                else {
+                if (string.IsNullOrEmpty(value)) { Key = null; } else {
                     rawPassword = value;
                     Key = PkzipClassic.GenerateKeys(ZipConstants.ConvertToArray(value));
                 }
@@ -348,17 +345,12 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public ZipFile(string name)
         {
-            if (name == null) {
-                throw new ArgumentNullException(nameof(name));
-            }
+            if (name == null) { throw new ArgumentNullException(nameof(name)); }
             Name = name;
             baseStream = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
             IsStreamOwner = true;
 
-            try {
-                ReadEntries();
-            }
-            catch {
+            try { ReadEntries(); } catch {
                 DisposeInternal(true);
                 throw;
             }
@@ -377,21 +369,14 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public ZipFile(FileStream file)
         {
-            if (file == null) {
-                throw new ArgumentNullException(nameof(file));
-            }
+            if (file == null) { throw new ArgumentNullException(nameof(file)); }
 
-            if (!file.CanSeek) {
-                throw new ArgumentException("Stream is not seekable", nameof(file));
-            }
+            if (!file.CanSeek) { throw new ArgumentException("Stream is not seekable", nameof(file)); }
             baseStream = file;
             Name = file.Name;
             IsStreamOwner = true;
 
-            try {
-                ReadEntries();
-            }
-            catch {
+            try { ReadEntries(); } catch {
                 DisposeInternal(true);
                 throw;
             }
@@ -415,26 +400,18 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public ZipFile(Stream stream)
         {
-            if (stream == null) {
-                throw new ArgumentNullException(nameof(stream));
-            }
+            if (stream == null) { throw new ArgumentNullException(nameof(stream)); }
 
-            if (!stream.CanSeek) {
-                throw new ArgumentException("Stream is not seekable", nameof(stream));
-            }
+            if (!stream.CanSeek) { throw new ArgumentException("Stream is not seekable", nameof(stream)); }
             baseStream = stream;
             IsStreamOwner = true;
 
             if (baseStream.Length > 0) {
-                try {
-                    ReadEntries();
-                }
-                catch {
+                try { ReadEntries(); } catch {
                     DisposeInternal(true);
                     throw;
                 }
-            }
-            else {
+            } else {
                 entries = new ZipEntry[0];
                 IsNewArchive = true;
             }
@@ -486,9 +463,7 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentNullException"><paramref name="fileName"></paramref> is null</exception>
         public static ZipFile Create(string fileName)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
             FileStream fs = File.Create(fileName);
             ZipFile result = new ZipFile();
             result.Name = fileName;
@@ -506,17 +481,11 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentException"><paramref name="outStream"> doesnt support writing.</paramref></exception>
         public static ZipFile Create(Stream outStream)
         {
-            if (outStream == null) {
-                throw new ArgumentNullException(nameof(outStream));
-            }
+            if (outStream == null) { throw new ArgumentNullException(nameof(outStream)); }
 
-            if (!outStream.CanWrite) {
-                throw new ArgumentException("Stream is not writeable", nameof(outStream));
-            }
+            if (!outStream.CanWrite) { throw new ArgumentException("Stream is not writeable", nameof(outStream)); }
 
-            if (!outStream.CanSeek) {
-                throw new ArgumentException("Stream is not seekable", nameof(outStream));
-            }
+            if (!outStream.CanSeek) { throw new ArgumentException("Stream is not seekable", nameof(outStream)); }
             ZipFile result = new ZipFile();
             result.baseStream = outStream;
             return result;
@@ -590,9 +559,7 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public IEnumerator GetEnumerator()
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             return new ZipEntryEnumerator(entries);
         }
 
@@ -607,15 +574,11 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public int FindEntry(string name, bool ignoreCase)
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
 
             // TODO: This will be slow as the next ice age for huge archives!
             for (int i = 0; i < entries.Length; i++) {
-                if (string.Compare(name, entries[i].Name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0) {
-                    return i;
-                }
+                if (string.Compare(name, entries[i].Name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0) { return i; }
             }
             return -1;
         }
@@ -635,9 +598,7 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public ZipEntry GetEntry(string name)
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             int index = FindEntry(name, true);
             return index >= 0 ? (ZipEntry)entries[index].Clone() : null;
         }
@@ -659,21 +620,15 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public Stream GetInputStream(ZipEntry entry)
         {
-            if (entry == null) {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
 
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             long index = entry.ZipFileIndex;
 
             if (index < 0 || index >= entries.Length || entries[index].Name != entry.Name) {
                 index = FindEntry(entry.Name, true);
 
-                if (index < 0) {
-                    throw new ZipException("Entry cannot be found");
-                }
+                if (index < 0) { throw new ZipException("Entry cannot be found"); }
             }
             return GetInputStream(index);
         }
@@ -696,9 +651,7 @@ namespace IFramework.Core.Zip.Zip
         /// </exception>
         public Stream GetInputStream(long entryIndex)
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             long start = LocateEntry(entries[entryIndex]);
             CompressionMethod method = entries[entryIndex].CompressionMethod;
             Stream result = new PartialInputStream(this, start, entries[entryIndex].CompressedSize);
@@ -706,9 +659,7 @@ namespace IFramework.Core.Zip.Zip
             if (entries[entryIndex].IsCrypted) {
                 result = CreateAndInitDecryptionStream(result, entries[entryIndex]);
 
-                if (result == null) {
-                    throw new ZipException("Unable to decrypt this entry");
-                }
+                if (result == null) { throw new ZipException("Unable to decrypt this entry"); }
             }
 
             switch (method) {
@@ -749,14 +700,10 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ObjectDisposedException">The object has already been closed.</exception>
         public bool TestArchive(bool testData, TestStrategy strategy, ZipTestResultHandler resultHandler)
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             TestStatus status = new TestStatus(this);
 
-            if (resultHandler != null) {
-                resultHandler(status, null);
-            }
+            if (resultHandler != null) { resultHandler(status, null); }
             HeaderTest test = testData ? HeaderTest.Header | HeaderTest.Extract : HeaderTest.Header;
             bool testing = true;
 
@@ -770,15 +717,10 @@ namespace IFramework.Core.Zip.Zip
                         resultHandler(status, null);
                     }
 
-                    try {
-                        TestLocalHeader(this[entryIndex], test);
-                    }
-                    catch (ZipException ex) {
+                    try { TestLocalHeader(this[entryIndex], test); } catch (ZipException ex) {
                         status.AddError();
 
-                        if (resultHandler != null) {
-                            resultHandler(status, string.Format("Exception during test - '{0}'", ex.Message));
-                        }
+                        if (resultHandler != null) { resultHandler(status, string.Format("Exception during test - '{0}'", ex.Message)); }
                         testing &= strategy != TestStrategy.FindFirstError;
                     }
 
@@ -808,9 +750,7 @@ namespace IFramework.Core.Zip.Zip
                         if (this[entryIndex].Crc != crc.Value) {
                             status.AddError();
 
-                            if (resultHandler != null) {
-                                resultHandler(status, "CRC mismatch");
-                            }
+                            if (resultHandler != null) { resultHandler(status, "CRC mismatch"); }
                             testing &= strategy != TestStrategy.FindFirstError;
                         }
 
@@ -819,17 +759,11 @@ namespace IFramework.Core.Zip.Zip
                             DescriptorData data = new DescriptorData();
                             helper.ReadDataDescriptor(this[entryIndex].LocalHeaderRequiresZip64, data);
 
-                            if (this[entryIndex].Crc != data.Crc) {
-                                status.AddError();
-                            }
+                            if (this[entryIndex].Crc != data.Crc) { status.AddError(); }
 
-                            if (this[entryIndex].CompressedSize != data.CompressedSize) {
-                                status.AddError();
-                            }
+                            if (this[entryIndex].CompressedSize != data.CompressedSize) { status.AddError(); }
 
-                            if (this[entryIndex].Size != data.Size) {
-                                status.AddError();
-                            }
+                            if (this[entryIndex].Size != data.Size) { status.AddError(); }
                         }
                     }
 
@@ -847,13 +781,10 @@ namespace IFramework.Core.Zip.Zip
 
                 // TODO: the 'Corrina Johns' test where local headers are missing from
                 // the central directory.  They are therefore invisible to many archivers.
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 status.AddError();
 
-                if (resultHandler != null) {
-                    resultHandler(status, string.Format("Exception during test - '{0}'", ex.Message));
-                }
+                if (resultHandler != null) { resultHandler(status, string.Format("Exception during test - '{0}'", ex.Message)); }
             }
 
             if (resultHandler != null) {
@@ -886,9 +817,7 @@ namespace IFramework.Core.Zip.Zip
                 bool testData = (tests & HeaderTest.Extract) != 0;
                 baseStream.Seek(offsetOfFirstEntry + entry.Offset, SeekOrigin.Begin);
 
-                if ((int)ReadLeUint() != ZipConstants.LOCAL_HEADER_SIGNATURE) {
-                    throw new ZipException(string.Format("Wrong local header signature @{0:X}", offsetOfFirstEntry + entry.Offset));
-                }
+                if ((int)ReadLeUint() != ZipConstants.LOCAL_HEADER_SIGNATURE) { throw new ZipException(string.Format("Wrong local header signature @{0:X}", offsetOfFirstEntry + entry.Offset)); }
                 short extractVersion = (short)(ReadLeUshort() & 0x00ff);
                 short localFlags = (short)ReadLeUshort();
                 short compressionMethod = (short)ReadLeUshort();
@@ -914,35 +843,22 @@ namespace IFramework.Core.Zip.Zip
 
                     if ((localFlags & (int)GeneralBitFlags.Descriptor) != 0) {
                         // These may be valid if patched later
-                        if (size != -1 && size != entry.Size) {
-                            throw new ZipException("Size invalid for descriptor");
-                        }
+                        if (size != -1 && size != entry.Size) { throw new ZipException("Size invalid for descriptor"); }
 
-                        if (compressedSize != -1 && compressedSize != entry.CompressedSize) {
-                            throw new ZipException("Compressed size invalid for descriptor");
-                        }
+                        if (compressedSize != -1 && compressedSize != entry.CompressedSize) { throw new ZipException("Compressed size invalid for descriptor"); }
                     }
-                }
-                else {
+                } else {
                     // No zip64 extra data but entry requires it.
-                    if (extractVersion >= ZipConstants.VERSION_ZIP64 && ((uint)size == uint.MaxValue || (uint)compressedSize == uint.MaxValue)) {
-                        throw new ZipException("Required Zip64 extended information missing");
-                    }
+                    if (extractVersion >= ZipConstants.VERSION_ZIP64 && ((uint)size == uint.MaxValue || (uint)compressedSize == uint.MaxValue)) { throw new ZipException("Required Zip64 extended information missing"); }
                 }
 
                 if (testData) {
                     if (entry.IsFile) {
-                        if (!entry.IsCompressionMethodSupported()) {
-                            throw new ZipException("Compression method not supported");
-                        }
+                        if (!entry.IsCompressionMethodSupported()) { throw new ZipException("Compression method not supported"); }
 
-                        if (extractVersion > ZipConstants.VERSION_MADE_BY || extractVersion > 20 && extractVersion < ZipConstants.VERSION_ZIP64) {
-                            throw new ZipException(string.Format("Version required to extract this entry not supported ({0})", extractVersion));
-                        }
+                        if (extractVersion > ZipConstants.VERSION_MADE_BY || extractVersion > 20 && extractVersion < ZipConstants.VERSION_ZIP64) { throw new ZipException(string.Format("Version required to extract this entry not supported ({0})", extractVersion)); }
 
-                        if ((localFlags & (int)(GeneralBitFlags.Patched | GeneralBitFlags.StrongEncryption | GeneralBitFlags.EnhancedCompress | GeneralBitFlags.HeaderMasked)) != 0) {
-                            throw new ZipException("The library does not support the zip version required to extract this entry");
-                        }
+                        if ((localFlags & (int)(GeneralBitFlags.Patched | GeneralBitFlags.StrongEncryption | GeneralBitFlags.EnhancedCompress | GeneralBitFlags.HeaderMasked)) != 0) { throw new ZipException("The library does not support the zip version required to extract this entry"); }
                     }
                 }
 
@@ -962,105 +878,70 @@ namespace IFramework.Core.Zip.Zip
                      && extractVersion != 52
                      && extractVersion != 61
                      && extractVersion != 62
-                     && extractVersion != 63) {
-                        throw new ZipException(string.Format("Version required to extract this entry is invalid ({0})", extractVersion));
-                    }
+                     && extractVersion != 63) { throw new ZipException(string.Format("Version required to extract this entry is invalid ({0})", extractVersion)); }
 
                     // Local entry flags dont have reserved bit set on.
-                    if ((localFlags & (int)(GeneralBitFlags.ReservedPKware4 | GeneralBitFlags.ReservedPkware14 | GeneralBitFlags.ReservedPkware15)) != 0) {
-                        throw new ZipException("Reserved bit flags cannot be set.");
-                    }
+                    if ((localFlags & (int)(GeneralBitFlags.ReservedPKware4 | GeneralBitFlags.ReservedPkware14 | GeneralBitFlags.ReservedPkware15)) != 0) { throw new ZipException("Reserved bit flags cannot be set."); }
 
                     // Encryption requires extract version >= 20
-                    if ((localFlags & (int)GeneralBitFlags.Encrypted) != 0 && extractVersion < 20) {
-                        throw new ZipException(string.Format("Version required to extract this entry is too low for encryption ({0})", extractVersion));
-                    }
+                    if ((localFlags & (int)GeneralBitFlags.Encrypted) != 0 && extractVersion < 20) { throw new ZipException(string.Format("Version required to extract this entry is too low for encryption ({0})", extractVersion)); }
 
                     // Strong encryption requires encryption flag to be set and extract version >= 50.
                     if ((localFlags & (int)GeneralBitFlags.StrongEncryption) != 0) {
-                        if ((localFlags & (int)GeneralBitFlags.Encrypted) == 0) {
-                            throw new ZipException("Strong encryption flag set but encryption flag is not set");
-                        }
+                        if ((localFlags & (int)GeneralBitFlags.Encrypted) == 0) { throw new ZipException("Strong encryption flag set but encryption flag is not set"); }
 
-                        if (extractVersion < 50) {
-                            throw new ZipException(string.Format("Version required to extract this entry is too low for encryption ({0})", extractVersion));
-                        }
+                        if (extractVersion < 50) { throw new ZipException(string.Format("Version required to extract this entry is too low for encryption ({0})", extractVersion)); }
                     }
 
                     // Patched entries require extract version >= 27
-                    if ((localFlags & (int)GeneralBitFlags.Patched) != 0 && extractVersion < 27) {
-                        throw new ZipException(string.Format("Patched data requires higher version than ({0})", extractVersion));
-                    }
+                    if ((localFlags & (int)GeneralBitFlags.Patched) != 0 && extractVersion < 27) { throw new ZipException(string.Format("Patched data requires higher version than ({0})", extractVersion)); }
 
                     // Central header flags match local entry flags.
-                    if (localFlags != entry.Flags) {
-                        throw new ZipException("Central header/local header flags mismatch");
-                    }
+                    if (localFlags != entry.Flags) { throw new ZipException("Central header/local header flags mismatch"); }
 
                     // Central header compression method matches local entry
-                    if (entry.CompressionMethod != (CompressionMethod)compressionMethod) {
-                        throw new ZipException("Central header/local header compression method mismatch");
-                    }
+                    if (entry.CompressionMethod != (CompressionMethod)compressionMethod) { throw new ZipException("Central header/local header compression method mismatch"); }
 
-                    if (entry.Version != extractVersion) {
-                        throw new ZipException("Extract version mismatch");
-                    }
+                    if (entry.Version != extractVersion) { throw new ZipException("Extract version mismatch"); }
 
                     // Strong encryption and extract version match
                     if ((localFlags & (int)GeneralBitFlags.StrongEncryption) != 0) {
-                        if (extractVersion < 62) {
-                            throw new ZipException("Strong encryption flag set but version not high enough");
-                        }
+                        if (extractVersion < 62) { throw new ZipException("Strong encryption flag set but version not high enough"); }
                     }
 
                     if ((localFlags & (int)GeneralBitFlags.HeaderMasked) != 0) {
-                        if (fileTime != 0 || fileDate != 0) {
-                            throw new ZipException("Header masked set but date/time values non-zero");
-                        }
+                        if (fileTime != 0 || fileDate != 0) { throw new ZipException("Header masked set but date/time values non-zero"); }
                     }
 
                     if ((localFlags & (int)GeneralBitFlags.Descriptor) == 0) {
-                        if (crcValue != (uint)entry.Crc) {
-                            throw new ZipException("Central header/local header crc mismatch");
-                        }
+                        if (crcValue != (uint)entry.Crc) { throw new ZipException("Central header/local header crc mismatch"); }
                     }
 
                     // Crc valid for empty entry.
                     // This will also apply to streamed entries where size isnt known and the header cant be patched
                     if (size == 0 && compressedSize == 0) {
-                        if (crcValue != 0) {
-                            throw new ZipException("Invalid CRC for empty entry");
-                        }
+                        if (crcValue != 0) { throw new ZipException("Invalid CRC for empty entry"); }
                     }
 
                     // TODO: make test more correct...  can't compare lengths as was done originally as this can fail for MBCS strings
                     // Assuming a code page at this point is not valid?  Best is to store the name length in the ZipEntry probably
-                    if (entry.Name.Length > storedNameLength) {
-                        throw new ZipException("File name length mismatch");
-                    }
+                    if (entry.Name.Length > storedNameLength) { throw new ZipException("File name length mismatch"); }
 
                     // Name data has already been read convert it and compare.
                     string localName = ZipConstants.ConvertToStringExt(localFlags, nameData);
 
                     // Central directory and local entry name match
-                    if (localName != entry.Name) {
-                        throw new ZipException("Central header and local header file name mismatch");
-                    }
+                    if (localName != entry.Name) { throw new ZipException("Central header and local header file name mismatch"); }
 
                     // Directories have zero actual size but can have compressed size
                     if (entry.IsDirectory) {
-                        if (size > 0) {
-                            throw new ZipException("Directory cannot have size");
-                        }
+                        if (size > 0) { throw new ZipException("Directory cannot have size"); }
 
                         // There may be other cases where the compressed size can be greater than this?
                         // If so until details are known we will be strict.
                         if (entry.IsCrypted) {
-                            if (compressedSize > ZipConstants.CRYPTO_HEADER_SIZE + 2) {
-                                throw new ZipException("Directory compressed size invalid");
-                            }
-                        }
-                        else if (compressedSize > 2) {
+                            if (compressedSize > ZipConstants.CRYPTO_HEADER_SIZE + 2) { throw new ZipException("Directory compressed size invalid"); }
+                        } else if (compressedSize > 2) {
                             // When not compressed the directory size can validly be 2 bytes
                             // if the true size wasnt known when data was originally being written.
                             // NOTE: Versions of the library 0.85.4 and earlier always added 2 bytes
@@ -1068,9 +949,7 @@ namespace IFramework.Core.Zip.Zip
                         }
                     }
 
-                    if (!ZipNameTransform.IsValidName(localName, true)) {
-                        throw new ZipException("Name is invalid");
-                    }
+                    if (!ZipNameTransform.IsValidName(localName, true)) { throw new ZipException("Name is invalid"); }
                 }
 
                 // Tests that apply to both data and header.
@@ -1078,13 +957,9 @@ namespace IFramework.Core.Zip.Zip
                 // Size can be verified only if it is known in the local header.
                 // it will always be known in the central header.
                 if ((localFlags & (int)GeneralBitFlags.Descriptor) == 0 || (size > 0 || compressedSize > 0) && entry.Size > 0) {
-                    if (size != 0 && size != entry.Size) {
-                        throw new ZipException(string.Format("Size mismatch between central header({0}) and local header({1})", entry.Size, size));
-                    }
+                    if (size != 0 && size != entry.Size) { throw new ZipException(string.Format("Size mismatch between central header({0}) and local header({1})", entry.Size, size)); }
 
-                    if (compressedSize != 0 && compressedSize != entry.CompressedSize && compressedSize != 0xFFFFFFFF && compressedSize != -1) {
-                        throw new ZipException(string.Format("Compressed size mismatch between central header({0}) and local header({1})", entry.CompressedSize, compressedSize));
-                    }
+                    if (compressedSize != 0 && compressedSize != entry.CompressedSize && compressedSize != 0xFFFFFFFF && compressedSize != -1) { throw new ZipException(string.Format("Compressed size mismatch between central header({0}) and local header({1})", entry.CompressedSize, compressedSize)); }
                 }
                 int extraLength = storedNameLength + extraDataLength;
                 return offsetOfFirstEntry + entry.Offset + ZipConstants.LOCAL_HEADER_BASE_SIZE + extraLength;
@@ -1112,11 +987,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get / set the <see cref="INameTransform"/> to apply to names when updating.
         /// </summary>
-        public INameTransform NameTransform {
-            get => updateEntryFactory.NameTransform;
-
-            set => updateEntryFactory.NameTransform = value;
-        }
+        public INameTransform NameTransform { get => updateEntryFactory.NameTransform; set => updateEntryFactory.NameTransform = value; }
 
         /// <summary>
         /// Get/set the <see cref="IEntryFactory"/> used to generate <see cref="ZipEntry"/> values
@@ -1124,14 +995,8 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public IEntryFactory EntryFactory {
             get => updateEntryFactory;
-
             set {
-                if (value == null) {
-                    updateEntryFactory = new ZipEntryFactory();
-                }
-                else {
-                    updateEntryFactory = value;
-                }
+                if (value == null) { updateEntryFactory = new ZipEntryFactory(); } else { updateEntryFactory = value; }
             }
         }
 
@@ -1141,9 +1006,7 @@ namespace IFramework.Core.Zip.Zip
         public int BufferSize {
             get => bufferSize;
             set {
-                if (value < 1024) {
-                    throw new ArgumentOutOfRangeException(nameof(value), "cannot be below 1024");
-                }
+                if (value < 1024) { throw new ArgumentOutOfRangeException(nameof(value), "cannot be below 1024"); }
 
                 if (bufferSize != value) {
                     bufferSize = value;
@@ -1190,21 +1053,13 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ObjectDisposedException">ZipFile has been closed.</exception>
         public void BeginUpdate(IArchiveStorage archiveStorage, IDynamicDataSource dataSource)
         {
-            if (archiveStorage == null) {
-                throw new ArgumentNullException(nameof(archiveStorage));
-            }
+            if (archiveStorage == null) { throw new ArgumentNullException(nameof(archiveStorage)); }
 
-            if (dataSource == null) {
-                throw new ArgumentNullException(nameof(dataSource));
-            }
+            if (dataSource == null) { throw new ArgumentNullException(nameof(dataSource)); }
 
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
 
-            if (IsEmbeddedArchive) {
-                throw new ZipException("Cannot update embedded/SFX archives");
-            }
+            if (IsEmbeddedArchive) { throw new ZipException("Cannot update embedded/SFX archives"); }
             this.archiveStorage = archiveStorage;
             updateDataSource = dataSource;
 
@@ -1252,12 +1107,7 @@ namespace IFramework.Core.Zip.Zip
         /// <seealso cref="AbortUpdate"></seealso>
         public void BeginUpdate()
         {
-            if (Name == null) {
-                BeginUpdate(new MemoryArchiveStorage(), new DynamicDiskDataSource());
-            }
-            else {
-                BeginUpdate(new DiskArchiveStorage(this), new DynamicDiskDataSource());
-            }
+            if (Name == null) { BeginUpdate(new MemoryArchiveStorage(), new DynamicDiskDataSource()); } else { BeginUpdate(new DiskArchiveStorage(this), new DynamicDiskDataSource()); }
         }
 
         /// <summary>
@@ -1268,35 +1118,22 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ObjectDisposedException">ZipFile has been closed.</exception>
         public void CommitUpdate()
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             CheckUpdating();
 
             try {
                 updateIndex.Clear();
                 updateIndex = null;
 
-                if (contentsEdited) {
-                    RunUpdates();
-                }
-                else if (commentEdited) {
-                    UpdateCommentOnly();
-                }
-                else {
+                if (contentsEdited) { RunUpdates(); } else if (commentEdited) { UpdateCommentOnly(); } else {
                     // Create an empty archive if none existed originally.
                     if (entries.Length == 0) {
                         byte[] theComment = newComment != null ? newComment.RawComment : ZipConstants.ConvertToArray(ZipFileComment);
 
-                        using (ZipHelperStream zhs = new ZipHelperStream(baseStream)) {
-                            zhs.WriteEndOfCentralDirectory(0, 0, 0, theComment);
-                        }
+                        using (ZipHelperStream zhs = new ZipHelperStream(baseStream)) { zhs.WriteEndOfCentralDirectory(0, 0, 0, theComment); }
                     }
                 }
-            }
-            finally {
-                PostUpdateCleanup();
-            }
+            } finally { PostUpdateCleanup(); }
         }
 
         /// <summary>
@@ -1316,9 +1153,7 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ObjectDisposedException">ZipFile has been closed.</exception>
         public void SetComment(string comment)
         {
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
             CheckUpdating();
             newComment = new ZipString(comment);
 
@@ -1342,14 +1177,11 @@ namespace IFramework.Core.Zip.Zip
             int index = FindExistingUpdate(update.Entry.Name);
 
             if (index >= 0) {
-                if (updates[index] == null) {
-                    updateCount += 1;
-                }
+                if (updates[index] == null) { updateCount += 1; }
 
                 // Direct replacement is faster than delete and add.
                 updates[index] = update;
-            }
-            else {
+            } else {
                 index = updates.Count;
                 updates.Add(update);
                 updateCount += 1;
@@ -1368,17 +1200,11 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentOutOfRangeException">Compression method is not supported.</exception>
         public void Add(string fileName, CompressionMethod compressionMethod, bool useUnicodeText)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
 
-            if (isDisposed) {
-                throw new ObjectDisposedException("ZipFile");
-            }
+            if (isDisposed) { throw new ObjectDisposedException("ZipFile"); }
 
-            if (!ZipEntry.IsCompressionMethodSupported(compressionMethod)) {
-                throw new ArgumentOutOfRangeException(nameof(compressionMethod));
-            }
+            if (!ZipEntry.IsCompressionMethodSupported(compressionMethod)) { throw new ArgumentOutOfRangeException(nameof(compressionMethod)); }
             CheckUpdating();
             contentsEdited = true;
             ZipEntry entry = EntryFactory.MakeFileEntry(fileName);
@@ -1396,13 +1222,9 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentOutOfRangeException">The compression method is not supported.</exception>
         public void Add(string fileName, CompressionMethod compressionMethod)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
 
-            if (!ZipEntry.IsCompressionMethodSupported(compressionMethod)) {
-                throw new ArgumentOutOfRangeException(nameof(compressionMethod));
-            }
+            if (!ZipEntry.IsCompressionMethodSupported(compressionMethod)) { throw new ArgumentOutOfRangeException(nameof(compressionMethod)); }
             CheckUpdating();
             contentsEdited = true;
             ZipEntry entry = EntryFactory.MakeFileEntry(fileName);
@@ -1417,9 +1239,7 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentNullException">Argument supplied is null.</exception>
         public void Add(string fileName)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
             CheckUpdating();
             AddUpdate(new ZipUpdate(fileName, EntryFactory.MakeFileEntry(fileName)));
         }
@@ -1432,13 +1252,9 @@ namespace IFramework.Core.Zip.Zip
         /// <exception cref="ArgumentNullException">Argument supplied is null.</exception>
         public void Add(string fileName, string entryName)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
 
-            if (entryName == null) {
-                throw new ArgumentNullException(nameof(entryName));
-            }
+            if (entryName == null) { throw new ArgumentNullException(nameof(entryName)); }
             CheckUpdating();
             AddUpdate(new ZipUpdate(fileName, EntryFactory.MakeFileEntry(fileName, entryName, true)));
         }
@@ -1450,13 +1266,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="entryName">The name to give to the entry.</param>
         public void Add(IStaticDataSource dataSource, string entryName)
         {
-            if (dataSource == null) {
-                throw new ArgumentNullException(nameof(dataSource));
-            }
+            if (dataSource == null) { throw new ArgumentNullException(nameof(dataSource)); }
 
-            if (entryName == null) {
-                throw new ArgumentNullException(nameof(entryName));
-            }
+            if (entryName == null) { throw new ArgumentNullException(nameof(entryName)); }
             CheckUpdating();
             AddUpdate(new ZipUpdate(dataSource, EntryFactory.MakeFileEntry(entryName, false)));
         }
@@ -1469,13 +1281,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="compressionMethod">The compression method to use.</param>
         public void Add(IStaticDataSource dataSource, string entryName, CompressionMethod compressionMethod)
         {
-            if (dataSource == null) {
-                throw new ArgumentNullException(nameof(dataSource));
-            }
+            if (dataSource == null) { throw new ArgumentNullException(nameof(dataSource)); }
 
-            if (entryName == null) {
-                throw new ArgumentNullException(nameof(entryName));
-            }
+            if (entryName == null) { throw new ArgumentNullException(nameof(entryName)); }
             CheckUpdating();
             ZipEntry entry = EntryFactory.MakeFileEntry(entryName, false);
             entry.CompressionMethod = compressionMethod;
@@ -1491,13 +1299,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="useUnicodeText">Ensure Unicode text is used for name and comments for this entry.</param>
         public void Add(IStaticDataSource dataSource, string entryName, CompressionMethod compressionMethod, bool useUnicodeText)
         {
-            if (dataSource == null) {
-                throw new ArgumentNullException(nameof(dataSource));
-            }
+            if (dataSource == null) { throw new ArgumentNullException(nameof(dataSource)); }
 
-            if (entryName == null) {
-                throw new ArgumentNullException(nameof(entryName));
-            }
+            if (entryName == null) { throw new ArgumentNullException(nameof(entryName)); }
             CheckUpdating();
             ZipEntry entry = EntryFactory.MakeFileEntry(entryName, false);
             entry.IsUnicodeText = useUnicodeText;
@@ -1512,14 +1316,10 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>This can be used to add directories, volume labels, or empty file entries.</remarks>
         public void Add(ZipEntry entry)
         {
-            if (entry == null) {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
             CheckUpdating();
 
-            if (entry.Size != 0 || entry.CompressedSize != 0) {
-                throw new ZipException("Entry cannot have any data");
-            }
+            if (entry.Size != 0 || entry.CompressedSize != 0) { throw new ZipException("Entry cannot have any data"); }
             AddUpdate(new ZipUpdate(UpdateCommand.Add, entry));
         }
 
@@ -1529,9 +1329,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="directoryName">The directory to add.</param>
         public void AddDirectory(string directoryName)
         {
-            if (directoryName == null) {
-                throw new ArgumentNullException(nameof(directoryName));
-            }
+            if (directoryName == null) { throw new ArgumentNullException(nameof(directoryName)); }
             CheckUpdating();
             ZipEntry dirEntry = EntryFactory.MakeDirectoryEntry(directoryName);
             AddUpdate(new ZipUpdate(UpdateCommand.Add, dirEntry));
@@ -1571,9 +1369,7 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>True if the entry was found and deleted; false otherwise.</returns>
         public bool Delete(string fileName)
         {
-            if (fileName == null) {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            if (fileName == null) { throw new ArgumentNullException(nameof(fileName)); }
             CheckUpdating();
             bool result = false;
             int index = FindExistingUpdate(fileName);
@@ -1583,10 +1379,7 @@ namespace IFramework.Core.Zip.Zip
                 contentsEdited = true;
                 updates[index] = null;
                 updateCount -= 1;
-            }
-            else {
-                throw new ZipException("Cannot find entry to delete");
-            }
+            } else { throw new ZipException("Cannot find entry to delete"); }
             return result;
         }
 
@@ -1596,9 +1389,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="entry">The entry to delete.</param>
         public void Delete(ZipEntry entry)
         {
-            if (entry == null) {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
             CheckUpdating();
             int index = FindExistingUpdate(entry);
 
@@ -1606,10 +1397,7 @@ namespace IFramework.Core.Zip.Zip
                 contentsEdited = true;
                 updates[index] = null;
                 updateCount -= 1;
-            }
-            else {
-                throw new ZipException("Cannot find entry to delete");
-            }
+            } else { throw new ZipException("Cannot find entry to delete"); }
         }
 
         #endregion
@@ -1682,27 +1470,17 @@ namespace IFramework.Core.Zip.Zip
                         entry.Crc = 0;
                         entry.CompressionMethod = CompressionMethod.Stored;
                     }
-                }
-                else if (entry.CompressionMethod == CompressionMethod.Stored) {
-                    entry.Flags &= ~(int)GeneralBitFlags.Descriptor;
-                }
+                } else if (entry.CompressionMethod == CompressionMethod.Stored) { entry.Flags &= ~(int)GeneralBitFlags.Descriptor; }
 
                 if (HaveKeys) {
                     entry.IsCrypted = true;
 
-                    if (entry.Crc < 0) {
-                        entry.Flags |= (int)GeneralBitFlags.Descriptor;
-                    }
-                }
-                else {
-                    entry.IsCrypted = false;
-                }
+                    if (entry.Crc < 0) { entry.Flags |= (int)GeneralBitFlags.Descriptor; }
+                } else { entry.IsCrypted = false; }
 
                 switch (UseZip64) {
                     case UseZip64.Dynamic:
-                        if (entry.Size < 0) {
-                            entry.ForceZip64();
-                        }
+                        if (entry.Size < 0) { entry.ForceZip64(); }
                         break;
                     case UseZip64.On:
                         entry.ForceZip64();
@@ -1724,27 +1502,19 @@ namespace IFramework.Core.Zip.Zip
                 // Note patch address for updating CRC later.
                 update.CrcPatchOffset = baseStream.Position;
                 WriteLeInt(0);
-            }
-            else {
-                WriteLeInt(unchecked((int)entry.Crc));
-            }
+            } else { WriteLeInt(unchecked((int)entry.Crc)); }
 
             if (entry.LocalHeaderRequiresZip64) {
                 WriteLeInt(-1);
                 WriteLeInt(-1);
-            }
-            else {
-                if (entry.CompressedSize < 0 || entry.Size < 0) {
-                    update.SizePatchOffset = baseStream.Position;
-                }
+            } else {
+                if (entry.CompressedSize < 0 || entry.Size < 0) { update.SizePatchOffset = baseStream.Position; }
                 WriteLeInt((int)entry.CompressedSize);
                 WriteLeInt((int)entry.Size);
             }
             byte[] name = ZipConstants.ConvertToArray(entry.Flags, entry.Name);
 
-            if (name.Length > 0xFFFF) {
-                throw new ZipException("Entry name too long.");
-            }
+            if (name.Length > 0xFFFF) { throw new ZipException("Entry name too long."); }
             ZipExtraData ed = new ZipExtraData(entry.ExtraData);
 
             if (entry.LocalHeaderRequiresZip64) {
@@ -1755,43 +1525,28 @@ namespace IFramework.Core.Zip.Zip
                 ed.AddLeLong(entry.Size);
                 ed.AddLeLong(entry.CompressedSize);
                 ed.AddNewEntry(1);
-            }
-            else {
-                ed.Delete(1);
-            }
+            } else { ed.Delete(1); }
             entry.ExtraData = ed.GetEntryData();
             WriteLeShort(name.Length);
             WriteLeShort(entry.ExtraData.Length);
 
-            if (name.Length > 0) {
-                baseStream.Write(name, 0, name.Length);
-            }
+            if (name.Length > 0) { baseStream.Write(name, 0, name.Length); }
 
             if (entry.LocalHeaderRequiresZip64) {
-                if (!ed.Find(1)) {
-                    throw new ZipException("Internal error cannot find extra data");
-                }
+                if (!ed.Find(1)) { throw new ZipException("Internal error cannot find extra data"); }
                 update.SizePatchOffset = baseStream.Position + ed.CurrentReadIndex;
             }
 
-            if (entry.ExtraData.Length > 0) {
-                baseStream.Write(entry.ExtraData, 0, entry.ExtraData.Length);
-            }
+            if (entry.ExtraData.Length > 0) { baseStream.Write(entry.ExtraData, 0, entry.ExtraData.Length); }
         }
 
         private int WriteCentralDirectoryHeader(ZipEntry entry)
         {
-            if (entry.CompressedSize < 0) {
-                throw new ZipException("Attempt to write central directory entry with unknown csize");
-            }
+            if (entry.CompressedSize < 0) { throw new ZipException("Attempt to write central directory entry with unknown csize"); }
 
-            if (entry.Size < 0) {
-                throw new ZipException("Attempt to write central directory entry with unknown size");
-            }
+            if (entry.Size < 0) { throw new ZipException("Attempt to write central directory entry with unknown size"); }
 
-            if (entry.Crc < 0) {
-                throw new ZipException("Attempt to write central directory entry with unknown crc");
-            }
+            if (entry.Crc < 0) { throw new ZipException("Attempt to write central directory entry with unknown crc"); }
 
             // Write the central file header
             WriteLeInt(ZipConstants.CENTRAL_HEADER_SIGNATURE);
@@ -1809,24 +1564,12 @@ namespace IFramework.Core.Zip.Zip
                 WriteLeInt((int)entry.Crc);
             }
 
-            if (entry.IsZip64Forced() || entry.CompressedSize >= 0xffffffff) {
-                WriteLeInt(-1);
-            }
-            else {
-                WriteLeInt((int)(entry.CompressedSize & 0xffffffff));
-            }
+            if (entry.IsZip64Forced() || entry.CompressedSize >= 0xffffffff) { WriteLeInt(-1); } else { WriteLeInt((int)(entry.CompressedSize & 0xffffffff)); }
 
-            if (entry.IsZip64Forced() || entry.Size >= 0xffffffff) {
-                WriteLeInt(-1);
-            }
-            else {
-                WriteLeInt((int)entry.Size);
-            }
+            if (entry.IsZip64Forced() || entry.Size >= 0xffffffff) { WriteLeInt(-1); } else { WriteLeInt((int)entry.Size); }
             byte[] name = ZipConstants.ConvertToArray(entry.Flags, entry.Name);
 
-            if (name.Length > 0xFFFF) {
-                throw new ZipException("Entry name is too long.");
-            }
+            if (name.Length > 0xFFFF) { throw new ZipException("Entry name is too long."); }
             WriteLeShort(name.Length);
 
             // Central header extra data is different to local header version so regenerate.
@@ -1835,22 +1578,15 @@ namespace IFramework.Core.Zip.Zip
             if (entry.CentralHeaderRequiresZip64) {
                 ed.StartNewEntry();
 
-                if (entry.Size >= 0xffffffff || UseZip64 == UseZip64.On) {
-                    ed.AddLeLong(entry.Size);
-                }
+                if (entry.Size >= 0xffffffff || UseZip64 == UseZip64.On) { ed.AddLeLong(entry.Size); }
 
-                if (entry.CompressedSize >= 0xffffffff || UseZip64 == UseZip64.On) {
-                    ed.AddLeLong(entry.CompressedSize);
-                }
+                if (entry.CompressedSize >= 0xffffffff || UseZip64 == UseZip64.On) { ed.AddLeLong(entry.CompressedSize); }
 
-                if (entry.Offset >= 0xffffffff) {
-                    ed.AddLeLong(entry.Offset);
-                }
+                if (entry.Offset >= 0xffffffff) { ed.AddLeLong(entry.Offset); }
 
                 // Number of disk on which this file starts isnt supported and is never written here.
                 ed.AddNewEntry(1);
-            }
-            else {
+            } else {
                 // Should have already be done when local header was added.
                 ed.Delete(1);
             }
@@ -1861,37 +1597,18 @@ namespace IFramework.Core.Zip.Zip
             WriteLeShort(0); // internal file attributes
 
             // External file attributes...
-            if (entry.ExternalFileAttributes != -1) {
-                WriteLeInt(entry.ExternalFileAttributes);
-            }
-            else {
-                if (entry.IsDirectory) {
-                    WriteLeUint(16);
-                }
-                else {
-                    WriteLeUint(0);
-                }
+            if (entry.ExternalFileAttributes != -1) { WriteLeInt(entry.ExternalFileAttributes); } else {
+                if (entry.IsDirectory) { WriteLeUint(16); } else { WriteLeUint(0); }
             }
 
-            if (entry.Offset >= 0xffffffff) {
-                WriteLeUint(0xffffffff);
-            }
-            else {
-                WriteLeUint((uint)(int)entry.Offset);
-            }
+            if (entry.Offset >= 0xffffffff) { WriteLeUint(0xffffffff); } else { WriteLeUint((uint)(int)entry.Offset); }
 
-            if (name.Length > 0) {
-                baseStream.Write(name, 0, name.Length);
-            }
+            if (name.Length > 0) { baseStream.Write(name, 0, name.Length); }
 
-            if (centralExtraData.Length > 0) {
-                baseStream.Write(centralExtraData, 0, centralExtraData.Length);
-            }
+            if (centralExtraData.Length > 0) { baseStream.Write(centralExtraData, 0, centralExtraData.Length); }
             byte[] rawComment = entry.Comment != null ? Encoding.ASCII.GetBytes(entry.Comment) : new byte[0];
 
-            if (rawComment.Length > 0) {
-                baseStream.Write(rawComment, 0, rawComment.Length);
-            }
+            if (rawComment.Length > 0) { baseStream.Write(rawComment, 0, rawComment.Length); }
             return ZipConstants.CENTRAL_HEADER_BASE_SIZE + name.Length + centralExtraData.Length + rawComment.Length;
         }
 
@@ -1927,9 +1644,7 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns a raw memory buffer.</returns>
         private byte[] GetBuffer()
         {
-            if (copyBuffer == null) {
-                copyBuffer = new byte[bufferSize];
-            }
+            if (copyBuffer == null) { copyBuffer = new byte[bufferSize]; }
             return copyBuffer;
         }
 
@@ -1947,19 +1662,14 @@ namespace IFramework.Core.Zip.Zip
                     if (bytesRead > 0) {
                         dest.Write(buffer, 0, bytesRead);
                         bytesToCopy -= bytesRead;
-                    }
-                    else {
-                        throw new ZipException("Unxpected end of stream");
-                    }
+                    } else { throw new ZipException("Unxpected end of stream"); }
                 }
             }
         }
 
         private void CopyBytes(ZipUpdate update, Stream destination, Stream source, long bytesToCopy, bool updateCrc)
         {
-            if (destination == source) {
-                throw new InvalidOperationException("Destination and source are the same");
-            }
+            if (destination == source) { throw new InvalidOperationException("Destination and source are the same"); }
 
             // NOTE: Compressed size is updated elsewhere.
             Crc32 crc = new Crc32();
@@ -1971,28 +1681,20 @@ namespace IFramework.Core.Zip.Zip
             do {
                 int readSize = buffer.Length;
 
-                if (bytesToCopy < readSize) {
-                    readSize = (int)bytesToCopy;
-                }
+                if (bytesToCopy < readSize) { readSize = (int)bytesToCopy; }
                 bytesRead = source.Read(buffer, 0, readSize);
 
                 if (bytesRead > 0) {
-                    if (updateCrc) {
-                        crc.Update(buffer, 0, bytesRead);
-                    }
+                    if (updateCrc) { crc.Update(buffer, 0, bytesRead); }
                     destination.Write(buffer, 0, bytesRead);
                     bytesToCopy -= bytesRead;
                     totalBytesRead += bytesRead;
                 }
             } while (bytesRead > 0 && bytesToCopy > 0);
 
-            if (totalBytesRead != targetBytes) {
-                throw new ZipException(string.Format("Failed to copy bytes expected {0} read {1}", targetBytes, totalBytesRead));
-            }
+            if (totalBytesRead != targetBytes) { throw new ZipException(string.Format("Failed to copy bytes expected {0} read {1}", targetBytes, totalBytesRead)); }
 
-            if (updateCrc) {
-                update.OutEntry.Crc = crc.Value;
-            }
+            if (updateCrc) { update.OutEntry.Crc = crc.Value; }
         }
 
         /// <summary>
@@ -2007,9 +1709,7 @@ namespace IFramework.Core.Zip.Zip
             if ((update.Entry.Flags & (int)GeneralBitFlags.Descriptor) != 0) {
                 result = ZipConstants.DATA_DESCRIPTOR_SIZE - 4;
 
-                if (update.Entry.LocalHeaderRequiresZip64) {
-                    result = ZipConstants.ZIP_64DATA_DESCRIPTOR_SIZE - 4;
-                }
+                if (update.Entry.LocalHeaderRequiresZip64) { result = ZipConstants.ZIP_64DATA_DESCRIPTOR_SIZE - 4; }
             }
             return result;
         }
@@ -2030,10 +1730,7 @@ namespace IFramework.Core.Zip.Zip
                     bytesToCopy -= bytesRead;
                     destinationPosition += bytesRead;
                     sourcePosition += bytesRead;
-                }
-                else {
-                    throw new ZipException("Unxpected end of stream");
-                }
+                } else { throw new ZipException("Unxpected end of stream"); }
             }
         }
 
@@ -2051,16 +1748,12 @@ namespace IFramework.Core.Zip.Zip
             do {
                 int readSize = buffer.Length;
 
-                if (bytesToCopy < readSize) {
-                    readSize = (int)bytesToCopy;
-                }
+                if (bytesToCopy < readSize) { readSize = (int)bytesToCopy; }
                 stream.Position = sourcePosition;
                 bytesRead = stream.Read(buffer, 0, readSize);
 
                 if (bytesRead > 0) {
-                    if (updateCrc) {
-                        crc.Update(buffer, 0, bytesRead);
-                    }
+                    if (updateCrc) { crc.Update(buffer, 0, bytesRead); }
                     stream.Position = destinationPosition;
                     stream.Write(buffer, 0, bytesRead);
                     destinationPosition += bytesRead;
@@ -2070,13 +1763,9 @@ namespace IFramework.Core.Zip.Zip
                 }
             } while (bytesRead > 0 && bytesToCopy > 0);
 
-            if (totalBytesRead != targetBytes) {
-                throw new ZipException(string.Format("Failed to copy bytes expected {0} read {1}", targetBytes, totalBytesRead));
-            }
+            if (totalBytesRead != targetBytes) { throw new ZipException(string.Format("Failed to copy bytes expected {0} read {1}", targetBytes, totalBytesRead)); }
 
-            if (updateCrc) {
-                update.OutEntry.Crc = crc.Value;
-            }
+            if (updateCrc) { update.OutEntry.Crc = crc.Value; }
         }
 
         private int FindExistingUpdate(ZipEntry entry)
@@ -2084,9 +1773,7 @@ namespace IFramework.Core.Zip.Zip
             int result = -1;
             string convertedName = GetTransformedFileName(entry.Name);
 
-            if (updateIndex.ContainsKey(convertedName)) {
-                result = updateIndex[convertedName];
-            }
+            if (updateIndex.ContainsKey(convertedName)) { result = updateIndex[convertedName]; }
             /*
                         // This is slow like the coming of the next ice age but takes less storage and may be useful
                         // for CF?
@@ -2108,9 +1795,7 @@ namespace IFramework.Core.Zip.Zip
             int result = -1;
             string convertedName = GetTransformedFileName(fileName);
 
-            if (updateIndex.ContainsKey(convertedName)) {
-                result = updateIndex[convertedName];
-            }
+            if (updateIndex.ContainsKey(convertedName)) { result = updateIndex[convertedName]; }
             /*
                         // This is slow like the coming of the next ice age but takes less storage and may be useful
                         // for CF?
@@ -2134,9 +1819,7 @@ namespace IFramework.Core.Zip.Zip
         {
             Stream result = baseStream;
 
-            if (entry.IsCrypted) {
-                result = CreateAndInitEncryptionStream(result, entry);
-            }
+            if (entry.IsCrypted) { result = CreateAndInitEncryptionStream(result, entry); }
 
             switch (entry.CompressionMethod) {
                 case CompressionMethod.Stored:
@@ -2159,30 +1842,21 @@ namespace IFramework.Core.Zip.Zip
             if (update.Entry.IsFile) {
                 source = update.GetSource();
 
-                if (source == null) {
-                    source = updateDataSource.GetSource(update.Entry, update.Filename);
-                }
+                if (source == null) { source = updateDataSource.GetSource(update.Entry, update.Filename); }
             }
 
             if (source != null) {
                 using (source) {
                     long sourceStreamLength = source.Length;
 
-                    if (update.OutEntry.Size < 0) {
-                        update.OutEntry.Size = sourceStreamLength;
-                    }
-                    else {
+                    if (update.OutEntry.Size < 0) { update.OutEntry.Size = sourceStreamLength; } else {
                         // Check for errant entries.
-                        if (update.OutEntry.Size != sourceStreamLength) {
-                            throw new ZipException("Entry size/stream size mismatch");
-                        }
+                        if (update.OutEntry.Size != sourceStreamLength) { throw new ZipException("Entry size/stream size mismatch"); }
                     }
                     workFile.WriteLocalEntryHeader(update);
                     long dataStart = workFile.baseStream.Position;
 
-                    using (Stream output = workFile.GetOutputStream(update.OutEntry)) {
-                        CopyBytes(update, output, source, sourceStreamLength, true);
-                    }
+                    using (Stream output = workFile.GetOutputStream(update.OutEntry)) { CopyBytes(update, output, source, sourceStreamLength, true); }
                     long dataEnd = workFile.baseStream.Position;
                     update.OutEntry.CompressedSize = dataEnd - dataStart;
 
@@ -2191,8 +1865,7 @@ namespace IFramework.Core.Zip.Zip
                         helper.WriteDataDescriptor(update.OutEntry);
                     }
                 }
-            }
-            else {
+            } else {
                 workFile.WriteLocalEntryHeader(update);
                 update.OutEntry.CompressedSize = 0;
             }
@@ -2206,9 +1879,7 @@ namespace IFramework.Core.Zip.Zip
             // TODO: This is slow if the changes don't effect the data!!
             if (update.Entry.IsFile && update.Filename != null) {
                 using (Stream output = workFile.GetOutputStream(update.OutEntry)) {
-                    using (Stream source = GetInputStream(update.Entry)) {
-                        CopyBytes(update, output, source, source.Length, true);
-                    }
+                    using (Stream source = GetInputStream(update.Entry)) { CopyBytes(update, output, source, source.Length, true); }
                 }
             }
             long dataEnd = workFile.baseStream.Position;
@@ -2250,11 +1921,8 @@ namespace IFramework.Core.Zip.Zip
                                          + // Header size
                                            update.Entry.CompressedSize
                                          + GetDescriptorSize(update);
-            }
-            else {
-                if (update.Entry.CompressedSize > 0) {
-                    CopyEntryDataDirect(update, baseStream, false, ref destinationPosition, ref sourcePosition);
-                }
+            } else {
+                if (update.Entry.CompressedSize > 0) { CopyEntryDataDirect(update, baseStream, false, ref destinationPosition, ref sourcePosition); }
                 CopyDescriptorBytesDirect(update, baseStream, ref destinationPosition, sourcePosition);
             }
         }
@@ -2279,9 +1947,7 @@ namespace IFramework.Core.Zip.Zip
 
         private void Reopen(Stream source)
         {
-            if (source == null) {
-                throw new ZipException("Failed to reopen archive - no source");
-            }
+            if (source == null) { throw new ZipException("Failed to reopen archive - no source"); }
             IsNewArchive = false;
             baseStream = source;
             ReadEntries();
@@ -2289,9 +1955,7 @@ namespace IFramework.Core.Zip.Zip
 
         private void Reopen()
         {
-            if (Name == null) {
-                throw new InvalidOperationException("Name is not known cannot Reopen");
-            }
+            if (Name == null) { throw new InvalidOperationException("Name is not known cannot Reopen"); }
             Reopen(File.Open(Name, FileMode.Open, FileAccess.Read, FileShare.Read));
         }
 
@@ -2306,8 +1970,7 @@ namespace IFramework.Core.Zip.Zip
                 updateFile.IsStreamOwner = true;
                 baseStream.Dispose();
                 baseStream = null;
-            }
-            else {
+            } else {
                 if (archiveStorage.UpdateMode == FileUpdateMode.Direct) {
                     // TODO: archiveStorage wasnt originally intended for this use.
                     // Need to revisit this to tidy up handling as archive storage currently doesnt
@@ -2318,8 +1981,7 @@ namespace IFramework.Core.Zip.Zip
                     // Need to tidy up the archive storage interface and contract basically.
                     baseStream = archiveStorage.OpenForDirectUpdate(baseStream);
                     updateFile = new ZipHelperStream(baseStream);
-                }
-                else {
+                } else {
                     baseStream.Dispose();
                     baseStream = null;
                     updateFile = new ZipHelperStream(Name);
@@ -2329,9 +1991,7 @@ namespace IFramework.Core.Zip.Zip
             using (updateFile) {
                 long locatedCentralDirOffset = updateFile.LocateBlockWithSignature(ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE, baseLength, ZipConstants.END_OF_CENTRAL_RECORD_BASE_SIZE, 0xffff);
 
-                if (locatedCentralDirOffset < 0) {
-                    throw new ZipException("Cannot find central directory");
-                }
+                if (locatedCentralDirOffset < 0) { throw new ZipException("Cannot find central directory"); }
                 const int centralHeaderCommentSizeOffset = 16;
                 updateFile.Position += centralHeaderCommentSizeOffset;
                 byte[] rawComment = newComment.RawComment;
@@ -2340,12 +2000,7 @@ namespace IFramework.Core.Zip.Zip
                 updateFile.SetLength(updateFile.Position);
             }
 
-            if (archiveStorage.UpdateMode == FileUpdateMode.Safe) {
-                Reopen(archiveStorage.ConvertTemporaryToFinal());
-            }
-            else {
-                ReadEntries();
-            }
+            if (archiveStorage.UpdateMode == FileUpdateMode.Safe) { Reopen(archiveStorage.ConvertTemporaryToFinal()); } else { ReadEntries(); }
         }
 
         /// <summary>
@@ -2365,17 +2020,8 @@ namespace IFramework.Core.Zip.Zip
                 int result;
 
                 if (x == null) {
-                    if (y == null) {
-                        result = 0;
-                    }
-                    else {
-                        result = -1;
-                    }
-                }
-                else if (y == null) {
-                    result = 1;
-                }
-                else {
+                    if (y == null) { result = 0; } else { result = -1; }
+                } else if (y == null) { result = 1; } else {
                     int xCmdValue = x.Command == UpdateCommand.Copy || x.Command == UpdateCommand.Modify ? 0 : 1;
                     int yCmdValue = y.Command == UpdateCommand.Copy || y.Command == UpdateCommand.Modify ? 0 : 1;
                     result = xCmdValue - yCmdValue;
@@ -2383,15 +2029,7 @@ namespace IFramework.Core.Zip.Zip
                     if (result == 0) {
                         long offsetDiff = x.Entry.Offset - y.Entry.Offset;
 
-                        if (offsetDiff < 0) {
-                            result = -1;
-                        }
-                        else if (offsetDiff == 0) {
-                            result = 0;
-                        }
-                        else {
-                            result = 1;
-                        }
+                        if (offsetDiff < 0) { result = -1; } else if (offsetDiff == 0) { result = 0; } else { result = 1; }
                     }
                 }
                 return result;
@@ -2410,8 +2048,7 @@ namespace IFramework.Core.Zip.Zip
                 workFile = this;
                 workFile.baseStream.Position = 0;
                 directUpdate = true;
-            }
-            else if (archiveStorage.UpdateMode == FileUpdateMode.Direct) {
+            } else if (archiveStorage.UpdateMode == FileUpdateMode.Direct) {
                 workFile = this;
                 workFile.baseStream.Position = 0;
                 directUpdate = true;
@@ -2419,14 +2056,11 @@ namespace IFramework.Core.Zip.Zip
                 // Sort the updates by offset within copies/modifies, then adds.
                 // This ensures that data required by copies will not be overwritten.
                 updates.Sort(new UpdateComparer());
-            }
-            else {
+            } else {
                 workFile = Create(archiveStorage.GetTemporaryOutput());
                 workFile.UseZip64 = UseZip64;
 
-                if (Key != null) {
-                    workFile.Key = (byte[])Key.Clone();
-                }
+                if (Key != null) { workFile.Key = (byte[])Key.Clone(); }
             }
 
             try {
@@ -2434,46 +2068,31 @@ namespace IFramework.Core.Zip.Zip
                     if (update != null) {
                         switch (update.Command) {
                             case UpdateCommand.Copy:
-                                if (directUpdate) {
-                                    CopyEntryDirect(workFile, update, ref destinationPosition);
-                                }
-                                else {
-                                    CopyEntry(workFile, update);
-                                }
+                                if (directUpdate) { CopyEntryDirect(workFile, update, ref destinationPosition); } else { CopyEntry(workFile, update); }
                                 break;
                             case UpdateCommand.Modify:
                                 // TODO: Direct modifying of an entry will take some legwork.
                                 ModifyEntry(workFile, update);
                                 break;
                             case UpdateCommand.Add:
-                                if (!IsNewArchive && directUpdate) {
-                                    workFile.baseStream.Position = destinationPosition;
-                                }
+                                if (!IsNewArchive && directUpdate) { workFile.baseStream.Position = destinationPosition; }
                                 AddEntry(workFile, update);
 
-                                if (directUpdate) {
-                                    destinationPosition = workFile.baseStream.Position;
-                                }
+                                if (directUpdate) { destinationPosition = workFile.baseStream.Position; }
                                 break;
                         }
                     }
                 }
 
-                if (!IsNewArchive && directUpdate) {
-                    workFile.baseStream.Position = destinationPosition;
-                }
+                if (!IsNewArchive && directUpdate) { workFile.baseStream.Position = destinationPosition; }
                 long centralDirOffset = workFile.baseStream.Position;
 
                 foreach (ZipUpdate update in updates) {
-                    if (update != null) {
-                        sizeEntries += workFile.WriteCentralDirectoryHeader(update.OutEntry);
-                    }
+                    if (update != null) { sizeEntries += workFile.WriteCentralDirectoryHeader(update.OutEntry); }
                 }
                 byte[] theComment = newComment != null ? newComment.RawComment : ZipConstants.ConvertToArray(ZipFileComment);
 
-                using (ZipHelperStream zhs = new ZipHelperStream(workFile.baseStream)) {
-                    zhs.WriteEndOfCentralDirectory(updateCount, sizeEntries, centralDirOffset, theComment);
-                }
+                using (ZipHelperStream zhs = new ZipHelperStream(workFile.baseStream)) { zhs.WriteEndOfCentralDirectory(updateCount, sizeEntries, centralDirOffset, theComment); }
                 endOfStream = workFile.baseStream.Position;
 
                 // And now patch entries...
@@ -2492,21 +2111,17 @@ namespace IFramework.Core.Zip.Zip
                             if (update.OutEntry.LocalHeaderRequiresZip64) {
                                 workFile.WriteLeLong(update.OutEntry.Size);
                                 workFile.WriteLeLong(update.OutEntry.CompressedSize);
-                            }
-                            else {
+                            } else {
                                 workFile.WriteLeInt((int)update.OutEntry.CompressedSize);
                                 workFile.WriteLeInt((int)update.OutEntry.Size);
                             }
                         }
                     }
                 }
-            }
-            catch {
+            } catch {
                 workFile.Close();
 
-                if (!directUpdate && workFile.Name != null) {
-                    File.Delete(workFile.Name);
-                }
+                if (!directUpdate && workFile.Name != null) { File.Delete(workFile.Name); }
                 throw;
             }
 
@@ -2515,8 +2130,7 @@ namespace IFramework.Core.Zip.Zip
                 workFile.baseStream.Flush();
                 IsNewArchive = false;
                 ReadEntries();
-            }
-            else {
+            } else {
                 baseStream.Dispose();
                 Reopen(archiveStorage.ConvertTemporaryToFinal());
             }
@@ -2524,9 +2138,7 @@ namespace IFramework.Core.Zip.Zip
 
         private void CheckUpdating()
         {
-            if (updates == null) {
-                throw new InvalidOperationException("BeginUpdate has not been called");
-            }
+            if (updates == null) { throw new InvalidOperationException("BeginUpdate has not been called"); }
         }
 
         #endregion
@@ -2617,9 +2229,7 @@ namespace IFramework.Core.Zip.Zip
             /// </summary>
             public ZipEntry OutEntry {
                 get {
-                    if (outEntry == null) {
-                        outEntry = (ZipEntry)Entry.Clone();
-                    }
+                    if (outEntry == null) { outEntry = (ZipEntry)Entry.Clone(); }
                     return outEntry;
                 }
             }
@@ -2654,9 +2264,7 @@ namespace IFramework.Core.Zip.Zip
             {
                 Stream result = null;
 
-                if (dataSource != null) {
-                    result = dataSource.GetSource();
-                }
+                if (dataSource != null) { result = dataSource.GetSource(); }
                 return result;
             }
 
@@ -2690,9 +2298,7 @@ namespace IFramework.Core.Zip.Zip
                 entries = new ZipEntry[0];
 
                 if (IsStreamOwner && baseStream != null) {
-                    lock (baseStream) {
-                        baseStream.Dispose();
-                    }
+                    lock (baseStream) { baseStream.Dispose(); }
                 }
                 PostUpdateCleanup();
             }
@@ -2725,14 +2331,10 @@ namespace IFramework.Core.Zip.Zip
         {
             int data1 = baseStream.ReadByte();
 
-            if (data1 < 0) {
-                throw new EndOfStreamException("End of stream");
-            }
+            if (data1 < 0) { throw new EndOfStreamException("End of stream"); }
             int data2 = baseStream.ReadByte();
 
-            if (data2 < 0) {
-                throw new EndOfStreamException("End of stream");
-            }
+            if (data2 < 0) { throw new EndOfStreamException("End of stream"); }
             return unchecked((ushort)((ushort)data1 | (ushort)(data2 << 8)));
         }
 
@@ -2761,9 +2363,7 @@ namespace IFramework.Core.Zip.Zip
         // NOTE this returns the offset of the first byte after the signature.
         private long LocateBlockWithSignature(int signature, long endLocation, int minimumBlockSize, int maximumVariableData)
         {
-            using (ZipHelperStream les = new ZipHelperStream(baseStream)) {
-                return les.LocateBlockWithSignature(signature, endLocation, minimumBlockSize, maximumVariableData);
-            }
+            using (ZipHelperStream les = new ZipHelperStream(baseStream)) { return les.LocateBlockWithSignature(signature, endLocation, minimumBlockSize, maximumVariableData); }
         }
 
         /// <summary>
@@ -2785,14 +2385,10 @@ namespace IFramework.Core.Zip.Zip
             // If a SFX file has the Zip data attached as a resource and there are other resources occuring later then
             // this could be invalid.
             // Could also speed this up by reading memory in larger blocks.
-            if (baseStream.CanSeek == false) {
-                throw new ZipException("ZipFile stream must be seekable");
-            }
+            if (baseStream.CanSeek == false) { throw new ZipException("ZipFile stream must be seekable"); }
             long locatedEndOfCentralDir = LocateBlockWithSignature(ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE, baseStream.Length, ZipConstants.END_OF_CENTRAL_RECORD_BASE_SIZE, 0xffff);
 
-            if (locatedEndOfCentralDir < 0) {
-                throw new ZipException("Cannot find central directory");
-            }
+            if (locatedEndOfCentralDir < 0) { throw new ZipException("Cannot find central directory"); }
 
             // Read end of central directory record
             ushort thisDiskNumber = ReadLeUshort();
@@ -2807,10 +2403,7 @@ namespace IFramework.Core.Zip.Zip
                 byte[] comment = new byte[commentSize];
                 StreamUtils.ReadFully(baseStream, comment);
                 ZipFileComment = ZipConstants.ConvertToString(comment);
-            }
-            else {
-                ZipFileComment = string.Empty;
-            }
+            } else { ZipFileComment = string.Empty; }
             bool isZip64 = false;
 
             // Check if zip64 header information is required.
@@ -2818,9 +2411,7 @@ namespace IFramework.Core.Zip.Zip
                 isZip64 = true;
                 long offset = LocateBlockWithSignature(ZipConstants.ZIP64_CENTRAL_DIR_LOCATOR_SIGNATURE, locatedEndOfCentralDir, 0, 0x1000);
 
-                if (offset < 0) {
-                    throw new ZipException("Cannot find Zip64 locator");
-                }
+                if (offset < 0) { throw new ZipException("Cannot find Zip64 locator"); }
 
                 // number of the disk with the start of the zip64 end of central directory 4 bytes
                 // relative offset of the zip64 end of central directory record 8 bytes
@@ -2832,9 +2423,7 @@ namespace IFramework.Core.Zip.Zip
                 baseStream.Position = (long)offset64;
                 long sig64 = ReadLeUint();
 
-                if (sig64 != ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
-                    throw new ZipException(string.Format("Invalid Zip64 Central directory signature at {0:X}", offset64));
-                }
+                if (sig64 != ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) { throw new ZipException(string.Format("Invalid Zip64 Central directory signature at {0:X}", offset64)); }
 
                 // NOTE: Record size = SizeOfFixedFields + SizeOfVariableData - 12.
                 ulong recordSize = ReadLeUlong();
@@ -2861,16 +2450,12 @@ namespace IFramework.Core.Zip.Zip
             if (!isZip64 && offsetOfCentralDir < locatedEndOfCentralDir - (4 + (long)centralDirSize)) {
                 offsetOfFirstEntry = locatedEndOfCentralDir - (4 + (long)centralDirSize + offsetOfCentralDir);
 
-                if (offsetOfFirstEntry <= 0) {
-                    throw new ZipException("Invalid embedded zip archive");
-                }
+                if (offsetOfFirstEntry <= 0) { throw new ZipException("Invalid embedded zip archive"); }
             }
             baseStream.Seek(offsetOfFirstEntry + offsetOfCentralDir, SeekOrigin.Begin);
 
             for (ulong i = 0; i < entriesForThisDisk; i++) {
-                if (ReadLeUint() != ZipConstants.CENTRAL_HEADER_SIGNATURE) {
-                    throw new ZipException("Wrong Central Directory signature");
-                }
+                if (ReadLeUint() != ZipConstants.CENTRAL_HEADER_SIGNATURE) { throw new ZipException("Wrong Central Directory signature"); }
                 int versionMadeBy = ReadLeUshort();
                 int versionToExtract = ReadLeUshort();
                 int bitFlags = ReadLeUshort();
@@ -2901,12 +2486,7 @@ namespace IFramework.Core.Zip.Zip
                 entry.Offset = offset;
                 entry.ExternalFileAttributes = (int)externalAttributes;
 
-                if ((bitFlags & 8) == 0) {
-                    entry.CryptoCheckValue = (byte)(crc >> 24);
-                }
-                else {
-                    entry.CryptoCheckValue = (byte)((dostime >> 8) & 0xff);
-                }
+                if ((bitFlags & 8) == 0) { entry.CryptoCheckValue = (byte)(crc >> 24); } else { entry.CryptoCheckValue = (byte)((dostime >> 8) & 0xff); }
 
                 if (extraLen > 0) {
                     byte[] extra = new byte[extraLen];
@@ -2949,22 +2529,17 @@ namespace IFramework.Core.Zip.Zip
                 PkzipClassicManaged classicManaged = new PkzipClassicManaged();
                 OnKeysRequired(entry.Name);
 
-                if (HaveKeys == false) {
-                    throw new ZipException("No password available for encrypted stream");
-                }
+                if (HaveKeys == false) { throw new ZipException("No password available for encrypted stream"); }
 
                 // ReSharper disable once AssignNullToNotNullAttribute
                 result = new CryptoStream(baseStream, classicManaged.CreateDecryptor(Key, null), CryptoStreamMode.Read);
                 CheckClassicPassword(result, entry);
-            }
-            else {
+            } else {
                 if (entry.Version == ZipConstants.VERSION_AES) {
                     //
                     OnKeysRequired(entry.Name);
 
-                    if (HaveKeys == false) {
-                        throw new ZipException("No password available for AES encrypted stream");
-                    }
+                    if (HaveKeys == false) { throw new ZipException("No password available for AES encrypted stream"); }
                     int saltLen = entry.AesSaltLen;
                     byte[] saltBytes = new byte[saltLen];
                     int saltIn = baseStream.Read(saltBytes, 0, saltLen);
@@ -2979,10 +2554,7 @@ namespace IFramework.Core.Zip.Zip
                     if (pwdVerifyCalc[0] != pwdVerifyRead[0] || pwdVerifyCalc[1] != pwdVerifyRead[1]) throw new ZipException("Invalid password for AES");
 
                     result = new ZipAesStream(baseStream, decryptor, CryptoStreamMode.Read);
-                }
-                else {
-                    throw new ZipException("Decryption method not supported");
-                }
+                } else { throw new ZipException("Decryption method not supported"); }
             }
             return result;
         }
@@ -2995,20 +2567,13 @@ namespace IFramework.Core.Zip.Zip
                 PkzipClassicManaged classicManaged = new PkzipClassicManaged();
                 OnKeysRequired(entry.Name);
 
-                if (HaveKeys == false) {
-                    throw new ZipException("No password available for encrypted stream");
-                }
+                if (HaveKeys == false) { throw new ZipException("No password available for encrypted stream"); }
 
                 // Closing a CryptoStream will close the base stream as well so wrap it in an UncompressedStream
                 // which doesnt do this.
                 result = new CryptoStream(new UncompressedStream(baseStream), classicManaged.CreateEncryptor(Key, null), CryptoStreamMode.Write);
 
-                if (entry.Crc < 0 || (entry.Flags & 8) != 0) {
-                    WriteEncryptionHeader(result, entry.DosTime << 16);
-                }
-                else {
-                    WriteEncryptionHeader(result, entry.Crc);
-                }
+                if (entry.Crc < 0 || (entry.Flags & 8) != 0) { WriteEncryptionHeader(result, entry.DosTime << 16); } else { WriteEncryptionHeader(result, entry.Crc); }
             }
             return result;
         }
@@ -3018,9 +2583,7 @@ namespace IFramework.Core.Zip.Zip
             byte[] cryptbuffer = new byte[ZipConstants.CRYPTO_HEADER_SIZE];
             StreamUtils.ReadFully(classicCryptoStream, cryptbuffer);
 
-            if (cryptbuffer[ZipConstants.CRYPTO_HEADER_SIZE - 1] != entry.CryptoCheckValue) {
-                throw new ZipException("Invalid password");
-            }
+            if (cryptbuffer[ZipConstants.CRYPTO_HEADER_SIZE - 1] != entry.CryptoCheckValue) { throw new ZipException("Invalid password"); }
         }
 
         private static void WriteEncryptionHeader(Stream stream, long crcValue)
@@ -3126,26 +2689,17 @@ namespace IFramework.Core.Zip.Zip
             /// </summary>
             public void Reset()
             {
-                if (IsSourceString) {
-                    rawComment = null;
-                }
-                else {
-                    comment = null;
-                }
+                if (IsSourceString) { rawComment = null; } else { comment = null; }
             }
 
             private void MakeTextAvailable()
             {
-                if (comment == null) {
-                    comment = ZipConstants.ConvertToString(rawComment);
-                }
+                if (comment == null) { comment = ZipConstants.ConvertToString(rawComment); }
             }
 
             private void MakeBytesAvailable()
             {
-                if (rawComment == null) {
-                    rawComment = ZipConstants.ConvertToArray(comment);
-                }
+                if (rawComment == null) { rawComment = ZipConstants.ConvertToArray(comment); }
             }
 
             /// <summary>
@@ -3251,10 +2805,7 @@ namespace IFramework.Core.Zip.Zip
             /// <summary>
             /// Gets or sets the position within the current stream.
             /// </summary>
-            public override long Position {
-                get => baseStream.Position;
-                set => throw new NotImplementedException();
-            }
+            public override long Position { get => baseStream.Position; set => throw new NotImplementedException(); }
 
             /// <summary>
             /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
@@ -3402,21 +2953,15 @@ namespace IFramework.Core.Zip.Zip
                     if (count > end - readPos) {
                         count = (int)(end - readPos);
 
-                        if (count == 0) {
-                            return 0;
-                        }
+                        if (count == 0) { return 0; }
                     }
 
                     // Protect against Stream implementations that throw away their buffer on every Seek
                     // (for example, Mono FileStream)
-                    if (baseStream.Position != readPos) {
-                        baseStream.Seek(readPos, SeekOrigin.Begin);
-                    }
+                    if (baseStream.Position != readPos) { baseStream.Seek(readPos, SeekOrigin.Begin); }
                     int readCount = baseStream.Read(buffer, offset, count);
 
-                    if (readCount > 0) {
-                        readPos += readCount;
-                    }
+                    if (readCount > 0) { readPos += readCount; }
                     return readCount;
                 }
             }
@@ -3477,13 +3022,9 @@ namespace IFramework.Core.Zip.Zip
                         break;
                 }
 
-                if (newPos < start) {
-                    throw new ArgumentException("Negative position is invalid");
-                }
+                if (newPos < start) { throw new ArgumentException("Negative position is invalid"); }
 
-                if (newPos >= end) {
-                    throw new IOException("Cannot seek past end");
-                }
+                if (newPos >= end) { throw new IOException("Cannot seek past end"); }
                 readPos = newPos;
                 return readPos;
             }
@@ -3510,13 +3051,9 @@ namespace IFramework.Core.Zip.Zip
                 set {
                     long newPos = start + value;
 
-                    if (newPos < start) {
-                        throw new ArgumentException("Negative position is invalid");
-                    }
+                    if (newPos < start) { throw new ArgumentException("Negative position is invalid"); }
 
-                    if (newPos >= end) {
-                        throw new InvalidOperationException("Cannot seek past end");
-                    }
+                    if (newPos >= end) { throw new InvalidOperationException("Cannot seek past end"); }
                     readPos = newPos;
                 }
             }
@@ -3659,9 +3196,7 @@ namespace IFramework.Core.Zip.Zip
         {
             Stream result = null;
 
-            if (name != null) {
-                result = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
-            }
+            if (name != null) { result = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read); }
             return result;
         }
 
@@ -3798,9 +3333,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="updateMode">The update mode.</param>
         public DiskArchiveStorage(ZipFile file, FileUpdateMode updateMode) : base(updateMode)
         {
-            if (file.Name == null) {
-                throw new ZipException("Cant handle non file archives");
-            }
+            if (file.Name == null) { throw new ZipException("Cant handle non file archives"); }
             fileName = file.Name;
         }
 
@@ -3823,8 +3356,7 @@ namespace IFramework.Core.Zip.Zip
             if (temporaryName != null) {
                 temporaryName = GetTempFileName(temporaryName, true);
                 temporaryStream = File.Open(temporaryName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-            }
-            else {
+            } else {
                 // Determine where to place files based on internal strategy.
                 // Currently this is always done in system temp directory.
                 temporaryName = Path.GetTempFileName();
@@ -3840,9 +3372,7 @@ namespace IFramework.Core.Zip.Zip
         /// the final storage for the archive.</returns>
         public override Stream ConvertTemporaryToFinal()
         {
-            if (temporaryStream == null) {
-                throw new ZipException("No temporary stream has been created");
-            }
+            if (temporaryStream == null) { throw new ZipException("No temporary stream has been created"); }
             Stream result = null;
             string moveTempName = GetTempFileName(fileName, false);
             bool newFileCreated = false;
@@ -3854,8 +3384,7 @@ namespace IFramework.Core.Zip.Zip
                 newFileCreated = true;
                 File.Delete(moveTempName);
                 result = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 result = null;
 
                 // Try to roll back changes...
@@ -3893,14 +3422,9 @@ namespace IFramework.Core.Zip.Zip
             Stream result;
 
             if (stream == null || !stream.CanWrite) {
-                if (stream != null) {
-                    stream.Dispose();
-                }
+                if (stream != null) { stream.Dispose(); }
                 result = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite);
-            }
-            else {
-                result = stream;
-            }
+            } else { result = stream; }
             return result;
         }
 
@@ -3909,9 +3433,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public override void Dispose()
         {
-            if (temporaryStream != null) {
-                temporaryStream.Dispose();
-            }
+            if (temporaryStream != null) { temporaryStream.Dispose(); }
         }
 
         #endregion
@@ -3922,10 +3444,7 @@ namespace IFramework.Core.Zip.Zip
         {
             string result = null;
 
-            if (original == null) {
-                result = Path.GetTempFileName();
-            }
-            else {
+            if (original == null) { result = Path.GetTempFileName(); } else {
                 int counter = 0;
                 int suffixSeed = DateTime.Now.Second;
 
@@ -3939,14 +3458,8 @@ namespace IFramework.Core.Zip.Zip
                                 // Try and create the file.
                                 using (FileStream stream = File.Create(newName)) { }
                                 result = newName;
-                            }
-                            catch {
-                                suffixSeed = DateTime.Now.Second;
-                            }
-                        }
-                        else {
-                            result = newName;
-                        }
+                            } catch { suffixSeed = DateTime.Now.Second; }
+                        } else { result = newName; }
                     }
                 }
             }
@@ -4013,9 +3526,7 @@ namespace IFramework.Core.Zip.Zip
         /// the final storage for the archive.</returns>
         public override Stream ConvertTemporaryToFinal()
         {
-            if (temporaryStream == null) {
-                throw new ZipException("No temporary stream has been created");
-            }
+            if (temporaryStream == null) { throw new ZipException("No temporary stream has been created"); }
             FinalStream = new MemoryStream(temporaryStream.ToArray());
             return FinalStream;
         }
@@ -4052,10 +3563,7 @@ namespace IFramework.Core.Zip.Zip
                     StreamUtils.Copy(stream, result, new byte[4096]);
                     stream.Dispose();
                 }
-            }
-            else {
-                result = stream;
-            }
+            } else { result = stream; }
             return result;
         }
 
@@ -4064,9 +3572,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public override void Dispose()
         {
-            if (temporaryStream != null) {
-                temporaryStream.Dispose();
-            }
+            if (temporaryStream != null) { temporaryStream.Dispose(); }
         }
 
         #endregion

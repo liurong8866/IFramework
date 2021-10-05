@@ -8,22 +8,18 @@ namespace IFramework.Core
         protected static volatile T instance;
 
         // 对象锁
-        // ReSharper disable once StaticMemberInGenericType
         private static readonly object locker = new object();
 
-        // ReSharper disable once StaticMemberInGenericType
         protected static bool isApplicationQuit;
 
         /// <summary>
-        /// 双重锁，线程安全
+        /// 获得实例
         /// </summary>
         public static T Instance {
             get {
                 if (instance == null && !isApplicationQuit) {
                     lock (locker) {
-                        if (instance == null && !isApplicationQuit) {
-                            instance = SingletonCreator.CreateMonoSingleton<T>();
-                        }
+                        if (instance == null && !isApplicationQuit) { instance = SingletonCreator.CreateMonoSingleton<T>(); }
                     }
                 }
                 return instance;

@@ -36,9 +36,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void Write(int value)
         {
-            if (windowFilled++ == WindowSize) {
-                throw new InvalidOperationException("Window full");
-            }
+            if (windowFilled++ == WindowSize) { throw new InvalidOperationException("Window full"); }
             window[windowEnd++] = (byte)value;
             windowEnd &= WindowMask;
         }
@@ -62,9 +60,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void Repeat(int length, int distance)
         {
-            if ((windowFilled += length) > WindowSize) {
-                throw new InvalidOperationException("Window full");
-            }
+            if ((windowFilled += length) > WindowSize) { throw new InvalidOperationException("Window full"); }
             int repStart = (windowEnd - distance) & WindowMask;
             int border = WindowSize - length;
 
@@ -72,17 +68,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 if (length <= distance) {
                     Array.Copy(window, repStart, window, windowEnd, length);
                     windowEnd += length;
-                }
-                else {
+                } else {
                     // We have to copy manually, since the repeat pattern overlaps.
-                    while (length-- > 0) {
-                        window[windowEnd++] = window[repStart++];
-                    }
+                    while (length-- > 0) { window[windowEnd++] = window[repStart++]; }
                 }
-            }
-            else {
-                SlowRepeat(repStart, length, distance);
-            }
+            } else { SlowRepeat(repStart, length, distance); }
         }
 
         /// <summary>
@@ -100,13 +90,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (length > tailLen) {
                 copied = input.CopyBytes(window, windowEnd, tailLen);
 
-                if (copied == tailLen) {
-                    copied += input.CopyBytes(window, 0, length - tailLen);
-                }
-            }
-            else {
-                copied = input.CopyBytes(window, windowEnd, length);
-            }
+                if (copied == tailLen) { copied += input.CopyBytes(window, 0, length - tailLen); }
+            } else { copied = input.CopyBytes(window, windowEnd, length); }
             windowEnd = (windowEnd + copied) & WindowMask;
             windowFilled += copied;
             return copied;
@@ -123,13 +108,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void CopyDict(byte[] dictionary, int offset, int length)
         {
-            if (dictionary == null) {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
+            if (dictionary == null) { throw new ArgumentNullException(nameof(dictionary)); }
 
-            if (windowFilled > 0) {
-                throw new InvalidOperationException();
-            }
+            if (windowFilled > 0) { throw new InvalidOperationException(); }
 
             if (length > WindowSize) {
                 offset += length - WindowSize;
@@ -171,12 +152,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             int copyEnd = windowEnd;
 
-            if (len > windowFilled) {
-                len = windowFilled;
-            }
-            else {
-                copyEnd = (windowEnd - windowFilled + len) & WindowMask;
-            }
+            if (len > windowFilled) { len = windowFilled; } else { copyEnd = (windowEnd - windowFilled + len) & WindowMask; }
             int copied = len;
             int tailLen = len - copyEnd;
 
@@ -188,9 +164,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             Array.Copy(window, copyEnd - len, output, offset, len);
             windowFilled -= copied;
 
-            if (windowFilled < 0) {
-                throw new InvalidOperationException();
-            }
+            if (windowFilled < 0) { throw new InvalidOperationException(); }
             return copied;
         }
 

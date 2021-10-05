@@ -50,10 +50,7 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Get the ID for this tagged data value.
         /// </summary>
-        public short TagId {
-            get => tag;
-            set => tag = value;
-        }
+        public short TagId { get => tag; set => tag = value; }
 
         /// <summary>
         /// Set the data from the raw values provided.
@@ -63,9 +60,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="count">The number of bytes available.</param>
         public void SetData(byte[] data, int offset, int count)
         {
-            if (data == null) {
-                throw new ArgumentNullException(nameof(data));
-            }
+            if (data == null) { throw new ArgumentNullException(nameof(data)); }
             this.Data = new byte[count];
             Array.Copy(data, offset, this.Data, 0, count);
         }
@@ -224,9 +219,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime ModificationTime {
             get => modificationTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 Include |= Flags.ModificationTime;
                 modificationTime = value;
             }
@@ -240,9 +233,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime AccessTime {
             get => lastAccessTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 Include |= Flags.AccessTime;
                 lastAccessTime = value;
             }
@@ -256,9 +247,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime CreateTime {
             get => createTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 Include |= Flags.CreateTime;
                 createTime = value;
             }
@@ -356,12 +345,7 @@ namespace IFramework.Core.Zip.Zip
         {
             bool result = true;
 
-            try {
-                value.ToFileTimeUtc();
-            }
-            catch {
-                result = false;
-            }
+            try { value.ToFileTimeUtc(); } catch { result = false; }
             return result;
         }
 
@@ -371,9 +355,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime LastModificationTime {
             get => lastModificationTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 lastModificationTime = value;
             }
         }
@@ -384,9 +366,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime CreateTime {
             get => createTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 createTime = value;
             }
         }
@@ -397,9 +377,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime LastAccessTime {
             get => lastAccessTime;
             set {
-                if (!IsValidValue(value)) {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                if (!IsValidValue(value)) { throw new ArgumentOutOfRangeException(nameof(value)); }
                 lastAccessTime = value;
             }
         }
@@ -458,12 +436,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="data">The extra data.</param>
         public ZipExtraData(byte[] data)
         {
-            if (data == null) {
-                this.data = new byte[0];
-            }
-            else {
-                this.data = data;
-            }
+            if (data == null) { this.data = new byte[0]; } else { this.data = data; }
         }
 
         #endregion
@@ -474,9 +447,7 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns the raw byte[] extra data this instance represents.</returns>
         public byte[] GetEntryData()
         {
-            if (Length > ushort.MaxValue) {
-                throw new ZipException("Data exceeds maximum length");
-            }
+            if (Length > ushort.MaxValue) { throw new ZipException("Data exceeds maximum length"); }
             return (byte[])data.Clone();
         }
 
@@ -485,9 +456,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public void Clear()
         {
-            if (data == null || data.Length != 0) {
-                data = new byte[0];
-            }
+            if (data == null || data.Length != 0) { data = new byte[0]; }
         }
 
         /// <summary>
@@ -504,9 +473,7 @@ namespace IFramework.Core.Zip.Zip
         {
             Stream result = null;
 
-            if (Find(tag)) {
-                result = new MemoryStream(data, CurrentReadIndex, ValueLength, false);
-            }
+            if (Find(tag)) { result = new MemoryStream(data, CurrentReadIndex, ValueLength, false); }
             return result;
         }
 
@@ -545,9 +512,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public int UnreadCount {
             get {
-                if (readValueStart > data.Length || readValueStart < 4) {
-                    throw new ZipException("Find must be called before calling a Read method");
-                }
+                if (readValueStart > data.Length || readValueStart < 4) { throw new ZipException("Find must be called before calling a Read method"); }
                 return readValueStart + ValueLength - CurrentReadIndex;
             }
         }
@@ -571,9 +536,7 @@ namespace IFramework.Core.Zip.Zip
                 localTag = ReadShortInternal();
                 localLength = ReadShortInternal();
 
-                if (localTag != headerId) {
-                    CurrentReadIndex += localLength;
-                }
+                if (localTag != headerId) { CurrentReadIndex += localLength; }
             }
             bool result = localTag == headerId && CurrentReadIndex + localLength <= data.Length;
 
@@ -590,9 +553,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="taggedData">The <see cref="ITaggedData"/> value to add.</param>
         public void AddEntry(ITaggedData taggedData)
         {
-            if (taggedData == null) {
-                throw new ArgumentNullException(nameof(taggedData));
-            }
+            if (taggedData == null) { throw new ArgumentNullException(nameof(taggedData)); }
             AddEntry(taggedData.TagId, taggedData.GetData());
         }
 
@@ -604,25 +565,17 @@ namespace IFramework.Core.Zip.Zip
         /// <remarks>If the ID already exists its contents are replaced.</remarks>
         public void AddEntry(int headerId, byte[] fieldData)
         {
-            if (headerId > ushort.MaxValue || headerId < 0) {
-                throw new ArgumentOutOfRangeException(nameof(headerId));
-            }
+            if (headerId > ushort.MaxValue || headerId < 0) { throw new ArgumentOutOfRangeException(nameof(headerId)); }
             int addLength = fieldData == null ? 0 : fieldData.Length;
 
-            if (addLength > ushort.MaxValue) {
-                throw new ArgumentOutOfRangeException(nameof(fieldData), "exceeds maximum length");
-            }
+            if (addLength > ushort.MaxValue) { throw new ArgumentOutOfRangeException(nameof(fieldData), "exceeds maximum length"); }
 
             // Test for new length before adjusting data.
             int newLength = data.Length + addLength + 4;
 
-            if (Find(headerId)) {
-                newLength -= ValueLength + 4;
-            }
+            if (Find(headerId)) { newLength -= ValueLength + 4; }
 
-            if (newLength > ushort.MaxValue) {
-                throw new ZipException("Data exceeds maximum length");
-            }
+            if (newLength > ushort.MaxValue) { throw new ZipException("Data exceeds maximum length"); }
             Delete(headerId);
             byte[] newData = new byte[newLength];
             data.CopyTo(newData, 0);
@@ -631,9 +584,7 @@ namespace IFramework.Core.Zip.Zip
             SetShort(ref index, headerId);
             SetShort(ref index, addLength);
 
-            if (fieldData != null) {
-                fieldData.CopyTo(newData, index);
-            }
+            if (fieldData != null) { fieldData.CopyTo(newData, index); }
         }
 
         /// <summary>
@@ -675,9 +626,7 @@ namespace IFramework.Core.Zip.Zip
         /// <seealso cref="StartNewEntry"/>
         public void AddData(byte[] data)
         {
-            if (data == null) {
-                throw new ArgumentNullException(nameof(data));
-            }
+            if (data == null) { throw new ArgumentNullException(nameof(data)); }
             newEntry.Write(data, 0, data.Length);
         }
 
@@ -804,17 +753,11 @@ namespace IFramework.Core.Zip.Zip
 
         private void ReadCheck(int length)
         {
-            if (readValueStart > data.Length || readValueStart < 4) {
-                throw new ZipException("Find must be called before calling a Read method");
-            }
+            if (readValueStart > data.Length || readValueStart < 4) { throw new ZipException("Find must be called before calling a Read method"); }
 
-            if (CurrentReadIndex > readValueStart + ValueLength - length) {
-                throw new ZipException("End of extra data");
-            }
+            if (CurrentReadIndex > readValueStart + ValueLength - length) { throw new ZipException("End of extra data"); }
 
-            if (CurrentReadIndex + length < 4) {
-                throw new ZipException("Cannot read before start of tag");
-            }
+            if (CurrentReadIndex + length < 4) { throw new ZipException("Cannot read before start of tag"); }
         }
 
         /// <summary>
@@ -823,9 +766,7 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns the short value read.</returns>
         private int ReadShortInternal()
         {
-            if (CurrentReadIndex > data.Length - 2) {
-                throw new ZipException("End of extra data");
-            }
+            if (CurrentReadIndex > data.Length - 2) { throw new ZipException("End of extra data"); }
             int result = data[CurrentReadIndex] + (data[CurrentReadIndex + 1] << 8);
             CurrentReadIndex += 2;
             return result;
@@ -847,9 +788,7 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public void Dispose()
         {
-            if (newEntry != null) {
-                newEntry.Dispose();
-            }
+            if (newEntry != null) { newEntry.Dispose(); }
         }
 
         #endregion

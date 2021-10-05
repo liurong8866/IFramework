@@ -1,7 +1,7 @@
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 序列节点链
+    /// 顺序执行序列 节点内当动作顺次执行，一个点的执行完毕，成功返回结果后执行下一节点
     /// </summary>
     public class SequenceNodeChain : AbstractActionChain
     {

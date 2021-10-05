@@ -7,29 +7,27 @@ namespace IFramework.Engine
         public int RepeatCount { get; set; }
 
         private int currentRepeatCount = 0;
-        
+
         public RepeatNode(IAction node, int repeatCount = -1)
         {
             RepeatCount = repeatCount;
             this.node = node;
         }
-        
+
         /// <summary>
         /// 当前节点
         /// </summary>
         public IAction CurrentNode {
             get {
                 IAction currentNode = node;
-                return !(currentNode is INode node2) ?  currentNode : node2.CurrentNode;
+                return !(currentNode is INode node2) ? currentNode : node2.CurrentNode;
             }
         }
-        
+
         protected override void OnExecute()
         {
             if (RepeatCount == -1) {
-                if (node.Execute()) {
-                    node.Reset();
-                }
+                if (node.Execute()) { node.Reset(); }
                 return;
             }
 
@@ -38,9 +36,7 @@ namespace IFramework.Engine
                 currentRepeatCount++;
             }
 
-            if (currentRepeatCount == RepeatCount) {
-                Finished = true;
-            }
+            if (currentRepeatCount == RepeatCount) { Finished = true; }
         }
 
         protected override void OnReset()

@@ -1,4 +1,3 @@
-
 using System;
 using IFramework.Core;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.InputSystem.Utilities;
 
 public class Player : MonoBehaviour
 {
-    private MyInput myInput ;
+    private MyInput myInput;
 
     private void Awake()
     {
@@ -23,7 +22,7 @@ public class Player : MonoBehaviour
 
     private void MoveOnperformed(InputAction.CallbackContext obj)
     {
-         obj.ReadValue<Vector2>().LogInfo();
+        obj.ReadValue<Vector2>().LogInfo();
     }
 
     private void JumpOnperformed(InputAction.CallbackContext obj)
@@ -39,8 +38,5 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 }

@@ -10,10 +10,7 @@ namespace IFramework.Core
 
         public Transform Transform => transform;
 
-        public BindType BindType {
-            get => bindType;
-            set => bindType = value;
-        }
+        public BindType BindType { get => bindType; set => bindType = value; }
 
         [HideInInspector] public string CustomComponentName;
 
@@ -26,9 +23,7 @@ namespace IFramework.Core
         public virtual string ComponentName {
             get {
                 if (bindType == BindType.DefaultElement) {
-                    if (mComponentName.IsNullOrEmpty()) {
-                        mComponentName = GetDefaultComponentName();
-                    }
+                    if (mComponentName.IsNullOrEmpty()) { mComponentName = GetDefaultComponentName(); }
                     return mComponentName;
                 }
                 return CustomComponentName;

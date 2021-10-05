@@ -11,13 +11,14 @@ namespace IFramework.Engine
         // 真正执行的节点
         protected List<IAction> executeNodes = ListPool<IAction>.Allocate();
 
-        public SequenceNode(params IAction[] nodes) {
+        public SequenceNode(params IAction[] nodes)
+        {
             foreach (IAction node in nodes) {
                 originalNodes.Add(node);
                 executeNodes.Add(node);
             }
         }
-        
+
         /// <summary>
         /// 总节点数量
         /// </summary>
@@ -52,7 +53,7 @@ namespace IFramework.Engine
                 //     Dispose();
                 //     return;
                 // }
-                
+
                 // 当前节点执行完毕后再执行下一个节点
                 while (executeNodes[0].Execute()) {
                     executeNodes.RemoveAt(0);

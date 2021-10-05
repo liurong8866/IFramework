@@ -13,9 +13,7 @@ namespace IFramework.Editor
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
                 path = AssetDatabase.GetAssetPath(obj);
 
-                if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
-                    return path;
-                }
+                if (!string.IsNullOrEmpty(path) && File.Exists(path)) { return path; }
             }
             return path;
         }

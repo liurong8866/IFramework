@@ -60,21 +60,13 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public DeflaterOutputStream(Stream baseOutputStream, Deflater deflater, int bufferSize)
         {
-            if (baseOutputStream == null) {
-                throw new ArgumentNullException(nameof(baseOutputStream));
-            }
+            if (baseOutputStream == null) { throw new ArgumentNullException(nameof(baseOutputStream)); }
 
-            if (baseOutputStream.CanWrite == false) {
-                throw new ArgumentException("Must support writing", nameof(baseOutputStream));
-            }
+            if (baseOutputStream.CanWrite == false) { throw new ArgumentException("Must support writing", nameof(baseOutputStream)); }
 
-            if (deflater == null) {
-                throw new ArgumentNullException(nameof(deflater));
-            }
+            if (deflater == null) { throw new ArgumentNullException(nameof(deflater)); }
 
-            if (bufferSize < 512) {
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
+            if (bufferSize < 512) { throw new ArgumentOutOfRangeException(nameof(bufferSize)); }
             baseOutputStream_ = baseOutputStream;
             buffer_ = new byte[bufferSize];
             deflater_ = deflater;
@@ -97,25 +89,17 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             while (!deflater_.IsFinished) {
                 int len = deflater_.Deflate(buffer_, 0, buffer_.Length);
 
-                if (len <= 0) {
-                    break;
-                }
+                if (len <= 0) { break; }
 
-                if (cryptoTransform_ != null) {
-                    EncryptBlock(buffer_, 0, len);
-                }
+                if (cryptoTransform_ != null) { EncryptBlock(buffer_, 0, len); }
                 baseOutputStream_.Write(buffer_, 0, len);
             }
 
-            if (!deflater_.IsFinished) {
-                throw new BaseZipException("Can't deflate all input?");
-            }
+            if (!deflater_.IsFinished) { throw new BaseZipException("Can't deflate all input?"); }
             baseOutputStream_.Flush();
 
             if (cryptoTransform_ != null) {
-                if (cryptoTransform_ is ZipAesTransform) {
-                    AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode();
-                }
+                if (cryptoTransform_ is ZipAesTransform) { AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode(); }
                 cryptoTransform_.Dispose();
                 cryptoTransform_ = null;
             }
@@ -153,12 +137,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public string Password {
             get => password;
             set {
-                if (value != null && value.Length == 0) {
-                    password = null;
-                }
-                else {
-                    password = value;
-                }
+                if (value != null && value.Length == 0) { password = null; } else { password = value; }
             }
         }
 
@@ -219,19 +198,13 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             while (!deflater_.IsNeedingInput) {
                 int deflateCount = deflater_.Deflate(buffer_, 0, buffer_.Length);
 
-                if (deflateCount <= 0) {
-                    break;
-                }
+                if (deflateCount <= 0) { break; }
 
-                if (cryptoTransform_ != null) {
-                    EncryptBlock(buffer_, 0, deflateCount);
-                }
+                if (cryptoTransform_ != null) { EncryptBlock(buffer_, 0, deflateCount); }
                 baseOutputStream_.Write(buffer_, 0, deflateCount);
             }
 
-            if (!deflater_.IsNeedingInput) {
-                throw new BaseZipException("DeflaterOutputStream can't deflate all input?");
-            }
+            if (!deflater_.IsNeedingInput) { throw new BaseZipException("DeflaterOutputStream can't deflate all input?"); }
         }
 
         #endregion
@@ -263,10 +236,7 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// Gets the current position within the stream.
         /// </summary>
         /// <exception cref="NotSupportedException">Any attempt to set position</exception>
-        public override long Position {
-            get => baseOutputStream_.Position;
-            set => throw new NotSupportedException("Position property not supported");
-        }
+        public override long Position { get => baseOutputStream_.Position; set => throw new NotSupportedException("Position property not supported"); }
 
         /// <summary>
         /// Sets the current position of this stream to the given value. Not supported by this class!
@@ -341,20 +311,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                         cryptoTransform_.Dispose();
                         cryptoTransform_ = null;
                     }
-                }
-                finally {
-                    if (IsStreamOwner) {
-                        baseOutputStream_.Dispose();
-                    }
+                } finally {
+                    if (IsStreamOwner) { baseOutputStream_.Dispose(); }
                 }
             }
         }
 
         private void GetAuthCodeIfAES()
         {
-            if (cryptoTransform_ is ZipAesTransform) {
-                AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode();
-            }
+            if (cryptoTransform_ is ZipAesTransform) { AESAuthCode = ((ZipAesTransform)cryptoTransform_).GetAuthCode(); }
         }
 
         /// <summary>

@@ -24,9 +24,7 @@ namespace IFramework.Core
         public void Add(string key, T data)
         {
             // 如果字典中有该键，则直接添加到该键对应的List中
-            if (dictionary.ContainsKey(key)) {
-                dictionary[key].Add(data);
-            }
+            if (dictionary.ContainsKey(key)) { dictionary[key].Add(data); }
             // 没有则创建List并添加到字典
             else {
                 List<T> list = ListPool<T>.Allocate();
@@ -70,9 +68,7 @@ namespace IFramework.Core
         /// </summary>
         public void Clear()
         {
-            foreach (List<T> value in dictionary.Values) {
-                value.Clear();
-            }
+            foreach (List<T> value in dictionary.Values) { value.Clear(); }
             dictionary.Clear();
         }
 
@@ -82,9 +78,7 @@ namespace IFramework.Core
         public void Dispose()
         {
             //先回收字典元素对象
-            foreach (List<T> value in dictionary.Values) {
-                value.Recycle();
-            }
+            foreach (List<T> value in dictionary.Values) { value.Recycle(); }
 
             // 再回收字典本身
             dictionary.Recycle();

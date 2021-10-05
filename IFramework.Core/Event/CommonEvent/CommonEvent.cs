@@ -33,9 +33,7 @@ namespace IFramework.Core
         /// </summary>
         public void UnRegisterEvent<T>(T key, TEvent action) where T : IConvertible
         {
-            if (listenerMap.TryGetValue(key.ToInt32(null), out EventListener<TEvent> listener)) {
-                listener?.Remove(action);
-            }
+            if (listenerMap.TryGetValue(key.ToInt32(null), out EventListener<TEvent> listener)) { listener?.Remove(action); }
         }
 
         /// <summary>
@@ -60,9 +58,7 @@ namespace IFramework.Core
             int keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
-                if (listener != null) {
-                    return listener.Invoke(keyValue);
-                }
+                if (listener != null) { return listener.Invoke(keyValue); }
             }
             return false;
         }
@@ -75,9 +71,7 @@ namespace IFramework.Core
             int keyValue = key.ToInt32(null);
 
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
-                if (listener != null) {
-                    return listener.Invoke(keyValue, param);
-                }
+                if (listener != null) { return listener.Invoke(keyValue, param); }
             }
             return false;
         }
@@ -145,9 +139,7 @@ namespace IFramework.Core
         // 调用方法
         public bool Invoke(int key, params object[] param)
         {
-            if (eventList == null || eventList.Count == 0) {
-                return false;
-            }
+            if (eventList == null || eventList.Count == 0) { return false; }
             LinkedListNode<T> next = eventList.First;
 
             // 依次执行所有监听的方法
@@ -180,17 +172,13 @@ namespace IFramework.Core
         // 移除监听消息
         public void Remove(T listener)
         {
-            if (eventList != null && eventList.Count > 0) {
-                eventList.Remove(listener);
-            }
+            if (eventList != null && eventList.Count > 0) { eventList.Remove(listener); }
         }
 
         // 清空所有监听消息
         public void Clear()
         {
-            if (eventList != null && eventList.Count > 0) {
-                eventList.Clear();
-            }
+            if (eventList != null && eventList.Count > 0) { eventList.Clear(); }
         }
     }
 }

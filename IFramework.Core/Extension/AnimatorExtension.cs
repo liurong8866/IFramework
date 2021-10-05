@@ -11,9 +11,7 @@ namespace IFramework.Core
     {
         public static void AddAnimatorParameterIfExists(this Animator animator, string parameterName, AnimatorControllerParameterType type, List<string> parameterList)
         {
-            if (animator.HasParameterOfType(parameterName, type)) {
-                parameterList.Add(parameterName);
-            }
+            if (animator.HasParameterOfType(parameterName, type)) { parameterList.Add(parameterName); }
         }
 
         /// <summary>
@@ -25,9 +23,7 @@ namespace IFramework.Core
         /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorBool(this Animator self, string parameterName, bool value, List<string> parameterList)
         {
-            if (parameterList.Contains(parameterName)) {
-                self.SetBool(parameterName, value);
-            }
+            if (parameterList.Contains(parameterName)) { self.SetBool(parameterName, value); }
         }
 
         /// <summary>
@@ -38,9 +34,7 @@ namespace IFramework.Core
         /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
         {
-            if (parameterList.Contains(parameterName)) {
-                self.SetTrigger(parameterName);
-            }
+            if (parameterList.Contains(parameterName)) { self.SetTrigger(parameterName); }
         }
 
         /// <summary>
@@ -51,9 +45,7 @@ namespace IFramework.Core
         /// <param name="parameterList">If set to <c>true</c> value.</param>
         public static void SetAnimatorTrigger(this Animator self, string parameterName, List<string> parameterList)
         {
-            if (parameterList.Contains(parameterName)) {
-                self.SetTrigger(parameterName);
-            }
+            if (parameterList.Contains(parameterName)) { self.SetTrigger(parameterName); }
         }
 
         /// <summary>
@@ -65,9 +57,7 @@ namespace IFramework.Core
         /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorFloat(this Animator self, string parameterName, float value, List<string> parameterList)
         {
-            if (parameterList.Contains(parameterName)) {
-                self.SetFloat(parameterName, value);
-            }
+            if (parameterList.Contains(parameterName)) { self.SetFloat(parameterName, value); }
         }
 
         /// <summary>
@@ -79,9 +69,7 @@ namespace IFramework.Core
         /// <param name="parameterList">parameterList.</param>
         public static void UpdateAnimatorInteger(this Animator self, string parameterName, int value, List<string> parameterList)
         {
-            if (parameterList.Contains(parameterName)) {
-                self.SetInteger(parameterName, value);
-            }
+            if (parameterList.Contains(parameterName)) { self.SetInteger(parameterName, value); }
         }
 
         /// <summary>
@@ -145,16 +133,12 @@ namespace IFramework.Core
         /// <param name="value">If set to <c>true</c> value.</param>
         public static void UpdateAnimatorBoolIfExists(this Animator self, string parameterName, bool value)
         {
-            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Bool)) {
-                self.SetBool(parameterName, value);
-            }
+            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Bool)) { self.SetBool(parameterName, value); }
         }
 
         public static void UpdateAnimatorTriggerIfExists(this Animator self, string parameterName)
         {
-            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) {
-                self.SetTrigger(parameterName);
-            }
+            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) { self.SetTrigger(parameterName); }
         }
 
         /// <summary>
@@ -164,9 +148,7 @@ namespace IFramework.Core
         /// <param name="parameterName">Parameter name.</param>
         public static void SetAnimatorTriggerIfExists(this Animator self, string parameterName)
         {
-            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) {
-                self.SetTrigger(parameterName);
-            }
+            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Trigger)) { self.SetTrigger(parameterName); }
         }
 
         /// <summary>
@@ -177,9 +159,7 @@ namespace IFramework.Core
         /// <param name="value">Value.</param>
         public static void UpdateAnimatorFloatIfExists(this Animator self, string parameterName, float value)
         {
-            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Float)) {
-                self.SetFloat(parameterName, value);
-            }
+            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Float)) { self.SetFloat(parameterName, value); }
         }
 
         /// <summary>
@@ -190,9 +170,7 @@ namespace IFramework.Core
         /// <param name="value">Value.</param>
         public static void UpdateAnimatorIntegerIfExists(this Animator self, string parameterName, int value)
         {
-            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Int)) {
-                self.SetInteger(parameterName, value);
-            }
+            if (self.HasParameterOfType(parameterName, AnimatorControllerParameterType.Int)) { self.SetInteger(parameterName, value); }
         }
 
         /// <summary>
@@ -204,9 +182,7 @@ namespace IFramework.Core
         /// <param name="type">Type.</param>
         public static bool HasParameterOfType(this Animator self, string name, AnimatorControllerParameterType type)
         {
-            if (string.IsNullOrEmpty(name)) {
-                return false;
-            }
+            if (string.IsNullOrEmpty(name)) { return false; }
             AnimatorControllerParameter[] parameters = self.parameters;
             return parameters.Any(currParam => currParam.type == type && currParam.name == name);
         }

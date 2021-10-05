@@ -43,27 +43,7 @@ namespace IFramework.Core
             T result;
             Type type = typeof(T);
 
-            if (type == typeof(int)) {
-                result = (T)Convert.ChangeType(m.ToInt() + n.ToInt(), typeof(T));
-            }
-            else if (type == typeof(short)) {
-                result = (T)Convert.ChangeType(m.ToShort() + n.ToShort(), typeof(T));
-            }
-            else if (type == typeof(long)) {
-                result = (T)Convert.ChangeType(m.ToLong() + n.ToLong(), typeof(T));
-            }
-            else if (type == typeof(float)) {
-                result = (T)Convert.ChangeType(m.ToFloat() + n.ToFloat(), typeof(T));
-            }
-            else if (type == typeof(double)) {
-                result = (T)Convert.ChangeType(m.ToDouble() + n.ToDouble(), typeof(T));
-            }
-            else if (type == typeof(decimal)) {
-                result = (T)Convert.ChangeType(m.ToDecimal() + n.ToDecimal(), typeof(T));
-            }
-            else {
-                throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name);
-            }
+            if (type == typeof(int)) { result = (T)Convert.ChangeType(m.ToInt() + n.ToInt(), typeof(T)); } else if (type == typeof(short)) { result = (T)Convert.ChangeType(m.ToShort() + n.ToShort(), typeof(T)); } else if (type == typeof(long)) { result = (T)Convert.ChangeType(m.ToLong() + n.ToLong(), typeof(T)); } else if (type == typeof(float)) { result = (T)Convert.ChangeType(m.ToFloat() + n.ToFloat(), typeof(T)); } else if (type == typeof(double)) { result = (T)Convert.ChangeType(m.ToDouble() + n.ToDouble(), typeof(T)); } else if (type == typeof(decimal)) { result = (T)Convert.ChangeType(m.ToDecimal() + n.ToDecimal(), typeof(T)); } else { throw new Exception("未实现该类型的 \"+\" 运算符重载：" + typeof(T).Name); }
             return result;
         }
 
@@ -73,27 +53,7 @@ namespace IFramework.Core
             T result;
             Type type = typeof(T);
 
-            if (type == typeof(int)) {
-                result = (T)Convert.ChangeType(m.ToInt() - n.ToInt(), typeof(T));
-            }
-            else if (type == typeof(short)) {
-                result = (T)Convert.ChangeType(m.ToShort() - n.ToShort(), typeof(T));
-            }
-            else if (type == typeof(long)) {
-                result = (T)Convert.ChangeType(m.ToLong() - n.ToLong(), typeof(T));
-            }
-            else if (type == typeof(float)) {
-                result = (T)Convert.ChangeType(m.ToFloat() - n.ToFloat(), typeof(T));
-            }
-            else if (type == typeof(double)) {
-                result = (T)Convert.ChangeType(m.ToDouble() - n.ToDouble(), typeof(T));
-            }
-            else if (type == typeof(decimal)) {
-                result = (T)Convert.ChangeType(m.ToDecimal() - n.ToDecimal(), typeof(T));
-            }
-            else {
-                throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name);
-            }
+            if (type == typeof(int)) { result = (T)Convert.ChangeType(m.ToInt() - n.ToInt(), typeof(T)); } else if (type == typeof(short)) { result = (T)Convert.ChangeType(m.ToShort() - n.ToShort(), typeof(T)); } else if (type == typeof(long)) { result = (T)Convert.ChangeType(m.ToLong() - n.ToLong(), typeof(T)); } else if (type == typeof(float)) { result = (T)Convert.ChangeType(m.ToFloat() - n.ToFloat(), typeof(T)); } else if (type == typeof(double)) { result = (T)Convert.ChangeType(m.ToDouble() - n.ToDouble(), typeof(T)); } else if (type == typeof(decimal)) { result = (T)Convert.ChangeType(m.ToDecimal() - n.ToDecimal(), typeof(T)); } else { throw new Exception("未实现该类型的 \"-\" 运算符重载：" + typeof(T).Name); }
             return result;
         }
 
@@ -103,27 +63,7 @@ namespace IFramework.Core
             T result;
             Type type = typeof(T);
 
-            if (type == typeof(int)) {
-                result = (T)Convert.ChangeType(m.ToInt() * n.ToInt(), typeof(T));
-            }
-            else if (type == typeof(short)) {
-                result = (T)Convert.ChangeType(m.ToShort() * n.ToShort(), typeof(T));
-            }
-            else if (type == typeof(long)) {
-                result = (T)Convert.ChangeType(m.ToLong() * n.ToLong(), typeof(T));
-            }
-            else if (type == typeof(float)) {
-                result = (T)Convert.ChangeType(m.ToFloat() * n.ToFloat(), typeof(T));
-            }
-            else if (type == typeof(double)) {
-                result = (T)Convert.ChangeType(m.ToDouble() * n.ToDouble(), typeof(T));
-            }
-            else if (type == typeof(decimal)) {
-                result = (T)Convert.ChangeType(m.ToDecimal() * n.ToDecimal(), typeof(T));
-            }
-            else {
-                throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name);
-            }
+            if (type == typeof(int)) { result = (T)Convert.ChangeType(m.ToInt() * n.ToInt(), typeof(T)); } else if (type == typeof(short)) { result = (T)Convert.ChangeType(m.ToShort() * n.ToShort(), typeof(T)); } else if (type == typeof(long)) { result = (T)Convert.ChangeType(m.ToLong() * n.ToLong(), typeof(T)); } else if (type == typeof(float)) { result = (T)Convert.ChangeType(m.ToFloat() * n.ToFloat(), typeof(T)); } else if (type == typeof(double)) { result = (T)Convert.ChangeType(m.ToDouble() * n.ToDouble(), typeof(T)); } else if (type == typeof(decimal)) { result = (T)Convert.ChangeType(m.ToDecimal() * n.ToDecimal(), typeof(T)); } else { throw new Exception("未实现该类型的 \"*\" 运算符重载：" + typeof(T).Name); }
             return result;
         }
 
@@ -134,27 +74,7 @@ namespace IFramework.Core
             Type type = typeof(T);
             if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
 
-            if (type == typeof(int)) {
-                result = (T)Convert.ChangeType(m.ToInt() / n.ToInt(), typeof(T));
-            }
-            else if (type == typeof(short)) {
-                result = (T)Convert.ChangeType(m.ToShort() / n.ToShort(), typeof(T));
-            }
-            else if (type == typeof(long)) {
-                result = (T)Convert.ChangeType(m.ToLong() / n.ToLong(), typeof(T));
-            }
-            else if (type == typeof(float)) {
-                result = (T)Convert.ChangeType(m.ToFloat() / n.ToFloat(), typeof(T));
-            }
-            else if (type == typeof(double)) {
-                result = (T)Convert.ChangeType(m.ToDouble() / n.ToDouble(), typeof(T));
-            }
-            else if (type == typeof(decimal)) {
-                result = (T)Convert.ChangeType(m.ToDecimal() / n.ToDecimal(), typeof(T));
-            }
-            else {
-                throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name);
-            }
+            if (type == typeof(int)) { result = (T)Convert.ChangeType(m.ToInt() / n.ToInt(), typeof(T)); } else if (type == typeof(short)) { result = (T)Convert.ChangeType(m.ToShort() / n.ToShort(), typeof(T)); } else if (type == typeof(long)) { result = (T)Convert.ChangeType(m.ToLong() / n.ToLong(), typeof(T)); } else if (type == typeof(float)) { result = (T)Convert.ChangeType(m.ToFloat() / n.ToFloat(), typeof(T)); } else if (type == typeof(double)) { result = (T)Convert.ChangeType(m.ToDouble() / n.ToDouble(), typeof(T)); } else if (type == typeof(decimal)) { result = (T)Convert.ChangeType(m.ToDecimal() / n.ToDecimal(), typeof(T)); } else { throw new Exception("未实现该类型的 \"/\" 运算符重载：" + typeof(T).Name); }
             return result;
         }
 
@@ -165,27 +85,7 @@ namespace IFramework.Core
             Type type = typeof(T);
             if (n.ToDecimal() == 0) throw new Exception("除数不能为0！");
 
-            if (type == typeof(int)) {
-                result = (T)Convert.ChangeType(m.ToInt() % n.ToInt(), typeof(T));
-            }
-            else if (type == typeof(short)) {
-                result = (T)Convert.ChangeType(m.ToShort() % n.ToShort(), typeof(T));
-            }
-            else if (type == typeof(long)) {
-                result = (T)Convert.ChangeType(m.ToLong() % n.ToLong(), typeof(T));
-            }
-            else if (type == typeof(float)) {
-                result = (T)Convert.ChangeType(m.ToFloat() % n.ToFloat(), typeof(T));
-            }
-            else if (type == typeof(double)) {
-                result = (T)Convert.ChangeType(m.ToDouble() % n.ToDouble(), typeof(T));
-            }
-            else if (type == typeof(decimal)) {
-                result = (T)Convert.ChangeType(m.ToDecimal() % n.ToDecimal(), typeof(T));
-            }
-            else {
-                throw new Exception("未实现该类型的 \"%\" 运算符重载：" + typeof(T).Name);
-            }
+            if (type == typeof(int)) { result = (T)Convert.ChangeType(m.ToInt() % n.ToInt(), typeof(T)); } else if (type == typeof(short)) { result = (T)Convert.ChangeType(m.ToShort() % n.ToShort(), typeof(T)); } else if (type == typeof(long)) { result = (T)Convert.ChangeType(m.ToLong() % n.ToLong(), typeof(T)); } else if (type == typeof(float)) { result = (T)Convert.ChangeType(m.ToFloat() % n.ToFloat(), typeof(T)); } else if (type == typeof(double)) { result = (T)Convert.ChangeType(m.ToDouble() % n.ToDouble(), typeof(T)); } else if (type == typeof(decimal)) { result = (T)Convert.ChangeType(m.ToDecimal() % n.ToDecimal(), typeof(T)); } else { throw new Exception("未实现该类型的 \"%\" 运算符重载：" + typeof(T).Name); }
             return result;
         }
 
@@ -286,37 +186,25 @@ namespace IFramework.Core
         //重载运算符"=="
         public static bool operator ==(AbstractPropertyNumeric<T> m, AbstractPropertyNumeric<T> n)
         {
-            if (ReferenceEquals(m, n)) {
-                return true;
-            }
+            if (ReferenceEquals(m, n)) { return true; }
 
-            if ((object)m == null || (object)n == null) {
-                return false;
-            }
+            if ((object)m == null || (object)n == null) { return false; }
             return Math.Abs(m.Value.ToDouble() - n.Value.ToDouble()) < Constant.TOLERANCE;
         }
 
         public static bool operator ==(AbstractPropertyNumeric<T> m, object n)
         {
-            if (ReferenceEquals(m, n)) {
-                return true;
-            }
+            if (ReferenceEquals(m, n)) { return true; }
 
-            if ((object)m == null || n == null) {
-                return false;
-            }
+            if ((object)m == null || n == null) { return false; }
             return Math.Abs(m.ToDouble() - n.ToDouble()) < Constant.TOLERANCE;
         }
 
         public static bool operator ==(object m, AbstractPropertyNumeric<T> n)
         {
-            if (ReferenceEquals(m, n)) {
-                return true;
-            }
+            if (ReferenceEquals(m, n)) { return true; }
 
-            if (m == null || (object)n == null) {
-                return false;
-            }
+            if (m == null || (object)n == null) { return false; }
             return Math.Abs(m.ToDouble() - n.Value.ToDouble()) < Constant.TOLERANCE;
         }
 
@@ -403,9 +291,7 @@ namespace IFramework.Core
         //重写Equals方法
         public override bool Equals(object obj)
         {
-            if (obj == null) {
-                return false;
-            }
+            if (obj == null) { return false; }
 
             if (obj.GetType() == typeof(AbstractPropertyNumeric<T>)) {
                 AbstractPropertyNumeric<T> bindable = obj as AbstractPropertyNumeric<T>;
@@ -413,17 +299,13 @@ namespace IFramework.Core
             }
 
             // 判断类型Value是否一致
-            if (obj.GetType() != typeof(T)) {
-                return false;
-            }
+            if (obj.GetType() != typeof(T)) { return false; }
             return Value.Equals(obj);
         }
 
         public bool Equals(AbstractPropertyNumeric<T> bindable)
         {
-            if ((object)bindable == null) {
-                return false;
-            }
+            if ((object)bindable == null) { return false; }
             return Value.Equals(bindable.Value);
         }
 

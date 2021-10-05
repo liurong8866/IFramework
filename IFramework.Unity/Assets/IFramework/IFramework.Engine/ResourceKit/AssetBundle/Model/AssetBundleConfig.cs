@@ -18,9 +18,7 @@ namespace IFramework.Engine
 
         public void Reset()
         {
-            foreach (AssetBundleInfo assetGroup in AssetBundleList) {
-                assetGroup.Reset();
-            }
+            foreach (AssetBundleInfo assetGroup in AssetBundleList) { assetGroup.Reset(); }
             AssetBundleList.Clear();
             assetTable?.Dispose();
             assetTable = null;
@@ -62,9 +60,7 @@ namespace IFramework.Engine
             foreach (AssetBundleInfo assetGroup in AssetBundleList) {
                 depends = assetGroup.GetAssetBundleDepends(assetBundleName);
 
-                if (depends != null) {
-                    break;
-                }
+                if (depends != null) { break; }
             }
             return depends;
         }
@@ -79,9 +75,7 @@ namespace IFramework.Engine
                 assetTable = new AssetTable();
 
                 for (int i = AssetBundleList.Count - 1; i >= 0; --i) {
-                    foreach (AssetInfo assetInfo in AssetBundleList[i].AssetInfos) {
-                        assetTable.Add(assetInfo.AssetName, assetInfo);
-                    }
+                    foreach (AssetInfo assetInfo in AssetBundleList[i].AssetInfos) { assetTable.Add(assetInfo.AssetName, assetInfo); }
                 }
             }
 
@@ -96,9 +90,7 @@ namespace IFramework.Engine
         {
             AssetBundleDatas data = new AssetBundleDatas { AssetBundles = new AssetBundleData[AssetBundleList.Count] };
 
-            for (int i = 0; i < AssetBundleList.Count; i++) {
-                data.AssetBundles[i] = AssetBundleList[i].GetSerializeData();
-            }
+            for (int i = 0; i < AssetBundleList.Count; i++) { data.AssetBundles[i] = AssetBundleList[i].GetSerializeData(); }
             SerializeUtils.SerializeToFile(path, data);
         }
 
@@ -139,9 +131,7 @@ namespace IFramework.Engine
             if (data?.AssetBundles == null) return;
 
             // 添加AssetBundleList缓存
-            for (int i = data.AssetBundles.Length - 1; i >= 0; i--) {
-                AssetBundleList.Add(new AssetBundleInfo(data.AssetBundles[i]));
-            }
+            for (int i = data.AssetBundles.Length - 1; i >= 0; i--) { AssetBundleList.Add(new AssetBundleInfo(data.AssetBundles[i])); }
             assetTable ??= new AssetTable();
 
             // 循环最外层AssetBundleDatas
@@ -158,10 +148,7 @@ namespace IFramework.Engine
         /// 获取自定义的 资源信息
         /// </summary>
         /// <returns></returns>
-        public static AssetBundleConfig ConfigFile {
-            get => configFile ??= new AssetBundleConfig();
-            set => configFile = value;
-        }
+        public static AssetBundleConfig ConfigFile { get => configFile ??= new AssetBundleConfig(); set => configFile = value; }
 
         private static AssetBundleConfig configFile;
     }

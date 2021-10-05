@@ -13,6 +13,9 @@ namespace IFramework.Engine
             repeatNode = new RepeatNode(sequenceNode, repeatCount);
         }
 
+        /// <summary>
+        /// 添加节点
+        /// </summary>
         public override IActionChain Append(IAction node)
         {
             sequenceNode.Append(node);

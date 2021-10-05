@@ -11,16 +11,12 @@ namespace IFramework.Core
 
         public ConfigBool(string key, bool value, bool overwrite) : base(key, value)
         {
-            if (overwrite) {
-                Save(value);
-            }
+            if (overwrite) { Save(value); }
         }
 
         public override bool Get()
         {
-            if (PlayerPrefs.HasKey(key)) {
-                return PlayerPrefs.GetInt(key) == 1;
-            }
+            if (PlayerPrefs.HasKey(key)) { return PlayerPrefs.GetInt(key) == 1; }
             return value;
         }
 

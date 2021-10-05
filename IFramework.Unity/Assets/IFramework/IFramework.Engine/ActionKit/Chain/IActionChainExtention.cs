@@ -60,7 +60,7 @@ namespace IFramework.Engine
         {
             return self.Append(EventAction.Allocate(actions));
         }
-        
+
         /// <summary>
         /// 条件动作
         /// </summary>
@@ -68,7 +68,7 @@ namespace IFramework.Engine
         {
             return self.Append(UntilAction.Allocate(condition, action));
         }
-        
+
         /// <summary>
         /// 开始事件
         /// </summary>

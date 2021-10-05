@@ -10,17 +10,16 @@ public class SequenceNodeTest : MonoBehaviour
         SequenceNode sequenceNode = new SequenceNode();
         DelayAction delayAction = DelayAction.Allocate(3, () => { "等待3秒".LogInfo(); });
         sequenceNode.Append(delayAction);
-        sequenceNode.Append(DelayFrameAction.Allocate(1, ()=>{"DelayFrameAction".LogInfo();}));
-        sequenceNode.Append(EventAction.Allocate(()=>{"EventAction".LogInfo();}));
+        sequenceNode.Append(DelayFrameAction.Allocate(1, () => { "DelayFrameAction".LogInfo(); }));
+        sequenceNode.Append(EventAction.Allocate(() => { "EventAction".LogInfo(); }));
         sequenceNode.Execute(this);
         // sequenceNode.Execute(); // 这是不会有结果的
         "======= 以下为序列：顺序执行 =========".LogInfo();
-
         DelayAction delayAction2 = DelayAction.Allocate(3, () => { "等待3秒".LogInfo(); });
         sequenceNode.Append(delayAction);
-        sequenceNode.Append(DelayFrameAction.Allocate(1, ()=>{"DelayFrameAction".LogInfo();}));
-        sequenceNode.Append(EventAction.Allocate(()=>{"EventAction".LogInfo();}));
-        
+        sequenceNode.Append(DelayFrameAction.Allocate(1, () => { "DelayFrameAction".LogInfo(); }));
+        sequenceNode.Append(EventAction.Allocate(() => { "EventAction".LogInfo(); }));
+
         this.Sequence()
             .Delay(3f)
             .Event(() => Debug.Log("序列：" + Time.frameCount))
@@ -36,9 +35,7 @@ public class SequenceNodeTest : MonoBehaviour
             .NextFrame()
             .NextFrame()
             .Begin();
-        
         this.NextFrame(() => { Debug.Log(Time.frameCount); });
-        
     }
 
     private void Start()
@@ -70,9 +67,7 @@ public class SequenceNodeTest : MonoBehaviour
 
     private void Update()
     {
-        if (mSequenceNodeNode3 != null && !mSequenceNodeNode3.Finished && mSequenceNodeNode3.Execute()) {
-            Log.Info("SequenceNode3 执行完成");
-        }
+        if (mSequenceNodeNode3 != null && !mSequenceNodeNode3.Finished && mSequenceNodeNode3.Execute()) { Log.Info("SequenceNode3 执行完成"); }
     }
 
     private void OnDestroy()

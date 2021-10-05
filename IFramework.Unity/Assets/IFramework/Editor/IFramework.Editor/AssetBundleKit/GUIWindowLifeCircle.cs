@@ -102,9 +102,7 @@ namespace IFramework.Editor
             color = EditorGUILayout.ColorField("颜色:", color);
 
             //按钮
-            if (GUILayout.Button("Close")) {
-                Close();
-            }
+            if (GUILayout.Button("Close")) { Close(); }
 
             //带有阴影的Label
             EditorGUI.DropShadowLabel(new Rect(0, 250, position.width, 20), "带有阴影的Label");

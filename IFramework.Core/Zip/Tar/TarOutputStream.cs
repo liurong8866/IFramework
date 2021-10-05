@@ -26,9 +26,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="blockFactor">blocking factor</param>
         public TarOutputStream(Stream outputStream, int blockFactor)
         {
-            if (outputStream == null) {
-                throw new ArgumentNullException(nameof(outputStream));
-            }
+            if (outputStream == null) { throw new ArgumentNullException(nameof(outputStream)); }
             this.outputStream = outputStream;
             buffer = TarBuffer.CreateOutputTarBuffer(outputStream, blockFactor);
             assemblyBuffer = new byte[TarBuffer.BLOCK_SIZE];
@@ -42,10 +40,7 @@ namespace IFramework.Core.Zip.Tar
         /// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
         /// </summary>
         /// <remarks>The default value is true.</remarks>
-        public bool IsStreamOwner {
-            get => buffer.IsStreamOwner;
-            set => buffer.IsStreamOwner = value;
-        }
+        public bool IsStreamOwner { get => buffer.IsStreamOwner; set => buffer.IsStreamOwner = value; }
 
         /// <summary>
         /// true if the stream supports reading; otherwise, false.
@@ -70,10 +65,7 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// gets or sets the position within the current stream.
         /// </summary>
-        public override long Position {
-            get => outputStream.Position;
-            set => outputStream.Position = value;
-        }
+        public override long Position { get => outputStream.Position; set => outputStream.Position = value; }
 
         /// <summary>
         /// set the position within the current stream
@@ -134,9 +126,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         public void Finish()
         {
-            if (IsEntryOpen) {
-                CloseEntry();
-            }
+            if (IsEntryOpen) { CloseEntry(); }
             WriteEofBlock();
         }
 
@@ -190,9 +180,7 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void PutNextEntry(TarEntry entry)
         {
-            if (entry == null) {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
 
             if (entry.TarHeader.Name.Length > TarHeader.NAMELEN) {
                 TarHeader longHeader = new TarHeader();
@@ -278,21 +266,13 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
 
-            if (offset < 0) {
-                throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
-            }
+            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative"); }
 
-            if (buffer.Length - offset < count) {
-                throw new ArgumentException("offset and count combination is invalid");
-            }
+            if (buffer.Length - offset < count) { throw new ArgumentException("offset and count combination is invalid"); }
 
-            if (count < 0) {
-                throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
-            }
+            if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative"); }
 
             if (currBytes + count > currSize) {
                 string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes", count, currSize);
@@ -316,8 +296,7 @@ namespace IFramework.Core.Zip.Tar
                     offset += aLen;
                     count -= aLen;
                     assemblyBufferLength = 0;
-                }
-                else {
+                } else {
                     Array.Copy(buffer, offset, assemblyBuffer, assemblyBufferLength, count);
                     offset += count;
                     assemblyBufferLength += count;

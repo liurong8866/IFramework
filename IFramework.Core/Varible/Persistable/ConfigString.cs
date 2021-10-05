@@ -10,9 +10,7 @@ namespace IFramework.Core
 
         public ConfigString(string key, string value, bool overwrite) : base(key, value)
         {
-            if (overwrite) {
-                Save(value);
-            }
+            if (overwrite) { Save(value); }
         }
 
         public override string Get()

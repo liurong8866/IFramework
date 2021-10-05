@@ -103,12 +103,7 @@ namespace IFramework.Core.Zip.Zip
         public INameTransform NameTransform {
             get => nameTransform;
             set {
-                if (value == null) {
-                    nameTransform = new ZipNameTransform();
-                }
-                else {
-                    nameTransform = value;
-                }
+                if (value == null) { nameTransform = new ZipNameTransform(); } else { nameTransform = value; }
             }
         }
 
@@ -123,9 +118,7 @@ namespace IFramework.Core.Zip.Zip
         public DateTime FixedDateTime {
             get => fixedDateTime;
             set {
-                if (value.Year < 1970) {
-                    throw new ArgumentException("Value is too old to be valid", nameof(value));
-                }
+                if (value.Year < 1970) { throw new ArgumentException("Value is too old to be valid", nameof(value)); }
                 fixedDateTime = value;
             }
         }
@@ -187,9 +180,7 @@ namespace IFramework.Core.Zip.Zip
             bool useAttributes = SetAttributes != 0;
             FileInfo fi = null;
 
-            if (useFileSystem) {
-                fi = new FileInfo(fileName);
-            }
+            if (useFileSystem) { fi = new FileInfo(fileName); }
 
             if (fi != null && fi.Exists) {
                 switch (Setting) {
@@ -219,11 +210,8 @@ namespace IFramework.Core.Zip.Zip
                 result.Size = fi.Length;
                 useAttributes = true;
                 externalAttributes = (int)fi.Attributes & GetAttributes;
-            }
-            else {
-                if (Setting == TimeSetting.Fixed) {
-                    result.DateTime = fixedDateTime;
-                }
+            } else {
+                if (Setting == TimeSetting.Fixed) { result.DateTime = fixedDateTime; }
             }
 
             if (useAttributes) {
@@ -257,9 +245,7 @@ namespace IFramework.Core.Zip.Zip
             int externalAttributes = 0;
             DirectoryInfo di = null;
 
-            if (useFileSystem) {
-                di = new DirectoryInfo(directoryName);
-            }
+            if (useFileSystem) { di = new DirectoryInfo(directoryName); }
 
             if (di != null && di.Exists) {
                 switch (Setting) {
@@ -287,11 +273,8 @@ namespace IFramework.Core.Zip.Zip
                     default: throw new ZipException("Unhandled time setting in MakeDirectoryEntry");
                 }
                 externalAttributes = (int)di.Attributes & GetAttributes;
-            }
-            else {
-                if (Setting == TimeSetting.Fixed) {
-                    result.DateTime = fixedDateTime;
-                }
+            } else {
+                if (Setting == TimeSetting.Fixed) { result.DateTime = fixedDateTime; }
             }
 
             // Always set directory attribute on.

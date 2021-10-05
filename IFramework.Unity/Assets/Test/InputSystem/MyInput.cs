@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Utilities;
 public class @MyInput : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
+
     public @MyInput()
     {
         asset = InputActionAsset.FromJson(@"{
@@ -141,17 +142,9 @@ public class @MyInput : IInputActionCollection, IDisposable
         UnityEngine.Object.Destroy(asset);
     }
 
-    public InputBinding? bindingMask
-    {
-        get => asset.bindingMask;
-        set => asset.bindingMask = value;
-    }
+    public InputBinding? bindingMask { get => asset.bindingMask; set => asset.bindingMask = value; }
 
-    public ReadOnlyArray<InputDevice>? devices
-    {
-        get => asset.devices;
-        set => asset.devices = value;
-    }
+    public ReadOnlyArray<InputDevice>? devices { get => asset.devices; set => asset.devices = value; }
 
     public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
@@ -185,21 +178,44 @@ public class @MyInput : IInputActionCollection, IDisposable
     private IGamePlayActions m_GamePlayActionsCallbackInterface;
     private readonly InputAction m_GamePlay_Jump;
     private readonly InputAction m_GamePlay_Move;
+
     public struct GamePlayActions
     {
         private @MyInput m_Wrapper;
-        public GamePlayActions(@MyInput wrapper) { m_Wrapper = wrapper; }
+
+        public GamePlayActions(@MyInput wrapper)
+        {
+            m_Wrapper = wrapper;
+        }
+
         public InputAction @Jump => m_Wrapper.m_GamePlay_Jump;
         public InputAction @Move => m_Wrapper.m_GamePlay_Move;
-        public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+
+        public InputActionMap Get()
+        {
+            return m_Wrapper.m_GamePlay;
+        }
+
+        public void Enable()
+        {
+            Get().Enable();
+        }
+
+        public void Disable()
+        {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GamePlayActions set) { return set.Get(); }
+
+        public static implicit operator InputActionMap(GamePlayActions set)
+        {
+            return set.Get();
+        }
+
         public void SetCallbacks(IGamePlayActions instance)
         {
-            if (m_Wrapper.m_GamePlayActionsCallbackInterface != null)
-            {
+            if (m_Wrapper.m_GamePlayActionsCallbackInterface != null) {
                 @Jump.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
@@ -208,8 +224,8 @@ public class @MyInput : IInputActionCollection, IDisposable
                 @Move.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
             }
             m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+
+            if (instance != null) {
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -219,28 +235,30 @@ public class @MyInput : IInputActionCollection, IDisposable
             }
         }
     }
+
     public GamePlayActions @GamePlay => new GamePlayActions(this);
     private int m_KeyboradSchemeIndex = -1;
-    public InputControlScheme KeyboradScheme
-    {
-        get
-        {
+
+    public InputControlScheme KeyboradScheme {
+        get {
             if (m_KeyboradSchemeIndex == -1) m_KeyboradSchemeIndex = asset.FindControlSchemeIndex("Keyborad");
             return asset.controlSchemes[m_KeyboradSchemeIndex];
         }
     }
+
     private int m_XboxSchemeIndex = -1;
-    public InputControlScheme XboxScheme
-    {
-        get
-        {
+
+    public InputControlScheme XboxScheme {
+        get {
             if (m_XboxSchemeIndex == -1) m_XboxSchemeIndex = asset.FindControlSchemeIndex("Xbox");
             return asset.controlSchemes[m_XboxSchemeIndex];
         }
     }
+
     public interface IGamePlayActions
     {
         void OnJump(InputAction.CallbackContext context);
+
         void OnMove(InputAction.CallbackContext context);
     }
 }

@@ -118,30 +118,22 @@ namespace IFramework.Core
 
         public static void DestroySelf<T>(this T self) where T : Object
         {
-            if (self) {
-                Object.Destroy(self);
-            }
+            if (self) { Object.Destroy(self); }
         }
 
         public static void DestroySelfImmediate<T>(this T self) where T : Object
         {
-            if (self) {
-                Object.DestroyImmediate(self);
-            }
+            if (self) { Object.DestroyImmediate(self); }
         }
 
         public static void DestroySelfDelay<T>(this T self, float delay) where T : Object
         {
-            if (self) {
-                Object.Destroy(self, delay);
-            }
+            if (self) { Object.Destroy(self, delay); }
         }
 
         public static T DontDestroyOnLoad<T>(this T self) where T : Object
         {
-            if (self) {
-                Object.DontDestroyOnLoad(self);
-            }
+            if (self) { Object.DontDestroyOnLoad(self); }
             return self;
         }
 

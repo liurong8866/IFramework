@@ -31,31 +31,21 @@ namespace IFramework.Engine
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target) {
+        public string GetPlatformName(BuildTarget target)
+        {
             switch (target) {
                 case BuildTarget.StandaloneWindows:
-                case BuildTarget.StandaloneWindows64:
-                    return "Windows";
-                case BuildTarget.StandaloneOSX:
-                    return "MacOS";
-                case BuildTarget.StandaloneLinux64:
-                    return "Linux";
-                case BuildTarget.iOS:
-                    return "iOS";
-                case BuildTarget.Android:
-                    return "Android";
-                case BuildTarget.WebGL:
-                    return "WebGL";
-                case BuildTarget.PS4:
-                    return "PS4";
-                case BuildTarget.PS5:
-                    return "PS5";
-                case BuildTarget.XboxOne:
-                    return "XboxOne";
-                case BuildTarget.WSAPlayer:
-                    return "WSAPlayer";
-                default:
-                    return null;
+                case BuildTarget.StandaloneWindows64: return "Windows";
+                case BuildTarget.StandaloneOSX: return "MacOS";
+                case BuildTarget.StandaloneLinux64: return "Linux";
+                case BuildTarget.iOS: return "iOS";
+                case BuildTarget.Android: return "Android";
+                case BuildTarget.WebGL: return "WebGL";
+                case BuildTarget.PS4: return "PS4";
+                case BuildTarget.PS5: return "PS5";
+                case BuildTarget.XboxOne: return "XboxOne";
+                case BuildTarget.WSAPlayer: return "WSAPlayer";
+                default: return null;
             }
         }
     #endif
@@ -90,7 +80,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据资源名、包名获取的所有路径
         /// </summary>
-        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName) {
+        public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
+        {
         #if UNITY_EDITOR
             return AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetName, assetBundleName);
         #else
@@ -101,7 +92,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径、类型获取资源
         /// </summary>
-        public Object LoadAssetAtPath(string assetPath, Type assetType) {
+        public Object LoadAssetAtPath(string assetPath, Type assetType)
+        {
         #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(assetPath, assetType);
         #else
@@ -112,7 +104,8 @@ namespace IFramework.Engine
         /// <summary>
         /// 根据路径获取资源
         /// </summary>
-        public T LoadAssetAtPath<T>(string assetPath) where T : Object {
+        public T LoadAssetAtPath<T>(string assetPath) where T : Object
+        {
         #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
         #else
@@ -125,7 +118,8 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
+        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null)
+        {
         #if UNITY_EDITOR
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
@@ -140,9 +134,7 @@ namespace IFramework.Engine
                 // 添加AssetBundleName信息到缓存
                 int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
 
-                if (index < 0) {
-                    continue;
-                }
+                if (index < 0) { continue; }
 
                 // 获取该AssetBundleName下所有资源
                 string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName);

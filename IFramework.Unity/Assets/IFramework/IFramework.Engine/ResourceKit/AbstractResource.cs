@@ -46,10 +46,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源名称
         /// </summary>
-        public string AssetName {
-            get => assetName;
-            protected set => assetName = value;
-        }
+        public string AssetName { get => assetName; protected set => assetName = value; }
 
         /// <summary>
         /// 所属AssetBundle包名称
@@ -128,9 +125,7 @@ namespace IFramework.Engine
 
             // 如果不是场景中的GameObject，则释放资源,比如prefab
             // TODO sprite也被释放了...
-            if (!(asset is GameObject)) {
-                Resources.UnloadAsset(asset);
-            }
+            if (!(asset is GameObject)) { Resources.UnloadAsset(asset); }
             asset = null;
         }
 
@@ -176,9 +171,7 @@ namespace IFramework.Engine
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(depend, null, assetType);
                 IResource resource = ResourceManager.Instance.GetResource(searcher);
 
-                if (action.InvokeSafe(resource)) {
-                    return false;
-                }
+                if (action.InvokeSafe(resource)) { return false; }
             }
             return true;
         }

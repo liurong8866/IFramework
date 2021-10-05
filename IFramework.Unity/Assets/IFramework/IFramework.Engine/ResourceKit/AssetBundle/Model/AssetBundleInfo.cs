@@ -61,13 +61,8 @@ namespace IFramework.Engine
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
 
-                if (oldInfo != null) {
-                    Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName);
-                }
-            }
-            else {
-                assetNameMap.Add(assetKey, assetInfo);
-            }
+                if (oldInfo != null) { Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName); }
+            } else { assetNameMap.Add(assetKey, assetInfo); }
 
             // 添加到AssetUUID字典
             assetKey = assetInfo.FullName;
@@ -76,13 +71,8 @@ namespace IFramework.Engine
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetInfo.AssetName, assetInfo.AssetBundleName);
                 AssetInfo oldInfo = GetAssetInfo(searcher);
 
-                if (oldInfo != null) {
-                    Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName);
-                }
-            }
-            else {
-                assetFullNameMap.Add(assetKey, assetInfo);
-            }
+                if (oldInfo != null) { Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName); }
+            } else { assetFullNameMap.Add(assetKey, assetInfo); }
             return true;
         }
 
@@ -94,13 +84,9 @@ namespace IFramework.Engine
             AssetInfo assetInfo = null;
 
             // 如果查询条件含有AssetBundleName，并且BundleMap 不为空
-            if (searcher.AssetBundleName != null) {
-                assetFullNameMap?.TryGetValue(searcher.FullName, out assetInfo);
-            }
+            if (searcher.AssetBundleName != null) { assetFullNameMap?.TryGetValue(searcher.FullName, out assetInfo); }
             // 如果查询条件没有AssetBundleName，并且BundleMap 不为空
-            else {
-                assetNameMap?.TryGetValue(searcher.AssetName, out assetInfo);
-            }
+            else { assetNameMap?.TryGetValue(searcher.AssetName, out assetInfo); }
             return assetInfo;
         }
 
@@ -115,9 +101,7 @@ namespace IFramework.Engine
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
             AssetInfo assetInfo = GetAssetInfo(searcher);
 
-            if (assetInfo != null) {
-                return assetInfo.AssetBundleIndex;
-            }
+            if (assetInfo != null) { return assetInfo.AssetBundleIndex; }
             AssetDepends.Add(new AssetDependence(assetName, depends));
             int index = AssetDepends.Count - 1;
             AddAssetInfo(new AssetInfo(assetName, null, index, ResourceLoadType.ASSET_BUNDLE));
@@ -132,9 +116,7 @@ namespace IFramework.Engine
             if (AssetDepends.IsNullOrEmpty()) return "";
             if (index > AssetDepends.Count) return "";
 
-            if (assetNameMap.ContainsKey(assetName)) {
-                return AssetDepends[index].AssetBundleName;
-            }
+            if (assetNameMap.ContainsKey(assetName)) { return AssetDepends[index].AssetBundleName; }
             return "";
         }
 
@@ -146,9 +128,7 @@ namespace IFramework.Engine
             string[] result = null;
             AssetDependence dependence = GetAssetDepend(assetBundleName);
 
-            if (dependence != null) {
-                result = dependence.Depends;
-            }
+            if (dependence != null) { result = dependence.Depends; }
             return result;
         }
 
@@ -174,9 +154,7 @@ namespace IFramework.Engine
             AssetDepends = new List<AssetDependence>(data.AssetDependencies);
 
             if (data.AssetInfos != null) {
-                foreach (AssetInfo assetInfo in data.AssetInfos) {
-                    AddAssetInfo(assetInfo);
-                }
+                foreach (AssetInfo assetInfo in data.AssetInfos) { AddAssetInfo(assetInfo); }
             }
         }
 
@@ -189,9 +167,7 @@ namespace IFramework.Engine
             data.Key = Key;
             data.AssetDependencies = AssetDepends.ToArray();
 
-            if (assetNameMap != null) {
-                data.AssetInfos = assetNameMap.Values.ToArray();
-            }
+            if (assetNameMap != null) { data.AssetInfos = assetNameMap.Values.ToArray(); }
             return data;
         }
     }

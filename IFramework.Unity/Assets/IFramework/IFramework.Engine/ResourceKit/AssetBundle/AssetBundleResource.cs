@@ -17,10 +17,7 @@ namespace IFramework.Engine
 
         private string[] dependResources;
 
-        public AssetBundle AssetBundle {
-            get => asset as AssetBundle;
-            set => asset = value;
-        }
+        public AssetBundle AssetBundle { get => asset as AssetBundle; set => asset = value; }
 
         /// <summary>
         /// 分配实例
@@ -92,10 +89,7 @@ namespace IFramework.Engine
                 yield break;
             }
 
-            if (Platform.IsSimulation) {
-                yield return null;
-            }
-            else {
+            if (Platform.IsSimulation) { yield return null; } else {
                 string url = Platform.GetUrlByAssetBundleName(assetName);
 
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
@@ -114,8 +108,7 @@ namespace IFramework.Engine
                         yield break;
                     }
                     AssetBundle = DownloadHandlerAssetBundle.GetContent(unityWebRequest);
-                }
-                else {
+                } else {
                     // 从文件中异步加载
                     AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(url);
                     // 返回并等待结果
@@ -149,9 +142,7 @@ namespace IFramework.Engine
         public override bool UnloadImage {
             get => unloadFlag;
             set {
-                if (AssetBundle != null) {
-                    unloadFlag = value;
-                }
+                if (AssetBundle != null) { unloadFlag = value; }
             }
         }
 

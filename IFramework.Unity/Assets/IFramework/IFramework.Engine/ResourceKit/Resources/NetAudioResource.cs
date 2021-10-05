@@ -27,8 +27,7 @@ namespace IFramework.Engine
                 if (path.StartsWith(ResourcesUrlType.AUDIO_WAV)) {
                     audioType = AudioType.WAV;
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_WAV.Length);
-                }
-                else if (path.StartsWith(ResourcesUrlType.AUDIO_OGG)) {
+                } else if (path.StartsWith(ResourcesUrlType.AUDIO_OGG)) {
                     audioType = AudioType.OGGVORBIS;
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_OGG.Length);
                 }

@@ -80,8 +80,7 @@ namespace IFramework.Engine
                 AssetBundleConfig config = new AssetBundleConfig();
                 Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
-            }
-            else {
+            } else {
                 AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles;
 
@@ -91,14 +90,10 @@ namespace IFramework.Engine
                     configFiles = zip.GetFileInInner(Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
                 // 进行过热更新
-                else {
-                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
-                }
+                else { configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE); }
 
                 if (configFiles != null) {
-                    foreach (string file in configFiles) {
-                        AssetBundleConfig.ConfigFile.LoadFromFile(file);
-                    }
+                    foreach (string file in configFiles) { AssetBundleConfig.ConfigFile.LoadFromFile(file); }
                 }
             }
         }
@@ -113,24 +108,19 @@ namespace IFramework.Engine
                 Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
                 yield return null;
-            }
-            else {
+            } else {
                 AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles = new List<string>();
 
                 // 未进行过热更新
-                if (Configure.LoadAssetFromStream) {
-                    configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
-                }
+                if (Configure.LoadAssetFromStream) { configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath); }
                 // 进行过热更新
                 else {
                     string persistentPath = Path.Combine(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
                 }
 
-                foreach (string file in configFiles) {
-                    yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
-                }
+                foreach (string file in configFiles) { yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file); }
                 yield return null;
             }
         }
@@ -153,9 +143,7 @@ namespace IFramework.Engine
             if (create) {
                 resource = ResourceFactory.Create(searcher);
 
-                if (resource != null) {
-                    resourceTable.Add(resource.AssetName, resource);
-                }
+                if (resource != null) { resourceTable.Add(resource.AssetName, resource); }
             }
             return resource;
         }
@@ -224,9 +212,7 @@ namespace IFramework.Engine
 
         private void Update()
         {
-            if (isResourceMapDirty) {
-                RemoveUnusedResource();
-            }
+            if (isResourceMapDirty) { RemoveUnusedResource(); }
         }
 
         /// <summary>

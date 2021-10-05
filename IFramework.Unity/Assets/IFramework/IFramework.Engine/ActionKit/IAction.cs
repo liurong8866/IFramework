@@ -19,7 +19,7 @@ namespace IFramework.Engine
         /// 执行事件直到结束
         /// </summary>
         T Execute<T>(T mono) where T : MonoBehaviour;
-        
+
         /// <summary>
         /// 是否结束
         /// </summary>

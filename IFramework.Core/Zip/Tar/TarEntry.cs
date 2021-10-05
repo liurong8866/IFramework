@@ -61,9 +61,7 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="header">Header details for entry</param>
         public TarEntry(TarHeader header)
         {
-            if (header == null) {
-                throw new ArgumentNullException(nameof(header));
-            }
+            if (header == null) { throw new ArgumentNullException(nameof(header)); }
             this.header = (TarHeader)header.Clone();
         }
 
@@ -124,9 +122,7 @@ namespace IFramework.Core.Zip.Tar
         {
             TarEntry localEntry = obj as TarEntry;
 
-            if (localEntry != null) {
-                return Name.Equals(localEntry.Name);
-            }
+            if (localEntry != null) { return Name.Equals(localEntry.Name); }
             return false;
         }
 
@@ -152,9 +148,7 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public bool IsDescendent(TarEntry toTest)
         {
-            if (toTest == null) {
-                throw new ArgumentNullException(nameof(toTest));
-            }
+            if (toTest == null) { throw new ArgumentNullException(nameof(toTest)); }
             return toTest.Name.StartsWith(Name, StringComparison.Ordinal);
         }
 
@@ -169,42 +163,27 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get/Set this entry's name.
         /// </summary>
-        public string Name {
-            get => header.Name;
-            set => header.Name = value;
-        }
+        public string Name { get => header.Name; set => header.Name = value; }
 
         /// <summary>
         /// Get/set this entry's user id.
         /// </summary>
-        public int UserId {
-            get => header.UserId;
-            set => header.UserId = value;
-        }
+        public int UserId { get => header.UserId; set => header.UserId = value; }
 
         /// <summary>
         /// Get/set this entry's group id.
         /// </summary>
-        public int GroupId {
-            get => header.GroupId;
-            set => header.GroupId = value;
-        }
+        public int GroupId { get => header.GroupId; set => header.GroupId = value; }
 
         /// <summary>
         /// Get/set this entry's user name.
         /// </summary>
-        public string UserName {
-            get => header.UserName;
-            set => header.UserName = value;
-        }
+        public string UserName { get => header.UserName; set => header.UserName = value; }
 
         /// <summary>
         /// Get/set this entry's group name.
         /// </summary>
-        public string GroupName {
-            get => header.GroupName;
-            set => header.GroupName = value;
-        }
+        public string GroupName { get => header.GroupName; set => header.GroupName = value; }
 
         /// <summary>
         /// Convenience method to set this entry's group and user ids.
@@ -239,10 +218,7 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get/Set the modification time for this entry
         /// </summary>
-        public DateTime ModTime {
-            get => header.ModTime;
-            set => header.ModTime = value;
-        }
+        public DateTime ModTime { get => header.ModTime; set => header.ModTime = value; }
 
         /// <summary>
         /// Get this entry's file.
@@ -255,10 +231,7 @@ namespace IFramework.Core.Zip.Tar
         /// <summary>
         /// Get/set this entry's recorded file size.
         /// </summary>
-        public long Size {
-            get => header.Size;
-            set => header.Size = value;
-        }
+        public long Size { get => header.Size; set => header.Size = value; }
 
         /// <summary>
         /// Return true if this entry represents a directory, false otherwise
@@ -268,14 +241,10 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public bool IsDirectory {
             get {
-                if (file != null) {
-                    return Directory.Exists(file);
-                }
+                if (file != null) { return Directory.Exists(file); }
 
                 if (header != null) {
-                    if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) {
-                        return true;
-                    }
+                    if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) { return true; }
                 }
                 return false;
             }
@@ -292,22 +261,16 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void GetFileTarHeader(TarHeader header, string file)
         {
-            if (header == null) {
-                throw new ArgumentNullException(nameof(header));
-            }
+            if (header == null) { throw new ArgumentNullException(nameof(header)); }
 
-            if (file == null) {
-                throw new ArgumentNullException(nameof(file));
-            }
+            if (file == null) { throw new ArgumentNullException(nameof(file)); }
             this.file = file;
 
             // bugfix from torhovl from #D forum:
             string name = file;
 
             // 23-Jan-2004 GnuTar allows device names in path where the name is not local to the current directory
-            if (name.IndexOf(Directory.GetCurrentDirectory(), StringComparison.Ordinal) == 0) {
-                name = name.Substring(Directory.GetCurrentDirectory().Length);
-            }
+            if (name.IndexOf(Directory.GetCurrentDirectory(), StringComparison.Ordinal) == 0) { name = name.Substring(Directory.GetCurrentDirectory().Length); }
             /*
                         if (Path.DirectorySeparatorChar == '\\')
                         {
@@ -330,9 +293,7 @@ namespace IFramework.Core.Zip.Tar
             // No absolute pathnames
             // Windows (and Posix?) paths can start with UNC style "\\NetworkDrive\",
             // so we loop on starting /'s.
-            while (name.StartsWith("/", StringComparison.Ordinal)) {
-                name = name.Substring(1);
-            }
+            while (name.StartsWith("/", StringComparison.Ordinal)) { name = name.Substring(1); }
             header.LinkName = string.Empty;
             header.Name = name;
 
@@ -340,12 +301,9 @@ namespace IFramework.Core.Zip.Tar
                 header.Mode = 1003; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_DIR;
 
-                if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') {
-                    header.Name = header.Name + "/";
-                }
+                if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') { header.Name = header.Name + "/"; }
                 header.Size = 0;
-            }
-            else {
+            } else {
                 header.Mode = 33216; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_NORMAL;
                 header.Size = new FileInfo(file.Replace('/', Path.DirectorySeparatorChar)).Length;
@@ -364,15 +322,11 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public TarEntry[] GetDirectoryEntries()
         {
-            if (file == null || !Directory.Exists(file)) {
-                return new TarEntry[0];
-            }
+            if (file == null || !Directory.Exists(file)) { return new TarEntry[0]; }
             string[] list = Directory.GetFileSystemEntries(file);
             TarEntry[] result = new TarEntry[list.Length];
 
-            for (int i = 0; i < list.Length; ++i) {
-                result[i] = CreateEntryFromFile(list[i]);
-            }
+            for (int i = 0; i < list.Length; ++i) { result[i] = CreateEntryFromFile(list[i]); }
             return result;
         }
 
@@ -413,13 +367,9 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public static void NameTarHeader(TarHeader header, string name)
         {
-            if (header == null) {
-                throw new ArgumentNullException(nameof(header));
-            }
+            if (header == null) { throw new ArgumentNullException(nameof(header)); }
 
-            if (name == null) {
-                throw new ArgumentNullException(nameof(name));
-            }
+            if (name == null) { throw new ArgumentNullException(nameof(name)); }
             bool isDir = name.EndsWith("/", StringComparison.Ordinal);
             header.Name = name;
             header.Mode = isDir ? 1003 : 33216;

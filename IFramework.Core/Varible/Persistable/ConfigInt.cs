@@ -13,9 +13,7 @@ namespace IFramework.Core
 
         public ConfigInt(string key, int value, bool overwrite) : base(key, value)
         {
-            if (overwrite) {
-                Save(value);
-            }
+            if (overwrite) { Save(value); }
         }
 
         public override int Get()

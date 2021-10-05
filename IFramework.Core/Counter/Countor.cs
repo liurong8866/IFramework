@@ -44,9 +44,7 @@ namespace IFramework.Core
         {
             Counter--;
 
-            if (Counter == 0) {
-                OnZero.InvokeSafe();
-            }
+            if (Counter == 0) { OnZero.InvokeSafe(); }
             return true;
         }
 
@@ -58,9 +56,7 @@ namespace IFramework.Core
         {
             Counter = 0;
 
-            if (invokeAction) {
-                OnZero.InvokeSafe();
-            }
+            if (invokeAction) { OnZero.InvokeSafe(); }
         }
 
         public virtual void Dispose()

@@ -18,13 +18,9 @@ namespace IFramework.Core.Zip.Encryption
         /// <returns>A new key value.</returns>
         public static byte[] GenerateKeys(byte[] seed)
         {
-            if (seed == null) {
-                throw new ArgumentNullException(nameof(seed));
-            }
+            if (seed == null) { throw new ArgumentNullException(nameof(seed)); }
 
-            if (seed.Length == 0) {
-                throw new ArgumentException("Length is zero", nameof(seed));
-            }
+            if (seed.Length == 0) { throw new ArgumentException("Length is zero", nameof(seed)); }
             uint[] newKeys = { 0x12345678, 0x23456789, 0x34567890 };
 
             for (int i = 0; i < seed.Length; ++i) {
@@ -74,13 +70,9 @@ namespace IFramework.Core.Zip.Encryption
         /// <param name="keyData">The data use to set the keys from.</param>
         protected void SetKeys(byte[] keyData)
         {
-            if (keyData == null) {
-                throw new ArgumentNullException(nameof(keyData));
-            }
+            if (keyData == null) { throw new ArgumentNullException(nameof(keyData)); }
 
-            if (keyData.Length != 12) {
-                throw new InvalidOperationException("Key length is not valid");
-            }
+            if (keyData.Length != 12) { throw new InvalidOperationException("Key length is not valid"); }
             keys = new uint[3];
             keys[0] = (uint)((keyData[3] << 24) | (keyData[2] << 16) | (keyData[1] << 8) | keyData[0]);
             keys[1] = (uint)((keyData[7] << 24) | (keyData[6] << 16) | (keyData[5] << 8) | keyData[4]);
@@ -297,11 +289,8 @@ namespace IFramework.Core.Zip.Encryption
         /// <remarks>The only valid block size is 8.</remarks>
         public override int BlockSize {
             get => 8;
-
             set {
-                if (value != 8) {
-                    throw new CryptographicException("Block size is invalid");
-                }
+                if (value != 8) { throw new CryptographicException("Block size is invalid"); }
             }
         }
 
@@ -340,20 +329,13 @@ namespace IFramework.Core.Zip.Encryption
         /// </summary>
         public override byte[] Key {
             get {
-                if (key == null) {
-                    GenerateKey();
-                }
+                if (key == null) { GenerateKey(); }
                 return (byte[])key.Clone();
             }
-
             set {
-                if (value == null) {
-                    throw new ArgumentNullException(nameof(value));
-                }
+                if (value == null) { throw new ArgumentNullException(nameof(value)); }
 
-                if (value.Length != 12) {
-                    throw new CryptographicException("Key size is illegal");
-                }
+                if (value.Length != 12) { throw new CryptographicException("Key size is illegal"); }
                 key = (byte[])value.Clone();
             }
         }

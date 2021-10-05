@@ -23,14 +23,16 @@ namespace IFramework.Editor
         public static List<AssetBundlePackage> GetPackageList()
         {
             //找到所有.asset文件，筛选出Package类型及子类生成的文件
-            List<AssetBundlePackage> list = AssetDatabase.GetAllAssetPaths().Where(path => path.EndsWith(".asset")).Select(path => {
-                Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
+            List<AssetBundlePackage> list = AssetDatabase.GetAllAssetPaths()
+                                                         .Where(path => path.EndsWith(".asset"))
+                                                         .Select(path => {
+                                                              Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
 
-                if (package) {
-                    return new AssetBundlePackage { Path = path, Folder = path.RemoveString(package.name + ".asset"), Name = package.name, NameSpace = package.NameSpace };
-                }
-                return null;
-            }).Where(data => data != null).ToList();
+                                                              if (package) { return new AssetBundlePackage { Path = path, Folder = path.RemoveString(package.name + ".asset"), Name = package.name, NameSpace = package.NameSpace }; }
+                                                              return null;
+                                                          })
+                                                         .Where(data => data != null)
+                                                         .ToList();
             return list;
         }
 
@@ -60,9 +62,7 @@ namespace IFramework.Editor
                 }
 
                 // 如果不在子包，则认为默认包资源
-                if (idDefault) {
-                    defaultPackage.packages.Add(assetBundleBuild);
-                }
+                if (idDefault) { defaultPackage.packages.Add(assetBundleBuild); }
             }
         }
     }

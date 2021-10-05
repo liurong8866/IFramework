@@ -111,9 +111,7 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>A new <see cref="TarBuffer"/> suitable for input.</returns>
         public static TarBuffer CreateInputTarBuffer(Stream inputStream)
         {
-            if (inputStream == null) {
-                throw new ArgumentNullException(nameof(inputStream));
-            }
+            if (inputStream == null) { throw new ArgumentNullException(nameof(inputStream)); }
             return CreateInputTarBuffer(inputStream, DEFAULT_BLOCK_FACTOR);
         }
 
@@ -125,13 +123,9 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>A new <see cref="TarBuffer"/> suitable for input.</returns>
         public static TarBuffer CreateInputTarBuffer(Stream inputStream, int blockFactor)
         {
-            if (inputStream == null) {
-                throw new ArgumentNullException(nameof(inputStream));
-            }
+            if (inputStream == null) { throw new ArgumentNullException(nameof(inputStream)); }
 
-            if (blockFactor <= 0) {
-                throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative");
-            }
+            if (blockFactor <= 0) { throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative"); }
             TarBuffer tarBuffer = new TarBuffer();
             tarBuffer.inputStream = inputStream;
             tarBuffer.outputStream = null;
@@ -146,9 +140,7 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>A new <see cref="TarBuffer"/> suitable for output.</returns>
         public static TarBuffer CreateOutputTarBuffer(Stream outputStream)
         {
-            if (outputStream == null) {
-                throw new ArgumentNullException(nameof(outputStream));
-            }
+            if (outputStream == null) { throw new ArgumentNullException(nameof(outputStream)); }
             return CreateOutputTarBuffer(outputStream, DEFAULT_BLOCK_FACTOR);
         }
 
@@ -160,13 +152,9 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>A new <see cref="TarBuffer"/> suitable for output.</returns>
         public static TarBuffer CreateOutputTarBuffer(Stream outputStream, int blockFactor)
         {
-            if (outputStream == null) {
-                throw new ArgumentNullException(nameof(outputStream));
-            }
+            if (outputStream == null) { throw new ArgumentNullException(nameof(outputStream)); }
 
-            if (blockFactor <= 0) {
-                throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative");
-            }
+            if (blockFactor <= 0) { throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative"); }
             TarBuffer tarBuffer = new TarBuffer();
             tarBuffer.inputStream = null;
             tarBuffer.outputStream = outputStream;
@@ -186,8 +174,7 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream != null) {
                 CurrentRecord = -1;
                 CurrentBlock = BlockFactor;
-            }
-            else {
+            } else {
                 CurrentRecord = 0;
                 CurrentBlock = 0;
             }
@@ -205,18 +192,12 @@ namespace IFramework.Core.Zip.Tar
         [Obsolete("Use IsEndOfArchiveBlock instead")]
         public bool IsEofBlock(byte[] block)
         {
-            if (block == null) {
-                throw new ArgumentNullException(nameof(block));
-            }
+            if (block == null) { throw new ArgumentNullException(nameof(block)); }
 
-            if (block.Length != BLOCK_SIZE) {
-                throw new ArgumentException("block length is invalid");
-            }
+            if (block.Length != BLOCK_SIZE) { throw new ArgumentException("block length is invalid"); }
 
             for (int i = 0; i < BLOCK_SIZE; ++i) {
-                if (block[i] != 0) {
-                    return false;
-                }
+                if (block[i] != 0) { return false; }
             }
             return true;
         }
@@ -232,18 +213,12 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>Returns true if the block is an EOF block; false otherwise.</returns>
         public static bool IsEndOfArchiveBlock(byte[] block)
         {
-            if (block == null) {
-                throw new ArgumentNullException(nameof(block));
-            }
+            if (block == null) { throw new ArgumentNullException(nameof(block)); }
 
-            if (block.Length != BLOCK_SIZE) {
-                throw new ArgumentException("block length is invalid");
-            }
+            if (block.Length != BLOCK_SIZE) { throw new ArgumentException("block length is invalid"); }
 
             for (int i = 0; i < BLOCK_SIZE; ++i) {
-                if (block[i] != 0) {
-                    return false;
-                }
+                if (block[i] != 0) { return false; }
             }
             return true;
         }
@@ -253,14 +228,10 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         public void SkipBlock()
         {
-            if (inputStream == null) {
-                throw new TarException("no input stream defined");
-            }
+            if (inputStream == null) { throw new TarException("no input stream defined"); }
 
             if (CurrentBlock >= BlockFactor) {
-                if (!ReadRecord()) {
-                    throw new TarException("Failed to read a record");
-                }
+                if (!ReadRecord()) { throw new TarException("Failed to read a record"); }
             }
             CurrentBlock++;
         }
@@ -273,14 +244,10 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public byte[] ReadBlock()
         {
-            if (inputStream == null) {
-                throw new TarException("TarBuffer.ReadBlock - no input stream defined");
-            }
+            if (inputStream == null) { throw new TarException("TarBuffer.ReadBlock - no input stream defined"); }
 
             if (CurrentBlock >= BlockFactor) {
-                if (!ReadRecord()) {
-                    throw new TarException("Failed to read a record");
-                }
+                if (!ReadRecord()) { throw new TarException("Failed to read a record"); }
             }
             byte[] result = new byte[BLOCK_SIZE];
             Array.Copy(recordBuffer, CurrentBlock * BLOCK_SIZE, result, 0, BLOCK_SIZE);
@@ -296,9 +263,7 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         private bool ReadRecord()
         {
-            if (inputStream == null) {
-                throw new TarException("no input stream stream defined");
-            }
+            if (inputStream == null) { throw new TarException("no input stream stream defined"); }
             CurrentBlock = 0;
             int offset = 0;
             int bytesNeeded = RecordSize;
@@ -319,9 +284,7 @@ namespace IFramework.Core.Zip.Tar
                 //
                 // Thanks to 'Yohann.Roussel@alcatel.fr' for this fix.
                 //
-                if (numBytes <= 0) {
-                    break;
-                }
+                if (numBytes <= 0) { break; }
                 offset += (int)numBytes;
                 bytesNeeded -= (int)numBytes;
             }
@@ -386,22 +349,16 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void WriteBlock(byte[] block)
         {
-            if (block == null) {
-                throw new ArgumentNullException(nameof(block));
-            }
+            if (block == null) { throw new ArgumentNullException(nameof(block)); }
 
-            if (outputStream == null) {
-                throw new TarException("TarBuffer.WriteBlock - no output stream defined");
-            }
+            if (outputStream == null) { throw new TarException("TarBuffer.WriteBlock - no output stream defined"); }
 
             if (block.Length != BLOCK_SIZE) {
                 string errorText = string.Format("TarBuffer.WriteBlock - block to write has length '{0}' which is not the block size of '{1}'", block.Length, BLOCK_SIZE);
                 throw new TarException(errorText);
             }
 
-            if (CurrentBlock >= BlockFactor) {
-                WriteRecord();
-            }
+            if (CurrentBlock >= BlockFactor) { WriteRecord(); }
             Array.Copy(block, 0, recordBuffer, CurrentBlock * BLOCK_SIZE, BLOCK_SIZE);
             CurrentBlock++;
         }
@@ -419,26 +376,18 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void WriteBlock(byte[] buffer, int offset)
         {
-            if (buffer == null) {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
 
-            if (outputStream == null) {
-                throw new TarException("TarBuffer.WriteBlock - no output stream stream defined");
-            }
+            if (outputStream == null) { throw new TarException("TarBuffer.WriteBlock - no output stream stream defined"); }
 
-            if (offset < 0 || offset >= buffer.Length) {
-                throw new ArgumentOutOfRangeException(nameof(offset));
-            }
+            if (offset < 0 || offset >= buffer.Length) { throw new ArgumentOutOfRangeException(nameof(offset)); }
 
             if (offset + BLOCK_SIZE > buffer.Length) {
                 string errorText = string.Format("TarBuffer.WriteBlock - record has length '{0}' with offset '{1}' which is less than the record size of '{2}'", buffer.Length, offset, RecordSize);
                 throw new TarException(errorText);
             }
 
-            if (CurrentBlock >= BlockFactor) {
-                WriteRecord();
-            }
+            if (CurrentBlock >= BlockFactor) { WriteRecord(); }
             Array.Copy(buffer, offset, recordBuffer, CurrentBlock * BLOCK_SIZE, BLOCK_SIZE);
             CurrentBlock++;
         }
@@ -448,9 +397,7 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         private void WriteRecord()
         {
-            if (outputStream == null) {
-                throw new TarException("TarBuffer.WriteRecord no output stream defined");
-            }
+            if (outputStream == null) { throw new TarException("TarBuffer.WriteRecord no output stream defined"); }
             outputStream.Write(recordBuffer, 0, RecordSize);
             outputStream.Flush();
             CurrentBlock = 0;
@@ -464,9 +411,7 @@ namespace IFramework.Core.Zip.Tar
         /// for the end of a tar stream.</remarks>
         private void WriteFinalRecord()
         {
-            if (outputStream == null) {
-                throw new TarException("TarBuffer.WriteFinalRecord no output stream defined");
-            }
+            if (outputStream == null) { throw new TarException("TarBuffer.WriteFinalRecord no output stream defined"); }
 
             if (CurrentBlock > 0) {
                 int dataBytes = CurrentBlock * BLOCK_SIZE;
@@ -485,15 +430,10 @@ namespace IFramework.Core.Zip.Tar
             if (outputStream != null) {
                 WriteFinalRecord();
 
-                if (IsStreamOwner) {
-                    outputStream.Dispose();
-                }
+                if (IsStreamOwner) { outputStream.Dispose(); }
                 outputStream = null;
-            }
-            else if (inputStream != null) {
-                if (IsStreamOwner) {
-                    inputStream.Dispose();
-                }
+            } else if (inputStream != null) {
+                if (IsStreamOwner) { inputStream.Dispose(); }
                 inputStream = null;
             }
         }

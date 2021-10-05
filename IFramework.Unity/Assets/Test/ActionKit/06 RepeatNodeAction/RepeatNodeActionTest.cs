@@ -23,13 +23,12 @@ public class RepeatNodeActionTest : MonoBehaviour
         // parallelNode.Append(DelayFrameAction.Allocate(2, () => Log.Info("action: world"+ Time.frameCount)));
         // parallelNode.Append(DelayFrameAction.Allocate(3, () => Log.Info("action: liurong" + Time.frameCount)));
         // parallelNode.Execute(this);
-        
     }
+
     void RepeatNodeTest()
     {
         RepeatNode repeatNode = new RepeatNode(DelayAction.Allocate(2, () => Log.Info("hello")), 2);
         repeatNode.Execute(this);
-        
         RepeatNode repeatNode2 = new RepeatNode(DelayAction.Allocate(2, () => Log.Info("world")), 2);
         this.Execute(repeatNode2);
 
@@ -39,6 +38,12 @@ public class RepeatNodeActionTest : MonoBehaviour
             .DelayFrame(2)
             .Event(() => Debug.Log("序列：" + Time.frameCount))
             .NextFrame()
+            .Begin();
+
+        // 不填写则无限循环
+        this.Repeat()
+            .Delay(3f)
+            .Event(() => Debug.Log("无限循环：" + Time.frameCount))
             .Begin();
     }
 }

@@ -60,13 +60,8 @@ namespace IFramework.Core.Zip.Zip
             name = TransformFile(name);
 
             if (name.Length > 0) {
-                if (!name.EndsWith("/", StringComparison.Ordinal)) {
-                    name += "/";
-                }
-            }
-            else {
-                throw new ZipException("Cannot have an empty directory name");
-            }
+                if (!name.EndsWith("/", StringComparison.Ordinal)) { name += "/"; }
+            } else { throw new ZipException("Cannot have an empty directory name"); }
             return name;
         }
 
@@ -80,21 +75,15 @@ namespace IFramework.Core.Zip.Zip
             if (name != null) {
                 string lowerName = name.ToLowerInvariant();
 
-                if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) {
-                    name = name.Substring(trimPrefix.Length);
-                }
+                if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) { name = name.Substring(trimPrefix.Length); }
                 name = name.Replace(@"\", "/");
                 name = WindowsPathUtils.DropPathRoot(name);
 
                 // Drop any leading slashes.
-                while (name.Length > 0 && name[0] == '/') {
-                    name = name.Remove(0, 1);
-                }
+                while (name.Length > 0 && name[0] == '/') { name = name.Remove(0, 1); }
 
                 // Drop any trailing slashes.
-                while (name.Length > 0 && name[name.Length - 1] == '/') {
-                    name = name.Remove(name.Length - 1, 1);
-                }
+                while (name.Length > 0 && name[name.Length - 1] == '/') { name = name.Remove(name.Length - 1, 1); }
 
                 // Convert consecutive // characters to /
                 int index = name.IndexOf("//", StringComparison.Ordinal);
@@ -104,10 +93,7 @@ namespace IFramework.Core.Zip.Zip
                     index = name.IndexOf("//", StringComparison.Ordinal);
                 }
                 name = MakeValidName(name, '_');
-            }
-            else {
-                name = string.Empty;
-            }
+            } else { name = string.Empty; }
             return name;
         }
 
@@ -121,9 +107,7 @@ namespace IFramework.Core.Zip.Zip
             set {
                 trimPrefix = value;
 
-                if (trimPrefix != null) {
-                    trimPrefix = trimPrefix.ToLowerInvariant();
-                }
+                if (trimPrefix != null) { trimPrefix = trimPrefix.ToLowerInvariant(); }
             }
         }
 
@@ -143,19 +127,12 @@ namespace IFramework.Core.Zip.Zip
                 while (index >= 0) {
                     builder[index] = replacement;
 
-                    if (index >= name.Length) {
-                        index = -1;
-                    }
-                    else {
-                        index = name.IndexOfAny(invalidEntryChars, index + 1);
-                    }
+                    if (index >= name.Length) { index = -1; } else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
                 }
                 name = builder.ToString();
             }
 
-            if (name.Length > 0xffff) {
-                throw new PathTooLongException();
-            }
+            if (name.Length > 0xffff) { throw new PathTooLongException(); }
             return name;
         }
 
@@ -176,12 +153,7 @@ namespace IFramework.Core.Zip.Zip
             bool result = name != null;
 
             if (result) {
-                if (relaxed) {
-                    result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;
-                }
-                else {
-                    result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0;
-                }
+                if (relaxed) { result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0; } else { result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0; }
             }
             return result;
         }

@@ -20,9 +20,7 @@ namespace IFramework.Editor
             BuildAssetBundles(Platform.CurrentBuildPlatform);
 
             // 自动生成包名常量
-            if (Configure.AutoGenerateName) {
-                AssetBundleScript.GenerateConstScript();
-            }
+            if (Configure.AutoGenerateName) { AssetBundleScript.GenerateConstScript(); }
         }
 
         /// <summary>

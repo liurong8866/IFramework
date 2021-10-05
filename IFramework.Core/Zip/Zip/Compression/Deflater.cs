@@ -175,12 +175,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <exception cref="System.ArgumentOutOfRangeException">if lvl is out of range.</exception>
         public Deflater(int level, bool noZlibHeaderOrFooter)
         {
-            if (level == DEFAULT_COMPRESSION) {
-                level = 6;
-            }
-            else if (level < NO_COMPRESSION || level > BEST_COMPRESSION) {
-                throw new ArgumentOutOfRangeException(nameof(level));
-            }
+            if (level == DEFAULT_COMPRESSION) { level = 6; } else if (level < NO_COMPRESSION || level > BEST_COMPRESSION) { throw new ArgumentOutOfRangeException(nameof(level)); }
             pending = new DeflaterPending();
             engine = new DeflaterEngine(pending);
             this.noZlibHeaderOrFooter = noZlibHeaderOrFooter;
@@ -295,9 +290,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </exception>
         public void SetInput(byte[] input, int offset, int count)
         {
-            if ((state & IS_FINISHING) != 0) {
-                throw new InvalidOperationException("Finish() already called");
-            }
+            if ((state & IS_FINISHING) != 0) { throw new InvalidOperationException("Finish() already called"); }
             engine.SetInput(input, offset, count);
         }
 
@@ -312,12 +305,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </param>
         public void SetLevel(int level)
         {
-            if (level == DEFAULT_COMPRESSION) {
-                level = 6;
-            }
-            else if (level < NO_COMPRESSION || level > BEST_COMPRESSION) {
-                throw new ArgumentOutOfRangeException(nameof(level));
-            }
+            if (level == DEFAULT_COMPRESSION) { level = 6; } else if (level < NO_COMPRESSION || level > BEST_COMPRESSION) { throw new ArgumentOutOfRangeException(nameof(level)); }
 
             if (this.level != level) {
                 this.level = level;
@@ -389,18 +377,14 @@ namespace IFramework.Core.Zip.Zip.Compression
         {
             int origLength = length;
 
-            if (state == CLOSED_STATE) {
-                throw new InvalidOperationException("Deflater closed");
-            }
+            if (state == CLOSED_STATE) { throw new InvalidOperationException("Deflater closed"); }
 
             if (state < BUSY_STATE) {
                 // output header
                 int header = (DEFLATED + ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
                 int level_flags = (level - 1) >> 1;
 
-                if (level_flags < 0 || level_flags > 3) {
-                    level_flags = 3;
-                }
+                if (level_flags < 0 || level_flags > 3) { level_flags = 3; }
                 header |= level_flags << 6;
 
                 if ((state & IS_SETDICT) != 0) {
@@ -425,9 +409,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                 totalOut += count;
                 length -= count;
 
-                if (length == 0 || state == FINISHED_STATE) {
-                    break;
-                }
+                if (length == 0 || state == FINISHED_STATE) { break; }
 
                 if (!engine.Deflate((state & IS_FLUSHING) != 0, (state & IS_FINISHING) != 0)) {
                     switch (state) {
@@ -506,9 +488,7 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// </exception>
         public void SetDictionary(byte[] dictionary, int index, int count)
         {
-            if (state != INIT_STATE) {
-                throw new InvalidOperationException();
-            }
+            if (state != INIT_STATE) { throw new InvalidOperationException(); }
             state = SETDICT_STATE;
             engine.SetDictionary(dictionary, index, count);
         }

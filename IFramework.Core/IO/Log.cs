@@ -20,16 +20,12 @@ namespace IFramework.Core
         // INFO
         public static void Info(object content)
         {
-            if (Level >= LogLevel.Info) {
-                Debug.Log(content.ToString());
-            }
+            if (Level >= LogLevel.Info) { Debug.Log(content.ToString()); }
         }
 
         public static void Info(string format, params object[] param)
         {
-            if (Level >= LogLevel.Info) {
-                Debug.LogFormat(format, param);
-            }
+            if (Level >= LogLevel.Info) { Debug.LogFormat(format, param); }
         }
 
         public static void LogInfo(this object self)
@@ -45,16 +41,12 @@ namespace IFramework.Core
         // WARNING
         public static void Warning(object self)
         {
-            if (Level >= LogLevel.Warning) {
-                Debug.LogWarning(self);
-            }
+            if (Level >= LogLevel.Warning) { Debug.LogWarning(self); }
         }
 
         public static void Warning(string format, params object[] param)
         {
-            if (Level >= LogLevel.Warning) {
-                Debug.LogWarningFormat(format, param);
-            }
+            if (Level >= LogLevel.Warning) { Debug.LogWarningFormat(format, param); }
         }
 
         public static void LogWarning(this object self)
@@ -70,16 +62,12 @@ namespace IFramework.Core
         // ERROR
         public static void Error(object self)
         {
-            if (Level >= LogLevel.Error) {
-                Debug.LogError(self);
-            }
+            if (Level >= LogLevel.Error) { Debug.LogError(self); }
         }
 
         public static void Error(string format, params object[] param)
         {
-            if (Level >= LogLevel.Error) {
-                Debug.LogErrorFormat(format, param);
-            }
+            if (Level >= LogLevel.Error) { Debug.LogErrorFormat(format, param); }
         }
 
         public static void LogError(this object self)

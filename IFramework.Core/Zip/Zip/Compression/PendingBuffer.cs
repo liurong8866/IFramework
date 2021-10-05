@@ -144,9 +144,7 @@ namespace IFramework.Core.Zip.Zip.Compression
             if (BitCount > 0) {
                 buffer[end++] = unchecked((byte)bits);
 
-                if (BitCount > 8) {
-                    buffer[end++] = unchecked((byte)(bits >> 8));
-                }
+                if (BitCount > 8) { buffer[end++] = unchecked((byte)(bits >> 8)); }
             }
             bits = 0;
             BitCount = 0;
@@ -222,8 +220,7 @@ namespace IFramework.Core.Zip.Zip.Compression
                 Array.Copy(buffer, start, output, offset, length);
                 start = 0;
                 end = 0;
-            }
-            else {
+            } else {
                 Array.Copy(buffer, start, output, offset, length);
                 start += length;
             }

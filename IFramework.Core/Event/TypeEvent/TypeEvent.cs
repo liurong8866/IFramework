@@ -17,11 +17,8 @@ namespace IFramework.Core
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) {
-                    reg.actions += action;
-                }
-            }
-            else {
+                if (register is TypeEventRegister<T> reg) { reg.actions += action; }
+            } else {
                 TypeEventRegister<T> reg = new TypeEventRegister<T>();
                 reg.actions = action;
                 typeEventDict.Add(type, reg);
@@ -52,9 +49,7 @@ namespace IFramework.Core
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) {
-                    reg.actions(new T());
-                }
+                if (register is TypeEventRegister<T> reg) { reg.actions(new T()); }
             }
         }
 
@@ -66,9 +61,7 @@ namespace IFramework.Core
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) {
-                    reg.actions(t);
-                }
+                if (register is TypeEventRegister<T> reg) { reg.actions(t); }
             }
         }
 
@@ -77,9 +70,7 @@ namespace IFramework.Core
         /// </summary>
         public void Clear()
         {
-            foreach (KeyValuePair<Type, ITypeEventRegister> keyValue in typeEventDict) {
-                keyValue.Value.Dispose();
-            }
+            foreach (KeyValuePair<Type, ITypeEventRegister> keyValue in typeEventDict) { keyValue.Value.Dispose(); }
             typeEventDict.Clear();
         }
 

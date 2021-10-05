@@ -38,9 +38,7 @@ namespace IFramework.Core
             // 获取无参构造函数
             ConstructorInfo ctor = Array.Find(constructorInfos, c => c.GetParameters().Length == 0);
 
-            if (ctor == null) {
-                throw new Exception("未找到无参私有构造函数: " + typeof(T));
-            }
+            if (ctor == null) { throw new Exception("未找到无参私有构造函数: " + typeof(T)); }
             return ctor.Invoke(null) as T;
         }
     }

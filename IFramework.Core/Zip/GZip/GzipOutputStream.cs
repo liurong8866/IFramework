@@ -91,9 +91,7 @@ namespace IFramework.Core.Zip.GZip
         /// <see cref="Deflater"/>
         public void SetLevel(int level)
         {
-            if (level < Deflater.BEST_SPEED) {
-                throw new ArgumentOutOfRangeException(nameof(level));
-            }
+            if (level < Deflater.BEST_SPEED) { throw new ArgumentOutOfRangeException(nameof(level)); }
             deflater_.SetLevel(level);
         }
 
@@ -118,13 +116,9 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="count">Number of bytes to write</param>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (state == OutputState.Header) {
-                WriteHeader();
-            }
+            if (state == OutputState.Header) { WriteHeader(); }
 
-            if (state != OutputState.Footer) {
-                throw new InvalidOperationException("Write not permitted in current state");
-            }
+            if (state != OutputState.Footer) { throw new InvalidOperationException("Write not permitted in current state"); }
             crc.Update(buffer, offset, count);
             base.Write(buffer, offset, count);
         }
@@ -135,16 +129,11 @@ namespace IFramework.Core.Zip.GZip
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            try {
-                Finish();
-            }
-            finally {
+            try { Finish(); } finally {
                 if (state != OutputState.Closed) {
                     state = OutputState.Closed;
 
-                    if (IsStreamOwner) {
-                        baseOutputStream_.Dispose();
-                    }
+                    if (IsStreamOwner) { baseOutputStream_.Dispose(); }
                 }
             }
         }
@@ -159,9 +148,7 @@ namespace IFramework.Core.Zip.GZip
         public override void Finish()
         {
             // If no data has been written a header should be added.
-            if (state == OutputState.Header) {
-                WriteHeader();
-            }
+            if (state == OutputState.Header) { WriteHeader(); }
 
             if (state == OutputState.Footer) {
                 state = OutputState.Finished;
@@ -170,9 +157,7 @@ namespace IFramework.Core.Zip.GZip
                 uint crcval = (uint)(crc.Value & 0xffffffff);
                 byte[] gzipFooter;
 
-                unchecked {
-                    gzipFooter = new[] { (byte)crcval, (byte)(crcval >> 8), (byte)(crcval >> 16), (byte)(crcval >> 24), (byte)totalin, (byte)(totalin >> 8), (byte)(totalin >> 16), (byte)(totalin >> 24) };
-                }
+                unchecked { gzipFooter = new[] { (byte)crcval, (byte)(crcval >> 8), (byte)(crcval >> 16), (byte)(crcval >> 24), (byte)totalin, (byte)(totalin >> 8), (byte)(totalin >> 16), (byte)(totalin >> 24) }; }
                 baseOutputStream_.Write(gzipFooter, 0, gzipFooter.Length);
             }
         }

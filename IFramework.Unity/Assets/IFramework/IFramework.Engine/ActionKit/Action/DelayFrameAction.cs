@@ -45,9 +45,7 @@ namespace IFramework.Engine
         {
             Finished = Time.frameCount - startFrame >= FrameCount;
 
-            if (Finished) {
-                action.InvokeSafe();
-            }
+            if (Finished) { action.InvokeSafe(); }
         }
 
         protected override void OnReset()

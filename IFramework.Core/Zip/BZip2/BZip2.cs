@@ -17,17 +17,14 @@ namespace IFramework.Core.Zip.BZip2
         /// <param name="isStreamOwner">Both streams are closed on completion if true.</param>
         public static void Decompress(Stream inStream, Stream outStream, bool isStreamOwner)
         {
-            if (inStream == null || outStream == null) {
-                throw new Exception("Null Stream");
-            }
+            if (inStream == null || outStream == null) { throw new Exception("Null Stream"); }
 
             try {
                 using (BZip2InputStream bzipInput = new BZip2InputStream(inStream)) {
                     bzipInput.IsStreamOwner = isStreamOwner;
                     StreamUtils.Copy(bzipInput, outStream, new byte[4096]);
                 }
-            }
-            finally {
+            } finally {
                 if (isStreamOwner) {
                     // inStream is closed by the BZip2InputStream if stream owner
                     outStream.Dispose();
@@ -46,17 +43,14 @@ namespace IFramework.Core.Zip.BZip2
         /// the lowest compression and 9 the highest.</param>
         public static void Compress(Stream inStream, Stream outStream, bool isStreamOwner, int level)
         {
-            if (inStream == null || outStream == null) {
-                throw new Exception("Null Stream");
-            }
+            if (inStream == null || outStream == null) { throw new Exception("Null Stream"); }
 
             try {
                 using (BZip2OutputStream bzipOutput = new BZip2OutputStream(outStream, level)) {
                     bzipOutput.IsStreamOwner = isStreamOwner;
                     StreamUtils.Copy(inStream, bzipOutput, new byte[4096]);
                 }
-            }
-            finally {
+            } finally {
                 if (isStreamOwner) {
                     // outStream is closed by the BZip2OutputStream if stream owner
                     inStream.Dispose();
