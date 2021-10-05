@@ -11,7 +11,7 @@ namespace IFramework.Engine
         // 真正执行的节点
         protected List<IAction> executeNodes = ListPool<IAction>.Allocate();
 
-        public SequenceNode([param: NotNull] params IAction[] nodes) {
+        public SequenceNode(params IAction[] nodes) {
             foreach (IAction node in nodes) {
                 originalNodes.Add(node);
                 executeNodes.Add(node);

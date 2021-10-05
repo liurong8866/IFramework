@@ -30,7 +30,9 @@ public class SequenceNodeTest : MonoBehaviour
             .NextFrame()
             .NextFrame()
             .Begin();
+        
         this.NextFrame(() => { Debug.Log(Time.frameCount); });
+        
     }
 
     private void Start()

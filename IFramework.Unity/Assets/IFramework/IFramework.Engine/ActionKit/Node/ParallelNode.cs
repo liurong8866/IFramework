@@ -4,14 +4,14 @@ using IFramework.Core;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 出生点节点
+    /// 并行执行节点 
     /// </summary>
-    public class SpawnNode : AbstractAction
+    public class ParallelNode : AbstractAction
     {
         private int finishCount;
         protected List<AbstractAction> nodes = ListPool<AbstractAction>.Allocate();
 
-        public SpawnNode(params AbstractAction[] nodes)
+        public ParallelNode(params AbstractAction[] nodes)
         {
             this.nodes.AddRange(nodes);
 
