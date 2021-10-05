@@ -17,7 +17,13 @@ namespace IFramework.Editor
         {
             string path = EditorUtils.GetSelectedPath();
 
-            if (!string.IsNullOrEmpty(path)) { Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path)); } else { Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false); }
+            if (!string.IsNullOrEmpty(path)) {
+                // "Assets/I Kit - Mark AssetBundle";
+                Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
+            } else {
+                // "Assets/I Kit - Mark AssetBundle";
+                Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
+            }
         }
 
         /// <summary>
