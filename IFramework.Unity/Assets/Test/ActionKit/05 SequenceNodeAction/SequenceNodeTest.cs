@@ -16,6 +16,11 @@ public class SequenceNodeTest : MonoBehaviour
         // sequenceNode.Execute(); // 这是不会有结果的
         "======= 以下为序列：顺序执行 =========".LogInfo();
 
+        DelayAction delayAction2 = DelayAction.Allocate(3, () => { "等待3秒".LogInfo(); });
+        sequenceNode.Append(delayAction);
+        sequenceNode.Append(DelayFrameAction.Allocate(1, ()=>{"DelayFrameAction".LogInfo();}));
+        sequenceNode.Append(EventAction.Allocate(()=>{"EventAction".LogInfo();}));
+        
         this.Sequence()
             .Delay(3f)
             .Event(() => Debug.Log("序列：" + Time.frameCount))
@@ -27,6 +32,7 @@ public class SequenceNodeTest : MonoBehaviour
             .Event(() => Debug.Log("序列：" + Time.frameCount))
             .DelayFrame(8)
             .Event(() => Debug.Log("序列：" + Time.frameCount))
+            .Append(sequenceNode)
             .NextFrame()
             .NextFrame()
             .Begin();

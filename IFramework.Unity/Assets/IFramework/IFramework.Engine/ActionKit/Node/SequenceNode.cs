@@ -53,6 +53,7 @@ namespace IFramework.Engine
                 //     return;
                 // }
                 
+                // 当前节点执行完毕后再执行下一个节点
                 while (executeNodes[0].Execute()) {
                     executeNodes.RemoveAt(0);
                     OnCurrentActionFinished();

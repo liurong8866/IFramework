@@ -8,18 +8,18 @@ namespace IFramework.Engine
     /// </summary>
     public class OnBeginAction : AbstractAction, IPoolable
     {
-        private Action<OnBeginAction> beginAction;
+        private Action<OnBeginAction> action;
 
         public static OnBeginAction Allocate(Action<OnBeginAction> action)
         {
             OnBeginAction onBeginAction = ObjectPool<OnBeginAction>.Instance.Allocate();
-            onBeginAction.beginAction = action;
+            onBeginAction.action = action;
             return onBeginAction;
         }
 
         protected override void OnBegin()
         {
-            beginAction.InvokeSafe(this);
+            action.InvokeSafe(this);
         }
 
         public bool IsRecycled { get; set; }
@@ -32,7 +32,7 @@ namespace IFramework.Engine
         public void OnRecycled()
         {
             Reset();
-            beginAction = null;
+            action = null;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace IFramework.Engine
         // 延迟帧数
         [SerializeField] public int FrameCount;
         // 延迟事件
-        public Action OnDelayFrameFinish { get; set; }
+        private Action action;
         // 帧数计数器
         private int startFrame;
 
@@ -24,7 +24,7 @@ namespace IFramework.Engine
         {
             DelayFrameAction delayFrameAction = ObjectPool<DelayFrameAction>.Instance.Allocate();
             delayFrameAction.FrameCount = frameCount;
-            delayFrameAction.OnDelayFrameFinish = acton;
+            delayFrameAction.action = acton;
             return delayFrameAction;
         }
 
@@ -46,7 +46,7 @@ namespace IFramework.Engine
             Finished = Time.frameCount - startFrame >= FrameCount;
 
             if (Finished) {
-                OnDelayFrameFinish.InvokeSafe();
+                action.InvokeSafe();
             }
         }
 
@@ -62,7 +62,7 @@ namespace IFramework.Engine
 
         public void OnRecycled()
         {
-            OnDelayFrameFinish = null;
+            action = null;
             FrameCount = 0;
             Reset();
         }

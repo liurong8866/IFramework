@@ -54,13 +54,21 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 事件
+        /// 事件动作
         /// </summary>
-        public static IActionChain Event(this IActionChain self, params Action[] events)
+        public static IActionChain Event(this IActionChain self, params Action[] actions)
         {
-            return self.Append(EventAction.Allocate(events));
+            return self.Append(EventAction.Allocate(actions));
         }
-
+        
+        /// <summary>
+        /// 条件动作
+        /// </summary>
+        public static IActionChain Until(this IActionChain self, Func<bool> condition, Action action = null)
+        {
+            return self.Append(UntilAction.Allocate(condition, action));
+        }
+        
         /// <summary>
         /// 开始事件
         /// </summary>

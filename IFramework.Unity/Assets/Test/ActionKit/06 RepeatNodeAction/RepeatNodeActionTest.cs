@@ -19,11 +19,10 @@ public class RepeatNodeActionTest : MonoBehaviour
         parallelNode.Append(DelayAction.Allocate(4, () => Log.Info("world")));
         parallelNode.Append(DelayAction.Allocate(1, () => Log.Info("liurong:")));
         parallelNode.Execute(this);
-        
-        parallelNode.Append(DelayFrameAction.Allocate(1, () => Log.Info("action: hello" + Time.frameCount)));
-        parallelNode.Append(DelayFrameAction.Allocate(2, () => Log.Info("action: world"+ Time.frameCount)));
-        parallelNode.Append(DelayFrameAction.Allocate(3, () => Log.Info("action: liurong" + Time.frameCount)));
-        parallelNode.Execute(this);
+        // parallelNode.Append(DelayFrameAction.Allocate(1, () => Log.Info("action: hello" + Time.frameCount)));
+        // parallelNode.Append(DelayFrameAction.Allocate(2, () => Log.Info("action: world"+ Time.frameCount)));
+        // parallelNode.Append(DelayFrameAction.Allocate(3, () => Log.Info("action: liurong" + Time.frameCount)));
+        // parallelNode.Execute(this);
         
     }
     void RepeatNodeTest()

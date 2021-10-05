@@ -5,17 +5,17 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 延时执行动作节点
+    /// 延时动作节点
     /// </summary>
     [Serializable]
     public class DelayAction : AbstractAction, IPoolable
     { 
-        // 时间计数器
-        private float currentSeconds;
         // 延迟时间
         [SerializeField] public float DelayTime;
+        // 时间计数器
+        private float currentSeconds;
         // 延迟事件
-        public Action OnDelayFinish { get; set; }
+        private Action action;
         
         /// <summary>
         /// 从缓存池中申请对象
@@ -24,7 +24,7 @@ namespace IFramework.Engine
         {
             DelayAction delayAction = ObjectPool<DelayAction>.Instance.Allocate();
             delayAction.DelayTime = delayTime;
-            delayAction.OnDelayFinish = action;
+            delayAction.action = action;
             return delayAction;
         }
 
@@ -43,7 +43,7 @@ namespace IFramework.Engine
             Finished = currentSeconds >= DelayTime;
 
             if (Finished) {
-                OnDelayFinish.InvokeSafe();
+                action.InvokeSafe();
             }
         }
 
@@ -59,7 +59,7 @@ namespace IFramework.Engine
 
         public void OnRecycled()
         {
-            OnDelayFinish = null;
+            action = null;
             DelayTime = 0.0f;
             Reset();
         }

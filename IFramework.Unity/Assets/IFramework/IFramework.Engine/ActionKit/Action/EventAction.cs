@@ -10,16 +10,16 @@ namespace IFramework.Engine
     /// </summary>
     public class EventAction : AbstractAction, IPoolable
     {
-        private Action onExecuteEvent;
+        private Action action;
 
         /// <summary>
         /// 从对象池中申请对象
         /// </summary>
-        public static EventAction Allocate([NotNull] params Action[] actions)
+        public static EventAction Allocate(params Action[] actions)
         {
             EventAction eventAction = ObjectPool<EventAction>.Instance.Allocate();
             //如果有多个事件，则循环添加
-            Array.ForEach(actions, action => { eventAction.onExecuteEvent += action; });
+            Array.ForEach(actions, action => { eventAction.action += action; });
             return eventAction;
         }
 
@@ -28,7 +28,7 @@ namespace IFramework.Engine
         /// </summary>
         protected override void OnExecute()
         {
-            onExecuteEvent.InvokeSafe();
+            action.InvokeSafe();
             Finished = true;
         }
 
@@ -40,7 +40,7 @@ namespace IFramework.Engine
         public void OnRecycled()
         {
             Reset();
-            onExecuteEvent = null;
+            action = null;
         }
 
         public bool IsRecycled { get; set; }
