@@ -55,18 +55,18 @@ namespace IFramework.Editor
             
             GUILayout.Space(30);
             
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("");
             // 操作按钮
-            if (GUILayout.Button("恢复默认")) {
+            if (GUILayout.Button("      恢复默认      ")) {
                 // 取消 EditorGUILayout.TextField 焦点，否则不更新。 GUILayout.TextField没有这个问题
                 GUI.FocusControl(null);
                 UIKit.ResetConfig();
             }
-            
-            // if (GUILayout.Button("生成 AB 常量")) { AssetBundleScript.GenerateConstScript(); }
-            //
-            // if (GUILayout.Button("清空已生成的 AB 包")) { AssetBundleBuilder.ForceClearAssetBundles(); }
-            // GUILayout.EndHorizontal();
-
+            // 加空元素是为了占位
+            GUILayout.Label("");
+            // EditorGUILayout.LabelField("");
+            EditorGUILayout.EndHorizontal();
             GUILayout.Space(10);
         }
     }
