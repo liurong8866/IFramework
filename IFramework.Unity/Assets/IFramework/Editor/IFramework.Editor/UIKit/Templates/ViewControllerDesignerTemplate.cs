@@ -14,7 +14,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullPath => controller.ScriptsPath + "/{0}.Designer.cs".Format(controller.ScriptName);
+        public override string FullName => FullPath + "/{0}.Designer.cs".Format(controller.ScriptName);
 
         /// <summary>
         /// 是否覆盖文件
@@ -42,7 +42,7 @@ namespace IFramework.Editor
             sb.AppendLine("\tpublic partial class {0}".Format(controller.ScriptName));
             sb.AppendLine("\t{");
 
-            foreach (BindInfo bindInfo in panelCodeInfo.BindInfoList) {
+            foreach (BindInfo bindInfo in rootControllerInfo.BindInfoList) {
                 sb.AppendLine("\t\tpublic {0} {1};".Format(bindInfo.BindScript.ComponentName, bindInfo.Name));
             }
             

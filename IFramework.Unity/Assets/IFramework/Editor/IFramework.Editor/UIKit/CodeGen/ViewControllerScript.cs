@@ -29,21 +29,18 @@ namespace IFramework.Editor
             // 生成脚本
             Log.Info("生成脚本: 开始");
             ViewController controller = go.GetComponent<ViewController>();
-            string scriptsPath = Application.dataPath + "/Scripts";
-
-            if (controller) { scriptsPath = controller.ScriptsPath; }
-
-            PanelCodeInfo panelCodeInfo = new PanelCodeInfo {
+            
+            RootControllerInfo rootControllerInfo = new RootControllerInfo {
                 GameObjectName = controller.name
             };
 
             // 搜索所有绑定对象
-            BindCollector.SearchBind(go.transform, "", panelCodeInfo);
+            BindCollector.SearchBind(go.transform, "", rootControllerInfo);
 
             // 生成Controller层
             ViewControllerTemplate.Instance.Generate(controller);
             // 生成Model层
-            ViewControllerDesignerTemplate.Instance.Generate(controller, panelCodeInfo);
+            ViewControllerDesignerTemplate.Instance.Generate(controller, rootControllerInfo);
             
             Log.Info("生成脚本: 完成");
         }

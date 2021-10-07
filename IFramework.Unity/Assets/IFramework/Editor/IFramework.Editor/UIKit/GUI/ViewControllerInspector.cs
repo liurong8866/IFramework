@@ -39,20 +39,23 @@ namespace IFramework.Editor
             GUILayout.BeginVertical();
             //
             GUILayout.BeginHorizontal();
-            GUILayout.Label("命名空间", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("命名空间");
+            // GUILayout.Label("命名空间", GUILayout.Width(100));
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace);
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             //
             GUILayout.BeginHorizontal();
-            GUILayout.Label("脚本名称", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("脚本名称");
+            // GUILayout.Label("脚本名称", GUILayout.Width(60));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName);
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             //
             GUILayout.BeginHorizontal();
-            GUILayout.Label("生成路径", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("生成路径");
+            // GUILayout.Label("生成路径", GUILayout.Width(60));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath);
             GUILayout.EndHorizontal();
