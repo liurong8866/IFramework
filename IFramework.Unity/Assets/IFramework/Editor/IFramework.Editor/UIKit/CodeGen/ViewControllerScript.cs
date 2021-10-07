@@ -7,6 +7,9 @@ namespace IFramework.Editor
 {
     public class ViewControllerScript
     {
+        /// <summary>
+        /// 生成脚本
+        /// </summary>
         public static void CreateCode()
         {
             GameObject go = Selection.objects.First() as GameObject;

@@ -34,7 +34,7 @@ namespace IFramework.Editor
             while (trans.parent != null) {
                 if (trans.parent.name.Equals(parentName)) { break; }
                 // 组成路径
-                sb.Insert(0, trans.parent.name.Append("/"));
+                sb.Insert(0, trans.parent.name + "/");
                 // 向上循环
                 trans = trans.parent;
             }
