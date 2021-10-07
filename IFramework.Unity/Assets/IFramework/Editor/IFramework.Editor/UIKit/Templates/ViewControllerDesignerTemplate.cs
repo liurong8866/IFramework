@@ -6,6 +6,11 @@ namespace IFramework.Editor
 {
     public class ViewControllerDesignerTemplate : AbstractTemplate
     {
+        private ViewControllerDesignerTemplate(){}
+        
+        // 属性单例
+        public static ViewControllerDesignerTemplate Instance => SingletonProperty<ViewControllerDesignerTemplate>.Instance;
+
         /// <summary>
         /// 文件全名
         /// </summary>

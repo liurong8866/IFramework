@@ -132,8 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 943812112}
-  - component: {fileID: 943812114}
   - component: {fileID: 943812113}
+  - component: {fileID: 943812114}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -184,11 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 675364242, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Namespace: /Prefab/Game
+  Namespace: IFramework.Example
   ScriptName: Player
-  ScriptsPath: aasdf
+  ScriptsPath: /Scripts/Game
   GeneratePrefab: 0
-  PrefabPath: 
+  PrefabPath: /Prefab/Game
 --- !u!1 &1431344648
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,19 +40,19 @@ namespace IFramework.Core
 
         /*----------------------------- UI Kit -----------------------------*/
 
-        // 生成脚本默认命名空间
+        // 默认命名空间
         public const string UIKIT_DEFAULT_NAMESPACE = "IFramework.Example";
 
-        // UI脚本生成路径
-        public const string UIKIT_UI_SCRIPT_PATH = "/Scripts/UI";
+        // UI脚本路径
+        public const string UIKIT_UI_SCRIPT_PATH = "Assets/Scripts/UI";
 
-        // UI Prefab 生成路径
-        public const string UIKIT_UI_PREFAB_PATH = "/Prefab/UI";
+        // UI Prefab 路径
+        public const string UIKIT_UI_PREFAB_PATH = "Assets/Prefab/UI";
 
-        // ViewController 脚本生成路径
-        public const string UIKIT_UI_VC_SCRIPT_PATH = "/Scripts/Game";
+        // ViewController 脚本路径
+        public const string UIKIT_UI_VC_SCRIPT_PATH = "Assets/Scripts/Game";
 
-        // UI Prefab 生成路径
-        public const string UIKIT_UI_VC_PREFAB_PATH = "/Prefab/Game";
+        // UI Prefab 路径
+        public const string UIKIT_UI_VC_PREFAB_PATH = "Assets/Prefab/Game";
     }
 }

@@ -5,6 +5,11 @@ namespace IFramework.Editor
 {
     public class ViewControllerTemplate : AbstractTemplate
     {
+        private ViewControllerTemplate(){}
+        
+        // 属性单例
+        public static ViewControllerTemplate Instance => SingletonProperty<ViewControllerTemplate>.Instance;
+        
         /// <summary>
         /// 文件全名
         /// </summary>
