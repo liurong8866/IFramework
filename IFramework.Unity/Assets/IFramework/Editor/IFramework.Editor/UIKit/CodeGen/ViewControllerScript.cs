@@ -19,7 +19,7 @@ namespace IFramework.Editor
                 return;
             }
 
-            // 如果档期是Bind类型，并且不包含ViewController，则认为是子节点，向上查找
+            // 如果当前是Bind类型，并且不包含ViewController，则认为是子节点，向上查找
             if (go.GetComponent<AbstractBind>() && !go.GetComponent<ViewController>()) {
                 ViewController parentController = go.GetComponentInParent<ViewController>();
 

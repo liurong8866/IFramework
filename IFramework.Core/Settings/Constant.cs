@@ -44,15 +44,15 @@ namespace IFramework.Core
         public const string UIKIT_DEFAULT_NAMESPACE = "IFramework.Example";
 
         // UI脚本路径
-        public const string UIKIT_UI_SCRIPT_PATH = "Assets/Scripts/UI";
+        public const string UIKIT_UI_SCRIPT_PATH = "Scripts/UI";
 
         // UI Prefab 路径
-        public const string UIKIT_UI_PREFAB_PATH = "Assets/Prefab/UI";
+        public const string UIKIT_UI_PREFAB_PATH = "Prefab/UI";
 
         // ViewController 脚本路径
-        public const string UIKIT_UI_VC_SCRIPT_PATH = "Assets/Scripts/Game";
+        public const string UIKIT_UI_VC_SCRIPT_PATH = "Scripts/Game";
 
         // UI Prefab 路径
-        public const string UIKIT_UI_VC_PREFAB_PATH = "Assets/Prefab/Game";
+        public const string UIKIT_UI_VC_PREFAB_PATH = "Prefab/Game";
     }
 }

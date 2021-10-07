@@ -23,35 +23,48 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             Configure.DefaultNameSpace.Value = EditorGUILayout.TextField("默认命名空间: ", Configure.DefaultNameSpace.Value);
             EditorGUILayout.EndHorizontal();
-            GUILayout.Space(10);
+            GUILayout.Space(20);
 
-            // UI脚本生成路径
+            // UIPanel 脚本路径
             EditorGUILayout.BeginHorizontal();
-            Configure.UIScriptPath.Value = EditorGUILayout.TextField("UI 脚本路径: ", Configure.UIScriptPath.Value);
+            EditorGUILayout.PrefixLabel("UIPanel脚本: ");
+            EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
+            Configure.UIScriptPath.Value = EditorGUILayout.TextField(Configure.UIScriptPath.Value);
             EditorGUILayout.EndHorizontal();
-            GUILayout.Space(10);
+            GUILayout.Space(5);
 
-            // UI Prefab 生成路径
+            // UIPanel 预设路径
             EditorGUILayout.BeginHorizontal();
-            Configure.UIPrefabPath.Value = EditorGUILayout.TextField("UI 预设路径: ", Configure.UIPrefabPath.Value);
+            EditorGUILayout.PrefixLabel("UIPanel 预设: ");
+            EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
+            Configure.UIPrefabPath.Value = EditorGUILayout.TextField(Configure.UIPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
-            GUILayout.Space(10);
+            GUILayout.Space(20);
 
-            // ViewController 脚本生成路径
+            // ViewController 脚本路径
             EditorGUILayout.BeginHorizontal();
-            Configure.ViewControllerScriptPath.Value = EditorGUILayout.TextField("ViewController 脚本路径: ", Configure.ViewControllerScriptPath.Value);
+            EditorGUILayout.PrefixLabel("ViewController 脚本: ");
+            EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
+            Configure.ViewControllerScriptPath.Value = EditorGUILayout.TextField(Configure.ViewControllerScriptPath.Value);
             EditorGUILayout.EndHorizontal();
-            GUILayout.Space(10);
+            GUILayout.Space(5);
 
-            // ViewController Prefab 生成路径
+            // ViewController 预设路径
             EditorGUILayout.BeginHorizontal();
-            Configure.ViewControllerPrefabPath.Value = EditorGUILayout.TextField("ViewController 预设路径: ", Configure.ViewControllerPrefabPath.Value);
+            EditorGUILayout.PrefixLabel("ViewController 预设: ");
+            EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
+            Configure.ViewControllerPrefabPath.Value = EditorGUILayout.TextField(Configure.ViewControllerPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
+            GUILayout.Space(20);
+
+            // 描述信息
+            EditorGUILayout.HelpBox("UIKit脚本的默认生成规则，所有生成路径在Assets文件夹下。请记得修改默认命名空间！", MessageType.Info);
             GUILayout.Space(30);
+
+            // 恢复默认
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("");
 
-            // 操作按钮
             if (GUILayout.Button("      恢复默认      ")) {
                 // 取消 EditorGUILayout.TextField 焦点，否则不更新。 GUILayout.TextField没有这个问题
                 GUI.FocusControl(null);

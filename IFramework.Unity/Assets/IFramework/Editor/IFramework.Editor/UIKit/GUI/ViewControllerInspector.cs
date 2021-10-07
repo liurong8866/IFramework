@@ -31,27 +31,31 @@ namespace IFramework.Editor
             // Prefab路径
             controller.PrefabPath.IfNullOrEmpty(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
         }
-        
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            GUILayout.BeginVertical("box");
-            // GUILayout.Label("代码生成部分", new GUIStyle() { fontStyle = FontStyle.Bold, fontSize = 12 });
+            //
+            GUILayout.BeginVertical();
+            //
             GUILayout.BeginHorizontal();
             GUILayout.Label("命名空间", GUILayout.Width(60));
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace);
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
+            //
             GUILayout.BeginHorizontal();
             GUILayout.Label("脚本名称", GUILayout.Width(60));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName);
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
+            //
             GUILayout.BeginHorizontal();
             GUILayout.Label("生成路径", GUILayout.Width(60));
             controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath);
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
+            //
             EditorGUILayout.HelpBox("代码生成", MessageType.Info);
             GUILayout.Space(10);
 

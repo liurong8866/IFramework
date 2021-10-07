@@ -49,6 +49,7 @@ namespace IFramework.Editor
                         else { Log.Error("生成失败！ 绑定的对象名称重复: " + child.name); }
                     }
 
+                    // 如果当前绑定类型不是DefaultElement，则
                     if (bind.BindType != BindType.DefaultElement) {
                         ElementInfo elementInfo = new ElementInfo {
                             BehaviourName = bind.ComponentName,
