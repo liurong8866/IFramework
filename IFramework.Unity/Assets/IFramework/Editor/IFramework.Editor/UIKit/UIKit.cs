@@ -11,19 +11,40 @@ namespace IFramework.Editor
         /// <summary>
         /// 绑定Bind脚本
         /// </summary>
-        public static void BindScript()
+        public static void AddBindScript()
         {
-            foreach (GameObject o in Selection.objects.OfType<GameObject>()) {
-                if (o) {
-                    o.AddComponentSafe<Bind>();
-                    EditorUtility.SetDirty(o);
-                    EditorSceneManager.MarkSceneDirty(o.scene);
+            foreach (GameObject go in Selection.objects.OfType<GameObject>()) {
+                if (go != null) {
+                    AddScript<Bind>(go);
                 }
             }
         }
 
         /// <summary>
-        /// 绑定Bind脚本
+        /// 绑定ViewController
+        /// </summary>
+        public static void AddViewScript()
+        {
+            // 取选中对象的第一个
+            GameObject go = Selection.objects.First() as GameObject;
+
+            if (go == null) {
+                Log.Warning("请选择 GameObject");
+                return;
+            }
+            
+            AddScript<ViewController>(go);
+        }
+
+        private static void AddScript<T>(GameObject go) where T : Component
+        {
+            go.AddComponentSafe<T>();
+            EditorUtility.SetDirty(go);
+            EditorSceneManager.MarkSceneDirty(go.scene);
+        }
+        
+        /// <summary>
+        /// 打开UIKit设置窗口
         /// </summary>
         public static void OpenUIConfigWindow()
         {

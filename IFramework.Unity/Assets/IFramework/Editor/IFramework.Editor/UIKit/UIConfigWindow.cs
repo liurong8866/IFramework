@@ -10,7 +10,7 @@ namespace IFramework.Editor
         public static void Open()
         {
             //创建窗口
-            UIConfigWindow window = GetWindow<UIConfigWindow>(false, "UI Kit 参数设置");
+            UIConfigWindow window = GetWindow<UIConfigWindow>(false, "UIKit 参数设置");
             window.Show();
         }
         
@@ -22,7 +22,7 @@ namespace IFramework.Editor
 
             // 脚本默认命名空间
             EditorGUILayout.BeginHorizontal();
-            Configure.DefaultNameSpace.Value = EditorGUILayout.TextField("脚本默认命名空间: ", Configure.DefaultNameSpace.Value);
+            Configure.DefaultNameSpace.Value = EditorGUILayout.TextField("默认命名空间: ", Configure.DefaultNameSpace.Value);
             EditorGUILayout.EndHorizontal();
             
             GUILayout.Space(10);

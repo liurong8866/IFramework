@@ -8,10 +8,10 @@ namespace IFramework.Core
 
         [HideInInspector] public string ScriptName;
 
-        [HideInInspector] public string ScriptsFolder = string.Empty;
+        [HideInInspector] public string ScriptsPath = string.Empty;
 
         [HideInInspector] public bool GeneratePrefab;
 
-        [HideInInspector] public string PrefabFolder = string.Empty;
+        [HideInInspector] public string PrefabPath = string.Empty;
     }
 }
