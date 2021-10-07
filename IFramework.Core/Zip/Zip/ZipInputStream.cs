@@ -140,10 +140,10 @@ namespace IFramework.Core.Zip.Zip
             int header = inputBuffer.ReadLeInt();
 
             if (header == ZipConstants.CENTRAL_HEADER_SIGNATURE
-             || header == ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE
-             || header == ZipConstants.CENTRAL_HEADER_DIGITAL_SIGNATURE
-             || header == ZipConstants.ARCHIVE_EXTRA_DATA_SIGNATURE
-             || header == ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
+                 || header == ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE
+                 || header == ZipConstants.CENTRAL_HEADER_DIGITAL_SIGNATURE
+                 || header == ZipConstants.ARCHIVE_EXTRA_DATA_SIGNATURE
+                 || header == ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
                 // No more individual entries exist
                 Dispose();
                 return null;

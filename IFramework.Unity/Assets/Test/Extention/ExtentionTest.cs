@@ -85,10 +85,10 @@ namespace IFramework.Test.Extention
             GameObject obj = new GameObject();
 
             obj.transform
-                // .Parent(transform.FindRecursion("AAA"))
-               .Name("Hello")
-               .LocalIdentity()
-               .Identity(transform.FindRecursion("AAA"));
+                    // .Parent(transform.FindRecursion("AAA"))
+                   .Name("Hello")
+                   .LocalIdentity()
+                   .Identity(transform.FindRecursion("AAA"));
             Debug.Log(obj.transform.Path());
         }
     }

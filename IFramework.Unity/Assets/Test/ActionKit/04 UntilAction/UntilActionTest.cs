@@ -15,9 +15,9 @@ public class UntilActionTest : MonoBehaviour
         untilAction = UntilAction.Allocate(() => currentTime == 1000, () => { "延迟了多少".LogInfo(); });
 
         this.Sequence()
-            .Until(() => Input.GetMouseButtonDown(0))
-            .Event(() => Debug.Log("鼠标按钮点击了"))
-            .Begin();
+               .Until(() => Input.GetMouseButtonDown(0))
+               .Event(() => Debug.Log("鼠标按钮点击了"))
+               .Begin();
     }
 
     private void Update()

@@ -15,7 +15,7 @@ namespace IFramework.Editor
 
         private static void SelectionChanged()
         {
-            string path = EditorUtils.GetSelectedPath();
+            string path = EditorUtils.SelectedPath();
 
             if (!string.IsNullOrEmpty(path)) {
                 // "Assets/I Kit - Mark AssetBundle";
@@ -31,7 +31,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void MarkAssetBundle()
         {
-            MarkAssetBundle(EditorUtils.GetSelectedPath());
+            MarkAssetBundle(EditorUtils.SelectedPath());
         }
 
         /// <summary>

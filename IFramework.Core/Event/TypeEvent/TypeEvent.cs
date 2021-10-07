@@ -23,7 +23,11 @@ namespace IFramework.Core
                 reg.actions = action;
                 typeEventDict.Add(type, reg);
             }
-            return new TypeEventUnregister<T> { actions = action, typeEvent = this };
+
+            return new TypeEventUnregister<T> {
+                actions = action,
+                typeEvent = this
+            };
         }
 
         /// <summary>

@@ -36,27 +36,20 @@ namespace IFramework.Editor
             GUILayout.Label("命名空间", GUILayout.Width(60));
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace);
             GUILayout.EndHorizontal();
-            
             GUILayout.Space(5);
-            
             GUILayout.BeginHorizontal();
             GUILayout.Label("脚本名称", GUILayout.Width(60));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName);
             GUILayout.EndHorizontal();
-            
             GUILayout.Space(5);
-            
             GUILayout.BeginHorizontal();
             GUILayout.Label("生成路径", GUILayout.Width(60));
             controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath);
             GUILayout.EndHorizontal();
-            
             GUILayout.Space(5);
-            
             EditorGUILayout.HelpBox("代码生成", MessageType.Info);
-            
             GUILayout.Space(10);
-            
+
             // if (
             //     Event.current.type == EventType.DragUpdated
             //  && sfxPathRect.Contains(Event.current.mousePosition)

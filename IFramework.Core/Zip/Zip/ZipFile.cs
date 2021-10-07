@@ -544,7 +544,8 @@ namespace IFramework.Core.Zip.Zip
         /// <summary>
         /// Indexer property for ZipEntries
         /// </summary>
-        [IndexerName("EntryByIndex")] public ZipEntry this[int index] => (ZipEntry)entries[index].Clone();
+        [IndexerName("EntryByIndex")]
+        public ZipEntry this[int index] => (ZipEntry)entries[index].Clone();
 
         #endregion
 
@@ -864,21 +865,21 @@ namespace IFramework.Core.Zip.Zip
 
                 if (testHeader) {
                     if (extractVersion <= 63
-                     && // Ignore later versions as we dont know about them..
-                        extractVersion != 10
-                     && extractVersion != 11
-                     && extractVersion != 20
-                     && extractVersion != 21
-                     && extractVersion != 25
-                     && extractVersion != 27
-                     && extractVersion != 45
-                     && extractVersion != 46
-                     && extractVersion != 50
-                     && extractVersion != 51
-                     && extractVersion != 52
-                     && extractVersion != 61
-                     && extractVersion != 62
-                     && extractVersion != 63) { throw new ZipException(string.Format("Version required to extract this entry is invalid ({0})", extractVersion)); }
+                         && // Ignore later versions as we dont know about them..
+                            extractVersion != 10
+                         && extractVersion != 11
+                         && extractVersion != 20
+                         && extractVersion != 21
+                         && extractVersion != 25
+                         && extractVersion != 27
+                         && extractVersion != 45
+                         && extractVersion != 46
+                         && extractVersion != 50
+                         && extractVersion != 51
+                         && extractVersion != 52
+                         && extractVersion != 61
+                         && extractVersion != 62
+                         && extractVersion != 63) { throw new ZipException(string.Format("Version required to extract this entry is invalid ({0})", extractVersion)); }
 
                     // Local entry flags dont have reserved bit set on.
                     if ((localFlags & (int)(GeneralBitFlags.ReservedPKware4 | GeneralBitFlags.ReservedPkware14 | GeneralBitFlags.ReservedPkware15)) != 0) { throw new ZipException("Reserved bit flags cannot be set."); }
@@ -1916,11 +1917,11 @@ namespace IFramework.Core.Zip.Zip
                         // WinZip produces a warning on these entries:
                         // "caution: value of lrec.csize (compressed size) changed from ..."
                     destinationPosition += sourcePosition
-                                         - entryDataOffset
-                                         + nameLengthOffset
-                                         + // Header size
-                                           update.Entry.CompressedSize
-                                         + GetDescriptorSize(update);
+                          - entryDataOffset
+                          + nameLengthOffset
+                          + // Header size
+                            update.Entry.CompressedSize
+                          + GetDescriptorSize(update);
             } else {
                 if (update.Entry.CompressedSize > 0) { CopyEntryDataDirect(update, baseStream, false, ref destinationPosition, ref sourcePosition); }
                 CopyDescriptorBytesDirect(update, baseStream, ref destinationPosition, sourcePosition);

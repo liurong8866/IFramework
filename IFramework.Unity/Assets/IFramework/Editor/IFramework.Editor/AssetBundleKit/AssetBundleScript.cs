@@ -69,7 +69,11 @@ namespace IFramework.Editor
                 assetClass.Members.Add(classCode);
 
                 //添加字段 ASSET_BUNDLE_NAME
-                CodeMemberField bundleNameField = new CodeMemberField { Attributes = MemberAttributes.Public | MemberAttributes.Const, Name = "ASSET_BUNDLE_NAME", Type = new CodeTypeReference(typeof(string)) };
+                CodeMemberField bundleNameField = new CodeMemberField {
+                    Attributes = MemberAttributes.Public | MemberAttributes.Const,
+                    Name = "ASSET_BUNDLE_NAME",
+                    Type = new CodeTypeReference(typeof(string))
+                };
                 bundleNameField.InitExpression = new CodePrimitiveExpression(bundleName.ToLowerInvariant());
                 classCode.Members.Add(bundleNameField);
 
@@ -78,7 +82,11 @@ namespace IFramework.Editor
             }
             // 设置编译器
             CSharpCodeProvider provider = new CSharpCodeProvider();
-            CodeGeneratorOptions options = new CodeGeneratorOptions { BlankLinesBetweenMembers = false, BracingStyle = "CS" };
+
+            CodeGeneratorOptions options = new CodeGeneratorOptions {
+                BlankLinesBetweenMembers = false,
+                BracingStyle = "CS"
+            };
 
             // 写入文件
             using StreamWriter sw = new StreamWriter(outputPath);
@@ -119,7 +127,9 @@ namespace IFramework.Editor
             ISet<string> checkRepeatSet = new HashSet<string>();
 
             foreach (string asset in assetModle.assets) {
-                CodeMemberField assetField = new CodeMemberField { Attributes = MemberAttributes.Public | MemberAttributes.Const };
+                CodeMemberField assetField = new CodeMemberField {
+                    Attributes = MemberAttributes.Public | MemberAttributes.Const
+                };
                 string content = Platform.GetFileNameByPath(asset, false);
                 assetField.Name = content.ToUpperInvariant().Replace("@", "_").Replace("!", "_").Replace("-", "_");
                 assetField.Type = new CodeTypeReference(typeof(string));

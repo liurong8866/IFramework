@@ -6,16 +6,32 @@ namespace IFramework.Core
     public static class FileUtils
     {
         /// <summary>
+        /// 判断是否存在
+        /// </summary>
+        public static bool Exists(string path)
+        {
+            return File.Exists(path);
+        }
+
+        /// <summary>
         /// 读取文件
         /// </summary>
         public static string Read(string path)
+        {
+            return Encoding.UTF8.GetString(ReadByte(path));
+        }
+
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        public static byte[] ReadByte(string path)
         {
             using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
 
             // 读取文件到字节数组
             byte[] data = new byte[fileStream.Length];
             fileStream.Read(data, 0, data.Length);
-            return Encoding.UTF8.GetString(data);
+            return data;
         }
 
         /// <summary>

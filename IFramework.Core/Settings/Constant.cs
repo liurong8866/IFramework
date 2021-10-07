@@ -37,24 +37,22 @@ namespace IFramework.Core
 
         // Double类型数据比较 == 时 精度保留0.000001 有效，超过则视为可接受误差，判断为：相等
         public const double TOLERANCE = 1E-6;
-        
-        
+
         /*----------------------------- UI Kit -----------------------------*/
-        
+
         // 生成脚本默认命名空间
         public const string UIKIT_DEFAULT_NAMESPACE = "IFramework.Example";
 
         // UI脚本生成路径
-        public const string UIKIT_UI_SCRIPT_PATH= "/Scripts/UI";
-        
+        public const string UIKIT_UI_SCRIPT_PATH = "/Scripts/UI";
+
         // UI Prefab 生成路径
         public const string UIKIT_UI_PREFAB_PATH = "/Prefab/UI";
-        
+
         // ViewController 脚本生成路径
-        public const string UIKIT_UI_VC_SCRIPT_PATH= "/Scripts/Game";
-        
+        public const string UIKIT_UI_VC_SCRIPT_PATH = "/Scripts/Game";
+
         // UI Prefab 生成路径
         public const string UIKIT_UI_VC_PREFAB_PATH = "/Prefab/Game";
-        
     }
 }

@@ -3,7 +3,7 @@ namespace IFramework.Core
     public static partial class Configure
     {
         /*----------------------------- Resource Kit -----------------------------*/
-        
+
         /// <summary>
         /// 当前平台
         /// </summary>
@@ -23,9 +23,9 @@ namespace IFramework.Core
         /// 是否从StreamingAssets加载资源
         /// </summary>
         public static readonly ConfigBool LoadAssetFromStream = new ConfigBool("LoadAssetFromStream", true);
-        
+
         /*----------------------------- UI Kit -----------------------------*/
-        
+
         /// <summary>
         /// 生成脚本默认命名空间
         /// </summary>
@@ -35,17 +35,17 @@ namespace IFramework.Core
         /// UI脚本生成路径
         /// </summary>
         public static readonly ConfigString UIScriptPath = new ConfigString("UIScriptPath", Constant.UIKIT_UI_SCRIPT_PATH);
-        
+
         /// <summary>
         /// UI Prefab 生成路径
         /// </summary>
         public static readonly ConfigString UIPrefabPath = new ConfigString("UIPrefabPath", Constant.UIKIT_UI_PREFAB_PATH);
-        
+
         /// <summary>
         /// ViewController 脚本生成路径
         /// </summary>
         public static readonly ConfigString ViewControllerScriptPath = new ConfigString("ViewControllerScriptPath", Constant.UIKIT_UI_VC_SCRIPT_PATH);
-        
+
         /// <summary>
         /// ViewController Prefab 生成路径
         /// </summary>

@@ -789,12 +789,12 @@ namespace IFramework.Core.Zip.Zip
             ExtendedUnixData unixData = extraData.GetData<ExtendedUnixData>();
 
             if (unixData != null
-              &&
-                // Only apply modification time, but require all other values to be present
-                // This is done to match InfoZIP's behaviour
-                (unixData.Include & ExtendedUnixData.Flags.ModificationTime) != 0
-             && (unixData.Include & ExtendedUnixData.Flags.AccessTime) != 0
-             && (unixData.Include & ExtendedUnixData.Flags.CreateTime) != 0)
+                  &&
+                    // Only apply modification time, but require all other values to be present
+                    // This is done to match InfoZIP's behaviour
+                    (unixData.Include & ExtendedUnixData.Flags.ModificationTime) != 0
+                 && (unixData.Include & ExtendedUnixData.Flags.AccessTime) != 0
+                 && (unixData.Include & ExtendedUnixData.Flags.CreateTime) != 0)
                 return unixData.ModificationTime;
 
             // Fall back to DOS time

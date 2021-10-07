@@ -23,7 +23,10 @@ namespace IFramework.Core
             sampleNamespace.Imports.Add(new CodeNamespaceImport("System"));
 
             //准备要生成的类的定义
-            CodeTypeDeclaration customerClass = new CodeTypeDeclaration("Customer") { IsClass = true, TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed };
+            CodeTypeDeclaration customerClass = new CodeTypeDeclaration("Customer") {
+                IsClass = true,
+                TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed
+            };
 
             //指定这是一个Class
 
@@ -37,7 +40,9 @@ namespace IFramework.Core
             string outputFile = "Customer.cs";
 
             //添加字段
-            CodeMemberField field = new CodeMemberField(typeof(string), "_Id") { Attributes = MemberAttributes.Private };
+            CodeMemberField field = new CodeMemberField(typeof(string), "_Id") {
+                Attributes = MemberAttributes.Private
+            };
             customerClass.Members.Add(field);
 
             //添加属性
@@ -62,7 +67,11 @@ namespace IFramework.Core
 
             //生成代码
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-            CodeGeneratorOptions options = new CodeGeneratorOptions { BracingStyle = "C", BlankLinesBetweenMembers = true };
+
+            CodeGeneratorOptions options = new CodeGeneratorOptions {
+                BracingStyle = "C",
+                BlankLinesBetweenMembers = true
+            };
             using StreamWriter sw = new StreamWriter(outputFile);
             provider.GenerateCodeFromCompileUnit(unit, sw, options);
         }

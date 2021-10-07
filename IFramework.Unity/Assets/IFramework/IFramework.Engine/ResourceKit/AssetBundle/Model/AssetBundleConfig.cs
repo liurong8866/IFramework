@@ -88,7 +88,9 @@ namespace IFramework.Engine
         /// </summary>
         public void Save(string path)
         {
-            AssetBundleDatas data = new AssetBundleDatas { AssetBundles = new AssetBundleData[AssetBundleList.Count] };
+            AssetBundleDatas data = new AssetBundleDatas {
+                AssetBundles = new AssetBundleData[AssetBundleList.Count]
+            };
 
             for (int i = 0; i < AssetBundleList.Count; i++) { data.AssetBundles[i] = AssetBundleList[i].GetSerializeData(); }
             SerializeUtils.SerializeToFile(path, data);

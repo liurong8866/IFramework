@@ -24,15 +24,22 @@ namespace IFramework.Editor
         {
             //找到所有.asset文件，筛选出Package类型及子类生成的文件
             List<AssetBundlePackage> list = AssetDatabase.GetAllAssetPaths()
-                                                         .Where(path => path.EndsWith(".asset"))
-                                                         .Select(path => {
-                                                              Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
+                   .Where(path => path.EndsWith(".asset"))
+                   .Select(path => {
+                        Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
 
-                                                              if (package) { return new AssetBundlePackage { Path = path, Folder = path.RemoveString(package.name + ".asset"), Name = package.name, NameSpace = package.NameSpace }; }
-                                                              return null;
-                                                          })
-                                                         .Where(data => data != null)
-                                                         .ToList();
+                        if (package) {
+                            return new AssetBundlePackage {
+                                Path = path,
+                                Folder = path.RemoveString(package.name + ".asset"),
+                                Name = package.name,
+                                NameSpace = package.NameSpace
+                            };
+                        }
+                        return null;
+                    })
+                   .Where(data => data != null)
+                   .ToList();
             return list;
         }
 
@@ -46,7 +53,10 @@ namespace IFramework.Editor
 
             foreach (string assetBundleName in assetBundleNames) {
                 // 生成资源信息
-                AssetBundleBuild assetBundleBuild = new AssetBundleBuild { assetBundleName = assetBundleName, assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName) };
+                AssetBundleBuild assetBundleBuild = new AssetBundleBuild {
+                    assetBundleName = assetBundleName,
+                    assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName)
+                };
                 bool idDefault = true;
 
                 // 判断资源是否在子包目录下，如果在，则认为是子包资源

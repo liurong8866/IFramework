@@ -14,9 +14,7 @@ namespace IFramework.Editor
         public static void AddBindScript()
         {
             foreach (GameObject go in Selection.objects.OfType<GameObject>()) {
-                if (go != null) {
-                    AddScript<Bind>(go);
-                }
+                if (go != null) { AddScript<Bind>(go); }
             }
         }
 
@@ -32,7 +30,6 @@ namespace IFramework.Editor
                 Log.Warning("请选择 GameObject");
                 return;
             }
-            
             AddScript<ViewController>(go);
         }
 
@@ -42,13 +39,21 @@ namespace IFramework.Editor
             EditorUtility.SetDirty(go);
             EditorSceneManager.MarkSceneDirty(go.scene);
         }
-        
+
         /// <summary>
         /// 打开UIKit设置窗口
         /// </summary>
         public static void OpenUIConfigWindow()
         {
             UIConfigWindow.Open();
+        }
+
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        public static void ViewControllerGenerate()
+        {
+            ViewControllerScript.CreateCode();
         }
 
         /// <summary>
@@ -64,10 +69,10 @@ namespace IFramework.Editor
 
             // UI Prefab 生成路径
             Configure.UIPrefabPath.Value = Constant.UIKIT_UI_PREFAB_PATH;
-            
+
             // ViewController 脚本生成路径
             Configure.ViewControllerScriptPath.Value = Constant.UIKIT_UI_VC_SCRIPT_PATH;
-            
+
             // ViewController Prefab 生成路径
             Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_UI_VC_PREFAB_PATH;
         }

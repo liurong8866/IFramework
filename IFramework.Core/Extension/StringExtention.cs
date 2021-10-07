@@ -186,19 +186,11 @@ namespace IFramework.Core
         /// <summary>
         /// 添加后缀
         /// </summary>
-        public static string Append(this string value, string content)
+        public static StringBuilder AppendLine(this StringBuilder value, string content)
         {
-            return new StringBuilder(value).Append(content).ToString();
+            return value.Append("/r" + content);
         }
-
-        /// <summary>
-        /// 添加前缀
-        /// </summary>
-        public static string AppendPrefix(this string value, string content)
-        {
-            return new StringBuilder(content).Append(value).ToString();
-        }
-
+        
         /// <summary>
         /// 格式化字符串
         /// </summary>

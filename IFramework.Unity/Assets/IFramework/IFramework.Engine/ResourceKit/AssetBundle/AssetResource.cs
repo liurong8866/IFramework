@@ -208,7 +208,11 @@ namespace IFramework.Engine
         /// </summary>
         public override List<string> GetDependResourceList()
         {
-            return assetBundleNameConfig != null ? new List<string> { assetBundleNameConfig } : null;
+            return assetBundleNameConfig != null
+                    ? new List<string> {
+                        assetBundleNameConfig
+                    }
+                    : null;
         }
 
         public override void Recycle()

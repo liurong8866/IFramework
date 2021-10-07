@@ -24,8 +24,8 @@ namespace Test.ResourceKit._05_LoadAssetBundleResExample
             rawImage2.texture = loader.Load<Texture2D>(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_002");
 
             loader.AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
-                  .AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
-                  .LoadAsync();
+                   .AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
+                   .LoadAsync();
 
             // AssetBundle
             // image.sprite = loader.LoadSprite("sword");

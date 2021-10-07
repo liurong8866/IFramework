@@ -8,7 +8,10 @@ namespace IFramework.Test.Event
     {
         private void Start()
         {
-            UserInfo userInfo = new UserInfo { UserName = "liurong", Age = 20 };
+            UserInfo userInfo = new UserInfo {
+                UserName = "liurong",
+                Age = 20
+            };
             Debug.Log("发送事件");
             DefaultEvent.Send(100, userInfo);
         }

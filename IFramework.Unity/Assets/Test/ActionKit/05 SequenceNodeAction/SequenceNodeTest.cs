@@ -21,34 +21,34 @@ public class SequenceNodeTest : MonoBehaviour
         sequenceNode.Append(EventAction.Allocate(() => { "EventAction".LogInfo(); }));
 
         this.Sequence()
-            .Delay(3f)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(2)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(4)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(6)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .DelayFrame(8)
-            .Event(() => Debug.Log("序列：" + Time.frameCount))
-            .Append(sequenceNode)
-            .NextFrame()
-            .NextFrame()
-            .Begin();
+               .Delay(3f)
+               .Event(() => Debug.Log("序列：" + Time.frameCount))
+               .DelayFrame(2)
+               .Event(() => Debug.Log("序列：" + Time.frameCount))
+               .DelayFrame(4)
+               .Event(() => Debug.Log("序列：" + Time.frameCount))
+               .DelayFrame(6)
+               .Event(() => Debug.Log("序列：" + Time.frameCount))
+               .DelayFrame(8)
+               .Event(() => Debug.Log("序列：" + Time.frameCount))
+               .Append(sequenceNode)
+               .NextFrame()
+               .NextFrame()
+               .Begin();
         this.NextFrame(() => { Debug.Log(Time.frameCount); });
     }
 
     private void Start()
     {
         this.Sequence()
-            .Delay(1.0f)
-            .Event(() => Log.Info("Sequence1 延时了 1s"))
-            .Event(() => {
-                 int i = 0;
-                 i = 1 / i;
-             })
-            .Begin()
-            .OnDisposed(() => { Log.Info("Sequence1 destroyed"); });
+               .Delay(1.0f)
+               .Event(() => Log.Info("Sequence1 延时了 1s"))
+               .Event(() => {
+                    int i = 0;
+                    i = 1 / i;
+                })
+               .Begin()
+               .OnDisposed(() => { Log.Info("Sequence1 destroyed"); });
         var sequenceNode2 = new SequenceNode(DelayAction.Allocate(1.5f));
         sequenceNode2.Append(EventAction.Allocate(() => Log.Info("Sequence2 延时 1.5s")));
         sequenceNode2.Append(DelayAction.Allocate(0.5f));

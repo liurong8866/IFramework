@@ -421,22 +421,22 @@ namespace IFramework.Core.Zip.Zip.Compression
                         break;
                     case 6:
                         if (window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match])
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match])
                             break;
 
                         break;
                     case 7:
                         if (window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match]
-                         && window[++scan] == window[++match])
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match]
+                             && window[++scan] == window[++match])
                             break;
 
                         break;
@@ -454,13 +454,13 @@ namespace IFramework.Core.Zip.Zip.Compression
                             break;
                         }
                     } while (window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]
-                          && window[++scan] == window[++match]);
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]
+                         && window[++scan] == window[++match]);
                 }
 
                 if (scan - strstart > matchLen) {
@@ -487,10 +487,10 @@ namespace IFramework.Core.Zip.Zip.Compression
             int storedLength = strstart - blockStart;
 
             if (storedLength >= DeflaterConstants.MAX_BLOCK_SIZE
-             || // Block is full
-                blockStart < DeflaterConstants.WSIZE && storedLength >= DeflaterConstants.MAX_DIST
-             || // Block may move out of window
-                flush) {
+                 || // Block is full
+                    blockStart < DeflaterConstants.WSIZE && storedLength >= DeflaterConstants.MAX_DIST
+                 || // Block may move out of window
+                    flush) {
                 bool lastBlock = finish;
 
                 if (storedLength > DeflaterConstants.MAX_BLOCK_SIZE) {

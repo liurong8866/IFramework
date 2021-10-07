@@ -31,7 +31,10 @@ namespace IFramework.Core
                 Log.Error("反序列化失败：需要序列化的字节数组为NULL");
                 return null;
             }
-            using MemoryStream memory = new MemoryStream(bytes) { Position = 0 };
+
+            using MemoryStream memory = new MemoryStream(bytes) {
+                Position = 0
+            };
             BinaryFormatter formatter = new BinaryFormatter();
             return formatter.Deserialize(memory) as T;
         }

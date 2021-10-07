@@ -28,12 +28,12 @@ namespace IFramework.Engine
         public static IResource Create(ResourceSearcher searcher)
         {
             IResource resource = creators
-                                 // 找到对应资源的创建者
-                                .Where(creator => creator.Match(searcher))
-                                 // 创建创建者（一般是从缓冲池分配获得）
-                                .Select(creator => creator.Create(searcher))
-                                 // 如果有多个，取第一个
-                                .FirstOrDefault();
+                    // 找到对应资源的创建者
+                   .Where(creator => creator.Match(searcher))
+                    // 创建创建者（一般是从缓冲池分配获得）
+                   .Select(creator => creator.Create(searcher))
+                    // 如果有多个，取第一个
+                   .FirstOrDefault();
 
             if (resource == null) { Log.Error("未找到相关资源加载器，加载资源失败! {0}", searcher.ToString()); }
             return resource;

@@ -29,19 +29,19 @@ namespace IFramework.Editor
         private void LoadMarkedList()
         {
             signedList = AssetDatabase.GetAllAssetBundleNames()
-                                      .SelectMany(asset => {
-                                           string[] result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
+                   .SelectMany(asset => {
+                        string[] result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
 
-                                           return result.Select(assetName => {
-                                                             if (AssetBundleMark.CheckMarked(assetName)) { return assetName; }
+                        return result.Select(assetName => {
+                                    if (AssetBundleMark.CheckMarked(assetName)) { return assetName; }
 
-                                                             if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) { return Path.GetDirectoryName(assetName); }
-                                                             return null;
-                                                         })
-                                                        .Where(assetName => assetName != null)
-                                                        .Distinct();
-                                       })
-                                      .ToList();
+                                    if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) { return Path.GetDirectoryName(assetName); }
+                                    return null;
+                                })
+                               .Where(assetName => assetName != null)
+                               .Distinct();
+                    })
+                   .ToList();
         }
 
         //绘制窗口时调用

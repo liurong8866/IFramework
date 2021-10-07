@@ -16,17 +16,13 @@ public class PersistantMonoSingletonTest : MonoBehaviour
 
         // 等一帧，等待第二个 GameManager 把自己删除
         yield return new WaitForEndOfFrame();
-			
+
         // 结果为 1 
         Debug.Log(FindObjectsOfType<GameManager>().Length);
-			
+
         // 保留最先创建的实例
         Debug.Log(instance == FindObjectOfType<GameManager>());
     }
 
-    public class GameManager : PersistentMonoSingleton<GameManager>
-    {
-
-    }
+    public class GameManager : PersistentMonoSingleton<GameManager> { }
 }
-

@@ -541,20 +541,20 @@ namespace IFramework.Core.Zip.Tar
 
             if (localHeader != null) {
                 result = name == localHeader.name
-                      && Mode == localHeader.Mode
-                      && UserId == localHeader.UserId
-                      && GroupId == localHeader.GroupId
-                      && Size == localHeader.Size
-                      && ModTime == localHeader.ModTime
-                      && Checksum == localHeader.Checksum
-                      && TypeFlag == localHeader.TypeFlag
-                      && LinkName == localHeader.LinkName
-                      && Magic == localHeader.Magic
-                      && Version == localHeader.Version
-                      && UserName == localHeader.UserName
-                      && GroupName == localHeader.GroupName
-                      && DevMajor == localHeader.DevMajor
-                      && DevMinor == localHeader.DevMinor;
+                     && Mode == localHeader.Mode
+                     && UserId == localHeader.UserId
+                     && GroupId == localHeader.GroupId
+                     && Size == localHeader.Size
+                     && ModTime == localHeader.ModTime
+                     && Checksum == localHeader.Checksum
+                     && TypeFlag == localHeader.TypeFlag
+                     && LinkName == localHeader.LinkName
+                     && Magic == localHeader.Magic
+                     && Version == localHeader.Version
+                     && UserName == localHeader.UserName
+                     && GroupName == localHeader.GroupName
+                     && DevMajor == localHeader.DevMajor
+                     && DevMinor == localHeader.DevMinor;
             } else { result = false; }
             return result;
         }
