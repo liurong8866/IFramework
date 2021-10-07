@@ -170,7 +170,7 @@ MonoBehaviour:
   CustomComponentName: 
   ComponentGeneratePath: 
   CustomComment: 
-  mComponentName: 
+  mComponentName: Transform
 --- !u!1 &943812111
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,9 +218,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example
   ScriptName: Player
-  ScriptsPath: Assets/Scripts/Game
+  ScriptsPath: Scripts/Game
   GeneratePrefab: 0
-  PrefabPath: Assets/Prefab/Game
+  PrefabPath: Prefab/Game
 --- !u!1 &1078095139
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   CustomComponentName: 
   ComponentGeneratePath: 
   CustomComment: 
-  mComponentName: 
+  mComponentName: Transform
 --- !u!1 &1431344648
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,12 @@
+using System.IO;
 using IFramework.Core;
+using UnityEngine;
 
 namespace IFramework.Editor
 {
     public abstract class AbstractTemplate : ISingleton
     {
-        protected string nameSpace;
-        protected string scriptName;
-        protected string scriptPath;
+        protected ViewController controller;
         protected PanelCodeInfo panelCodeInfo;
 
         public virtual void OnInit() { }
@@ -14,18 +14,23 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成代码
         /// </summary>
-        /// <param name="nameSpace">命名空间</param>
-        /// <param name="scriptName">脚本名称</param>
-        /// <param name="scriptPath">脚本路径</param>
+        /// <param name="controller">ViewController脚本信息路径</param>
         /// <param name="panelCodeInfo">面板代码信息</param>
-        public void Generate(string nameSpace, string scriptName, string scriptPath, PanelCodeInfo panelCodeInfo = null)
+        public void Generate(ViewController controller, PanelCodeInfo panelCodeInfo = null)
         {
-            // 如果文件存在，则退出
-            if (FileUtils.Exists(FullPath)) { return; }
-            this.nameSpace = nameSpace.Trim();
-            this.scriptName = scriptName.Trim();
-            this.scriptPath = scriptPath.Trim();
+            this.controller = controller;
+            this.controller.Namespace = controller.Namespace.Trim();
+            this.controller.ScriptName = controller.ScriptName.Trim();
+            this.controller.ScriptsPath = Application.dataPath.CombinePath(controller.ScriptsPath.Trim());
             this.panelCodeInfo = panelCodeInfo;
+
+            // 如果文件不能覆盖，并且存在，则退出
+            if (!IsOverwritten && FileUtils.Exists(FullPath)) { return; }
+
+            // 创建文件夹，如果有则忽略
+            DirectoryUtils.Create(this.controller.ScriptsPath);
+            
+            // 写入文件
             FileUtils.Write(FullPath, BuildScript());
         }
 
@@ -33,6 +38,11 @@ namespace IFramework.Editor
         /// 文件全名
         /// </summary>
         public abstract string FullPath { get; }
+        
+        /// <summary>
+        /// 是否覆盖文件
+        /// </summary>
+        protected abstract bool IsOverwritten { get; }
 
         /// <summary>
         /// 拼接字符串

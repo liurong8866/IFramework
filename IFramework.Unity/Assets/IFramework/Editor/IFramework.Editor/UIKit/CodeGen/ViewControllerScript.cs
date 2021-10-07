@@ -26,14 +26,12 @@ namespace IFramework.Editor
                 // 如果找到ViewController，则
                 if (parentController) { go = parentController.gameObject; }
             }
+            // 生成脚本
             Log.Info("生成脚本: 开始");
             ViewController controller = go.GetComponent<ViewController>();
             string scriptsPath = Application.dataPath + "/Scripts";
 
             if (controller) { scriptsPath = controller.ScriptsPath; }
-
-            // 创建文件夹，如果有则忽略
-            DirectoryUtils.Create(scriptsPath);
 
             PanelCodeInfo panelCodeInfo = new PanelCodeInfo {
                 GameObjectName = controller.name
@@ -43,9 +41,9 @@ namespace IFramework.Editor
             BindCollector.SearchBind(go.transform, "", panelCodeInfo);
 
             // 生成Controller层
-            ViewControllerTemplate.Instance.Generate(controller.Namespace, controller.ScriptName, scriptsPath);
+            ViewControllerTemplate.Instance.Generate(controller);
             // 生成Model层
-            ViewControllerDesignerTemplate.Instance.Generate(controller.Namespace, controller.ScriptName, scriptsPath, panelCodeInfo);
+            ViewControllerDesignerTemplate.Instance.Generate(controller, panelCodeInfo);
             
             Log.Info("生成脚本: 完成");
         }
