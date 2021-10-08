@@ -29,13 +29,17 @@ namespace IFramework.Editor
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using IFramework.Core;");
             sb.AppendLine("using IFramework.Engine;");
+            sb.AppendLine();
 
             if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
                 sb.AppendLine("// 1.请在菜单 IFramework/UIKit Config 里设置默认命名空间");
-                sb.AppendLine("// 2.命名空间更改后，生成代码之后，需要把逻辑代码文件（非 Designer）的命名空间手动更改");
+                sb.AppendLine("// 2.用户逻辑代码不会被覆盖，如需重新生成，请手动删除当前代码文件");
             }
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
+            sb.AppendLine("\t/// <summary>");
+            sb.AppendLine("\t///" + controller.Comment);
+            sb.AppendLine("\t/// </summary>");
             sb.AppendLine("\tpublic partial class {0} : ViewController".Format(controller.ScriptName));
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tvoid Start()");

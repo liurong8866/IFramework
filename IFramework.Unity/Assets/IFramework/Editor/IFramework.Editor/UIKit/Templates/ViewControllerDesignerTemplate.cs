@@ -27,20 +27,30 @@ namespace IFramework.Editor
         protected override string BuildScript()
         {
             StringBuilder sb = new StringBuilder();
+            // 确保每次生成文件都编译
+            sb.AppendLine("/* Auto Generate By Code {0} */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            sb.AppendLine();
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using IFramework.Core;");
             sb.AppendLine("using IFramework.Engine;");
+            sb.AppendLine();
 
             if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
-                sb.AppendLine("// 1.请在菜单：IFramework/UIKit Config 里设置默认命名空间");
-                sb.AppendLine("// 2.命名空间更改后，生成代码之后，需要把逻辑代码文件（非 Designer）的命名空间手动更改");
+                sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间");
             }
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
             sb.AppendLine("\tpublic partial class {0}".Format(controller.ScriptName));
             sb.AppendLine("\t{");
 
-            foreach (BindInfo bindInfo in rootControllerInfo.BindInfoList) { sb.AppendLine("\t\tpublic {0} {1};".Format(bindInfo.BindScript.ComponentName, bindInfo.Name)); }
+            // 循环设置字段
+            foreach (BindInfo bindInfo in rootControllerInfo.BindInfoList) {
+                if (bindInfo.BindScript.Comment.IsNotNullOrEmpty()) {
+                    // 添加注释
+                    sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
+                }
+                sb.AppendLine("\t\tpublic {0} {1};".Format(bindInfo.BindScript.ComponentName, bindInfo.Name));
+            }
             sb.AppendLine("\t}");
             sb.AppendLine("}");
             return sb.ToString();

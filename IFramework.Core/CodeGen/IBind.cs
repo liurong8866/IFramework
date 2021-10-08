@@ -4,9 +4,9 @@ namespace IFramework.Core
 {
     public interface IBind
     {
-        string ComponentName { get; }
+        string ComponentName { get; set; }
 
-        string Comment { get; }
+        string Comment { get; set; }
 
         Transform Transform { get; }
 

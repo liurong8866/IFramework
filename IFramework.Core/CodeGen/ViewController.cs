@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace IFramework.Core
 {
+    [AddComponentMenu("IFramework/ViewController")]
     public class ViewController : MonoBehaviour
     {
         [HideInInspector] public string Namespace;

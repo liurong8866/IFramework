@@ -69,9 +69,7 @@ namespace IFramework.Editor
         /// </summary>
         public static bool IsViewController(this Component component)
         {
-            if (!component.GetComponent<ViewController>()) return false;
-
-            return true;
+            return component.GetComponent<ViewController>();
         }
 
     }
