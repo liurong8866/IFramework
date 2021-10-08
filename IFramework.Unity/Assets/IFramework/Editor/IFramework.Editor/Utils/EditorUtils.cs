@@ -63,6 +63,14 @@ namespace IFramework.Editor
         public static void MarkCurrentSceneDirty() {
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void CombinFilePath()
+        {
+            
+        }
         
         /// <summary>
         /// 判断是否 ViewController

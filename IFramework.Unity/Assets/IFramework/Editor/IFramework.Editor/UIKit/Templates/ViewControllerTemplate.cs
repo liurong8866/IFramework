@@ -37,9 +37,12 @@ namespace IFramework.Editor
             }
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine("\t/// <summary>");
-            sb.AppendLine("\t///" + controller.Comment);
-            sb.AppendLine("\t/// </summary>");
+
+            if (controller.Comment.IsNotNullOrEmpty()) {
+                sb.AppendLine("\t/// <summary>");
+                sb.AppendLine("\t///" + controller.Comment);
+                sb.AppendLine("\t/// </summary>");
+            }
             sb.AppendLine("\tpublic partial class {0} : ViewController".Format(controller.ScriptName));
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tvoid Start()");

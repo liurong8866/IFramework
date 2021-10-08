@@ -14,7 +14,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => FullPath + "/{0}.Designer.cs".Format(controller.ScriptName);
+        public override string FullName => controller.ScriptAssetsDesignerName;
 
         /// <summary>
         /// 是否覆盖文件
@@ -28,16 +28,14 @@ namespace IFramework.Editor
         {
             StringBuilder sb = new StringBuilder();
             // 确保每次生成文件都编译
-            sb.AppendLine("/* Auto Generate By Code {0} */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            sb.AppendLine("/* auto generate at {0} */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             sb.AppendLine();
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using IFramework.Core;");
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
 
-            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
-                sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间");
-            }
+            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) { sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间"); }
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
             sb.AppendLine("\tpublic partial class {0}".Format(controller.ScriptName));
@@ -50,6 +48,7 @@ namespace IFramework.Editor
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
                 sb.AppendLine("\t\tpublic {0} {1};".Format(bindInfo.BindScript.ComponentName, bindInfo.Name));
+                sb.AppendLine();
             }
             sb.AppendLine("\t}");
             sb.AppendLine("}");

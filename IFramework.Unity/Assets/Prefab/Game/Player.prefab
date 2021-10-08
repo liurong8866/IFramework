@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1281438244380336341}
-  - component: {fileID: 7198480011170223079}
+  - component: {fileID: 7210972084165238650}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -78,7 +78,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7198480011170223079
+--- !u!114 &7210972084165238650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,9 +92,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example
   ScriptName: Player
+  AsSubPath: 1
   ScriptPath: Scripts/Game
   PrefabPath: Prefab/Game
-  Comment: "\u7528\u6237\u7C7B"
+  Comment: 
   UserName: {fileID: 1281438243920389604}
   Password: {fileID: 1281438245257678072}
 --- !u!1 &1281438245257678073

@@ -136,7 +136,9 @@ namespace IFramework.Editor
             }
             // Apply the changed properties without an undo.
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            string path = "Assets/" + controller.PrefabPath;
+            
+            // Prefab路径
+            string path = controller.PrefabAssetsPath;
 
             // 如果不存在，则生成文件夹
             DirectoryUtils.Create(path);

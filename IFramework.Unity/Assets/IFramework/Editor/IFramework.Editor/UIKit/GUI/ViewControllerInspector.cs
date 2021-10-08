@@ -1,10 +1,7 @@
-using System;
 using System.IO;
 using IFramework.Core;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using Object = System.Object;
 
 namespace IFramework.Editor
 {
@@ -36,22 +33,22 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            //
+            // EditorGUILayout.GetControlRect();
 
             // 开始布局
             GUILayout.BeginVertical();
-            
+            GUILayout.Space(15);
             // 命名空间
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("命名空间");
-            // GUILayout.Label("命名空间", GUILayout.Width(100));
+            EditorGUILayout.PrefixLabel("Name Space");
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
             // 脚本名称
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("脚本名称");
-            // GUILayout.Label("脚本名称", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("Script Name");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
             GUILayout.EndHorizontal();
@@ -59,29 +56,36 @@ namespace IFramework.Editor
 
             // 生成路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("脚本路径");
-            // GUILayout.Label("生成路径", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("Script Path");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
+
+            if (controller.AsScriptSubPath) { GUILayout.Label($"/{controller.ScriptName}/"); }
+            controller.AsScriptSubPath = EditorGUILayout.Toggle(controller.AsScriptSubPath, GUILayout.Width(20));
             GUILayout.EndHorizontal();
+            // GUILayout.Space(5);
+            // EditorGUILayout.HelpBox("勾选后，脚本名称作为子路径", MessageType.None, false);
             GUILayout.Space(5);
 
             // Prefab路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("预设路径");
-            // GUILayout.Label("生成路径", GUILayout.Width(60));
+            EditorGUILayout.PrefixLabel("Prefab Path");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
+
+            if (controller.AsPrefabSubPath) { GUILayout.Label($"/{controller.ScriptName}/"); }
+            controller.AsPrefabSubPath = EditorGUILayout.Toggle(controller.AsPrefabSubPath, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-
+            EditorGUILayout.HelpBox("勾选后，生成路径将包含脚本名称作为子路径。", MessageType.None, false);
             // 注释
-            EditorGUILayout.PrefixLabel("注释");
+            EditorGUILayout.PrefixLabel("Comment");
+            GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             controller.Comment = EditorGUILayout.TextArea(controller.Comment, GUILayout.Height(40));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            
+
             // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
@@ -95,14 +99,12 @@ namespace IFramework.Editor
                 GUIUtility.ExitGUI();
             }
 
-            // 全路径
-            string fileFullPath = "Assets/" + controller.ScriptPath + "/" + controller.ScriptName + ".cs";
-
             // 如果文件存在则显示
-            if (File.Exists(fileFullPath)) {
-                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(fileFullPath);
+            if (File.Exists(controller.ScriptAssetsClassName)) {
+                // 加载类资源
+                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(controller.ScriptAssetsClassName);
 
-                if (GUILayout.Button("选择", GUILayout.Width(60))) { Selection.objects = new UnityEngine.Object[] { scriptObject }; }
+                if (GUILayout.Button("选择", GUILayout.Width(60))) { Selection.objects = new Object[] { scriptObject }; }
 
                 if (GUILayout.Button("打开", GUILayout.Width(60))) { AssetDatabase.OpenAsset(scriptObject); }
             }
