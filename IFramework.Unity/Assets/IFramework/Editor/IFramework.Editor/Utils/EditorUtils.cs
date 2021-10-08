@@ -53,7 +53,9 @@ namespace IFramework.Editor
         public static Object SavePrefab(GameObject gameObject, string assetPath)
         {
         #if UNITY_2018_3_OR_NEWER
-            return PrefabUtility.SaveAsPrefabAssetAndConnect(gameObject, assetPath, InteractionMode.AutomatedAction);
+            GameObject go = PrefabUtility.SaveAsPrefabAssetAndConnect(gameObject, assetPath, InteractionMode.AutomatedAction);
+            PrefabUtility.SavePrefabAsset(go);
+            return go;
         #else
             return PrefabUtility.CreatePrefab(assetPath, gameObject, ReplacePrefabOptions.ConnectToPrefab);
         #endif
@@ -89,12 +91,15 @@ namespace IFramework.Editor
         {
             foreach (GameObject go in gameObjects) {
                 // 递归查找所有子节点
-                go.transform.ActionRecursion((transform) => {
+                go.transform.ActionRecursion(trans  => {
+                    Log.Info(trans.gameObject.name);
+
                     // 通过Component组件，找到Missing的组件
-                    Component[] components = go.GetComponents<Component>();
+                    Component[] components = trans.gameObject.GetComponents<Component>();
 
                     // 创建SerializedObject对象，用于修改Component
                     SerializedObject serializedObject = new SerializedObject(go);
+                    
                     bool hasMiss = false;
 
                     // 循环所有组件
@@ -109,7 +114,6 @@ namespace IFramework.Editor
                     if (hasMiss) {
                         // 唤醒事件
                         onCleared.InvokeSafe(go);
-                        
                         // 提交修改
                         serializedObject.ApplyModifiedProperties();
                         EditorUtility.SetDirty(go);

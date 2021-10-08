@@ -13,6 +13,7 @@ namespace IFramework.Editor
 {
     public class ViewControllerScript
     {
+        private static DateTime start;
         private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
         private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
         private static readonly ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
@@ -22,6 +23,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode(bool overwrite)
         {
+            start = DateTime.Now;
             Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
 
@@ -61,9 +63,6 @@ namespace IFramework.Editor
 
             // 刷新项目资源
             AssetDatabase.Refresh();
-            
-            Thread.Sleep(1000);
-            Log.Info("生成脚本: 完成");
         }
 
         [DidReloadScripts]
@@ -74,7 +73,7 @@ namespace IFramework.Editor
                 FixComponentLost();
                 return;
             }
-            Log.Info("生成脚本: 开始编译");
+            Log.Info("生成脚本: 正在编译");
 
             // 通过反射获得生成的类
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -93,10 +92,11 @@ namespace IFramework.Editor
             GameObject go = GameObject.Find(gameObjectName.Value);
 
             if (!go) {
-                Log.Warning("ViewController脚本丢失:{0}".Format(gameObjectName));
+                Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(gameObjectName));
                 Clear();
                 return;
             }
+
             // 给对象添加组件
             Component component = go.GetComponent(type);
 
@@ -145,24 +145,27 @@ namespace IFramework.Editor
 
                 // 当根节点，或者其父节点也是prefab，则不保存
                 if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
-                    EditorUtils.SavePrefab(go, controller.PrefabAssetsPath + "/{0}.prefab".Format(go.name));
+                    string path = controller.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
+                    Log.Info("生成脚本: 正在生成预设 " + path);
+                    EditorUtils.SavePrefab(go, path);
                 }
-                else {
-                    Log.Warning($"生成脚本: 为保存 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
-                }
+                else { Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。"); }
             }
             else {
                 serializedObject.FindProperty("ScriptPath").stringValue = "Assets/Scripts";
                 // Apply the changed properties without an undo.
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
             }
-            
+
             // 清理缓存数据
             Clear();
 
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
-            Log.Info("生成脚本: 编译完成");
+            Log.Info(new DateTime());
+            Log.Info(start);
+            Log.Info("生成脚本: 完毕! ");
+            // Log.Info("生成脚本: 完毕! 耗时{0}秒", (DateTime.Now - start).TotalSeconds);
         }
 
         /// <summary>
