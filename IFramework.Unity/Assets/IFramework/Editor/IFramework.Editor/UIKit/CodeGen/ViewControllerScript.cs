@@ -20,6 +20,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode()
         {
+            Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
 
             if (!go) {
@@ -36,7 +37,6 @@ namespace IFramework.Editor
             }
             // 生成脚本
             Log.Info("生成脚本: 开始");
-            
             ViewController controller = go.GetComponent<ViewController>();
 
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
@@ -114,11 +114,7 @@ namespace IFramework.Editor
                 string componentName = bindInfo.BindScript.ComponentName.Split('.').Last();
 
                 // 添加Bind对象的引用
-                try {
-                    serializedObject.FindProperty(name).objectReferenceValue = go.transform.Find(bindInfo.PathToElement).GetComponent(componentName);
-                } catch (Exception e) {
-                    Log.Warning(e);
-                }
+                try { serializedObject.FindProperty(name).objectReferenceValue = go.transform.Find(bindInfo.PathToElement).GetComponent(componentName); } catch (Exception e) { Log.Warning(e); }
             }
 
             // 生成Prefab, 初始化字段
@@ -136,7 +132,7 @@ namespace IFramework.Editor
             }
             // Apply the changed properties without an undo.
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            
+
             // Prefab路径
             string path = controller.PrefabAssetsPath;
 

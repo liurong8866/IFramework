@@ -7,13 +7,14 @@ using IFramework.Engine;
 namespace IFramework.Example
 {
 	/// <summary>
-	///敌人类
+	///Root
 	/// </summary>
-	public partial class Enemy : ViewController
+	public partial class Root : ViewController
 	{
 		void Start()
 		{
 			// Code Here
-		}
+            
+        }
 	}
 }

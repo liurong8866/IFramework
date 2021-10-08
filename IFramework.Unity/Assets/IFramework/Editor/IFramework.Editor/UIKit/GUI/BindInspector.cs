@@ -45,16 +45,18 @@ namespace IFramework.Editor
 
             // 组件
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("组件");
+            EditorGUILayout.PrefixLabel("Bind Type");
             bind.BindType = (BindType)EditorGUILayout.EnumPopup(bind.BindType);
             bindTypeMonitor.Value = bind.BindType;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+            EditorGUILayout.HelpBox("如果作为子类型，需要设置为Element，同时添加ViewController", MessageType.None);
+            
             // 类型
             if (bind.BindType == BindType.DefaultElement && elementTypeIndex < elementTypeOptions.Length) {
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.PrefixLabel("类型");
+                EditorGUILayout.PrefixLabel("Class Type");
                 elementTypeIndex = EditorGUILayout.Popup(elementTypeIndex, elementTypeOptions);
                 bind.ComponentName = elementTypeOptions[elementTypeIndex];
                 GUILayout.EndHorizontal();
@@ -64,23 +66,20 @@ namespace IFramework.Editor
             // 类型
             if (bind.BindType != BindType.DefaultElement) {
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.PrefixLabel("类型");
+                EditorGUILayout.PrefixLabel("Class Type");
                 bind.ComponentName = EditorGUILayout.TextField(bind.ComponentName);
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
 
             // 注释
-            EditorGUILayout.PrefixLabel("注释");
+            EditorGUILayout.PrefixLabel("Comment");
             GUILayout.BeginHorizontal();
             bind.Comment = EditorGUILayout.TextArea(bind.Comment, GUILayout.Height(40));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             
-            // 提示
-            EditorGUILayout.HelpBox("代码生成", MessageType.Info);
-            GUILayout.Space(10);
-            //
+            // 结束
             GUILayout.EndVertical();
             EditorGUILayout.GetControlRect();
         }

@@ -1,7 +1,9 @@
+using System;
 using System.IO;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
 {
@@ -33,7 +35,8 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            //
+            
+            // 避免混用布局遮挡
             // EditorGUILayout.GetControlRect();
 
             // 开始布局
@@ -94,6 +97,7 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("生成脚本")) {
+                
                 ViewControllerScript.GenerateCode();
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
                 GUIUtility.ExitGUI();

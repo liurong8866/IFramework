@@ -28,16 +28,11 @@ namespace IFramework.Editor
             if (!IsOverwritten && FileUtils.Exists(FullName)) { return; }
 
             // 创建文件夹，如果有则忽略
-            DirectoryUtils.Create(FullPath);
+            DirectoryUtils.Create(controller.ScriptAssetsPath);
 
             // 写入文件
             FileUtils.Write(FullName, BuildScript());
         }
-
-        /// <summary>
-        /// 文件路径
-        /// </summary>
-        protected string FullPath { get; private set; }
 
         /// <summary> 
         /// 文件全名

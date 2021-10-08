@@ -7,9 +7,9 @@ using IFramework.Engine;
 namespace IFramework.Example
 {
 	/// <summary>
-	///用户类
+	///敌人
 	/// </summary>
-	public partial class Player : ViewController
+	public partial class Enemy : ViewController
 	{
 		void Start()
 		{

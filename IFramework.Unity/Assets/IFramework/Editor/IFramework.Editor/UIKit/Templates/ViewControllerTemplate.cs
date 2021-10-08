@@ -18,7 +18,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => FullPath + "/{0}.cs".Format(controller.ScriptName);
+        public override string FullName => controller.ScriptAssetsClassName;
 
         /// <summary>
         /// 拼接字符串

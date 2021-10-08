@@ -1,4 +1,4 @@
-/* Auto Generate By Code 2021-10-08 17:21:36 */
+/* auto generate at 2021-10-08 19:28:49 */
 
 using UnityEngine;
 using IFramework.Core;
@@ -11,7 +11,9 @@ namespace IFramework.Example
 	{
 		// 用户名
 		public UnityEngine.Transform UserName;
+
 		// 密码
 		public UnityEngine.Transform Password;
+
 	}
 }
