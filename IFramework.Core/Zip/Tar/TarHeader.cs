@@ -391,7 +391,8 @@ namespace IFramework.Core.Zip.Tar
         public string UserName {
             get => userName;
             set {
-                if (value != null) { userName = value.Substring(0, Math.Min(UNAMELEN, value.Length)); } else {
+                if (value != null) { userName = value.Substring(0, Math.Min(UNAMELEN, value.Length)); }
+                else {
                     string currentUser = "user";
 
                     if (currentUser.Length > UNAMELEN) { currentUser = currentUser.Substring(0, UNAMELEN); }
@@ -409,7 +410,8 @@ namespace IFramework.Core.Zip.Tar
         public string GroupName {
             get => groupName;
             set {
-                if (value == null) { groupName = "None"; } else { groupName = value; }
+                if (value == null) { groupName = "None"; }
+                else { groupName = value; }
             }
         }
 
@@ -555,7 +557,8 @@ namespace IFramework.Core.Zip.Tar
                      && GroupName == localHeader.GroupName
                      && DevMajor == localHeader.DevMajor
                      && DevMinor == localHeader.DevMinor;
-            } else { result = false; }
+            }
+            else { result = false; }
             return result;
         }
 

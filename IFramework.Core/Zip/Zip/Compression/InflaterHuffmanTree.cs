@@ -126,7 +126,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                         tree[revcode] = (short)((i << 4) | bits);
                         revcode += 1 << bits;
                     } while (revcode < 512);
-                } else {
+                }
+                else {
                     int subTree = tree[revcode & 511];
                     int treeLen = 1 << (subTree & 15);
                     subTree = -(subTree >> 4);

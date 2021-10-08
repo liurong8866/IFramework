@@ -7,7 +7,7 @@ namespace IFramework.Example
 {
 	public partial class Enemy
 	{
-		public Transform UserName;
-		public Transform Password;
+		public UnityEngine.RectTransform UserName;
+		public UnityEngine.RectTransform Password;
 	}
 }

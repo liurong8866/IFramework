@@ -43,7 +43,8 @@ namespace IFramework.Core
             if (instance == null) {
                 instance = this as T;
                 DontDestroyOnLoad(transform.gameObject);
-            } else {
+            }
+            else {
                 // 如果当前对象不为空，并且不是自己则销毁
                 if (this != instance) { Destroy(gameObject); }
             }

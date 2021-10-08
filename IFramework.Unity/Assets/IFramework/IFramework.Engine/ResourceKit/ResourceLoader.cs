@@ -195,7 +195,8 @@ namespace IFramework.Engine
                         resource.RegisterOnLoadedEvent(OnResourceLoaded);
                         // 异步调用
                         resource.LoadASync();
-                    } else { loadingCount--; }
+                    }
+                    else { loadingCount--; }
                 }
                 currentNode = nextNode;
             }

@@ -469,7 +469,8 @@ namespace IFramework.Core
                 sb.Insert(0, tran.name);
                 tran = tran.parent;
 
-                if (tran) { sb.Insert(0, "/"); } else { return sb.ToString(); }
+                if (tran) { sb.Insert(0, "/"); }
+                else { return sb.ToString(); }
             }
         }
 

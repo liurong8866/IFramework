@@ -99,7 +99,8 @@ namespace IFramework.Core
         {
             List<string> fileList;
 
-            if (!recursion) { fileList = Directory.GetFiles(folderPath).ToList(); } else {
+            if (!recursion) { fileList = Directory.GetFiles(folderPath).ToList(); }
+            else {
                 fileList = Directory.GetFiles(folderPath).ToList();
 
                 //找出所有子文件夹

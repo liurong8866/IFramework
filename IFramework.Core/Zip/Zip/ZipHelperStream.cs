@@ -152,11 +152,13 @@ namespace IFramework.Core.Zip.Zip
                 if (entry.LocalHeaderRequiresZip64) {
                     WriteLeInt(-1);
                     WriteLeInt(-1);
-                } else {
+                }
+                else {
                     WriteLeInt(entry.IsCrypted ? (int)entry.CompressedSize + ZipConstants.CRYPTO_HEADER_SIZE : (int)entry.CompressedSize);
                     WriteLeInt((int)entry.Size);
                 }
-            } else {
+            }
+            else {
                 if (patchData != null) { patchData.CrcPatchOffset = stream.Position; }
                 WriteLeInt(0); // Crc
 
@@ -166,7 +168,8 @@ namespace IFramework.Core.Zip.Zip
                 if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) {
                     WriteLeInt(-1);
                     WriteLeInt(-1);
-                } else {
+                }
+                else {
                     WriteLeInt(0); // Compressed size
                     WriteLeInt(0); // Uncompressed size
                 }
@@ -182,7 +185,8 @@ namespace IFramework.Core.Zip.Zip
                 if (headerInfoAvailable) {
                     ed.AddLeLong(entry.Size);
                     ed.AddLeLong(entry.CompressedSize);
-                } else {
+                }
+                else {
                     ed.AddLeLong(-1);
                     ed.AddLeLong(-1);
                 }
@@ -191,7 +195,8 @@ namespace IFramework.Core.Zip.Zip
                 if (!ed.Find(1)) { throw new ZipException("Internal error cant find extra data"); }
 
                 if (patchData != null) { patchData.SizePatchOffset = ed.CurrentReadIndex; }
-            } else { ed.Delete(1); }
+            }
+            else { ed.Delete(1); }
             byte[] extra = ed.GetEntryData();
             WriteLeShort(name.Length);
             WriteLeShort(extra.Length);
@@ -280,7 +285,8 @@ namespace IFramework.Core.Zip.Zip
             if (noOfEntries >= 0xffff) {
                 WriteLeUshort(0xffff); // Zip64 marker
                 WriteLeUshort(0xffff);
-            } else {
+            }
+            else {
                 WriteLeShort((short)noOfEntries); // entries in central dir for this disk
                 WriteLeShort((short)noOfEntries); // total entries in central directory
             }
@@ -288,12 +294,14 @@ namespace IFramework.Core.Zip.Zip
             // Size of the central directory
             if (sizeEntries >= 0xffffffff) {
                 WriteLeUint(0xffffffff); // Zip64 marker
-            } else { WriteLeInt((int)sizeEntries); }
+            }
+            else { WriteLeInt((int)sizeEntries); }
 
             // offset of start of central directory
             if (startOfCentralDirectory >= 0xffffffff) {
                 WriteLeUint(0xffffffff); // Zip64 marker
-            } else { WriteLeInt((int)startOfCentralDirectory); }
+            }
+            else { WriteLeInt((int)startOfCentralDirectory); }
             int commentLength = comment != null ? comment.Length : 0;
 
             if (commentLength > 0xffff) { throw new ZipException(string.Format("Comment length({0}) is too long can only be 64K", commentLength)); }
@@ -433,7 +441,8 @@ namespace IFramework.Core.Zip.Zip
                     WriteLeLong(entry.CompressedSize);
                     WriteLeLong(entry.Size);
                     result += 16;
-                } else {
+                }
+                else {
                     WriteLeInt((int)entry.CompressedSize);
                     WriteLeInt((int)entry.Size);
                     result += 8;
@@ -460,7 +469,8 @@ namespace IFramework.Core.Zip.Zip
             if (zip64) {
                 data.CompressedSize = ReadLeLong();
                 data.Size = ReadLeLong();
-            } else {
+            }
+            else {
                 data.CompressedSize = ReadLeInt();
                 data.Size = ReadLeInt();
             }

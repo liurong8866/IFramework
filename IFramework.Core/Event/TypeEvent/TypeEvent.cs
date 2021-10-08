@@ -18,7 +18,8 @@ namespace IFramework.Core
 
             if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
                 if (register is TypeEventRegister<T> reg) { reg.actions += action; }
-            } else {
+            }
+            else {
                 TypeEventRegister<T> reg = new TypeEventRegister<T>();
                 reg.actions = action;
                 typeEventDict.Add(type, reg);

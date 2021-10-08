@@ -296,7 +296,8 @@ namespace IFramework.Core.Zip.Tar
                     offset += aLen;
                     count -= aLen;
                     assemblyBufferLength = 0;
-                } else {
+                }
+                else {
                     Array.Copy(buffer, offset, assemblyBuffer, assemblyBufferLength, count);
                     offset += count;
                     assemblyBufferLength += count;

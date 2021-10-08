@@ -70,7 +70,8 @@ namespace IFramework.Core.Zip
             while (copying) {
                 int bytesRead = source.Read(buffer, 0, buffer.Length);
 
-                if (bytesRead > 0) { destination.Write(buffer, 0, bytesRead); } else {
+                if (bytesRead > 0) { destination.Write(buffer, 0, bytesRead); }
+                else {
                     destination.Flush();
                     copying = false;
                 }
@@ -123,7 +124,8 @@ namespace IFramework.Core.Zip
             long processed = 0;
             long target = 0;
 
-            if (fixedTarget >= 0) { target = fixedTarget; } else if (source.CanSeek) { target = source.Length - source.Position; }
+            if (fixedTarget >= 0) { target = fixedTarget; }
+            else if (source.CanSeek) { target = source.Length - source.Position; }
 
             // Always fire 0% progress..
             ProgressEventArgs args = new ProgressEventArgs(name, processed, target);
@@ -137,7 +139,8 @@ namespace IFramework.Core.Zip
                     processed += bytesRead;
                     progressFired = false;
                     destination.Write(buffer, 0, bytesRead);
-                } else {
+                }
+                else {
                     destination.Flush();
                     copying = false;
                 }

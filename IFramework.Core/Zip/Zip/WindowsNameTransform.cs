@@ -76,7 +76,8 @@ namespace IFramework.Core.Zip.Zip
 
             if (name.Length > 0) {
                 while (name.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)) { name = name.Remove(name.Length - 1, 1); }
-            } else { throw new ZipException("Cannot have an empty directory name"); }
+            }
+            else { throw new ZipException("Cannot have an empty directory name"); }
             return name;
         }
 
@@ -95,7 +96,8 @@ namespace IFramework.Core.Zip.Zip
                 // This may exceed windows length restrictions.
                 // Combine will throw a PathTooLongException in that case.
                 if (baseDirectory != null) { name = Path.Combine(baseDirectory, name); }
-            } else { name = string.Empty; }
+            }
+            else { name = string.Empty; }
             return name;
         }
 
@@ -145,7 +147,8 @@ namespace IFramework.Core.Zip.Zip
                 while (index >= 0) {
                     builder[index] = replacement;
 
-                    if (index >= name.Length) { index = -1; } else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
+                    if (index >= name.Length) { index = -1; }
+                    else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
                 }
                 name = builder.ToString();
             }

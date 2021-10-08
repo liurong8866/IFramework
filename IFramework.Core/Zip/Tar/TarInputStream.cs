@@ -174,7 +174,8 @@ namespace IFramework.Core.Zip.Tar
                 int sz = numToRead > readBuffer.Length ? readBuffer.Length : (int)numToRead;
                 Array.Copy(readBuffer, 0, buffer, offset, sz);
 
-                if (sz >= readBuffer.Length) { readBuffer = null; } else {
+                if (sz >= readBuffer.Length) { readBuffer = null; }
+                else {
                     int newLen = readBuffer.Length - sz;
                     byte[] newBuf = new byte[newLen];
                     Array.Copy(readBuffer, sz, newBuf, 0, newLen);
@@ -199,7 +200,8 @@ namespace IFramework.Core.Zip.Tar
                     Array.Copy(rec, 0, buffer, offset, sz);
                     readBuffer = new byte[recLen - sz];
                     Array.Copy(rec, sz, readBuffer, 0, recLen - sz);
-                } else {
+                }
+                else {
                     sz = recLen;
                     Array.Copy(rec, 0, buffer, offset, recLen);
                 }
@@ -325,9 +327,12 @@ namespace IFramework.Core.Zip.Tar
             if (currentEntry != null) { SkipToNextEntry(); }
             byte[] headerBuf = tarBuffer.ReadBlock();
 
-            if (headerBuf == null) { hasHitEof = true; } else hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
+            if (headerBuf == null) { hasHitEof = true; }
+            else
+                hasHitEof |= TarBuffer.IsEndOfArchiveBlock(headerBuf);
 
-            if (hasHitEof) { currentEntry = null; } else {
+            if (hasHitEof) { currentEntry = null; }
+            else {
                 try {
                     TarHeader header = new TarHeader();
                     header.ParseBuffer(headerBuf);
@@ -351,21 +356,25 @@ namespace IFramework.Core.Zip.Tar
                         }
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    } else if (header.TypeFlag == TarHeader.LF_GHDR) {
+                    }
+                    else if (header.TypeFlag == TarHeader.LF_GHDR) {
                         // POSIX global extended header
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    } else if (header.TypeFlag == TarHeader.LF_XHDR) {
+                    }
+                    else if (header.TypeFlag == TarHeader.LF_XHDR) {
                         // POSIX extended header
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    } else if (header.TypeFlag == TarHeader.LF_GNU_VOLHDR) {
+                    }
+                    else if (header.TypeFlag == TarHeader.LF_GNU_VOLHDR) {
                         // TODO: could show volume name when verbose
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
-                    } else if (header.TypeFlag != TarHeader.LF_NORMAL && header.TypeFlag != TarHeader.LF_OLDNORM && header.TypeFlag != TarHeader.LF_LINK && header.TypeFlag != TarHeader.LF_SYMLINK && header.TypeFlag != TarHeader.LF_DIR) {
+                    }
+                    else if (header.TypeFlag != TarHeader.LF_NORMAL && header.TypeFlag != TarHeader.LF_OLDNORM && header.TypeFlag != TarHeader.LF_LINK && header.TypeFlag != TarHeader.LF_SYMLINK && header.TypeFlag != TarHeader.LF_DIR) {
                         // Ignore things we dont understand completely for now
                         SkipToNextEntry();
                         headerBuf = tarBuffer.ReadBlock();
@@ -375,7 +384,8 @@ namespace IFramework.Core.Zip.Tar
                         currentEntry = new TarEntry(headerBuf);
 
                         if (longName != null) { currentEntry.Name = longName.ToString(); }
-                    } else { currentEntry = entryFactory.CreateEntry(headerBuf); }
+                    }
+                    else { currentEntry = entryFactory.CreateEntry(headerBuf); }
 
                     // Magic was checked here for 'ustar' but there are multiple valid possibilities
                     // so this is not done anymore.

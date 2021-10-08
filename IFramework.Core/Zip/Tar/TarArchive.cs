@@ -94,7 +94,8 @@ namespace IFramework.Core.Zip.Tar
             TarInputStream tarStream = inputStream as TarInputStream;
             TarArchive result;
 
-            if (tarStream != null) { result = new TarArchive(tarStream); } else { result = CreateInputTarArchive(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR); }
+            if (tarStream != null) { result = new TarArchive(tarStream); }
+            else { result = CreateInputTarArchive(inputStream, TarBuffer.DEFAULT_BLOCK_FACTOR); }
             return result;
         }
 
@@ -123,7 +124,8 @@ namespace IFramework.Core.Zip.Tar
             TarOutputStream tarStream = outputStream as TarOutputStream;
             TarArchive result;
 
-            if (tarStream != null) { result = new TarArchive(tarStream); } else { result = CreateOutputTarArchive(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR); }
+            if (tarStream != null) { result = new TarArchive(tarStream); }
+            else { result = CreateOutputTarArchive(outputStream, TarBuffer.DEFAULT_BLOCK_FACTOR); }
             return result;
         }
 
@@ -353,7 +355,8 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         public bool IsStreamOwner {
             set {
-                if (tarIn != null) { tarIn.IsStreamOwner = value; } else { tarOut.IsStreamOwner = value; }
+                if (tarIn != null) { tarIn.IsStreamOwner = value; }
+                else { tarOut.IsStreamOwner = value; }
             }
         }
 
@@ -427,7 +430,8 @@ namespace IFramework.Core.Zip.Tar
             name = name.Replace('/', Path.DirectorySeparatorChar);
             string destFile = Path.Combine(destDir, name);
 
-            if (entry.IsDirectory) { EnsureDirectoryExists(destFile); } else {
+            if (entry.IsDirectory) { EnsureDirectoryExists(destFile); }
+            else {
                 string parentDirectory = Path.GetDirectoryName(destFile);
                 EnsureDirectoryExists(parentDirectory);
                 bool process = true;
@@ -437,7 +441,8 @@ namespace IFramework.Core.Zip.Tar
                     if (keepOldFiles) {
                         OnProgressMessageEvent(entry, "Destination file already exists");
                         process = false;
-                    } else if ((fileInfo.Attributes & FileAttributes.ReadOnly) != 0) {
+                    }
+                    else if ((fileInfo.Attributes & FileAttributes.ReadOnly) != 0) {
                         OnProgressMessageEvent(entry, "Destination file already exists, and is read-only");
                         process = false;
                     }
@@ -466,10 +471,12 @@ namespace IFramework.Core.Zip.Tar
                                     off = b + 1;
                                 }
                             }
-                        } else { outputStream.Write(rdbuf, 0, numRead); }
+                        }
+                        else { outputStream.Write(rdbuf, 0, numRead); }
                     }
 
-                    if (asciiTrans) { outw.Dispose(); } else { outputStream.Dispose(); }
+                    if (asciiTrans) { outw.Dispose(); }
+                    else { outputStream.Dispose(); }
                 }
             }
         }
@@ -566,7 +573,8 @@ namespace IFramework.Core.Zip.Tar
 
                     for (int i = 0; i < list.Length; ++i) { WriteEntryCore(list[i], recurse); }
                 }
-            } else {
+            }
+            else {
                 using (Stream inputStream = File.OpenRead(entryFilename)) {
                     byte[] localBuffer = new byte[32 * 1024];
 

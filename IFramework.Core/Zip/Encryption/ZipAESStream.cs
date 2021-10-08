@@ -83,7 +83,8 @@ namespace IFramework.Core.Zip.Encryption
                     nBytes += CRYPTO_BLOCK_SIZE;
                     offset += CRYPTO_BLOCK_SIZE;
                     slideBufStartPos += CRYPTO_BLOCK_SIZE;
-                } else {
+                }
+                else {
                     // Last round.
                     if (byteCount > AUTH_CODE_LENGTH) {
                         // At least one byte of data plus auth code
@@ -91,7 +92,8 @@ namespace IFramework.Core.Zip.Encryption
                         transform.TransformBlock(slideBuffer, slideBufStartPos, finalBlock, buffer, offset);
                         nBytes += finalBlock;
                         slideBufStartPos += finalBlock;
-                    } else if (byteCount < AUTH_CODE_LENGTH) throw new Exception("Internal error missed auth code"); // Coding bug
+                    }
+                    else if (byteCount < AUTH_CODE_LENGTH) throw new Exception("Internal error missed auth code"); // Coding bug
 
                     // Final block done. Check Auth code.
                     byte[] calcAuthCode = transform.GetAuthCode();

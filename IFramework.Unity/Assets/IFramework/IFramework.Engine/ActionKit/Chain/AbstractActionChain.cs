@@ -35,7 +35,8 @@ namespace IFramework.Engine
         protected override void OnExecute()
         {
             // if (disposeWhenCondition && disposeCondition != null && disposeCondition.Invoke()) {
-            if (disposeCondition != null && disposeCondition.Invoke()) { Finish(); } else { Finished = Node.Execute(); }
+            if (disposeCondition != null && disposeCondition.Invoke()) { Finish(); }
+            else { Finished = Node.Execute(); }
         }
 
         /// <summary>

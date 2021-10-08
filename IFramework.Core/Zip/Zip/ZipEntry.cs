@@ -246,7 +246,8 @@ namespace IFramework.Core.Zip.Zip
         public bool IsCrypted {
             get => (Flags & 1) != 0;
             set {
-                if (value) { Flags |= 1; } else { Flags &= ~1; }
+                if (value) { Flags |= 1; }
+                else { Flags &= ~1; }
             }
         }
 
@@ -258,7 +259,8 @@ namespace IFramework.Core.Zip.Zip
         public bool IsUnicodeText {
             get => (Flags & (int)GeneralBitFlags.UnicodeText) != 0;
             set {
-                if (value) { Flags |= (int)GeneralBitFlags.UnicodeText; } else { Flags &= ~(int)GeneralBitFlags.UnicodeText; }
+                if (value) { Flags |= (int)GeneralBitFlags.UnicodeText; }
+                else { Flags &= ~(int)GeneralBitFlags.UnicodeText; }
             }
         }
 
@@ -440,7 +442,12 @@ namespace IFramework.Core.Zip.Zip
 
                 if (AesKeySize > 0) {
                     result = ZipConstants.VERSION_AES; // Ver 5.1 = AES
-                } else if (CentralHeaderRequiresZip64) { result = ZipConstants.VERSION_ZIP64; } else if (CompressionMethod.Deflated == method) { result = 20; } else if (IsDirectory) { result = 20; } else if (IsCrypted) { result = 20; } else if (HasDosAttributes(0x08)) { result = 11; }
+                }
+                else if (CentralHeaderRequiresZip64) { result = ZipConstants.VERSION_ZIP64; }
+                else if (CompressionMethod.Deflated == method) { result = 20; }
+                else if (IsDirectory) { result = 20; }
+                else if (IsCrypted) { result = 20; }
+                else if (HasDosAttributes(0x08)) { result = 11; }
                 return result;
             }
         }
@@ -544,7 +551,8 @@ namespace IFramework.Core.Zip.Zip
                     hour = 0;
                     minute = 0;
                     second = 0;
-                } else if (year > 2107) {
+                }
+                else if (year > 2107) {
                     year = 2107;
                     month = 12;
                     day = 31;
@@ -653,7 +661,8 @@ namespace IFramework.Core.Zip.Zip
                     //				return (byte[]) extra.Clone();
                     extra;
             set {
-                if (value == null) { extra = null; } else {
+                if (value == null) { extra = null; }
+                else {
                     if (value.Length > 0xffff) { throw new ArgumentOutOfRangeException(nameof(value)); }
                     extra = new byte[value.Length];
                     Array.Copy(value, 0, extra, 0, value.Length);
@@ -767,7 +776,8 @@ namespace IFramework.Core.Zip.Zip
                 if (!localHeader && Offset == uint.MaxValue) { Offset = extraData.ReadLong(); }
 
                 // Disk number on which file starts is ignored
-            } else {
+            }
+            else {
                 if ((versionToExtract & 0xff) >= ZipConstants.VERSION_ZIP64 && (size == uint.MaxValue || compressedSize == uint.MaxValue)) { throw new ZipException("Zip64 Extended information required but is missing."); }
             }
             DateTime = GetDateTime(extraData);
@@ -830,7 +840,8 @@ namespace IFramework.Core.Zip.Zip
                 aesVer = ver;
                 aesEncryptionStrength = encrStrength;
                 method = (CompressionMethod)actualCompress;
-            } else
+            }
+            else
                 throw new ZipException("AES Extra Data missing");
         }
 

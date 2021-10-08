@@ -101,7 +101,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                             /* repeat zero */
                             //  		  System.err.println("repeating zero");
                             lastLen = 0;
-                        } else {
+                        }
+                        else {
                             if (ptr == 0) { throw new BaseZipException(); }
                         }
                         repSymbol = symbol - 16;

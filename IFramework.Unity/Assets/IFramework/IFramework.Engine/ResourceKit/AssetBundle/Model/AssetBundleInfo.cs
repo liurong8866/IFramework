@@ -62,7 +62,8 @@ namespace IFramework.Engine
                 AssetInfo oldInfo = GetAssetInfo(searcher);
 
                 if (oldInfo != null) { Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName); }
-            } else { assetNameMap.Add(assetKey, assetInfo); }
+            }
+            else { assetNameMap.Add(assetKey, assetInfo); }
 
             // 添加到AssetUUID字典
             assetKey = assetInfo.FullName;
@@ -72,7 +73,8 @@ namespace IFramework.Engine
                 AssetInfo oldInfo = GetAssetInfo(searcher);
 
                 if (oldInfo != null) { Log.Warning("资源已存在: {0}\n旧包: {1}, 新包: {2}", assetInfo.AssetName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName, AssetDepends[oldInfo.AssetBundleIndex].AssetBundleName); }
-            } else { assetFullNameMap.Add(assetKey, assetInfo); }
+            }
+            else { assetFullNameMap.Add(assetKey, assetInfo); }
             return true;
         }
 

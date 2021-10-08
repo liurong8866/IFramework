@@ -552,7 +552,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                             InsertString();
                         }
                         ++strstart;
-                    } else {
+                    }
+                    else {
                         strstart += matchLen;
 
                         if (lookahead >= DeflaterConstants.MIN_MATCH - 1) { UpdateHash(); }
@@ -560,7 +561,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                     matchLen = DeflaterConstants.MIN_MATCH - 1;
 
                     if (!full) { continue; }
-                } else {
+                }
+                else {
                     // No match found
                     huffman.TallyLit(window[strstart] & 0xff);
                     ++strstart;
@@ -643,7 +645,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                     lookahead--;
                     prevAvailable = false;
                     matchLen = DeflaterConstants.MIN_MATCH - 1;
-                } else {
+                }
+                else {
                     if (prevAvailable) { huffman.TallyLit(window[strstart - 1] & 0xff); }
                     prevAvailable = true;
                     strstart++;

@@ -391,7 +391,8 @@ namespace IFramework.Core.Zip.BZip2
             for (int i = 0; i < 16; i++) {
                 if (inUse16[i]) {
                     for (int j = 0; j < 16; j++) { inUse[i * 16 + j] = BsR(1) == 1; }
-                } else {
+                }
+                else {
                     for (int j = 0; j < 16; j++) { inUse[i * 16 + j] = false; }
                 }
             }
@@ -432,7 +433,8 @@ namespace IFramework.Core.Zip.BZip2
 
                 for (int i = 0; i < alphaSize; i++) {
                     while (BsR(1) == 1) {
-                        if (BsR(1) == 0) { curr++; } else { curr--; }
+                        if (BsR(1) == 0) { curr++; }
+                        else { curr--; }
                     }
                     len[t][i] = (char)curr;
                 }
@@ -508,7 +510,8 @@ namespace IFramework.Core.Zip.BZip2
                     int n = 1;
 
                     do {
-                        if (nextSym == BZip2Constants.RUN_A) { s += (0 + 1) * n; } else if (nextSym == BZip2Constants.RUN_B) { s += (1 + 1) * n; }
+                        if (nextSym == BZip2Constants.RUN_A) { s += (0 + 1) * n; }
+                        else if (nextSym == BZip2Constants.RUN_B) { s += (1 + 1) * n; }
                         n <<= 1;
 
                         if (groupPos == 0) {
@@ -541,7 +544,8 @@ namespace IFramework.Core.Zip.BZip2
                     }
 
                     if (last >= limitLast) { BlockOverrun(); }
-                } else {
+                }
+                else {
                     last++;
 
                     if (last >= limitLast) { BlockOverrun(); }
@@ -597,7 +601,8 @@ namespace IFramework.Core.Zip.BZip2
                 rNToGo = 0;
                 rTPos = 0;
                 SetupRandPartA();
-            } else { SetupNoRandPartA(); }
+            }
+            else { SetupNoRandPartA(); }
         }
 
         private void SetupRandPartA()
@@ -619,7 +624,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentChar = ch2;
                 currentState = RAND_PART_B_STATE;
                 mCrc.Update(ch2);
-            } else {
+            }
+            else {
                 EndBlock();
                 InitBlock();
                 SetupBlock();
@@ -636,7 +642,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentChar = ch2;
                 currentState = NO_RAND_PART_B_STATE;
                 mCrc.Update(ch2);
-            } else {
+            }
+            else {
                 EndBlock();
                 InitBlock();
                 SetupBlock();
@@ -649,7 +656,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentState = RAND_PART_A_STATE;
                 count = 1;
                 SetupRandPartA();
-            } else {
+            }
+            else {
                 count++;
 
                 if (count >= 4) {
@@ -667,7 +675,8 @@ namespace IFramework.Core.Zip.BZip2
                     j2 = 0;
                     currentState = RAND_PART_C_STATE;
                     SetupRandPartC();
-                } else {
+                }
+                else {
                     currentState = RAND_PART_A_STATE;
                     SetupRandPartA();
                 }
@@ -680,7 +689,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentChar = ch2;
                 mCrc.Update(ch2);
                 j2++;
-            } else {
+            }
+            else {
                 currentState = RAND_PART_A_STATE;
                 i2++;
                 count = 0;
@@ -694,7 +704,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentState = NO_RAND_PART_A_STATE;
                 count = 1;
                 SetupNoRandPartA();
-            } else {
+            }
+            else {
                 count++;
 
                 if (count >= 4) {
@@ -703,7 +714,8 @@ namespace IFramework.Core.Zip.BZip2
                     currentState = NO_RAND_PART_C_STATE;
                     j2 = 0;
                     SetupNoRandPartC();
-                } else {
+                }
+                else {
                     currentState = NO_RAND_PART_A_STATE;
                     SetupNoRandPartA();
                 }
@@ -716,7 +728,8 @@ namespace IFramework.Core.Zip.BZip2
                 currentChar = ch2;
                 mCrc.Update(ch2);
                 j2++;
-            } else {
+            }
+            else {
                 currentState = NO_RAND_PART_A_STATE;
                 i2++;
                 count = 0;

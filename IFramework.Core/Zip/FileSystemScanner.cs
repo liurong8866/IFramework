@@ -76,7 +76,8 @@ namespace IFramework.Core.Zip
             get {
                 float result;
 
-                if (Target <= 0) { result = 0; } else { result = Processed / (float)Target * 100.0f; }
+                if (Target <= 0) { result = 0; }
+                else { result = Processed / (float)Target * 100.0f; }
                 return result;
             }
         }
@@ -380,7 +381,8 @@ namespace IFramework.Core.Zip
                 bool hasMatch = false;
 
                 for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
-                    if (!fileFilter.IsMatch(names[fileIndex])) { names[fileIndex] = null; } else { hasMatch = true; }
+                    if (!fileFilter.IsMatch(names[fileIndex])) { names[fileIndex] = null; }
+                    else { hasMatch = true; }
                 }
                 OnProcessDirectory(directory, hasMatch);
 

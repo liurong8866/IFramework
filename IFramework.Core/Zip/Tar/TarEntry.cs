@@ -303,7 +303,8 @@ namespace IFramework.Core.Zip.Tar
 
                 if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') { header.Name = header.Name + "/"; }
                 header.Size = 0;
-            } else {
+            }
+            else {
                 header.Mode = 33216; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_NORMAL;
                 header.Size = new FileInfo(file.Replace('/', Path.DirectorySeparatorChar)).Length;

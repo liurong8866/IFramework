@@ -261,12 +261,14 @@ namespace IFramework.Core.Zip.BZip2
                         currentChar = -1;
                         runLength = 0;
                     }
-                } else {
+                }
+                else {
                     WriteRun();
                     runLength = 1;
                     currentChar = b;
                 }
-            } else {
+            }
+            else {
                 currentChar = b;
                 runLength++;
             }
@@ -328,7 +330,8 @@ namespace IFramework.Core.Zip.BZip2
                         block[last + 1] = (byte)(runLength - 4);
                         break;
                 }
-            } else {
+            }
+            else {
                 EndBlock();
                 InitBlock();
                 WriteRun();
@@ -437,7 +440,8 @@ namespace IFramework.Core.Zip.BZip2
             if (blockRandomised) {
                 BsW(1, 1);
                 nBlocksRandomised++;
-            } else { BsW(1, 0); }
+            }
+            else { BsW(1, 0); }
             /*-- Finally, block's contents proper. --*/
             MoveToFrontCodeAndSend();
         }
@@ -522,7 +526,11 @@ namespace IFramework.Core.Zip.BZip2
             /*--- Decide how many coding tables to use ---*/
             if (nMtf <= 0) { Panic(); }
 
-            if (nMtf < 200) { nGroups = 2; } else if (nMtf < 600) { nGroups = 3; } else if (nMtf < 1200) { nGroups = 4; } else if (nMtf < 2400) { nGroups = 5; } else { nGroups = 6; }
+            if (nMtf < 200) { nGroups = 2; }
+            else if (nMtf < 600) { nGroups = 3; }
+            else if (nMtf < 1200) { nGroups = 4; }
+            else if (nMtf < 2400) { nGroups = 5; }
+            else { nGroups = 6; }
             /*--- Generate an initial set of coding tables ---*/
             int nPart = nGroups;
             int remF = nMtf;
@@ -544,7 +552,8 @@ namespace IFramework.Core.Zip.BZip2
                 }
 
                 for (int v = 0; v < alphaSize; v++) {
-                    if (v >= gs && v <= ge) { len[nPart - 1][v] = (char)LESSER_ICOST; } else { len[nPart - 1][v] = (char)GREATER_ICOST; }
+                    if (v >= gs && v <= ge) { len[nPart - 1][v] = (char)LESSER_ICOST; }
+                    else { len[nPart - 1][v] = (char)GREATER_ICOST; }
                 }
                 nPart--;
                 gs = ge + 1;
@@ -601,7 +610,8 @@ namespace IFramework.Core.Zip.BZip2
                         cost[3] = cost3;
                         cost[4] = cost4;
                         cost[5] = cost5;
-                    } else {
+                    }
+                    else {
                         for (int i = gs; i <= ge; ++i) {
                             short icv = szptr[i];
 
@@ -697,13 +707,15 @@ namespace IFramework.Core.Zip.BZip2
             }
 
             for (int i = 0; i < 16; ++i) {
-                if (inUse16[i]) { BsW(1, 1); } else { BsW(1, 0); }
+                if (inUse16[i]) { BsW(1, 1); }
+                else { BsW(1, 0); }
             }
 
             for (int i = 0; i < 16; ++i) {
                 if (inUse16[i]) {
                     for (int j = 0; j < 16; ++j) {
-                        if (inUse[i * 16 + j]) { BsW(1, 1); } else { BsW(1, 0); }
+                        if (inUse[i * 16 + j]) { BsW(1, 1); }
+                        else { BsW(1, 0); }
                     }
                 }
             }
@@ -968,7 +980,8 @@ namespace IFramework.Core.Zip.BZip2
                 firstAttempt = false;
                 workDone = workLimit = 0;
                 SimpleSort(0, last, 0);
-            } else {
+            }
+            else {
                 numQSorted = 0;
 
                 for (i = 0; i <= 255; i++) { bigDone[i] = false; }
@@ -1312,7 +1325,8 @@ namespace IFramework.Core.Zip.BZip2
                 }
                 yy[0] = tmp;
 
-                if (j == 0) { zPend++; } else {
+                if (j == 0) { zPend++; }
+                else {
                     if (zPend > 0) {
                         zPend--;
 

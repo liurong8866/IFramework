@@ -61,7 +61,8 @@ namespace IFramework.Core.Zip.Zip
 
             if (name.Length > 0) {
                 if (!name.EndsWith("/", StringComparison.Ordinal)) { name += "/"; }
-            } else { throw new ZipException("Cannot have an empty directory name"); }
+            }
+            else { throw new ZipException("Cannot have an empty directory name"); }
             return name;
         }
 
@@ -93,7 +94,8 @@ namespace IFramework.Core.Zip.Zip
                     index = name.IndexOf("//", StringComparison.Ordinal);
                 }
                 name = MakeValidName(name, '_');
-            } else { name = string.Empty; }
+            }
+            else { name = string.Empty; }
             return name;
         }
 
@@ -127,7 +129,8 @@ namespace IFramework.Core.Zip.Zip
                 while (index >= 0) {
                     builder[index] = replacement;
 
-                    if (index >= name.Length) { index = -1; } else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
+                    if (index >= name.Length) { index = -1; }
+                    else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
                 }
                 name = builder.ToString();
             }
@@ -153,7 +156,8 @@ namespace IFramework.Core.Zip.Zip
             bool result = name != null;
 
             if (result) {
-                if (relaxed) { result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0; } else { result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0; }
+                if (relaxed) { result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0; }
+                else { result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0; }
             }
             return result;
         }

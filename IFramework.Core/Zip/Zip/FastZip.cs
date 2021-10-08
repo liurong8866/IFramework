@@ -218,7 +218,8 @@ namespace IFramework.Core.Zip.Zip
         public IEntryFactory EntryFactory {
             get => entryFactory;
             set {
-                if (value == null) { entryFactory = new ZipEntryFactory(); } else { entryFactory = value; }
+                if (value == null) { entryFactory = new ZipEntryFactory(); }
+                else { entryFactory = value; }
             }
         }
 
@@ -389,7 +390,8 @@ namespace IFramework.Core.Zip.Zip
                     if (entry.IsFile) {
                         // TODO Path.GetDirectory can fail here on invalid characters.
                         if (this.directoryFilter.IsMatch(Path.GetDirectoryName(entry.Name)) && this.fileFilter.IsMatch(entry.Name)) { ExtractEntry(entry); }
-                    } else if (entry.IsDirectory) {
+                    }
+                    else if (entry.IsDirectory) {
                         if (this.directoryFilter.IsMatch(entry.Name) && CreateEmptyDirectories) { ExtractEntry(entry); }
                     }
                 }
@@ -429,7 +431,8 @@ namespace IFramework.Core.Zip.Zip
                         AddFileContents(e.Name, stream);
                     }
                 } catch (Exception ex) {
-                    if (events != null) { continueRunning = events.OnFileFailure(e.Name, ex); } else {
+                    if (events != null) { continueRunning = events.OnFileFailure(e.Name, ex); }
+                    else {
                         continueRunning = false;
                         throw;
                     }
@@ -443,7 +446,8 @@ namespace IFramework.Core.Zip.Zip
 
             if (buffer == null) { buffer = new byte[4096]; }
 
-            if (events != null && events.progress != null) { StreamUtils.Copy(stream, outputStream, buffer, events.progress, events.ProgressInterval, this, name); } else { StreamUtils.Copy(stream, outputStream, buffer); }
+            if (events != null && events.progress != null) { StreamUtils.Copy(stream, outputStream, buffer, events.progress, events.ProgressInterval, this, name); }
+            else { StreamUtils.Copy(stream, outputStream, buffer); }
 
             if (events != null) { continueRunning = events.OnCompletedFile(name); }
         }
@@ -454,7 +458,8 @@ namespace IFramework.Core.Zip.Zip
 
             if (overwrite != Overwrite.Always) {
                 if (File.Exists(targetName)) {
-                    if (overwrite == Overwrite.Prompt && confirmDelegate != null) { proceed = confirmDelegate(targetName); } else { proceed = false; }
+                    if (overwrite == Overwrite.Prompt && confirmDelegate != null) { proceed = confirmDelegate(targetName); }
+                    else { proceed = false; }
                 }
             }
 
@@ -466,7 +471,8 @@ namespace IFramework.Core.Zip.Zip
                         using (FileStream outputStream = File.Create(targetName)) {
                             if (buffer == null) { buffer = new byte[4096]; }
 
-                            if (events != null && events.progress != null) { StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer, events.progress, events.ProgressInterval, this, entry.Name, entry.Size); } else { StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer); }
+                            if (events != null && events.progress != null) { StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer, events.progress, events.ProgressInterval, this, entry.Name, entry.Size); }
+                            else { StreamUtils.Copy(zipFile.GetInputStream(entry), outputStream, buffer); }
 
                             if (events != null) { continueRunning = events.OnCompletedFile(entry.Name); }
                         }
@@ -480,7 +486,8 @@ namespace IFramework.Core.Zip.Zip
                             File.SetAttributes(targetName, fileAttributes);
                         }
                     } catch (Exception ex) {
-                        if (events != null) { continueRunning = events.OnFileFailure(targetName, ex); } else {
+                        if (events != null) { continueRunning = events.OnFileFailure(targetName, ex); }
+                        else {
                             continueRunning = false;
                             throw;
                         }
@@ -495,7 +502,8 @@ namespace IFramework.Core.Zip.Zip
             string targetName = entry.Name;
 
             if (doExtraction) {
-                if (entry.IsFile) { targetName = extractNameTransform.TransformFile(targetName); } else if (entry.IsDirectory) { targetName = extractNameTransform.TransformDirectory(targetName); }
+                if (entry.IsFile) { targetName = extractNameTransform.TransformFile(targetName); }
+                else if (entry.IsDirectory) { targetName = extractNameTransform.TransformDirectory(targetName); }
                 doExtraction = !string.IsNullOrEmpty(targetName);
             }
 
@@ -503,7 +511,8 @@ namespace IFramework.Core.Zip.Zip
             string dirName = null;
 
             if (doExtraction) {
-                if (entry.IsDirectory) { dirName = targetName; } else { dirName = Path.GetDirectoryName(Path.GetFullPath(targetName)); }
+                if (entry.IsDirectory) { dirName = targetName; }
+                else { dirName = Path.GetDirectoryName(Path.GetFullPath(targetName)); }
             }
 
             if (doExtraction && !Directory.Exists(dirName)) {
@@ -512,8 +521,10 @@ namespace IFramework.Core.Zip.Zip
                         doExtraction = false;
 
                         if (events != null) {
-                            if (entry.IsDirectory) { continueRunning = events.OnDirectoryFailure(targetName, ex); } else { continueRunning = events.OnFileFailure(targetName, ex); }
-                        } else {
+                            if (entry.IsDirectory) { continueRunning = events.OnDirectoryFailure(targetName, ex); }
+                            else { continueRunning = events.OnFileFailure(targetName, ex); }
+                        }
+                        else {
                             continueRunning = false;
                             throw;
                         }

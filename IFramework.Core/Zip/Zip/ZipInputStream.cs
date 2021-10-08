@@ -176,7 +176,8 @@ namespace IFramework.Core.Zip.Zip
                 entry.Size = size & 0xFFFFFFFFL;
                 entry.CompressedSize = csize & 0xFFFFFFFFL;
                 entry.CryptoCheckValue = (byte)((crc2 >> 24) & 0xff);
-            } else {
+            }
+            else {
                 // This allows for GNU, WinZip and possibly other archives, the PKZIP spec
                 // says these values are zero under these circumstances.
                 if (crc2 != 0) { entry.Crc = crc2 & 0xFFFFFFFFL; }
@@ -206,7 +207,8 @@ namespace IFramework.Core.Zip.Zip
             if (method == (int)CompressionMethod.Stored && (!isCrypted && csize != size || isCrypted && csize - ZipConstants.CRYPTO_HEADER_SIZE != size)) { throw new ZipException("Stored, but compressed != uncompressed"); }
 
             // Determine how to handle reading of data if this is attempted.
-            if (entry.IsCompressionMethodSupported()) { internalReader = InitialRead; } else { internalReader = ReadingNotSupported; }
+            if (entry.IsCompressionMethodSupported()) { internalReader = InitialRead; }
+            else { internalReader = ReadingNotSupported; }
             return entry;
         }
 
@@ -221,7 +223,8 @@ namespace IFramework.Core.Zip.Zip
             if (entry.LocalHeaderRequiresZip64) {
                 csize = inputBuffer.ReadLeLong();
                 size = inputBuffer.ReadLeLong();
-            } else {
+            }
+            else {
                 csize = inputBuffer.ReadLeInt();
                 size = inputBuffer.ReadLeInt();
             }
@@ -275,7 +278,8 @@ namespace IFramework.Core.Zip.Zip
                 inputBuffer.Available += inf.RemainingInput;
             }
 
-            if (inputBuffer.Available > csize && csize >= 0) { inputBuffer.Available = (int)(inputBuffer.Available - csize); } else {
+            if (inputBuffer.Available > csize && csize >= 0) { inputBuffer.Available = (int)(inputBuffer.Available - csize); }
+            else {
                 csize -= inputBuffer.Available;
                 inputBuffer.Available = 0;
 
@@ -369,8 +373,10 @@ namespace IFramework.Core.Zip.Zip
 
                 if (cryptbuffer[ZipConstants.CRYPTO_HEADER_SIZE - 1] != entry.CryptoCheckValue) { throw new ZipException("Invalid password"); }
 
-                if (csize >= ZipConstants.CRYPTO_HEADER_SIZE) { csize -= ZipConstants.CRYPTO_HEADER_SIZE; } else if ((entry.Flags & (int)GeneralBitFlags.Descriptor) == 0) { throw new ZipException(string.Format("Entry compressed size {0} too small for encryption", csize)); }
-            } else { inputBuffer.CryptoTransform = null; }
+                if (csize >= ZipConstants.CRYPTO_HEADER_SIZE) { csize -= ZipConstants.CRYPTO_HEADER_SIZE; }
+                else if ((entry.Flags & (int)GeneralBitFlags.Descriptor) == 0) { throw new ZipException(string.Format("Entry compressed size {0} too small for encryption", csize)); }
+            }
+            else { inputBuffer.CryptoTransform = null; }
 
             if (csize > 0 || (flags & (int)GeneralBitFlags.Descriptor) != 0) {
                 if (method == (int)CompressionMethod.Deflated && inputBuffer.Available > 0) { inputBuffer.SetInflaterInput(inf); }
@@ -451,7 +457,8 @@ namespace IFramework.Core.Zip.Zip
                         }
                     }
 
-                    if (csize == 0) { finished = true; } else {
+                    if (csize == 0) { finished = true; }
+                    else {
                         if (count < 0) { throw new ZipException("EOF in stored block"); }
                     }
                     break;

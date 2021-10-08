@@ -57,7 +57,7 @@ namespace IFramework.Editor
                                 BindScript = bind
                             }
                         };
-                        
+
                         // 如果没有Bind Element的对象，则
                         if (parentElementInfo == null) {
                             // 根节点ViewController 添加

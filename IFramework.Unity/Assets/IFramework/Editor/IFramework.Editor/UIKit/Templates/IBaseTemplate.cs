@@ -1,7 +1,4 @@
 namespace IFramework.Editor
 {
-    public class IBaseTemplate
-    {
-        
-    }
+    public class IBaseTemplate { }
 }

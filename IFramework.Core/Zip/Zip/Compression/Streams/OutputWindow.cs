@@ -68,11 +68,13 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 if (length <= distance) {
                     Array.Copy(window, repStart, window, windowEnd, length);
                     windowEnd += length;
-                } else {
+                }
+                else {
                     // We have to copy manually, since the repeat pattern overlaps.
                     while (length-- > 0) { window[windowEnd++] = window[repStart++]; }
                 }
-            } else { SlowRepeat(repStart, length, distance); }
+            }
+            else { SlowRepeat(repStart, length, distance); }
         }
 
         /// <summary>
@@ -91,7 +93,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 copied = input.CopyBytes(window, windowEnd, tailLen);
 
                 if (copied == tailLen) { copied += input.CopyBytes(window, 0, length - tailLen); }
-            } else { copied = input.CopyBytes(window, windowEnd, length); }
+            }
+            else { copied = input.CopyBytes(window, windowEnd, length); }
             windowEnd = (windowEnd + copied) & WindowMask;
             windowFilled += copied;
             return copied;
@@ -152,7 +155,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             int copyEnd = windowEnd;
 
-            if (len > windowFilled) { len = windowFilled; } else { copyEnd = (windowEnd - windowFilled + len) & WindowMask; }
+            if (len > windowFilled) { len = windowFilled; }
+            else { copyEnd = (windowEnd - windowFilled + len) & WindowMask; }
             int copied = len;
             int tailLen = len - copyEnd;
 

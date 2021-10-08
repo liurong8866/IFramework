@@ -137,7 +137,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public string Password {
             get => password;
             set {
-                if (value != null && value.Length == 0) { password = null; } else { password = value; }
+                if (value != null && value.Length == 0) { password = null; }
+                else { password = value; }
             }
         }
 

@@ -23,21 +23,21 @@ namespace IFramework.Editor
         {
             this.controller = controller;
             this.rootControllerInfo = rootControllerInfo;
-            
+
             // 格式化字符串
             this.controller.Namespace = controller.Namespace.Trim();
             this.controller.ScriptName = controller.ScriptName.Trim();
             this.controller.ScriptsPath = controller.ScriptsPath.Trim();
-            
+
             // 设置全路径
             this.FullPath = Application.dataPath.CombinePath(controller.ScriptsPath);
-            
+
             // 如果文件不能覆盖，并且存在，则退出
             if (!IsOverwritten && FileUtils.Exists(FullName)) { return; }
 
             // 创建文件夹，如果有则忽略
             DirectoryUtils.Create(FullPath);
-            
+
             // 写入文件
             FileUtils.Write(FullName, BuildScript());
         }
@@ -46,12 +46,12 @@ namespace IFramework.Editor
         /// 文件路径
         /// </summary>
         protected string FullPath { get; private set; }
-        
+
         /// <summary> 
         /// 文件全名
         /// </summary>
         public abstract string FullName { get; }
-        
+
         /// <summary>
         /// 是否覆盖文件
         /// </summary>

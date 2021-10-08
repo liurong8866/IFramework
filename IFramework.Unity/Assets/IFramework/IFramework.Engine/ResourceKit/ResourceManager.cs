@@ -80,7 +80,8 @@ namespace IFramework.Engine
                 AssetBundleConfig config = new AssetBundleConfig();
                 Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
-            } else {
+            }
+            else {
                 AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles;
 
@@ -108,7 +109,8 @@ namespace IFramework.Engine
                 Environment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
                 yield return null;
-            } else {
+            }
+            else {
                 AssetBundleConfig.ConfigFile.Reset();
                 List<string> configFiles = new List<string>();
 

@@ -14,7 +14,8 @@ namespace IFramework.Core
         // ReSharper disable once InconsistentNaming
         public static bool iif(this bool boolean, Action trueAction, Action falseAction = null)
         {
-            if (boolean) { trueAction.InvokeSafe(); } else { falseAction.InvokeSafe(); }
+            if (boolean) { trueAction.InvokeSafe(); }
+            else { falseAction.InvokeSafe(); }
             return boolean;
         }
 

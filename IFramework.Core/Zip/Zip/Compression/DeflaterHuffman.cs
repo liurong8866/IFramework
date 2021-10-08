@@ -309,7 +309,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                     if (nextlen == 0) {
                         max_count = 138;
                         min_count = 3;
-                    } else {
+                    }
+                    else {
                         max_count = 6;
                         min_count = 3;
 
@@ -327,7 +328,10 @@ namespace IFramework.Core.Zip.Zip.Compression
                         if (++count >= max_count) { break; }
                     }
 
-                    if (count < min_count) { blTree.freqs[curlen] += (short)count; } else if (curlen != 0) { blTree.freqs[REP_3_6]++; } else if (count <= 10) { blTree.freqs[REP_3_10]++; } else { blTree.freqs[REP_11_138]++; }
+                    if (count < min_count) { blTree.freqs[curlen] += (short)count; }
+                    else if (curlen != 0) { blTree.freqs[REP_3_6]++; }
+                    else if (count <= 10) { blTree.freqs[REP_3_10]++; }
+                    else { blTree.freqs[REP_11_138]++; }
                 }
             }
 
@@ -350,7 +354,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                     if (nextlen == 0) {
                         max_count = 138;
                         min_count = 3;
-                    } else {
+                    }
+                    else {
                         max_count = 6;
                         min_count = 3;
 
@@ -370,13 +375,16 @@ namespace IFramework.Core.Zip.Zip.Compression
 
                     if (count < min_count) {
                         while (count-- > 0) { blTree.WriteSymbol(curlen); }
-                    } else if (curlen != 0) {
+                    }
+                    else if (curlen != 0) {
                         blTree.WriteSymbol(REP_3_6);
                         dh.pending.WriteBits(count - 3, 2);
-                    } else if (count <= 10) {
+                    }
+                    else if (count <= 10) {
                         blTree.WriteSymbol(REP_3_10);
                         dh.pending.WriteBits(count - 3, 3);
-                    } else {
+                    }
+                    else {
                         blTree.WriteSymbol(REP_11_138);
                         dh.pending.WriteBits(count - 11, 7);
                     }
@@ -405,7 +413,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                             overflow++;
                         }
                         lengths[childs[2 * i]] = lengths[childs[2 * i + 1]] = bitLength;
-                    } else {
+                    }
+                    else {
                         // A leaf node
                         int bitLength = lengths[i];
                         bl_counts[bitLength - 1]++;
@@ -603,7 +612,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                     bits = dc / 2 - 1;
 
                     if (bits > 0) { pending.WriteBits(dist & ((1 << bits) - 1), bits); }
-                } else {
+                }
+                else {
                     //					if (DeflaterConstants.DEBUGGING) {
                     //						if (litlen > 32 && litlen < 127) {
                     //							Console.Write("("+(char)litlen+"): ");
@@ -696,14 +706,16 @@ namespace IFramework.Core.Zip.Zip.Compression
                 //					                  + " <= " + static_len);
                 //				}
                 FlushStoredBlock(stored, storedOffset, storedLength, lastBlock);
-            } else if (opt_len == static_len) {
+            }
+            else if (opt_len == static_len) {
                 // Encode with static tree
                 pending.WriteBits((DeflaterConstants.STATIC_TREES << 1) + (lastBlock ? 1 : 0), 3);
                 literalTree.SetStaticCodes(staticLCodes, staticLLength);
                 distTree.SetStaticCodes(staticDCodes, staticDLength);
                 CompressBlock();
                 Reset();
-            } else {
+            }
+            else {
                 // Encode with dynamic tree
                 pending.WriteBits((DeflaterConstants.DYN_TREES << 1) + (lastBlock ? 1 : 0), 3);
                 SendAllTrees(blTreeCodes);

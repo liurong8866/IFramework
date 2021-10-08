@@ -103,7 +103,8 @@ namespace IFramework.Core.Zip.Zip
         public INameTransform NameTransform {
             get => nameTransform;
             set {
-                if (value == null) { nameTransform = new ZipNameTransform(); } else { nameTransform = value; }
+                if (value == null) { nameTransform = new ZipNameTransform(); }
+                else { nameTransform = value; }
             }
         }
 
@@ -210,7 +211,8 @@ namespace IFramework.Core.Zip.Zip
                 result.Size = fi.Length;
                 useAttributes = true;
                 externalAttributes = (int)fi.Attributes & GetAttributes;
-            } else {
+            }
+            else {
                 if (Setting == TimeSetting.Fixed) { result.DateTime = fixedDateTime; }
             }
 
@@ -273,7 +275,8 @@ namespace IFramework.Core.Zip.Zip
                     default: throw new ZipException("Unhandled time setting in MakeDirectoryEntry");
                 }
                 externalAttributes = (int)di.Attributes & GetAttributes;
-            } else {
+            }
+            else {
                 if (Setting == TimeSetting.Fixed) { result.DateTime = fixedDateTime; }
             }
 

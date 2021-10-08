@@ -9,6 +9,5 @@ namespace IFramework.Editor
         public string PathToElement;
 
         public IBind BindScript;
-        
     }
 }

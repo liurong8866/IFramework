@@ -1,16 +1,21 @@
 using System.Linq;
 using IFramework.Core;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace IFramework.Editor
 {
     public class ViewControllerScript
     {
+        private static ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
+        private static ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
+        private static ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
+        
         /// <summary>
         /// 生成脚本
         /// </summary>
-        public static void CreateCode()
+        public static void GenerateCode()
         {
             GameObject go = Selection.objects.First() as GameObject;
 
@@ -29,7 +34,7 @@ namespace IFramework.Editor
             // 生成脚本
             Log.Info("生成脚本: 开始");
             ViewController controller = go.GetComponent<ViewController>();
-            
+
             RootControllerInfo rootControllerInfo = new RootControllerInfo {
                 GameObjectName = controller.name
             };
@@ -42,7 +47,21 @@ namespace IFramework.Editor
             // 生成Model层
             ViewControllerDesignerTemplate.Instance.Generate(controller, rootControllerInfo);
             
+            // 保存信息
+            generateNamespace.Value = controller.Namespace;
+            generateClassName.Value = controller.Namespace;
+            gameObjectName.Value = controller.Namespace;
+            
+            // 刷新项目资源
+            AssetDatabase.Refresh();
+            
             Log.Info("生成脚本: 完成");
+        }
+
+        [DidReloadScripts]
+        private static void AddComponentToGameObject()
+        {
+           
         }
     }
 }

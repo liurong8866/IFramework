@@ -89,7 +89,8 @@ namespace IFramework.Engine
                 HoldDependResource();
                 state = ResourceState.Loading;
                 obj = AssetType != null ? Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType) : Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]);
-            } else {
+            }
+            else {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig, null, typeof(AssetBundle));
                 AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
 
@@ -164,8 +165,10 @@ namespace IFramework.Engine
 
                 UnHoldDependResource();
 
-                if (AssetType != null) { asset = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType); } else { asset = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]); }
-            } else {
+                if (AssetType != null) { asset = Environment.Instance.LoadAssetAtPath(assetPaths[0], AssetType); }
+                else { asset = Environment.Instance.LoadAssetAtPath<Object>(assetPaths[0]); }
+            }
+            else {
                 // 等待帧结束，目的是解决AssetBundle不能为空到问题
                 // yield return new WaitForEndOfFrame();
 
@@ -184,7 +187,8 @@ namespace IFramework.Engine
                 if (AssetType != null) {
                     request = resource.AssetBundle.LoadAssetAsync(assetName, AssetType);
                     yield return request;
-                } else {
+                }
+                else {
                     request = resource.AssetBundle.LoadAssetAsync(assetName);
                     yield return request;
                 }

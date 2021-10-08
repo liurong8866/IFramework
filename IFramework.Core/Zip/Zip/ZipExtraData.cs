@@ -436,7 +436,8 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="data">The extra data.</param>
         public ZipExtraData(byte[] data)
         {
-            if (data == null) { this.data = new byte[0]; } else { this.data = data; }
+            if (data == null) { this.data = new byte[0]; }
+            else { this.data = data; }
         }
 
         #endregion

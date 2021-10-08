@@ -20,7 +20,8 @@ namespace IFramework.Editor
             if (!string.IsNullOrEmpty(path)) {
                 // "Assets/I Kit - Mark AssetBundle";
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));
-            } else {
+            }
+            else {
                 // "Assets/I Kit - Mark AssetBundle";
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
             }
@@ -47,7 +48,8 @@ namespace IFramework.Editor
                 if (CheckMarked(path)) {
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, false);
                     ai.assetBundleName = null;
-                } else {
+                }
+                else {
                     DirectoryInfo dir = new DirectoryInfo(path);
                     Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, true);
                     ai.assetBundleName = dir.Name.Replace(".", "-");

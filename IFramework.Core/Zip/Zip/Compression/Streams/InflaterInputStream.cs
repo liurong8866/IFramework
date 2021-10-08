@@ -94,7 +94,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 toRead -= count;
             }
 
-            if (cryptoTransform != null) { ClearTextLength = cryptoTransform.TransformBlock(RawData, 0, RawLength, ClearText, 0); } else { ClearTextLength = RawLength; }
+            if (cryptoTransform != null) { ClearTextLength = cryptoTransform.TransformBlock(RawData, 0, RawLength, ClearText, 0); }
+            else { ClearTextLength = RawLength; }
             Available = ClearTextLength;
         }
 
@@ -223,7 +224,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                     ClearTextLength = RawLength;
 
                     if (Available > 0) { cryptoTransform.TransformBlock(RawData, RawLength - Available, Available, ClearText, RawLength - Available); }
-                } else {
+                }
+                else {
                     ClearText = RawData;
                     ClearTextLength = RawLength;
                 }
@@ -507,7 +509,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
 
                 if (remainingBytes == 0 || inf.IsFinished) { break; }
 
-                if (inf.IsNeedingInput) { Fill(); } else if (bytesRead == 0) { throw new ZipException("Dont know what to do"); }
+                if (inf.IsNeedingInput) { Fill(); }
+                else if (bytesRead == 0) { throw new ZipException("Dont know what to do"); }
             }
             return count - remainingBytes;
         }

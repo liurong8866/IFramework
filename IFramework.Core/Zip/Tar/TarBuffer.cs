@@ -174,7 +174,8 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream != null) {
                 CurrentRecord = -1;
                 CurrentBlock = BlockFactor;
-            } else {
+            }
+            else {
                 CurrentRecord = 0;
                 CurrentBlock = 0;
             }
@@ -432,7 +433,8 @@ namespace IFramework.Core.Zip.Tar
 
                 if (IsStreamOwner) { outputStream.Dispose(); }
                 outputStream = null;
-            } else if (inputStream != null) {
+            }
+            else if (inputStream != null) {
                 if (IsStreamOwner) { inputStream.Dispose(); }
                 inputStream = null;
             }

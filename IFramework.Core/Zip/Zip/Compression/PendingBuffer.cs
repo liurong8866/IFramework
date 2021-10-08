@@ -220,7 +220,8 @@ namespace IFramework.Core.Zip.Zip.Compression
                 Array.Copy(buffer, start, output, offset, length);
                 start = 0;
                 end = 0;
-            } else {
+            }
+            else {
                 Array.Copy(buffer, start, output, offset, length);
                 start += length;
             }

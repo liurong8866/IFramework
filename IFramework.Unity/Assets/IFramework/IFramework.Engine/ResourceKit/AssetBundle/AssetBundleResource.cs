@@ -89,7 +89,8 @@ namespace IFramework.Engine
                 yield break;
             }
 
-            if (Platform.IsSimulation) { yield return null; } else {
+            if (Platform.IsSimulation) { yield return null; }
+            else {
                 string url = Platform.GetUrlByAssetBundleName(assetName);
 
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
@@ -108,7 +109,8 @@ namespace IFramework.Engine
                         yield break;
                     }
                     AssetBundle = DownloadHandlerAssetBundle.GetContent(unityWebRequest);
-                } else {
+                }
+                else {
                     // 从文件中异步加载
                     AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(url);
                     // 返回并等待结果

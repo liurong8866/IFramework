@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using IFramework.Core;
 using UnityEditor;
@@ -35,74 +36,73 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            //
+
+            // 开始布局
             GUILayout.BeginVertical();
-            //
+
+            // 命名空间
             GUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("命名空间");
             // GUILayout.Label("命名空间", GUILayout.Width(100));
-            controller.Namespace = EditorGUILayout.TextField(controller.Namespace);
+            controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            //
+
+            // 脚本名称
             GUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("脚本名称");
             // GUILayout.Label("脚本名称", GUILayout.Width(60));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName);
+            controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            //
+
+            // 生成路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("生成路径");
+            EditorGUILayout.PrefixLabel("脚本路径");
             // GUILayout.Label("生成路径", GUILayout.Width(60));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath);
+            controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            //
-            EditorGUILayout.HelpBox("代码生成", MessageType.Info);
+
+            // Prefab路径
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("预设路径");
+            // GUILayout.Label("生成路径", GUILayout.Width(60));
+            GUILayout.Label("Assets/", GUILayout.Width(44));
+            controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+
+            // 代码生成
+            EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
 
-            // if (
-            //     Event.current.type == EventType.DragUpdated
-            //  && sfxPathRect.Contains(Event.current.mousePosition)
-            // ) {
-            //     //改变鼠标的外表  
-            //     DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
-            //
-            //     if (DragAndDrop.paths != null && DragAndDrop.paths.Length > 0) {
-            //         if (DragAndDrop.paths[0] != "") {
-            //             var newPath = DragAndDrop.paths[0];
-            //             controller.ScriptsPath = newPath;
-            //             AssetDatabase.SaveAssets();
-            //             AssetDatabase.Refresh();
-            //             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-            //         }
-            //     }
-            // }
-            // GUILayout.BeginHorizontal();
-            //
-            // controller.GeneratePrefab =
-            //         GUILayout.Toggle(controller.GeneratePrefab, "生成Prefab");
-            // GUILayout.EndHorizontal();
-            //
-            // if (controller.GeneratePrefab) {
-            //     GUILayout.BeginHorizontal();
-            //     GUILayout.Label("Prefab路径", GUILayout.Width(150));
-            //     controller.ScriptsPath = GUILayout.TextArea(controller.ScriptsPath, GUILayout.Height(30));
-            //     GUILayout.EndHorizontal();
-            // }
-            // var fileFullPath = controller.ScriptsPath + "/" + controller.ScriptName + ".cs";
-            //
-            // if (File.Exists(controller.ScriptsPath + "/" + controller.ScriptName + ".cs")) {
-            //     var scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(fileFullPath);
-            //
-            //     if (GUILayout.Button("打开脚本", GUILayout.Height(30))) { AssetDatabase.OpenAsset(scriptObject); }
-            //
-            //     // if (GUILayout.Button("选择脚本", GUILayout.Height(30))) { Selection.objects = new Object[] { scriptObject }; }
-            // }
-            //
+            // 操作按钮
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("生成脚本")) { ViewControllerScript.GenerateCode(); }
+
+            // 全路径
+            string fileFullPath = "Assets/" + controller.ScriptsPath + "/" + controller.ScriptName + ".cs";
+
+            // 如果文件存在则显示
+            if (File.Exists(fileFullPath)) {
+                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(fileFullPath);
+
+                if (GUILayout.Button("选择", GUILayout.Width(60))) { Selection.objects = new UnityEngine.Object[] { scriptObject }; }
+
+                if (GUILayout.Button("打开", GUILayout.Width(60))) { AssetDatabase.OpenAsset(scriptObject); }
+            }
+            // 按钮变灰
+            else {
+                GUI.enabled = false;
+                GUILayout.Button("选择", GUILayout.Width(60));
+                GUILayout.Button("打开", GUILayout.Width(60));
+                GUI.enabled = true;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
         }
     }

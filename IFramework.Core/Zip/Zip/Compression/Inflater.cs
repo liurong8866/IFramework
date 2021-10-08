@@ -232,7 +232,8 @@ namespace IFramework.Core.Zip.Zip.Compression
             if ((header & 0x0020) == 0) {
                 // Dictionary flag?
                 mode = DECODE_BLOCKS;
-            } else {
+            }
+            else {
                 mode = DECODE_DICT;
                 neededBits = 32;
             }
