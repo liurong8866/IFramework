@@ -65,11 +65,11 @@ namespace IFramework.Editor
         }
 
         /// <summary>
-        /// 
+        /// 找到当前Scene所有跟节点
         /// </summary>
-        public static void CombinFilePath()
+        public static GameObject[] GetRootGameObjects()
         {
-            
+            return SceneManager.GetActiveScene().GetRootGameObjects();
         }
         
         /// <summary>

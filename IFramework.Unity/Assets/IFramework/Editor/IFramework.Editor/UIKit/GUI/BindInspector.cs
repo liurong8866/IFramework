@@ -45,7 +45,7 @@ namespace IFramework.Editor
 
             // 组件
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Bind Type");
+            EditorGUILayout.PrefixLabel("绑定类型");
             bind.BindType = (BindType)EditorGUILayout.EnumPopup(bind.BindType);
             bindTypeMonitor.Value = bind.BindType;
             GUILayout.EndHorizontal();
@@ -56,7 +56,7 @@ namespace IFramework.Editor
             // 类型
             if (bind.BindType == BindType.DefaultElement && elementTypeIndex < elementTypeOptions.Length) {
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.PrefixLabel("Class Type");
+                EditorGUILayout.PrefixLabel("类名称");
                 elementTypeIndex = EditorGUILayout.Popup(elementTypeIndex, elementTypeOptions);
                 bind.ComponentName = elementTypeOptions[elementTypeIndex];
                 GUILayout.EndHorizontal();
@@ -66,14 +66,14 @@ namespace IFramework.Editor
             // 类型
             if (bind.BindType != BindType.DefaultElement) {
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.PrefixLabel("Class Type");
+                EditorGUILayout.PrefixLabel("类名称");
                 bind.ComponentName = EditorGUILayout.TextField(bind.ComponentName);
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
 
             // 注释
-            EditorGUILayout.PrefixLabel("Comment");
+            EditorGUILayout.PrefixLabel("字段注释");
             GUILayout.BeginHorizontal();
             bind.Comment = EditorGUILayout.TextArea(bind.Comment, GUILayout.Height(40));
             GUILayout.EndHorizontal();

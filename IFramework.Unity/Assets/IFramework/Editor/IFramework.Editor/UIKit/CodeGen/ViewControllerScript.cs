@@ -67,6 +67,7 @@ namespace IFramework.Editor
         {
             if (generateClassName.Value.IsNullOrEmpty()) {
                 Clear();
+                FixComponentLost();
                 return;
             }
             Log.Info("生成脚本: 开始编译");
@@ -150,6 +151,21 @@ namespace IFramework.Editor
             Log.Info("生成脚本: 编译完成");
         }
 
+        /// <summary>
+        /// 修复因删除组件导致不可用
+        /// </summary>
+        private static void FixComponentLost()
+        {
+            GameObject[] rootGameObjects = EditorUtils.GetRootGameObjects();
+            
+            foreach (GameObject go in rootGameObjects) {
+                ViewController[] viewControllers = go.GetComponents<ViewController>();
+                foreach (ViewController controller in viewControllers) {
+                    Log.Info(controller.gameObject.name);
+                }
+            }
+        }
+        
         // 清理缓存数据
         private static void Clear()
         {

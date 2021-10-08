@@ -44,14 +44,14 @@ namespace IFramework.Editor
             GUILayout.Space(15);
             // 命名空间
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Name Space");
+            EditorGUILayout.PrefixLabel("命名空间");
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
             // 脚本名称
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Script Name");
+            EditorGUILayout.PrefixLabel("脚本名称");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
             GUILayout.EndHorizontal();
@@ -59,7 +59,7 @@ namespace IFramework.Editor
 
             // 生成路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Script Path");
+            EditorGUILayout.PrefixLabel("脚本路径");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
 
@@ -72,7 +72,7 @@ namespace IFramework.Editor
 
             // Prefab路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Prefab Path");
+            EditorGUILayout.PrefixLabel("预设路径");
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
 
@@ -82,7 +82,7 @@ namespace IFramework.Editor
             GUILayout.Space(5);
             EditorGUILayout.HelpBox("勾选后，生成路径将包含脚本名称作为子路径。", MessageType.None, false);
             // 注释
-            EditorGUILayout.PrefixLabel("Comment");
+            EditorGUILayout.PrefixLabel("类注释");
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             controller.Comment = EditorGUILayout.TextArea(controller.Comment, GUILayout.Height(40));
