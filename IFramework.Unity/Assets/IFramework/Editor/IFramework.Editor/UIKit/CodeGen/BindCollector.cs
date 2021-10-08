@@ -15,7 +15,7 @@ namespace IFramework.Editor
         /// <param name="rootControllerInfo">父ViewController节点信息</param>
         /// <param name="parentElementInfo">子ViewController节点，Bind的Element信息</param>
         /// <param name="leafPanelType">叶节点类型</param>
-        public static void SearchBind(Transform current, string fullName, RootControllerInfo rootControllerInfo = null, ElementInfo parentElementInfo = null, Type leafPanelType = null)
+        public static void SearchBind(Transform current, string fullName, RootViewControllerInfo rootControllerInfo = null, ElementInfo parentElementInfo = null, Type leafPanelType = null)
         {
             foreach (Transform child in current) {
                 // 获得当前节点Bind组件

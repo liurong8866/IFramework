@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace IFramework.Editor
 {
-    public class RootControllerInfo
+    public class RootViewControllerInfo
     {
         public string GameObjectName;
 

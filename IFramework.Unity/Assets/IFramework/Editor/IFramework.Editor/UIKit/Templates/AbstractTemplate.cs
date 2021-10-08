@@ -10,7 +10,7 @@ namespace IFramework.Editor
     public abstract class AbstractTemplate : ISingleton
     {
         protected ViewController controller;
-        protected RootControllerInfo rootControllerInfo;
+        protected RootViewControllerInfo rootControllerInfo;
 
         public virtual void OnInit() { }
 
@@ -19,7 +19,7 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="controller">ViewController脚本信息路径</param>
         /// <param name="rootControllerInfo">面板代码信息</param>
-        public void Generate(ViewController controller, RootControllerInfo rootControllerInfo = null)
+        public void Generate(ViewController controller, RootViewControllerInfo rootControllerInfo = null)
         {
             this.controller = controller;
             this.rootControllerInfo = rootControllerInfo;

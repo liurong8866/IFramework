@@ -15,7 +15,9 @@ namespace IFramework.Editor
         // F1 … F2 - F keys
         // HOME,END,PGUP,PGDN 
         // 字母键 - _ + 字母（如:_g代表按键）
-
+        
+        // 两个MenuItem 的下标相差20以上 就会出现 分割线
+        
         /*----------------------------- IFramework -----------------------------*/
 
         public const string CON_MENU_TOOL_RESKIT = "IFramework/AssetBundle";
@@ -28,23 +30,25 @@ namespace IFramework.Editor
 
         public const string CON_MENU_TOOL_UIKIT = "IFramework/UIKit Config";
 
-        [MenuItem(CON_MENU_TOOL_UIKIT, false, 21)]
+        [MenuItem(CON_MENU_TOOL_UIKIT, false, 11)]
         private static void UIKitWindow()
         {
             UIKit.OpenUIConfigWindow();
         }
 
-        // public const string CON_MENU_TOOL_CLEAR = "IFramework/Clear Data";
-        // [MenuItem(CON_MENU_TOOL_CLEAR, false, 31)]
-        // private static void Clear()
-        // {
-        //     Log.Info("缓存数据清理 开始！");
-        //     PlayerPrefs.DeleteAll();
-        //     Directory.Delete(Application.persistentDataPath, true);
-        //
-        //     if (EditorApplication.isPlaying) { EditorApplication.isPlaying = false; }
-        //     Log.Info("缓存数据清理 完成！");
-        // }
+        public const string CON_MENU_TOOL_CLEAR = "IFramework/Clear Cache";
+        [MenuItem(CON_MENU_TOOL_CLEAR, false, 31)]
+        private static void Clear()
+        {
+            Log.Info("缓存数据清理 开始！");
+            PlayerPrefs.DeleteAll();
+            Directory.Delete(Application.persistentDataPath, true);
+
+            if (EditorApplication.isPlaying) {
+                EditorApplication.isPlaying = false;
+            }
+            Log.Info("缓存数据清理 完成！");
+        }
 
         /*----------------------------- GameObject 右键菜单 -----------------------------*/
 

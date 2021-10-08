@@ -2,7 +2,9 @@ using System.IO;
 using System.Text;
 using IFramework.Core;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace IFramework.Editor
 {
@@ -23,6 +25,8 @@ namespace IFramework.Editor
             return path;
         }
 
+        public static string CurrentSelectPath => Selection.activeObject == null ? null : AssetDatabase.GetAssetPath(Selection.activeObject);
+
         /// <summary>
         /// 获取父节点到当前节点的相对路径
         /// </summary>
@@ -42,6 +46,25 @@ namespace IFramework.Editor
         }
 
         /// <summary>
+        /// 保存Prefab
+        /// </summary>
+        public static Object SavePrefab(GameObject gameObject, string assetPath)
+        {
+        #if UNITY_2018_3_OR_NEWER
+            return PrefabUtility.SaveAsPrefabAssetAndConnect(gameObject, assetPath, InteractionMode.AutomatedAction);
+        #else
+            return PrefabUtility.CreatePrefab(assetPath, gameObject, ReplacePrefabOptions.ConnectToPrefab);
+        #endif
+        }
+        
+        /// <summary>
+        /// 标记场景未保存
+        /// </summary>
+        public static void MarkCurrentSceneDirty() {
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        }
+        
+        /// <summary>
         /// 判断是否 ViewController
         /// </summary>
         public static bool IsViewController(this Component component)
@@ -50,5 +73,6 @@ namespace IFramework.Editor
 
             return true;
         }
+
     }
 }
