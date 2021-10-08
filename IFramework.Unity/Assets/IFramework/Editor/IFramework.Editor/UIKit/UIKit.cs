@@ -53,7 +53,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void ViewControllerGenerate()
         {
-            ViewControllerScript.GenerateCode();
+            ViewControllerScript.GenerateCode(false);
         }
 
         /// <summary>

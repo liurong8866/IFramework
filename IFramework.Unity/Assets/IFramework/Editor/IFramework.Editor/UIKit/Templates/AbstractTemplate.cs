@@ -19,30 +19,27 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="controller">ViewController脚本信息路径</param>
         /// <param name="rootControllerInfo">面板代码信息</param>
-        public void Generate(ViewController controller, RootViewControllerInfo rootControllerInfo = null)
+        public void Generate(ViewController controller, RootViewControllerInfo rootControllerInfo = null, bool overwrite = false)
         {
             this.controller = controller;
             this.rootControllerInfo = rootControllerInfo;
             
             // 如果文件不能覆盖，并且存在，则退出
-            if (!IsOverwritten && FileUtils.Exists(FullName)) { return; }
+            if (!overwrite && FileUtils.Exists(FullName)) { return; }
 
             // 创建文件夹，如果有则忽略
             DirectoryUtils.Create(controller.ScriptAssetsPath);
 
             // 写入文件
             FileUtils.Write(FullName, BuildScript());
+            
+            Log.Info("生成脚本: 正在生成文件 " +  FullName);
         }
 
         /// <summary> 
         /// 文件全名
         /// </summary>
         public abstract string FullName { get; }
-
-        /// <summary>
-        /// 是否覆盖文件
-        /// </summary>
-        protected abstract bool IsOverwritten { get; }
 
         /// <summary>
         /// 拼接字符串

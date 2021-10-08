@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using IFramework.Core;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -18,7 +20,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成脚本
         /// </summary>
-        public static void GenerateCode()
+        public static void GenerateCode(bool overwrite)
         {
             Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
@@ -47,10 +49,10 @@ namespace IFramework.Editor
             BindCollector.SearchBind(go.transform, "", rootControllerInfo);
 
             // 生成Controller层
-            ViewControllerTemplate.Instance.Generate(controller);
+            ViewControllerTemplate.Instance.Generate(controller, null, overwrite);
 
             // 生成Model层
-            ViewControllerDesignerTemplate.Instance.Generate(controller, rootControllerInfo);
+            ViewControllerDesignerTemplate.Instance.Generate(controller, rootControllerInfo, true);
 
             // 保存信息
             generateNamespace.Value = controller.Namespace;
@@ -59,6 +61,8 @@ namespace IFramework.Editor
 
             // 刷新项目资源
             AssetDatabase.Refresh();
+            
+            Thread.Sleep(1000);
             Log.Info("生成脚本: 完成");
         }
 
@@ -120,29 +124,39 @@ namespace IFramework.Editor
 
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
-            serializedObject.FindProperty("Namespace").stringValue = controller.Namespace;
-            serializedObject.FindProperty("ScriptName").stringValue = controller.ScriptName;
-            serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
-            serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
-            serializedObject.FindProperty("Comment").stringValue = controller.Comment;
 
-            // 销毁ViewController组件，因为前面已绑定新生成的类，第二次操作时，因为是自己，就不要销毁类
-            if (controller.GetType() != type) {
-                // 立即销毁，不允许Asset被销毁
-                Object.DestroyImmediate(controller, false);
+            if (controller) {
+                serializedObject.FindProperty("Namespace").stringValue = controller.Namespace;
+                serializedObject.FindProperty("ScriptName").stringValue = controller.ScriptName;
+                serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
+                serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
+                serializedObject.FindProperty("Comment").stringValue = controller.Comment;
+
+                // 销毁ViewController组件，因为前面已绑定新生成的类，第二次操作时，因为是自己，就不要销毁类
+                if (controller.GetType() != type) {
+                    // 立即销毁，不允许Asset被销毁
+                    Object.DestroyImmediate(controller, false);
+                }
+                // Apply the changed properties without an undo.
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+
+                // 如果不存在，则生成文件夹
+                DirectoryUtils.Create(controller.PrefabAssetsPath);
+
+                // 当根节点，或者其父节点也是prefab，则不保存
+                if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
+                    EditorUtils.SavePrefab(go, controller.PrefabAssetsPath + "/{0}.prefab".Format(go.name));
+                }
+                else {
+                    Log.Warning($"生成脚本: 为保存 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
+                }
             }
-            // Apply the changed properties without an undo.
-            serializedObject.ApplyModifiedPropertiesWithoutUndo();
-
-            // Prefab路径
-            string path = controller.PrefabAssetsPath;
-
-            // 如果不存在，则生成文件夹
-            DirectoryUtils.Create(path);
-
-            // 保存预设
-            EditorUtils.SavePrefab(go, path + "/{0}.prefab".Format(go.name));
-
+            else {
+                serializedObject.FindProperty("ScriptPath").stringValue = "Assets/Scripts";
+                // Apply the changed properties without an undo.
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            }
+            
             // 清理缓存数据
             Clear();
 
@@ -158,7 +172,7 @@ namespace IFramework.Editor
         {
             EditorUtils.ClearMissing(EditorUtils.GetRootGameObjects(), go => {
                 go.AddComponentSafe<ViewController>();
-                Log.Warning(go.name + " 对象发现missing脚本，已修复为: ViewController组件，请确认。");
+                Log.Warning($"生成脚本: 对象 {go.name} 发现Missing脚本，已修复为: ViewController组件，请确认。");
             });
         }
 

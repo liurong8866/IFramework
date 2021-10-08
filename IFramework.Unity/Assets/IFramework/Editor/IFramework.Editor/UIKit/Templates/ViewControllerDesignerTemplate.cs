@@ -17,11 +17,6 @@ namespace IFramework.Editor
         public override string FullName => controller.ScriptAssetsDesignerName;
 
         /// <summary>
-        /// 是否覆盖文件
-        /// </summary>
-        protected override bool IsOverwritten => true;
-
-        /// <summary>
         /// 拼接字符串
         /// </summary>
         protected override string BuildScript()

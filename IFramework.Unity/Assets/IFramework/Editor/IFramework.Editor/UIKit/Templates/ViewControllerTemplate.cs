@@ -11,11 +11,6 @@ namespace IFramework.Editor
         public static ViewControllerTemplate Instance => SingletonProperty<ViewControllerTemplate>.Instance;
 
         /// <summary>
-        /// 是否覆盖文件
-        /// </summary>
-        protected override bool IsOverwritten => false;
-
-        /// <summary>
         /// 文件全名
         /// </summary>
         public override string FullName => controller.ScriptAssetsClassName;

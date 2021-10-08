@@ -11,7 +11,10 @@ namespace IFramework.Editor
     public class ViewControllerInspector : UnityEditor.Editor
     {
         private ViewController controller => target as ViewController;
-
+        bool overwrite1 = false;
+        bool overwrite2 = false;
+        bool overwrite3 = false;
+        
         private void OnEnable()
         {
             InitController();
@@ -35,7 +38,7 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
+
             // 避免混用布局遮挡
             // EditorGUILayout.GetControlRect();
 
@@ -44,14 +47,16 @@ namespace IFramework.Editor
             GUILayout.Space(15);
             // 命名空间
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("命名空间");
+            // EditorGUILayout.PrefixLabel("命名空间");
+            EditorGUILayout.LabelField("命名空间", GUILayout.Width(70));
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
             // 脚本名称
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("脚本名称");
+            // EditorGUILayout.PrefixLabel("脚本名称");
+            EditorGUILayout.LabelField("脚本名称", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
             GUILayout.EndHorizontal();
@@ -59,7 +64,8 @@ namespace IFramework.Editor
 
             // 生成路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("脚本路径");
+            // EditorGUILayout.PrefixLabel("脚本路径");
+            EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
 
@@ -72,15 +78,28 @@ namespace IFramework.Editor
 
             // Prefab路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("预设路径");
+            // EditorGUILayout.PrefixLabel("预设路径");
+            EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
 
             if (controller.AsPrefabSubPath) { GUILayout.Label($"/{controller.ScriptName}/"); }
             controller.AsPrefabSubPath = EditorGUILayout.Toggle(controller.AsPrefabSubPath, GUILayout.Width(20));
             GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+            // EditorGUILayout.HelpBox("勾选后，路径将包含脚本名称", MessageType.None, false);
+
+            // Prefab路径
+            GUILayout.BeginHorizontal();
+            // EditorGUILayout.PrefixLabel(" ");
+            EditorGUILayout.LabelField(" ", GUILayout.Width(70));
+            overwrite1 = EditorGUILayout.Toggle(overwrite1, GUILayout.Width(20));
+            overwrite2 = EditorGUILayout.Toggle(overwrite2, GUILayout.Width(20));
+            overwrite3 = EditorGUILayout.Toggle(overwrite3, GUILayout.Width(20));
+            EditorGUILayout.LabelField("覆盖.cs文件，危险操作，请选三次!!!");
+            GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            EditorGUILayout.HelpBox("勾选后，生成路径将包含脚本名称作为子路径。", MessageType.None, false);
+            
             // 注释
             EditorGUILayout.PrefixLabel("类注释");
             GUILayout.Space(5);
@@ -89,6 +108,7 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+            
             // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
@@ -97,8 +117,7 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("生成脚本")) {
-                
-                ViewControllerScript.GenerateCode();
+                ViewControllerScript.GenerateCode(overwrite1 && overwrite2 && overwrite3);
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
                 GUIUtility.ExitGUI();
             }
