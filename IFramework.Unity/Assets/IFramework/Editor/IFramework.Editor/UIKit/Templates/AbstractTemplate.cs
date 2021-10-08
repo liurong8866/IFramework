@@ -27,10 +27,10 @@ namespace IFramework.Editor
             // 格式化字符串
             this.controller.Namespace = controller.Namespace.Trim();
             this.controller.ScriptName = controller.ScriptName.Trim();
-            this.controller.ScriptsPath = controller.ScriptsPath.Trim();
+            this.controller.ScriptPath = controller.ScriptPath.Trim();
 
             // 设置全路径
-            this.FullPath = Application.dataPath.CombinePath(controller.ScriptsPath);
+            this.FullPath = Application.dataPath.CombinePath(controller.ScriptPath);
 
             // 如果文件不能覆盖，并且存在，则退出
             if (!IsOverwritten && FileUtils.Exists(FullName)) { return; }

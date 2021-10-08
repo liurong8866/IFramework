@@ -8,9 +8,9 @@ namespace IFramework.Editor
 {
     public class ViewControllerScript
     {
-        private static ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
-        private static ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
-        private static ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
+        private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
+        private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
+        private static readonly ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
         
         /// <summary>
         /// 生成脚本
@@ -53,15 +53,18 @@ namespace IFramework.Editor
             gameObjectName.Value = controller.Namespace;
             
             // 刷新项目资源
-            AssetDatabase.Refresh();
+            AssetDatabase.Refresh(); 
             
             Log.Info("生成脚本: 完成");
         }
-
+        
         [DidReloadScripts]
         private static void AddComponentToGameObject()
         {
-           
+            Log.Info("生成脚本: 开始编译");
+            
+            
+            Log.Info("生成脚本: 编译完成");
         }
     }
 }

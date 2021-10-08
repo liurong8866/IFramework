@@ -27,7 +27,7 @@ namespace IFramework.Editor
             controller.ScriptName.IfNullOrEmpty(() => { controller.ScriptName = controller.name; });
 
             // 脚本路径
-            controller.ScriptsPath.IfNullOrEmpty(() => { controller.ScriptsPath = Configure.ViewControllerScriptPath.Value; });
+            controller.ScriptPath.IfNullOrEmpty(() => { controller.ScriptPath = Configure.ViewControllerScriptPath.Value; });
 
             // Prefab路径
             controller.PrefabPath.IfNullOrEmpty(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
@@ -39,7 +39,7 @@ namespace IFramework.Editor
 
             // 开始布局
             GUILayout.BeginVertical();
-
+            
             // 命名空间
             GUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("命名空间");
@@ -62,7 +62,7 @@ namespace IFramework.Editor
             EditorGUILayout.PrefixLabel("脚本路径");
             // GUILayout.Label("生成路径", GUILayout.Width(60));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.ScriptsPath = EditorGUILayout.TextField(controller.ScriptsPath).Trim();
+            controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -75,6 +75,13 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+            // 注释
+            EditorGUILayout.PrefixLabel("注释");
+            GUILayout.BeginHorizontal();
+            controller.Comment = EditorGUILayout.TextArea(controller.Comment, GUILayout.Height(40));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+            
             // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
@@ -89,7 +96,7 @@ namespace IFramework.Editor
             }
 
             // 全路径
-            string fileFullPath = "Assets/" + controller.ScriptsPath + "/" + controller.ScriptName + ".cs";
+            string fileFullPath = "Assets/" + controller.ScriptPath + "/" + controller.ScriptName + ".cs";
 
             // 如果文件存在则显示
             if (File.Exists(fileFullPath)) {
@@ -99,8 +106,7 @@ namespace IFramework.Editor
 
                 if (GUILayout.Button("打开", GUILayout.Width(60))) { AssetDatabase.OpenAsset(scriptObject); }
             }
-            else 
-            {
+            else {
                 // 按钮变灰
                 GUI.enabled = false;
                 GUILayout.Button("选择", GUILayout.Width(60));

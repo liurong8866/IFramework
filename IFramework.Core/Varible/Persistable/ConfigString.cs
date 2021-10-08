@@ -23,5 +23,10 @@ namespace IFramework.Core
             PlayerPrefs.SetString(key, value);
             PlayerPrefs.Save();
         }
+        
+        public override void Clear()
+        {
+            PlayerPrefs.DeleteKey(key);
+        }
     }
 }

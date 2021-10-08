@@ -32,5 +32,7 @@ namespace IFramework.Core
         public abstract T Get();
 
         public abstract void Save(T value);
+        
+        public abstract void Clear();
     }
 }

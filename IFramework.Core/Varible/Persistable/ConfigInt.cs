@@ -26,6 +26,11 @@ namespace IFramework.Core
             PlayerPrefs.SetInt(key, value);
             PlayerPrefs.Save();
         }
+        
+        public override void Clear()
+        {
+            PlayerPrefs.DeleteKey(key);
+        }
 
         //重载运算符"++"
         public static ConfigInt operator ++(ConfigInt self)

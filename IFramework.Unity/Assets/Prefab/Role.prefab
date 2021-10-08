@@ -92,9 +92,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example
   ScriptName: Role
-  ScriptsPath: Scripts/Game
-  GeneratePrefab: 0
+  ScriptPath: Scripts/Game
   PrefabPath: Prefab/Game
+  Comment: 123
 --- !u!1 &7938978354333001380
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,9 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example
   ScriptName: Enemy
-  ScriptsPath: Scripts/Game
-  GeneratePrefab: 0
+  ScriptPath: 
   PrefabPath: Prefab/Game
+  Comment: 
 --- !u!114 &7938978354333001391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,9 +396,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example
   ScriptName: Player
-  ScriptsPath: Scripts/Game
-  GeneratePrefab: 0
+  ScriptPath: Scripts/Game
   PrefabPath: Prefab/Game
+  Comment: 
 --- !u!114 &7938978355533303318
 MonoBehaviour:
   m_ObjectHideFlags: 0

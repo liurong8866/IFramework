@@ -27,6 +27,11 @@ namespace IFramework.Core
             PlayerPrefs.Save();
         }
 
+        public override void Clear()
+        {
+            PlayerPrefs.DeleteKey(key);
+        }
+
         //重载运算符"++"
         public static ConfigFloat operator ++(ConfigFloat m)
         {

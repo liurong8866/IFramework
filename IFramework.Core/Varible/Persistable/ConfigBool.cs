@@ -26,6 +26,11 @@ namespace IFramework.Core
             PlayerPrefs.Save();
         }
 
+        public override void Clear()
+        {
+            PlayerPrefs.DeleteKey(key);
+        }
+
         //重载运算符"true"
         public static bool operator true(ConfigBool value)
         {

@@ -5,5 +5,7 @@ namespace IFramework.Core
         T Get();
 
         void Save(T value);
+
+        void Clear();
     }
 }

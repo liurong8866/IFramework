@@ -73,7 +73,7 @@ namespace IFramework.Editor
             // 注释
             EditorGUILayout.PrefixLabel("注释");
             GUILayout.BeginHorizontal();
-            bind.Comment = EditorGUILayout.TextArea(bind.Comment, GUILayout.Height(60));
+            bind.Comment = EditorGUILayout.TextArea(bind.Comment, GUILayout.Height(40));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             
