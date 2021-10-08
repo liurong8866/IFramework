@@ -39,7 +39,7 @@ namespace IFramework.Core
         /// <summary>
         /// 注释
         /// </summary>
-        [HideInInspector] public string Comment;
+        [HideInInspector] public string Comment = "";
 
         /// <summary>
         /// 脚本文件相对资源路径

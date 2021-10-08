@@ -1,6 +1,6 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace IFramework.Core
 {
@@ -26,15 +26,20 @@ namespace IFramework.Core
             }
             set => componentName = value;
         }
+        
+        /// <summary>
+        /// 自定义名称
+        /// </summary>
+        public string CustomComponentName { get; set; }
 
         /// <summary>
         /// 注释
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
 
-        [HideInInspector] [SerializeField] private string comment;
+        [HideInInspector] [SerializeField] private string comment = "";
 
-        [HideInInspector] [SerializeField] private string componentName;
+        [HideInInspector] [SerializeField] private string componentName = "";
 
         /// <summary>
         /// 取当前物体上绑定的组件
@@ -46,17 +51,17 @@ namespace IFramework.Core
             if (GetComponent("ViewController")) return GetComponent<ViewController>().GetType().FullName;
             
             // UGUI
-            if (GetComponent("Button")) return "UnityEngine.UI.Button";
-            if (GetComponent("Text")) return "UnityEngine.UI.Text";
-            if (GetComponent("InputField") != null) return "UnityEngine.UI.InputField";
-            if (GetComponent("Image")) return "UnityEngine.UI.Image";
-            if (GetComponent("RawImage")) return "UnityEngine.UI.RawImage";
-            if (GetComponent("Dropdown")) return "UnityEngine.UI.Dropdown";
-            if (GetComponent("Toggle")) return "UnityEngine.UI.Toggle";
-            if (GetComponent("Slider")) return "UnityEngine.UI.Slider";
-            if (GetComponent("Scrollbar")) return "UnityEngine.UI.Scrollbar";
-            if (GetComponent("ToggleGroup")) return "UnityEngine.UI.ToggleGroup";
-            if (GetComponent("ScrollRect")) return "UnityEngine.UI.ScrollRect";
+            if (GetComponent("UnityEngine.UI.Button")) return "UnityEngine.UI.Button";
+            if (GetComponent("UnityEngine.UI.Text")) return "UnityEngine.UI.Text";
+            if (GetComponent("UnityEngine.UI.InputField") != null) return "UnityEngine.UI.InputField";
+            if (GetComponent("UnityEngine.UI.Image")) return "UnityEngine.UI.Image";
+            if (GetComponent("UnityEngine.UI.RawImage")) return "UnityEngine.UI.RawImage";
+            if (GetComponent("UnityEngine.UI.Dropdown")) return "UnityEngine.UI.Dropdown";
+            if (GetComponent("UnityEngine.UI.Toggle")) return "UnityEngine.UI.Toggle";
+            if (GetComponent("UnityEngine.UI.Slider")) return "UnityEngine.UI.Slider";
+            if (GetComponent("UnityEngine.UI.Scrollbar")) return "UnityEngine.UI.Scrollbar";
+            if (GetComponent("UnityEngine.UI.ToggleGroup")) return "UnityEngine.UI.ToggleGroup";
+            if (GetComponent("UnityEngine.UI.ScrollRect")) return "UnityEngine.UI.ScrollRect";
 
             // 富文本
             if (GetComponent("TMP.TextMeshProUGUI")) return "TMP.TextMeshProUGUI";

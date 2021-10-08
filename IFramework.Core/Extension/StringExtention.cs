@@ -144,7 +144,7 @@ namespace IFramework.Core
         /// </summary>
         public static string ToCamel(this string value, params char[] separator)
         {
-            value = value.TrimStart(separator).TrimEnd(separator);
+            value = value.TrimStart(separator).TrimEnd(separator).Replace(" ","").Replace("　","");
             if (value.IsNullOrEmpty()) return "";
 
             string[] array = value.Split(separator);
@@ -167,7 +167,7 @@ namespace IFramework.Core
         public static string ToPascal(this string value, params char[] separator)
         {
             string result = "";
-            value = value.TrimStart(separator).TrimEnd(separator);
+            value = value.TrimStart(separator).TrimEnd(separator).Replace(" ","").Replace("　","");
             if (value.IsNullOrEmpty()) return result;
 
             string[] array = value.Split(separator);

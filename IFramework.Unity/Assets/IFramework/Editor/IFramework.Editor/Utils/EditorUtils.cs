@@ -117,5 +117,10 @@ namespace IFramework.Editor
                 });
             }
         }
+
+        public static string FormatName(this string name)
+        {
+            return name.Replace(" ", "").Replace("　", "");
+        }
     }
 }
