@@ -156,16 +156,12 @@ namespace IFramework.Editor
         /// </summary>
         private static void FixComponentLost()
         {
-            GameObject[] rootGameObjects = EditorUtils.GetRootGameObjects();
-            
-            foreach (GameObject go in rootGameObjects) {
-                ViewController[] viewControllers = go.GetComponents<ViewController>();
-                foreach (ViewController controller in viewControllers) {
-                    Log.Info(controller.gameObject.name);
-                }
-            }
+            EditorUtils.ClearMissing(EditorUtils.GetRootGameObjects(), go => {
+                go.AddComponentSafe<ViewController>();
+                Log.Warning(go.name + " 对象发现missing脚本，已修复为: ViewController组件，请确认。");
+            });
         }
-        
+
         // 清理缓存数据
         private static void Clear()
         {

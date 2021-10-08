@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using IFramework.Core;
@@ -5,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
 {
@@ -79,6 +81,41 @@ namespace IFramework.Editor
         {
             return component.GetComponent<ViewController>();
         }
+        
+        /// <summary>
+        /// 清空Missing脚本
+        /// </summary>
+        public static void ClearMissing(GameObject[] gameObjects, Action<GameObject> onCleared=null)
+        {
+            foreach (GameObject go in gameObjects) {
+                // 递归查找所有子节点
+                go.transform.ActionRecursion((transform) => {
+                    // 通过Component组件，找到Missing的组件
+                    Component[] components = go.GetComponents<Component>();
 
+                    // 创建SerializedObject对象，用于修改Component
+                    SerializedObject serializedObject = new SerializedObject(go);
+                    bool hasMiss = false;
+
+                    // 循环所有组件
+                    for (int i = components.Length - 1; i >= 0; i--) {
+                        // 丢失脚本
+                        if (components[i] == null) {
+                            GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+                            hasMiss = true;
+                        }
+                    }
+
+                    if (hasMiss) {
+                        // 唤醒事件
+                        onCleared.InvokeSafe(go);
+                        
+                        // 提交修改
+                        serializedObject.ApplyModifiedProperties();
+                        EditorUtility.SetDirty(go);
+                    }
+                });
+            }
+        }
     }
 }
