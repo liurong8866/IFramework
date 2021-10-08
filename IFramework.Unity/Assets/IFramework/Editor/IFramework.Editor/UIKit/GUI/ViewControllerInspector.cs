@@ -75,14 +75,18 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
-            // 代码生成
+            // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
 
             // 操作按钮
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("生成脚本")) { ViewControllerScript.GenerateCode(); }
+            if (GUILayout.Button("生成脚本")) {
+                ViewControllerScript.GenerateCode();
+                // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
+                GUIUtility.ExitGUI();
+            }
 
             // 全路径
             string fileFullPath = "Assets/" + controller.ScriptsPath + "/" + controller.ScriptName + ".cs";
@@ -95,8 +99,9 @@ namespace IFramework.Editor
 
                 if (GUILayout.Button("打开", GUILayout.Width(60))) { AssetDatabase.OpenAsset(scriptObject); }
             }
-            // 按钮变灰
-            else {
+            else 
+            {
+                // 按钮变灰
                 GUI.enabled = false;
                 GUILayout.Button("选择", GUILayout.Width(60));
                 GUILayout.Button("打开", GUILayout.Width(60));
