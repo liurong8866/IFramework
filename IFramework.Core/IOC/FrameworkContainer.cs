@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace IFramework.Core
 {
-    public class ApplicationContainer : IFrameworkContainer
+    public abstract class FrameworkContainer : IFrameworkContainer
     {   
         protected TypeMapping Mappings { get; set; } = new TypeMapping();
         
