@@ -61,7 +61,7 @@ namespace IFramework.Core
         {
             return SerializeUtils.DeserializeFromBytes<T>(bytes);
         }
-
+        
         /// <summary>
         /// 把文件序列化成对象
         /// </summary>
@@ -76,6 +76,14 @@ namespace IFramework.Core
         public static T DeserializeFromFile<T>(string fileName) where T : class
         {
             return SerializeUtils.DeserializeFromFile<T>(fileName);
+        }
+
+        /// <summary>
+        /// 把流反序列化成对象
+        /// </summary>
+        public static T DeserializeFromStream<T>(Stream stream) where T : class
+        {
+            return SerializeUtils.DeserializeFromStream<T>(stream);
         }
 
         /// <summary>
@@ -98,6 +106,16 @@ namespace IFramework.Core
         public static T DeserializeFromFile<T>(string fileName, string key) where T : class
         {
             return SerializeUtils.DeserializeFromFile<T>(fileName, key);
+        }
+        
+        /// <summary>
+        /// 把流反序列化成对象(AES加密)
+        /// </summary>
+        /// <param name="stream">待序列化的文件流</param>
+        /// <param name="key">密钥(16位)</param>
+        public static T DeserializeFromStream<T>(Stream stream, string key) where T : class
+        {
+            return SerializeUtils.DeserializeFromStream<T>(stream, key);
         }
     }
 }

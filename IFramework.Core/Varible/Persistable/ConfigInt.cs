@@ -16,6 +16,9 @@ namespace IFramework.Core
             if (overwrite) { Save(value); }
         }
 
+        /// <summary>
+        /// 获取整数
+        /// </summary>
         public override int Get()
         {
             return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : value;
@@ -27,6 +30,9 @@ namespace IFramework.Core
             PlayerPrefs.Save();
         }
         
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
         public override void Clear()
         {
             PlayerPrefs.DeleteKey(key);

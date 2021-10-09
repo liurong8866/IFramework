@@ -40,22 +40,6 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 把字节数组反序列化成对象
-        /// </summary>
-        public static T DeserializeFromBytes<T>(Stream stream) where T : class
-        {
-            if (stream == null) {
-                Log.Error("反序列化失败：需要序列化的流为NULL");
-                return null;
-            }
-
-            using (stream) {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return formatter.Deserialize(stream) as T;
-            }
-        }
-
-        /// <summary>
         /// 把文件序列化成对象
         /// </summary>
         public static void SerializeToFile(string fileName, object obj, FileMode fileMode = FileMode.Create)
@@ -76,9 +60,9 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 把文件反序列化成对象
+        /// 把流反序列化成对象
         /// </summary>
-        public static T DeserializeFromFile<T>(Stream stream) where T : class
+        public static T DeserializeFromStream<T>(Stream stream) where T : class
         {
             if (stream == null) {
                 Log.Error("反序列化失败：需要序列化的流为NULL");
@@ -133,11 +117,11 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 把文件反序列化成对象(AES加密)
+        /// 把流反序列化成对象(AES加密)
         /// </summary>
         /// <param name="stream">待序列化的文件流</param>
         /// <param name="key">密钥(16位)</param>
-        public static T DeserializeFromFile<T>(Stream stream, string key) where T : class
+        public static T DeserializeFromStream<T>(Stream stream, string key) where T : class
         {
             if (stream == null) {
                 Log.Error("反序列化失败：需要序列化的流为NULL");

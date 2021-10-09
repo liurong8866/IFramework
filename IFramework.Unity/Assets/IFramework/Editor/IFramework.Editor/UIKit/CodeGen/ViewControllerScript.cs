@@ -13,7 +13,7 @@ namespace IFramework.Editor
 {
     public class ViewControllerScript
     {
-        private static DateTime start;
+        private static readonly ConfigDateTime generateTime = new ConfigDateTime("GENERATE_TIME");
         private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
         private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
         private static readonly ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
@@ -23,7 +23,8 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode(bool overwrite)
         {
-            start = DateTime.Now;
+            generateTime.Value = DateTime.Now;
+            
             Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
 
@@ -162,10 +163,8 @@ namespace IFramework.Editor
 
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
-            Log.Info(new DateTime());
-            Log.Info(start);
-            Log.Info("生成脚本: 完毕! ");
-            // Log.Info("生成脚本: 完毕! 耗时{0}秒", (DateTime.Now - start).TotalSeconds);
+            Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
+            generateTime.Clear();
         }
 
         /// <summary>

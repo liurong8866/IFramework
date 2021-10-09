@@ -27,10 +27,19 @@ namespace IFramework.Core
             }
         }
 
+        /// <summary>
+        /// 获取值
+        /// </summary>
         public abstract T Get();
 
+        /// <summary>
+        /// 保存值
+        /// </summary>
         public abstract void Save(T value);
 
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
         public abstract void Clear();
     }
 }

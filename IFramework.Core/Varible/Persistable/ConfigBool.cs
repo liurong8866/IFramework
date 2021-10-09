@@ -14,6 +14,9 @@ namespace IFramework.Core
             if (overwrite) { Save(value); }
         }
 
+        /// <summary>
+        /// 获取布尔值
+        /// </summary>
         public override bool Get()
         {
             if (PlayerPrefs.HasKey(key)) { return PlayerPrefs.GetInt(key) == 1; }
@@ -26,6 +29,9 @@ namespace IFramework.Core
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
         public override void Clear()
         {
             PlayerPrefs.DeleteKey(key);

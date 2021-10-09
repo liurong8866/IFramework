@@ -119,7 +119,7 @@ namespace IFramework.Engine
                 yield break;
             }
             MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
-            AssetBundleDatas bundles = SerializeUtils.DeserializeFromFile<AssetBundleDatas>(stream);
+            AssetBundleDatas bundles = SerializeUtils.DeserializeFromStream<AssetBundleDatas>(stream);
             if (bundles == null) yield break;
 
             SetSerializeData(bundles);
