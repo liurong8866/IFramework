@@ -6,13 +6,13 @@ namespace IFramework.Core
     /// <summary>
     /// 日期时间工具类
     /// </summary>
-    public static class DateTimeUtils
+    public static class DateTimeExtention
     {
         /// <summary>
         /// Unix时间起始时间
         /// Unix时间戳（TimeStamp）是指格林尼治时间1970年1月1日0时（北京时间1970年1月1日8时）起至现在的总秒数（10位）或总毫秒数（13位）
         /// </summary>
-        public static readonly DateTime StarTime = new DateTime(1970, 1, 1, 0, 0, 0);
+        public static readonly DateTime StarTime = new DateTime(1970, 1, 1).ToLocalTime();
 
         /// <summary>
         /// 小时格式化
