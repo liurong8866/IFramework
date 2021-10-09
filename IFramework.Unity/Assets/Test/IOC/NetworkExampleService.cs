@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface INetworkExampleService
+{
+    void Request();
+}
+
+public class NetworkExampleService1 : INetworkExampleService
+{
+    public void Request()
+    {
+        Debug.Log("请求服务器1");
+    }
+}
+
+public class NetworkExampleService2 : INetworkExampleService
+{
+    public void Request()
+    {
+        Debug.Log("请求服务器2");
+    }
+}

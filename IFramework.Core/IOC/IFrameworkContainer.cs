@@ -8,9 +8,9 @@ namespace IFramework.Core
     /// </summary>
     public interface IFrameworkContainer : IDisposable
     {
-        public TypeMapping Mappings { get; set; }
-
-        public TypeInstanceMapping Instances { get; set; }
+        // public TypeMapping Mappings { get; set; }
+        //
+        // public TypeInstanceMapping Instances { get; set; }
 
         /*----------------------------- Register -----------------------------*/
 

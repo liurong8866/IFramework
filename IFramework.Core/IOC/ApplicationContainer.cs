@@ -6,13 +6,13 @@ using System.Reflection;
 namespace IFramework.Core
 {
     public class ApplicationContainer : IFrameworkContainer
-    {
-        public TypeMapping Mappings { get; set; } = new TypeMapping();
-
-        public TypeInstanceMapping Instances { get; set; } = new TypeInstanceMapping();
-
+    {   
+        protected TypeMapping Mappings { get; set; } = new TypeMapping();
+        
+        protected TypeInstanceMapping Instances { get; set; } = new TypeInstanceMapping();
+        
         /*----------------------------- Register -----------------------------*/
-
+        
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -21,7 +21,7 @@ namespace IFramework.Core
         {
             Mappings[typeof(T), name] = typeof(T);
         }
-
+        
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -32,7 +32,7 @@ namespace IFramework.Core
         {
             Mappings[typeof(TBase), name] = typeof(TTarget);
         }
-
+        
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -222,7 +222,7 @@ namespace IFramework.Core
             ConstructorInfo[] constructor = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 
             // 如果没有构造方法
-            if (constructor.Length < 1) {
+            if (constructor.Length == 1) {
                 object obj2 = Activator.CreateInstance(type);
                 Inject(obj2);
                 return obj2;
@@ -267,8 +267,8 @@ namespace IFramework.Core
             if (obj == null) return;
 
             // 通过反射，从类型获取所有成员
-            MemberInfo[] members = obj.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-
+            IEnumerable<MemberInfo> members = obj.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+            
             // 遍历所有方法
             foreach (MemberInfo memberInfo in members) {
                 // 找到属性
