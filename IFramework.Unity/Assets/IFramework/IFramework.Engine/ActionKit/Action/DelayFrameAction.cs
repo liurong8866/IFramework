@@ -8,7 +8,7 @@ namespace IFramework.Engine
     /// 延迟帧动作节点
     /// </summary>
     [Serializable]
-    public class DelayFrameAction : AbstractAction, IPoolable, IResetable
+    public class DelayFrameAction : AbstractAction, IPoolable
     {
         // 延迟帧数
         [SerializeField] public int FrameCount;

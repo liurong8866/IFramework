@@ -54,7 +54,12 @@ namespace IFramework.Editor
 
         public const string CON_MENU_BIND = "GameObject/I Kit - Bind &b";
 
-        [MenuItem(CON_MENU_BIND, false, 30)]
+        
+        [MenuItem("GameObject/- - - - - - - - - - - - - - - -", false, 30)]
+        private static void UIKitTop(){}
+
+        
+        [MenuItem(CON_MENU_BIND, false, 31)]
         private static void UIKitBind()
         {
             UIKit.AddBindScript();
@@ -62,7 +67,7 @@ namespace IFramework.Editor
 
         public const string CON_MENU_VIEW = "GameObject/I Kit - View Controller &v";
 
-        [MenuItem(CON_MENU_VIEW, false, 31)]
+        [MenuItem(CON_MENU_VIEW, false, 32)]
         private static void UIKitAddView()
         {
             UIKit.AddViewScript();
@@ -70,7 +75,7 @@ namespace IFramework.Editor
 
         public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
 
-        [MenuItem(CON_MENU_GENCODE, false, 32)]
+        [MenuItem(CON_MENU_GENCODE, false, 33)]
         private static void UIKitCreateCode()
         {
             UIKit.ViewControllerGenerate();

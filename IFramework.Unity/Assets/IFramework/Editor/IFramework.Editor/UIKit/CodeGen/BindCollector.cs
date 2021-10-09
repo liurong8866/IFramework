@@ -72,8 +72,9 @@ namespace IFramework.Editor
                         SearchBind(child, fullName + child.name + "/", rootControllerInfo, elementInfo);
                     }
                     else {
-                        // 如果是标记的叶子节点则不再继续搜索
-                        if (!(leafPanelType != null && bind.Transform.GetComponent(leafPanelType))) {
+                        // 如果是标记的叶子节点则不再继续搜索, 这里是遇到Element就认为是叶节点
+                        if (leafPanelType != null && bind.Transform.GetComponent(leafPanelType)) { }
+                        else {
                             // 递归下一层
                             SearchBind(child, fullName + child.name + "/", rootControllerInfo, parentElementInfo);
                         }

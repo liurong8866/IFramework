@@ -1,5 +1,4 @@
 using System;
-using IFramework.Core.Trigger;
 using UnityEngine;
 
 namespace IFramework.Core

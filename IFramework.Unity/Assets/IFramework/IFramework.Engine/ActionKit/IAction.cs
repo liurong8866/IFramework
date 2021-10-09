@@ -8,7 +8,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 执行节点的基础接口
     /// </summary>
-    public interface IAction : IResetable, IDisposable
+    public interface IAction : IDisposable
     {
         /// <summary>
         /// 执行事件
@@ -24,6 +24,8 @@ namespace IFramework.Engine
         /// 是否结束
         /// </summary>
         bool Finished { get; }
+        
+        void Reset();
     }
 
     public static class IActionExtension

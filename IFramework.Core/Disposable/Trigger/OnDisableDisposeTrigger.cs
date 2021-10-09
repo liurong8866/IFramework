@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IFramework.Core.Trigger
+namespace IFramework.Core
 {
     public class OnDisableDisposeTrigger : MonoBehaviour
     {

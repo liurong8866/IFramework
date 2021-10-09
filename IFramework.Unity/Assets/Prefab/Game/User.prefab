@@ -96,7 +96,7 @@ MonoBehaviour:
   AsScriptSubPath: 1
   PrefabPath: Prefab/Game
   AsPrefabSubPath: 0
-  Comment: 
+  Comment: "\u4F60\u597D111"
   Name: {fileID: 2714332765572870120}
   Age: {fileID: 2714332764181438566}
 --- !u!1 &2714332765572870123
