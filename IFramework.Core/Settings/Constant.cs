@@ -1,6 +1,6 @@
 namespace IFramework.Core
 {
-    public partial class Constant
+    public class Constant
     {
         // IFramework 目录
         public const string FRAMEWORK_NAME = "IFramework";

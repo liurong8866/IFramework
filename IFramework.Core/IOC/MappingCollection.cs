@@ -17,23 +17,22 @@ namespace IFramework.Core
             Item2 = item2;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
-            Tuple<T1, T2> p = obj as Tuple<T1, T2>;
-            if (obj == null) return false;
+            if (!(obj is Tuple<T1, T2> tuple)) return false;
 
             if (Item1 == null) {
-                if (p.Item1 != null) return false;
+                if (tuple.Item1 != null) return false;
             }
             else {
-                if (p.Item1 == null || !Item1.Equals(p.Item1)) return false;
+                if (tuple.Item1 == null || !Item1.Equals(tuple.Item1)) return false;
             }
 
             if (Item2 == null) {
-                if (p.Item2 != null) return false;
+                if (tuple.Item2 != null) return false;
             }
             else {
-                if (p.Item2 == null || !Item2.Equals(p.Item2)) return false;
+                if (tuple.Item2 == null || !Item2.Equals(tuple.Item2)) return false;
             }
             return true;
         }
@@ -46,21 +45,18 @@ namespace IFramework.Core
             return hash;
         }
     }
-    
+
     /// <summary>
     /// 类型字典
+    /// Key: Type string
+    /// Value: Type
     /// </summary>
-    public class TypeMappingCollection : Dictionary<Tuple<Type, string>, Type>
+    public class TypeMapping : Dictionary<Tuple<Type, string>, Type>
     {
         public Type this[Type from, string name = null] {
             get {
                 Tuple<Type, string> key = new Tuple<Type, string>(from, name);
-                Type mapping = null;
-
-                if (this.TryGetValue(key, out mapping)) {
-                    return mapping;
-                }
-                return null;
+                return TryGetValue(key, out Type mapping) ? mapping : null;
             }
             set {
                 Tuple<Type, string> key = new Tuple<Type, string>(from, name);
@@ -71,18 +67,15 @@ namespace IFramework.Core
 
     /// <summary>
     /// 类型实例字典
+    /// Key: Type string
+    /// Value: object
     /// </summary>
-    public class TypeInstanceCollection : Dictionary<Tuple<Type, string>, object>
+    public class TypeInstanceMapping : Dictionary<Tuple<Type, string>, object>
     {
         public object this[Type from, string name = null] {
             get {
                 Tuple<Type, string> key = new Tuple<Type, string>(from, name);
-                object mapping = null;
-
-                if (this.TryGetValue(key, out mapping)) {
-                    return mapping;
-                }
-                return null;
+                return TryGetValue(key, out object mapping) ? mapping : null;
             }
             set {
                 Tuple<Type, string> key = new Tuple<Type, string>(from, name);
@@ -93,18 +86,15 @@ namespace IFramework.Core
 
     /// <summary>
     /// 类型关系字典
+    /// Key: Type Type
+    /// Value: Type
     /// </summary>
-    public class TypeRelationCollection : Dictionary<Tuple<Type, Type>, Type>
+    public class TypeRelationMapping : Dictionary<Tuple<Type, Type>, Type>
     {
         public Type this[Type from, Type to] {
             get {
                 Tuple<Type, Type> key = new Tuple<Type, Type>(from, to);
-                Type mapping = null;
-
-                if (this.TryGetValue(key, out mapping)) {
-                    return mapping;
-                }
-                return null;
+                return TryGetValue(key, out Type mapping) ? mapping : null;
             }
             set {
                 Tuple<Type, Type> key = new Tuple<Type, Type>(from, to);

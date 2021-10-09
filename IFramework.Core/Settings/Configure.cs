@@ -1,6 +1,6 @@
 namespace IFramework.Core
 {
-    public static partial class Configure
+    public static class Configure
     {
         /*----------------------------- Resource Kit -----------------------------*/
 

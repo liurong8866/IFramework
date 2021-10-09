@@ -23,17 +23,17 @@ namespace IFramework.Core
         /// 秒格式化
         /// </summary>
         public static readonly string SecondsFormat = "yyyy-MM-dd HH:mm:ss";
-        
+
         /// <summary>
         /// 毫秒格式化
         /// </summary>
         public static readonly string MilliSecondsFormat = "yyyy-MM-dd HH:mm:ss.fff";
-        
+
         /// <summary>
         /// 周未定义
         /// </summary>
         private static readonly DayOfWeek[] Weekend = { DayOfWeek.Saturday, DayOfWeek.Sunday };
-        
+
         /// <summary>
         /// 小时格式化
         /// </summary>
@@ -41,7 +41,7 @@ namespace IFramework.Core
         {
             return date.ToString(HourFormat);
         }
-        
+
         /// <summary>
         /// 秒格式化
         /// </summary>
@@ -49,7 +49,7 @@ namespace IFramework.Core
         {
             return date.ToString(SecondsFormat);
         }
-        
+
         /// <summary>
         /// 毫秒格式化
         /// </summary>
@@ -81,23 +81,19 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime ToDateTimeBySeconds(this long timestamp)
         {
-            if (timestamp.ToString().Length != 10) {
-                throw new ArgumentException("时间戳长度不正确。");
-            }
+            if (timestamp.ToString().Length != 10) { throw new ArgumentException("时间戳长度不正确。"); }
             return StarTime.AddSeconds(timestamp);
         }
-        
+
         /// <summary>
         /// 时间戳转日期
         /// </summary>
         public static DateTime ToDateTimeByMilliseconds(this long timestamp)
         {
-            if (timestamp.ToString().Length != 13) {
-                throw new ArgumentException("时间戳长度不正确。");
-            }
+            if (timestamp.ToString().Length != 13) { throw new ArgumentException("时间戳长度不正确。"); }
             return StarTime.AddMilliseconds(timestamp);
         }
-        
+
         /// <summary>
         /// 明天
         /// </summary>
@@ -113,7 +109,7 @@ namespace IFramework.Core
         {
             return date.AddDays(-1);
         }
-        
+
         /// <summary>
         /// 判断是否为今天
         /// </summary>
@@ -147,7 +143,7 @@ namespace IFramework.Core
         {
             return date.Date == other.Date;
         }
-        
+
         /// <summary>
         /// 早于给定日期
         /// </summary>

@@ -75,7 +75,7 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="timeSetting">The <see cref="TimeSetting">time setting</see> to use when creating <see cref="ZipEntry">Zip entries</see>.</param>
         public ZipEntryFactory(TimeSetting timeSetting)
         {
-            this.Setting = timeSetting;
+            Setting = timeSetting;
             nameTransform = new ZipNameTransform();
         }
 

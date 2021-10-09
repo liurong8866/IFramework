@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace IFramework.Core
             }
             set => componentName = value;
         }
-        
+
         /// <summary>
         /// 自定义名称
         /// </summary>
@@ -49,7 +48,7 @@ namespace IFramework.Core
         private string GetDefaultComponentName()
         {
             if (GetComponent("ViewController")) return GetComponent<ViewController>().GetType().FullName;
-            
+
             // UGUI
             if (GetComponent("UnityEngine.UI.Button")) return "UnityEngine.UI.Button";
             if (GetComponent("UnityEngine.UI.Text")) return "UnityEngine.UI.Text";
@@ -68,7 +67,7 @@ namespace IFramework.Core
             if (GetComponent("TMPro.TextMeshProUGUI")) return "TMPro.TextMeshProUGUI";
             if (GetComponent("TMPro.TextMeshPro")) return "TMPro.TextMeshPro";
             if (GetComponent("TMPro.TMP_InputField")) return "TMPro.TMP_InputField";
-            
+
             // Unity 组件
             if (GetComponent("Rigidbody")) return "Rigidbody";
             if (GetComponent("Rigidbody2D")) return "Rigidbody2D";

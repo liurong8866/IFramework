@@ -26,7 +26,7 @@ namespace IFramework.Core
             PlayerPrefs.SetString(key, value);
             PlayerPrefs.Save();
         }
-        
+
         /// <summary>
         /// 清除缓存
         /// </summary>

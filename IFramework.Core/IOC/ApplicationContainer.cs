@@ -7,132 +7,96 @@ namespace IFramework.Core
 {
     public class ApplicationContainer : IFrameworkContainer
     {
-        private TypeInstanceCollection instances;
-        private TypeMappingCollection mappings;
+        public TypeMapping Mappings { get; set; } = new TypeMapping();
 
-        public TypeMappingCollection Mappings {
-            get => mappings ??= new TypeMappingCollection();
-            set => mappings = value;
-        }
+        public TypeInstanceMapping Instances { get; set; } = new TypeInstanceMapping();
 
-        public TypeInstanceCollection Instances {
-            get => instances ??= new TypeInstanceCollection(); 
-            set => instances = value;
-        }
+        /*----------------------------- Register -----------------------------*/
 
-        public TypeRelationCollection RelationshipMappings { get; set; } = new TypeRelationCollection();
-        
-        
-        public IEnumerable<TType> ResolveAll<TType>() {
-            foreach (var obj in ResolveAll(typeof(TType))) {
-                yield return (TType) obj;
-            }
+        /// <summary>
+        /// 注册类型
+        /// </summary>
+        /// <typeparam name="T">基础类</typeparam>
+        public void Register<T>(string name = null)
+        {
+            Mappings[typeof(T), name] = typeof(T);
         }
 
         /// <summary>
-        /// Resolves all instances of TType or subclasses of TType.  Either named or not.
+        /// 注册类型
         /// </summary>
-        /// <returns>List of objects.</returns>
-        public IEnumerable<object> ResolveAll(Type type) {
-            foreach (KeyValuePair<Tuple<Type, string>, object> kv in Instances) {
-                if (kv.Key.Item1 == type && !string.IsNullOrEmpty(kv.Key.Item2))
-                    yield return kv.Value;
-            }
-
-            foreach (KeyValuePair<Tuple<Type, string>, Type> kv in Mappings) {
-                if (!string.IsNullOrEmpty(kv.Key.Item2)) {
-                #if NETFX_CORE
-                    var condition = type.GetTypeInfo().IsSubclassOf(mapping.From);
-                #else
-                    var condition = type.IsAssignableFrom(kv.Key.Item1);
-                #endif
-                    if (condition) {
-                        var item = Activator.CreateInstance(kv.Value);
-                        Inject(item);
-                        yield return item;
-                    }
-                }
-            }
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        /// <typeparam name="TTarget">目标类</typeparam>
+        public void Register<TBase, TTarget>(string name = null)
+        {
+            Mappings[typeof(TBase), name] = typeof(TTarget);
         }
 
         /// <summary>
-        /// Clears all type-mappings and instances.
+        /// 注册类型
         /// </summary>
-        public void Clear() {
-            Instances.Clear();
-            Mappings.Clear();
-            RelationshipMappings.Clear();
+        /// <param name="baseType">基础类</param>
+        /// <param name="target">目标类</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        public void Register(Type baseType, Type target, string name = null)
+        {
+            Mappings[baseType, name] = target;
         }
 
         /// <summary>
-        /// Injects registered types/mappings into an object
+        /// 注册实例
         /// </summary>
-        /// <param name="obj"></param>
-        public void Inject(object obj) {
-            if (obj == null) return;
-        #if !NETFX_CORE
-            var members = obj.GetType()
-                             .GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-        #else
-            var members = obj.GetType().GetTypeInfo().DeclaredMembers;
-        #endif
-            foreach (var memberInfo in members) {
-                var injectAttribute =
-                        memberInfo.GetCustomAttributes(typeof(AutowiredAttribute), true).FirstOrDefault() as AutowiredAttribute;
-
-                if (injectAttribute != null) {
-                    if (memberInfo is PropertyInfo) {
-                        var propertyInfo = memberInfo as PropertyInfo;
-                        propertyInfo.SetValue(obj, Resolve(propertyInfo.PropertyType, injectAttribute.Name), null);
-                    }
-                    else if (memberInfo is FieldInfo) {
-                        var fieldInfo = memberInfo as FieldInfo;
-                        fieldInfo.SetValue(obj, Resolve(fieldInfo.FieldType, injectAttribute.Name));
-                    }
-                }
-            }
+        /// <param name="instance">目标实例</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance)
+        {
+            RegisterInstance(instance, true);
         }
 
         /// <summary>
-        /// Register a type mapping
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="TSource">The base type.</typeparam>
-        public void Register<TSource>(string name = null) {
-            Mappings[typeof(TSource), name] = typeof(TSource);
+        /// <param name="instance">目标实例</param>
+        /// <param name="injectNow">是否立即注入</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance, bool injectNow)
+        {
+            RegisterInstance(instance, null, injectNow);
         }
 
         /// <summary>
-        /// Register a type mapping
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="TSource">The base type.</typeparam>
-        /// <typeparam name="TTarget">The concrete type</typeparam>
-        public void Register<TSource, TTarget>(string name = null) {
-            Mappings[typeof(TSource), name] = typeof(TTarget);
-        }
-
-        public void Register(Type source, Type target, string name = null) {
-            Mappings[source, name] = target;
+        /// <param name="instance">目标实例</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <param name="injectNow">是否立即注入</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance, string name, bool injectNow = true)
+        {
+            RegisterInstance(typeof(TBase), instance, name, injectNow);
         }
 
         /// <summary>
-        /// Register a named instance
+        /// 注册实例
         /// </summary>
-        /// <param name="baseType">The type to register the instance for.</param>        
-        /// <param name="instance">The instance that will be resolved be the name</param>
-        /// <param name="injectNow">Perform the injection immediately</param>
-        public void RegisterInstance(Type baseType, object instance = null, bool injectNow = true) {
+        /// <param name="baseType">基础类</param>
+        /// <param name="instance">目标实例</param>
+        /// <param name="injectNow">是否立即注入</param>
+        public void RegisterInstance(Type baseType, object instance = null, bool injectNow = true)
+        {
             RegisterInstance(baseType, instance, null, injectNow);
         }
 
         /// <summary>
-        /// Register a named instance
+        /// 注册实例
         /// </summary>
-        /// <param name="baseType">The type to register the instance for.</param>
-        /// <param name="name">The name for the instance to be resolved.</param>
-        /// <param name="instance">The instance that will be resolved be the name</param>
-        /// <param name="injectNow">Perform the injection immediately</param>
-        public virtual void RegisterInstance(Type baseType, object instance = null, string name = null,
-                                             bool injectNow = true) {
+        /// <param name="baseType">基础类</param>
+        /// <param name="instance">目标实例</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <param name="injectNow">立即注入</param>
+        public virtual void RegisterInstance(Type baseType, object instance = null, string name = null, bool injectNow = true)
+        {
             Instances[baseType, name] = instance;
 
             if (injectNow) {
@@ -140,148 +104,211 @@ namespace IFramework.Core
             }
         }
 
-        public void RegisterInstance<TBase>(TBase instance) {
-            RegisterInstance<TBase>(instance, true);
-        }
-
-        public void UnRegisterInstance<TBase>() {
-            var key = Instances.Keys.SingleOrDefault(k => k.Item1 == typeof(TBase));
+        /// <summary>
+        /// 取消注册
+        /// </summary>
+        /// <typeparam name="T">基础类</typeparam>
+        public void UnRegisterInstance<T>()
+        {
+            Tuple<Type, string> key = Instances.Keys.SingleOrDefault(k => k.Item1 == typeof(T));
 
             if (key != null) {
                 Instances.Remove(key);
             }
         }
 
-        public void RegisterInstance<TBase>(TBase instance, bool injectNow) {
-            RegisterInstance<TBase>(instance, null, injectNow);
-        }
+        /*----------------------------- Resolve -----------------------------*/
 
-        public void RegisterInstance<TBase>(TBase instance, string name, bool injectNow = true) {
-            RegisterInstance(typeof(TBase), instance, name, injectNow);
+        /// <summary>
+        /// 解析实例
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="require">
+        ///     <value>true：未注册时返回null</value>
+        ///     <value>false: 未注册时创建实例</value>
+        /// </param>
+        /// <param name="args">构造函数参数</param>
+        /// <typeparam name="T">基础类</typeparam>
+        /// <returns></returns>
+        public T Resolve<T>(string name = null, bool require = false, params object[] args) where T : class
+        {
+            // 如果实例存在，则它将返回该实例，否则它将基于映射创建一个新的实例。
+            return(T)Resolve(typeof(T), name, require, args);
         }
 
         /// <summary>
-        ///  If an instance of T exist then it will return that instance otherwise it will create a new one based off mappings.
+        /// 解析实例
         /// </summary>
-        /// <typeparam name="T">The type of instance to resolve</typeparam>
-        /// <returns>The/An instance of 'instanceType'</returns>
-        public T Resolve<T>(string name = null, bool requireInstance = false, params object[] args) where T : class {
-            return (T) Resolve(typeof(T), name, requireInstance, args);
-        }
-
-        /// <summary>
-        /// If an instance of instanceType exist then it will return that instance otherwise it will create a new one based off mappings.
-        /// </summary>
-        /// <param name="baseType">The type of instance to resolve</param>
-        /// <param name="name">The type of instance to resolve</param>
-        /// <param name="requireInstance">If true will return null if an instance isn't registered.</param>
-        /// <param name="constructorArgs">The arguments to pass to the constructor if any.</param>
-        /// <returns>The/An instance of 'instanceType'</returns>
-        public object Resolve(Type baseType, string name = null, bool requireInstance = false,
-                              params object[] constructorArgs) {
-            // Look for an instance first
-            var item = Instances[baseType, name];
+        /// <param name="baseType">基础类</param>
+        /// <param name="name">目标实现类名称</param>
+        /// <param name="require">
+        ///     <value>true：未注册时返回null</value>
+        ///     <value>false: 未注册时创建实例</value>
+        /// </param>
+        /// <param name="args">构造函数参数</param>
+        public object Resolve(Type baseType, string name = null, bool require = false, params object[] args)
+        {
+            // 在实例中查找
+            object item = Instances[baseType, name];
 
             if (item != null) {
                 return item;
             }
+            if (require) return null;
 
-            if (requireInstance)
-                return null;
+            // 在类型映射中查找
+            Type namedMapping = Mappings[baseType, name];
 
-            // Check if there is a mapping of the type
-            var namedMapping = Mappings[baseType, name];
-
-            if (namedMapping != null) {
-                var obj = CreateInstance(namedMapping, constructorArgs);
-                //Inject(obj);
-                return obj;
-            }
-            return null;
+            // 如果实例存在，则它将返回该实例，否则它将基于映射创建一个新的实例。
+            return namedMapping != null ? CreateInstance(namedMapping, args) : null;
         }
 
-        public object CreateInstance(Type type, params object[] constructorArgs) {
-            if (constructorArgs != null && constructorArgs.Length > 0) {
-                //return Activator.CreateInstance(type,BindingFlags.Public | BindingFlags.Instance,Type.DefaultBinder, constructorArgs,CultureInfo.CurrentCulture);
-                var obj2 = Activator.CreateInstance(type, constructorArgs);
+        /// <summary>
+        /// 解析所有实例
+        /// </summary>
+        /// <typeparam name="T">基础类</typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> ResolveAll<T>()
+        {
+            foreach (object obj in ResolveAll(typeof(T))) {
+                yield return(T)obj;
+            }
+        }
+
+        /// <summary>
+        /// 解析所有类型、子类的实例
+        /// </summary>
+        /// <param name="type">基础类</param>
+        /// <returns></returns>
+        public IEnumerable<object> ResolveAll(Type type)
+        {
+            // 遍历实例字典
+            foreach (KeyValuePair<Tuple<Type, string>, object> instance in Instances) {
+                // 如果类型相同，并且名称不为空， 说明已解析完毕，返回并处理下一个
+                if (instance.Key.Item1 == type && instance.Key.Item2.IsNotNullOrEmpty()) {
+                    yield return instance.Value;
+                }
+            }
+
+            // 遍历类字典
+            foreach (KeyValuePair<Tuple<Type, string>, Type> entry in Mappings) {
+                // 如果名称不是空
+                bool condition = type.IsAssignableFrom(entry.Key.Item1);
+
+                if (condition) {
+                    object item = Activator.CreateInstance(entry.Value);
+                    Inject(item);
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 创建实例
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private object CreateInstance(Type type, params object[] args)
+        {
+            // 如果有参数，则
+            if (args != null && args.Length > 0) {
+                object obj2 = Activator.CreateInstance(type, args);
                 Inject(obj2);
                 return obj2;
             }
-        #if !NETFX_CORE
+
+            // 获取类型构造方法
             ConstructorInfo[] constructor = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
-        #else
-        ConstructorInfo[] constructor = type.GetTypeInfo().DeclaredConstructors.ToArray();
-        #endif
 
+            // 如果没有构造方法
             if (constructor.Length < 1) {
-                var obj2 = Activator.CreateInstance(type);
+                object obj2 = Activator.CreateInstance(type);
                 Inject(obj2);
                 return obj2;
             }
-            var maxParameters = constructor.First().GetParameters();
 
-            foreach (var c in constructor) {
-                var parameters = c.GetParameters();
+            // 取第一个构造方法的参数
+            ParameterInfo[] maxParameters = constructor.First().GetParameters();
+
+            // 遍历所有构造方法，找到参数最多的
+            foreach (ConstructorInfo c in constructor) {
+                // 取构造方法的参数
+                ParameterInfo[] parameters = c.GetParameters();
 
                 if (parameters.Length > maxParameters.Length) {
                     maxParameters = parameters;
                 }
             }
 
-            var args = maxParameters.Select(p => {
-                if (p.ParameterType.IsArray) {
-                    return ResolveAll(p.ParameterType);
-                }
-                return Resolve(p.ParameterType) ?? Resolve(p.ParameterType, p.Name);
-            }).ToArray();
-            var obj = Activator.CreateInstance(type, args);
+            // 解析所有参数实例
+            object[] param = maxParameters.Select(p => {
+                        // 如果参数是数组，则解析所有参数
+                        if (p.ParameterType.IsArray) {
+                            return ResolveAll(p.ParameterType);
+                        }
+                        // 解析类实例，如果为Null则加上实现类名称
+                        return Resolve(p.ParameterType) ?? Resolve(p.ParameterType, p.Name);
+                    })
+                   .ToArray();
+
+            // 创建实例
+            object obj = Activator.CreateInstance(type, param);
             Inject(obj);
             return obj;
         }
 
-        public TBase ResolveRelation<TBase>(Type tfor, params object[] args) {
-            try {
-                return (TBase) ResolveRelation(tfor, typeof(TBase), args);
-            }
-            catch (InvalidCastException castIssue) {
-                throw new Exception(
-                    string.Format("Resolve Relation couldn't cast  to {0} from {1}", typeof(TBase).Name, tfor.Name),
-                    castIssue);
+        /// <summary>
+        /// 将注册类型/映射注入对象
+        /// </summary>
+        /// <param name="obj">注入的实例</param>
+        public void Inject(object obj)
+        {
+            if (obj == null) return;
+
+            // 通过反射，从类型获取所有成员
+            MemberInfo[] members = obj.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+
+            // 遍历所有方法
+            foreach (MemberInfo memberInfo in members) {
+                // 找到属性
+                AutowiredAttribute autowiredAttribute = memberInfo.GetCustomAttributes(typeof(AutowiredAttribute), true).FirstOrDefault() as AutowiredAttribute;
+
+                // 如果存在AutowiredAttribute属性
+                if (autowiredAttribute != null) {
+                    // 如果是属性
+                    if (memberInfo is PropertyInfo propertyInfo) {
+                        propertyInfo.SetValue(obj, Resolve(propertyInfo.PropertyType, autowiredAttribute.Name), null);
+                    }
+                    // 如果是成员变量
+                    else if (memberInfo is FieldInfo fieldInfo) {
+                        fieldInfo.SetValue(obj, Resolve(fieldInfo.FieldType, autowiredAttribute.Name));
+                    }
+                }
             }
         }
 
-        public void InjectAll() {
+        /// <summary>
+        /// 注入所有实例
+        /// </summary>
+        public void InjectAll()
+        {
             foreach (object instance in Instances.Values) {
                 Inject(instance);
             }
         }
 
-        private TypeRelationCollection _relationshipMappings = new TypeRelationCollection();
-
-        public void RegisterRelation<TFor, TBase, TConcrete>() {
-            RelationshipMappings[typeof(TFor), typeof(TBase)] = typeof(TConcrete);
+        /// <summary>
+        /// 清除所有注册映射关系
+        /// </summary>
+        public void Clear()
+        {
+            Instances.Clear();
+            Mappings.Clear();
         }
 
-        public void RegisterRelation(Type tfor, Type tbase, Type tconcrete) {
-            RelationshipMappings[tfor, tbase] = tconcrete;
-        }
-
-        public object ResolveRelation(Type tfor, Type tbase, params object[] args) {
-            var concreteType = RelationshipMappings[tfor, tbase];
-
-            if (concreteType == null) {
-                return null;
-            }
-            var result = CreateInstance(concreteType, args);
-            //Inject(result);
-            return result;
-        }
-
-        public TBase ResolveRelation<TFor, TBase>(params object[] arg) {
-            return (TBase) ResolveRelation(typeof(TFor), typeof(TBase), arg);
-        }
-
-        public void Dispose() {
+        public void Dispose()
+        {
             Clear();
         }
     }

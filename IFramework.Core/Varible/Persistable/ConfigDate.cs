@@ -22,7 +22,6 @@ namespace IFramework.Core
         public override DateTime Get()
         {
             string timeValue = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetString(key) : "";
-
             return timeValue.IsNotNullOrEmpty() ? timeValue.ToLong().ToDateTimeByMilliseconds() : value;
         }
 
@@ -39,13 +38,13 @@ namespace IFramework.Core
         /// <summary>
         /// 运行秒数
         /// </summary>
-        public long DeltaSeconds  => DateTime.Now.ToUnixSeconds() - Get().ToUnixSeconds();
+        public long DeltaSeconds => DateTime.Now.ToUnixSeconds() - Get().ToUnixSeconds();
 
         /// <summary>
         /// 运行毫秒数
         /// </summary>
         public long DeltaMilliseconds => DateTime.Now.ToUnixMilliseconds() - Get().ToUnixMilliseconds();
-        
+
         /// <summary>
         /// 清除缓存
         /// </summary>

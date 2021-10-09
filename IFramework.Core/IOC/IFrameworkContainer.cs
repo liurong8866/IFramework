@@ -8,126 +8,136 @@ namespace IFramework.Core
     /// </summary>
     public interface IFrameworkContainer : IDisposable
     {
-        TypeMappingCollection Mappings { get; set; }
-        TypeInstanceCollection Instances { get; set; }
-        TypeRelationCollection RelationshipMappings { get; set; }
+        public TypeMapping Mappings { get; set; }
+
+        public TypeInstanceMapping Instances { get; set; }
+
+        /*----------------------------- Register -----------------------------*/
 
         /// <summary>
-        /// 注入 已注册的 类型/映射 到一个对象中
+        /// 注册类型
         /// </summary>
-        void Inject(object obj);
+        /// <typeparam name="T">基础类</typeparam>
+        public void Register<T>(string name = null);
 
         /// <summary>
-        /// 注入一次所有已注册过的类型实例
+        /// 注册类型
         /// </summary>
-        void InjectAll();
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        /// <typeparam name="TTarget">目标类</typeparam>
+        public void Register<TBase, TTarget>(string name = null);
+        
+        /// <summary>
+        /// 注册类型
+        /// </summary>
+        /// <param name="baseType">基础类</param>
+        /// <param name="target">目标类</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        public void Register(Type baseType, Type target, string name = null);
 
         /// <summary>
-        /// 注册依赖
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="TSource">父类型（抽象类型）</typeparam>
-        /// <typeparam name="TTarget">子类型（具体类型）</typeparam>
-        void Register<TSource, TTarget>(string name = null);
+        /// <param name="instance">目标实例</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance);
 
         /// <summary>
-        /// 注册关系
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="TFor"></typeparam>
-        /// <typeparam name="TBase"></typeparam>
-        /// <typeparam name="TConcrete"></typeparam>
-        void RegisterRelation<TFor, TBase, TConcrete>();
-
-        void RegisterRelation(Type tfor, Type tbase, Type tconcrete);
+        /// <param name="instance">目标实例</param>
+        /// <param name="injectNow">是否立即注入</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance, bool injectNow);
 
         /// <summary>
-        /// 为一个类型注册一个实例
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="TBase"></typeparam>
-        /// <param name="default"></param>
-        /// <param name="injectNow"></param>
-        /// <returns></returns>
-        void RegisterInstance<TBase>(TBase @default, bool injectNow);
+        /// <param name="instance">目标实例</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <param name="injectNow">是否立即注入</param>
+        /// <typeparam name="TBase">基础类</typeparam>
+        public void RegisterInstance<TBase>(TBase instance, string name, bool injectNow = true);
 
         /// <summary>
-        /// 为一个类型注册一个示例
+        /// 注册实例
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="default"></param>
-        /// <param name="injectNow"></param>
-        /// <returns></returns>
-        void RegisterInstance(Type type, object @default, bool injectNow);
+        /// <param name="baseType">基础类</param>
+        /// <param name="instance">目标实例</param>
+        /// <param name="injectNow">是否立即注入</param>
+        public void RegisterInstance(Type baseType, object instance = null, bool injectNow = true);
 
         /// <summary>
-        /// 为一个类型注册一个示例
+        /// 注册实例
         /// </summary>
-        /// <param name="baseType">The type to register the instance for.</param>
-        /// <param name="name">The name for the instance to be resolved.</param>
-        /// <param name="instance">The instance that will be resolved be the name</param>
-        /// <param name="injectNow">Perform the injection immediately</param>
-        void RegisterInstance(Type baseType, object instance = null, string name = null, bool injectNow = true);
-
-        void RegisterInstance<TBase>(TBase instance);
-
-        /// <summary>
-        /// 为一个类型注册一个示例
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="name"></param>
-        /// <param name="injectNow"></param>
-        /// <typeparam name="TBase"></typeparam>
-        void RegisterInstance<TBase>(TBase instance, string name, bool injectNow = true);
+        /// <param name="baseType">基础类</param>
+        /// <param name="instance">目标实例</param>
+        /// <param name="name">目标实现类名称，用于区别多个实现</param>
+        /// <param name="injectNow">立即注入</param>
+        public void RegisterInstance(Type baseType, object instance = null, string name = null, bool injectNow = true);
 
         /// <summary>
         /// 取消注册
         /// </summary>
-        /// <typeparam name="TBase"></typeparam>
-        void UnRegisterInstance<TBase>();
-
-        /// <summary>
-        ///  If an instance of T exist then it will return that instance otherwise it will create a new one based off mappings.
-        /// </summary>
-        /// <typeparam name="T">The type of instance to resolve</typeparam>
-        /// <returns>The/An instance of 'instanceType'</returns>
-        T Resolve<T>(string name = null, bool requireInstance = false, params object[] args) where T : class;
-
-        TBase ResolveRelation<TBase>(Type tfor, params object[] arg);
-
-        TBase ResolveRelation<TFor, TBase>(params object[] arg);
-
-        /// <summary>
-        /// Resolves all instances of TType or subclasses of TType.  Either named or not.
-        /// </summary>
-        /// <typeparam name="TType">The Type to resolve</typeparam>
-        /// <returns>List of objects.</returns>
-        IEnumerable<TType> ResolveAll<TType>();
-
-        //IEnumerable<object> ResolveAll(Type type);
-        void Register(Type source, Type target, string name = null);
-
-        /// <summary>
-        /// Resolves all instances of TType or subclasses of TType.  Either named or not.
-        /// </summary>
-        /// <returns>List of objects.</returns>
-        IEnumerable<object> ResolveAll(Type type);
-
-        /// <summary>
-        /// If an instance of instanceType exist then it will return that instance otherwise it will create a new one based off mappings.
-        /// </summary>
-        /// <param name="baseType">The type of instance to resolve</param>
-        /// <param name="name">The type of instance to resolve</param>
-        /// <param name="requireInstance">If true will return null if an instance isn't registered.</param>
-        /// <returns>The/An instance of 'instanceType'</returns>
-        object Resolve(Type baseType, string name = null, bool requireInstance = false, params object[] constructorArgs);
-
-        object ResolveRelation(Type tfor, Type tbase, params object[] arg);
-
+        /// <typeparam name="T">基础类</typeparam>
+        public void UnRegisterInstance<T>();
         
-        object CreateInstance(Type type, params object[] args);
+        /*----------------------------- Resolve -----------------------------*/
+
+        /// <summary>
+        /// 解析实例
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="require">
+        ///     <value>true：未注册时返回null</value>
+        ///     <value>false: 未注册时创建实例</value>
+        /// </param>
+        /// <param name="args">构造函数参数</param>
+        /// <typeparam name="T">基础类</typeparam>
+        /// <returns></returns>
+        public T Resolve<T>(string name = null, bool require = false, params object[] args) where T : class;
+
+        /// <summary>
+        /// 解析实例
+        /// </summary>
+        /// <param name="baseType">基础类</param>
+        /// <param name="name">目标实现类名称</param>
+        /// <param name="require">
+        ///     <value>true：未注册时返回null</value>
+        ///     <value>false: 未注册时创建实例</value>
+        /// </param>
+        /// <param name="args">构造函数参数</param>
+        public object Resolve(Type baseType, string name = null, bool require = false, params object[] args);
+
+        /// <summary>
+        /// 解析所有实例
+        /// </summary>
+        /// <typeparam name="T">基础类</typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> ResolveAll<T>();
+
+        /// <summary>
+        /// 解析所有类型、子类的实例
+        /// </summary>
+        /// <param name="type">基础类</param>
+        /// <returns></returns>
+        public IEnumerable<object> ResolveAll(Type type);
         
         /// <summary>
-        /// 清除掉所有的已经注册的实例和类型
+        /// 将注册类型/映射注入对象
         /// </summary>
-        void Clear();
+        /// <param name="obj">注入的实例</param>
+        public void Inject(object obj);
 
+        /// <summary>
+        /// 注入所有实例
+        /// </summary>
+        public void InjectAll();
+
+        /// <summary>
+        /// 清除所有注册映射关系
+        /// </summary>
+        public void Clear();
     }
 }

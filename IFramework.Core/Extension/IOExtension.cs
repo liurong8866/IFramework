@@ -61,7 +61,7 @@ namespace IFramework.Core
         {
             return SerializeUtils.DeserializeFromBytes<T>(bytes);
         }
-        
+
         /// <summary>
         /// 把文件序列化成对象
         /// </summary>
@@ -107,7 +107,7 @@ namespace IFramework.Core
         {
             return SerializeUtils.DeserializeFromFile<T>(fileName, key);
         }
-        
+
         /// <summary>
         /// 把流反序列化成对象(AES加密)
         /// </summary>

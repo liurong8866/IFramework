@@ -9,9 +9,9 @@ namespace IFramework.Core
     public class AutowiredAttribute : Attribute
     {
         public string Name { get; set; }
-        
-        public AutowiredAttribute(){}
-                
+
+        public AutowiredAttribute() { }
+
         public AutowiredAttribute(string name)
         {
             Name = name;

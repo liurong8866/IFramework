@@ -29,7 +29,7 @@ namespace IFramework.Core
             PlayerPrefs.SetInt(key, value);
             PlayerPrefs.Save();
         }
-        
+
         /// <summary>
         /// 清除缓存
         /// </summary>

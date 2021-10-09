@@ -61,8 +61,8 @@ namespace IFramework.Core.Zip.Zip
         public void SetData(byte[] data, int offset, int count)
         {
             if (data == null) { throw new ArgumentNullException(nameof(data)); }
-            this.Data = new byte[count];
-            Array.Copy(data, offset, this.Data, 0, count);
+            Data = new byte[count];
+            Array.Copy(data, offset, Data, 0, count);
         }
 
         /// <summary>
