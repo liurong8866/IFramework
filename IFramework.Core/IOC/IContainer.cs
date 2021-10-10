@@ -8,10 +8,6 @@ namespace IFramework.Core
     /// </summary>
     public interface IContainer : IDisposable
     {
-        // public TypeMapping Mappings { get; set; }
-        //
-        // public TypeInstanceMapping Instances { get; set; }
-
         /*----------------------------- Register -----------------------------*/
 
         /// <summary>

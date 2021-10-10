@@ -27,7 +27,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 注册Bean到IOC容器
         /// </summary>
-        private void BeanRegister()
+        private static void BeanRegister()
         {
             IocContainer.Instance.Register<ITypeEvent, TypeEvent>();
         }

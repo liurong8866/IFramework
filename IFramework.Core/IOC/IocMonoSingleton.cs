@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace IFramework.Core
 {
+    /// <summary>
+    /// IOC 组件单例模式
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class IocMonoSingleton<T> : IocMonoBehaviour, ISingleton where T : IocMonoSingleton<T>
     {
         // 静态实例

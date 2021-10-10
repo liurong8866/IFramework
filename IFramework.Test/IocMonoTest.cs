@@ -8,7 +8,7 @@ namespace IFramework.Test
         [Test]
         public void TestMono()
         {
-            new IocMonoBehaviour().Register<>();
+            
         }
     }
 }

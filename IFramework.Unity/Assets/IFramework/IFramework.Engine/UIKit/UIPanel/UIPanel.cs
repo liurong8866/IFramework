@@ -6,7 +6,7 @@ namespace IFramework.Engine
     /// <summary>
     /// UIPanel 基础类
     /// </summary>
-    public abstract class UIPanel : ManagerBehaviour, IPanel
+    public abstract class UIPanel : IocMonoBehaviour, IPanel
     {
         public Transform Transform => transform;
 
@@ -18,6 +18,8 @@ namespace IFramework.Engine
 
         protected IData data;
 
+        public IManager Manager => UIManager.Instance;
+        
         public void Init(IData data = null)
         {
             this.data = data;

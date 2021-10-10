@@ -16,7 +16,7 @@ namespace IFramework.Test
     
     public class A : IocSingleton<A>
     {
-        [Autowired] private B b;
+        [Autowired] private B b = null;
 
         protected A(){}
         
@@ -27,7 +27,7 @@ namespace IFramework.Test
             b.Print2();
         }
 
-        public override void Register()
+        public override void Init()
         {
             RegisterInstance<B>(new B());
         }

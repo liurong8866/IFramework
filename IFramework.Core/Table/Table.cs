@@ -75,7 +75,7 @@ namespace IFramework.Core
         /// <summary>
         /// 回收方法
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             //先回收字典元素对象
             foreach (List<T> value in dictionary.Values) { value.Recycle(); }

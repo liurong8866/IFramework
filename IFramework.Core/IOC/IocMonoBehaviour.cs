@@ -6,7 +6,7 @@ using UnityEngine;
 namespace IFramework.Core
 {
     /// <summary>
-    /// IocMonoBehaviour组件，自动注入字段、属性
+    /// Ioc 组件普通模式
     /// </summary>
     public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
@@ -29,11 +29,10 @@ namespace IFramework.Core
         protected virtual void Init(){}
 
         /// <summary>
-        /// 销毁
+        /// 只销毁对象，不销毁IocContainer
         /// </summary>
         public void Dispose()
         {
-            container.Dispose();
             Destroy(gameObject);
         }
 
