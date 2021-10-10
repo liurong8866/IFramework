@@ -8,26 +8,35 @@ namespace IFramework.Test.IOC
         [Autowired("Teacher")] private IPerson teacher;
         [Autowired("Student")] private IPerson sutdent;
 
-        // protected override void Init()
-        // {
-        //     Register<IPerson, Teacher>("Teacher");
-        //     Register<IPerson, Student>("Student");
-        // }
+        
+        [Autowired] private IPerson xiaoxuesheng1 { get; set; }
+        [Autowired("Xiaoxuesheng")] private IPerson xiaoxuesheng2 { get; set; }
+
+        [Autowired] private Xiaoxuesheng xiaoxuesheng3 { get; set; }
+        [Autowired("Xiaoxuesheng")] private Xiaoxuesheng xiaoxuesheng4 { get; set; }
+
+        
+        protected override void Init()
+        {
+            // Register<IPerson, Teacher>("Teacher");
+            // Register<IPerson, Student>("Student");
+            RegisterInstance<IPerson>(new Xiaoxuesheng());
+            RegisterInstance<IPerson>(new Xiaoxuesheng(), "Xiaoxuesheng");
+            
+            RegisterInstance<Xiaoxuesheng>(new Xiaoxuesheng());
+            RegisterInstance<Xiaoxuesheng>(new Xiaoxuesheng(), "Xiaoxuesheng");
+        }
 
         private void Start()
         {
             teacher.print("IocMonoBehaviourTest");
             sutdent.print("IocMonoBehaviourTest");
+            
+            xiaoxuesheng1.print("IocMonoBehaviourTest 1");
+            xiaoxuesheng2.print("IocMonoBehaviourTest 2");
+            xiaoxuesheng3.print("IocMonoBehaviourTest 3");
+            xiaoxuesheng4.print("IocMonoBehaviourTest 4");
         }
 
-        // 可以把该方法放到单独的初始化类中，系统启动时加载，便于维护
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void RegisterIoc()
-        {
-            IocContainer container = IocContainer.Instance;
-
-            container.Register<IPerson, Teacher>("Teacher");
-            container.Register<IPerson, Student>("Student");
-        }
     }
 }

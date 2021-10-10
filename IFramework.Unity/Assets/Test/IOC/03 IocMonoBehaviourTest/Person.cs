@@ -1,7 +1,20 @@
 using IFramework.Core;
+using UnityEngine;
 
 namespace IFramework.Test.IOC
 {
+    public class InitClass
+    {
+        // 可以把该方法放到单独的初始化类中，系统启动时加载，便于维护
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void RegisterIoc()
+        {
+            IocContainer container = IocContainer.Instance;
+            container.Register<IPerson, Teacher>("Teacher");
+            container.Register<IPerson, Student>("Student");
+        }
+    }
+
     public interface IPerson
     {
         string name { get; }
@@ -49,15 +62,15 @@ namespace IFramework.Test.IOC
             this.teacher = teacher;
         }
 
-        public void print(string str)
+        public virtual void print(string str)
         {
             Log.Info("我是学生: " + str);
         }
     }
-    
+
     public class Xiaoxuesheng : Student
     {
-        public void print(string str)
+        public override void print(string str)
         {
             Log.Info("我是小学生: " + str);
         }

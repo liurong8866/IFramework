@@ -71,7 +71,8 @@ namespace IFramework.Editor
         {
             if (generateClassName.Value.IsNullOrEmpty()) {
                 Clear();
-                FixComponentLost();
+                // 自动修复
+                // FixComponentLost();
                 return;
             }
             Log.Info("生成脚本: 正在编译");
