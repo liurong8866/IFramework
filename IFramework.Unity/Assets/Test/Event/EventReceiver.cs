@@ -8,7 +8,7 @@ namespace IFramework.Test.Event
         private void Awake()
         {
             Debug.Log("注册事件");
-            DefaultEvent.Register(100, Action);
+            NumberEvent.Register(100, Action);
         }
 
         private void Action(int key, params object[] param)
@@ -22,7 +22,7 @@ namespace IFramework.Test.Event
 
         private void OnDestroy()
         {
-            DefaultEvent.UnRegister(100, Action);
+            NumberEvent.UnRegister(100, Action);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace IFramework.Core
     /// <summary>
     /// Ioc容器，单例模式
     /// </summary>
-    public abstract class IocSingleton<T> : AbstractFrameworkContainer, ISingleton where T : IocSingleton<T>
+    public abstract class IocSingleton<T> : AbstractContainer, ISingleton where T : IocSingleton<T>
     {
         protected IocSingleton() { }
 

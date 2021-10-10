@@ -13,7 +13,7 @@ namespace IFramework.Test.Event
                 Age = 20
             };
             Debug.Log("发送事件");
-            DefaultEvent.Send(100, userInfo);
+            NumberEvent.Send(100, userInfo);
         }
     }
 }

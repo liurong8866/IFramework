@@ -8,10 +8,10 @@ namespace IFramework.Core
     /// <summary>
     /// IocMonoBehaviour组件，自动注入字段、属性
     /// </summary>
-    public abstract class IocMonoBehaviour : MonoBehaviour, IFrameworkContainer
+    public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
         // 通过代理类实现Ioc
-        private IFrameworkContainer container;
+        private IContainer container;
 
         /// <summary>
         /// 处理自动注入，禁止子类调用，子类该用Init方法

@@ -6,7 +6,7 @@ namespace IFramework.Core
     /// <summary>
     /// IOC容器接口
     /// </summary>
-    public interface IFrameworkContainer : IDisposable
+    public interface IContainer : IDisposable
     {
         // public TypeMapping Mappings { get; set; }
         //

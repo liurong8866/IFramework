@@ -28,7 +28,7 @@ namespace IFramework.Test
     }
     
 
-    public class TestContainer : AbstractFrameworkContainer, ISingleton
+    public class TestContainer : AbstractContainer, ISingleton
     {
         private TestContainer() { }
 
