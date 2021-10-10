@@ -23,16 +23,16 @@ namespace IFramework.Editor
         private void InitController()
         {
             // 命名空间
-            controller.Namespace.IfNullOrEmpty(() => { controller.Namespace = Configure.DefaultNameSpace.Value; });
+            controller.Namespace.IfNothing(() => { controller.Namespace = Configure.DefaultNameSpace.Value; });
 
             // 脚本名称取当前对象名
-            controller.ScriptName.IfNullOrEmpty(() => { controller.ScriptName = controller.name; });
+            controller.ScriptName.IfNothing(() => { controller.ScriptName = controller.name; });
 
             // 脚本路径
-            controller.ScriptPath.IfNullOrEmpty(() => { controller.ScriptPath = Configure.ViewControllerScriptPath.Value; });
+            controller.ScriptPath.IfNothing(() => { controller.ScriptPath = Configure.ViewControllerScriptPath.Value; });
 
             // Prefab路径
-            controller.PrefabPath.IfNullOrEmpty(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
+            controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
         }
 
         public override void OnInspectorGUI()

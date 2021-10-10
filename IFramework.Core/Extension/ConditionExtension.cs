@@ -37,9 +37,9 @@ namespace IFramework.Core
         /// <param name="value">判断对象</param>
         /// <param name="trueAction">真处理</param>
         /// <param name="falseAction">假处理</param>
-        public static bool IfNullOrEmpty(this object value, Action trueAction, Action falseAction = null)
+        public static bool IfNothing(this object value, Action trueAction, Action falseAction = null)
         {
-            if (value == null || string.IsNullOrEmpty(value.ToString())) {
+            if (value.Nothing()) {
                 trueAction.InvokeSafe();
                 return true;
             }
@@ -53,9 +53,9 @@ namespace IFramework.Core
         /// <param name="value">判断对象</param>
         /// <param name="trueFunc">真处理</param>
         /// <param name="falseFunc">假处理</param>
-        public static T IfNullOrEmpty<T>(this object value, Func<T> trueFunc, Func<T> falseFunc = null)
+        public static T IfNothing<T>(this object value, Func<T> trueFunc, Func<T> falseFunc = null)
         {
-            return value == null || string.IsNullOrEmpty(value.ToString()) ? trueFunc.InvokeSafe() : falseFunc.InvokeSafe();
+            return value.Nothing() ? trueFunc.InvokeSafe() : falseFunc.InvokeSafe();
         }
 
         /// <summary>
@@ -64,9 +64,9 @@ namespace IFramework.Core
         /// <param name="value">判断对象</param>
         /// <param name="trueAction">真处理</param>
         /// <param name="falseAction">假处理</param>
-        public static bool IfNullOrEmpty(this ICollection value, Action trueAction, Action falseAction = null)
+        public static bool IfNothing(this ICollection value, Action trueAction, Action falseAction = null)
         {
-            if (value == null || value.Count == 0) {
+            if (value.Nothing()) {
                 trueAction.InvokeSafe();
                 return true;
             }
@@ -80,9 +80,9 @@ namespace IFramework.Core
         /// <param name="value">判断对象</param>
         /// <param name="trueFunc">真处理</param>
         /// <param name="falseFunc">假处理</param>
-        public static T IfNullOrEmpty<T>(this ICollection value, Func<T> trueFunc, Func<T> falseFunc = null)
+        public static T IfNothing<T>(this ICollection value, Func<T> trueFunc, Func<T> falseFunc = null)
         {
-            return value == null || value.Count == 0 ? trueFunc.InvokeSafe() : falseFunc.InvokeSafe();
+            return value.Nothing() ? trueFunc.InvokeSafe() : falseFunc.InvokeSafe();
         }
     }
 }

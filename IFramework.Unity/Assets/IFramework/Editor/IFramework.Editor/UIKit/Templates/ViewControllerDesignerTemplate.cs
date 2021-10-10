@@ -38,7 +38,7 @@ namespace IFramework.Editor
 
             // 循环设置字段
             foreach (BindInfo bindInfo in rootControllerInfo.BindInfoList) {
-                if (bindInfo.BindScript.Comment.IsNotNullOrEmpty()) {
+                if (bindInfo.BindScript.Comment.NotEmpty()) {
                     // 添加注释
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }

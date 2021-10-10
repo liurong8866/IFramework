@@ -33,7 +33,7 @@ namespace IFramework.Editor
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
 
-            if (controller.Comment.IsNotNullOrEmpty()) {
+            if (controller.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
                 sb.AppendLine("\t///" + controller.Comment);
                 sb.AppendLine("\t/// </summary>");

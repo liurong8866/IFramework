@@ -37,7 +37,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 资源全称 AssetBundleName.AssetName
         /// </summary>
-        public string FullName => AssetBundleName.IsNullOrEmpty() ? AssetName.ToLowerInvariant() : AssetBundleName.ToLowerInvariant() + "." + AssetName.ToLowerInvariant();
+        public string FullName => AssetBundleName.Nothing() ? AssetName.ToLowerInvariant() : AssetBundleName.ToLowerInvariant() + "." + AssetName.ToLowerInvariant();
 
         public AssetInfo() { }
 

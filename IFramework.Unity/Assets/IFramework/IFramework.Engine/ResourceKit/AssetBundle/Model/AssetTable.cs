@@ -17,13 +17,13 @@ namespace IFramework.Engine
             // 在缓存中获取资源
             string assetName = searcher.AssetName.ToLowerInvariant();
             List<AssetInfo> assetInfoList = Get(assetName);
-            if (assetInfoList.IsNullOrEmpty()) return null;
+            if (assetInfoList.Nothing()) return null;
 
             // 过滤AssetBundleName
-            if (searcher.AssetBundleName.IsNotNullOrEmpty()) { assetInfoList = assetInfoList.Where(info => info.AssetBundleName == searcher.AssetBundleName).ToList(); }
+            if (searcher.AssetBundleName.NotEmpty()) { assetInfoList = assetInfoList.Where(info => info.AssetBundleName == searcher.AssetBundleName).ToList(); }
 
             // 过滤AssetType，
-            if (searcher.AssetType.IsNotNullOrEmpty()) {
+            if (searcher.AssetType.NotEmpty()) {
                 short code = searcher.AssetType.ToCode();
 
                 if (code != 0) {

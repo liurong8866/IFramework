@@ -101,7 +101,7 @@ namespace IFramework.Core
         private static GameObject FindGameObject(string path, bool dontDestroy)
         {
             // 如果路径为空，返回NULL
-            if (string.IsNullOrEmpty(path)) return null;
+            if (path.Nothing()) return null;
 
             string[] subPath = path.Split('/');
             if (subPath != null && subPath.Length == 0) return null;

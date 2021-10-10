@@ -182,7 +182,7 @@ namespace IFramework.Core
         /// <param name="type">Type.</param>
         public static bool HasParameterOfType(this Animator self, string name, AnimatorControllerParameterType type)
         {
-            if (string.IsNullOrEmpty(name)) { return false; }
+            if (name.Nothing()) { return false; }
             AnimatorControllerParameter[] parameters = self.parameters;
             return parameters.Any(currParam => currParam.type == type && currParam.name == name);
         }

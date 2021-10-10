@@ -40,7 +40,7 @@ namespace IFramework.Engine
         private bool FindResourceInAppInternal(string fileRelativePath) {
         #if UNITY_IPHONE && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePathInternal(fileRelativePath);
-            return absoluteFilePath.IsNotNullOrEmpty();
+            return absoluteFilePath.NotEmpty();
         #elif UNITY_ANDROID && !UNITY_EDITOR
 			int entryIndex = zipFile.FindEntry(string.Format("assets/{0}", fileRelativePath), false);
 			return entryIndex != -1;
@@ -57,11 +57,11 @@ namespace IFramework.Engine
         public bool FileExists(string fileRelativePath) {
         #if UNITY_IPHONE && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePath(fileRelativePath);
-			return (absoluteFilePath.IsNotNullOrEmpty() && File.Exists(absoluteFilePath));
+			return (absoluteFilePath.NotEmpty() && File.Exists(absoluteFilePath));
         #elif UNITY_ANDROID && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 			//先到外存去找
-			if (absoluteFilePath.IsNotNullOrEmpty())
+			if (absoluteFilePath.NotEmpty())
 			{
 			    return File.Exists(absoluteFilePath);
 			}
@@ -75,12 +75,12 @@ namespace IFramework.Engine
 			}
         #else
             string filePathStandalone = Path.Combine(Platform.StreamingAssets.Root, fileRelativePath);
-            return (filePathStandalone.IsNotNullOrEmpty() && File.Exists(filePathStandalone));
+            return (filePathStandalone.NotEmpty() && File.Exists(filePathStandalone));
         #endif
         }
 
         public Stream OpenReadStream(string absFilePath) {
-            if (absFilePath.IsNullOrEmpty()) {
+            if (absFilePath.Nothing()) {
                 return null;
             }
         #if UNITY_ANDROID && !UNITY_EDITOR
@@ -109,7 +109,7 @@ namespace IFramework.Engine
         public byte[] ReadSync(string fileRelativePath) {
             string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 
-            if (!string.IsNullOrEmpty(absoluteFilePath)) {
+            if (absoluteFilePath.NotEmpty()) {
                 return ReadSyncExtenal(fileRelativePath);
             }
             return ReadSyncInternal(fileRelativePath);
@@ -126,7 +126,7 @@ namespace IFramework.Engine
         private byte[] ReadSyncExtenal(string fileRelativePath) {
             string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 
-            if (!string.IsNullOrEmpty(absoluteFilePath)) {
+            if (absoluteFilePath.NotEmpty()) {
                 FileInfo fileInfo = new FileInfo(absoluteFilePath);
                 return ReadFile(fileInfo);
             }
@@ -139,7 +139,7 @@ namespace IFramework.Engine
         #else
             string absoluteFilePath = FindFilePathInternal(fileRelativePath);
 
-            if (!string.IsNullOrEmpty(absoluteFilePath)) {
+            if (absoluteFilePath.NotEmpty()) {
                 FileInfo fileInfo = new FileInfo(absoluteFilePath);
                 return ReadFile(fileInfo);
             }
@@ -172,14 +172,14 @@ namespace IFramework.Engine
             // 先到搜索列表里找
             string filePath = FindFilePathInExteral(file);
 
-            if (!string.IsNullOrEmpty(filePath)) {
+            if (filePath.NotEmpty()) {
                 return filePath;
             }
 
             // 在包内找
             filePath = FindFilePathInternal(file);
 
-            if (!string.IsNullOrEmpty(filePath)) {
+            if (filePath.NotEmpty()) {
                 return filePath;
             }
             return null;

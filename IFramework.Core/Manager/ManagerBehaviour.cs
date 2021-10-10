@@ -9,7 +9,14 @@ namespace IFramework.Core
     /// <typeparam name="T">继承自ManagerBehaviour</typeparam>
     public abstract class ManagerBehaviour<T> : IocMonoSingleton<T>, IManager where T : ManagerBehaviour<T>
     {
-        [Autowired] private ITypeEvent typeEvent;
+        [Autowired]
+        private ITypeEvent typeEvent;
+
+        protected override void Init()
+        {
+            base.Init();
+            typeEvent = new TypeEvent();
+        }
 
         #region 代理实现
 

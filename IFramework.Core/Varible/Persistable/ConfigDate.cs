@@ -22,7 +22,7 @@ namespace IFramework.Core
         public override DateTime Get()
         {
             string timeValue = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetString(key) : "";
-            return timeValue.IsNotNullOrEmpty() ? timeValue.ToLong().ToDateTimeByMilliseconds() : value;
+            return timeValue.NotEmpty() ? timeValue.ToLong().ToDateTimeByMilliseconds() : value;
         }
 
         /// <summary>

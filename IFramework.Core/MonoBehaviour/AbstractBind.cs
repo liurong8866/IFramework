@@ -17,7 +17,7 @@ namespace IFramework.Core
         /// </summary>
         public virtual string ComponentName {
             get {
-                if (BindType == BindType.DefaultElement && componentName.IsNullOrEmpty()) {
+                if (BindType == BindType.DefaultElement && componentName.Nothing()) {
                     // 如果没有设置，则取当前物体上绑定的组件
                     return componentName = GetDefaultComponentName();
                 }

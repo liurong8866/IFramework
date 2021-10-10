@@ -8,20 +8,20 @@ namespace IFramework.Engine
     {
         public IEnumerable<IPanel> GetPanelList(PanelSearcher searcher)
         {
-            if (searcher.PanelType.IsNotNullOrEmpty() && (searcher.GameObjectName.IsNotNullOrEmpty() || searcher.Panel.IsNotNullOrEmpty())) {
+            if (searcher.PanelType.NotEmpty() && (searcher.GameObjectName.NotEmpty() || searcher.Panel.NotEmpty())) {
                 return Get(searcher.PanelType.FullName)
                        .Where(p => p.Transform.name == searcher.GameObjectName || p == searcher.Panel);
             }
 
-            if (searcher.PanelType.IsNotNullOrEmpty()) {
+            if (searcher.PanelType.NotEmpty()) {
                 return Get(searcher.PanelType.FullName);
             }
 
-            if (searcher.Panel.IsNotNullOrEmpty()) {
+            if (searcher.Panel.NotEmpty()) {
                 return Get(searcher.Panel.Transform.gameObject.name).Where(p => p == searcher.Panel);
             }
 
-            if (searcher.GameObjectName.IsNotNullOrEmpty()) {
+            if (searcher.GameObjectName.NotEmpty()) {
                 return Get(searcher.GameObjectName);
             }
             

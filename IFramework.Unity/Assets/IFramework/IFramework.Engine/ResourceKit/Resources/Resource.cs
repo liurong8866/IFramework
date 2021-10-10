@@ -31,7 +31,7 @@ namespace IFramework.Engine
         /// </summary>
         public override bool Load()
         {
-            if (!IsLoadable || AssetName.IsNullOrEmpty()) return false;
+            if (!IsLoadable || AssetName.Nothing()) return false;
 
             State = ResourceState.Loading;
             asset = AssetType != null ? Resources.Load(path, AssetType) : Resources.Load(path);
@@ -50,7 +50,7 @@ namespace IFramework.Engine
         /// </summary>
         public override void LoadASync()
         {
-            if (!IsLoadable || AssetName.IsNullOrEmpty()) return;
+            if (!IsLoadable || AssetName.Nothing()) return;
 
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);

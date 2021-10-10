@@ -185,7 +185,7 @@ namespace IFramework.Core
             // 遍历实例字典
             foreach (KeyValuePair<Tuple<Type, string>, object> instance in Instances) {
                 // 如果类型相同，并且名称不为空， 说明已解析完毕，返回并处理下一个
-                if (instance.Key.Item1 == type && instance.Key.Item2.IsNotNullOrEmpty()) {
+                if (instance.Key.Item1 == type && instance.Key.Item2.NotEmpty()) {
                     yield return instance.Value;
                 }
             }

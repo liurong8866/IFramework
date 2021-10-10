@@ -9,11 +9,11 @@ namespace IFramework.Engine
         
         public GameObject Load(PanelSearcher searcher)
         {
-            if (searcher.PanelType.IsNotNullOrEmpty() && searcher.GameObjectName.IsNullOrEmpty()) {
+            if (searcher.PanelType.NotEmpty() && searcher.GameObjectName.Nothing()) {
                 return loader.Load<GameObject>(searcher.PanelType.Name);
             }
 
-            if (searcher.AssetBundleName.IsNotNullOrEmpty()) {
+            if (searcher.AssetBundleName.NotEmpty()) {
                 return loader.Load<GameObject>(searcher.AssetBundleName, searcher.GameObjectName);
             }
             return loader.Load<GameObject>(searcher.GameObjectName);

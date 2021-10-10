@@ -17,7 +17,7 @@ namespace IFramework.Engine
         {
             AssetBundleName = assetBundleName;
 
-            if (depends.IsNotNullOrEmpty()) { Depends = depends; }
+            if (depends.NotEmpty()) { Depends = depends; }
         }
 
         public override string ToString()

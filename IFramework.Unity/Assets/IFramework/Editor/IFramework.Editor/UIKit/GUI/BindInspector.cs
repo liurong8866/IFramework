@@ -18,8 +18,8 @@ namespace IFramework.Editor
         private void OnEnable()
         {
             bind = target as AbstractBind;
-            bind.ComponentName.IfNullOrEmpty(() => bind.ComponentName = bind.name.FormatName());
-            bind.CustomComponentName.IfNullOrEmpty(() => bind.CustomComponentName = bind.name.FormatName());
+            bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
+            bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
             bindTypeMonitor.OnChange += GetElementTypeOptions;
             GetElementTypeOptions(0);
         }

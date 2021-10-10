@@ -91,7 +91,7 @@ namespace IFramework.Editor
         /// </summary>
         private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath = null)
         {
-            if (assetBundleNames.IsNullOrEmpty()) return;
+            if (assetBundleNames.Nothing()) return;
 
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);

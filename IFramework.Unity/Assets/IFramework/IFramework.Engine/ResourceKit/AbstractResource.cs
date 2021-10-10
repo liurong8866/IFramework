@@ -142,7 +142,7 @@ namespace IFramework.Engine
         /// </summary>
         protected void HoldDependResource()
         {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.Hold()), typeof(AssetBundle));
+            DoLoopDependResource(resource => resource.IfNothing(() => resource.Hold()), typeof(AssetBundle));
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace IFramework.Engine
         /// </summary>
         protected void UnHoldDependResource()
         {
-            DoLoopDependResource(resource => resource.IfNullOrEmpty(() => resource.UnHold()));
+            DoLoopDependResource(resource => resource.IfNothing(() => resource.UnHold()));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace IFramework.Engine
         {
             // 获取依赖资源
             List<string> depends = GetDependResourceList();
-            if (depends.IsNullOrEmpty()) return true;
+            if (depends.Nothing()) return true;
 
             foreach (string depend in depends) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(depend, null, assetType);

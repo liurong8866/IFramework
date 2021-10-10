@@ -51,7 +51,7 @@ namespace IFramework.Engine
         /// </summary>
         public void Recycle()
         {
-            if (unloadObjectList.IsNotNullOrEmpty()) {
+            if (unloadObjectList.NotEmpty()) {
                 foreach (Object obj in unloadObjectList) { obj.DestroySelf(); }
                 unloadObjectList.Clear();
                 unloadObjectList = null;
@@ -127,7 +127,7 @@ namespace IFramework.Engine
 
             // 从加载的资源中找到本次要打开的资源
             IResource resource = ResourceManager.Instance.GetResource(searcher);
-            resource.IfNullOrEmpty(() => Log.Error("资源加载失败：" + searcher), () => tempDepends.Clear());
+            resource.IfNothing(() => Log.Error("资源加载失败：" + searcher), () => tempDepends.Clear());
             return resource;
         }
 
@@ -269,11 +269,11 @@ namespace IFramework.Engine
             IResource resource = GetResourceInCache(searcher);
 
             // 如果没有缓存资源，则加载
-            resource.IfNullOrEmpty(() => resource = ResourceManager.Instance.GetResource(searcher, true));
+            resource.IfNothing(() => resource = ResourceManager.Instance.GetResource(searcher, true));
 
             // 如果有回调，则注册回到方法
             if (callback != null) {
-                callbackCleanerList.IfNullOrEmpty(() => callbackCleanerList = new LinkedList<CallbackCleaner>());
+                callbackCleanerList.IfNothing(() => callbackCleanerList = new LinkedList<CallbackCleaner>());
                 // 加入清空清单
                 callbackCleanerList.AddLast(new CallbackCleaner(resource, callback));
                 // 注册加载完毕事件
@@ -330,7 +330,7 @@ namespace IFramework.Engine
         /// </summary>
         private IResource GetResourceInCache(ResourceSearcher searcher)
         {
-            return resourceList.IsNullOrEmpty() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
+            return resourceList.Nothing() ? null : resourceList.FirstOrDefault(resource => searcher.Match(resource));
         }
 
         /*----------------------------- 资源加载完毕后回调 -----------------------------*/
@@ -360,7 +360,7 @@ namespace IFramework.Engine
         /// </summary>
         public void ReleaseResource(string assetName)
         {
-            if (assetName.IsNullOrEmpty()) return;
+            if (assetName.Nothing()) return;
 
             // 清空模拟器模式下加载的资源
             if (Platform.IsSimulation) {
@@ -397,7 +397,7 @@ namespace IFramework.Engine
         /// </summary>
         public void ReleaseResource(string[] assetNames)
         {
-            if (assetNames.IsNullOrEmpty()) return;
+            if (assetNames.Nothing()) return;
 
             foreach (string assetName in assetNames) { ReleaseResource(assetName); }
         }
@@ -456,7 +456,7 @@ namespace IFramework.Engine
         /// </summary>
         private void RemoveCallback(IResource resource, bool release)
         {
-            if (!callbackCleanerList.IsNullOrEmpty()) {
+            if (!callbackCleanerList.Nothing()) {
                 LinkedListNode<CallbackCleaner> currentNode = callbackCleanerList.First;
 
                 // 遍历所有需要释放的事件

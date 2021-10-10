@@ -14,19 +14,25 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否为空
         /// </summary>
-        public static bool IsNullOrEmpty(this object value)
+        public static bool Nothing(this object value)
         {
-            bool result;
-
-            if (value == null) { result = true; }
-            else { result = string.IsNullOrEmpty(value.ToString()); }
-            return result;
+            return value == null || string.IsNullOrEmpty(value.ToString());
         }
 
         /// <summary>
+        /// 判断是否为空
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool Nothing(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
+        
+        /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNullOrEmpty(this ICollection value)
+        public static bool Nothing(this ICollection value)
         {
             return value == null || value.Count == 0;
         }
@@ -34,17 +40,25 @@ namespace IFramework.Core
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this object value)
+        public static bool NotEmpty(this object value)
         {
-            return !IsNullOrEmpty(value);
+            return !Nothing(value);
         }
 
         /// <summary>
         /// 判断是否不为空
         /// </summary>
-        public static bool IsNotNullOrEmpty(this ICollection value)
+        public static bool NotEmpty(this string value)
         {
-            return !IsNullOrEmpty(value);
+            return !Nothing(value);
+        }
+        
+        /// <summary>
+        /// 判断是否不为空
+        /// </summary>
+        public static bool NotEmpty(this ICollection value)
+        {
+            return !Nothing(value);
         }
 
         /// <summary>
@@ -54,7 +68,7 @@ namespace IFramework.Core
         {
             string result = "";
 
-            if (!value.IsNullOrEmpty()) { result = value.ToString(); }
+            if (!value.Nothing()) { result = value.ToString(); }
             return result;
         }
 
@@ -65,7 +79,7 @@ namespace IFramework.Core
         {
             string result = defaultvalue;
 
-            if (!value.IsNullOrEmpty()) { result = value.ToString(); }
+            if (!value.Nothing()) { result = value.ToString(); }
             return result;
         }
 
@@ -74,7 +88,7 @@ namespace IFramework.Core
         /// </summary>
         public static short ToShort(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt16(value);
+            return value.Nothing() ? default : Convert.ToInt16(value);
         }
 
         /// <summary>
@@ -82,7 +96,7 @@ namespace IFramework.Core
         /// </summary>
         public static int ToInt(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt32(value);
+            return value.Nothing() ? default : Convert.ToInt32(value);
         }
 
         /// <summary>
@@ -90,7 +104,7 @@ namespace IFramework.Core
         /// </summary>
         public static long ToLong(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToInt64(value);
+            return value.Nothing() ? default : Convert.ToInt64(value);
         }
 
         /// <summary>
@@ -98,7 +112,7 @@ namespace IFramework.Core
         /// </summary>
         public static float ToFloat(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToSingle(value);
+            return value.Nothing() ? default : Convert.ToSingle(value);
         }
 
         /// <summary>
@@ -106,7 +120,7 @@ namespace IFramework.Core
         /// </summary>
         public static double ToDouble(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToDouble(value);
+            return value.Nothing() ? default : Convert.ToDouble(value);
         }
 
         /// <summary>
@@ -114,7 +128,7 @@ namespace IFramework.Core
         /// </summary>
         public static decimal ToDecimal(this object value)
         {
-            return value.IsNullOrEmpty() ? default : Convert.ToDecimal(value);
+            return value.Nothing() ? default : Convert.ToDecimal(value);
         }
 
         /// <summary>
@@ -130,7 +144,7 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime ToDateTime(this object value, DateTime defaultValue)
         {
-            return value.IsNullOrEmpty() ? defaultValue : Convert.ToDateTime(value);
+            return value.Nothing() ? defaultValue : Convert.ToDateTime(value);
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void MarkAssetBundle(string path)
         {
-            if (path.IsNotNullOrEmpty()) {
+            if (path.NotEmpty()) {
                 // 根据路径获取AssetBundle
                 AssetImporter ai = AssetImporter.GetAtPath(path);
 

@@ -25,7 +25,7 @@ namespace IFramework.Engine
         /// </summary>
         public override void LoadASync()
         {
-            if (!IsLoadable || AssetName.IsNullOrEmpty() || Counter <= 0) return;
+            if (!IsLoadable || AssetName.Nothing() || Counter <= 0) return;
 
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);

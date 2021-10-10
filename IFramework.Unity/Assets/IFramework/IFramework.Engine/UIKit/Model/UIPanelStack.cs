@@ -9,7 +9,7 @@ namespace IFramework.Engine
 
         public void Push<T>() where T : UIPanel
         {
-            Push();
+            // Push();
         }
 
         /// <summary>

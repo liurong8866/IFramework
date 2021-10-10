@@ -97,7 +97,7 @@ namespace IFramework.Engine
         /// </summary>
         public int AddAssetDependence(string assetName, string[] depends)
         {
-            if (assetName.IsNullOrEmpty()) return -1;
+            if (assetName.Nothing()) return -1;
 
             AssetDepends ??= new List<AssetDependence>();
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
@@ -115,7 +115,7 @@ namespace IFramework.Engine
         /// </summary>
         public string GetAssetBundleName(string assetName, int index)
         {
-            if (AssetDepends.IsNullOrEmpty()) return "";
+            if (AssetDepends.Nothing()) return "";
             if (index > AssetDepends.Count) return "";
 
             if (assetNameMap.ContainsKey(assetName)) { return AssetDepends[index].AssetBundleName; }
@@ -143,7 +143,7 @@ namespace IFramework.Engine
             AssetInfo assetInfo = GetAssetInfo(searcher);
             if (assetInfo == null) return null;
 
-            return AssetDepends.IsNullOrEmpty() ? null : AssetDepends[assetInfo.AssetBundleIndex];
+            return AssetDepends.Nothing() ? null : AssetDepends[assetInfo.AssetBundleIndex];
         }
 
         /// <summary>

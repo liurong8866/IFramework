@@ -27,7 +27,7 @@ namespace IFramework.Engine
             if (!IsLoadable) return false;
 
             // 如果配置文件没有对应的Asset，则退出
-            if (assetBundleNameConfig.IsNullOrEmpty()) return false;
+            if (assetBundleNameConfig.Nothing()) return false;
 
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig);
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);

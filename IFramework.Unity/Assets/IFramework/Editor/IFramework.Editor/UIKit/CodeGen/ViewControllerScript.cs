@@ -69,7 +69,7 @@ namespace IFramework.Editor
         [DidReloadScripts]
         private static void AddComponentToGameObject()
         {
-            if (generateClassName.Value.IsNullOrEmpty()) {
+            if (generateClassName.Value.Nothing()) {
                 Clear();
                 // 自动修复
                 // FixComponentLost();

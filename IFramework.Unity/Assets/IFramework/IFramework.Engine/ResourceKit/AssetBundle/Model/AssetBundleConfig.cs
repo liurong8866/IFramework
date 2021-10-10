@@ -30,11 +30,11 @@ namespace IFramework.Engine
         public int AddAssetBundleInfo(string assetBundleName, string[] depends, out AssetBundleInfo assetBundleInfo)
         {
             assetBundleInfo = null;
-            if (assetBundleName.IsNullOrEmpty()) return -1;
+            if (assetBundleName.Nothing()) return -1;
 
             // 如果是文件夹类型，去掉 /或\
             string key = assetBundleName.TrimEnd('/').TrimEnd('\\');
-            if (key.IsNullOrEmpty()) return -1;
+            if (key.Nothing()) return -1;
 
             // 根据Key获取AssetBundle
             assetBundleInfo = AssetBundleList.FirstOrDefault(item => item.Key.Equals(key));

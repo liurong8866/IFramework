@@ -61,7 +61,7 @@ namespace IFramework.Engine
             // 如果找到，则使用config的资源
             assetBundleNameConfig = config.AssetBundleName;
 
-            if (assetBundleNameConfig.IsNullOrEmpty()) { Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName); }
+            if (assetBundleNameConfig.Nothing()) { Log.Error("未在配置文件中找到AssetBundle：{0}", config.AssetBundleIndex, AssetBundleName); }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace IFramework.Engine
         /// </summary>
         public override bool Load()
         {
-            if (!IsLoadable || assetBundleNameConfig.IsNullOrEmpty()) return false;
+            if (!IsLoadable || assetBundleNameConfig.Nothing()) return false;
 
             Object obj;
 
@@ -80,7 +80,7 @@ namespace IFramework.Engine
                 // 根据包名+资源名获取资源路径
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
-                if (assetPaths.IsNullOrEmpty()) {
+                if (assetPaths.Nothing()) {
                     Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
                     return false;
@@ -124,7 +124,7 @@ namespace IFramework.Engine
             if (!IsLoadable) return;
 
             // TODO 注释后支持直接AssetName引用，原代码必须含有AssetBundleName
-            // if (AssetBundleName.IsNullOrEmpty()) return;
+            // if (AssetBundleName.Nothing()) return;
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -151,7 +151,7 @@ namespace IFramework.Engine
             if (Platform.IsSimulation && !assetName.Equals("assetbundlemanifest")) {
                 string[] assetPaths = Environment.Instance.GetAssetPathsFromAssetBundleAndAssetName(resource.AssetName, assetName);
 
-                if (assetPaths.IsNullOrEmpty()) {
+                if (assetPaths.Nothing()) {
                     Log.Error("加载资源失败: " + assetName);
                     OnResourceLoadFailed();
                     callback();
