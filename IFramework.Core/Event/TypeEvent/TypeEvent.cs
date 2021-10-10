@@ -7,7 +7,7 @@ namespace IFramework.Core
     public class TypeEvent : ITypeEvent
     {
         // 事件字典
-        private readonly Dictionary<Type, ITypeEventRegister> typeEventDict = DictionaryPool<Type, ITypeEventRegister>.Allocate();
+        private readonly Dictionary<Type, IEventRegister> typeEventDict = DictionaryPool<Type, IEventRegister>.Allocate();
 
         /// <summary>
         /// 注册事件
@@ -16,16 +16,16 @@ namespace IFramework.Core
         {
             Type type = typeof(T);
 
-            if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) { reg.actions += action; }
+            if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
+                if (register is EventRegister<T> reg) { reg.actions += action; }
             }
             else {
-                TypeEventRegister<T> reg = new TypeEventRegister<T>();
+                EventRegister<T> reg = new EventRegister<T>();
                 reg.actions = action;
                 typeEventDict.Add(type, reg);
             }
 
-            return new TypeEventUnregister<T> {
+            return new EventUnregister<T> {
                 actions = action,
                 typeEvent = this
             };
@@ -38,8 +38,8 @@ namespace IFramework.Core
         {
             Type type = typeof(T);
 
-            if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) {
+            if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
+                if (register is EventRegister<T> reg) {
                     // ReSharper disable once DelegateSubtraction
                     reg.actions -= action;
                 }
@@ -53,8 +53,8 @@ namespace IFramework.Core
         {
             Type type = typeof(T);
 
-            if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) { reg.actions(new T()); }
+            if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
+                if (register is EventRegister<T> reg) { reg.actions(new T()); }
             }
         }
 
@@ -65,8 +65,8 @@ namespace IFramework.Core
         {
             Type type = typeof(T);
 
-            if (typeEventDict.TryGetValue(type, out ITypeEventRegister register)) {
-                if (register is TypeEventRegister<T> reg) { reg.actions(t); }
+            if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
+                if (register is EventRegister<T> reg) { reg.actions(t); }
             }
         }
 
@@ -75,7 +75,7 @@ namespace IFramework.Core
         /// </summary>
         public void Clear()
         {
-            foreach (KeyValuePair<Type, ITypeEventRegister> keyValue in typeEventDict) { keyValue.Value.Dispose(); }
+            foreach (KeyValuePair<Type, IEventRegister> keyValue in typeEventDict) { keyValue.Value.Dispose(); }
             typeEventDict.Clear();
         }
 
@@ -89,14 +89,14 @@ namespace IFramework.Core
         /*----------------------------*/
 
         // 全局注册事件
-        private static readonly ITypeEvent eventer = new TypeEvent();
+        private static readonly ITypeEvent typeEvent = new TypeEvent();
 
         /// <summary>
         /// 注册事件
         /// </summary>
         public static IDisposable Register<T>(Action<T> action)
         {
-            return eventer.RegisterEvent(action);
+            return typeEvent.RegisterEvent(action);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace IFramework.Core
         /// </summary>
         public static void UnRegister<T>(Action<T> action)
         {
-            eventer.UnRegisterEvent(action);
+            typeEvent.UnRegisterEvent(action);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace IFramework.Core
         /// </summary>
         public static void Send<T>() where T : new()
         {
-            eventer.SendEvent<T>();
+            typeEvent.SendEvent<T>();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace IFramework.Core
         /// </summary>
         public static void Send<T>(T t)
         {
-            eventer.SendEvent(t);
+            typeEvent.SendEvent(t);
         }
     }
 }

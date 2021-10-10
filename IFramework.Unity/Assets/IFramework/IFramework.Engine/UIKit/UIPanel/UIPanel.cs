@@ -13,14 +13,14 @@ namespace IFramework.Engine
         public IPanelLoader Loader { get; set; }
 
         public PanelInfo Info { get; set; }
-        
+
         public PanelState State { get; set; }
 
         protected IData data;
 
         // public IManager Manager {
         // }
-        
+
         public void Init(IData data = null)
         {
             this.data = data;
@@ -35,22 +35,22 @@ namespace IFramework.Engine
 
         public void Show()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(true);
         }
 
         public void Hide()
         {
+            gameObject.SetActive(false);
             State = PanelState.Hide;
-            // TODO
         }
 
-        public void Close(bool destroy = true)
-        {
-            throw new System.NotImplementedException();
-        }
-        
         protected virtual void OnInit(IData data = null) { }
 
         protected virtual void OnOpen(IData data = null) { }
+
+        public void Close(bool destroy = true)
+        {
+            Info.Data = data;
+        }
     }
 }

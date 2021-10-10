@@ -2,7 +2,7 @@ using System;
 
 namespace IFramework.Core
 {
-    public class TypeEventUnregister<T> : IDisposable
+    public class EventUnregister<T> : IDisposable
     {
         public Action<T> actions;
 

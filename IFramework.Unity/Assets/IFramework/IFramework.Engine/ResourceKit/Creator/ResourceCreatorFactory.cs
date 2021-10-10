@@ -7,7 +7,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 资源创建工厂
     /// </summary>
-    public static class ResourceFactory
+    public static class ResourceCreatorFactory
     {
         /// <summary>
         /// 资源列表

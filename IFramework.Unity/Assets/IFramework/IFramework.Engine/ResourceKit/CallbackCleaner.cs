@@ -3,7 +3,7 @@ using System;
 namespace IFramework.Engine
 {
     /// <summary>
-    /// 用于清理回调事件到载体
+    /// 用于清理回调事件的载体
     /// </summary>
     public class CallbackCleaner
     {

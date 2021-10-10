@@ -5,12 +5,12 @@ namespace IFramework.Core
     /// <summary>
     /// 消息注册类
     /// </summary>
-    public interface ITypeEventRegister : IDisposable { }
+    public interface IEventRegister : IDisposable { }
 
     /// <summary>
     /// 消息注册类
     /// </summary>
-    public class TypeEventRegister<T> : ITypeEventRegister
+    public class EventRegister<T> : IEventRegister
     {
         // 委托本身就可以一对多注册
         public Action<T> actions = obj => { };

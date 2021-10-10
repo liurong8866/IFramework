@@ -143,7 +143,7 @@ namespace IFramework.Engine
 
             // 如果资源为空，并需要创建资源，则创建并加入资源表
             if (create) {
-                resource = ResourceFactory.Create(searcher);
+                resource = ResourceCreatorFactory.Create(searcher);
 
                 if (resource != null) { resourceTable.Add(resource.AssetName, resource); }
             }
