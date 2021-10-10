@@ -15,6 +15,11 @@ namespace IFramework.Core
         public float InitializationTime;
 
         /// <summary>
+        /// 单例构造器
+        /// </summary>
+        protected ReplaceableMonoSingleton() { }
+
+        /// <summary>
         /// 获取实例
         /// </summary>
         public static T Instance {
@@ -73,7 +78,9 @@ namespace IFramework.Core
             }
 
             //如果当前对象是第一个，则设置为单例实例
-            if (instance == null) { instance = this as T; }
+            if (instance == null) {
+                instance = this as T;
+            }
         }
     }
 }

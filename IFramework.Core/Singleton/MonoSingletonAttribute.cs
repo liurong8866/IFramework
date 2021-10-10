@@ -8,10 +8,6 @@ namespace IFramework.Core
     [AttributeUsage(AttributeTargets.Class)]
     public class MonoSingletonAttribute : Attribute
     {
-        // 在Hierarchy中的全路径
-
-        // 标记不销毁
-
         /// <summary>
         /// 单例特性构造函数
         /// </summary>

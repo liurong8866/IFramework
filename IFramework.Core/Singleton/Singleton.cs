@@ -14,13 +14,20 @@ namespace IFramework.Core
         private static readonly object locker = new object();
 
         /// <summary>
+        /// 单例构造器
+        /// </summary>
+        protected Singleton() { }
+
+        /// <summary>
         /// 双重锁，线程安全
         /// </summary>
         public static T Instance {
             get {
                 if (instance == null) {
                     lock (locker) {
-                        if (instance == null) { instance = SingletonCreator.CreateSingleton<T>(); }
+                        if (instance == null) {
+                            instance = SingletonCreator.CreateSingleton<T>();
+                        }
                     }
                 }
                 return instance;

@@ -92,7 +92,6 @@ namespace IFramework.Editor
             foreach (GameObject go in gameObjects) {
                 // 递归查找所有子节点
                 go.transform.ActionRecursion(trans  => {
-                    Log.Info(trans.gameObject.name);
 
                     // 通过Component组件，找到Missing的组件
                     Component[] components = trans.gameObject.GetComponents<Component>();

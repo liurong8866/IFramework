@@ -9,12 +9,12 @@ namespace IFramework.Test
         [Test]
         public void Testa()
         {
-            A.Instance<A>().PrintA();
+            A.Instance.PrintA();
         }
     }
     
     
-    public class A : IocContainer
+    public class A : IocSingleton<A>
     {
         [Autowired] private B b;
 

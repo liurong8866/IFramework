@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace IFramework.Core
 {
-    public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
+    public abstract class IocMonoSingleton<T> : IocMonoBehaviour, ISingleton where T : IocMonoSingleton<T>
     {
         // 静态实例
         protected static volatile T instance;
@@ -15,7 +16,7 @@ namespace IFramework.Core
         /// <summary>
         /// 单例构造器
         /// </summary>
-        protected MonoSingleton() { }
+        protected IocMonoSingleton() { }
         
         /// <summary>
         /// 获得实例
@@ -35,15 +36,6 @@ namespace IFramework.Core
         /// 单例初始化
         /// </summary>
         public virtual void OnInit() { }
-
-        /// <summary>
-        /// 资源释放
-        /// </summary>
-        public virtual void Dispose()
-        {
-            instance = null;
-            Destroy(gameObject);
-        }
 
         /// <summary>
         /// 应用程序退出：释放当前对象并销毁相关GameObject

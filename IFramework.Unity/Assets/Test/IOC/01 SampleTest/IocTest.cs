@@ -9,7 +9,7 @@ public class IocTest : MonoBehaviour
 
     // Use this for initialization
     void Start() {
-        ApplicationContainer container = new ApplicationContainer();
+        IocContainer container = new IocContainer();
         container.RegisterInstance(new A());
         container.Inject(this);
         container.Resolve<A>().HelloWorld();

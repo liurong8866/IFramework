@@ -4,11 +4,11 @@ using System.ComponentModel;
 using IFramework.Core;
 using UnityEngine;
 
-public class MainContainer : ApplicationContainer, ISingleton
+public class MainContainer : IocContainer, ISingleton
 {
     private MainContainer() { }
 
-    public static ApplicationContainer Container { get { return SingletonProperty<MainContainer>.Instance; } }
+    public static IocContainer Container => SingletonProperty<MainContainer>.Instance;
 
     void ISingleton.OnInit()
     {

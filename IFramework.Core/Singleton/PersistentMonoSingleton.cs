@@ -13,6 +13,11 @@ namespace IFramework.Core
         private static readonly object locker = new object();
 
         /// <summary>
+        /// 单例构造器
+        /// </summary>
+        protected PersistentMonoSingleton() { }
+
+        /// <summary>
         /// 获取实例
         /// </summary>
         public static T Instance {
@@ -24,7 +29,9 @@ namespace IFramework.Core
                             instance = FindObjectOfType<T>();
 
                             // 如果最未找到，再添加
-                            if (instance == null) { instance = new GameObject().AddComponent<T>(); }
+                            if (instance == null) {
+                                instance = new GameObject().AddComponent<T>();
+                            }
                         }
                     }
                 }
@@ -46,7 +53,9 @@ namespace IFramework.Core
             }
             else {
                 // 如果当前对象不为空，并且不是自己则销毁
-                if (this != instance) { Destroy(gameObject); }
+                if (this != instance) {
+                    Destroy(gameObject);
+                }
             }
         }
     }
