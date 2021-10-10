@@ -2,6 +2,17 @@ namespace IFramework.Engine
 {
     public class UiKit
     {
-        public static void BindScript() { }
+        /// <summary>
+        /// UI 堆栈
+        /// </summary>
+        public static readonly UIPanelStack Stack = new UIPanelStack();
+
+        /// <summary>
+        /// UIPanel  管理（数据结构）
+        /// </summary>
+        public static readonly UIPanelTable Table = new UIPanelTable();
+
+        
+        
     }
 }
