@@ -2,7 +2,7 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Test.Viarable
+namespace IFramework.Test.Editor
 {
     public class ViarableGui : EditorWindow
     {

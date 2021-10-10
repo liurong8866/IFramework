@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
-public class MonoTest : IocMonoBehaviour
+namespace IFramework.Test.IOC
 {
-    [Autowired("Student")] public IPerson Student;
-
-    [Autowired("Teacher")] private IPerson Teacher { get; set; }
-
-    // Start is called before the first frame update
-    void Start()
+    public class MonoTest : IocMonoBehaviour
     {
-        Student.print("MonoTest");
-        Teacher.print("MonoTest");
+        [Autowired("Student")] public IPerson Student;
+
+        [Autowired("Teacher")] private IPerson Teacher { get; set; }
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            Student.print("MonoTest");
+            Teacher.print("MonoTest");
+        }
     }
 }

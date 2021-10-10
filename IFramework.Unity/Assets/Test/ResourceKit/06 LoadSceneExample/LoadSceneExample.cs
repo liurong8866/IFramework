@@ -2,7 +2,7 @@ using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Test.ResourceKit._06_LoadSceneExample
+namespace IFramework.Test.AssetResourceKit
 {
     public class LoadSceneExample : MonoBehaviour
     {

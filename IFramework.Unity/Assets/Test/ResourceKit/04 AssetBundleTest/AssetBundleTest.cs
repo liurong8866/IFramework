@@ -1,7 +1,7 @@
 using IFramework.Engine;
 using UnityEngine;
 
-namespace Test.ResourceKit._03_AssetBundleTest
+namespace IFramework.Test.AssetResourceKit
 {
     public class AssetBundleTest : MonoBehaviour
     {

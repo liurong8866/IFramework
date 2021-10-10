@@ -5,24 +5,27 @@ using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 
-public class UntilActionTest : MonoBehaviour
+namespace IFramework.Test.ActionKit
 {
-    private int currentTime = 0;
-    private UntilAction untilAction;
-
-    private void Awake()
+    public class UntilActionTest : MonoBehaviour
     {
-        untilAction = UntilAction.Allocate(() => currentTime == 1000, () => { "延迟了多少".LogInfo(); });
+        private int currentTime = 0;
+        private UntilAction untilAction;
 
-        this.Sequence()
-               .Until(() => Input.GetMouseButtonDown(0))
-               .Event(() => Debug.Log("鼠标按钮点击了"))
-               .Begin();
-    }
+        private void Awake()
+        {
+            untilAction = UntilAction.Allocate(() => currentTime == 1000, () => { "延迟了多少".LogInfo(); });
 
-    private void Update()
-    {
-        untilAction?.Execute();
-        currentTime++;
+            this.Sequence()
+                   .Until(() => Input.GetMouseButtonDown(0))
+                   .Event(() => Debug.Log("鼠标按钮点击了"))
+                   .Begin();
+        }
+
+        private void Update()
+        {
+            untilAction?.Execute();
+            currentTime++;
+        }
     }
 }

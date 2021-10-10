@@ -3,7 +3,7 @@ using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Test.ResourceKit._05_LoadAssetBundleResExample
+namespace IFramework.Test.AssetResourceKit
 {
     public class AssetBundleResExample : MonoBehaviour
     {

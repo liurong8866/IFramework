@@ -2,31 +2,36 @@ using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
 
-public class EventActionTest : MonoBehaviour
+namespace IFramework.Test.ActionKit
 {
-    private EventAction eventAction;
-
-    private void Awake()
+    public class EventActionTest : MonoBehaviour
     {
-        eventAction = EventAction.Allocate(() => { Log.Info("event 4 called"); }, () => { Log.Info("event 5 called"); });
-    }
+        private EventAction eventAction;
 
-    private void Start()
-    {
-        // 方法调用
-        EventAction eventNode = EventAction.Allocate(() => { Log.Info("event 1 called"); }, () => { Log.Info("event 2 called"); });
-        eventNode.Execute(this);
+        private void Awake()
+        {
+            eventAction = EventAction.Allocate(() => { Log.Info("event 4 called"); }, () => { Log.Info("event 5 called"); });
+        }
 
-        // IAction 扩展方法调用
-        EventAction eventNode2 = EventAction.Allocate();
-        this.Execute(eventNode2);
+        private void Start()
+        {
+            // 方法调用
+            EventAction eventNode = EventAction.Allocate(() => { Log.Info("event 1 called"); }, () => { Log.Info("event 2 called"); });
+            eventNode.Execute(this);
 
-        // 扩展方法调用
-        this.Action(() => { "event 3 called".LogInfo(); });
-    }
+            // IAction 扩展方法调用
+            EventAction eventNode2 = EventAction.Allocate();
+            this.Execute(eventNode2);
 
-    private void Update()
-    {
-        if (eventAction != null && !eventAction.Finished && eventAction.Execute()) { Log.Info("eventNode  执行完成"); }
+            // 扩展方法调用
+            this.Action(() => { "event 3 called".LogInfo(); });
+        }
+
+        private void Update()
+        {
+            if (eventAction != null && !eventAction.Finished && eventAction.Execute()) {
+                Log.Info("eventNode  执行完成");
+            }
+        }
     }
 }

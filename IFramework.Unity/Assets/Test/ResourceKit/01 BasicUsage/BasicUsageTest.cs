@@ -2,7 +2,7 @@
 using IFramework.Engine;
 using UnityEngine;
 
-namespace QFramework.Example
+namespace QFramework.Example.ResourceKit
 {
     public class BasicUsageTest : MonoBehaviour
     {

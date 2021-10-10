@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface INetworkExampleService
+namespace IFramework.Test.IOC
 {
-    void Request();
-}
-
-public class NetworkExampleService1 : INetworkExampleService
-{
-    public void Request()
+    public interface INetworkExampleService
     {
-        Debug.Log("请求服务器1");
+        void Request();
     }
-}
 
-public class NetworkExampleService2 : INetworkExampleService
-{
-    public void Request()
+    public class NetworkExampleService1 : INetworkExampleService
     {
-        Debug.Log("请求服务器2");
+        public void Request()
+        {
+            Debug.Log("请求服务器1");
+        }
+    }
+
+    public class NetworkExampleService2 : INetworkExampleService
+    {
+        public void Request()
+        {
+            Debug.Log("请求服务器2");
+        }
     }
 }

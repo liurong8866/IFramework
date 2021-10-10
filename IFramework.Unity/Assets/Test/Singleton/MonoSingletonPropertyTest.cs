@@ -1,7 +1,7 @@
 using IFramework.Core;
 using UnityEngine;
 
-namespace IFramework.Test.Singelton
+namespace IFramework.Test.Singleton
 {
     public class MonoSingletonPropertyTest : MonoBehaviour
     {

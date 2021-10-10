@@ -1,24 +1,25 @@
 using System;
 using IFramework.Core;
 
-public class IocMonoSingletonTest : IocMonoSingleton<IocMonoSingletonTest>
+namespace IFramework.Test.IOC
 {
-    [Autowired("Student")]
-    public IPerson Student;
-
-    [Autowired("Teacher")]
-    private IPerson Teacher { get; set; }
-    
-    
-    protected override void Init()
+    public class IocMonoSingletonTest : IocMonoSingleton<IocMonoSingletonTest>
     {
-        Register<IPerson, Teacher>("Teacher");
-        Register<IPerson, Student>("Student");
-    }
+        [Autowired("Student")] public IPerson Student;
 
-    private void Start()
-    {
-        Student.print("IocMonoSingletonTest");
-        Teacher.print("IocMonoSingletonTest");
+        [Autowired("Teacher")] private IPerson Teacher { get; set; }
+
+
+        protected override void Init()
+        {
+            Register<IPerson, Teacher>("Teacher");
+            Register<IPerson, Student>("Student");
+        }
+
+        private void Start()
+        {
+            Student.print("IocMonoSingletonTest");
+            Teacher.print("IocMonoSingletonTest");
+        }
     }
 }

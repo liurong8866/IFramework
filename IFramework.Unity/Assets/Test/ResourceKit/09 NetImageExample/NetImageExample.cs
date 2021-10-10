@@ -4,28 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class NetImageExample : MonoBehaviour
+namespace IFramework.Test.AssetResourceKit
 {
-    private VideoPlayer videoPlayer;
-    private readonly ResourceLoader loader = new ResourceLoader();
-
-    private void Awake()
+    public class NetImageExample : MonoBehaviour
     {
-        videoPlayer = gameObject.GetComponent<VideoPlayer>();
-    }
+        private VideoPlayer videoPlayer;
+        private readonly ResourceLoader loader = new ResourceLoader();
 
-    private void Start()
-    {
-        Image image = transform.Find("Image").GetComponent<Image>();
+        private void Awake()
+        {
+            videoPlayer = gameObject.GetComponent<VideoPlayer>();
+        }
 
-        loader.AddToLoad<Texture2D>(ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg", (b, res) => {
-            if (b) {
-                Texture2D texture = res.Asset as Texture2D;
-                Sprite sprite = texture.CreateSprite();
-                image.sprite = sprite;
-                loader.DestroyOnRecycle(sprite);
-            }
-        });
-        loader.LoadAsync();
+        private void Start()
+        {
+            Image image = transform.Find("Image").GetComponent<Image>();
+
+            loader.AddToLoad<Texture2D>(ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg",
+                                        (b, res) => {
+                                            if (b) {
+                                                Texture2D texture = res.Asset as Texture2D;
+                                                Sprite sprite = texture.CreateSprite();
+                                                image.sprite = sprite;
+                                                loader.DestroyOnRecycle(sprite);
+                                            }
+                                        });
+            loader.LoadAsync();
+        }
     }
 }

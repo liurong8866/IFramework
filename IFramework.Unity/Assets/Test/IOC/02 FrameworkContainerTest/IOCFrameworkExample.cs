@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
-public class IOCFrameworkExample : MonoBehaviour
+namespace IFramework.Test.IOC
 {
-    [Autowired] public INetworkExampleService NetworkExampleService { get; set; }
-
-    // Use this for initialization
-    void Start()
+    public class IOCFrameworkExample : MonoBehaviour
     {
-        // 将模块注入 
-        // 这种方式比较方便
-        MainContainer.Container.Inject(this);
-        NetworkExampleService.Request();
+        [Autowired] public INetworkExampleService NetworkExampleService { get; set; }
 
-        // 或者 不通过注入，直接获得 实例
-        // 这种方式性能更好
-        INetworkExampleService networkExampleService = MainContainer.Container.Resolve<INetworkExampleService>();
-        networkExampleService.Request();
+        // Use this for initialization
+        void Start()
+        {
+            // 将模块注入 
+            // 这种方式比较方便
+            MainContainer.Container.Inject(this);
+            NetworkExampleService.Request();
+
+            // 或者 不通过注入，直接获得 实例
+            // 这种方式性能更好
+            INetworkExampleService networkExampleService = MainContainer.Container.Resolve<INetworkExampleService>();
+            networkExampleService.Request();
+        }
     }
 }

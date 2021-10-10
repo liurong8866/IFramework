@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
-public class IocTest : MonoBehaviour
+namespace IFramework.Test.IOC
 {
-    // [Autowired] public A AObj;
-
-    // Use this for initialization
-    void Start()
+    public class IocTest : MonoBehaviour
     {
-        IocContainer container = IocContainer.Instance;
-        container.RegisterInstance(new A());
-        container.Inject(this);
-        container.Resolve<A>().HelloWorld();
-    }
+        // [Autowired] public A AObj;
 
-    public class A
-    {
-        public void HelloWorld() {
-            "This is A obj".LogInfo();
+        // Use this for initialization
+        void Start()
+        {
+            IocContainer container = IocContainer.Instance;
+            container.RegisterInstance(new A());
+            container.Inject(this);
+            container.Resolve<A>().HelloWorld();
+        }
+
+        public class A
+        {
+            public void HelloWorld()
+            {
+                "This is A obj".LogInfo();
+            }
         }
     }
 }
