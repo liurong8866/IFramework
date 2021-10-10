@@ -2,17 +2,19 @@ using IFramework.Core;
 
 public class IocMonoBehaviourTest : IocMonoBehaviour
 {
-    [Autowired("Teacher")] private IPerson person;
+    [Autowired("Teacher")] private IPerson teacher;
+    [Autowired("Student")] private IPerson sutdent;
 
-    protected override void Init()
-    {
-        Register<IPerson, Teacher>("Teacher");
-        Register<IPerson, Student>("Student");
-    }
+    // protected override void Init()
+    // {
+    //     Register<IPerson, Teacher>("Teacher");
+    //     Register<IPerson, Student>("Student");
+    // }
 
     private void Start()
     {
-        person.print();
+        teacher.print("IocMonoBehaviourTest");
+        sutdent.print("IocMonoBehaviourTest");
     }
 }
 
@@ -21,7 +23,7 @@ public interface IPerson
     string name { get; }
     string age { get; }
 
-    void print();
+    void print(string str);
 }
 
 public class Teacher : IPerson
@@ -29,9 +31,9 @@ public class Teacher : IPerson
     public string name { get; }
     public string age { get; }
 
-    public void print()
+    public void print(string str)
     {
-        Log.Info("我是老师");
+        Log.Info("我是老师: " + str);
     }
 
     public string clazz { get; }
@@ -63,8 +65,8 @@ public class Student : IPerson
         this.teacher = teacher;
     }
 
-    public void print()
+    public void print(string str)
     {
-        Log.Info("我是学生");
+        Log.Info("我是学生: " + str);
     }
 }

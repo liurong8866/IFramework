@@ -8,8 +8,9 @@ public class IocTest : MonoBehaviour
     // [Autowired] public A AObj;
 
     // Use this for initialization
-    void Start() {
-        IocContainer container = new IocContainer();
+    void Start()
+    {
+        IocContainer container = IocContainer.Instance;
         container.RegisterInstance(new A());
         container.Inject(this);
         container.Resolve<A>().HelloWorld();

@@ -18,7 +18,7 @@ namespace IFramework.Core
         /// </summary>
         private void Awake()
         {
-            container = InnerIoc.Instance;
+            container = IocContainer.Instance;
             Init();
             container.Inject(this);
         }
@@ -38,13 +38,6 @@ namespace IFramework.Core
         }
 
         #region 代理方法
-
-        private class InnerIoc : IocSingleton<InnerIoc>
-        {
-            private InnerIoc() { }
-
-            public override void Register() { }
-        }
 
         public void Register<T>(string name = null)
         {
