@@ -1,4 +1,5 @@
 using IFramework.Core;
+using UnityEngine;
 
 public class IocMonoBehaviourTest : IocMonoBehaviour
 {
@@ -15,6 +16,16 @@ public class IocMonoBehaviourTest : IocMonoBehaviour
     {
         teacher.print("IocMonoBehaviourTest");
         sutdent.print("IocMonoBehaviourTest");
+    }
+    
+    // 可以把该方法放到单独的初始化类中，系统启动时加载，便于维护
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void RegisterIoc()
+    {
+        IocContainer container = IocContainer.Instance;
+        
+        container.Register<IPerson, Teacher>("Teacher");
+        container.Register<IPerson, Student>("Student");
     }
 }
 
