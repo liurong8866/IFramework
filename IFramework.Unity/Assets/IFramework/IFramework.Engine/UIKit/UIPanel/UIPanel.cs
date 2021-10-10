@@ -1,3 +1,4 @@
+using IFramework.Core;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -16,6 +17,9 @@ namespace IFramework.Engine
         public PanelState State { get; set; }
 
         protected IData data;
+
+        // public IManager Manager {
+        // }
         
         public void Init(IData data = null)
         {

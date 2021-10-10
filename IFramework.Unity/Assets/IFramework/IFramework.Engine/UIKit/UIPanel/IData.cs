@@ -1,10 +1,7 @@
+using IFramework.Core;
+
 namespace IFramework.Engine
 {
-    /// <summary>
-    /// 统一数据接口
-    /// </summary>
-    public interface IData { }
-
     /// <summary>
     /// UIPanel相关数据
     /// </summary>
