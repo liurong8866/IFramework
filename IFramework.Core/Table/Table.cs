@@ -98,7 +98,7 @@ namespace IFramework.Core
         {
             return dictionary.SelectMany(d => d.Value).GetEnumerator();
         }
-
+        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

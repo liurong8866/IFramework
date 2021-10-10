@@ -26,4 +26,25 @@ namespace IFramework.Engine
 
         void Close(bool destroy = true);
     }
+
+    public static class IPanelExtention
+    {
+        /// <summary>
+        /// 设置Panel层级
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="level"></param>
+        public static void PanelLevel(this IPanel panel, UILevel level)
+        {
+            UIRoot.Instance.SetPanelLevel(panel, level);
+        }
+        
+        /// <summary>
+        /// 重置面板默认大小
+        /// </summary>
+        public static void ResetPanelSize(this IPanel panel)
+        {
+            UIKit.ResetPanelSize(panel);
+        }
+    }
 }

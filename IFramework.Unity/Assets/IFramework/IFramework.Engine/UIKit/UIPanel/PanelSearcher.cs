@@ -11,7 +11,9 @@ namespace IFramework.Engine
 
     public class PanelSearcher : IPoolable, IRecyclable
     {
-        public Type PanelType;
+        public string Keyword;
+        
+        public string TypeName;
 
         public string AssetBundleName;
 
@@ -32,7 +34,8 @@ namespace IFramework.Engine
 
         public void OnRecycled()
         {
-            PanelType = null;
+            Keyword = null;
+            TypeName = null;
             AssetBundleName = null;
             GameObjectName = null;
             Data = null;
@@ -43,7 +46,7 @@ namespace IFramework.Engine
 
         public override string ToString()
         {
-            return $"PanelSearchKeys PanelType:{PanelType} "
+            return $"PanelSearchKeys PanelType:{Keyword} "
                   + $"AssetBundleName:{AssetBundleName} "
                   + $"GameObjName:{GameObjectName} "
                   + $"Level:{Level} "
