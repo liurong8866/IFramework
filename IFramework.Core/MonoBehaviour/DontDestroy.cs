@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace IFramework.Core
 {
-    public class DontDestroy: MonoBehaviour
+    public class DontDestroy : MonoBehaviour
     {
-        void Awake() {
+        private void Awake()
+        {
             DontDestroyOnLoad(this);
         }
     }

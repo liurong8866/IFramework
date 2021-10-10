@@ -36,7 +36,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void Write(int value)
         {
-            if (windowFilled++ == WindowSize) { throw new InvalidOperationException("Window full"); }
+            if (windowFilled++ == WindowSize) {
+                throw new InvalidOperationException("Window full");
+            }
             window[windowEnd++] = (byte)value;
             windowEnd &= WindowMask;
         }
@@ -60,21 +62,31 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void Repeat(int length, int distance)
         {
-            if ((windowFilled += length) > WindowSize) { throw new InvalidOperationException("Window full"); }
+            if ((windowFilled += length) > WindowSize) {
+                throw new InvalidOperationException("Window full");
+            }
             int repStart = (windowEnd - distance) & WindowMask;
             int border = WindowSize - length;
 
             if (repStart <= border && windowEnd < border) {
                 if (length <= distance) {
-                    Array.Copy(window, repStart, window, windowEnd, length);
+                    Array.Copy(window,
+                               repStart,
+                               window,
+                               windowEnd,
+                               length);
                     windowEnd += length;
                 }
                 else {
                     // We have to copy manually, since the repeat pattern overlaps.
-                    while (length-- > 0) { window[windowEnd++] = window[repStart++]; }
+                    while (length-- > 0) {
+                        window[windowEnd++] = window[repStart++];
+                    }
                 }
             }
-            else { SlowRepeat(repStart, length, distance); }
+            else {
+                SlowRepeat(repStart, length, distance);
+            }
         }
 
         /// <summary>
@@ -92,9 +104,13 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (length > tailLen) {
                 copied = input.CopyBytes(window, windowEnd, tailLen);
 
-                if (copied == tailLen) { copied += input.CopyBytes(window, 0, length - tailLen); }
+                if (copied == tailLen) {
+                    copied += input.CopyBytes(window, 0, length - tailLen);
+                }
             }
-            else { copied = input.CopyBytes(window, windowEnd, length); }
+            else {
+                copied = input.CopyBytes(window, windowEnd, length);
+            }
             windowEnd = (windowEnd + copied) & WindowMask;
             windowFilled += copied;
             return copied;
@@ -111,15 +127,24 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         /// </exception>
         public void CopyDict(byte[] dictionary, int offset, int length)
         {
-            if (dictionary == null) { throw new ArgumentNullException(nameof(dictionary)); }
+            if (dictionary == null) {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
 
-            if (windowFilled > 0) { throw new InvalidOperationException(); }
+            if (windowFilled > 0) {
+                throw new InvalidOperationException();
+            }
 
             if (length > WindowSize) {
                 offset += length - WindowSize;
                 length = WindowSize;
             }
-            Array.Copy(dictionary, offset, window, 0, length);
+
+            Array.Copy(dictionary,
+                       offset,
+                       window,
+                       0,
+                       length);
             windowEnd = length & WindowMask;
         }
 
@@ -155,20 +180,35 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             int copyEnd = windowEnd;
 
-            if (len > windowFilled) { len = windowFilled; }
-            else { copyEnd = (windowEnd - windowFilled + len) & WindowMask; }
+            if (len > windowFilled) {
+                len = windowFilled;
+            }
+            else {
+                copyEnd = (windowEnd - windowFilled + len) & WindowMask;
+            }
             int copied = len;
             int tailLen = len - copyEnd;
 
             if (tailLen > 0) {
-                Array.Copy(window, WindowSize - tailLen, output, offset, tailLen);
+                Array.Copy(window,
+                           WindowSize - tailLen,
+                           output,
+                           offset,
+                           tailLen);
                 offset += tailLen;
                 len = copyEnd;
             }
-            Array.Copy(window, copyEnd - len, output, offset, len);
+
+            Array.Copy(window,
+                       copyEnd - len,
+                       output,
+                       offset,
+                       len);
             windowFilled -= copied;
 
-            if (windowFilled < 0) { throw new InvalidOperationException(); }
+            if (windowFilled < 0) {
+                throw new InvalidOperationException();
+            }
             return copied;
         }
 

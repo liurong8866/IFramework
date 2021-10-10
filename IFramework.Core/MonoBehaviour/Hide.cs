@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace IFramework.Core
 {
-    public class Hide: MonoBehaviour
+    public class Hide : MonoBehaviour
     {
-        private void Awake() {
+        private void Awake()
+        {
             this.Hide();
         }
     }

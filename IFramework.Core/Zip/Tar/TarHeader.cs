@@ -236,7 +236,13 @@ namespace IFramework.Core.Zip.Tar
         public const string GNU_TMAGIC = "ustar  ";
 
         private const long TIME_CONVERSION_FACTOR = 10000000L; // 1 tick == 100 nanoseconds
-        private static readonly DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        private static readonly DateTime dateTime1970 = new DateTime(1970,
+                                                                     1,
+                                                                     1,
+                                                                     0,
+                                                                     0,
+                                                                     0,
+                                                                     0);
 
         #endregion
 
@@ -269,7 +275,9 @@ namespace IFramework.Core.Zip.Tar
         public string Name {
             get => name;
             set {
-                if (value == null) { throw new ArgumentNullException(nameof(value)); }
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 name = value;
             }
         }
@@ -314,7 +322,9 @@ namespace IFramework.Core.Zip.Tar
         public long Size {
             get => size;
             set {
-                if (value < 0) { throw new ArgumentOutOfRangeException(nameof(value), "Cannot be less than zero"); }
+                if (value < 0) {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Cannot be less than zero");
+                }
                 size = value;
             }
         }
@@ -329,8 +339,16 @@ namespace IFramework.Core.Zip.Tar
         public DateTime ModTime {
             get => modTime;
             set {
-                if (value < dateTime1970) { throw new ArgumentOutOfRangeException(nameof(value), "ModTime cannot be before Jan 1st 1970"); }
-                modTime = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
+                if (value < dateTime1970) {
+                    throw new ArgumentOutOfRangeException(nameof(value), "ModTime cannot be before Jan 1st 1970");
+                }
+
+                modTime = new DateTime(value.Year,
+                                       value.Month,
+                                       value.Day,
+                                       value.Hour,
+                                       value.Minute,
+                                       value.Second);
             }
         }
 
@@ -356,7 +374,9 @@ namespace IFramework.Core.Zip.Tar
         public string LinkName {
             get => linkName;
             set {
-                if (value == null) { throw new ArgumentNullException(nameof(value)); }
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 linkName = value;
             }
         }
@@ -368,7 +388,9 @@ namespace IFramework.Core.Zip.Tar
         public string Magic {
             get => magic;
             set {
-                if (value == null) { throw new ArgumentNullException(nameof(value)); }
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 magic = value;
             }
         }
@@ -380,7 +402,9 @@ namespace IFramework.Core.Zip.Tar
         public string Version {
             get => version;
             set {
-                if (value == null) { throw new ArgumentNullException(nameof(value)); }
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 version = value;
             }
         }
@@ -391,11 +415,15 @@ namespace IFramework.Core.Zip.Tar
         public string UserName {
             get => userName;
             set {
-                if (value != null) { userName = value.Substring(0, Math.Min(UNAMELEN, value.Length)); }
+                if (value != null) {
+                    userName = value.Substring(0, Math.Min(UNAMELEN, value.Length));
+                }
                 else {
                     string currentUser = "user";
 
-                    if (currentUser.Length > UNAMELEN) { currentUser = currentUser.Substring(0, UNAMELEN); }
+                    if (currentUser.Length > UNAMELEN) {
+                        currentUser = currentUser.Substring(0, UNAMELEN);
+                    }
                     userName = currentUser;
                 }
             }
@@ -410,8 +438,12 @@ namespace IFramework.Core.Zip.Tar
         public string GroupName {
             get => groupName;
             set {
-                if (value == null) { groupName = "None"; }
-                else { groupName = value; }
+                if (value == null) {
+                    groupName = "None";
+                }
+                else {
+                    groupName = value;
+                }
             }
         }
 
@@ -448,7 +480,9 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void ParseBuffer(byte[] header)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
             int offset = 0;
             name = ParseName(header, offset, NAMELEN).ToString();
             offset += NAMELEN;
@@ -493,7 +527,9 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="outBuffer">output buffer for header information</param>
         public void WriteHeader(byte[] outBuffer)
         {
-            if (outBuffer == null) { throw new ArgumentNullException(nameof(outBuffer)); }
+            if (outBuffer == null) {
+                throw new ArgumentNullException(nameof(outBuffer));
+            }
             int offset = 0;
             offset = GetNameBytes(Name, outBuffer, offset, NAMELEN);
             offset = GetOctalBytes(Mode, outBuffer, offset, MODELEN);
@@ -503,10 +539,17 @@ namespace IFramework.Core.Zip.Tar
             offset = GetOctalBytes(GetCTime(ModTime), outBuffer, offset, MODTIMELEN);
             int csOffset = offset;
 
-            for (int c = 0; c < CHKSUMLEN; ++c) { outBuffer[offset++] = (byte)' '; }
+            for (int c = 0; c < CHKSUMLEN; ++c) {
+                outBuffer[offset++] = (byte)' ';
+            }
             outBuffer[offset++] = TypeFlag;
             offset = GetNameBytes(LinkName, outBuffer, offset, NAMELEN);
-            offset = GetAsciiBytes(Magic, 0, outBuffer, offset, MAGICLEN);
+
+            offset = GetAsciiBytes(Magic,
+                                   0,
+                                   outBuffer,
+                                   offset,
+                                   MAGICLEN);
             offset = GetNameBytes(Version, outBuffer, offset, VERSIONLEN);
             offset = GetNameBytes(UserName, outBuffer, offset, UNAMELEN);
             offset = GetNameBytes(GroupName, outBuffer, offset, GNAMELEN);
@@ -516,7 +559,9 @@ namespace IFramework.Core.Zip.Tar
                 offset = GetOctalBytes(DevMinor, outBuffer, offset, DEVLEN);
             }
 
-            for (; offset < outBuffer.Length;) { outBuffer[offset++] = 0; }
+            for (; offset < outBuffer.Length;) {
+                outBuffer[offset++] = 0;
+            }
             Checksum = ComputeCheckSum(outBuffer);
             GetCheckSumOctalBytes(Checksum, outBuffer, csOffset, CHKSUMLEN);
             IsChecksumValid = true;
@@ -558,7 +603,9 @@ namespace IFramework.Core.Zip.Tar
                      && DevMajor == localHeader.DevMajor
                      && DevMinor == localHeader.DevMinor;
             }
-            else { result = false; }
+            else {
+                result = false;
+            }
             return result;
         }
 
@@ -593,7 +640,9 @@ namespace IFramework.Core.Zip.Tar
                 // File sizes over 8GB are stored in 8 right-justified bytes of binary indicated by setting the high-order bit of the leftmost byte of a numeric field.
                 long result = 0;
 
-                for (int pos = length - 8; pos < length; pos++) { result = (result << 8) | header[offset + pos]; }
+                for (int pos = length - 8; pos < length; pos++) {
+                    result = (result << 8) | header[offset + pos];
+                }
                 return result;
             }
             return ParseOctal(header, offset, length);
@@ -608,18 +657,26 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The long equivalent of the octal string.</returns>
         public static long ParseOctal(byte[] header, int offset, int length)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
             long result = 0;
             bool stillPadding = true;
             int end = offset + length;
 
             for (int i = offset; i < end; ++i) {
-                if (header[i] == 0) { break; }
+                if (header[i] == 0) {
+                    break;
+                }
 
                 if (header[i] == (byte)' ' || header[i] == '0') {
-                    if (stillPadding) { continue; }
+                    if (stillPadding) {
+                        continue;
+                    }
 
-                    if (header[i] == (byte)' ') { break; }
+                    if (header[i] == (byte)' ') {
+                        break;
+                    }
                 }
                 stillPadding = false;
                 result = (result << 3) + (header[i] - '0');
@@ -644,17 +701,27 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public static StringBuilder ParseName(byte[] header, int offset, int length)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
 
-            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be less than zero"); }
+            if (offset < 0) {
+                throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be less than zero");
+            }
 
-            if (length < 0) { throw new ArgumentOutOfRangeException(nameof(length), "Cannot be less than zero"); }
+            if (length < 0) {
+                throw new ArgumentOutOfRangeException(nameof(length), "Cannot be less than zero");
+            }
 
-            if (offset + length > header.Length) { throw new ArgumentException("Exceeds header size", nameof(length)); }
+            if (offset + length > header.Length) {
+                throw new ArgumentException("Exceeds header size", nameof(length));
+            }
             StringBuilder result = new StringBuilder(length);
 
             for (int i = offset; i < offset + length; ++i) {
-                if (header[i] == 0) { break; }
+                if (header[i] == 0) {
+                    break;
+                }
                 result.Append((char)header[i]);
             }
             return result;
@@ -671,10 +738,19 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The next free index in the <paramref name="buffer"/></returns>
         public static int GetNameBytes(StringBuilder name, int nameOffset, byte[] buffer, int bufferOffset, int length)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
-            return GetNameBytes(name.ToString(), nameOffset, buffer, bufferOffset, length);
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            return GetNameBytes(name.ToString(),
+                                nameOffset,
+                                buffer,
+                                bufferOffset,
+                                length);
         }
 
         /// <summary>
@@ -688,14 +764,22 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The next free index in the <paramref name="buffer"/></returns>
         public static int GetNameBytes(string name, int nameOffset, byte[] buffer, int bufferOffset, int length)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
             int i;
 
-            for (i = 0; i < length && nameOffset + i < name.Length; ++i) { buffer[bufferOffset + i] = (byte)name[nameOffset + i]; }
+            for (i = 0; i < length && nameOffset + i < name.Length; ++i) {
+                buffer[bufferOffset + i] = (byte)name[nameOffset + i];
+            }
 
-            for (; i < length; ++i) { buffer[bufferOffset + i] = 0; }
+            for (; i < length; ++i) {
+                buffer[bufferOffset + i] = 0;
+            }
             return bufferOffset + length;
         }
 
@@ -719,10 +803,19 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public static int GetNameBytes(StringBuilder name, byte[] buffer, int offset, int length)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
-            return GetNameBytes(name.ToString(), 0, buffer, offset, length);
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            return GetNameBytes(name.ToString(),
+                                0,
+                                buffer,
+                                offset,
+                                length);
         }
 
         /// <summary>
@@ -735,10 +828,19 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The index of the next free byte in the buffer</returns>
         public static int GetNameBytes(string name, byte[] buffer, int offset, int length)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
-            return GetNameBytes(name, 0, buffer, offset, length);
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            return GetNameBytes(name,
+                                0,
+                                buffer,
+                                offset,
+                                length);
         }
 
         /// <summary>
@@ -752,12 +854,18 @@ namespace IFramework.Core.Zip.Tar
         /// <returns>The next free index in the buffer.</returns>
         public static int GetAsciiBytes(string toAdd, int nameOffset, byte[] buffer, int bufferOffset, int length)
         {
-            if (toAdd == null) { throw new ArgumentNullException(nameof(toAdd)); }
+            if (toAdd == null) {
+                throw new ArgumentNullException(nameof(toAdd));
+            }
 
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
             int i;
 
-            for (i = 0; i < length && nameOffset + i < toAdd.Length; ++i) { buffer[bufferOffset + i] = (byte)toAdd[nameOffset + i]; }
+            for (i = 0; i < length && nameOffset + i < toAdd.Length; ++i) {
+                buffer[bufferOffset + i] = (byte)toAdd[nameOffset + i];
+            }
 
             // If length is beyond the toAdd string length (which is OK by the prev loop condition), eg if a field has fixed length and the string is shorter, make sure all of the extra chars are written as NULLs, so that the reader func would ignore them and get back the original string
             for (; i < length; ++i) buffer[bufferOffset + i] = 0;
@@ -784,7 +892,9 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public static int GetOctalBytes(long value, byte[] buffer, int offset, int length)
         {
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
             int localIndex = length - 1;
 
             // Either a space or null is valid here.  We use NULL as per GNUTar
@@ -798,7 +908,9 @@ namespace IFramework.Core.Zip.Tar
                 }
             }
 
-            for (; localIndex >= 0; --localIndex) { buffer[offset + localIndex] = (byte)'0'; }
+            for (; localIndex >= 0; --localIndex) {
+                buffer[offset + localIndex] = (byte)'0';
+            }
             return offset + length;
         }
 
@@ -852,7 +964,9 @@ namespace IFramework.Core.Zip.Tar
         {
             int sum = 0;
 
-            for (int i = 0; i < buffer.Length; ++i) { sum += buffer[i]; }
+            for (int i = 0; i < buffer.Length; ++i) {
+                sum += buffer[i];
+            }
             return sum;
         }
 
@@ -865,11 +979,17 @@ namespace IFramework.Core.Zip.Tar
         {
             int sum = 0;
 
-            for (int i = 0; i < CHKSUMOFS; ++i) { sum += buffer[i]; }
+            for (int i = 0; i < CHKSUMOFS; ++i) {
+                sum += buffer[i];
+            }
 
-            for (int i = 0; i < CHKSUMLEN; ++i) { sum += (byte)' '; }
+            for (int i = 0; i < CHKSUMLEN; ++i) {
+                sum += (byte)' ';
+            }
 
-            for (int i = CHKSUMOFS + CHKSUMLEN; i < buffer.Length; ++i) { sum += buffer[i]; }
+            for (int i = CHKSUMOFS + CHKSUMLEN; i < buffer.Length; ++i) {
+                sum += buffer[i];
+            }
             return sum;
         }
 
@@ -882,7 +1002,12 @@ namespace IFramework.Core.Zip.Tar
         {
             DateTime result;
 
-            try { result = new DateTime(dateTime1970.Ticks + ticks * TIME_CONVERSION_FACTOR); } catch (ArgumentOutOfRangeException) { result = dateTime1970; }
+            try {
+                result = new DateTime(dateTime1970.Ticks + ticks * TIME_CONVERSION_FACTOR);
+            }
+            catch (ArgumentOutOfRangeException) {
+                result = dateTime1970;
+            }
             return result;
         }
 

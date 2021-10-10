@@ -17,7 +17,9 @@ namespace IFramework.Core.Zip.GZip
         /// <param name="isStreamOwner">Both streams are closed on completion if true.</param>
         public static void Decompress(Stream inStream, Stream outStream, bool isStreamOwner)
         {
-            if (inStream == null || outStream == null) { throw new Exception("Null Stream"); }
+            if (inStream == null || outStream == null) {
+                throw new Exception("Null Stream");
+            }
 
             try {
                 using (GZipInputStream bzipInput = new GZipInputStream(inStream)) {
@@ -43,7 +45,9 @@ namespace IFramework.Core.Zip.GZip
         /// the lowest compression and 9 the highest.</param>
         public static void Compress(Stream inStream, Stream outStream, bool isStreamOwner, int level)
         {
-            if (inStream == null || outStream == null) { throw new Exception("Null Stream"); }
+            if (inStream == null || outStream == null) {
+                throw new Exception("Null Stream");
+            }
 
             try {
                 using (GZipOutputStream bzipOutput = new GZipOutputStream(outStream, level)) {

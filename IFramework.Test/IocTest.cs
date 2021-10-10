@@ -12,7 +12,7 @@ namespace IFramework.Test
         {
             TestContainer.Instance.Inject(this);
         }
-        
+
         [Test]
         public void TestIoc()
         {
@@ -21,12 +21,9 @@ namespace IFramework.Test
             Console.Out.WriteLine(resolve.name);
             Console.Out.WriteLine(resolve.age);
             resolve.print();
-            
             Person.print();
-            
         }
     }
-    
 
     public class TestContainer : AbstractContainer, ISingleton
     {
@@ -68,7 +65,6 @@ namespace IFramework.Test
             this.age = age;
             this.clazz = clazz;
         }
-        
     }
 
     public class Student : IPerson
@@ -76,13 +72,12 @@ namespace IFramework.Test
         public string name { get; }
         public string age { get; }
         public string book { get; }
-        public Teacher teacher { get;}
+        public Teacher teacher { get; }
 
         public Student() { }
 
         public Student(string name, string age, string book, Teacher teacher)
         {
-            
             this.name = name;
             this.age = age;
             this.book = book;
@@ -93,6 +88,5 @@ namespace IFramework.Test
         {
             Console.Out.WriteLine("我是学生");
         }
-
     }
 }

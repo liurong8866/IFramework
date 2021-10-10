@@ -37,7 +37,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="baseDirectory"></param>
         public WindowsNameTransform(string baseDirectory)
         {
-            if (baseDirectory == null) { throw new ArgumentNullException(nameof(baseDirectory), "Directory name is invalid"); }
+            if (baseDirectory == null) {
+                throw new ArgumentNullException(nameof(baseDirectory), "Directory name is invalid");
+            }
             BaseDirectory = baseDirectory;
         }
 
@@ -55,7 +57,9 @@ namespace IFramework.Core.Zip.Zip
         public string BaseDirectory {
             get => baseDirectory;
             set {
-                if (value == null) { throw new ArgumentNullException(nameof(value)); }
+                if (value == null) {
+                    throw new ArgumentNullException(nameof(value));
+                }
                 baseDirectory = Path.GetFullPath(value);
             }
         }
@@ -75,9 +79,13 @@ namespace IFramework.Core.Zip.Zip
             name = TransformFile(name);
 
             if (name.Length > 0) {
-                while (name.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)) { name = name.Remove(name.Length - 1, 1); }
+                while (name.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)) {
+                    name = name.Remove(name.Length - 1, 1);
+                }
             }
-            else { throw new ZipException("Cannot have an empty directory name"); }
+            else {
+                throw new ZipException("Cannot have an empty directory name");
+            }
             return name;
         }
 
@@ -91,13 +99,19 @@ namespace IFramework.Core.Zip.Zip
             if (name != null) {
                 name = MakeValidName(name, replacementChar);
 
-                if (TrimIncomingPaths) { name = Path.GetFileName(name); }
+                if (TrimIncomingPaths) {
+                    name = Path.GetFileName(name);
+                }
 
                 // This may exceed windows length restrictions.
                 // Combine will throw a PathTooLongException in that case.
-                if (baseDirectory != null) { name = Path.Combine(baseDirectory, name); }
+                if (baseDirectory != null) {
+                    name = Path.Combine(baseDirectory, name);
+                }
             }
-            else { name = string.Empty; }
+            else {
+                name = string.Empty;
+            }
             return name;
         }
 
@@ -121,14 +135,20 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns a valid name</returns>
         public static string MakeValidName(string name, char replacement)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
             name = WindowsPathUtils.DropPathRoot(name.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
             // Drop any leading slashes.
-            while (name.Length > 0 && name[0] == Path.DirectorySeparatorChar) { name = name.Remove(0, 1); }
+            while (name.Length > 0 && name[0] == Path.DirectorySeparatorChar) {
+                name = name.Remove(0, 1);
+            }
 
             // Drop any trailing slashes.
-            while (name.Length > 0 && name[name.Length - 1] == Path.DirectorySeparatorChar) { name = name.Remove(name.Length - 1, 1); }
+            while (name.Length > 0 && name[name.Length - 1] == Path.DirectorySeparatorChar) {
+                name = name.Remove(name.Length - 1, 1);
+            }
 
             // Convert consecutive \\ characters to \
             int index = name.IndexOf(string.Format("{0}{0}", Path.DirectorySeparatorChar), StringComparison.Ordinal);
@@ -147,15 +167,21 @@ namespace IFramework.Core.Zip.Zip
                 while (index >= 0) {
                     builder[index] = replacement;
 
-                    if (index >= name.Length) { index = -1; }
-                    else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
+                    if (index >= name.Length) {
+                        index = -1;
+                    }
+                    else {
+                        index = name.IndexOfAny(invalidEntryChars, index + 1);
+                    }
                 }
                 name = builder.ToString();
             }
 
             // Check for names greater than MaxPath characters.
             // TODO: Were is CLR version of MaxPath defined?  Can't find it in Environment.
-            if (name.Length > MAX_PATH) { throw new PathTooLongException(); }
+            if (name.Length > MAX_PATH) {
+                throw new PathTooLongException();
+            }
             return name;
         }
 
@@ -166,10 +192,14 @@ namespace IFramework.Core.Zip.Zip
             get => replacementChar;
             set {
                 for (int i = 0; i < invalidEntryChars.Length; ++i) {
-                    if (invalidEntryChars[i] == value) { throw new ArgumentException("invalid path character"); }
+                    if (invalidEntryChars[i] == value) {
+                        throw new ArgumentException("invalid path character");
+                    }
                 }
 
-                if (value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar) { throw new ArgumentException("invalid replacement character"); }
+                if (value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar) {
+                    throw new ArgumentException("invalid replacement character");
+                }
                 replacementChar = value;
             }
         }

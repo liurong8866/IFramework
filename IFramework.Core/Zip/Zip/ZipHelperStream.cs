@@ -159,10 +159,14 @@ namespace IFramework.Core.Zip.Zip
                 }
             }
             else {
-                if (patchData != null) { patchData.CrcPatchOffset = stream.Position; }
+                if (patchData != null) {
+                    patchData.CrcPatchOffset = stream.Position;
+                }
                 WriteLeInt(0); // Crc
 
-                if (patchData != null) { patchData.SizePatchOffset = stream.Position; }
+                if (patchData != null) {
+                    patchData.SizePatchOffset = stream.Position;
+                }
 
                 // For local header both sizes appear in Zip64 Extended Information
                 if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) {
@@ -176,7 +180,9 @@ namespace IFramework.Core.Zip.Zip
             }
             byte[] name = ZipConstants.ConvertToArray(entry.Flags, entry.Name);
 
-            if (name.Length > 0xFFFF) { throw new ZipException("Entry name too long."); }
+            if (name.Length > 0xFFFF) {
+                throw new ZipException("Entry name too long.");
+            }
             ZipExtraData ed = new ZipExtraData(entry.ExtraData);
 
             if (entry.LocalHeaderRequiresZip64 && (headerInfoAvailable || patchEntryHeader)) {
@@ -192,20 +198,32 @@ namespace IFramework.Core.Zip.Zip
                 }
                 ed.AddNewEntry(1);
 
-                if (!ed.Find(1)) { throw new ZipException("Internal error cant find extra data"); }
+                if (!ed.Find(1)) {
+                    throw new ZipException("Internal error cant find extra data");
+                }
 
-                if (patchData != null) { patchData.SizePatchOffset = ed.CurrentReadIndex; }
+                if (patchData != null) {
+                    patchData.SizePatchOffset = ed.CurrentReadIndex;
+                }
             }
-            else { ed.Delete(1); }
+            else {
+                ed.Delete(1);
+            }
             byte[] extra = ed.GetEntryData();
             WriteLeShort(name.Length);
             WriteLeShort(extra.Length);
 
-            if (name.Length > 0) { stream.Write(name, 0, name.Length); }
+            if (name.Length > 0) {
+                stream.Write(name, 0, name.Length);
+            }
 
-            if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) { patchData.SizePatchOffset += stream.Position; }
+            if (entry.LocalHeaderRequiresZip64 && patchEntryHeader) {
+                patchData.SizePatchOffset += stream.Position;
+            }
 
-            if (extra.Length > 0) { stream.Write(extra, 0, extra.Length); }
+            if (extra.Length > 0) {
+                stream.Write(extra, 0, extra.Length);
+            }
         }
 
         /// <summary>
@@ -220,12 +238,16 @@ namespace IFramework.Core.Zip.Zip
         {
             long pos = endLocation - minimumBlockSize;
 
-            if (pos < 0) { return -1; }
+            if (pos < 0) {
+                return -1;
+            }
             long giveUpMarker = Math.Max(pos - maximumVariableData, 0);
 
             // TODO: This loop could be optimised for speed.
             do {
-                if (pos < giveUpMarker) { return -1; }
+                if (pos < giveUpMarker) {
+                    return -1;
+                }
                 Seek(pos--, SeekOrigin.Begin);
             } while (ReadLeInt() != signature);
             return Position;
@@ -274,7 +296,9 @@ namespace IFramework.Core.Zip.Zip
         /// <param name="comment">The archive comment.  (This can be null).</param>
         public void WriteEndOfCentralDirectory(long noOfEntries, long sizeEntries, long startOfCentralDirectory, byte[] comment)
         {
-            if (noOfEntries >= 0xffff || startOfCentralDirectory >= 0xffffffff || sizeEntries >= 0xffffffff) { WriteZip64EndOfCentralDirectory(noOfEntries, sizeEntries, startOfCentralDirectory); }
+            if (noOfEntries >= 0xffff || startOfCentralDirectory >= 0xffffffff || sizeEntries >= 0xffffffff) {
+                WriteZip64EndOfCentralDirectory(noOfEntries, sizeEntries, startOfCentralDirectory);
+            }
             WriteLeInt(ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE);
 
             // TODO: ZipFile Multi disk handling not done
@@ -295,19 +319,27 @@ namespace IFramework.Core.Zip.Zip
             if (sizeEntries >= 0xffffffff) {
                 WriteLeUint(0xffffffff); // Zip64 marker
             }
-            else { WriteLeInt((int)sizeEntries); }
+            else {
+                WriteLeInt((int)sizeEntries);
+            }
 
             // offset of start of central directory
             if (startOfCentralDirectory >= 0xffffffff) {
                 WriteLeUint(0xffffffff); // Zip64 marker
             }
-            else { WriteLeInt((int)startOfCentralDirectory); }
+            else {
+                WriteLeInt((int)startOfCentralDirectory);
+            }
             int commentLength = comment != null ? comment.Length : 0;
 
-            if (commentLength > 0xffff) { throw new ZipException(string.Format("Comment length({0}) is too long can only be 64K", commentLength)); }
+            if (commentLength > 0xffff) {
+                throw new ZipException(string.Format("Comment length({0}) is too long can only be 64K", commentLength));
+            }
             WriteLeShort(commentLength);
 
-            if (commentLength > 0) { Write(comment, 0, comment.Length); }
+            if (commentLength > 0) {
+                Write(comment, 0, comment.Length);
+            }
         }
 
         #region LE value reading/writing
@@ -326,10 +358,14 @@ namespace IFramework.Core.Zip.Zip
         {
             int byteValue1 = stream.ReadByte();
 
-            if (byteValue1 < 0) { throw new EndOfStreamException(); }
+            if (byteValue1 < 0) {
+                throw new EndOfStreamException();
+            }
             int byteValue2 = stream.ReadByte();
 
-            if (byteValue2 < 0) { throw new EndOfStreamException(); }
+            if (byteValue2 < 0) {
+                throw new EndOfStreamException();
+            }
             return byteValue1 | (byteValue2 << 8);
         }
 
@@ -426,7 +462,9 @@ namespace IFramework.Core.Zip.Zip
         /// <returns>Returns the number of descriptor bytes written.</returns>
         public int WriteDataDescriptor(ZipEntry entry)
         {
-            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
+            if (entry == null) {
+                throw new ArgumentNullException(nameof(entry));
+            }
             int result = 0;
 
             // Add data descriptor if flagged as required
@@ -463,7 +501,9 @@ namespace IFramework.Core.Zip.Zip
 
             // In theory this may not be a descriptor according to PKZIP appnote.
             // In practise its always there.
-            if (intValue != ZipConstants.DATA_DESCRIPTOR_SIGNATURE) { throw new ZipException("Data descriptor signature not found"); }
+            if (intValue != ZipConstants.DATA_DESCRIPTOR_SIGNATURE) {
+                throw new ZipException("Data descriptor signature not found");
+            }
             data.Crc = ReadLeInt();
 
             if (zip64) {

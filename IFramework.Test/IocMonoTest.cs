@@ -1,4 +1,3 @@
-using IFramework.Core;
 using NUnit.Framework;
 
 namespace IFramework.Test
@@ -6,9 +5,6 @@ namespace IFramework.Test
     public class IocMonoTest
     {
         [Test]
-        public void TestMono()
-        {
-            
-        }
+        public void TestMono() { }
     }
 }

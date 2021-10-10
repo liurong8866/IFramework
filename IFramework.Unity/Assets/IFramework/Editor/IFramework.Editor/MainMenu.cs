@@ -15,9 +15,9 @@ namespace IFramework.Editor
         // F1 … F2 - F keys
         // HOME,END,PGUP,PGDN 
         // 字母键 - _ + 字母（如:_g代表按键）
-        
+
         // 两个MenuItem 的下标相差20以上 就会出现 分割线
-        
+
         /*----------------------------- IFramework -----------------------------*/
 
         public const string CON_MENU_TOOL_RESKIT = "IFramework/AssetBundle";
@@ -37,6 +37,7 @@ namespace IFramework.Editor
         }
 
         public const string CON_MENU_TOOL_CLEAR = "IFramework/Clear Cache";
+
         [MenuItem(CON_MENU_TOOL_CLEAR, false, 31)]
         private static void Clear()
         {
@@ -54,11 +55,9 @@ namespace IFramework.Editor
 
         public const string CON_MENU_BIND = "GameObject/I Kit - Bind &b";
 
-        
         [MenuItem("GameObject/- - - - - - - - - - - - - - - -", false, 30)]
-        private static void UIKitTop(){}
+        private static void UIKitTop() { }
 
-        
         [MenuItem(CON_MENU_BIND, false, 31)]
         private static void UIKitBind()
         {

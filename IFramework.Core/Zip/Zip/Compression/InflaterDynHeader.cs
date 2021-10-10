@@ -35,7 +35,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                     case LNUM:
                         lnum = input.PeekBits(5);
 
-                        if (lnum < 0) { return false; }
+                        if (lnum < 0) {
+                            return false;
+                        }
                         lnum += 257;
                         input.DropBits(5);
                         //  	    System.err.println("LNUM: "+lnum);
@@ -44,7 +46,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                     case DNUM:
                         dnum = input.PeekBits(5);
 
-                        if (dnum < 0) { return false; }
+                        if (dnum < 0) {
+                            return false;
+                        }
                         dnum++;
                         input.DropBits(5);
                         //  	    System.err.println("DNUM: "+dnum);
@@ -55,7 +59,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                     case BLNUM:
                         blnum = input.PeekBits(4);
 
-                        if (blnum < 0) { return false; }
+                        if (blnum < 0) {
+                            return false;
+                        }
                         blnum += 4;
                         input.DropBits(4);
                         blLens = new byte[19];
@@ -67,7 +73,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         while (ptr < blnum) {
                             int len = input.PeekBits(3);
 
-                            if (len < 0) { return false; }
+                            if (len < 0) {
+                                return false;
+                            }
                             input.DropBits(3);
                             //  		System.err.println("blLens["+BL_ORDER[ptr]+"]: "+len);
                             blLens[blOrder[ptr]] = (byte)len;
@@ -94,7 +102,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         }
 
                         /* need more input ? */
-                        if (symbol < 0) { return false; }
+                        if (symbol < 0) {
+                            return false;
+                        }
 
                         /* otherwise repeat code */
                         if (symbol >= 17) {
@@ -103,7 +113,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                             lastLen = 0;
                         }
                         else {
-                            if (ptr == 0) { throw new BaseZipException(); }
+                            if (ptr == 0) {
+                                throw new BaseZipException();
+                            }
                         }
                         repSymbol = symbol - 16;
                     }
@@ -113,14 +125,20 @@ namespace IFramework.Core.Zip.Zip.Compression
                         int bits = repBits[repSymbol];
                         int count = input.PeekBits(bits);
 
-                        if (count < 0) { return false; }
+                        if (count < 0) {
+                            return false;
+                        }
                         input.DropBits(bits);
                         count += repMin[repSymbol];
 
                         //  	      System.err.println("litdistLens repeated: "+count);
-                        if (ptr + count > num) { throw new BaseZipException(); }
+                        if (ptr + count > num) {
+                            throw new BaseZipException();
+                        }
 
-                        while (count-- > 0) { litdistLens[ptr++] = lastLen; }
+                        while (count-- > 0) {
+                            litdistLens[ptr++] = lastLen;
+                        }
 
                         if (ptr == num) {
                             /* Finished */
@@ -136,14 +154,24 @@ namespace IFramework.Core.Zip.Zip.Compression
         public InflaterHuffmanTree BuildLitLenTree()
         {
             byte[] litlenLens = new byte[lnum];
-            Array.Copy(litdistLens, 0, litlenLens, 0, lnum);
+
+            Array.Copy(litdistLens,
+                       0,
+                       litlenLens,
+                       0,
+                       lnum);
             return new InflaterHuffmanTree(litlenLens);
         }
 
         public InflaterHuffmanTree BuildDistTree()
         {
             byte[] distLens = new byte[dnum];
-            Array.Copy(litdistLens, lnum, distLens, 0, dnum);
+
+            Array.Copy(litdistLens,
+                       lnum,
+                       distLens,
+                       0,
+                       dnum);
             return new InflaterHuffmanTree(distLens);
         }
 

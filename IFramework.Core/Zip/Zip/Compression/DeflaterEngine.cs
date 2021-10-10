@@ -122,19 +122,29 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="count">The number of bytes of data to use as input.</param>
         public void SetInput(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
 
-            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset)); }
+            if (offset < 0) {
+                throw new ArgumentOutOfRangeException(nameof(offset));
+            }
 
-            if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count)); }
+            if (count < 0) {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
 
-            if (inputOff < inputEnd) { throw new InvalidOperationException("Old input was not completely processed"); }
+            if (inputOff < inputEnd) {
+                throw new InvalidOperationException("Old input was not completely processed");
+            }
             int end = offset + count;
 
             /* We want to throw an ArrayIndexOutOfBoundsException early.  The
             * check is very tricky: it also handles integer wrap around.
             */
-            if (offset > end || end > buffer.Length) { throw new ArgumentOutOfRangeException(nameof(count)); }
+            if (offset > end || end > buffer.Length) {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
             inputBuf = buffer;
             inputOff = offset;
             inputEnd = end;
@@ -165,13 +175,20 @@ namespace IFramework.Core.Zip.Zip.Compression
         #endif
             adler.Update(buffer, offset, length);
 
-            if (length < DeflaterConstants.MIN_MATCH) { return; }
+            if (length < DeflaterConstants.MIN_MATCH) {
+                return;
+            }
 
             if (length > DeflaterConstants.MAX_DIST) {
                 offset += length - DeflaterConstants.MAX_DIST;
                 length = DeflaterConstants.MAX_DIST;
             }
-            Array.Copy(buffer, offset, window, strstart, length);
+
+            Array.Copy(buffer,
+                       offset,
+                       window,
+                       strstart,
+                       length);
             UpdateHash();
             --length;
 
@@ -196,9 +213,13 @@ namespace IFramework.Core.Zip.Zip.Compression
             prevAvailable = false;
             matchLen = DeflaterConstants.MIN_MATCH - 1;
 
-            for (int i = 0; i < DeflaterConstants.HASH_SIZE; i++) { head[i] = 0; }
+            for (int i = 0; i < DeflaterConstants.HASH_SIZE; i++) {
+                head[i] = 0;
+            }
 
-            for (int i = 0; i < DeflaterConstants.WSIZE; i++) { prev[i] = 0; }
+            for (int i = 0; i < DeflaterConstants.WSIZE; i++) {
+                prev[i] = 0;
+            }
         }
 
         /// <summary>
@@ -230,7 +251,9 @@ namespace IFramework.Core.Zip.Zip.Compression
         /// <param name="level">The value to set the level to.</param>
         public void SetLevel(int level)
         {
-            if (level < 0 || level > 9) { throw new ArgumentOutOfRangeException(nameof(level)); }
+            if (level < 0 || level > 9) {
+                throw new ArgumentOutOfRangeException(nameof(level));
+            }
             goodLength = DeflaterConstants.GOOD_LENGTH[level];
             max_lazy = DeflaterConstants.MAX_LAZY[level];
             niceLength = DeflaterConstants.NICE_LENGTH[level];
@@ -258,7 +281,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         }
                         break;
                     case DeflaterConstants.DEFLATE_SLOW:
-                        if (prevAvailable) { huffman.TallyLit(window[strstart - 1] & 0xff); }
+                        if (prevAvailable) {
+                            huffman.TallyLit(window[strstart - 1] & 0xff);
+                        }
 
                         if (strstart > blockStart) {
                             huffman.FlushBlock(window, blockStart, strstart - blockStart, false);
@@ -280,7 +305,9 @@ namespace IFramework.Core.Zip.Zip.Compression
             /* If the window is almost full and there is insufficient lookahead,
              * move the upper half to the lower one to make room in the upper half.
              */
-            if (strstart >= DeflaterConstants.WSIZE + DeflaterConstants.MAX_DIST) { SlideWindow(); }
+            if (strstart >= DeflaterConstants.WSIZE + DeflaterConstants.MAX_DIST) {
+                SlideWindow();
+            }
 
             /* If there is not enough lookahead, but still some input left,
              * read in the input
@@ -288,15 +315,24 @@ namespace IFramework.Core.Zip.Zip.Compression
             if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && inputOff < inputEnd) {
                 int more = 2 * DeflaterConstants.WSIZE - lookahead - strstart;
 
-                if (more > inputEnd - inputOff) { more = inputEnd - inputOff; }
-                Array.Copy(inputBuf, inputOff, window, strstart + lookahead, more);
+                if (more > inputEnd - inputOff) {
+                    more = inputEnd - inputOff;
+                }
+
+                Array.Copy(inputBuf,
+                           inputOff,
+                           window,
+                           strstart + lookahead,
+                           more);
                 adler.Update(inputBuf, inputOff, more);
                 inputOff += more;
                 totalIn += more;
                 lookahead += more;
             }
 
-            if (lookahead >= DeflaterConstants.MIN_MATCH) { UpdateHash(); }
+            if (lookahead >= DeflaterConstants.MIN_MATCH) {
+                UpdateHash();
+            }
         }
 
         private void UpdateHash()
@@ -339,7 +375,11 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         private void SlideWindow()
         {
-            Array.Copy(window, DeflaterConstants.WSIZE, window, 0, DeflaterConstants.WSIZE);
+            Array.Copy(window,
+                       DeflaterConstants.WSIZE,
+                       window,
+                       0,
+                       DeflaterConstants.WSIZE);
             matchStart -= DeflaterConstants.WSIZE;
             strstart -= DeflaterConstants.WSIZE;
             blockStart -= DeflaterConstants.WSIZE;
@@ -392,7 +432,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 match = curMatch;
                 scan = strstart;
 
-                if (window[match + matchLen] != scan_end || window[match + matchLen - 1] != scan_end1 || window[match] != window[scan] || window[++match] != window[++scan]) { continue; }
+                if (window[match + matchLen] != scan_end || window[match + matchLen - 1] != scan_end1 || window[match] != window[scan] || window[++match] != window[++scan]) {
+                    continue;
+                }
 
                 // scan is set to strstart+1 and the comparison passed, so
                 // scanMax - scan is the maximum number of bytes we can compare.
@@ -481,7 +523,9 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         private bool DeflateStored(bool flush, bool finish)
         {
-            if (!flush && lookahead == 0) { return false; }
+            if (!flush && lookahead == 0) {
+                return false;
+            }
             strstart += lookahead;
             lookahead = 0;
             int storedLength = strstart - blockStart;
@@ -512,7 +556,9 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         private bool DeflateFast(bool flush, bool finish)
         {
-            if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) { return false; }
+            if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
+                return false;
+            }
 
             while (lookahead >= DeflaterConstants.MIN_LOOKAHEAD || flush) {
                 if (lookahead == 0) {
@@ -556,11 +602,15 @@ namespace IFramework.Core.Zip.Zip.Compression
                     else {
                         strstart += matchLen;
 
-                        if (lookahead >= DeflaterConstants.MIN_MATCH - 1) { UpdateHash(); }
+                        if (lookahead >= DeflaterConstants.MIN_MATCH - 1) {
+                            UpdateHash();
+                        }
                     }
                     matchLen = DeflaterConstants.MIN_MATCH - 1;
 
-                    if (!full) { continue; }
+                    if (!full) {
+                        continue;
+                    }
                 }
                 else {
                     // No match found
@@ -581,11 +631,15 @@ namespace IFramework.Core.Zip.Zip.Compression
 
         private bool DeflateSlow(bool flush, bool finish)
         {
-            if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) { return false; }
+            if (lookahead < DeflaterConstants.MIN_LOOKAHEAD && !flush) {
+                return false;
+            }
 
             while (lookahead >= DeflaterConstants.MIN_LOOKAHEAD || flush) {
                 if (lookahead == 0) {
-                    if (prevAvailable) { huffman.TallyLit(window[strstart - 1] & 0xff); }
+                    if (prevAvailable) {
+                        huffman.TallyLit(window[strstart - 1] & 0xff);
+                    }
                     prevAvailable = false;
 
                     // We are flushing everything
@@ -617,7 +671,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         // longestMatch sets matchStart and matchLen
 
                         // Discard match if too small and too far away
-                        if (matchLen <= 5 && (Strategy == DeflateStrategy.Filtered || matchLen == DeflaterConstants.MIN_MATCH && strstart - matchStart > TooFar)) { matchLen = DeflaterConstants.MIN_MATCH - 1; }
+                        if (matchLen <= 5 && (Strategy == DeflateStrategy.Filtered || matchLen == DeflaterConstants.MIN_MATCH && strstart - matchStart > TooFar)) {
+                            matchLen = DeflaterConstants.MIN_MATCH - 1;
+                        }
                     }
                 }
 
@@ -639,7 +695,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         strstart++;
                         lookahead--;
 
-                        if (lookahead >= DeflaterConstants.MIN_MATCH) { InsertString(); }
+                        if (lookahead >= DeflaterConstants.MIN_MATCH) {
+                            InsertString();
+                        }
                     } while (--prevLen > 0);
                     strstart++;
                     lookahead--;
@@ -647,7 +705,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                     matchLen = DeflaterConstants.MIN_MATCH - 1;
                 }
                 else {
-                    if (prevAvailable) { huffman.TallyLit(window[strstart - 1] & 0xff); }
+                    if (prevAvailable) {
+                        huffman.TallyLit(window[strstart - 1] & 0xff);
+                    }
                     prevAvailable = true;
                     strstart++;
                     lookahead--;
@@ -656,7 +716,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 if (huffman.IsFull()) {
                     int len = strstart - blockStart;
 
-                    if (prevAvailable) { len--; }
+                    if (prevAvailable) {
+                        len--;
+                    }
                     bool lastBlock = finish && lookahead == 0 && !prevAvailable;
                     huffman.FlushBlock(window, blockStart, len, lastBlock);
                     blockStart += len;

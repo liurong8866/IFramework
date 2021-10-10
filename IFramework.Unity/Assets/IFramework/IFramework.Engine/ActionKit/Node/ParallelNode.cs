@@ -15,7 +15,9 @@ namespace IFramework.Engine
         {
             this.nodes.AddRange(nodes);
 
-            foreach (AbstractAction node in nodes) { node.OnEndEvent += IncreaseFinishCount; }
+            foreach (AbstractAction node in nodes) {
+                node.OnEndEvent += IncreaseFinishCount;
+            }
         }
 
         /// <summary>
@@ -25,7 +27,9 @@ namespace IFramework.Engine
         {
             this.nodes.AddRange(nodes);
 
-            foreach (AbstractAction node in nodes) { node.OnEndEvent += IncreaseFinishCount; }
+            foreach (AbstractAction node in nodes) {
+                node.OnEndEvent += IncreaseFinishCount;
+            }
         }
 
         /// <summary>
@@ -36,7 +40,9 @@ namespace IFramework.Engine
             for (int i = nodes.Count - 1; i >= 0; i--) {
                 AbstractAction node = nodes[i];
 
-                if (!node.Finished && node.Execute()) { Finished = nodes.Count == finishCount; }
+                if (!node.Finished && node.Execute()) {
+                    Finished = nodes.Count == finishCount;
+                }
             }
         }
 
@@ -48,7 +54,9 @@ namespace IFramework.Engine
 
         public override void Finish()
         {
-            for (int i = nodes.Count - 1; i >= 0; i--) { nodes[i].Finish(); }
+            for (int i = nodes.Count - 1; i >= 0; i--) {
+                nodes[i].Finish();
+            }
             base.Finish();
         }
 

@@ -29,7 +29,9 @@ namespace IFramework.Core.Zip.Encryption
             // mode:
             //  CryptoStreamMode.Read means we read from "stream" and pass decrypted to our Read() method.
             //  Write bypasses this stream and uses the Transform directly.
-            if (mode != CryptoStreamMode.Read) { throw new Exception("ZipAESStream only for read"); }
+            if (mode != CryptoStreamMode.Read) {
+                throw new Exception("ZipAESStream only for read");
+            }
         }
 
         // The final n bytes of the AES stream contain the Auth Code.
@@ -67,7 +69,9 @@ namespace IFramework.Core.Zip.Encryption
                     // Shift the data to the beginning of the buffer
                     int iTo = 0;
 
-                    for (int iFrom = slideBufStartPos; iFrom < slideBufFreePos; iFrom++, iTo++) { slideBuffer[iTo] = slideBuffer[iFrom]; }
+                    for (int iFrom = slideBufStartPos; iFrom < slideBufFreePos; iFrom++, iTo++) {
+                        slideBuffer[iTo] = slideBuffer[iFrom];
+                    }
                     slideBufFreePos -= slideBufStartPos; // Note the -=
                     slideBufStartPos = 0;
                 }
@@ -79,7 +83,11 @@ namespace IFramework.Core.Zip.Encryption
 
                 if (byteCount >= blockAndAuth) {
                     // At least a 16 byte block and an auth code remains.
-                    transform.TransformBlock(slideBuffer, slideBufStartPos, CRYPTO_BLOCK_SIZE, buffer, offset);
+                    transform.TransformBlock(slideBuffer,
+                                             slideBufStartPos,
+                                             CRYPTO_BLOCK_SIZE,
+                                             buffer,
+                                             offset);
                     nBytes += CRYPTO_BLOCK_SIZE;
                     offset += CRYPTO_BLOCK_SIZE;
                     slideBufStartPos += CRYPTO_BLOCK_SIZE;
@@ -89,7 +97,12 @@ namespace IFramework.Core.Zip.Encryption
                     if (byteCount > AUTH_CODE_LENGTH) {
                         // At least one byte of data plus auth code
                         int finalBlock = byteCount - AUTH_CODE_LENGTH;
-                        transform.TransformBlock(slideBuffer, slideBufStartPos, finalBlock, buffer, offset);
+
+                        transform.TransformBlock(slideBuffer,
+                                                 slideBufStartPos,
+                                                 finalBlock,
+                                                 buffer,
+                                                 offset);
                         nBytes += finalBlock;
                         slideBufStartPos += finalBlock;
                     }
@@ -99,7 +112,9 @@ namespace IFramework.Core.Zip.Encryption
                     byte[] calcAuthCode = transform.GetAuthCode();
 
                     for (int i = 0; i < AUTH_CODE_LENGTH; i++) {
-                        if (calcAuthCode[i] != slideBuffer[slideBufStartPos + i]) { throw new Exception("AES Authentication Code does not match. This is a super-CRC check on the data in the file after compression and encryption. \r\n" + "The file may be damaged."); }
+                        if (calcAuthCode[i] != slideBuffer[slideBufStartPos + i]) {
+                            throw new Exception("AES Authentication Code does not match. This is a super-CRC check on the data in the file after compression and encryption. \r\n" + "The file may be damaged.");
+                        }
                     }
                     break; // Reached the auth code
                 }

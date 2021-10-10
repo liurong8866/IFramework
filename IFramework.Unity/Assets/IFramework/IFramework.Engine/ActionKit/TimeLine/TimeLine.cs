@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace IFramework.Engine.TimeLine
@@ -16,7 +15,9 @@ namespace IFramework.Engine.TimeLine
 
         public TimeLine(params TimeLinePair[] pairs)
         {
-            foreach (TimeLinePair pair in pairs) { queue.Enqueue(pair); }
+            foreach (TimeLinePair pair in pairs) {
+                queue.Enqueue(pair);
+            }
         }
 
         public void Append(TimeLinePair pair)
@@ -40,7 +41,9 @@ namespace IFramework.Engine.TimeLine
             IEnumerable<TimeLinePair> list = queue.Where(pair => pair.Time < currentTime && !pair.Node.Finished);
 
             foreach (TimeLinePair pair in list) {
-                if (pair.Node.Execute()) { Finished = queue.Count(timelinePair => !timelinePair.Node.Finished) == 0; }
+                if (pair.Node.Execute()) {
+                    Finished = queue.Count(timelinePair => !timelinePair.Node.Finished) == 0;
+                }
             }
         }
 
@@ -48,12 +51,16 @@ namespace IFramework.Engine.TimeLine
         {
             currentTime = 0.0f;
 
-            foreach (TimeLinePair timelinePair in queue) { timelinePair.Node.Reset(); }
+            foreach (TimeLinePair timelinePair in queue) {
+                timelinePair.Node.Reset();
+            }
         }
 
         protected override void OnDispose()
         {
-            foreach (TimeLinePair timelinePair in queue) { timelinePair.Node.Dispose(); }
+            foreach (TimeLinePair timelinePair in queue) {
+                timelinePair.Node.Dispose();
+            }
             queue.Clear();
             queue = null;
         }

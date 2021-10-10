@@ -17,7 +17,9 @@ namespace IFramework.Engine
         {
             AssetBundleName = assetBundleName;
 
-            if (depends.NotEmpty()) { Depends = depends; }
+            if (depends.NotEmpty()) {
+                Depends = depends;
+            }
         }
 
         public override string ToString()
@@ -25,7 +27,9 @@ namespace IFramework.Engine
             string result = "AssetName: " + AssetBundleName;
 
             if (Depends != null) {
-                foreach (string depend in Depends) { result += "#: " + depend; }
+                foreach (string depend in Depends) {
+                    result += "#: " + depend;
+                }
             }
             return result;
         }

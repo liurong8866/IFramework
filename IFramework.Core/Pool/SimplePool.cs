@@ -20,7 +20,9 @@ namespace IFramework.Core
             factory = new CustomFactory<T>(creater);
             this.onRecycle = onRecycle;
 
-            for (int i = 0; i < count; i++) { cache.Push(factory.Create()); }
+            for (int i = 0; i < count; i++) {
+                cache.Push(factory.Create());
+            }
         }
 
         /// <summary>
@@ -30,7 +32,9 @@ namespace IFramework.Core
         {
             onRecycle.InvokeSafe(t);
 
-            if (t != null) { cache.Push(t); }
+            if (t != null) {
+                cache.Push(t);
+            }
             return true;
         }
     }

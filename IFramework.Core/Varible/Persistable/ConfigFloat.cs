@@ -13,7 +13,9 @@ namespace IFramework.Core
 
         public ConfigFloat(string key, float value, bool overwrite) : base(key, value)
         {
-            if (overwrite) { Save(value); }
+            if (overwrite) {
+                Save(value);
+            }
         }
 
         /// <summary>

@@ -17,7 +17,9 @@ namespace IFramework.Core
         /// <returns></returns>
         public static Dictionary<TKey, TValue> Allocate()
         {
-            if (cache.Count == 0) { return new Dictionary<TKey, TValue>(capacity); }
+            if (cache.Count == 0) {
+                return new Dictionary<TKey, TValue>(capacity);
+            }
             return cache.Pop();
         }
 

@@ -23,7 +23,7 @@ namespace IFramework.Core
         /// <typeparam name="TBase">基础类</typeparam>
         /// <typeparam name="TTarget">目标类</typeparam>
         public void Register<TBase, TTarget>(string name = null);
-        
+
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -78,7 +78,7 @@ namespace IFramework.Core
         /// </summary>
         /// <typeparam name="T">基础类</typeparam>
         public void UnRegisterInstance<T>();
-        
+
         /*----------------------------- Resolve -----------------------------*/
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace IFramework.Core
         /// <param name="type">基础类</param>
         /// <returns></returns>
         public IEnumerable<object> ResolveAll(Type type);
-        
+
         /// <summary>
         /// 将注册类型/映射注入对象
         /// </summary>

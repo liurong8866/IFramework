@@ -24,7 +24,6 @@ namespace IFramework.Engine
             if (searcher.GameObjectName.NotEmpty()) {
                 return Get(searcher.GameObjectName);
             }
-            
             return Enumerable.Empty<IPanel>();
         }
     }

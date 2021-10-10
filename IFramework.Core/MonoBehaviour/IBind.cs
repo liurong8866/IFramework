@@ -12,7 +12,7 @@ namespace IFramework.Core
 
         BindType BindType { get; set; }
     }
-    
+
     public enum BindType
     {
         DefaultElement,

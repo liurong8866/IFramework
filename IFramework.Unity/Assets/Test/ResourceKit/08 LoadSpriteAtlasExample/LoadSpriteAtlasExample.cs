@@ -20,7 +20,8 @@ namespace IFramework.Test.AssetResourceKit
      */
     public class LoadSpriteAtlasExample : MonoBehaviour
     {
-        [SerializeField] private Image mImage;
+        [SerializeField]
+        private Image mImage;
 
         private void Awake()
         {

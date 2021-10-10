@@ -81,7 +81,9 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime ToDateTimeBySeconds(this long timestamp)
         {
-            if (timestamp.ToString().Length != 10) { throw new ArgumentException("时间戳长度不正确。"); }
+            if (timestamp.ToString().Length != 10) {
+                throw new ArgumentException("时间戳长度不正确。");
+            }
             return StarTime.AddSeconds(timestamp);
         }
 
@@ -90,7 +92,9 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime ToDateTimeByMilliseconds(this long timestamp)
         {
-            if (timestamp.ToString().Length != 13) { throw new ArgumentException("时间戳长度不正确。"); }
+            if (timestamp.ToString().Length != 13) {
+                throw new ArgumentException("时间戳长度不正确。");
+            }
             return StarTime.AddMilliseconds(timestamp);
         }
 
@@ -177,7 +181,12 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime NoonOfDay(this DateTime date)
         {
-            return new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
+            return new DateTime(date.Year,
+                                date.Month,
+                                date.Day,
+                                12,
+                                0,
+                                0);
         }
 
         /// <summary>
@@ -185,7 +194,13 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime EndTimeOfDay(this DateTime date)
         {
-            return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, 999);
+            return new DateTime(date.Year,
+                                date.Month,
+                                date.Day,
+                                23,
+                                59,
+                                59,
+                                999);
         }
 
         /// <summary>

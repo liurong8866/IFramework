@@ -423,7 +423,9 @@ namespace IFramework.Core
         /// <returns></returns>
         public static Transform FindRecursion(this Transform self, string findName, StringComparison stringComparison = StringComparison.Ordinal)
         {
-            if (self.name.Equals(findName, stringComparison)) { return self; }
+            if (self.name.Equals(findName, stringComparison)) {
+                return self;
+            }
 
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(findName, stringComparison);
@@ -437,12 +439,16 @@ namespace IFramework.Core
         /// </summary>
         public static Transform FindRecursion(this Transform self, Func<Transform, bool> function)
         {
-            if (function(self)) { return self; }
+            if (function(self)) {
+                return self;
+            }
 
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(function);
 
-                if (find) { return find; }
+                if (find) {
+                    return find;
+                }
             }
             return null;
         }
@@ -454,7 +460,9 @@ namespace IFramework.Core
         {
             action(transform);
 
-            foreach (Transform child in transform) { child.ActionRecursion(action); }
+            foreach (Transform child in transform) {
+                child.ActionRecursion(action);
+            }
         }
 
         /// <summary>
@@ -469,8 +477,12 @@ namespace IFramework.Core
                 sb.Insert(0, tran.name);
                 tran = tran.parent;
 
-                if (tran) { sb.Insert(0, "/"); }
-                else { return sb.ToString(); }
+                if (tran) {
+                    sb.Insert(0, "/");
+                }
+                else {
+                    return sb.ToString();
+                }
             }
         }
 
@@ -480,7 +492,9 @@ namespace IFramework.Core
 
         public static void DestroySelf(this Transform self)
         {
-            if (self) { Object.Destroy(self.gameObject); }
+            if (self) {
+                Object.Destroy(self.gameObject);
+            }
         }
 
         /// <summary>
@@ -490,7 +504,9 @@ namespace IFramework.Core
         {
             int childCount = self.childCount;
 
-            for (int i = childCount - 1; i >= 0; i--) { self.transform.GetChild(i).DestroySelf(); }
+            for (int i = childCount - 1; i >= 0; i--) {
+                self.transform.GetChild(i).DestroySelf();
+            }
             return self;
         }
 
@@ -501,7 +517,9 @@ namespace IFramework.Core
         {
             int childCount = self.transform.childCount;
 
-            for (int i = childCount - 1; i >= 0; i--) { self.transform.GetChild(i).DestroySelf(); }
+            for (int i = childCount - 1; i >= 0; i--) {
+                self.transform.GetChild(i).DestroySelf();
+            }
             return self;
         }
     }

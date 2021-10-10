@@ -10,9 +10,9 @@ namespace IFramework.Engine
     }
 
     public class PanelSearcher : IPoolable, IRecyclable
-    { 
+    {
         public Type PanelType;
-        
+
         public string AssetBundleName;
 
         public string GameObjectName;
@@ -43,7 +43,7 @@ namespace IFramework.Engine
 
         public override string ToString()
         {
-            return$"PanelSearchKeys PanelType:{PanelType} "
+            return $"PanelSearchKeys PanelType:{PanelType} "
                   + $"AssetBundleName:{AssetBundleName} "
                   + $"GameObjName:{GameObjectName} "
                   + $"Level:{Level} "

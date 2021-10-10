@@ -61,7 +61,9 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="header">Header details for entry</param>
         public TarEntry(TarHeader header)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
             this.header = (TarHeader)header.Clone();
         }
 
@@ -122,7 +124,9 @@ namespace IFramework.Core.Zip.Tar
         {
             TarEntry localEntry = obj as TarEntry;
 
-            if (localEntry != null) { return Name.Equals(localEntry.Name); }
+            if (localEntry != null) {
+                return Name.Equals(localEntry.Name);
+            }
             return false;
         }
 
@@ -148,7 +152,9 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public bool IsDescendent(TarEntry toTest)
         {
-            if (toTest == null) { throw new ArgumentNullException(nameof(toTest)); }
+            if (toTest == null) {
+                throw new ArgumentNullException(nameof(toTest));
+            }
             return toTest.Name.StartsWith(Name, StringComparison.Ordinal);
         }
 
@@ -241,10 +247,14 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public bool IsDirectory {
             get {
-                if (file != null) { return Directory.Exists(file); }
+                if (file != null) {
+                    return Directory.Exists(file);
+                }
 
                 if (header != null) {
-                    if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) { return true; }
+                    if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) {
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -261,16 +271,22 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void GetFileTarHeader(TarHeader header, string file)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
 
-            if (file == null) { throw new ArgumentNullException(nameof(file)); }
+            if (file == null) {
+                throw new ArgumentNullException(nameof(file));
+            }
             this.file = file;
 
             // bugfix from torhovl from #D forum:
             string name = file;
 
             // 23-Jan-2004 GnuTar allows device names in path where the name is not local to the current directory
-            if (name.IndexOf(Directory.GetCurrentDirectory(), StringComparison.Ordinal) == 0) { name = name.Substring(Directory.GetCurrentDirectory().Length); }
+            if (name.IndexOf(Directory.GetCurrentDirectory(), StringComparison.Ordinal) == 0) {
+                name = name.Substring(Directory.GetCurrentDirectory().Length);
+            }
             /*
                         if (Path.DirectorySeparatorChar == '\\')
                         {
@@ -293,7 +309,9 @@ namespace IFramework.Core.Zip.Tar
             // No absolute pathnames
             // Windows (and Posix?) paths can start with UNC style "\\NetworkDrive\",
             // so we loop on starting /'s.
-            while (name.StartsWith("/", StringComparison.Ordinal)) { name = name.Substring(1); }
+            while (name.StartsWith("/", StringComparison.Ordinal)) {
+                name = name.Substring(1);
+            }
             header.LinkName = string.Empty;
             header.Name = name;
 
@@ -301,7 +319,9 @@ namespace IFramework.Core.Zip.Tar
                 header.Mode = 1003; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_DIR;
 
-                if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') { header.Name = header.Name + "/"; }
+                if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') {
+                    header.Name = header.Name + "/";
+                }
                 header.Size = 0;
             }
             else {
@@ -323,11 +343,15 @@ namespace IFramework.Core.Zip.Tar
         /// </returns>
         public TarEntry[] GetDirectoryEntries()
         {
-            if (file == null || !Directory.Exists(file)) { return new TarEntry[0]; }
+            if (file == null || !Directory.Exists(file)) {
+                return new TarEntry[0];
+            }
             string[] list = Directory.GetFileSystemEntries(file);
             TarEntry[] result = new TarEntry[list.Length];
 
-            for (int i = 0; i < list.Length; ++i) { result[i] = CreateEntryFromFile(list[i]); }
+            for (int i = 0; i < list.Length; ++i) {
+                result[i] = CreateEntryFromFile(list[i]);
+            }
             return result;
         }
 
@@ -368,9 +392,13 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public static void NameTarHeader(TarHeader header, string name)
         {
-            if (header == null) { throw new ArgumentNullException(nameof(header)); }
+            if (header == null) {
+                throw new ArgumentNullException(nameof(header));
+            }
 
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
             bool isDir = name.EndsWith("/", StringComparison.Ordinal);
             header.Name = name;
             header.Mode = isDir ? 1003 : 33216;

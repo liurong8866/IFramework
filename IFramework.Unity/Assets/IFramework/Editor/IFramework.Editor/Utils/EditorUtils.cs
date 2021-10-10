@@ -22,7 +22,9 @@ namespace IFramework.Editor
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
                 path = AssetDatabase.GetAssetPath(obj);
 
-                if (!string.IsNullOrEmpty(path) && File.Exists(path)) { return path; }
+                if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
+                    return path;
+                }
             }
             return path;
         }
@@ -38,7 +40,9 @@ namespace IFramework.Editor
 
             // 循环直到父节点
             while (trans.parent != null) {
-                if (trans.parent.name.Equals(parentName)) { break; }
+                if (trans.parent.name.Equals(parentName)) {
+                    break;
+                }
                 // 组成路径
                 sb.Insert(0, trans.parent.name + "/");
                 // 向上循环
@@ -60,11 +64,12 @@ namespace IFramework.Editor
             return PrefabUtility.CreatePrefab(assetPath, gameObject, ReplacePrefabOptions.ConnectToPrefab);
         #endif
         }
-        
+
         /// <summary>
         /// 标记场景未保存
         /// </summary>
-        public static void MarkCurrentSceneDirty() {
+        public static void MarkCurrentSceneDirty()
+        {
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
@@ -75,7 +80,7 @@ namespace IFramework.Editor
         {
             return SceneManager.GetActiveScene().GetRootGameObjects();
         }
-        
+
         /// <summary>
         /// 判断是否 ViewController
         /// </summary>
@@ -83,22 +88,20 @@ namespace IFramework.Editor
         {
             return component.GetComponent<ViewController>();
         }
-        
+
         /// <summary>
         /// 清空Missing脚本
         /// </summary>
-        public static void ClearMissing(GameObject[] gameObjects, Action<GameObject> onCleared=null)
+        public static void ClearMissing(GameObject[] gameObjects, Action<GameObject> onCleared = null)
         {
             foreach (GameObject go in gameObjects) {
                 // 递归查找所有子节点
-                go.transform.ActionRecursion(trans  => {
-
+                go.transform.ActionRecursion(trans => {
                     // 通过Component组件，找到Missing的组件
                     Component[] components = trans.gameObject.GetComponents<Component>();
 
                     // 创建SerializedObject对象，用于修改Component
                     SerializedObject serializedObject = new SerializedObject(go);
-                    
                     bool hasMiss = false;
 
                     // 循环所有组件

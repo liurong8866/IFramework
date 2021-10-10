@@ -21,7 +21,9 @@ namespace IFramework.Core
             get {
                 if (instance == null) {
                     lock (locker) {
-                        if (instance == null) { instance = SingletonCreator.CreateMonoSingleton<T>(); }
+                        if (instance == null) {
+                            instance = SingletonCreator.CreateMonoSingleton<T>();
+                        }
                     }
                 }
                 return instance;

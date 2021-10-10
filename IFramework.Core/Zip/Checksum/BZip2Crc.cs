@@ -118,7 +118,9 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name="buffer">Contains the data to update the CRC with.</param>
         public void Update(byte[] buffer)
         {
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
             Update(buffer, 0, buffer.Length);
         }
 
@@ -130,17 +132,29 @@ namespace IFramework.Core.Zip.Checksum
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
         public void Update(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
 
-            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), "cannot be less than zero"); }
+            if (offset < 0) {
+                throw new ArgumentOutOfRangeException(nameof(offset), "cannot be less than zero");
+            }
 
-            if (offset >= buffer.Length) { throw new ArgumentOutOfRangeException(nameof(offset), "not a valid index into buffer"); }
+            if (offset >= buffer.Length) {
+                throw new ArgumentOutOfRangeException(nameof(offset), "not a valid index into buffer");
+            }
 
-            if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count), "cannot be less than zero"); }
+            if (count < 0) {
+                throw new ArgumentOutOfRangeException(nameof(count), "cannot be less than zero");
+            }
 
-            if (offset + count > buffer.Length) { throw new ArgumentOutOfRangeException(nameof(count), "exceeds buffer size"); }
+            if (offset + count > buffer.Length) {
+                throw new ArgumentOutOfRangeException(nameof(count), "exceeds buffer size");
+            }
 
-            for (int i = 0; i < count; ++i) { Update(buffer[offset++]); }
+            for (int i = 0; i < count; ++i) {
+                Update(buffer[offset++]);
+            }
         }
     }
 }

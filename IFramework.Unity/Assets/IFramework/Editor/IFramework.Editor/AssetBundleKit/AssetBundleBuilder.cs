@@ -20,7 +20,9 @@ namespace IFramework.Editor
             BuildAssetBundles(Platform.CurrentBuildPlatform);
 
             // 自动生成包名常量
-            if (Configure.AutoGenerateName) { AssetBundleScript.GenerateConstScript(); }
+            if (Configure.AutoGenerateName) {
+                AssetBundleScript.GenerateConstScript();
+            }
         }
 
         /// <summary>
@@ -56,7 +58,12 @@ namespace IFramework.Editor
                 Build(path, subPackage, buildTarget);
             }
             AssetDatabase.Refresh();
-            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒", platformName, 1, subPackages.Count, (DateTime.Now - start).TotalSeconds);
+
+            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒",
+                     platformName,
+                     1,
+                     subPackages.Count,
+                     (DateTime.Now - start).TotalSeconds);
         }
 
         /// <summary>

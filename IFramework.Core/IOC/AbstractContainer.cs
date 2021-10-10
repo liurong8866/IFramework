@@ -6,13 +6,13 @@ using System.Reflection;
 namespace IFramework.Core
 {
     public abstract class AbstractContainer : IContainer
-    {   
+    {
         protected TypeMapping Mappings { get; set; } = new TypeMapping();
-        
+
         protected TypeInstanceMapping Instances { get; set; } = new TypeInstanceMapping();
-        
+
         /*----------------------------- Register -----------------------------*/
-        
+
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -21,7 +21,7 @@ namespace IFramework.Core
         {
             Mappings[typeof(T), name] = typeof(T);
         }
-        
+
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -32,7 +32,7 @@ namespace IFramework.Core
         {
             Mappings[typeof(TBase), name] = typeof(TTarget);
         }
-        
+
         /// <summary>
         /// 注册类型
         /// </summary>
@@ -133,7 +133,7 @@ namespace IFramework.Core
         public T Resolve<T>(string name = null, bool require = false, params object[] args) where T : class
         {
             // 如果实例存在，则它将返回该实例，否则它将基于映射创建一个新的实例。
-            return(T)Resolve(typeof(T), name, require, args);
+            return (T)Resolve(typeof(T), name, require, args);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace IFramework.Core
         public IEnumerable<T> ResolveAll<T>()
         {
             foreach (object obj in ResolveAll(typeof(T))) {
-                yield return(T)obj;
+                yield return (T)obj;
             }
         }
 
@@ -268,7 +268,7 @@ namespace IFramework.Core
 
             // 通过反射，从类型获取所有成员
             IEnumerable<MemberInfo> members = obj.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-            
+
             // 遍历所有方法
             foreach (MemberInfo memberInfo in members) {
                 // 找到属性

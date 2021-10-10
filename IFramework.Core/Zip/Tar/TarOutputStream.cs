@@ -26,7 +26,9 @@ namespace IFramework.Core.Zip.Tar
         /// <param name="blockFactor">blocking factor</param>
         public TarOutputStream(Stream outputStream, int blockFactor)
         {
-            if (outputStream == null) { throw new ArgumentNullException(nameof(outputStream)); }
+            if (outputStream == null) {
+                throw new ArgumentNullException(nameof(outputStream));
+            }
             this.outputStream = outputStream;
             buffer = TarBuffer.CreateOutputTarBuffer(outputStream, blockFactor);
             assemblyBuffer = new byte[TarBuffer.BLOCK_SIZE];
@@ -126,7 +128,9 @@ namespace IFramework.Core.Zip.Tar
         /// </summary>
         public void Finish()
         {
-            if (IsEntryOpen) { CloseEntry(); }
+            if (IsEntryOpen) {
+                CloseEntry();
+            }
             WriteEofBlock();
         }
 
@@ -180,7 +184,9 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public void PutNextEntry(TarEntry entry)
         {
-            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
+            if (entry == null) {
+                throw new ArgumentNullException(nameof(entry));
+            }
 
             if (entry.TarHeader.Name.Length > TarHeader.NAMELEN) {
                 TarHeader longHeader = new TarHeader();
@@ -199,7 +205,12 @@ namespace IFramework.Core.Zip.Tar
 
                 while (nameCharIndex < entry.TarHeader.Name.Length + 1 /* we've allocated one for the null char, now we must make sure it gets written out */) {
                     Array.Clear(blockBuffer, 0, blockBuffer.Length);
-                    TarHeader.GetAsciiBytes(entry.TarHeader.Name, nameCharIndex, blockBuffer, 0, TarBuffer.BLOCK_SIZE); // This func handles OK the extra char out of string length
+
+                    TarHeader.GetAsciiBytes(entry.TarHeader.Name,
+                                            nameCharIndex,
+                                            blockBuffer,
+                                            0,
+                                            TarBuffer.BLOCK_SIZE); // This func handles OK the extra char out of string length
                     nameCharIndex += TarBuffer.BLOCK_SIZE;
                     buffer.WriteBlock(blockBuffer);
                 }
@@ -266,13 +277,21 @@ namespace IFramework.Core.Zip.Tar
         /// </param>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (buffer == null) { throw new ArgumentNullException(nameof(buffer)); }
+            if (buffer == null) {
+                throw new ArgumentNullException(nameof(buffer));
+            }
 
-            if (offset < 0) { throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative"); }
+            if (offset < 0) {
+                throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
+            }
 
-            if (buffer.Length - offset < count) { throw new ArgumentException("offset and count combination is invalid"); }
+            if (buffer.Length - offset < count) {
+                throw new ArgumentException("offset and count combination is invalid");
+            }
 
-            if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative"); }
+            if (count < 0) {
+                throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
+            }
 
             if (currBytes + count > currSize) {
                 string errorText = string.Format("request to write '{0}' bytes exceeds size in header of '{1}' bytes", count, currSize);
@@ -289,8 +308,18 @@ namespace IFramework.Core.Zip.Tar
             if (assemblyBufferLength > 0) {
                 if (assemblyBufferLength + count >= blockBuffer.Length) {
                     int aLen = blockBuffer.Length - assemblyBufferLength;
-                    Array.Copy(assemblyBuffer, 0, blockBuffer, 0, assemblyBufferLength);
-                    Array.Copy(buffer, offset, blockBuffer, assemblyBufferLength, aLen);
+
+                    Array.Copy(assemblyBuffer,
+                               0,
+                               blockBuffer,
+                               0,
+                               assemblyBufferLength);
+
+                    Array.Copy(buffer,
+                               offset,
+                               blockBuffer,
+                               assemblyBufferLength,
+                               aLen);
                     this.buffer.WriteBlock(blockBuffer);
                     currBytes += blockBuffer.Length;
                     offset += aLen;
@@ -298,7 +327,11 @@ namespace IFramework.Core.Zip.Tar
                     assemblyBufferLength = 0;
                 }
                 else {
-                    Array.Copy(buffer, offset, assemblyBuffer, assemblyBufferLength, count);
+                    Array.Copy(buffer,
+                               offset,
+                               assemblyBuffer,
+                               assemblyBufferLength,
+                               count);
                     offset += count;
                     assemblyBufferLength += count;
                     count -= count;
@@ -312,7 +345,11 @@ namespace IFramework.Core.Zip.Tar
             //
             while (count > 0) {
                 if (count < blockBuffer.Length) {
-                    Array.Copy(buffer, offset, assemblyBuffer, assemblyBufferLength, count);
+                    Array.Copy(buffer,
+                               offset,
+                               assemblyBuffer,
+                               assemblyBufferLength,
+                               count);
                     assemblyBufferLength += count;
                     break;
                 }

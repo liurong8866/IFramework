@@ -89,7 +89,9 @@ namespace IFramework.Engine
                 yield break;
             }
 
-            if (Platform.IsSimulation) { yield return null; }
+            if (Platform.IsSimulation) {
+                yield return null;
+            }
             else {
                 string url = Platform.GetUrlByAssetBundleName(assetName);
 
@@ -144,7 +146,9 @@ namespace IFramework.Engine
         public override bool UnloadImage {
             get => unloadFlag;
             set {
-                if (AssetBundle != null) { unloadFlag = value; }
+                if (AssetBundle != null) {
+                    unloadFlag = value;
+                }
             }
         }
 

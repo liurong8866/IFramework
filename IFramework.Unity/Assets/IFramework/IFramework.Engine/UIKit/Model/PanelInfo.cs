@@ -22,12 +22,12 @@ namespace IFramework.Engine
         /// 面板类型
         /// </summary>
         public Type PanelType;
-        
+
         /// <summary>
         /// 游戏对象名称
         /// </summary>
         public string GameObjectName;
-        
+
         /// <summary>
         /// AssetBundle名称
         /// </summary>
@@ -41,7 +41,8 @@ namespace IFramework.Engine
         /// <param name="data">面板数据</param>
         /// <param name="panelType">面板类型</param>
         /// <param name="assetBundleName">AssetBundle资源名称</param>
-        public static PanelInfo Allocate(string gameObjectName, UILevel level, IData data, Type panelType, string assetBundleName) {
+        public static PanelInfo Allocate(string gameObjectName, UILevel level, IData data, Type panelType, string assetBundleName)
+        {
             PanelInfo panelInfo = ObjectPool<PanelInfo>.Instance.Allocate();
             panelInfo.GameObjectName = gameObjectName;
             panelInfo.Level = level;
@@ -50,7 +51,7 @@ namespace IFramework.Engine
             panelInfo.AssetBundleName = assetBundleName;
             return panelInfo;
         }
-        
+
         public void OnRecycled()
         {
             Data = null;

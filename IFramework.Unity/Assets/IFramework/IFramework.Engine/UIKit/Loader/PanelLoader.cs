@@ -5,8 +5,8 @@ namespace IFramework.Engine
 {
     public class PanelLoader : IPanelLoader
     {
-        ResourceLoader loader = ResourceLoader.Allocate();
-        
+        private ResourceLoader loader = ResourceLoader.Allocate();
+
         public GameObject Load(PanelSearcher searcher)
         {
             if (searcher.PanelType.NotEmpty() && searcher.GameObjectName.Nothing()) {

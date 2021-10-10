@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Threading;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
@@ -9,7 +6,7 @@ namespace IFramework.Test.ActionKit
 {
     public class UntilActionTest : MonoBehaviour
     {
-        private int currentTime = 0;
+        private int currentTime;
         private UntilAction untilAction;
 
         private void Awake()

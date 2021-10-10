@@ -85,7 +85,9 @@ namespace IFramework.Core
             if (gameObject == null) {
                 gameObject = new GameObject(typeof(T).Name + "[Singleton]");
 
-                if (dontDestroy) { Object.DontDestroyOnLoad(gameObject); }
+                if (dontDestroy) {
+                    Object.DontDestroyOnLoad(gameObject);
+                }
             }
 
             // 附加组件并返回
@@ -106,7 +108,11 @@ namespace IFramework.Core
             string[] subPath = path.Split('/');
             if (subPath != null && subPath.Length == 0) return null;
 
-            return FindGameObject(null, subPath, 0, true, dontDestroy);
+            return FindGameObject(null,
+                                  subPath,
+                                  0,
+                                  true,
+                                  dontDestroy);
         }
 
         /// <summary>
@@ -127,13 +133,17 @@ namespace IFramework.Core
                 client = GameObject.Find(subPath[index]);
 
                 // 在根节点标记 DontDestroy 标记
-                if (client != null && dontDestroy) { Object.DontDestroyOnLoad(client); }
+                if (client != null && dontDestroy) {
+                    Object.DontDestroyOnLoad(client);
+                }
             }
             // 如果是二级、三级等子路径，则在父路径下查找
             else {
                 Transform childe = root.transform.Find(subPath[index]);
 
-                if (childe != null) { client = childe.gameObject; }
+                if (childe != null) {
+                    client = childe.gameObject;
+                }
             }
 
             // 如果未找到节点，并且系统需要自动创建，则自动创建该节点
@@ -142,18 +152,28 @@ namespace IFramework.Core
                     client = new GameObject(subPath[index]);
 
                     // 如果是二级路径，则把创建好等节点添加到其父节点上，也就是逐层创建GameObject
-                    if (root != null) { client.transform.SetParent(root.transform); }
+                    if (root != null) {
+                        client.transform.SetParent(root.transform);
+                    }
 
                     // 在根节点标记 DontDestroy 标记
-                    if (dontDestroy && index == 0) { Object.DontDestroyOnLoad(client); }
+                    if (dontDestroy && index == 0) {
+                        Object.DontDestroyOnLoad(client);
+                    }
                 }
             }
 
             // 如果client为空，或者已到达数组末尾，则返回
-            if (client == null || index == subPath.Length - 1) { return client; }
+            if (client == null || index == subPath.Length - 1) {
+                return client;
+            }
 
             // 递归调用，当前节点作为父节点，查询
-            return FindGameObject(client, subPath, ++index, build, dontDestroy);
+            return FindGameObject(client,
+                                  subPath,
+                                  ++index,
+                                  build,
+                                  dontDestroy);
         }
     }
 }

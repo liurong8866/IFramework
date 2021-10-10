@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
@@ -9,12 +7,12 @@ namespace IFramework.Test.ActionKit
     public class RepeatNodeActionTest : MonoBehaviour
     {
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             ParallelNodeTest();
         }
 
-        void ParallelNodeTest()
+        private void ParallelNodeTest()
         {
             ParallelNode parallelNode = new ParallelNode();
             parallelNode.Append(DelayAction.Allocate(2, () => Log.Info("hello")));
@@ -27,7 +25,7 @@ namespace IFramework.Test.ActionKit
             // parallelNode.Execute(this);
         }
 
-        void RepeatNodeTest()
+        private void RepeatNodeTest()
         {
             RepeatNode repeatNode = new RepeatNode(DelayAction.Allocate(2, () => Log.Info("hello")), 2);
             repeatNode.Execute(this);

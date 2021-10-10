@@ -33,9 +33,13 @@ namespace IFramework.Editor
                         string[] result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
 
                         return result.Select(assetName => {
-                                    if (AssetBundleMark.CheckMarked(assetName)) { return assetName; }
+                                    if (AssetBundleMark.CheckMarked(assetName)) {
+                                        return assetName;
+                                    }
 
-                                    if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) { return Path.GetDirectoryName(assetName); }
+                                    if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
+                                        return Path.GetDirectoryName(assetName);
+                                    }
                                     return null;
                                 })
                                .Where(assetName => assetName != null)
@@ -57,7 +61,9 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.TextField("PersistentPath:", Application.persistentDataPath);
 
-            if (GUILayout.Button("打开目录", GUILayout.Width(100))) { EditorUtility.RevealInFinder(Application.persistentDataPath); }
+            if (GUILayout.Button("打开目录", GUILayout.Width(100))) {
+                EditorUtility.RevealInFinder(Application.persistentDataPath);
+            }
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(10);
 
@@ -75,12 +81,18 @@ namespace IFramework.Editor
             // 操作按钮
             GUILayout.Space(10);
 
-            if (GUILayout.Button("生成 AB 包")) { AssetBundleBuilder.BuildAssetBundles(); }
+            if (GUILayout.Button("生成 AB 包")) {
+                AssetBundleBuilder.BuildAssetBundles();
+            }
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("生成 AB 常量")) { AssetBundleScript.GenerateConstScript(); }
+            if (GUILayout.Button("生成 AB 常量")) {
+                AssetBundleScript.GenerateConstScript();
+            }
 
-            if (GUILayout.Button("清空已生成的 AB 包")) { AssetBundleBuilder.ForceClearAssetBundles(); }
+            if (GUILayout.Button("清空已生成的 AB 包")) {
+                AssetBundleBuilder.ForceClearAssetBundles();
+            }
             GUILayout.EndHorizontal();
 
             // 标记的资源
@@ -91,9 +103,13 @@ namespace IFramework.Editor
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(assetsName);
 
-                if (GUILayout.Button("选中", GUILayout.Width(60))) { Selection.objects = new[] { AssetDatabase.LoadAssetAtPath<Object>(assetsName) }; }
+                if (GUILayout.Button("选中", GUILayout.Width(60))) {
+                    Selection.objects = new[] { AssetDatabase.LoadAssetAtPath<Object>(assetsName) };
+                }
 
-                if (GUILayout.Button("取消标记", GUILayout.Width(60))) { AssetBundleMark.MarkAssetBundle(assetsName); }
+                if (GUILayout.Button("取消标记", GUILayout.Width(60))) {
+                    AssetBundleMark.MarkAssetBundle(assetsName);
+                }
                 GUILayout.EndHorizontal();
             }
             EditorGUILayout.EndScrollView();

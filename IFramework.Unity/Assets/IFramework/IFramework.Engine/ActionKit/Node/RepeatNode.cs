@@ -6,7 +6,7 @@ namespace IFramework.Engine
 
         public int RepeatCount { get; set; }
 
-        private int currentRepeatCount = 0;
+        private int currentRepeatCount;
 
         public RepeatNode(IAction node, int repeatCount = -1)
         {
@@ -27,7 +27,9 @@ namespace IFramework.Engine
         protected override void OnExecute()
         {
             if (RepeatCount == -1) {
-                if (node.Execute()) { node.Reset(); }
+                if (node.Execute()) {
+                    node.Reset();
+                }
                 return;
             }
 
@@ -36,7 +38,9 @@ namespace IFramework.Engine
                 currentRepeatCount++;
             }
 
-            if (currentRepeatCount == RepeatCount) { Finished = true; }
+            if (currentRepeatCount == RepeatCount) {
+                Finished = true;
+            }
         }
 
         protected override void OnReset()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -26,7 +25,7 @@ namespace IFramework.Core
         /// <summary>
         /// 等同于Awake，如果需要，请在这里注册IOC
         /// </summary>
-        protected virtual void Init(){}
+        protected virtual void Init() { }
 
         /// <summary>
         /// 只销毁对象，不销毁IocContainer

@@ -19,7 +19,9 @@ namespace IFramework.Core
         /// </summary>
         public static List<T> Allocate()
         {
-            if (cache.Count == 0) { return new List<T>(capacity); }
+            if (cache.Count == 0) {
+                return new List<T>(capacity);
+            }
             return cache.Pop();
         }
 

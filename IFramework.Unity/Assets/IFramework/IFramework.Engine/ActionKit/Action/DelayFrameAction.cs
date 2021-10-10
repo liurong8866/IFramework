@@ -11,7 +11,8 @@ namespace IFramework.Engine
     public class DelayFrameAction : AbstractAction, IPoolable
     {
         // 延迟帧数
-        [SerializeField] public int FrameCount;
+        [SerializeField]
+        public int FrameCount;
         // 延迟事件
         private Action action;
         // 帧数计数器
@@ -45,7 +46,9 @@ namespace IFramework.Engine
         {
             Finished = Time.frameCount - startFrame >= FrameCount;
 
-            if (Finished) { action.InvokeSafe(); }
+            if (Finished) {
+                action.InvokeSafe();
+            }
         }
 
         protected override void OnReset()

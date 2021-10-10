@@ -12,10 +12,14 @@ namespace IFramework.Engine
             List<IResource> resources = Get(assetName.ToLowerInvariant());
 
             // 过滤资源类型
-            if (searcher.AssetType != null) { resources = resources.Where(res => res.AssetType == searcher.AssetType).ToList(); }
+            if (searcher.AssetType != null) {
+                resources = resources.Where(res => res.AssetType == searcher.AssetType).ToList();
+            }
 
             // 过滤AssetBundle
-            if (searcher.AssetBundleName != null) { resources = resources.Where(res => res.AssetBundleName == searcher.AssetBundleName).ToList(); }
+            if (searcher.AssetBundleName != null) {
+                resources = resources.Where(res => res.AssetBundleName == searcher.AssetBundleName).ToList();
+            }
             return resources.FirstOrDefault();
         }
     }

@@ -52,13 +52,17 @@ namespace IFramework.Core
 
         public static GameObject Show(this GameObject self)
         {
-            if (self) { self.SetActive(true); }
+            if (self) {
+                self.SetActive(true);
+            }
             return self;
         }
 
         public static GameObject Hide(this GameObject self)
         {
-            if (self) { self.SetActive(false); }
+            if (self) {
+                self.SetActive(false);
+            }
             return self;
         }
 
@@ -104,17 +108,23 @@ namespace IFramework.Core
 
         public static void DestroyGameObject<T>(this T self) where T : Component
         {
-            if (self && self.gameObject) { self.gameObject.DestroySelf(); }
+            if (self && self.gameObject) {
+                self.gameObject.DestroySelf();
+            }
         }
 
         public static void DestroyGameObjectImmediate<T>(this T self) where T : Component
         {
-            if (self && self.gameObject) { self.gameObject.DestroySelfImmediate(); }
+            if (self && self.gameObject) {
+                self.gameObject.DestroySelfImmediate();
+            }
         }
 
         public static T DestroyGameObjectDelay<T>(this T self, float delay) where T : Component
         {
-            if (self && self.gameObject) { self.gameObject.DestroySelfDelay(delay); }
+            if (self && self.gameObject) {
+                self.gameObject.DestroySelfDelay(delay);
+            }
             return self;
         }
 

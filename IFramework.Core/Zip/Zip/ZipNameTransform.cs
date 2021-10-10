@@ -38,12 +38,22 @@ namespace IFramework.Core.Zip.Zip
             invalidPathChars = Path.GetInvalidPathChars();
             int howMany = invalidPathChars.Length + 2;
             invalidEntryCharsRelaxed = new char[howMany];
-            Array.Copy(invalidPathChars, 0, invalidEntryCharsRelaxed, 0, invalidPathChars.Length);
+
+            Array.Copy(invalidPathChars,
+                       0,
+                       invalidEntryCharsRelaxed,
+                       0,
+                       invalidPathChars.Length);
             invalidEntryCharsRelaxed[howMany - 1] = '*';
             invalidEntryCharsRelaxed[howMany - 2] = '?';
             howMany = invalidPathChars.Length + 4;
             invalidEntryChars = new char[howMany];
-            Array.Copy(invalidPathChars, 0, invalidEntryChars, 0, invalidPathChars.Length);
+
+            Array.Copy(invalidPathChars,
+                       0,
+                       invalidEntryChars,
+                       0,
+                       invalidPathChars.Length);
             invalidEntryChars[howMany - 1] = ':';
             invalidEntryChars[howMany - 2] = '\\';
             invalidEntryChars[howMany - 3] = '*';
@@ -60,9 +70,13 @@ namespace IFramework.Core.Zip.Zip
             name = TransformFile(name);
 
             if (name.Length > 0) {
-                if (!name.EndsWith("/", StringComparison.Ordinal)) { name += "/"; }
+                if (!name.EndsWith("/", StringComparison.Ordinal)) {
+                    name += "/";
+                }
             }
-            else { throw new ZipException("Cannot have an empty directory name"); }
+            else {
+                throw new ZipException("Cannot have an empty directory name");
+            }
             return name;
         }
 
@@ -76,15 +90,21 @@ namespace IFramework.Core.Zip.Zip
             if (name != null) {
                 string lowerName = name.ToLowerInvariant();
 
-                if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) { name = name.Substring(trimPrefix.Length); }
+                if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) {
+                    name = name.Substring(trimPrefix.Length);
+                }
                 name = name.Replace(@"\", "/");
                 name = WindowsPathUtils.DropPathRoot(name);
 
                 // Drop any leading slashes.
-                while (name.Length > 0 && name[0] == '/') { name = name.Remove(0, 1); }
+                while (name.Length > 0 && name[0] == '/') {
+                    name = name.Remove(0, 1);
+                }
 
                 // Drop any trailing slashes.
-                while (name.Length > 0 && name[name.Length - 1] == '/') { name = name.Remove(name.Length - 1, 1); }
+                while (name.Length > 0 && name[name.Length - 1] == '/') {
+                    name = name.Remove(name.Length - 1, 1);
+                }
 
                 // Convert consecutive // characters to /
                 int index = name.IndexOf("//", StringComparison.Ordinal);
@@ -95,7 +115,9 @@ namespace IFramework.Core.Zip.Zip
                 }
                 name = MakeValidName(name, '_');
             }
-            else { name = string.Empty; }
+            else {
+                name = string.Empty;
+            }
             return name;
         }
 
@@ -109,7 +131,9 @@ namespace IFramework.Core.Zip.Zip
             set {
                 trimPrefix = value;
 
-                if (trimPrefix != null) { trimPrefix = trimPrefix.ToLowerInvariant(); }
+                if (trimPrefix != null) {
+                    trimPrefix = trimPrefix.ToLowerInvariant();
+                }
             }
         }
 
@@ -129,13 +153,19 @@ namespace IFramework.Core.Zip.Zip
                 while (index >= 0) {
                     builder[index] = replacement;
 
-                    if (index >= name.Length) { index = -1; }
-                    else { index = name.IndexOfAny(invalidEntryChars, index + 1); }
+                    if (index >= name.Length) {
+                        index = -1;
+                    }
+                    else {
+                        index = name.IndexOfAny(invalidEntryChars, index + 1);
+                    }
                 }
                 name = builder.ToString();
             }
 
-            if (name.Length > 0xffff) { throw new PathTooLongException(); }
+            if (name.Length > 0xffff) {
+                throw new PathTooLongException();
+            }
             return name;
         }
 
@@ -156,8 +186,12 @@ namespace IFramework.Core.Zip.Zip
             bool result = name != null;
 
             if (result) {
-                if (relaxed) { result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0; }
-                else { result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0; }
+                if (relaxed) {
+                    result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;
+                }
+                else {
+                    result = name.IndexOfAny(invalidEntryChars) < 0 && name.IndexOf('/') != 0;
+                }
             }
             return result;
         }

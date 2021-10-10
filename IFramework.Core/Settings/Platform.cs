@@ -217,7 +217,9 @@ namespace IFramework.Core
                 int length = path.LastIndexOf(".", StringComparison.Ordinal) - startIndex;
 
                 // 如果. 在 / 前面，说明不是后缀扩展名，不处理
-                if (length >= 0) { return path.Substring(startIndex, length); }
+                if (length >= 0) {
+                    return path.Substring(startIndex, length);
+                }
             }
             return path.Substring(startIndex);
         }
@@ -241,7 +243,9 @@ namespace IFramework.Core
         {
             string path = Path.Combine(PersistentData.Root, relativePath);
 
-            if (File.Exists(path)) { return path; }
+            if (File.Exists(path)) {
+                return path;
+            }
             return Path.Combine(StreamingAssets.Root, relativePath);
         }
 

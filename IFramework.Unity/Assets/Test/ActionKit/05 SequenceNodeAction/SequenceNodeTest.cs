@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using IFramework.Core;
 using IFramework.Engine;
 using UnityEngine;
@@ -51,7 +50,7 @@ namespace IFramework.Test.ActionKit
                     })
                    .Begin()
                    .OnDisposed(() => { Log.Info("Sequence1 destroyed"); });
-            var sequenceNode2 = new SequenceNode(DelayAction.Allocate(1.5f));
+            SequenceNode sequenceNode2 = new SequenceNode(DelayAction.Allocate(1.5f));
             sequenceNode2.Append(EventAction.Allocate(() => Log.Info("Sequence2 延时 1.5s")));
             sequenceNode2.Append(DelayAction.Allocate(0.5f));
             sequenceNode2.Append(EventAction.Allocate(() => Log.Info("Sequence2 延时 2.0s")));

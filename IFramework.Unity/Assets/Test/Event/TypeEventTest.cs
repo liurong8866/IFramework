@@ -14,13 +14,12 @@ namespace IFramework.Test.Event
             // 
             TypeEvent.Send<GameStartEvent>();
             TypeEvent.Send<GameOverEvent>();
-
             TypeEvent.Send<GameStartEvent>();
-            
+
             // 要把事件发送给父类
             TypeEvent.Send<ISkillEvent>(new PlayerSkillAEvent());
             TypeEvent.Send<ISkillEvent>(new PlayerSkillBEvent());
-            
+
             TypeEvent.Send(new GameOverEvent {
                 score = 100
             });
@@ -43,8 +42,12 @@ namespace IFramework.Test.Event
 
         private void OnSkillEvent(ISkillEvent skillEvent)
         {
-            if (skillEvent is PlayerSkillAEvent) { Debug.Log("A 技能释放"); }
-            else if (skillEvent is PlayerSkillBEvent) { Debug.Log("B 技能释放"); }
+            if (skillEvent is PlayerSkillAEvent) {
+                Debug.Log("A 技能释放");
+            }
+            else if (skillEvent is PlayerSkillBEvent) {
+                Debug.Log("B 技能释放");
+            }
         }
 
         private void OnDestroy()

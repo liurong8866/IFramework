@@ -12,14 +12,14 @@ namespace IFramework.Test
             A.Instance.PrintA();
         }
     }
-    
-    
+
     public class A : IocSingleton<A>
     {
-        [Autowired] private B b = null;
+        [Autowired]
+        private readonly B b = null;
 
-        protected A(){}
-        
+        protected A() { }
+
         [Test]
         public void PrintA()
         {
@@ -29,7 +29,7 @@ namespace IFramework.Test
 
         public override void Init()
         {
-            RegisterInstance<B>(new B());
+            RegisterInstance(new B());
         }
     }
 
@@ -39,7 +39,7 @@ namespace IFramework.Test
         {
             Console.Out.WriteLine("B - Print 1");
         }
-        
+
         public void Print2()
         {
             Console.Out.WriteLine("B - Print 2");

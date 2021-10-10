@@ -6,7 +6,9 @@ namespace IFramework.Engine
         {
             AssetInfo assetInfo = AssetBundleConfig.ConfigFile.GetAssetInfo(searcher);
 
-            if (assetInfo != null) { return assetInfo.AssetType == ResourceLoadType.ASSET_BUNDLE_ASSET; }
+            if (assetInfo != null) {
+                return assetInfo.AssetType == ResourceLoadType.ASSET_BUNDLE_ASSET;
+            }
 
             // TODO
             // foreach (var subProjectAssetBundleConfigFile in AssetBundleSettings.SubProjectAssetBundleConfigFiles)

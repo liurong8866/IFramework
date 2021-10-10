@@ -121,7 +121,11 @@ namespace IFramework.Core.Zip.Zip.Compression
 				throw new BaseZipException("Debug check: start != 0");
 			}
         #endif
-            Array.Copy(block, offset, buffer, end, length);
+            Array.Copy(block,
+                       offset,
+                       buffer,
+                       end,
+                       length);
             end += length;
         }
 
@@ -144,7 +148,9 @@ namespace IFramework.Core.Zip.Zip.Compression
             if (BitCount > 0) {
                 buffer[end++] = unchecked((byte)bits);
 
-                if (BitCount > 8) { buffer[end++] = unchecked((byte)(bits >> 8)); }
+                if (BitCount > 8) {
+                    buffer[end++] = unchecked((byte)(bits >> 8));
+                }
             }
             bits = 0;
             BitCount = 0;
@@ -217,12 +223,21 @@ namespace IFramework.Core.Zip.Zip.Compression
 
             if (length > end - start) {
                 length = end - start;
-                Array.Copy(buffer, start, output, offset, length);
+
+                Array.Copy(buffer,
+                           start,
+                           output,
+                           offset,
+                           length);
                 start = 0;
                 end = 0;
             }
             else {
-                Array.Copy(buffer, start, output, offset, length);
+                Array.Copy(buffer,
+                           start,
+                           output,
+                           offset,
+                           length);
                 start += length;
             }
             return length;
@@ -239,7 +254,12 @@ namespace IFramework.Core.Zip.Zip.Compression
         {
             AlignToByte();
             byte[] result = new byte[end - start];
-            Array.Copy(buffer, start, result, 0, result.Length);
+
+            Array.Copy(buffer,
+                       start,
+                       result,
+                       0,
+                       result.Length);
             start = 0;
             end = 0;
             return result;

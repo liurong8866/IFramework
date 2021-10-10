@@ -72,7 +72,9 @@ namespace IFramework.Core
             // 读取数据的实际长度
             int count = 0;
 
-            while ((count = fileStream.Read(buffer, 0, size)) != 0) { sb.Append(Encoding.UTF8.GetString(buffer, 0, count)); }
+            while ((count = fileStream.Read(buffer, 0, size)) != 0) {
+                sb.Append(Encoding.UTF8.GetString(buffer, 0, count));
+            }
             return sb.ToString();
         }
 
@@ -89,7 +91,12 @@ namespace IFramework.Core
             // 读取数据的实际长度
             int count = 0;
 
-            while ((count = Encoding.UTF8.GetBytes(content, 0, size, buffer, 1)) != 0) {
+            while ((count = Encoding.UTF8.GetBytes(content,
+                                                   0,
+                                                   size,
+                                                   buffer,
+                                                   1))
+                 != 0) {
                 fileStream.Write(buffer, 0, count);
                 fileStream.Flush();
             }

@@ -19,7 +19,9 @@ namespace IFramework.Core
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (Assembly a in assemblies) {
-                if (a.FullName.StartsWith("Assembly-CSharp,")) { return a; }
+                if (a.FullName.StartsWith("Assembly-CSharp,")) {
+                    return a;
+                }
             }
 
             //            Log.E(">>>>>>>Error: Can\'t find Assembly-CSharp.dll");
@@ -31,7 +33,9 @@ namespace IFramework.Core
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (Assembly a in assemblies) {
-                if (a.FullName.StartsWith("Assembly-CSharp-Editor,")) { return a; }
+                if (a.FullName.StartsWith("Assembly-CSharp-Editor,")) {
+                    return a;
+                }
             }
 
             //            Log.E(">>>>>>>Error: Can\'t find Assembly-CSharp-Editor.dll");

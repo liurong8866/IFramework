@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using IFramework.Core;
-using UnityEngine;
 
 namespace IFramework.Test.IOC
 {

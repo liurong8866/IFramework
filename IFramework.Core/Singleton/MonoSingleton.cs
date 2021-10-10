@@ -19,7 +19,9 @@ namespace IFramework.Core
             get {
                 if (instance == null && !isApplicationQuit) {
                     lock (locker) {
-                        if (instance == null && !isApplicationQuit) { instance = SingletonCreator.CreateMonoSingleton<T>(); }
+                        if (instance == null && !isApplicationQuit) {
+                            instance = SingletonCreator.CreateMonoSingleton<T>();
+                        }
                     }
                 }
                 return instance;

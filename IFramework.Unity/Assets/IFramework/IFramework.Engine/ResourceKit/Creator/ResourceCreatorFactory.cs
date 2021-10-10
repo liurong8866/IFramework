@@ -35,7 +35,9 @@ namespace IFramework.Engine
                     // 如果有多个，取第一个
                    .FirstOrDefault();
 
-            if (resource == null) { Log.Error("未找到相关资源加载器，加载资源失败! {0}", searcher.ToString()); }
+            if (resource == null) {
+                Log.Error("未找到相关资源加载器，加载资源失败! {0}", searcher.ToString());
+            }
             return resource;
         }
 

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
@@ -8,10 +7,10 @@ namespace IFramework.Test.Singleton
     public class ReplaceableMonoSingletonTest : MonoBehaviour
     {
         // Start is called before the first frame update
-        IEnumerator Start()
+        private IEnumerator Start()
         {
             // 创建一个单例
-            var instance = GameManager.Instance;
+            GameManager instance = GameManager.Instance;
 
             // 强制创建一个实例
             new GameObject().AddComponent<GameManager>();

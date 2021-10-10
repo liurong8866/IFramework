@@ -51,10 +51,14 @@ namespace IFramework.Engine
             bool isMatch = true;
 
             // 如果设置了类型，则判断类型相符
-            if (AssetType != null) { isMatch = resource.AssetType == AssetType; }
+            if (AssetType != null) {
+                isMatch = resource.AssetType == AssetType;
+            }
 
             // 如果设置了包名，则判断包相符
-            if (AssetBundleName != null) { isMatch = isMatch && resource.AssetBundleName == AssetBundleName; }
+            if (AssetBundleName != null) {
+                isMatch = isMatch && resource.AssetBundleName == AssetBundleName;
+            }
             return isMatch;
         }
 

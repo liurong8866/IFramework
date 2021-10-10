@@ -105,8 +105,11 @@ namespace IFramework.Core.Zip.GZip
                     // Try to read header. If there is no header (0 bytes available), this is EOF. If there is
                     // an incomplete header, this will throw an exception.
                     try {
-                        if (!ReadHeader()) { return 0; }
-                    } catch (Exception ex) {
+                        if (!ReadHeader()) {
+                            return 0;
+                        }
+                    }
+                    catch (Exception ex) {
                         if (completedLastBlock && (ex is GZipException || ex is EndOfStreamException)) {
                             // if we completed the last block (i.e. we're in a stream that has multiple blocks concatenated
                             // we want to return gracefully from any header parsing exceptions since sometimes there may
@@ -120,12 +123,18 @@ namespace IFramework.Core.Zip.GZip
                 // Try to read compressed data
                 int bytesRead = base.Read(buffer, offset, count);
 
-                if (bytesRead > 0) { crc.Update(buffer, offset, bytesRead); }
+                if (bytesRead > 0) {
+                    crc.Update(buffer, offset, bytesRead);
+                }
 
                 // If this is the end of stream, read the footer
-                if (inf.IsFinished) { ReadFooter(); }
+                if (inf.IsFinished) {
+                    ReadFooter();
+                }
 
-                if (bytesRead > 0) { return bytesRead; }
+                if (bytesRead > 0) {
+                    return bytesRead;
+                }
             }
         }
 
@@ -153,31 +162,45 @@ namespace IFramework.Core.Zip.GZip
             Crc32 headCrc = new Crc32();
             int magic = inputBuffer.ReadLeByte();
 
-            if (magic < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+            if (magic < 0) {
+                throw new EndOfStreamException("EOS reading GZIP header");
+            }
             headCrc.Update(magic);
 
-            if (magic != GZipConstants.GZIP_MAGIC >> 8) { throw new GZipException("Error GZIP header, first magic byte doesn't match"); }
+            if (magic != GZipConstants.GZIP_MAGIC >> 8) {
+                throw new GZipException("Error GZIP header, first magic byte doesn't match");
+            }
 
             //magic = baseInputStream.ReadByte();
             magic = inputBuffer.ReadLeByte();
 
-            if (magic < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+            if (magic < 0) {
+                throw new EndOfStreamException("EOS reading GZIP header");
+            }
 
-            if (magic != (GZipConstants.GZIP_MAGIC & 0xFF)) { throw new GZipException("Error GZIP header,  second magic byte doesn't match"); }
+            if (magic != (GZipConstants.GZIP_MAGIC & 0xFF)) {
+                throw new GZipException("Error GZIP header,  second magic byte doesn't match");
+            }
             headCrc.Update(magic);
 
             // 2. Check the compression type (must be 8)
             int compressionType = inputBuffer.ReadLeByte();
 
-            if (compressionType < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+            if (compressionType < 0) {
+                throw new EndOfStreamException("EOS reading GZIP header");
+            }
 
-            if (compressionType != 8) { throw new GZipException("Error GZIP header, data not in deflate format"); }
+            if (compressionType != 8) {
+                throw new GZipException("Error GZIP header, data not in deflate format");
+            }
             headCrc.Update(compressionType);
 
             // 3. Check the flags
             int flags = inputBuffer.ReadLeByte();
 
-            if (flags < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+            if (flags < 0) {
+                throw new EndOfStreamException("EOS reading GZIP header");
+            }
             headCrc.Update(flags);
             /*    This flag byte is divided into individual bits as follows:
 
@@ -192,13 +215,17 @@ namespace IFramework.Core.Zip.GZip
             */
 
             // 3.1 Check the reserved bits are zero
-            if ((flags & 0xE0) != 0) { throw new GZipException("Reserved flag bits in GZIP header != 0"); }
+            if ((flags & 0xE0) != 0) {
+                throw new GZipException("Reserved flag bits in GZIP header != 0");
+            }
 
             // 4.-6. Skip the modification time, extra flags, and OS type
             for (int i = 0; i < 6; i++) {
                 int readByte = inputBuffer.ReadLeByte();
 
-                if (readByte < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (readByte < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 headCrc.Update(readByte);
             }
 
@@ -209,7 +236,9 @@ namespace IFramework.Core.Zip.GZip
                 len1 = inputBuffer.ReadLeByte();
                 len2 = inputBuffer.ReadLeByte();
 
-                if (len1 < 0 || len2 < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (len1 < 0 || len2 < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 headCrc.Update(len1);
                 headCrc.Update(len2);
                 int extraLen = (len2 << 8) | len1; // gzip is LSB first
@@ -217,7 +246,9 @@ namespace IFramework.Core.Zip.GZip
                 for (int i = 0; i < extraLen; i++) {
                     int readByte = inputBuffer.ReadLeByte();
 
-                    if (readByte < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                    if (readByte < 0) {
+                        throw new EndOfStreamException("EOS reading GZIP header");
+                    }
                     headCrc.Update(readByte);
                 }
             }
@@ -226,9 +257,13 @@ namespace IFramework.Core.Zip.GZip
             if ((flags & GZipConstants.FNAME) != 0) {
                 int readByte;
 
-                while ((readByte = inputBuffer.ReadLeByte()) > 0) { headCrc.Update(readByte); }
+                while ((readByte = inputBuffer.ReadLeByte()) > 0) {
+                    headCrc.Update(readByte);
+                }
 
-                if (readByte < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (readByte < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 headCrc.Update(readByte);
             }
 
@@ -236,9 +271,13 @@ namespace IFramework.Core.Zip.GZip
             if ((flags & GZipConstants.FCOMMENT) != 0) {
                 int readByte;
 
-                while ((readByte = inputBuffer.ReadLeByte()) > 0) { headCrc.Update(readByte); }
+                while ((readByte = inputBuffer.ReadLeByte()) > 0) {
+                    headCrc.Update(readByte);
+                }
 
-                if (readByte < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (readByte < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 headCrc.Update(readByte);
             }
 
@@ -247,13 +286,19 @@ namespace IFramework.Core.Zip.GZip
                 int tempByte;
                 int crcval = inputBuffer.ReadLeByte();
 
-                if (crcval < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (crcval < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 tempByte = inputBuffer.ReadLeByte();
 
-                if (tempByte < 0) { throw new EndOfStreamException("EOS reading GZIP header"); }
+                if (tempByte < 0) {
+                    throw new EndOfStreamException("EOS reading GZIP header");
+                }
                 crcval = (crcval << 8) | tempByte;
 
-                if (crcval != ((int)headCrc.Value & 0xffff)) { throw new GZipException("Header CRC value mismatch"); }
+                if (crcval != ((int)headCrc.Value & 0xffff)) {
+                    throw new GZipException("Header CRC value mismatch");
+                }
             }
             readGzipHeader = true;
             return true;
@@ -274,19 +319,25 @@ namespace IFramework.Core.Zip.GZip
             while (needed > 0) {
                 int count = inputBuffer.ReadClearTextBuffer(footer, 8 - needed, needed);
 
-                if (count <= 0) { throw new EndOfStreamException("EOS reading GZIP footer"); }
+                if (count <= 0) {
+                    throw new EndOfStreamException("EOS reading GZIP footer");
+                }
                 needed -= count; // Jewel Jan 16
             }
 
             // Calculate CRC
             int crcval = (footer[0] & 0xff) | ((footer[1] & 0xff) << 8) | ((footer[2] & 0xff) << 16) | (footer[3] << 24);
 
-            if (crcval != (int)crc.Value) { throw new GZipException("GZIP crc sum mismatch, theirs \"" + crcval + "\" and ours \"" + (int)crc.Value); }
+            if (crcval != (int)crc.Value) {
+                throw new GZipException("GZIP crc sum mismatch, theirs \"" + crcval + "\" and ours \"" + (int)crc.Value);
+            }
 
             // NOTE The total here is the original total modulo 2 ^ 32.
             uint total = ((uint)footer[4] & 0xff) | (((uint)footer[5] & 0xff) << 8) | (((uint)footer[6] & 0xff) << 16) | ((uint)footer[7] << 24);
 
-            if (bytesRead != total) { throw new GZipException("Number of bytes mismatch in footer"); }
+            if (bytesRead != total) {
+                throw new GZipException("Number of bytes mismatch in footer");
+            }
 
             // Mark header read as false so if another header exists, we'll continue reading through the file
             readGzipHeader = false;

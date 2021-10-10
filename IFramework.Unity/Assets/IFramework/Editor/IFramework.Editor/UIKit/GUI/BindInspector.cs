@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using IFramework.Core;
-using PlasticPipe.PlasticProtocol.Messages;
 using UnityEditor;
 using UnityEngine;
 
@@ -35,7 +34,7 @@ namespace IFramework.Editor
                            .Where(c => c != null && !(c is AbstractBind))
                            .Select(c => c.GetType().FullName)
                            .ToArray();
-                    elementTypeIndex = elementTypeOptions.ToList().FindIndex((componentName) => componentName.Contains(bind.ComponentName));
+                    elementTypeIndex = elementTypeOptions.ToList().FindIndex(componentName => componentName.Contains(bind.ComponentName));
 
                     if (elementTypeIndex == -1 || elementTypeIndex >= elementTypeOptions.Length) {
                         elementTypeIndex = 0;
@@ -91,7 +90,7 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             EditorGUILayout.HelpBox("如果作为子类型，需要设置为Element，同时添加ViewController", MessageType.Info);
-            
+
             // 结束
             GUILayout.EndVertical();
             EditorGUILayout.GetControlRect();

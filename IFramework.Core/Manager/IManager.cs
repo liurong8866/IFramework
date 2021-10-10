@@ -1,5 +1,3 @@
-using System;
-
 namespace IFramework.Core
 {
     public interface IManager : ITypeEvent

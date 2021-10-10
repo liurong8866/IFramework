@@ -1,9 +1,7 @@
-using System;
 using System.IO;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
 {
@@ -11,10 +9,10 @@ namespace IFramework.Editor
     public class ViewControllerInspector : UnityEditor.Editor
     {
         private ViewController controller => target as ViewController;
-        bool overwrite1 = false;
-        bool overwrite2 = false;
-        bool overwrite3 = false;
-        
+        private bool overwrite1;
+        private bool overwrite2;
+        private bool overwrite3;
+
         private void OnEnable()
         {
             InitController();
@@ -69,7 +67,9 @@ namespace IFramework.Editor
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
 
-            if (controller.AsScriptSubPath) { GUILayout.Label($"/{controller.ScriptName}/"); }
+            if (controller.AsScriptSubPath) {
+                GUILayout.Label($"/{controller.ScriptName}/");
+            }
             controller.AsScriptSubPath = EditorGUILayout.Toggle(controller.AsScriptSubPath, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             // GUILayout.Space(5);
@@ -83,7 +83,9 @@ namespace IFramework.Editor
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
 
-            if (controller.AsPrefabSubPath) { GUILayout.Label($"/{controller.ScriptName}/"); }
+            if (controller.AsPrefabSubPath) {
+                GUILayout.Label($"/{controller.ScriptName}/");
+            }
             controller.AsPrefabSubPath = EditorGUILayout.Toggle(controller.AsPrefabSubPath, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
@@ -99,7 +101,7 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("覆盖.cs文件，危险操作，请选三次!!!");
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
-            
+
             // 注释
             EditorGUILayout.PrefixLabel("类注释");
             GUILayout.Space(5);
@@ -108,7 +110,6 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
-            
             // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
             GUILayout.Space(10);
@@ -127,9 +128,13 @@ namespace IFramework.Editor
                 // 加载类资源
                 MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(controller.ScriptAssetsClassName);
 
-                if (GUILayout.Button("选择", GUILayout.Width(60))) { Selection.objects = new Object[] { scriptObject }; }
+                if (GUILayout.Button("选择", GUILayout.Width(60))) {
+                    Selection.objects = new Object[] { scriptObject };
+                }
 
-                if (GUILayout.Button("打开", GUILayout.Width(60))) { AssetDatabase.OpenAsset(scriptObject); }
+                if (GUILayout.Button("打开", GUILayout.Width(60))) {
+                    AssetDatabase.OpenAsset(scriptObject);
+                }
             }
             else {
                 // 按钮变灰

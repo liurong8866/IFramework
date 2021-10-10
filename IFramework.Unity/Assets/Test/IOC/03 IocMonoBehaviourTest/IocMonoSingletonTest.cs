@@ -1,11 +1,11 @@
-using System;
 using IFramework.Core;
 
 namespace IFramework.Test.IOC
 {
     public class IocMonoSingletonTest : IocMonoSingleton<IocMonoSingletonTest>
     {
-        [Autowired("Student")] public IPerson Student;
+        [Autowired("Student")]
+        public IPerson Student;
 
         [Autowired("Teacher")] private IPerson Teacher { get; set; }
 
@@ -19,10 +19,8 @@ namespace IFramework.Test.IOC
         {
             Register<IPerson, Xiaoxuesheng>();
             Register<IPerson, Xiaoxuesheng>("Xiaoxuesheng");
-
             Register<Xiaoxuesheng>();
             Register<Xiaoxuesheng>("Xiaoxuesheng");
-
         }
 
         private void Start()

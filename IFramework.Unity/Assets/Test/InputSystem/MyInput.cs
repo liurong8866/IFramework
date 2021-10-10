@@ -1,18 +1,17 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Test/InputSystem/MyInput.inputactions'
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Test.InputSystem
 {
-    public class @MyInput : IInputActionCollection, IDisposable
+    public class MyInput : IInputActionCollection, IDisposable
     {
         public InputActionAsset asset { get; }
 
-        public @MyInput()
+        public MyInput()
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""MyInput"",
@@ -134,14 +133,14 @@ namespace IFramework.Test.InputSystem
     ]
 }");
             // GamePlay
-            m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
-            m_GamePlay_Jump = m_GamePlay.FindAction("Jump", throwIfNotFound: true);
-            m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
+            m_GamePlay = asset.FindActionMap("GamePlay", true);
+            m_GamePlay_Jump = m_GamePlay.FindAction("Jump", true);
+            m_GamePlay_Move = m_GamePlay.FindAction("Move", true);
         }
 
         public void Dispose()
         {
-            UnityEngine.Object.Destroy(asset);
+            Object.Destroy(asset);
         }
 
         public InputBinding? bindingMask { get => asset.bindingMask; set => asset.bindingMask = value; }
@@ -183,15 +182,15 @@ namespace IFramework.Test.InputSystem
 
         public struct GamePlayActions
         {
-            private @MyInput m_Wrapper;
+            private readonly MyInput m_Wrapper;
 
-            public GamePlayActions(@MyInput wrapper)
+            public GamePlayActions(MyInput wrapper)
             {
                 m_Wrapper = wrapper;
             }
 
-            public InputAction @Jump => m_Wrapper.m_GamePlay_Jump;
-            public InputAction @Move => m_Wrapper.m_GamePlay_Move;
+            public InputAction Jump => m_Wrapper.m_GamePlay_Jump;
+            public InputAction Move => m_Wrapper.m_GamePlay_Move;
 
             public InputActionMap Get()
             {
@@ -218,27 +217,27 @@ namespace IFramework.Test.InputSystem
             public void SetCallbacks(IGamePlayActions instance)
             {
                 if (m_Wrapper.m_GamePlayActionsCallbackInterface != null) {
-                    @Jump.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
-                    @Jump.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
-                    @Jump.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
-                    @Move.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
-                    @Move.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
-                    @Move.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
+                    Jump.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
+                    Jump.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
+                    Jump.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnJump;
+                    Move.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
+                    Move.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
+                    Move.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
                 }
                 m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
 
                 if (instance != null) {
-                    @Jump.started += instance.OnJump;
-                    @Jump.performed += instance.OnJump;
-                    @Jump.canceled += instance.OnJump;
-                    @Move.started += instance.OnMove;
-                    @Move.performed += instance.OnMove;
-                    @Move.canceled += instance.OnMove;
+                    Jump.started += instance.OnJump;
+                    Jump.performed += instance.OnJump;
+                    Jump.canceled += instance.OnJump;
+                    Move.started += instance.OnMove;
+                    Move.performed += instance.OnMove;
+                    Move.canceled += instance.OnMove;
                 }
             }
         }
 
-        public GamePlayActions @GamePlay => new GamePlayActions(this);
+        public GamePlayActions GamePlay => new GamePlayActions(this);
         private int m_KeyboradSchemeIndex = -1;
 
         public InputControlScheme KeyboradScheme {

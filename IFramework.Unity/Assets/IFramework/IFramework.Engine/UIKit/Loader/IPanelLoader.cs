@@ -11,7 +11,7 @@ namespace IFramework.Engine
         /// 加载IPanel Prefab
         /// </summary>
         GameObject Load(PanelSearcher searcher);
-        
+
         /// <summary>
         /// 卸载资源
         /// </summary>

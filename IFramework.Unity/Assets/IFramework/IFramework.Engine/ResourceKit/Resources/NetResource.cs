@@ -71,7 +71,10 @@ namespace IFramework.Engine
                 try {
                     DirectoryUtils.Create(FilePath);
                     FileUtils.Write(FullName, request.downloadHandler.data);
-                } catch (Exception e) { Log.Error(e); }
+                }
+                catch (Exception e) {
+                    Log.Error(e);
+                }
             }
         }
 

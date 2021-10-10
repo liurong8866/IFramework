@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using IFramework.Core;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -24,7 +22,6 @@ namespace IFramework.Editor
         public static void GenerateCode(bool overwrite)
         {
             generateTime.Value = DateTime.Now;
-            
             Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
 
@@ -38,7 +35,9 @@ namespace IFramework.Editor
                 ViewController parentController = go.GetComponentInParent<ViewController>();
 
                 // 如果找到ViewController，则
-                if (parentController) { go = parentController.gameObject; }
+                if (parentController) {
+                    go = parentController.gameObject;
+                }
             }
             // 生成脚本
             Log.Info("生成脚本: 开始");
@@ -103,7 +102,9 @@ namespace IFramework.Editor
             Component component = go.GetComponent(type);
 
             // 如果没有当前类的组件，则挂上
-            if (!component) { component = go.AddComponent(type); }
+            if (!component) {
+                component = go.AddComponent(type);
+            }
 
             // ViewController的序列化对象
             SerializedObject serializedObject = new SerializedObject(component);
@@ -121,7 +122,12 @@ namespace IFramework.Editor
                 string componentName = bindInfo.BindScript.ComponentName.Split('.').Last();
 
                 // 添加Bind对象的引用
-                try { serializedObject.FindProperty(name).objectReferenceValue = go.transform.Find(bindInfo.PathToElement).GetComponent(componentName); } catch (Exception e) { Log.Warning(e); }
+                try {
+                    serializedObject.FindProperty(name).objectReferenceValue = go.transform.Find(bindInfo.PathToElement).GetComponent(componentName);
+                }
+                catch (Exception e) {
+                    Log.Warning(e);
+                }
             }
 
             // 生成Prefab, 初始化字段
@@ -151,7 +157,9 @@ namespace IFramework.Editor
                     Log.Info("生成脚本: 正在生成预设 " + path);
                     EditorUtils.SavePrefab(go, path);
                 }
-                else { Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。"); }
+                else {
+                    Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
+                }
             }
             else {
                 serializedObject.FindProperty("ScriptPath").stringValue = "Assets/Scripts";
@@ -173,10 +181,11 @@ namespace IFramework.Editor
         /// </summary>
         private static void FixComponentLost()
         {
-            EditorUtils.ClearMissing(EditorUtils.GetRootGameObjects(), go => {
-                go.AddComponentSafe<ViewController>();
-                Log.Warning($"生成脚本: 对象 {go.name} 发现Missing脚本，已修复为: ViewController组件，请确认。");
-            });
+            EditorUtils.ClearMissing(EditorUtils.GetRootGameObjects(),
+                                     go => {
+                                         go.AddComponentSafe<ViewController>();
+                                         Log.Warning($"生成脚本: 对象 {go.name} 发现Missing脚本，已修复为: ViewController组件，请确认。");
+                                     });
         }
 
         // 清理缓存数据

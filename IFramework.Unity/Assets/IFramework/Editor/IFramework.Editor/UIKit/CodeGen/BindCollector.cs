@@ -33,7 +33,9 @@ namespace IFramework.Editor
                             });
                             rootControllerInfo.NameToFullNameDic.Add(bind.Transform.name, fullName + child.name);
                         }
-                        else { Log.Error("生成失败！ 绑定的对象名称重复: " + child.name); }
+                        else {
+                            Log.Error("生成失败！ 绑定的对象名称重复: " + child.name);
+                        }
                     }
                     // 如果父节点Bind是Element类型
                     else {
@@ -46,7 +48,9 @@ namespace IFramework.Editor
                             });
                             parentElementInfo.NameToFullNameDic.Add(bind.Transform.name, fullName + child.name);
                         }
-                        else { Log.Error("生成失败！ 绑定的对象名称重复: " + child.name); }
+                        else {
+                            Log.Error("生成失败！ 绑定的对象名称重复: " + child.name);
+                        }
                     }
 
                     // 如果当前对象同时绑定了ViewContrller+Bind组件，并且Bind组件的类型为DefaultElement

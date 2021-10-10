@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace IFramework.Core
 {
@@ -11,9 +10,9 @@ namespace IFramework.Core
     {
         // 通过代理类实现Ioc
         private IContainer container;
-        
+
         public static T Instance => SingletonProperty<T>.Instance;
-        
+
         public void OnInit()
         {
             container = IocContainer.Instance;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace IFramework.Test.IOC
         [Autowired] public INetworkExampleService NetworkExampleService { get; set; }
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             // 将模块注入 
             // 这种方式比较方便

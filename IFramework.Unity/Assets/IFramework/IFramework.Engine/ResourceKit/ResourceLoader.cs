@@ -52,7 +52,9 @@ namespace IFramework.Engine
         public void Recycle()
         {
             if (unloadObjectList.NotEmpty()) {
-                foreach (Object obj in unloadObjectList) { obj.DestroySelf(); }
+                foreach (Object obj in unloadObjectList) {
+                    obj.DestroySelf();
+                }
                 unloadObjectList.Clear();
                 unloadObjectList = null;
             }
@@ -196,7 +198,9 @@ namespace IFramework.Engine
                         // 异步调用
                         resource.LoadASync();
                     }
-                    else { loadingCount--; }
+                    else {
+                        loadingCount--;
+                    }
                 }
                 currentNode = nextNode;
             }
@@ -380,7 +384,9 @@ namespace IFramework.Engine
             if (waitForLoadList.Remove(resource)) {
                 loadingCount--;
 
-                if (loadingCount == 0) { currentCallback = null; }
+                if (loadingCount == 0) {
+                    currentCallback = null;
+                }
             }
 
             // 从缓存中删除，并释放资源
@@ -399,7 +405,9 @@ namespace IFramework.Engine
         {
             if (assetNames.Nothing()) return;
 
-            foreach (string assetName in assetNames) { ReleaseResource(assetName); }
+            foreach (string assetName in assetNames) {
+                ReleaseResource(assetName);
+            }
         }
 
         /// <summary>
@@ -413,7 +421,9 @@ namespace IFramework.Engine
 
             // 释放模拟器模式资源
             if (Platform.IsSimulation) {
-                foreach (KeyValuePair<string, Sprite> sprite in spriteMap) { sprite.Value.DestroySelf(); }
+                foreach (KeyValuePair<string, Sprite> sprite in spriteMap) {
+                    sprite.Value.DestroySelf();
+                }
                 spriteMap.Clear();
             }
 
@@ -427,7 +437,9 @@ namespace IFramework.Engine
                 }
                 resourceList.Clear();
 
-                if (!ResourceManager.IsApplicationQuit) { ResourceManager.Instance.ClearOnUpdate(); }
+                if (!ResourceManager.IsApplicationQuit) {
+                    ResourceManager.Instance.ClearOnUpdate();
+                }
             }
 
             // 释放所有回调事件
@@ -482,7 +494,9 @@ namespace IFramework.Engine
                 int count = callbackCleanerList.Count;
 
                 for (int i = 0; i < count; i++) {
-                    if (release) { callbackCleanerList.Last.Value.Release(); }
+                    if (release) {
+                        callbackCleanerList.Last.Value.Release();
+                    }
                     callbackCleanerList.RemoveLast();
                 }
             }
@@ -501,7 +515,9 @@ namespace IFramework.Engine
         /// </summary>
         public void DestroyOnRecycle(Object obj)
         {
-            if (unloadObjectList == null) { unloadObjectList = new List<Object>(); }
+            if (unloadObjectList == null) {
+                unloadObjectList = new List<Object>();
+            }
             unloadObjectList.Add(obj);
         }
     }

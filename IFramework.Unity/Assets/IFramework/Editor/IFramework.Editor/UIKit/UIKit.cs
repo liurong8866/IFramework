@@ -14,7 +14,9 @@ namespace IFramework.Editor
         public static void AddBindScript()
         {
             foreach (GameObject go in Selection.objects.OfType<GameObject>()) {
-                if (go != null) { AddScript<Bind>(go); }
+                if (go != null) {
+                    AddScript<Bind>(go);
+                }
             }
         }
 

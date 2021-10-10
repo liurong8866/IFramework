@@ -13,7 +13,9 @@ namespace IFramework.Core
 
         public ConfigDateTime(string key, DateTime value, bool overwrite) : base(key, value)
         {
-            if (overwrite) { Save(value); }
+            if (overwrite) {
+                Save(value);
+            }
         }
 
         /// <summary>

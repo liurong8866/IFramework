@@ -30,7 +30,9 @@ namespace IFramework.Editor
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
 
-            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) { sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间"); }
+            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
+                sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间");
+            }
             sb.AppendLine("namespace " + controller.Namespace);
             sb.AppendLine("{");
             sb.AppendLine("\tpublic partial class {0}".Format(controller.ScriptName));

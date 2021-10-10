@@ -11,7 +11,8 @@ namespace IFramework.Engine
     public class DelayAction : AbstractAction, IPoolable
     {
         // 延迟时间
-        [SerializeField] public float DelayTime;
+        [SerializeField]
+        public float DelayTime;
         // 时间计数器
         private float currentSeconds;
         // 延迟事件
@@ -42,7 +43,9 @@ namespace IFramework.Engine
             currentSeconds += delta;
             Finished = currentSeconds >= DelayTime;
 
-            if (Finished) { action.InvokeSafe(); }
+            if (Finished) {
+                action.InvokeSafe();
+            }
         }
 
         protected override void OnReset()

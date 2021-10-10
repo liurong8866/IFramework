@@ -1,6 +1,4 @@
-using System.IO;
 using IFramework.Core;
-using UnityEngine;
 
 namespace IFramework.Editor
 {
@@ -23,19 +21,18 @@ namespace IFramework.Editor
         {
             this.controller = controller;
             this.rootControllerInfo = rootControllerInfo;
-            
+
             // 如果文件不能覆盖，并且存在，则退出
-            if (!overwrite && FileUtils.Exists(FullName)) { return; }
-            
-            Log.Info("生成脚本: 正在生成脚本 " +  FullName);
-            
+            if (!overwrite && FileUtils.Exists(FullName)) {
+                return;
+            }
+            Log.Info("生成脚本: 正在生成脚本 " + FullName);
+
             // 创建文件夹，如果有则忽略
             DirectoryUtils.Create(controller.ScriptAssetsPath);
 
             // 写入文件
             FileUtils.Write(FullName, BuildScript());
-            
-            
         }
 
         /// <summary> 

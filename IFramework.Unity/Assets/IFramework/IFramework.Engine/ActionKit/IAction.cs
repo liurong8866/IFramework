@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using IFramework.Core;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -24,7 +22,7 @@ namespace IFramework.Engine
         /// 是否结束
         /// </summary>
         bool Finished { get; }
-        
+
         void Reset();
     }
 

@@ -11,8 +11,5 @@ namespace IFramework.Engine
         /// UIPanel  管理（数据结构）
         /// </summary>
         public static readonly UIPanelTable Table = new UIPanelTable();
-
-        
-        
     }
 }

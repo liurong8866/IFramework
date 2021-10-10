@@ -102,7 +102,9 @@ namespace IFramework.Editor
             color = EditorGUILayout.ColorField("颜色:", color);
 
             //按钮
-            if (GUILayout.Button("Close")) { Close(); }
+            if (GUILayout.Button("Close")) {
+                Close();
+            }
 
             //带有阴影的Label
             EditorGUI.DropShadowLabel(new Rect(0, 250, position.width, 20), "带有阴影的Label");
@@ -126,8 +128,13 @@ namespace IFramework.Editor
             showToggleLeft = EditorGUI.ToggleLeft(new Rect(3, 710, position.width - 60, 20), "ToggleLeft", showToggleLeft);
             textfieldtest = EditorGUI.TextField(new Rect(3, 735, position.width - 60, 20), "TextField", textfieldtest);
             password = EditorGUI.PasswordField(new Rect(3, 760, position.width - 60, 20), "密码框:", password);
+
             //最大值和最小值滑块
-            EditorGUI.MinMaxSlider(new Rect(3, 790, position.width - 60, 20), ref minVal, ref maxVal, minLimit, maxLimit);
+            EditorGUI.MinMaxSlider(new Rect(3, 790, position.width - 60, 20),
+                                   ref minVal,
+                                   ref maxVal,
+                                   minLimit,
+                                   maxLimit);
         }
 
         //更新

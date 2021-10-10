@@ -6,7 +6,7 @@ namespace IFramework.Engine
     /// <summary>
     /// 面板接口
     /// </summary>
-    public partial interface IPanel
+    public interface IPanel
     {
         Transform Transform { get; }
 
@@ -25,5 +25,5 @@ namespace IFramework.Engine
         void Hide();
 
         void Close(bool destroy = true);
-    } 
+    }
 }

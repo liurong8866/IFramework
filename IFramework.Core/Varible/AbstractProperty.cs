@@ -46,25 +46,37 @@ namespace IFramework.Core
         //重载运算符"=="
         public static bool operator ==(AbstractProperty<T> m, AbstractProperty<T> n)
         {
-            if (ReferenceEquals(m, n)) { return true; }
+            if (ReferenceEquals(m, n)) {
+                return true;
+            }
 
-            if ((object)m == null || (object)n == null) { return false; }
+            if ((object)m == null || (object)n == null) {
+                return false;
+            }
             return m.Value.Equals(n.Value);
         }
 
         public static bool operator ==(AbstractProperty<T> m, T n)
         {
-            if (ReferenceEquals(m, n)) { return true; }
+            if (ReferenceEquals(m, n)) {
+                return true;
+            }
 
-            if ((object)m == null || n == null) { return false; }
+            if ((object)m == null || n == null) {
+                return false;
+            }
             return m.Value.Equals(n);
         }
 
         public static bool operator ==(T m, AbstractProperty<T> n)
         {
-            if (ReferenceEquals(m, n)) { return true; }
+            if (ReferenceEquals(m, n)) {
+                return true;
+            }
 
-            if (m == null || (object)n == null) { return false; }
+            if (m == null || (object)n == null) {
+                return false;
+            }
             return m.Equals(n.Value);
         }
 
@@ -85,10 +97,14 @@ namespace IFramework.Core
 
         public override bool Equals(object obj)
         {
-            if (obj == null) { return false; }
+            if (obj == null) {
+                return false;
+            }
 
             // 引用地址如果不同，则返回false
-            if (!ReferenceEquals(this, obj)) { return false; }
+            if (!ReferenceEquals(this, obj)) {
+                return false;
+            }
 
             if (obj.GetType() == typeof(AbstractProperty<T>)) {
                 AbstractProperty<T> abstractProperty = obj as AbstractProperty<T>;
@@ -96,13 +112,17 @@ namespace IFramework.Core
             }
 
             // 判断类型Value是否一致
-            if (obj.GetType() != typeof(T)) { return false; }
+            if (obj.GetType() != typeof(T)) {
+                return false;
+            }
             return Value.Equals(obj);
         }
 
         public bool Equals(AbstractProperty<T> abstractProperty)
         {
-            if ((object)abstractProperty == null) { return false; }
+            if ((object)abstractProperty == null) {
+                return false;
+            }
             return Value.Equals(abstractProperty.Value);
         }
 

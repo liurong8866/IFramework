@@ -187,11 +187,17 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         internal ZipEntry(string name, int versionRequiredToExtract, int madeByInfo, CompressionMethod method)
         {
-            if (name == null) { throw new ArgumentNullException(nameof(name)); }
+            if (name == null) {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            if (name.Length > 0xffff) { throw new ArgumentException("Name is too long", nameof(name)); }
+            if (name.Length > 0xffff) {
+                throw new ArgumentException("Name is too long", nameof(name));
+            }
 
-            if (versionRequiredToExtract != 0 && versionRequiredToExtract < 10) { throw new ArgumentOutOfRangeException(nameof(versionRequiredToExtract)); }
+            if (versionRequiredToExtract != 0 && versionRequiredToExtract < 10) {
+                throw new ArgumentOutOfRangeException(nameof(versionRequiredToExtract));
+            }
             DateTime = DateTime.Now;
             Name = CleanName(name);
             versionMadeBy = (ushort)madeByInfo;
@@ -208,7 +214,9 @@ namespace IFramework.Core.Zip.Zip
         [Obsolete("Use Clone instead")]
         public ZipEntry(ZipEntry entry)
         {
-            if (entry == null) { throw new ArgumentNullException(nameof(entry)); }
+            if (entry == null) {
+                throw new ArgumentNullException(nameof(entry));
+            }
             known = entry.known;
             Name = entry.Name;
             size = entry.size;
@@ -227,7 +235,12 @@ namespace IFramework.Core.Zip.Zip
 
             if (entry.extra != null) {
                 extra = new byte[entry.extra.Length];
-                Array.Copy(entry.extra, 0, extra, 0, entry.extra.Length);
+
+                Array.Copy(entry.extra,
+                           0,
+                           extra,
+                           0,
+                           entry.extra.Length);
             }
         }
 
@@ -246,8 +259,12 @@ namespace IFramework.Core.Zip.Zip
         public bool IsCrypted {
             get => (Flags & 1) != 0;
             set {
-                if (value) { Flags |= 1; }
-                else { Flags &= ~1; }
+                if (value) {
+                    Flags |= 1;
+                }
+                else {
+                    Flags &= ~1;
+                }
             }
         }
 
@@ -259,8 +276,12 @@ namespace IFramework.Core.Zip.Zip
         public bool IsUnicodeText {
             get => (Flags & (int)GeneralBitFlags.UnicodeText) != 0;
             set {
-                if (value) { Flags |= (int)GeneralBitFlags.UnicodeText; }
-                else { Flags &= ~(int)GeneralBitFlags.UnicodeText; }
+                if (value) {
+                    Flags |= (int)GeneralBitFlags.UnicodeText;
+                }
+                else {
+                    Flags &= ~(int)GeneralBitFlags.UnicodeText;
+                }
             }
         }
 
@@ -320,7 +341,9 @@ namespace IFramework.Core.Zip.Zip
         /// </summary>
         public int ExternalFileAttributes {
             get {
-                if ((known & Known.ExternalAttributes) == 0) { return -1; }
+                if ((known & Known.ExternalAttributes) == 0) {
+                    return -1;
+                }
                 return externalFileAttributes;
             }
             set {
@@ -353,7 +376,9 @@ namespace IFramework.Core.Zip.Zip
         {
             bool result = false;
 
-            if ((known & Known.ExternalAttributes) != 0) { result |= (HostSystem == (int)HostSystemId.Msdos || HostSystem == (int)HostSystemId.WindowsNt) && (ExternalFileAttributes & attributes) == attributes; }
+            if ((known & Known.ExternalAttributes) != 0) {
+                result |= (HostSystem == (int)HostSystemId.Msdos || HostSystem == (int)HostSystemId.WindowsNt) && (ExternalFileAttributes & attributes) == attributes;
+            }
             return result;
         }
 
@@ -443,11 +468,21 @@ namespace IFramework.Core.Zip.Zip
                 if (AesKeySize > 0) {
                     result = ZipConstants.VERSION_AES; // Ver 5.1 = AES
                 }
-                else if (CentralHeaderRequiresZip64) { result = ZipConstants.VERSION_ZIP64; }
-                else if (CompressionMethod.Deflated == method) { result = 20; }
-                else if (IsDirectory) { result = 20; }
-                else if (IsCrypted) { result = 20; }
-                else if (HasDosAttributes(0x08)) { result = 11; }
+                else if (CentralHeaderRequiresZip64) {
+                    result = ZipConstants.VERSION_ZIP64;
+                }
+                else if (CompressionMethod.Deflated == method) {
+                    result = 20;
+                }
+                else if (IsDirectory) {
+                    result = 20;
+                }
+                else if (IsCrypted) {
+                    result = 20;
+                }
+                else if (HasDosAttributes(0x08)) {
+                    result = 11;
+                }
                 return result;
             }
         }
@@ -488,7 +523,9 @@ namespace IFramework.Core.Zip.Zip
                 if (!result) {
                     ulong trueCompressedSize = compressedSize;
 
-                    if (versionToExtract == 0 && IsCrypted) { trueCompressedSize += ZipConstants.CRYPTO_HEADER_SIZE; }
+                    if (versionToExtract == 0 && IsCrypted) {
+                        trueCompressedSize += ZipConstants.CRYPTO_HEADER_SIZE;
+                    }
 
                     // TODO: A better estimation of the true limit based on compression overhead should be used
                     // to determine when an entry should use Zip64.
@@ -511,11 +548,15 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         public long DosTime {
             get {
-                if ((known & Known.Time) == 0) { return 0; }
+                if ((known & Known.Time) == 0) {
+                    return 0;
+                }
                 return dosTime;
             }
             set {
-                unchecked { dosTime = (uint)value; }
+                unchecked {
+                    dosTime = (uint)value;
+                }
                 known |= Known.Time;
             }
         }
@@ -534,7 +575,13 @@ namespace IFramework.Core.Zip.Zip
                 uint mon = Math.Max(1, Math.Min(12, (dosTime >> 21) & 0xf));
                 uint year = ((dosTime >> 25) & 0x7f) + 1980;
                 int day = Math.Max(1, Math.Min(DateTime.DaysInMonth((int)year, (int)mon), (int)((dosTime >> 16) & 0x1f)));
-                return new DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec);
+
+                return new DateTime((int)year,
+                                    (int)mon,
+                                    day,
+                                    (int)hrs,
+                                    (int)min,
+                                    (int)sec);
             }
             set {
                 uint year = (uint)value.Year;
@@ -617,7 +664,9 @@ namespace IFramework.Core.Zip.Zip
         public long Crc {
             get => (known & Known.Crc) != 0 ? crc & 0xffffffffL : -1L;
             set {
-                if ((crc & 0xffffffff00000000L) != 0) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                if ((crc & 0xffffffff00000000L) != 0) {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
                 crc = (uint)value;
                 known |= Known.Crc;
             }
@@ -634,7 +683,9 @@ namespace IFramework.Core.Zip.Zip
         public CompressionMethod CompressionMethod {
             get => method;
             set {
-                if (!IsCompressionMethodSupported(value)) { throw new NotSupportedException("Compression method not supported"); }
+                if (!IsCompressionMethodSupported(value)) {
+                    throw new NotSupportedException("Compression method not supported");
+                }
                 method = value;
             }
         }
@@ -661,11 +712,20 @@ namespace IFramework.Core.Zip.Zip
                     //				return (byte[]) extra.Clone();
                     extra;
             set {
-                if (value == null) { extra = null; }
+                if (value == null) {
+                    extra = null;
+                }
                 else {
-                    if (value.Length > 0xffff) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                    if (value.Length > 0xffff) {
+                        throw new ArgumentOutOfRangeException(nameof(value));
+                    }
                     extra = new byte[value.Length];
-                    Array.Copy(value, 0, extra, 0, value.Length);
+
+                    Array.Copy(value,
+                               0,
+                               extra,
+                               0,
+                               value.Length);
                 }
             }
         }
@@ -743,7 +803,9 @@ namespace IFramework.Core.Zip.Zip
                 // The recorded size will change but remember that this is zip64.
                 forceZip64 = true;
 
-                if (extraData.ValueLength < 4) { throw new ZipException("Extra data extended Zip64 information length is invalid"); }
+                if (extraData.ValueLength < 4) {
+                    throw new ZipException("Extra data extended Zip64 information length is invalid");
+                }
 
                 // (localHeader ||) was deleted, because actually there is no specific difference with reading sizes between local header & central directory
                 // https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
@@ -769,20 +831,30 @@ namespace IFramework.Core.Zip.Zip
                 //		uncompressed size in the Local Header will be zero.
                 //
                 // Othewise there is problem with minizip implementation
-                if (size == uint.MaxValue) { size = (ulong)extraData.ReadLong(); }
+                if (size == uint.MaxValue) {
+                    size = (ulong)extraData.ReadLong();
+                }
 
-                if (compressedSize == uint.MaxValue) { compressedSize = (ulong)extraData.ReadLong(); }
+                if (compressedSize == uint.MaxValue) {
+                    compressedSize = (ulong)extraData.ReadLong();
+                }
 
-                if (!localHeader && Offset == uint.MaxValue) { Offset = extraData.ReadLong(); }
+                if (!localHeader && Offset == uint.MaxValue) {
+                    Offset = extraData.ReadLong();
+                }
 
                 // Disk number on which file starts is ignored
             }
             else {
-                if ((versionToExtract & 0xff) >= ZipConstants.VERSION_ZIP64 && (size == uint.MaxValue || compressedSize == uint.MaxValue)) { throw new ZipException("Zip64 Extended information required but is missing."); }
+                if ((versionToExtract & 0xff) >= ZipConstants.VERSION_ZIP64 && (size == uint.MaxValue || compressedSize == uint.MaxValue)) {
+                    throw new ZipException("Zip64 Extended information required but is missing.");
+                }
             }
             DateTime = GetDateTime(extraData);
 
-            if (method == CompressionMethod.WinZipAes) { ProcessAesExtraData(extraData); }
+            if (method == CompressionMethod.WinZipAes) {
+                ProcessAesExtraData(extraData);
+            }
         }
 
         private DateTime GetDateTime(ZipExtraData extraData)
@@ -814,7 +886,14 @@ namespace IFramework.Core.Zip.Zip
             uint mon = Math.Max(1, Math.Min(12, (dosTime >> 21) & 0xf));
             uint year = ((dosTime >> 25) & 0x7f) + 1980;
             int day = Math.Max(1, Math.Min(DateTime.DaysInMonth((int)year, (int)mon), (int)((dosTime >> 16) & 0x1f)));
-            return new DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec, DateTimeKind.Utc);
+
+            return new DateTime((int)year,
+                                (int)mon,
+                                day,
+                                (int)hrs,
+                                (int)min,
+                                (int)sec,
+                                DateTimeKind.Utc);
         }
 
         // For AES the method in the entry is 99, and the real compression method is in the extradata
@@ -868,7 +947,9 @@ namespace IFramework.Core.Zip.Zip
                 // where there are multi-byte characters
                 // The full test is not possible here however as the code page to apply conversions with
                 // isnt available.
-                if (value != null && value.Length > 0xffff) { throw new ArgumentOutOfRangeException(nameof(value), "cannot exceed 65535"); }
+                if (value != null && value.Length > 0xffff) {
+                    throw new ArgumentOutOfRangeException(nameof(value), "cannot exceed 65535");
+                }
                 comment = value;
             }
         }
@@ -922,7 +1003,12 @@ namespace IFramework.Core.Zip.Zip
             // Ensure extra data is unique if it exists.
             if (extra != null) {
                 result.extra = new byte[extra.Length];
-                Array.Copy(extra, 0, result.extra, 0, extra.Length);
+
+                Array.Copy(extra,
+                           0,
+                           result.extra,
+                           0,
+                           extra.Length);
             }
             return result;
         }
@@ -963,7 +1049,9 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         public static string CleanName(string name)
         {
-            if (name == null) { return string.Empty; }
+            if (name == null) {
+                return string.Empty;
+            }
 
             if (Path.IsPathRooted(name)) {
                 // NOTE:
@@ -972,7 +1060,9 @@ namespace IFramework.Core.Zip.Zip
             }
             name = name.Replace(@"\", "/");
 
-            while (name.Length > 0 && name[0] == '/') { name = name.Remove(0, 1); }
+            while (name.Length > 0 && name[0] == '/') {
+                name = name.Remove(0, 1);
+            }
             return name;
         }
 

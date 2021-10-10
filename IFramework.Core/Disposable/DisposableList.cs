@@ -32,7 +32,9 @@ namespace IFramework.Core
         /// </summary>
         public void Dispose()
         {
-            foreach (IDisposable disposable in disposableList) { disposable.Dispose(); }
+            foreach (IDisposable disposable in disposableList) {
+                disposable.Dispose();
+            }
             disposableList.Recycle();
             disposableList = null;
         }

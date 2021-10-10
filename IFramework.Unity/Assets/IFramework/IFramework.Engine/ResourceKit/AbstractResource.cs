@@ -125,7 +125,9 @@ namespace IFramework.Engine
 
             // 如果不是场景中的GameObject，则释放资源,比如prefab
             // TODO sprite也被释放了...
-            if (!(asset is GameObject)) { Resources.UnloadAsset(asset); }
+            if (!(asset is GameObject)) {
+                Resources.UnloadAsset(asset);
+            }
             asset = null;
         }
 
@@ -171,7 +173,9 @@ namespace IFramework.Engine
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(depend, null, assetType);
                 IResource resource = ResourceManager.Instance.GetResource(searcher);
 
-                if (action.InvokeSafe(resource)) { return false; }
+                if (action.InvokeSafe(resource)) {
+                    return false;
+                }
             }
             return true;
         }

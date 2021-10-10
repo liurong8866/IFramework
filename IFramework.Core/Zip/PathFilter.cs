@@ -134,7 +134,9 @@ namespace IFramework.Core.Zip
         public long MinSize {
             get => minSize;
             set {
-                if (value < 0 || maxSize < value) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                if (value < 0 || maxSize < value) {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
                 minSize = value;
             }
         }
@@ -147,7 +149,9 @@ namespace IFramework.Core.Zip
         public long MaxSize {
             get => maxSize;
             set {
-                if (value < 0 || minSize > value) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                if (value < 0 || minSize > value) {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
                 maxSize = value;
             }
         }
@@ -159,7 +163,9 @@ namespace IFramework.Core.Zip
         public DateTime MinDate {
             get => minDate;
             set {
-                if (value > maxDate) { throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MaxDate"); }
+                if (value > maxDate) {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MaxDate");
+                }
                 minDate = value;
             }
         }
@@ -171,7 +177,9 @@ namespace IFramework.Core.Zip
         public DateTime MaxDate {
             get => maxDate;
             set {
-                if (minDate > value) { throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MinDate"); }
+                if (minDate > value) {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MinDate");
+                }
                 maxDate = value;
             }
         }
@@ -230,7 +238,9 @@ namespace IFramework.Core.Zip
         public long MinSize {
             get => minSize;
             set {
-                if (value < 0 || maxSize < value) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                if (value < 0 || maxSize < value) {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
                 minSize = value;
             }
         }
@@ -241,7 +251,9 @@ namespace IFramework.Core.Zip
         public long MaxSize {
             get => maxSize;
             set {
-                if (value < 0 || minSize > value) { throw new ArgumentOutOfRangeException(nameof(value)); }
+                if (value < 0 || minSize > value) {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
                 maxSize = value;
             }
         }

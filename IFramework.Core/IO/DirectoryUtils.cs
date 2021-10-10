@@ -12,7 +12,9 @@ namespace IFramework.Core
         /// </summary>
         public static void Create(string path)
         {
-            if (!Exists(path)) { Directory.CreateDirectory(path); }
+            if (!Exists(path)) {
+                Directory.CreateDirectory(path);
+            }
         }
 
         /// <summary>
@@ -20,7 +22,9 @@ namespace IFramework.Core
         /// </summary>
         public static void Remove(string path)
         {
-            if (Directory.Exists(path)) { Directory.Delete(path, true); }
+            if (Directory.Exists(path)) {
+                Directory.Delete(path, true);
+            }
         }
 
         /// <summary>
@@ -28,7 +32,9 @@ namespace IFramework.Core
         /// </summary>
         public static void Clear(string path)
         {
-            if (Directory.Exists(path)) { Directory.Delete(path, true); }
+            if (Directory.Exists(path)) {
+                Directory.Delete(path, true);
+            }
             Directory.CreateDirectory(path);
         }
 
@@ -57,14 +63,18 @@ namespace IFramework.Core
         public static void Copy(string sourcePath, string destPath, bool recursion = true)
         {
             // 如果数据源路径不存在，则抛出异常
-            if (!Directory.Exists(sourcePath)) { throw new DirectoryNotFoundException(sourcePath); }
+            if (!Directory.Exists(sourcePath)) {
+                throw new DirectoryNotFoundException(sourcePath);
+            }
             DirectoryInfo directory = new DirectoryInfo(sourcePath);
 
             //获取目录下所有文件、文件夹
             DirectoryInfo[] directories = directory.GetDirectories();
 
             // 如果目标文件夹不存在，则创建
-            if (!Directory.Exists(destPath)) { Directory.CreateDirectory(destPath); }
+            if (!Directory.Exists(destPath)) {
+                Directory.CreateDirectory(destPath);
+            }
 
             // 获取当前文件夹下所有文件
             FileInfo[] files = directory.GetFiles();
@@ -99,7 +109,9 @@ namespace IFramework.Core
         {
             List<string> fileList;
 
-            if (!recursion) { fileList = Directory.GetFiles(folderPath).ToList(); }
+            if (!recursion) {
+                fileList = Directory.GetFiles(folderPath).ToList();
+            }
             else {
                 fileList = Directory.GetFiles(folderPath).ToList();
 
@@ -131,7 +143,9 @@ namespace IFramework.Core
                 return null;
             }
 
-            if (directory.Parent != null && directory.Attributes.ToString().IndexOf("System", StringComparison.Ordinal) > -1) { return null; }
+            if (directory.Parent != null && directory.Attributes.ToString().IndexOf("System", StringComparison.Ordinal) > -1) {
+                return null;
+            }
             FileInfo[] fileInfos = directory.GetFiles(fileName);
             fileList.AddRange(fileInfos?.Select(file => file.FullName));
 

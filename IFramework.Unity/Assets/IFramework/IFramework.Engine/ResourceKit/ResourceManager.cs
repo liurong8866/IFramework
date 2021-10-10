@@ -13,7 +13,8 @@ namespace IFramework.Engine
         // 是否被初始化
         private static bool isInit;
         // 当前协程数量
-        [SerializeField] private int currentCoroutineCount;
+        [SerializeField]
+        private int currentCoroutineCount;
         // 最大协程数量
         private readonly int maxCoroutineCount = 8;
         // 异步加载任务列表
@@ -91,10 +92,14 @@ namespace IFramework.Engine
                     configFiles = zip.GetFileInInner(Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
                 // 进行过热更新
-                else { configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE); }
+                else {
+                    configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                }
 
                 if (configFiles != null) {
-                    foreach (string file in configFiles) { AssetBundleConfig.ConfigFile.LoadFromFile(file); }
+                    foreach (string file in configFiles) {
+                        AssetBundleConfig.ConfigFile.LoadFromFile(file);
+                    }
                 }
             }
         }
@@ -115,14 +120,18 @@ namespace IFramework.Engine
                 List<string> configFiles = new List<string>();
 
                 // 未进行过热更新
-                if (Configure.LoadAssetFromStream) { configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath); }
+                if (Configure.LoadAssetFromStream) {
+                    configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
+                }
                 // 进行过热更新
                 else {
                     string persistentPath = Path.Combine(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
                 }
 
-                foreach (string file in configFiles) { yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file); }
+                foreach (string file in configFiles) {
+                    yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
+                }
                 yield return null;
             }
         }
@@ -145,7 +154,9 @@ namespace IFramework.Engine
             if (create) {
                 resource = ResourceCreatorFactory.Create(searcher);
 
-                if (resource != null) { resourceTable.Add(resource.AssetName, resource); }
+                if (resource != null) {
+                    resourceTable.Add(resource.AssetName, resource);
+                }
             }
             return resource;
         }
@@ -214,7 +225,9 @@ namespace IFramework.Engine
 
         private void Update()
         {
-            if (isResourceMapDirty) { RemoveUnusedResource(); }
+            if (isResourceMapDirty) {
+                RemoveUnusedResource();
+            }
         }
 
         /// <summary>

@@ -49,7 +49,9 @@ namespace IFramework.Core
                 return false;
             }
 
-            if (Counter == 0) { OnZero.InvokeSafe(); }
+            if (Counter == 0) {
+                OnZero.InvokeSafe();
+            }
             return true;
         }
 
@@ -61,7 +63,9 @@ namespace IFramework.Core
         {
             Owners.Clear();
 
-            if (invokeAction) { OnZero.InvokeSafe(); }
+            if (invokeAction) {
+                OnZero.InvokeSafe();
+            }
         }
 
         public virtual void Dispose()

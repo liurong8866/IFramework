@@ -21,7 +21,11 @@ namespace IFramework.Core.Zip.Encryption
 
             public void AppendData(byte[] buffer, int offset, int count)
             {
-                TransformBlock(buffer, offset, count, buffer, offset);
+                TransformBlock(buffer,
+                               offset,
+                               count,
+                               buffer,
+                               offset);
             }
 
             public byte[] GetHashAndReset()
@@ -100,7 +104,9 @@ namespace IFramework.Core.Zip.Encryption
         {
             // Pass the data stream to the hash algorithm for generating the Auth Code.
             // This does not change the inputBuffer. Do this before decryption for read mode.
-            if (!writeMode) { hmacsha1.AppendData(inputBuffer, inputOffset, inputCount); }
+            if (!writeMode) {
+                hmacsha1.AppendData(inputBuffer, inputOffset, inputCount);
+            }
 
             // Encrypt with AES in CTR mode. Regards to Dr Brian Gladman for this.
             int ix = 0;
@@ -110,9 +116,16 @@ namespace IFramework.Core.Zip.Encryption
                     /* increment encryption nonce   */
                     int j = 0;
 
-                    while (++counterNonce[j] == 0) { ++j; }
+                    while (++counterNonce[j] == 0) {
+                        ++j;
+                    }
+
                     /* encrypt the nonce to form next xor buffer    */
-                    encryptor.TransformBlock(counterNonce, 0, InputBlockSize, encryptBuffer, 0);
+                    encryptor.TransformBlock(counterNonce,
+                                             0,
+                                             InputBlockSize,
+                                             encryptBuffer,
+                                             0);
                     encrPos = 0;
                 }
                 outputBuffer[ix + outputOffset] = (byte)(inputBuffer[ix + inputOffset] ^ encryptBuffer[encrPos++]);
@@ -137,7 +150,9 @@ namespace IFramework.Core.Zip.Encryption
         /// </summary>
         public byte[] GetAuthCode()
         {
-            if (authCode == null) { authCode = hmacsha1.GetHashAndReset(); }
+            if (authCode == null) {
+                authCode = hmacsha1.GetHashAndReset();
+            }
             return authCode;
         }
 

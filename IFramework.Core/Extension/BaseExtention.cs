@@ -28,7 +28,7 @@ namespace IFramework.Core
         {
             return string.IsNullOrEmpty(value);
         }
-        
+
         /// <summary>
         /// 判断是否不为空
         /// </summary>
@@ -52,7 +52,7 @@ namespace IFramework.Core
         {
             return !Nothing(value);
         }
-        
+
         /// <summary>
         /// 判断是否不为空
         /// </summary>
@@ -68,7 +68,9 @@ namespace IFramework.Core
         {
             string result = "";
 
-            if (!value.Nothing()) { result = value.ToString(); }
+            if (!value.Nothing()) {
+                result = value.ToString();
+            }
             return result;
         }
 
@@ -79,7 +81,9 @@ namespace IFramework.Core
         {
             string result = defaultvalue;
 
-            if (!value.Nothing()) { result = value.ToString(); }
+            if (!value.Nothing()) {
+                result = value.ToString();
+            }
             return result;
         }
 
@@ -154,8 +158,12 @@ namespace IFramework.Core
         {
             string result;
 
-            if (value == null) { result = ""; }
-            else { result = value.ToString().Trim().Replace("'", "''").Replace("]", "]]").Replace("%", "[%]").Replace("_", "[_]").Replace("^", "[^]"); }
+            if (value == null) {
+                result = "";
+            }
+            else {
+                result = value.ToString().Trim().Replace("'", "''").Replace("]", "]]").Replace("%", "[%]").Replace("_", "[_]").Replace("^", "[^]");
+            }
             return result;
         }
 
@@ -166,8 +174,12 @@ namespace IFramework.Core
         {
             string result;
 
-            if (value == null) { result = ""; }
-            else { result = value.ToString().Trim().Replace("'", "’").Replace("]", "］").Replace("%", "％").Replace("_", "＿").Replace("^", "＾"); }
+            if (value == null) {
+                result = "";
+            }
+            else {
+                result = value.ToString().Trim().Replace("'", "’").Replace("]", "］").Replace("%", "％").Replace("_", "＿").Replace("^", "＾");
+            }
             return result;
         }
 
@@ -204,8 +216,12 @@ namespace IFramework.Core
         {
             T result = value;
 
-            if (value.CompareTo(min) < 0) { result = min; }
-            else if (value.CompareTo(max) > 0) { result = max; }
+            if (value.CompareTo(min) < 0) {
+                result = min;
+            }
+            else if (value.CompareTo(max) > 0) {
+                result = max;
+            }
             return result;
         }
 
@@ -216,8 +232,12 @@ namespace IFramework.Core
         {
             T result = value;
 
-            if (value.CompareTo(min) < 0) { result = defaultvalue; }
-            else if (value.CompareTo(max) > 0) { result = defaultvalue; }
+            if (value.CompareTo(min) < 0) {
+                result = defaultvalue;
+            }
+            else if (value.CompareTo(max) > 0) {
+                result = defaultvalue;
+            }
             return result;
         }
 

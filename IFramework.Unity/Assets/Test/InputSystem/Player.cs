@@ -1,8 +1,6 @@
-using System;
 using IFramework.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 
 namespace IFramework.Test.InputSystem
 {
@@ -40,6 +38,6 @@ namespace IFramework.Test.InputSystem
         }
 
         // Update is called once per frame
-        void Update() { }
+        private void Update() { }
     }
 }

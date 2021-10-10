@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-using IFramework.Core;
 using IFramework.Engine;
 using IFramework.Engine.TimeLine;
 using UnityEngine;
@@ -8,7 +6,7 @@ namespace IFramework.Test.ActionKit
 {
     public class TimeLineActionTest : MonoBehaviour
     {
-        void Start()
+        private void Start()
         {
             TimeLine timelineNode = new TimeLine();
 

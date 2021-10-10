@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using IFramework.Core;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace IFramework.Test.IOC
         // [Autowired] public A AObj;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             IocContainer container = IocContainer.Instance;
             container.RegisterInstance(new A());

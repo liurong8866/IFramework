@@ -72,7 +72,9 @@ namespace IFramework.Editor
                 }
 
                 // 如果不在子包，则认为默认包资源
-                if (idDefault) { defaultPackage.packages.Add(assetBundleBuild); }
+                if (idDefault) {
+                    defaultPackage.packages.Add(assetBundleBuild);
+                }
             }
         }
     }

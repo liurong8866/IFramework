@@ -19,7 +19,7 @@ namespace IFramework.Engine
         protected IData data;
 
         public IManager Manager => UIManager.Instance;
-        
+
         public void Init(IData data = null)
         {
             this.data = data;

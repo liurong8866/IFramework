@@ -36,9 +36,13 @@ namespace IFramework.Core
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
 
-        [HideInInspector] [SerializeField] private string comment = "";
+        [HideInInspector]
+        [SerializeField]
+        private string comment = "";
 
-        [HideInInspector] [SerializeField] private string componentName = "";
+        [HideInInspector]
+        [SerializeField]
+        private string componentName = "";
 
         /// <summary>
         /// 取当前物体上绑定的组件

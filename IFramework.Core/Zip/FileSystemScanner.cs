@@ -76,8 +76,12 @@ namespace IFramework.Core.Zip
             get {
                 float result;
 
-                if (Target <= 0) { result = 0; }
-                else { result = Processed / (float)Target * 100.0f; }
+                if (Target <= 0) {
+                    result = 0;
+                }
+                else {
+                    result = Processed / (float)Target * 100.0f;
+                }
                 return result;
             }
         }
@@ -381,8 +385,12 @@ namespace IFramework.Core.Zip
                 bool hasMatch = false;
 
                 for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
-                    if (!fileFilter.IsMatch(names[fileIndex])) { names[fileIndex] = null; }
-                    else { hasMatch = true; }
+                    if (!fileFilter.IsMatch(names[fileIndex])) {
+                        names[fileIndex] = null;
+                    }
+                    else {
+                        hasMatch = true;
+                    }
                 }
                 OnProcessDirectory(directory, hasMatch);
 
@@ -392,15 +400,23 @@ namespace IFramework.Core.Zip
                             if (fileName != null) {
                                 OnProcessFile(fileName);
 
-                                if (!alive) { break; }
+                                if (!alive) {
+                                    break;
+                                }
                             }
-                        } catch (Exception e) {
-                            if (!OnFileFailure(fileName, e)) { throw; }
+                        }
+                        catch (Exception e) {
+                            if (!OnFileFailure(fileName, e)) {
+                                throw;
+                            }
                         }
                     }
                 }
-            } catch (Exception e) {
-                if (!OnDirectoryFailure(directory, e)) { throw; }
+            }
+            catch (Exception e) {
+                if (!OnDirectoryFailure(directory, e)) {
+                    throw;
+                }
             }
 
             if (alive && recurse) {
@@ -411,11 +427,16 @@ namespace IFramework.Core.Zip
                         if (directoryFilter == null || directoryFilter.IsMatch(fulldir)) {
                             ScanDir(fulldir, true);
 
-                            if (!alive) { break; }
+                            if (!alive) {
+                                break;
+                            }
                         }
                     }
-                } catch (Exception e) {
-                    if (!OnDirectoryFailure(directory, e)) { throw; }
+                }
+                catch (Exception e) {
+                    if (!OnDirectoryFailure(directory, e)) {
+                        throw;
+                    }
                 }
             }
         }
