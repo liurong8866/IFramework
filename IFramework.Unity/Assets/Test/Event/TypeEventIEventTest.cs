@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace IFramework.Test.Event
 {
-    public class TypeEventIOnEventTest : MonoBehaviour, IOnEvent<OnLeftMouseClickEvent>, IOnEvent<OnRightMouseClickEvent>
+    public class TypeEventIEventTest : MonoBehaviour, IEvent<OnLeftMouseClickEvent>, IEvent<OnRightMouseClickEvent>
     {
         private void Start()
         {
@@ -13,8 +13,12 @@ namespace IFramework.Test.Event
 
         private void Update()
         {
-            if (Input.GetMouseButton(0)) { TypeEvent.Send(new OnLeftMouseClickEvent()); }
-            else if (Input.GetMouseButton(1)) { TypeEvent.Send(new OnRightMouseClickEvent()); }
+            if (Input.GetMouseButton(0)) {
+                TypeEvent.Send(new OnLeftMouseClickEvent());
+            }
+            else if (Input.GetMouseButton(1)) {
+                TypeEvent.Send(new OnRightMouseClickEvent());
+            }
         }
 
         public void OnEvent(OnLeftMouseClickEvent t)

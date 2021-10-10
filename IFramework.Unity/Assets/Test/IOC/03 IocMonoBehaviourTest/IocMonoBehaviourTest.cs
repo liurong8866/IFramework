@@ -5,10 +5,10 @@ namespace IFramework.Test.IOC
 {
     public class IocMonoBehaviourTest : IocMonoBehaviour
     {
-        [Autowired("Teacher")] private IPerson teacher;
-        [Autowired("Student")] private IPerson sutdent;
+        [Autowired("Teacher")] private IPerson teacher = null;
+        [Autowired("Student")] private IPerson sutdent = null;
 
-        
+
         [Autowired] private IPerson xiaoxuesheng1 { get; set; }
         [Autowired("Xiaoxuesheng")] private IPerson xiaoxuesheng2 { get; set; }
 

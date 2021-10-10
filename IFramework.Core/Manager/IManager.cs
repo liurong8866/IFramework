@@ -14,6 +14,6 @@ namespace IFramework.Core
 
         void SendEvent<T>(T eventId) where T : IConvertible;
 
-        void SendMsg(IMsg msg);
+        // void SendMsg(IMsg msg);
     }
 }

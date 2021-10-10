@@ -11,19 +11,24 @@ namespace IFramework.Test.Event
             IDisposable disposable = TypeEvent.Register<GameStartEvent>(OnGameStartEvent);
             TypeEvent.Register<GameOverEvent>(OnGameOverEvent);
             TypeEvent.Register<ISkillEvent>(OnSkillEvent);
+            // 
             TypeEvent.Send<GameStartEvent>();
-            disposable.Dispose();
+            TypeEvent.Send<GameOverEvent>();
+
             TypeEvent.Send<GameStartEvent>();
-            disposable.Dispose();
-
-            TypeEvent.Send(new GameOverEvent {
-                score = 100
-            });
-
+            
             // 要把事件发送给父类
             TypeEvent.Send<ISkillEvent>(new PlayerSkillAEvent());
             TypeEvent.Send<ISkillEvent>(new PlayerSkillBEvent());
+            
+            TypeEvent.Send(new GameOverEvent {
+                score = 100
+            });
             gameObject.DestroySelf();
+            disposable.Dispose();
+            TypeEvent.Send<GameOverEvent>();
+            // GameStartEven已 Dispose
+            TypeEvent.Send<GameStartEvent>();
         }
 
         private void OnGameStartEvent(GameStartEvent gameStartEvent)
