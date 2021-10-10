@@ -14,14 +14,22 @@ namespace IFramework.Engine
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void InitBeforeSceneLoad(){
             
-            // Log.Info("初始化 PlatformEnvironment");
+            // "初始化 PlatformEnvironment"
             PlatformEnvironment.Instance.Init(Environment.Instance);
 
-            // Log.Info("初始化 ResourceManager");
-            // ResourceManager.Init();
-            
-            // Log.Info("异步加载初始化 ResourceManager");
+            // 异步加载初始化 ResourceManager"
             ResourceManager.Instance.InitAsync();
+            
+            // 初始化Bean
+            BeanRegister();
+        }
+
+        /// <summary>
+        /// 注册Bean到IOC容器
+        /// </summary>
+        private void BeanRegister()
+        {
+            IocContainer.Instance.Register<ITypeEvent, TypeEvent>();
         }
     }
 }

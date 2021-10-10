@@ -1,30 +1,39 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace IFramework.Core
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ManagerBehaviour : IocMonoSingleton<ManagerBehaviour>, IManager
+    public abstract class ManagerBehaviour : IocMonoSingleton<ManagerBehaviour>, IManager
     {
-        public void Init()
+        [Autowired]
+        private ITypeEvent typeEvent;
+        
+        #region 代理实现
+        
+        public IDisposable RegisterEvent<T>(Action<T> action)
         {
-            throw new NotImplementedException();
+            return typeEvent.RegisterEvent(action);
         }
 
-        public void RegisterEvent<T>(T msgId, OnEvent process) where T : IConvertible
+        public void UnRegisterEvent<T>(Action<T> action)
         {
-            throw new NotImplementedException();
+            typeEvent.UnRegisterEvent(action);
         }
 
-        public void UnRegisterEvent<T>(T msgEvent, OnEvent process) where T : IConvertible
+        public void SendEvent<T>() where T : new()
         {
-            throw new NotImplementedException();
+            typeEvent.SendEvent<T>();
         }
 
-        public void SendEvent<T>(T eventId) where T : IConvertible
+        public void SendEvent<T>(T param)
         {
-            throw new NotImplementedException();
+            typeEvent.SendEvent(param);
         }
+        
+        #endregion
+        
     }
 }

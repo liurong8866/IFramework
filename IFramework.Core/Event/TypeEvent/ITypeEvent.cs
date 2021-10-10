@@ -25,7 +25,7 @@ namespace IFramework.Core
         /// <summary>
         /// 发送事件
         /// </summary>
-        void SendEvent<T>(T t);
+        void SendEvent<T>(T param);
 
         /// <summary>
         /// 清空事件

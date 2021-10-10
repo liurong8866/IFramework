@@ -61,12 +61,12 @@ namespace IFramework.Core
         /// <summary>
         /// 发送事件
         /// </summary>
-        public void SendEvent<T>(T t)
+        public void SendEvent<T>(T param)
         {
             Type type = typeof(T);
 
             if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
-                if (register is EventRegister<T> reg) { reg.actions(t); }
+                if (register is EventRegister<T> reg) { reg.actions(param); }
             }
         }
 
@@ -118,9 +118,9 @@ namespace IFramework.Core
         /// <summary>
         /// 发送事件
         /// </summary>
-        public static void Send<T>(T t)
+        public static void Send<T>(T param)
         {
-            typeEvent.SendEvent(t);
+            typeEvent.SendEvent(param);
         }
     }
 }

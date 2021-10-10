@@ -2,9 +2,9 @@ using System;
 
 namespace IFramework.Core
 {
-    public interface IEvent<T>
+    public interface IEvent<in T>
     {
-        void OnEvent(T action);
+        void OnEvent(T param);
     }
 
     public static class IEventExtension

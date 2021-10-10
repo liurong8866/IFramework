@@ -6,7 +6,7 @@ namespace IFramework.Engine
     /// <summary>
     /// UIPanel 基础类
     /// </summary>
-    public abstract class UIPanel : MonoBehaviour, IPanel
+    public abstract class UIPanel : ManagerBehaviour, IPanel
     {
         public Transform Transform => transform;
 
@@ -17,9 +17,6 @@ namespace IFramework.Engine
         public PanelState State { get; set; }
 
         protected IData data;
-
-        // public IManager Manager {
-        // }
 
         public void Init(IData data = null)
         {

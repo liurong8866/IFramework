@@ -14,11 +14,6 @@ namespace IFramework.Core
         private static readonly object locker = new object();
 
         /// <summary>
-        /// 单例构造器
-        /// </summary>
-        protected Singleton() { }
-
-        /// <summary>
         /// 双重锁，线程安全
         /// </summary>
         public static T Instance {

@@ -14,11 +14,6 @@ namespace IFramework.Core
         protected static bool isApplicationQuit;
 
         /// <summary>
-        /// 单例构造器
-        /// </summary>
-        protected IocMonoSingleton() { }
-        
-        /// <summary>
         /// 获得实例
         /// </summary>
         public static T Instance {
