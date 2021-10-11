@@ -17,10 +17,13 @@ namespace IFramework.Editor
         private void OnEnable()
         {
             bind = target as AbstractBind;
-            bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
-            bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
-            bindTypeMonitor.OnChange += GetElementTypeOptions;
-            GetElementTypeOptions(0);
+
+            if (bind != null) {
+                bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
+                bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
+                bindTypeMonitor.OnChange += GetElementTypeOptions;
+                GetElementTypeOptions(0);
+            }
         }
 
         private void GetElementTypeOptions(BindType element)
@@ -30,10 +33,7 @@ namespace IFramework.Editor
                     Component[] components = bind.GetComponents<Component>();
 
                     // 排除 AbstractBind 自身
-                    elementTypeOptions = components
-                           .Where(c => c != null && !(c is AbstractBind))
-                           .Select(c => c.GetType().FullName)
-                           .ToArray();
+                    elementTypeOptions = components.Where(c => c != null && !(c is AbstractBind)).Select(c => c.GetType().FullName).ToArray();
                     elementTypeIndex = elementTypeOptions.ToList().FindIndex(componentName => componentName.Contains(bind.ComponentName));
 
                     if (elementTypeIndex == -1 || elementTypeIndex >= elementTypeOptions.Length) {

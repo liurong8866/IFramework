@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using IFramework.Core;
+using IFramework.Engine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace IFramework.Editor
 {
     public static class EditorUtils
     {
+        public static string CurrentSelectPath => Selection.activeObject == null ? null : AssetDatabase.GetAssetPath(Selection.activeObject);
+
         /// <summary>
         /// 获取鼠标选择的路径
         /// </summary>
@@ -28,8 +31,6 @@ namespace IFramework.Editor
             }
             return path;
         }
-
-        public static string CurrentSelectPath => Selection.activeObject == null ? null : AssetDatabase.GetAssetPath(Selection.activeObject);
 
         /// <summary>
         /// 获取父节点到当前节点的相对路径
@@ -90,6 +91,14 @@ namespace IFramework.Editor
         }
 
         /// <summary>
+        /// 判断是否 UIPanle
+        /// </summary>
+        public static bool IsUIPanel(this Component component)
+        {
+            return component.GetComponent<UIPanel>();
+        }
+
+        /// <summary>
         /// 清空Missing脚本
         /// </summary>
         public static void ClearMissing(GameObject[] gameObjects, Action<GameObject> onCleared = null)
@@ -124,9 +133,81 @@ namespace IFramework.Editor
             }
         }
 
+        /// <summary>
+        /// 清除空格
+        /// </summary>
         public static string FormatName(this string name)
         {
             return name.Replace(" ", "").Replace("　", "");
+        }
+
+        /// <summary>
+        /// 查找最后一个Dir名称
+        /// </summary>
+        public static string GetLastDirName(string path)
+        {
+            string name = path.Replace("\\", "/");
+            string[] dirs = name.Split('/');
+            return dirs[dirs.Length - 2];
+        }
+
+        /// <summary>
+        /// 通过Prefab路径找到cs资源路径
+        /// </summary>
+        public static string GenSourceFilePathFromPrefabPath(string prefabPath, string prefabName)
+        {
+            string filePath;
+
+            if (prefabPath.Contains(Configure.UIPrefabPath.Value)) {
+                filePath = prefabPath.Replace(Configure.UIPrefabPath.Value, Configure.UIScriptPath.Value);
+            }
+            else if (prefabPath.Contains("/Resources")) {
+                filePath = prefabPath.Replace("/Resources", Configure.UIScriptPath.Value);
+            }
+            else {
+                filePath = prefabPath.Replace("/" + GetLastDirName(prefabPath), Configure.UIScriptPath.Value);
+            }
+            filePath = filePath.Replace(prefabName + ".prefab", string.Empty);
+            DirectoryUtils.Create(filePath);
+            return filePath.Replace(".prefab", ".cs");
+        }
+
+        /// <summary>
+        /// 查找Bind所属的ViewController
+        /// </summary>
+        public static string GetBindBelongsTo(AbstractBind bind)
+        {
+            Transform trans = bind.Transform;
+
+            while (trans.parent != null) {
+                if (trans.parent.IsViewController()) {
+                    return trans.parent.name + "(" + trans.parent.GetComponent<ViewController>().ScriptName + ")";
+                }
+
+                if (trans.parent.IsUIPanel()) {
+                    return "UIPanel" + "(" + trans.parent.GetComponent<UIPanel>().name + ")";
+                }
+                trans = trans.parent;
+            }
+            return trans.name;
+        }
+
+        /// <summary>
+        /// 查找Bind所属的ViewController的GameObject对象
+        /// </summary>
+        /// <param name="bind"></param>
+        /// <returns></returns>
+        public static GameObject GetBindBelongsToGameObject(AbstractBind bind)
+        {
+            Transform trans = bind.Transform;
+
+            while (trans.parent != null) {
+                if (trans.parent.IsViewController() || trans.parent.IsUIPanel()) {
+                    return trans.parent.gameObject;
+                }
+                trans = trans.parent;
+            }
+            return bind.gameObject;
         }
     }
 }

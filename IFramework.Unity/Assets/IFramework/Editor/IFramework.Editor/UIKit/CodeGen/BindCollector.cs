@@ -12,10 +12,10 @@ namespace IFramework.Editor
         /// </summary>
         /// <param name="current">当前节点</param>
         /// <param name="fullName">全路径</param>
-        /// <param name="rootControllerInfo">父ViewController节点信息</param>
+        /// <param name="rootNodeInfo">父ViewController节点信息</param>
         /// <param name="parentElementInfo">子ViewController节点，Bind的Element信息</param>
         /// <param name="leafPanelType">叶节点类型</param>
-        public static void SearchBind(Transform current, string fullName, RootViewControllerInfo rootControllerInfo = null, ElementInfo parentElementInfo = null, Type leafPanelType = null)
+        public static void SearchBind(Transform current, string fullName, RootNodeInfo rootNodeInfo = null, ElementInfo parentElementInfo = null, Type leafPanelType = null)
         {
             foreach (Transform child in current) {
                 // 获得当前节点Bind组件
@@ -25,13 +25,13 @@ namespace IFramework.Editor
                     // 如果父节点Bind不是Element类型
                     if (parentElementInfo == null) {
                         // 如果不包含当前节点的对象名称
-                        if (!rootControllerInfo.BindInfoList.Any(bindInfo => bindInfo.Name.Equals(bind.Transform.name))) {
-                            rootControllerInfo.BindInfoList.Add(new BindInfo {
+                        if (!rootNodeInfo.BindInfoList.Any(bindInfo => bindInfo.Name.Equals(bind.Transform.name))) {
+                            rootNodeInfo.BindInfoList.Add(new BindInfo {
                                 Name = bind.Transform.name,
                                 BindScript = bind,
-                                PathToElement = EditorUtils.PathToParent(child, rootControllerInfo.GameObjectName)
+                                PathToElement = EditorUtils.PathToParent(child, rootNodeInfo.GameObjectName)
                             });
-                            rootControllerInfo.NameToFullNameDic.Add(bind.Transform.name, fullName + child.name);
+                            rootNodeInfo.NameToFullNameDic.Add(bind.Transform.name, fullName + child.name);
                         }
                         else {
                             Log.Error("生成失败！ 绑定的对象名称重复: " + child.name);
@@ -65,7 +65,7 @@ namespace IFramework.Editor
                         // 如果没有Bind Element的对象，则
                         if (parentElementInfo == null) {
                             // 根节点ViewController 添加
-                            rootControllerInfo.ElementInfoList.Add(elementInfo);
+                            rootNodeInfo.ElementInfoList.Add(elementInfo);
                         }
                         else {
                             // 子节点ViewController 添加
@@ -73,20 +73,20 @@ namespace IFramework.Editor
                         }
 
                         // 递归下一层
-                        SearchBind(child, fullName + child.name + "/", rootControllerInfo, elementInfo);
+                        SearchBind(child, fullName + child.name + "/", rootNodeInfo, elementInfo);
                     }
                     else {
                         // 如果是标记的叶子节点则不再继续搜索, 这里是遇到Element就认为是叶节点
                         if (leafPanelType != null && bind.Transform.GetComponent(leafPanelType)) { }
                         else {
                             // 递归下一层
-                            SearchBind(child, fullName + child.name + "/", rootControllerInfo, parentElementInfo);
+                            SearchBind(child, fullName + child.name + "/", rootNodeInfo, parentElementInfo);
                         }
                     }
                 }
                 else {
                     // 递归下一层
-                    SearchBind(child, fullName + child.name + "/", rootControllerInfo, parentElementInfo);
+                    SearchBind(child, fullName + child.name + "/", rootNodeInfo, parentElementInfo);
                 }
             }
         }

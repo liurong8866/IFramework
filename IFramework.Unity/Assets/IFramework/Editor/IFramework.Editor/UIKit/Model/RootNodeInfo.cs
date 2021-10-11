@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 namespace IFramework.Editor
 {
-    public class RootViewControllerInfo
+    /// <summary>
+    /// 用于记录根节点的信息
+    /// </summary>
+    public class RootNodeInfo
     {
         public string GameObjectName;
 
@@ -18,4 +21,14 @@ namespace IFramework.Editor
 
         public IEnumerable<string> ForeignKeys { get; private set; }
     }
+
+    /// <summary>
+    /// 用于记录根ViewController的信息
+    /// </summary>
+    public class RootViewControllerInfo : RootNodeInfo { }
+
+    /// <summary>
+    /// 用于记录根Panel的信息
+    /// </summary>
+    public class RootPanelInfo : RootNodeInfo { }
 }
