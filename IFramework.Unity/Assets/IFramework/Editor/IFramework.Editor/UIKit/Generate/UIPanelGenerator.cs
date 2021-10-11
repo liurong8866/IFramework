@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 namespace IFramework.Editor
 {
-    public class UIPanelScript
+    /// <summary>
+    /// UIPanel 代码生成器
+    /// </summary>
+    public class UIPanelGenerator
     {
-        private static ScriptGenInfo mScriptKitInfo;
-
         /// <summary>
         /// 生成脚本
         /// </summary>
@@ -66,41 +67,31 @@ namespace IFramework.Editor
             };
             // 查询所有Bind
             BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
-            
+
             // 生成UIPanel代码
             GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
-            CreateUIPanelDesignerCode(behaviourName, strFilePath, rootPanelInfo);
-            UISerializer.StartAddComponent2PrefabAfterCompile(obj);
-            HotScriptBind(obj);
+            // CreateUIPanelDesignerCode(behaviourName, strFilePath, rootPanelInfo);
+            // UISerializer.StartAddComponent2PrefabAfterCompile(obj);
             Object.DestroyImmediate(clone);
         }
 
         /// <summary>
         /// 生成UIPanel代码
         /// </summary>
-        private void GenerateUIPanelCode(GameObject prefab, string prefabPath, RootPanelInfo rootPanelInfo)
+        private static void GenerateUIPanelCode(GameObject prefab, string prefabPath, RootPanelInfo rootPanelInfo)
         {
             if (null == prefab) return;
 
             string behaviourName = prefab.name;
             string filePath = EditorUtils.GenSourceFilePathFromPrefabPath(prefabPath, behaviourName);
 
-            if (FileUtils.Exists(filePath) == false) {
-                UIPanelTemplate
-                UIPanelTemplate.Write(behaviourName, filePath, UIKitSettingData.Load().Namespace, UIKitSettingData.Load());
-            }
-        }
-
-        /// <summary>
-        /// 热更新绑定
-        /// </summary>
-        private static void HotScriptBind(GameObject uiPrefab)
-        {
-            if (mScriptKitInfo.IsNotNull() && mScriptKitInfo.CodeBind.IsNotNull()) {
-                mScriptKitInfo.CodeBind.Invoke(uiPrefab, mScriptKitInfo.HotScriptFilePath);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
+                Namespace = Configure.DefaultNameSpace.Value,
+                ScriptName = behaviourName,
+                ScriptPath = filePath,
+            };
+            // 如果存在文件，则不覆盖
+            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
         }
     }
 }

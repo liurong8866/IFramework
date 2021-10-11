@@ -4,17 +4,14 @@ using IFramework.Core;
 
 namespace IFramework.Editor
 {
-    public class ViewControllerDesignerTemplate : AbstractTemplate
+    public class ViewControllerDesignerTemplate : AbstractTemplate<ViewControllerDesignerTemplate>
     {
         private ViewControllerDesignerTemplate() { }
-
-        // 属性单例
-        public static ViewControllerDesignerTemplate Instance => SingletonProperty<ViewControllerDesignerTemplate>.Instance;
 
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => generateInfo.ScriptAssetsDesignerName;
+        protected override string FullName => generateInfo.ScriptAssetsDesignerName;
 
         /// <summary>
         /// 拼接字符串

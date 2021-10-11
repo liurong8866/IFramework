@@ -5,13 +5,13 @@ namespace IFramework.Editor
     /// <summary>
     /// 代码模板抽象类
     /// </summary>
-    public abstract class AbstractTemplate : ISingleton
+    public abstract class AbstractTemplate<T> : ITemplate, ISingleton where T : AbstractTemplate<T>
     {
         protected GenerateInfo generateInfo;
         protected RootNodeInfo rootNodeInfo;
 
-        public virtual void OnInit() { }
-
+        public static T Instance => SingletonProperty<T>.Instance;
+        
         /// <summary>
         /// 生成代码
         /// </summary>
@@ -38,11 +38,13 @@ namespace IFramework.Editor
         /// <summary> 
         /// 文件全名
         /// </summary>
-        public abstract string FullName { get; }
+        protected abstract string FullName { get; }
 
         /// <summary>
         /// 拼接字符串
         /// </summary>
         protected abstract string BuildScript();
+
+        public virtual void OnInit() { }
     }
 }

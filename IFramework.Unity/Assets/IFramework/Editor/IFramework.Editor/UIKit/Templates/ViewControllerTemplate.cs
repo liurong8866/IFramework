@@ -3,17 +3,14 @@ using IFramework.Core;
 
 namespace IFramework.Editor
 {
-    public class ViewControllerTemplate : AbstractTemplate
+    public class ViewControllerTemplate : AbstractTemplate<ViewControllerTemplate>
     {
         private ViewControllerTemplate() { }
-
-        // 属性单例
-        public static ViewControllerTemplate Instance => SingletonProperty<ViewControllerTemplate>.Instance;
 
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => generateInfo.ScriptAssetsClassName;
+        protected override string FullName => generateInfo.ScriptAssetsClassName;
 
         /// <summary>
         /// 拼接字符串

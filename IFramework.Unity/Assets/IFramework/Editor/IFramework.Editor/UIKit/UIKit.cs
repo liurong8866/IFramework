@@ -55,7 +55,7 @@ namespace IFramework.Editor
         /// </summary>
         public static void ViewControllerGenerate()
         {
-            ViewControllerScript.GenerateCode(false);
+            ViewControllerGenerator.GenerateCode(false);
         }
 
         public static void UICodeGenerate()

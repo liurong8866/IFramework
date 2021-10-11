@@ -9,7 +9,10 @@ using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
 {
-    public class ViewControllerScript
+    /// <summary>
+    /// ViewController 代码生成器
+    /// </summary>
+    public class ViewControllerGenerator
     {
         private static readonly ConfigDateTime generateTime = new ConfigDateTime("GENERATE_TIME");
         private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
@@ -150,12 +153,13 @@ namespace IFramework.Editor
                 // Apply the changed properties without an undo.
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
+                GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
                 // 如果不存在，则生成文件夹
-                DirectoryUtils.Create(controller.PrefabAssetsPath);
+                DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
 
                 // 当根节点，或者其父节点也是prefab，则不保存
                 if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
-                    string path = controller.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
+                    string path = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
                     Log.Info("生成脚本: 正在生成预设 " + path);
                     EditorUtils.SavePrefab(go, path);
                 }

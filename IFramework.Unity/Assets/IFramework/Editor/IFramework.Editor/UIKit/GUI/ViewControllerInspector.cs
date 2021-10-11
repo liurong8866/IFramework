@@ -9,6 +9,9 @@ namespace IFramework.Editor
     public class ViewControllerInspector : UnityEditor.Editor
     {
         private ViewController controller => target as ViewController;
+
+        private GenerateInfo generateInfo;
+
         private bool overwrite1;
         private bool overwrite2;
         private bool overwrite3;
@@ -31,6 +34,9 @@ namespace IFramework.Editor
 
             // Prefab路径
             controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
+            
+            // 生成信息
+            generateInfo = new ViewControllerGenerateInfo(controller);
         }
 
         public override void OnInspectorGUI()
@@ -118,15 +124,15 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("生成脚本")) {
-                ViewControllerScript.GenerateCode(overwrite1 && overwrite2 && overwrite3);
+                ViewControllerGenerator.GenerateCode(overwrite1 && overwrite2 && overwrite3);
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
                 GUIUtility.ExitGUI();
             }
 
             // 如果文件存在则显示
-            if (File.Exists(controller.ScriptAssetsClassName)) {
+            if (File.Exists(generateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
-                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(controller.ScriptAssetsClassName);
+                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(generateInfo.ScriptAssetsClassName);
 
                 if (GUILayout.Button("选择", GUILayout.Width(60))) {
                     Selection.objects = new Object[] { scriptObject };

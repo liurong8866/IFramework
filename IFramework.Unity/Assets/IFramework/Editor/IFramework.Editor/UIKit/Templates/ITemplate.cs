@@ -1,6 +1,6 @@
 namespace IFramework.Editor
 {
-    public interface IBaseTemplate
+    public interface ITemplate
     {
         /// <summary>
         /// 生成代码
