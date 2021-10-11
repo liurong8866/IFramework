@@ -8,7 +8,7 @@ namespace IFramework.Engine
 
         public void Push<T>() where T : UIPanel
         {
-            // Push();
+            Push(UIKit.GetPanel<T>());
         }
 
         /// <summary>
@@ -20,13 +20,16 @@ namespace IFramework.Engine
             if (view != null) {
                 stack.Push(view.Info);
                 view.Close();
-                PanelSearcher panelSearcher = PanelSearcher.Allocate();
-                panelSearcher.GameObjectName = view.Transform.name;
-                UIManager.Instance.RemoveUI(panelSearcher);
-                panelSearcher.Recycle();
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.GameObjectName = view.Transform.name;
+                UIManager.Instance.RemoveUI(searcher);
+                searcher.Recycle();
             }
         }
 
+        /// <summary>
+        /// 出栈，代表打开UI界面
+        /// </summary>
         public void Pop()
         {
             PanelInfo previousPanelInfo = stack.Pop();
@@ -35,7 +38,8 @@ namespace IFramework.Engine
             searcher.Level = previousPanelInfo.Level;
             searcher.Data = previousPanelInfo.Data;
             searcher.AssetBundleName = previousPanelInfo.AssetBundleName;
-            searcher.Keyword = previousPanelInfo.PanelType;
+            searcher.Keyword = previousPanelInfo.Id;
+            searcher.TypeName = previousPanelInfo.PanelName;
             UIManager.Instance.OpenUI(searcher);
             searcher.Recycle();
         }

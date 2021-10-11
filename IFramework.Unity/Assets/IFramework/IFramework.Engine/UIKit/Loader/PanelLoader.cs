@@ -14,7 +14,7 @@ namespace IFramework.Engine
         {
             PanelLoader panelLoader = new PanelLoader();
             // 加载PanelPrefab
-            GameObject panelPrefab = panelLoader.LoadPrefab(searcher);
+            GameObject panelPrefab = panelLoader.LoadPrefab(searcher.TypeName, searcher.AssetBundleName);
             // 实例化Prefab
             GameObject obj = Object.Instantiate(panelPrefab);
             // 获取UIPanel组件
@@ -23,20 +23,13 @@ namespace IFramework.Engine
             panel.As<IPanel>().Loader = panelLoader;
             return panel;
         }
-        
+
         /// <summary>
         /// 加载Prefab
         /// </summary>
-        public GameObject LoadPrefab(PanelSearcher searcher)
+        public GameObject LoadPrefab(string assetName, string assetBundleName = null)
         {
-            if (searcher.Keyword.NotEmpty() && searcher.GameObjectName.Nothing()) {
-                return loader.Load<GameObject>(searcher.Keyword);
-            }
-
-            if (searcher.AssetBundleName.NotEmpty()) {
-                return loader.Load<GameObject>(searcher.AssetBundleName, searcher.GameObjectName);
-            }
-            return loader.Load<GameObject>(searcher.GameObjectName);
+            return assetBundleName.NotEmpty() ? loader.Load<GameObject>(assetName, assetBundleName) : loader.Load<GameObject>(assetName);
         }
 
         /// <summary>
@@ -47,8 +40,5 @@ namespace IFramework.Engine
             loader.Recycle();
             loader = null;
         }
-        
-
-        
     }
 }

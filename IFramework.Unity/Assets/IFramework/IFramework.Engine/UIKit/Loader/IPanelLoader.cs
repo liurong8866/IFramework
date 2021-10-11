@@ -10,7 +10,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 加载IPanel Prefab
         /// </summary>
-        GameObject LoadPrefab(PanelSearcher searcher);
+        GameObject LoadPrefab(string assetName, string assetBundleName = null);
 
         /// <summary>
         /// 卸载资源

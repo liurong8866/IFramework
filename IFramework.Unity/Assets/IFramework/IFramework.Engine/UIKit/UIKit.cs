@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    /// <summary>
+    /// UI Took Kit
+    /// </summary>
     public class UIKit
     {
         /// <summary>
@@ -90,13 +93,14 @@ namespace IFramework.Engine
         /// <summary>
         /// 获取面板
         /// </summary>
-        public static void GetPanel<T>() where T : UIPanel
+        public static T GetPanel<T>() where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
             searcher.Keyword = typeof(T).FullName;
             searcher.TypeName = typeof(T).Name;
-            UIManager.Instance.GetUI(searcher);
+            IPanel panel = UIManager.Instance.GetUI(searcher);
             searcher.Recycle();
+            return panel as T;
         }
 
         /// <summary>
