@@ -58,6 +58,11 @@ namespace IFramework.Editor
             ViewControllerScript.GenerateCode(false);
         }
 
+        public static void UICodeGenerate()
+        {
+            
+        }
+        
         /// <summary>
         /// 恢复默认设置
         /// </summary>
