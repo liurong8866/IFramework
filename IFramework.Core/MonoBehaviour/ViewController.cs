@@ -47,25 +47,5 @@ namespace IFramework.Core
         /// </summary>
         [HideInInspector]
         public string Comment = "";
-
-        /// <summary>
-        /// 脚本文件相对资源路径
-        /// </summary>
-        public string ScriptAssetsPath => Path.Combine("Assets", ScriptPath, AsScriptSubPath ? ScriptName : "");
-
-        /// <summary>
-        /// .cs 脚本全路径
-        /// </summary>
-        public string ScriptAssetsClassName => Path.Combine(ScriptAssetsPath, ScriptName + ".cs");
-
-        /// <summary>
-        /// .Designer.cs 脚本全路径
-        /// </summary>
-        public string ScriptAssetsDesignerName => Path.Combine(ScriptAssetsPath, ScriptName + ".Designer.cs");
-
-        /// <summary>
-        /// 预设文件相对资源路径
-        /// </summary>
-        public string PrefabAssetsPath => Path.Combine("Assets", PrefabPath, AsPrefabSubPath ? ScriptName : "");
     }
 }

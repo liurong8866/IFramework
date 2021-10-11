@@ -50,15 +50,17 @@ namespace IFramework.Editor
             // 搜索所有绑定对象
             BindCollector.SearchBind(go.transform, "", rootControllerInfo);
 
+            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+            
             // 生成Controller层
-            ViewControllerTemplate.Instance.Generate(controller, null, overwrite);
+            ViewControllerTemplate.Instance.Generate(generateInfo, null, overwrite);
 
             // 生成Model层
-            ViewControllerDesignerTemplate.Instance.Generate(controller, rootControllerInfo, true);
+            ViewControllerDesignerTemplate.Instance.Generate(generateInfo, rootControllerInfo, true);
 
             // 保存信息
-            generateNamespace.Value = controller.Namespace;
-            generateClassName.Value = controller.ScriptName;
+            generateNamespace.Value = generateInfo.Namespace;
+            generateClassName.Value = generateInfo.ScriptName;
             gameObjectName.Value = go.name;
 
             // 刷新项目资源

@@ -7,20 +7,20 @@ namespace IFramework.Editor
     /// </summary>
     public abstract class AbstractTemplate : ISingleton
     {
-        protected ViewController controller;
-        protected RootViewControllerInfo rootControllerInfo;
+        protected GenerateInfo generateInfo;
+        protected RootNodeInfo rootNodeInfo;
 
         public virtual void OnInit() { }
 
         /// <summary>
         /// 生成代码
         /// </summary>
-        /// <param name="controller">ViewController脚本信息路径</param>
-        /// <param name="rootControllerInfo">面板代码信息</param>
-        public void Generate(ViewController controller, RootViewControllerInfo rootControllerInfo = null, bool overwrite = false)
+        /// <param name="generateInfo">代码生成信息</param>
+        /// <param name="rootNodeInfo">面板代码信息</param>
+        public void Generate(GenerateInfo generateInfo, RootNodeInfo rootNodeInfo = null, bool overwrite = false)
         {
-            this.controller = controller;
-            this.rootControllerInfo = rootControllerInfo;
+            this.generateInfo = generateInfo;
+            this.rootNodeInfo = rootNodeInfo;
 
             // 如果文件不能覆盖，并且存在，则退出
             if (!overwrite && FileUtils.Exists(FullName)) {
@@ -29,7 +29,7 @@ namespace IFramework.Editor
             Log.Info("生成脚本: 正在生成脚本 " + FullName);
 
             // 创建文件夹，如果有则忽略
-            DirectoryUtils.Create(controller.ScriptAssetsPath);
+            DirectoryUtils.Create(generateInfo.ScriptAssetsPath);
 
             // 写入文件
             FileUtils.Write(FullName, BuildScript());

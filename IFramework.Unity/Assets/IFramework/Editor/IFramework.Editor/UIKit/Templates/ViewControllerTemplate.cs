@@ -13,7 +13,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => controller.ScriptAssetsClassName;
+        public override string FullName => generateInfo.ScriptAssetsClassName;
 
         /// <summary>
         /// 拼接字符串
@@ -26,19 +26,19 @@ namespace IFramework.Editor
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
 
-            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
+            if (generateInfo.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
                 sb.AppendLine("// 1.请在菜单 IFramework/UIKit Config 里设置默认命名空间");
                 sb.AppendLine("// 2.用户逻辑代码不会被覆盖，如需重新生成，请手动删除当前代码文件");
             }
-            sb.AppendLine("namespace " + controller.Namespace);
+            sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
 
-            if (controller.Comment.NotEmpty()) {
+            if (generateInfo.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
-                sb.AppendLine("\t///" + controller.Comment);
+                sb.AppendLine("\t///" + generateInfo.Comment);
                 sb.AppendLine("\t/// </summary>");
             }
-            sb.AppendLine("\tpublic partial class {0} : ViewController".Format(controller.ScriptName));
+            sb.AppendLine("\tpublic partial class {0} : ViewController".Format(generateInfo.ScriptName));
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tvoid Start()");
             sb.AppendLine("\t\t{");

@@ -4,11 +4,11 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Reflection;
 
-namespace IFramework.Core
+namespace IFramework.Editor
 {
-    public class Example
+    public class CodeGenExample
     {
-        /// <summary>
+         /// <summary>
         /// 代码生成示例
         /// </summary>
         private void GenerateCode()

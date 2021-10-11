@@ -14,7 +14,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 文件全名
         /// </summary>
-        public override string FullName => controller.ScriptAssetsDesignerName;
+        public override string FullName => generateInfo.ScriptAssetsDesignerName;
 
         /// <summary>
         /// 拼接字符串
@@ -30,16 +30,16 @@ namespace IFramework.Editor
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
 
-            if (controller.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
+            if (generateInfo.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
                 sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间");
             }
-            sb.AppendLine("namespace " + controller.Namespace);
+            sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine("\tpublic partial class {0}".Format(controller.ScriptName));
+            sb.AppendLine("\tpublic partial class {0}".Format(generateInfo.ScriptName));
             sb.AppendLine("\t{");
 
             // 循环设置字段
-            foreach (BindInfo bindInfo in rootControllerInfo.BindInfoList) {
+            foreach (BindInfo bindInfo in rootNodeInfo.BindInfoList) {
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     // 添加注释
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
