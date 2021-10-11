@@ -92,18 +92,18 @@ namespace IFramework.Editor
 
         public const string CON_MENU_ASSET_GENCODE = "Assets/I Kit - Generate Code";
 
-        [MenuItem(CON_MENU_ASSET_GENCODE, true, 121)]
+        [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
         private static void AssetCreateCode()
         {
-            UIKit.UICodeGenerate();
+            UIKit.UIPanelGenerate();
         }
 
-        // 控制是否可用
-        [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
-        private static bool AssetCreateCodeValidate()
-        {
-            return true;
-        }
+        // // 控制是否可用
+        // [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
+        // private static bool AssetCreateCodeValidate()
+        // {
+        //     return true;
+        // }
 
         // [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
         // private static void OpguiWindowLifeCircle()

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7190493342283030690
+--- !u!1 &8681184663071781428
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7190493342283030691}
-  - component: {fileID: 7190493342283030688}
+  - component: {fileID: 8681184663071781427}
+  - component: {fileID: 8681184663071781426}
   m_Layer: 0
-  m_Name: Password
+  m_Name: UserName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7190493342283030691
+--- !u!4 &8681184663071781427
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342283030690}
+  m_GameObject: {fileID: 8681184663071781428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7190493342670895938}
-  m_RootOrder: 1
+  m_Father: {fileID: 8681184663443541723}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7190493342283030688
+--- !u!114 &8681184663071781426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342283030690}
+  m_GameObject: {fileID: 8681184663071781428}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comment: "\u5BC6\u7801"
+  comment: "\u7528\u6237\u540D"
   componentName: UnityEngine.Transform
---- !u!1 &7190493342670895941
+--- !u!1 &8681184663443541724
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,8 +53,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7190493342670895938}
-  - component: {fileID: 4542994926794730273}
+  - component: {fileID: 8681184663443541723}
+  - component: {fileID: 5396964202249742895}
   m_Layer: 0
   m_Name: Login
   m_TagString: Untagged
@@ -62,29 +62,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7190493342670895938
+--- !u!4 &8681184663443541723
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342670895941}
+  m_GameObject: {fileID: 8681184663443541724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.79719985, y: -0.68724227, z: -5.0459247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7190493342782506922}
-  - {fileID: 7190493342283030691}
+  - {fileID: 8681184663071781427}
+  - {fileID: 8681184663562999098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4542994926794730273
+--- !u!114 &5396964202249742895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342670895941}
+  m_GameObject: {fileID: 8681184663443541724}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7840be72cceed4b67b2b62ee336d84ee, type: 3}
@@ -96,10 +96,10 @@ MonoBehaviour:
   AsScriptSubPath: 1
   PrefabPath: Prefab/Game
   AsPrefabSubPath: 0
-  Comment: "\u767B\u5F55\u7C7B"
-  UserName: {fileID: 7190493342782506922}
-  Password: {fileID: 7190493342283030691}
---- !u!1 &7190493342782506925
+  Comment: "\u7528\u6237\u540D"
+  UserName: {fileID: 8681184663071781427}
+  Password: {fileID: 8681184663562999098}
+--- !u!1 &8681184663562999099
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,40 +107,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7190493342782506922}
-  - component: {fileID: 7190493342782506923}
+  - component: {fileID: 8681184663562999098}
+  - component: {fileID: 8681184663562999097}
   m_Layer: 0
-  m_Name: UserName
+  m_Name: Password
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7190493342782506922
+--- !u!4 &8681184663562999098
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342782506925}
+  m_GameObject: {fileID: 8681184663562999099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7190493342670895938}
-  m_RootOrder: 0
+  m_Father: {fileID: 8681184663443541723}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7190493342782506923
+--- !u!114 &8681184663562999097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190493342782506925}
+  m_GameObject: {fileID: 8681184663562999099}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comment: "\u7528\u6237\u540D"
+  comment: "\u5BC6\u7801"
   componentName: UnityEngine.Transform

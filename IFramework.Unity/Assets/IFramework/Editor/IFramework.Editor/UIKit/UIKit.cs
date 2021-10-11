@@ -51,16 +51,19 @@ namespace IFramework.Editor
         }
 
         /// <summary>
-        /// 生成代码
+        /// 生成ViewController代码
         /// </summary>
         public static void ViewControllerGenerate()
         {
             ViewControllerGenerator.GenerateCode(false);
         }
 
-        public static void UICodeGenerate()
+        /// <summary>
+        /// 生成UIPanel代码
+        /// </summary>
+        public static void UIPanelGenerate()
         {
-            
+            UIPanelGenerator.GenerateCode();
         }
         
         /// <summary>

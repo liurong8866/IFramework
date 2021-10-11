@@ -32,24 +32,43 @@ namespace IFramework.Engine
             OnOpen(data);
         }
 
-        public void Show()
+        public virtual void Show()
         {
             gameObject.SetActive(true);
+            OnShow();
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
+            OnHide();
             gameObject.SetActive(false);
             State = PanelState.Hide;
         }
+        
+        public virtual void Close(bool destroy = true)
+        {
+            Info.Data = data;
+            Hide();
+            State = PanelState.Closed;
+            OnClose();
+            
+            if(destroy) Destroy(gameObject);
+            UIPanel
+            this.As<IPanel>().Loader.Unload();
+            this.As<IPanel>().Loader = null;
+            Data = null;
 
+        }
+        
         protected virtual void OnInit(IData data = null) { }
 
         protected virtual void OnOpen(IData data = null) { }
+        
+        protected virtual void OnShow() { }
 
-        public void Close(bool destroy = true)
-        {
-            Info.Data = data;
-        }
+        protected virtual void OnHide() { }
+
+        protected abstract void OnClose();
+        
     }
 }
