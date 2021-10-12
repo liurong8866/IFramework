@@ -24,6 +24,8 @@ namespace IFramework.Test
             string path2 = "Settings/Environment/Environment.cs";
             string searcher = "/Environment";
             //
+            path = DirectoryUtils.GetPathByFullName(path2);
+            
             path = DirectoryUtils.GetParentPath(path2);
             path = DirectoryUtils.GetLastDirectoryName(path2);
             path = DirectoryUtils.GetPathByFullName(path2);

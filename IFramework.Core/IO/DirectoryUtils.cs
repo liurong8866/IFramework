@@ -184,7 +184,7 @@ namespace IFramework.Core
         public static string GetPathByFullName(string fullName)
         {
             // 找到最后一个/
-            return fullName.Substring(0, fullName.Replace(@"\", "/").LastIndexOf("/", StringComparison.Ordinal) - 1);
+            return fullName.Substring(0, fullName.Replace(@"\", "/").LastIndexOf("/", StringComparison.Ordinal));
         }
         
         /// <summary>

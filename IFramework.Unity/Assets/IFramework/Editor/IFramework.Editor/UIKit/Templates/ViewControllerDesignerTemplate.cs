@@ -23,7 +23,7 @@ namespace IFramework.Editor
         {
             StringBuilder sb = new StringBuilder();
             // 确保每次生成文件都编译
-            sb.AppendLine("/* auto generate at {0} */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            sb.AppendLine("/* 脚本自动生成于：{0} ，请勿修改！ */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             sb.AppendLine();
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using IFramework.Core;");

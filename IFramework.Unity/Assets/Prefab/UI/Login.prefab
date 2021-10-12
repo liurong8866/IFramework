@@ -54,7 +54,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8681184663443541723}
-  - component: {fileID: 5396964202249742895}
   m_Layer: 0
   m_Name: Login
   m_TagString: Untagged
@@ -78,27 +77,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5396964202249742895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8681184663443541724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7840be72cceed4b67b2b62ee336d84ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Namespace: IFramework.Example.UI
-  ScriptName: Login
-  ScriptPath: Scripts/Game
-  AsScriptSubPath: 1
-  PrefabPath: Prefab/Game
-  AsPrefabSubPath: 0
-  Comment: "\u7528\u6237\u540D"
-  UserName: {fileID: 8681184663071781427}
-  Password: {fileID: 8681184663562999098}
 --- !u!1 &8681184663562999099
 GameObject:
   m_ObjectHideFlags: 0

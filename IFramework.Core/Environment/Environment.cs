@@ -153,7 +153,7 @@ namespace IFramework.Engine
                     short code = type.ToCode();
 
                     // 取得资源名，小写无扩展名
-                    string assetName = Platform.GetFileNameByPath(asset, false).ToLowerInvariant();
+                    string assetName = FileUtils.GetFileNameByPath(asset, false).ToLowerInvariant();
 
                     // 添加资源到缓存
                     @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")

@@ -59,15 +59,35 @@ namespace IFramework.Engine
 
         }
         
+        /// <summary>
+        /// 面板初始化事件，通常用于赋值、注册事件等
+        /// </summary>
         protected virtual void OnInit(IData data = null) { }
 
+        /// <summary>
+        /// 面板打开时事件
+        /// </summary>
         protected virtual void OnOpen(IData data = null) { }
         
+        /// <summary>
+        /// 面板显示时事件
+        /// </summary>
         protected virtual void OnShow() { }
 
+        /// <summary>
+        /// 面板隐藏时事件
+        /// </summary>
         protected virtual void OnHide() { }
 
+        /// <summary>
+        /// 面板关闭时事件
+        /// </summary>
         protected abstract void OnClose();
-        
+
+        /// <summary>
+        /// 清理UI组件
+        /// </summary>
+        protected abstract void ClearUIComponents();
+
     }
 }

@@ -1,3 +1,4 @@
+using System.IO;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
@@ -69,10 +70,14 @@ namespace IFramework.Editor
             BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
 
             // 根据Prefab路径获取Script生成路径
+            string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
+            // 取UIPrefab默认路径右侧路径
+            scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+            // 生成信息
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
                 Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = obj.name,
-                ScriptPath = Configure.UIScriptPath.Value + prefabPath.Right(Configure.UIPrefabPath.Value, false, true)
+                ScriptPath = Path.Combine(Configure.UIScriptPath.Value, scriptPath)
             };
             // 如果存在文件，则不覆盖
             UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);

@@ -10,19 +10,19 @@ namespace IFramework.Editor
     public class UIPanelDesignerTemplate : AbstractTemplate<UIPanelDesignerTemplate>
     {
         private UIPanelDesignerTemplate() { }
-        
+
         /// <summary>
         /// 文件全名
         /// </summary>
         protected override string FullName => generateInfo.ScriptAssetsDesignerName;
-        
+
         /// <summary>
         /// 拼接字符串
         /// </summary>
         protected override string BuildScript()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("/* auto generate at {0} */".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            sb.AppendLine("/* 脚本自动生成于：{0} ，请勿修改！*/".Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             sb.AppendLine();
             sb.AppendLine("using System;");
             sb.AppendLine("using UnityEngine;");
@@ -36,6 +36,7 @@ namespace IFramework.Editor
             }
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
+
             if (generateInfo.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
                 sb.AppendLine("\t///" + generateInfo.Comment);
@@ -48,15 +49,16 @@ namespace IFramework.Editor
             string privateData = $"{generateInfo.ScriptName.ToCamel()}Data";
             sb.AppendLine($"\t\tprivate {generateInfo.ScriptName}Data {privateData} = null;");
             sb.AppendLine();
-            
-            sb.AppendLine("\t\tprotected override void ClearUIComponents() { Data = null; }");
+            sb.AppendLine("\t\tprotected override void ClearUIComponents()");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine("\t\t\tData = null;");
+            sb.AppendLine("\t\t}");
+            sb.AppendLine();
             sb.AppendLine($"\t\tpublic {generateInfo.ScriptName}Data Data");
             sb.AppendLine("\t\t{");
             sb.AppendLine($"\t\t\tget => {privateData} ??= new {generateInfo.ScriptName}Data();");
-            sb.AppendLine("\t\t\tset { {privateData} = value; data = value; }  ");
+            sb.AppendLine($"\t\t\tset {{ {privateData} = value; data = value; }}");
             sb.AppendLine("\t\t}");
-            sb.AppendLine();
-            
             sb.AppendLine("\t}");
             sb.AppendLine("}");
             return sb.ToString();
