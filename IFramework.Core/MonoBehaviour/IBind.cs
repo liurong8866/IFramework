@@ -4,13 +4,13 @@ namespace IFramework.Core
 {
     public interface IBind
     {
-        string ComponentName { get; set; }
+        BindType BindType { get; }
+        
+        string ComponentName { get; }
 
-        string Comment { get; set; }
+        string Comment { get; }
 
         Transform Transform { get; }
-
-        BindType BindType { get; set; }
     }
 
     public enum BindType
