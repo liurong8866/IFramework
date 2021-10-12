@@ -11,8 +11,8 @@ namespace IFramework.Core
         /// <summary>
         /// 绑定类型
         /// </summary>
-        public BindType BindType { get; set; } = BindType.DefaultElement;
-        
+        public BindType BindType => bindType;
+
         /// <summary>
         /// 组件名称
         /// </summary>
@@ -28,23 +28,27 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 自定义名称
-        /// </summary>
-        public string CustomComponentName { get; set; }
-
-        /// <summary>
         /// 注释
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
 
+        /// <summary>
+        /// 自定义名称
+        /// </summary>
+        public string CustomComponentName;
+
         [HideInInspector]
         [SerializeField]
-        private string comment = "";
+        public BindType bindType;
 
         [HideInInspector]
         [SerializeField]
         private string componentName = "";
         
+        [HideInInspector]
+        [SerializeField]
+        private string comment = "";
+
         /// <summary>
         /// 序列化的字段
         /// </summary>
@@ -56,15 +60,17 @@ namespace IFramework.Core
         /// </summary>
         public class Serialized
         {
+            public SerializedProperty BindType;
             public SerializedProperty CustomComponentName;
-            public SerializedProperty comment;
-            public SerializedProperty componentName;
+            public SerializedProperty Comment;
+            public SerializedProperty ComponentName;
             
             public Serialized(SerializedObject serializedObject)
             {
+                BindType = serializedObject.FindProperty("bindType");
                 CustomComponentName = serializedObject.FindProperty("CustomComponentName");
-                comment = serializedObject.FindProperty("comment");
-                componentName = serializedObject.FindProperty("componentName");
+                Comment = serializedObject.FindProperty("comment");
+                ComponentName = serializedObject.FindProperty("componentName");
             }
         }
         
