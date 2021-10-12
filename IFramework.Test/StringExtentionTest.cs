@@ -36,23 +36,40 @@ namespace IFramework.Test
             //
             path = path2.Left(searcher);
             path = path2.Left(searcher, true);
+            path = path2.Left(searcher, false, true);
+            path = path2.Left(searcher, true, true);
+            //
             path = path2.Left(null);
             path = path2.Left(null, true);
+            path = path2.Left(null, false, true);
+            path = path2.Left(null, true, true);
+            //
             path = path2.Left("");
             path = path2.Left("", true);
+            path = path2.Left("", false, true);
+            path = path2.Left("", true, true);
+            
             //
             path = path2.Right(-1);
             path = path2.Right(0);
             path = path2.Right(3);
             path = path2.Right(100);
             path = path2.Right(100, true);
-            // 
+            //
             path = path2.Right(searcher);
             path = path2.Right(searcher, true);
+            path = path2.Right(searcher, false, true);
+            path = path2.Right(searcher, true, true);
+            //
             path = path2.Right(null);
             path = path2.Right(null, true);
+            path = path2.Right(null, false, true);
+            path = path2.Right(null, true, true);
+            //
             path = path2.Right("");
             path = path2.Right("", true);
+            path = path2.Right("", false, true);
+            path = path2.Right("", true, true);
             
         }
     }

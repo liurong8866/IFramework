@@ -35,9 +35,9 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="value">源字符串</param>
         /// <param name="before">要比对的字符串</param>
-        /// <param name="exacting">严格截取：如果未找到匹配项，是否返回源字符串 true：返回， false(默认)：不返回</param>
-        /// <returns></returns>
-        public static string Left(this string value, string before, bool exacting = false)
+        /// <param name="include">是否包含before字符串，true：包含， false(默认)：不包含</param>
+        /// <param name="exacting">严格截取：如果未找到匹配项，是否返回源字符串 true(默认)：返回， false：不返回</param>
+        public static string Left(this string value, string before, bool include = false, bool exacting = false)
         {
             // 如果数据源是空，返回 ""
             if (value.Nothing()) return "";
@@ -45,11 +45,18 @@ namespace IFramework.Core
             // 如果查询条件为空，则
             if (before.Nothing()) return exacting ? "" : value;
 
+            string result = exacting ? "" : value;
+
             // 找到索引位置
             int index = value.IndexOf(before, StringComparison.Ordinal);
-            
-            // 截取第一次出现的内容左边的值
-            return Left(value, index, exacting);
+
+            // 如果找到字符串
+            if (index >= 0) {
+                // 如果包含字符串，就要加上before本身的长度偏移量
+                if (include) index += before.Length;
+                result = value.Substring(0, index);
+            }
+            return result;
         }
 
         /// <summary>
@@ -77,9 +84,9 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="value">源字符串</param>
         /// <param name="after">要比对的字符串</param>
+        /// <param name="include">是否包含after字符串，true：包含， false(默认)：不包含</param>
         /// <param name="exacting">严格截取：如果未找到匹配项，是否返回源字符串 true：返回， false(默认)：不返回</param>
-        /// <returns></returns>
-        public static string Right(this string value, string after, bool exacting = false)
+        public static string Right(this string value, string after, bool include = false, bool exacting = false)
         {
             // 如果数据源是空，返回 ""
             if (value.Nothing()) return "";
@@ -87,11 +94,19 @@ namespace IFramework.Core
             // 如果查询条件为空，则
             if (after.Nothing()) return exacting ? "" : value;
 
-            // 找到索引位置
-            int index = value.LastIndexOf(after, StringComparison.Ordinal) + after.Length;
+            string result = exacting ? "" : value;
 
-            // 截取最后一次出现的内容右边的值
-            return Right(value, value.Length - index, exacting);
+            // 找到索引位置
+            int index = value.LastIndexOf(after, StringComparison.Ordinal);
+
+            // 如果找到字符串
+            if (index >= 0) {
+                // 如果不包含字符串，就要加上after本身的长度
+                if (!include) index += after.Length;
+                // 截取字符串
+                result = value.Substring(index);
+            }
+            return result;
         }
 
         /// <summary>

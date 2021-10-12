@@ -72,7 +72,7 @@ namespace IFramework.Editor
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
                 Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = obj.name,
-                ScriptPath = prefabPath.Left(),
+                ScriptPath = Configure.UIScriptPath.Value + prefabPath.Right(Configure.UIPrefabPath.Value, false, true)
             };
             // 如果存在文件，则不覆盖
             UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
