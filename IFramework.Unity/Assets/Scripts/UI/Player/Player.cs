@@ -5,13 +5,13 @@ using IFramework.Engine;
 
 namespace IFramework.Example.UI
 {
-	public class LoginData : UIPanelData { }
+	public class PlayerData : UIPanelData { }
 
-	public partial class Login : UIPanel
+	public partial class Player : UIPanel
 	{
 		protected override void OnInit(IData data = null)
 		{
-		this.data = data as LoginData ?? new LoginData();
+		this.data = data as PlayerData ?? new PlayerData();
 		}
 
 		protected override void OnOpen(IData data = null) { }

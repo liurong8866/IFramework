@@ -66,35 +66,68 @@ namespace IFramework.Editor
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
                 GameObjectName = clone.name.Replace("(clone)", string.Empty)
             };
+
             // 查询所有Bind
             BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
 
-            // 根据Prefab路径获取Script生成路径
-            string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
-            // 取UIPrefab默认路径右侧路径
-            scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
-            // 生成信息
-            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
-                Namespace = Configure.DefaultNameSpace.Value,
-                ScriptName = obj.name,
-                ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
-            };
-            // 如果存在文件，则不覆盖
-            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
-            
-            // 生成 designer.cs
-            UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
-            
+            // 生成 UIPanel脚本
+            GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
+
             // UISerializer.StartAddComponent2PrefabAfterCompile(obj);
             Object.DestroyImmediate(clone);
         }
 
         /// <summary>
-        /// 生成UIPanel代码
+        /// 生成UIPanelCode
         /// </summary>
-        private static void GenerateUIPanelCode(GameObject prefab, string prefabPath, RootPanelInfo rootPanelInfo)
+        public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo)
         {
-            
+            // 根据Prefab路径获取Script生成路径
+            string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
+
+            // 取UIPrefab默认路径右侧路径
+            scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+
+            // 组装生成信息
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
+                Namespace = Configure.DefaultNameSpace.Value,
+                ScriptName = obj.name,
+                ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
+            };
+
+            // 生成 .cs文件
+            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
+
+            // 生成 .designer.cs
+            UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
+
+            // 生成组件
+            foreach (ElementInfo elementInfo in rootPanelInfo.ElementInfoList) {
+                string elementPath = "";
+
+                if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
+                    elementPath = panelGenerateInfo.ScriptAssetsPath + obj.name + "/";
+                }
+                else {
+                    elementPath = Application.dataPath + "/" + Configure.UIScriptPath + "/Components/";
+                }
+                CreateUIElementCode(elementPath, elementInfo);
+            }
+        }
+
+        private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
+        {
+            string panelFilePathWhithoutExt = generateDirPath + elementInfo.BehaviourName;
+
+            // if (File.Exists(panelFilePathWhithoutExt + ".cs") == false) {
+            //     UIElementCodeTemplate.Generate(panelFilePathWhithoutExt + ".cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
+            // }
+            // UIElementCodeComponentTemplate.Generate(panelFilePathWhithoutExt + ".Designer.cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
+
+            foreach (ElementInfo childElementCodeData in elementInfo.ElementInfoList) {
+                string elementDir = (panelFilePathWhithoutExt + "/");
+                CreateUIElementCode(elementDir, childElementCodeData);
+            }
         }
     }
 }

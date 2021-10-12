@@ -33,11 +33,11 @@ namespace IFramework.Editor
             }
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine($"\tpublic class {generateInfo.ScriptName}Data : UIPanelData" + " { }");
+            sb.AppendLine($"\tpublic class {generateInfo.ScriptName}Data : UIPanelData {{ }}");
             sb.AppendLine();
             if (generateInfo.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
-                sb.AppendLine("\t///" + generateInfo.Comment);
+                sb.AppendLine("\t/// " + generateInfo.Comment);
                 sb.AppendLine("\t/// </summary>");
             }
             sb.AppendLine($"\tpublic partial class {generateInfo.ScriptName} : UIPanel");
