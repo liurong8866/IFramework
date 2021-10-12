@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comment: "\u7528\u6237\u540D"
-  componentName: UserName
+  comment: 1111
+  componentName: 11
 --- !u!1 &6405247345773588696
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comment: asdfsadf
+  comment: "\u654C\u4EBA"
   componentName: IFramework.Example.UI.Enemy
 --- !u!114 &7474928409883738425
 MonoBehaviour:
@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Namespace: IFramework.Example1
-  ScriptName: Enemy2
-  ScriptPath: Scripts/Game1
+  ScriptName: Enemy
+  ScriptPath: Scripts/Game
   AsScriptSubPath: 1
   PrefabPath: 22
   AsPrefabSubPath: 0
@@ -155,5 +155,5 @@ MonoBehaviour:
   m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comment: "\u5BC6\u7801"
-  componentName: UnityEngine.Transform
+  comment: "\u5BC6\u78011"
+  componentName: Password22

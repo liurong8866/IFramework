@@ -12,7 +12,7 @@ namespace IFramework.Core
         /// 绑定类型
         /// </summary>
         public BindType BindType { get; set; } = BindType.DefaultElement;
-
+        
         /// <summary>
         /// 组件名称
         /// </summary>
@@ -56,15 +56,12 @@ namespace IFramework.Core
         /// </summary>
         public class Serialized
         {
-           
-            public SerializedProperty BindType;
             public SerializedProperty CustomComponentName;
             public SerializedProperty comment;
             public SerializedProperty componentName;
             
             public Serialized(SerializedObject serializedObject)
             {
-                BindType = serializedObject.FindProperty("BindType");
                 CustomComponentName = serializedObject.FindProperty("CustomComponentName");
                 comment = serializedObject.FindProperty("comment");
                 componentName = serializedObject.FindProperty("componentName");

@@ -10,18 +10,17 @@ namespace IFramework.Editor
     public class BindInspector : UnityEditor.Editor
     {
         private int elementTypeIndex;
-        public Bindable<BindType> bindTypeMonitor = new Bindable<BindType>();
+        private AbstractBind bind => target as AbstractBind;
         private string[] elementTypeOptions = Array.Empty<string>();
-        private AbstractBind bind;
+        public Bindable<BindType> bindTypeMonitor = new Bindable<BindType>();
 
         private void OnEnable()
         {
-            bind = target as AbstractBind;
-
             if (bind != null) {
                 bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
                 bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
                 bindTypeMonitor.OnChange += GetElementTypeOptions;
+                bind.SerializedFiled = new AbstractBind.Serialized(serializedObject);
                 GetElementTypeOptions(0);
             }
         }
@@ -46,6 +45,8 @@ namespace IFramework.Editor
                     // 更新组件名称 如果是其他，则显示用户自定义组件名，默认为GameObject名称
                     bind.ComponentName = bind.CustomComponentName;
                 }
+                bind.SerializedFiled.componentName.stringValue = bind.ComponentName;
+                serializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -70,6 +71,7 @@ namespace IFramework.Editor
                 EditorGUILayout.PrefixLabel("类名称");
                 elementTypeIndex = EditorGUILayout.Popup(elementTypeIndex, elementTypeOptions);
                 bind.ComponentName = elementTypeOptions[elementTypeIndex].FormatName();
+                bind.SerializedFiled.componentName.stringValue = bind.ComponentName;
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
@@ -79,6 +81,8 @@ namespace IFramework.Editor
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.PrefixLabel("类名称");
                 bind.CustomComponentName = EditorGUILayout.TextField(bind.ComponentName).FormatName();
+                bind.ComponentName = bind.CustomComponentName;
+                bind.SerializedFiled.componentName.stringValue = bind.ComponentName;
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
@@ -87,10 +91,11 @@ namespace IFramework.Editor
             EditorGUILayout.PrefixLabel("字段注释");
             GUILayout.BeginHorizontal();
             bind.Comment = EditorGUILayout.TextArea(bind.Comment, GUILayout.Height(40)).Trim();
+            bind.SerializedFiled.comment.stringValue = bind.Comment;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             EditorGUILayout.HelpBox("如果作为子类型，需要设置为Element，同时添加ViewController", MessageType.Info);
-
+            serializedObject.ApplyModifiedProperties();
             // 结束
             GUILayout.EndVertical();
             EditorGUILayout.GetControlRect();
