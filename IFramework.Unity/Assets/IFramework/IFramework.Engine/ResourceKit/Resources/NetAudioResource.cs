@@ -19,8 +19,8 @@ namespace IFramework.Engine
 
             if (resource != null) {
                 resource.AssetName = path;
-                resource.filePath = Path.Combine(Platform.PersistentData.AudioPath, Mathf.Abs(Platform.GetFilePathByPath(path).GetHashCode()) + "");
-                resource.fileName = Platform.GetFileNameByPath(path);
+                resource.filePath = Path.Combine(Platform.PersistentData.AudioPath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");
+                resource.fileName = FileUtils.GetFileNameByPath(path);
                 string netUrl = "";
                 AudioType audioType;
 

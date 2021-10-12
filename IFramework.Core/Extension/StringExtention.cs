@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,41 +15,41 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="value">数据源</param>
         /// <param name="length">截取长度</param>
-        /// <returns></returns>
-        public static string Left(this string value, int length)
+        /// <param name="exacting">严格截取：截取长度超出字符串长度时，true: 返回空。false:返回实际截取长度</param>
+        public static string Left(this string value, int length, bool exacting = false)
         {
-            //返回非贪婪数据
-            return Left(value, length, false);
+            // 如果数据源是空，或者截取长度<1，返回空
+            if (value.Nothing() || length < 1) return "";
+
+            string result = exacting ? "" : value;
+
+            //如果大于截取长度则
+            if (value.Length > length) {
+                result = value.Substring(0, length);
+            }
+            return result;
         }
 
         /// <summary>
-        /// 截取字符串左面
+        /// 截取第一次出现的字符串左边的字符串
         /// </summary>
-        /// <param name="value">数据源</param>
-        /// <param name="length">截取长度</param>
-        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
+        /// <param name="value">源字符串</param>
+        /// <param name="before">要比对的字符串</param>
+        /// <param name="exacting">严格截取：如果未找到匹配项，是否返回源字符串 true：返回， false(默认)：不返回</param>
         /// <returns></returns>
-        public static string Left(this string value, int length, bool greedy)
+        public static string Left(this string value, string before, bool exacting = false)
         {
-            string result = "";
+            // 如果数据源是空，返回 ""
+            if (value.Nothing()) return "";
 
-            //如果不为空则
-            if (!value.Nothing()) {
-                int len = value.Length;
+            // 如果查询条件为空，则
+            if (before.Nothing()) return exacting ? "" : value;
 
-                //如果大于截取长度则
-                if (len > length) {
-                    result = value.Substring(0, length);
-                }
-                else {
-                    //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
-                    result = greedy ? value : "";
-                }
-            }
-            else {
-                result = "";
-            }
-            return result;
+            // 找到索引位置
+            int index = value.IndexOf(before, StringComparison.Ordinal);
+            
+            // 截取第一次出现的内容左边的值
+            return Left(value, index, exacting);
         }
 
         /// <summary>
@@ -56,54 +57,41 @@ namespace IFramework.Core
         /// </summary>
         /// <param name="value">数据源</param>
         /// <param name="length">截取长度</param>
-        /// <returns></returns>
-        public static string Right(this string value, int length)
+        /// <param name="exacting">严格截取：截取长度超出字符串长度时，true: 返回空。false:返回实际截取长度</param>
+        public static string Right(this string value, int length, bool exacting = false)
         {
-            //返回非贪婪数据
-            return Right(value, length, false);
-        }
+            // 如果数据源是空，或者截取长度<1，返回空
+            if (value.Nothing() || length < 1) return "";
 
-        /// <summary>
-        /// 截取字符串右面
-        /// </summary>
-        /// <param name="value">数据源</param>
-        /// <param name="length">截取长度</param>
-        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
-        /// <returns></returns>
-        public static string Right(this string value, int length, bool greedy)
-        {
-            string result = "";
+            string result = exacting ? "" : value;
 
-            //如果不为空则
-            if (!value.Nothing()) {
-                int len = value.Length;
-
-                //如果大于截取长度则
-                if (len > length) {
-                    result = value.Substring(len - length);
-                }
-                else {
-                    //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
-                    result = greedy ? value : "";
-                }
-            }
-            else {
-                result = "";
+            //如果大于截取长度则
+            if (value.Length > length) {
+                result = value.Substring(value.Length - length);
             }
             return result;
         }
 
         /// <summary>
-        /// 截取字符串中间
+        /// 截取最后一次出现的字符串右边的字符串
         /// </summary>
-        /// <param name="value">数据源</param>
-        /// <param name="startIndex">开始位置(从1开始)</param>
-        /// <param name="length">截取长度</param>
+        /// <param name="value">源字符串</param>
+        /// <param name="after">要比对的字符串</param>
+        /// <param name="exacting">严格截取：如果未找到匹配项，是否返回源字符串 true：返回， false(默认)：不返回</param>
         /// <returns></returns>
-        public static string Middle(this string value, int startIndex, int length)
+        public static string Right(this string value, string after, bool exacting = false)
         {
-            //返回非贪婪数据
-            return Middle(value, startIndex, length, false);
+            // 如果数据源是空，返回 ""
+            if (value.Nothing()) return "";
+
+            // 如果查询条件为空，则
+            if (after.Nothing()) return exacting ? "" : value;
+
+            // 找到索引位置
+            int index = value.LastIndexOf(after, StringComparison.Ordinal) + after.Length;
+
+            // 截取最后一次出现的内容右边的值
+            return Right(value, value.Length - index, exacting);
         }
 
         /// <summary>
@@ -112,33 +100,20 @@ namespace IFramework.Core
         /// <param name="value">数据源</param>
         /// <param name="startIndex">开始位置()</param>
         /// <param name="length">截取长度</param>
-        /// <param name="greedy">是否贪婪(true:标识截取长度超出字符串则返回剩余长度。false:返回空)</param>
-        /// <returns></returns>
-        public static string Middle(this string value, int startIndex, int length, bool greedy)
+        /// <param name="exacting">严格截取：截取长度超出字符串长度时，true: 返回空。false:返回实际截取长度</param>
+        public static string Middle(this string value, int startIndex, int length, bool exacting = false)
         {
-            string result = "";
+            // 如果数据源是空，或者截取长度<1，返回 ""
+            if (value.Nothing() || length < 1) return "";
 
-            //如果不为空则
-            if (!value.Nothing()) {
-                int len = value.Length;
+            //如果开始位置不正确,返回 ""
+            if (startIndex < 1 || startIndex > value.Length) return "";
 
-                //如果开始位置不正确,返回""
-                if (startIndex < 1 || startIndex > len) {
-                    result = "";
-                }
-                else {
-                    //如果大于截取长度则
-                    if (len - startIndex > length) {
-                        result = value.Substring(startIndex - 1, length);
-                    }
-                    else {
-                        //greedy true:标识截取长度超出字符串则返回剩余长度。false:返回空
-                        result = greedy ? value : "";
-                    }
-                }
-            }
-            else {
-                result = "";
+            string result = exacting ? "" : value;
+
+            //如果大于截取长度则
+            if (value.Length - startIndex > length) {
+                result = value.Substring(startIndex - 1, length);
             }
             return result;
         }

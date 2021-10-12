@@ -130,7 +130,7 @@ namespace IFramework.Editor
                 CodeMemberField assetField = new CodeMemberField {
                     Attributes = MemberAttributes.Public | MemberAttributes.Const
                 };
-                string content = Platform.GetFileNameByPath(asset, false);
+                string content = FileUtils.GetFileNameByPath(asset, false);
                 assetField.Name = content.ToUpperInvariant().Replace("@", "_").Replace("!", "_").Replace("-", "_");
                 assetField.Type = new CodeTypeReference(typeof(string));
 

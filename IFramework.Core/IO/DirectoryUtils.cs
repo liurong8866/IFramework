@@ -177,5 +177,30 @@ namespace IFramework.Core
             }
             return parentPath;
         }
+        
+        /// <summary>
+        /// 获取文件路径，不包含文件名
+        /// </summary>
+        public static string GetPathByFullName(string fullName)
+        {
+            // 找到最后一个/
+            return fullName.Substring(0, fullName.Replace(@"\", "/").LastIndexOf("/", StringComparison.Ordinal) - 1);
+        }
+        
+        /// <summary>
+        /// 查找文件路径的最后一个文件夹名称
+        /// </summary>
+        /// <param name="fullName">文件全路径</param>
+        public static string GetLastDirectoryName(string fullName)
+        {
+            string[] dirs = fullName.Replace(@"\", "/").Split('/');
+
+            if (dirs.Length < 2) {
+                throw new ArgumentException("文件路径格式不正确！" + fullName);
+            }
+
+            // 取倒数第二个值
+            return dirs[dirs.Length - 2];
+        }
     }
 }

@@ -187,7 +187,7 @@ namespace IFramework.Core
         /// </summary>
         public static string GetAssetBundleNameByUrl(string url)
         {
-            return url.Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
+            return url.Replace(@"\", "/").Replace(RuntimeStreamAssetBundlePath + "/", "").Replace(PersistentData.Root + "/", "");
         }
 
         /// <summary>
@@ -198,40 +198,6 @@ namespace IFramework.Core
             // 优先返回PersistentAsset路径
             string url = Path.Combine(PersistentData.Root, name);
             return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
-        }
-
-        /// <summary>
-        /// 获取资源名称，默认不包含扩展名
-        /// </summary>
-        /// <param name="path">资源路径</param>
-        /// <param name="extend">是否包含扩展名</param>
-        /// <returns></returns>
-        public static string GetFileNameByPath(string path, bool extend = true)
-        {
-            // 找到最后一个/
-            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) + 1;
-
-            // 如果不需要扩展名，则截取
-            if (!extend) {
-                // 找到最后一个.
-                int length = path.LastIndexOf(".", StringComparison.Ordinal) - startIndex;
-
-                // 如果. 在 / 前面，说明不是后缀扩展名，不处理
-                if (length >= 0) {
-                    return path.Substring(startIndex, length);
-                }
-            }
-            return path.Substring(startIndex);
-        }
-
-        /// <summary>
-        /// 获取资源路径，不包含文件名
-        /// </summary>
-        public static string GetFilePathByPath(string path)
-        {
-            // 找到最后一个/
-            int startIndex = path.LastIndexOf("/", StringComparison.Ordinal) - 1;
-            return path.Substring(0, startIndex);
         }
 
         /*--------------------------- 私有方法、变量 ---------------------------*/

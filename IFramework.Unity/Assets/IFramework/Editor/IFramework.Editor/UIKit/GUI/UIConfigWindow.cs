@@ -26,18 +26,21 @@ namespace IFramework.Editor
 
             // UIPanel 脚本路径
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("UIPanel脚本: ");
+            EditorGUILayout.PrefixLabel("UIPanel 脚本: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
             Configure.UIScriptPath.Value = EditorGUILayout.TextField(Configure.UIScriptPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(5);
-
+            EditorGUILayout.HelpBox("UI脚本会分析 UIPrefab 所在的目录结构动态生成相对路径", MessageType.None, false);
+            
+            GUILayout.Space(5);
             // UIPanel 预设路径
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("UIPanel 预设: ");
+            EditorGUILayout.PrefixLabel("UIPanel Prefab: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
             Configure.UIPrefabPath.Value = EditorGUILayout.TextField(Configure.UIPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
+            
             GUILayout.Space(20);
 
             // ViewController 脚本路径
@@ -50,14 +53,14 @@ namespace IFramework.Editor
 
             // ViewController 预设路径
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("ViewController 预设: ");
+            EditorGUILayout.PrefixLabel("ViewController Prefab: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
             Configure.ViewControllerPrefabPath.Value = EditorGUILayout.TextField(Configure.ViewControllerPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(20);
 
             // 描述信息
-            EditorGUILayout.HelpBox("UIKit脚本的默认生成规则，所有生成路径在Assets文件夹下。请记得修改默认命名空间！", MessageType.Info);
+            EditorGUILayout.HelpBox("所有生成路径均在Assets文件夹内，请记得修改默认命名空间！", MessageType.Info);
             GUILayout.Space(30);
 
             // 恢复默认

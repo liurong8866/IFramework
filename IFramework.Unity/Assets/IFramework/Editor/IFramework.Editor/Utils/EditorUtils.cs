@@ -142,37 +142,6 @@ namespace IFramework.Editor
         }
 
         /// <summary>
-        /// 查找最后一个Dir名称
-        /// </summary>
-        public static string GetLastDirName(string path)
-        {
-            string name = path.Replace("\\", "/");
-            string[] dirs = name.Split('/');
-            return dirs[dirs.Length - 2];
-        }
-
-        /// <summary>
-        /// 通过Prefab路径找到cs资源路径
-        /// </summary>
-        public static string GenSourceFilePathFromPrefabPath(string prefabPath, string prefabName)
-        {
-            string filePath;
-
-            if (prefabPath.Contains(Configure.UIPrefabPath.Value)) {
-                filePath = prefabPath.Replace(Configure.UIPrefabPath.Value, Configure.UIScriptPath.Value);
-            }
-            else if (prefabPath.Contains("/Resources")) {
-                filePath = prefabPath.Replace("/Resources", Configure.UIScriptPath.Value);
-            }
-            else {
-                filePath = prefabPath.Replace("/" + GetLastDirName(prefabPath), Configure.UIScriptPath.Value);
-            }
-            filePath = filePath.Replace(prefabName + ".prefab", string.Empty);
-            DirectoryUtils.Create(filePath);
-            return filePath.Replace(".prefab", ".cs");
-        }
-
-        /// <summary>
         /// 查找Bind所属的ViewController
         /// </summary>
         public static string GetBindBelongsTo(AbstractBind bind)
