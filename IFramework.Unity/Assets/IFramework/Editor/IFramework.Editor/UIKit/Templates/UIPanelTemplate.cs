@@ -1,18 +1,20 @@
-using System;
 using System.Text;
 using IFramework.Core;
 
 namespace IFramework.Editor
 {
+    /// <summary>
+    /// UIPanel .cs类生成模板
+    /// </summary>
     public class UIPanelTemplate : AbstractTemplate<UIPanelTemplate>
     {
         private UIPanelTemplate() { }
-        
+
         /// <summary>
         /// 文件全名
         /// </summary>
         protected override string FullName => generateInfo.ScriptAssetsClassName;
-        
+
         /// <summary>
         /// 拼接字符串
         /// </summary>
@@ -31,9 +33,8 @@ namespace IFramework.Editor
             }
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-
             sb.AppendLine($"\tpublic class {generateInfo.ScriptName}Data : UIPanelData" + " { }");
-            
+            sb.AppendLine();
             if (generateInfo.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
                 sb.AppendLine("\t///" + generateInfo.Comment);
@@ -53,7 +54,6 @@ namespace IFramework.Editor
             sb.AppendLine("\t\tprotected override void OnHide() { }");
             sb.AppendLine();
             sb.AppendLine("\t\tprotected override void OnClose() { }");
-            
             sb.AppendLine("\t}");
             sb.AppendLine("}");
             return sb.ToString();

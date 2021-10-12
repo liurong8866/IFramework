@@ -4,6 +4,9 @@ using IFramework.Core;
 
 namespace IFramework.Editor
 {
+    /// <summary>
+    /// ViewController .designer.cs类生成模板
+    /// </summary>
     public class ViewControllerDesignerTemplate : AbstractTemplate<ViewControllerDesignerTemplate>
     {
         private ViewControllerDesignerTemplate() { }
@@ -32,7 +35,7 @@ namespace IFramework.Editor
             }
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine("\tpublic partial class {0}".Format(generateInfo.ScriptName));
+            sb.AppendLine("\tpublic partial class " + generateInfo.ScriptName);
             sb.AppendLine("\t{");
 
             // 循环设置字段
@@ -41,7 +44,7 @@ namespace IFramework.Editor
                     // 添加注释
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
-                sb.AppendLine("\t\tpublic {0} {1};".Format(bindInfo.BindScript.ComponentName, bindInfo.Name));
+                sb.AppendLine($"\t\tpublic {bindInfo.BindScript.ComponentName} {bindInfo.Name};");
                 sb.AppendLine();
             }
             sb.AppendLine("\t}");

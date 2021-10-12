@@ -49,9 +49,9 @@ namespace IFramework.Editor
         public string ScriptAssetsClassName => Path.Combine(ScriptAssetsPath, ScriptName + ".cs");
 
         /// <summary>
-        /// .Designer.cs 脚本全路径
+        /// .designer.cs 脚本全路径
         /// </summary>
-        public string ScriptAssetsDesignerName => Path.Combine(ScriptAssetsPath, ScriptName + ".Designer.cs");
+        public string ScriptAssetsDesignerName => Path.Combine(ScriptAssetsPath, ScriptName + ".designer.cs");
     }
 
     /// <summary>

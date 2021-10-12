@@ -92,6 +92,9 @@ namespace IFramework.Editor
             };
             // 如果存在文件，则不覆盖
             UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
+            
+            // 生成 designer.cs
+            UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
         }
     }
 }

@@ -3,6 +3,9 @@ using IFramework.Core;
 
 namespace IFramework.Editor
 {
+    /// <summary>
+    /// ViewController .cs类生成模板
+    /// </summary>
     public class ViewControllerTemplate : AbstractTemplate<ViewControllerTemplate>
     {
         private ViewControllerTemplate() { }
@@ -35,7 +38,7 @@ namespace IFramework.Editor
                 sb.AppendLine("\t///" + generateInfo.Comment);
                 sb.AppendLine("\t/// </summary>");
             }
-            sb.AppendLine("\tpublic partial class {0} : ViewController".Format(generateInfo.ScriptName));
+            sb.AppendLine($"\tpublic partial class {generateInfo.ScriptName} : ViewController");
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tvoid Start()");
             sb.AppendLine("\t\t{");

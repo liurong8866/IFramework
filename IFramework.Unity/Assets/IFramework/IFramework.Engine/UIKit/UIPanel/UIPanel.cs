@@ -51,12 +51,11 @@ namespace IFramework.Engine
             Hide();
             State = PanelState.Closed;
             OnClose();
-            
+            // TODO
             if(destroy) Destroy(gameObject);
-            UIPanel
             this.As<IPanel>().Loader.Unload();
             this.As<IPanel>().Loader = null;
-            Data = null;
+            // Data = null;
 
         }
         
