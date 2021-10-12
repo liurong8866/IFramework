@@ -18,36 +18,26 @@ namespace IFramework.Editor
         protected override string BuildScript()
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using UnityEngine.UI;");
-            sb.AppendLine("using IFramework.Core;");
-            sb.AppendLine("using IFramework.Engine;");
-            sb.AppendLine();
+            sb.AppendLine("using QFramework;").AppendLine();
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine($"\tpublic partial class {generateInfo.ScriptName}Data : UIPanelData {{ }}");
+            sb.AppendFormat("\tpublic partial class {0} : {1}", generateInfo.ScriptName,
+                            rootNodeInfo == BindType.Component ? "UIComponent" : "UIElement");
             sb.AppendLine();
-            if (generateInfo.Comment.NotEmpty()) {
-                sb.AppendLine("\t/// <summary>");
-                sb.AppendLine("\t///" + generateInfo.Comment);
-                sb.AppendLine("\t/// </summary>");
-            }
-            sb.AppendLine($"\tpublic partial class {generateInfo.ScriptName} : UIPanel");
             sb.AppendLine("\t{");
-            sb.AppendLine("\t\tprotected override void OnInit(IData data = null)");
-            sb.AppendLine("\t\t{");
-            sb.AppendLine($"\t\tthis.data = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
-            sb.AppendLine("\t\t}");
+            sb.Append("\t\t").AppendLine("private void Awake()");
+            sb.Append("\t\t").AppendLine("{");
+            sb.Append("\t\t").AppendLine("}");
             sb.AppendLine();
-            sb.AppendLine("\t\tprotected override void OnOpen(IData data = null) { }");
-            sb.AppendLine();
-            sb.AppendLine("\t\tprotected override void OnShow() { }");
-            sb.AppendLine();
-            sb.AppendLine("\t\tprotected override void OnHide() { }");
-            sb.AppendLine();
-            sb.AppendLine("\t\tprotected override void OnClose() { }");
+            sb.Append("\t\t").AppendLine("protected override void OnBeforeDestroy()");
+            sb.Append("\t\t").AppendLine("{");
+            sb.Append("\t\t").AppendLine("}");
             sb.AppendLine("\t}");
-            sb.AppendLine("}");
+            sb.Append("}");
             return sb.ToString();
         }
     }

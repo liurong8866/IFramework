@@ -44,7 +44,7 @@ namespace IFramework.Editor
                             parentElementInfo.BindInfoList.Add(new BindInfo {
                                 Name = bind.Transform.name,
                                 BindScript = bind,
-                                PathToElement = EditorUtils.PathToParent(child, parentElementInfo.BehaviourName)
+                                PathToElement = EditorUtils.PathToParent(child, parentElementInfo.GameObjectName)
                             });
                             parentElementInfo.NameToFullNameDic.Add(bind.Transform.name, fullName + child.name);
                         }
@@ -56,7 +56,7 @@ namespace IFramework.Editor
                     // 如果当前对象同时绑定了ViewContrller+Bind组件，并且Bind组件的类型为DefaultElement
                     if (bind.BindType != BindType.DefaultElement) {
                         ElementInfo elementInfo = new ElementInfo {
-                            BehaviourName = bind.ComponentName,
+                            GameObjectName = bind.ComponentName,
                             BindInfo = new BindInfo {
                                 BindScript = bind
                             }
