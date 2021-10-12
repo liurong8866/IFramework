@@ -9,7 +9,6 @@ namespace IFramework.Editor
     public class ViewControllerInspector : UnityEditor.Editor
     {
         private ViewController controller => target as ViewController;
-
         private GenerateInfo generateInfo;
 
         private bool overwrite1;
@@ -25,18 +24,15 @@ namespace IFramework.Editor
         {
             // 命名空间
             controller.Namespace.IfNothing(() => { controller.Namespace = Configure.DefaultNameSpace.Value; });
-
             // 脚本名称取当前对象名
             controller.ScriptName.IfNothing(() => { controller.ScriptName = controller.name; });
-
             // 脚本路径
             controller.ScriptPath.IfNothing(() => { controller.ScriptPath = Configure.ViewControllerScriptPath.Value; });
-
             // Prefab路径
             controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
-            
             // 生成信息
             generateInfo = new ViewControllerGenerateInfo(controller);
+            controller.SerializedFiled = new ViewController.Serialized(serializedObject);
         }
 
         public override void OnInspectorGUI()
@@ -54,6 +50,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("命名空间");
             EditorGUILayout.LabelField("命名空间", GUILayout.Width(70));
             controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
+            controller.SerializedFiled.Namespace.stringValue = controller.Namespace;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -63,6 +60,7 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("脚本名称", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
+            controller.SerializedFiled.ScriptName.stringValue = controller.ScriptName;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -72,11 +70,13 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
+            controller.SerializedFiled.ScriptPath.stringValue = controller.ScriptPath;
 
             if (controller.AsScriptSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
             controller.AsScriptSubPath = EditorGUILayout.Toggle(controller.AsScriptSubPath, GUILayout.Width(20));
+            controller.SerializedFiled.AsScriptSubPath.boolValue = controller.AsScriptSubPath;
             GUILayout.EndHorizontal();
             // GUILayout.Space(5);
             // EditorGUILayout.HelpBox("勾选后，脚本名称作为子路径", MessageType.None, false);
@@ -88,11 +88,13 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
+            controller.SerializedFiled.PrefabPath.stringValue = controller.PrefabPath;
 
             if (controller.AsPrefabSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
             controller.AsPrefabSubPath = EditorGUILayout.Toggle(controller.AsPrefabSubPath, GUILayout.Width(20));
+            controller.SerializedFiled.AsPrefabSubPath.boolValue = controller.AsPrefabSubPath;
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
             // EditorGUILayout.HelpBox("勾选后，路径将包含脚本名称", MessageType.None, false);
@@ -113,8 +115,12 @@ namespace IFramework.Editor
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             controller.Comment = EditorGUILayout.TextArea(controller.Comment, GUILayout.Height(40));
+            controller.SerializedFiled.Comment.stringValue = controller.Comment;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
+
+            // 触发变更Prefab
+            serializedObject.ApplyModifiedProperties();
 
             // 提示
             EditorGUILayout.HelpBox("生成代码时会同时更新Prefab，如果没有则创建", MessageType.Info);
