@@ -22,11 +22,12 @@ namespace IFramework.Editor
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("using UnityEngine.UI;");
-            sb.AppendLine("using QFramework;").AppendLine();
+            sb.AppendLine("using IFramework.Core;");
+            sb.AppendLine("using IFramework.Engine;");
+            sb.AppendLine();
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendFormat("\tpublic partial class {0} : {1}", generateInfo.ScriptName,
-                            rootNodeInfo == BindType.Component ? "UIComponent" : "UIElement");
+            sb.AppendFormat("\tpublic partial class {0} : {1}", generateInfo.ScriptName, elementInfo.BindInfo.BindScript.BindType == BindType.Component ? "UIComponent" : "UIElement");
             sb.AppendLine();
             sb.AppendLine("\t{");
             sb.Append("\t\t").AppendLine("private void Awake()");

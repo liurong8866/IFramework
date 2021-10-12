@@ -117,17 +117,23 @@ namespace IFramework.Editor
 
         private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
         {
-            string panelFilePathWhithoutExt = generateDirPath + elementInfo.BehaviourName;
-
+            // string panelFilePathWhithoutExt = generateDirPath + elementInfo.GameObjectName;
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
+                Namespace = Configure.DefaultNameSpace.Value,
+                ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
+                ScriptPath = generateDirPath
+            };
+            
+            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
             // if (File.Exists(panelFilePathWhithoutExt + ".cs") == false) {
             //     UIElementCodeTemplate.Generate(panelFilePathWhithoutExt + ".cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
             // }
             // UIElementCodeComponentTemplate.Generate(panelFilePathWhithoutExt + ".Designer.cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
 
-            foreach (ElementInfo childElementCodeData in elementInfo.ElementInfoList) {
-                string elementDir = (panelFilePathWhithoutExt + "/");
-                CreateUIElementCode(elementDir, childElementCodeData);
-            }
+            // foreach (ElementInfo childElementCodeData in elementInfo.ElementInfoList) {
+            //     string elementDir = (panelFilePathWhithoutExt + "/");
+            //     CreateUIElementCode(elementDir, childElementCodeData);
+            // }
         }
     }
 }

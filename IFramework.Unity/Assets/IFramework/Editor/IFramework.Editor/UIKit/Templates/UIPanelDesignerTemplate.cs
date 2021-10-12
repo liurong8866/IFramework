@@ -50,7 +50,7 @@ namespace IFramework.Editor
             sb.AppendLine($"\t\tprivate {generateInfo.ScriptName}Data {privateData} = null;");
             sb.AppendLine();
             
-            foreach (BindInfo bindInfo in rootNodeInfo.BindInfoList) {
+            foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
@@ -61,7 +61,7 @@ namespace IFramework.Editor
             sb.AppendLine("\t\tprotected override void ClearUIComponents()");
             sb.AppendLine("\t\t{");
 
-            foreach (BindInfo bindInfo in rootNodeInfo.BindInfoList) {
+            foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 sb.AppendLine($"\t\t\t{bindInfo.Name} = null;");
             }
             sb.AppendLine("\t\t\tData = null;");

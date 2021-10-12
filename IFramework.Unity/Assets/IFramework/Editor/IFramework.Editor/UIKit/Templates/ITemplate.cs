@@ -6,7 +6,8 @@ namespace IFramework.Editor
         /// 生成代码
         /// </summary>
         /// <param name="generateInfo">代码生成信息</param>
-        /// <param name="rootNodeInfo">面板代码信息</param>
-        public void Generate(GenerateInfo generateInfo, RootNodeInfo rootNodeInfo = null, bool overwrite = false);
+        /// <param name="elementInfo"></param>
+        /// <param name="overwrite"></param>
+        public void Generate(GenerateInfo generateInfo, ElementInfo elementInfo = null, bool overwrite = false);
     }
 }

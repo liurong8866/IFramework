@@ -8,19 +8,20 @@ namespace IFramework.Editor
     public abstract class AbstractTemplate<T> : ITemplate, ISingleton where T : AbstractTemplate<T>
     {
         protected GenerateInfo generateInfo;
-        protected RootNodeInfo rootNodeInfo;
+        protected ElementInfo elementInfo;
 
         public static T Instance => SingletonProperty<T>.Instance;
-        
+
         /// <summary>
         /// 生成代码
         /// </summary>
         /// <param name="generateInfo">代码生成信息</param>
-        /// <param name="rootNodeInfo">面板代码信息</param>
-        public void Generate(GenerateInfo generateInfo, RootNodeInfo rootNodeInfo = null, bool overwrite = false)
+        /// <param name="elementInfo"></param>
+        /// <param name="overwrite"></param>
+        public void Generate(GenerateInfo generateInfo, ElementInfo elementInfo = null, bool overwrite = false)
         {
             this.generateInfo = generateInfo;
-            this.rootNodeInfo = rootNodeInfo;
+            this.elementInfo = elementInfo;
 
             // 如果文件不能覆盖，并且存在，则退出
             if (!overwrite && FileUtils.Exists(FullName)) {

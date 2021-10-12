@@ -39,7 +39,7 @@ namespace IFramework.Editor
             sb.AppendLine("\t{");
 
             // 循环设置字段
-            foreach (BindInfo bindInfo in rootNodeInfo.BindInfoList) {
+            foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     // 添加注释
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
