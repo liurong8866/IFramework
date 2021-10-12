@@ -131,7 +131,7 @@ namespace IFramework.Editor
 
             // 水平遍历，深度递归调用
             foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
-                string elementDir = (childElement.BindInfo.BindScript.ComponentName + "/");
+                string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, childElement.BindInfo.BindScript.ComponentName );
                 CreateUIElementCode(elementDir, childElement);
             }
         }

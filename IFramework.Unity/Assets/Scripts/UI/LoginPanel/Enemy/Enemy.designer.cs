@@ -10,15 +10,16 @@ namespace IFramework.Example.UI
 		[SerializeField] public UnityEngine.Transform UserName;
 		[SerializeField] public UnityEngine.Transform Password;
 
-		public void Clear()
+		public override string ComponentName
+		{
+			get { return "Enemy";}
+		}
+
+		public void OnDisable()
 		{
 			UserName = null;
 			Password = null;
 		}
 
-		public override string ComponentName
-		{
-			get { return "Enemy";}
-		}
 	}
 }
