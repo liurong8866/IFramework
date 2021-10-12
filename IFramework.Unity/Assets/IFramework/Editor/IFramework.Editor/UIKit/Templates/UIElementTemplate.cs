@@ -34,7 +34,7 @@ namespace IFramework.Editor
             sb.Append("\t\t").AppendLine("{");
             sb.Append("\t\t").AppendLine("}");
             sb.AppendLine();
-            sb.Append("\t\t").AppendLine("protected override void OnBeforeDestroy()");
+            sb.Append("\t\t").AppendLine("protected override void BeforeDestroy()");
             sb.Append("\t\t").AppendLine("{");
             sb.Append("\t\t").AppendLine("}");
             sb.AppendLine("\t}");

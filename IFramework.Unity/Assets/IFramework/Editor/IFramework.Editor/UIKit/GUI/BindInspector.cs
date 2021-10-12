@@ -9,10 +9,10 @@ namespace IFramework.Editor
     [CustomEditor(typeof(AbstractBind), true)]
     public class BindInspector : UnityEditor.Editor
     {
+        private AbstractBind bind;
         private int elementTypeIndex;
         public Bindable<BindType> bindTypeMonitor = new Bindable<BindType>();
         private string[] elementTypeOptions = Array.Empty<string>();
-        private AbstractBind bind;
 
         private void OnEnable()
         {
@@ -21,14 +21,17 @@ namespace IFramework.Editor
             if (bind != null) {
                 bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
                 bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
+                bind.SerializedFiled = new AbstractBind.Serialized(serializedObject);
                 bindTypeMonitor.OnChange += GetElementTypeOptions;
                 GetElementTypeOptions(0);
             }
         }
 
+        
         private void GetElementTypeOptions(BindType element)
         {
-            if (bind != null) {
+            if (bind != null) 
+            {
                 if (element == BindType.DefaultElement) {
                     Component[] components = bind.GetComponents<Component>();
 
@@ -78,11 +81,12 @@ namespace IFramework.Editor
             if (bind.BindType != BindType.DefaultElement) {
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.PrefixLabel("类名称");
-                bind.CustomComponentName = EditorGUILayout.TextField(bind.ComponentName).FormatName();
+                bind.CustomComponentName = EditorGUILayout.TextField(bind.CustomComponentName).FormatName();
+                bind.ComponentName = bind.CustomComponentName;
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
-
+            
             // 注释
             EditorGUILayout.PrefixLabel("字段注释");
             GUILayout.BeginHorizontal();
@@ -94,6 +98,12 @@ namespace IFramework.Editor
             // 结束
             GUILayout.EndVertical();
             EditorGUILayout.GetControlRect();
+
+            // 记忆更新
+            bind.SerializedFiled.BindType.intValue = bind.bindType.ToInt();
+            bind.SerializedFiled.ComponentName.stringValue = bind.ComponentName;
+            bind.SerializedFiled.Comment.stringValue = bind.Comment;
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

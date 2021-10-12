@@ -101,15 +101,15 @@ namespace IFramework.Editor
             // 生成 .designer.cs
             UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
 
-            // 生成组件
+            // 生成UIElement组件
             foreach (ElementInfo elementInfo in rootPanelInfo.ElementInfoList) {
                 string elementPath = "";
 
                 if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
-                    elementPath = panelGenerateInfo.ScriptAssetsPath + obj.name + "/";
+                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name);
                 }
                 else {
-                    elementPath = Application.dataPath + "/" + Configure.UIScriptPath + "/Components/";
+                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name, "Components");
                 }
                 CreateUIElementCode(elementPath, elementInfo);
             }
@@ -117,23 +117,23 @@ namespace IFramework.Editor
 
         private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
         {
-            // string panelFilePathWhithoutExt = generateDirPath + elementInfo.GameObjectName;
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
                 Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
                 ScriptPath = generateDirPath
             };
-            
-            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
-            // if (File.Exists(panelFilePathWhithoutExt + ".cs") == false) {
-            //     UIElementCodeTemplate.Generate(panelFilePathWhithoutExt + ".cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
-            // }
-            // UIElementCodeComponentTemplate.Generate(panelFilePathWhithoutExt + ".Designer.cs", elementInfo.BehaviourName, Configure.DefaultNameSpace, elementInfo);
 
-            // foreach (ElementInfo childElementCodeData in elementInfo.ElementInfoList) {
-            //     string elementDir = (panelFilePathWhithoutExt + "/");
-            //     CreateUIElementCode(elementDir, childElementCodeData);
-            // }
+            // 生成.cs
+            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
+
+            // 生成.designer.cs
+            UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
+
+            // 水平遍历，深度递归调用
+            foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
+                string elementDir = (childElement.BindInfo.BindScript.ComponentName + "/");
+                CreateUIElementCode(elementDir, childElement);
+            }
         }
     }
 }
