@@ -38,7 +38,6 @@ namespace IFramework.Core
         public string CustomComponentName;
 
         [HideInInspector]
-        [SerializeField]
         public BindType bindType;
 
         [HideInInspector]
