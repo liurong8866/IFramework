@@ -32,6 +32,7 @@ namespace IFramework.Editor
             controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
             // 生成信息
             generateInfo = new ViewControllerGenerateInfo(controller);
+            // 初始化序列化字段
             controller.SerializedFiled = new ViewController.Serialized(serializedObject);
         }
 
@@ -49,8 +50,7 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
             // EditorGUILayout.PrefixLabel("命名空间");
             EditorGUILayout.LabelField("命名空间", GUILayout.Width(70));
-            controller.Namespace = EditorGUILayout.TextField(controller.Namespace).Trim();
-            controller.SerializedFiled.Namespace.stringValue = controller.Namespace;
+            controller.SerializedFiled.Namespace.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.Namespace.stringValue).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -59,8 +59,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本名称");
             EditorGUILayout.LabelField("脚本名称", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.ScriptName = EditorGUILayout.TextField(controller.ScriptName).Trim();
-            controller.SerializedFiled.ScriptName.stringValue = controller.ScriptName;
+            controller.SerializedFiled.ScriptName.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptName.stringValue).Trim();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -69,14 +68,12 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本路径");
             EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.ScriptPath = EditorGUILayout.TextField(controller.ScriptPath).Trim();
-            controller.SerializedFiled.ScriptPath.stringValue = controller.ScriptPath;
+            controller.SerializedFiled.ScriptPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptPath.stringValue).Trim();
 
             if (controller.AsScriptSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
-            controller.AsScriptSubPath = EditorGUILayout.Toggle(controller.AsScriptSubPath, GUILayout.Width(20));
-            controller.SerializedFiled.AsScriptSubPath.boolValue = controller.AsScriptSubPath;
+            controller.SerializedFiled.AsScriptSubPath.boolValue = EditorGUILayout.Toggle(controller.SerializedFiled.AsScriptSubPath.boolValue, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             // GUILayout.Space(5);
             // EditorGUILayout.HelpBox("勾选后，脚本名称作为子路径", MessageType.None, false);
@@ -87,14 +84,12 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("预设路径");
             EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.PrefabPath = EditorGUILayout.TextField(controller.PrefabPath).Trim();
-            controller.SerializedFiled.PrefabPath.stringValue = controller.PrefabPath;
+            controller.SerializedFiled.PrefabPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.PrefabPath.stringValue).Trim();
 
             if (controller.AsPrefabSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
-            controller.AsPrefabSubPath = EditorGUILayout.Toggle(controller.AsPrefabSubPath, GUILayout.Width(20));
-            controller.SerializedFiled.AsPrefabSubPath.boolValue = controller.AsPrefabSubPath;
+            controller.SerializedFiled.AsPrefabSubPath.boolValue = EditorGUILayout.Toggle(controller.SerializedFiled.AsPrefabSubPath.boolValue, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
             // EditorGUILayout.HelpBox("勾选后，路径将包含脚本名称", MessageType.None, false);
@@ -114,8 +109,7 @@ namespace IFramework.Editor
             EditorGUILayout.PrefixLabel("类注释");
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
-            controller.Comment = EditorGUILayout.TextArea(controller.Comment, GUILayout.Height(40));
-            controller.SerializedFiled.Comment.stringValue = controller.Comment;
+            controller.SerializedFiled.Comment.stringValue = EditorGUILayout.TextArea(controller.SerializedFiled.Comment.stringValue, GUILayout.Height(40));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 

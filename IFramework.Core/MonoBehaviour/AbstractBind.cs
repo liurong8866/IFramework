@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -43,7 +44,33 @@ namespace IFramework.Core
         [HideInInspector]
         [SerializeField]
         private string componentName = "";
-
+        
+        /// <summary>
+        /// 序列化的字段
+        /// </summary>
+        [HideInInspector]
+        public Serialized SerializedFiled;
+        
+        /// <summary>
+        /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
+        /// </summary>
+        public class Serialized
+        {
+           
+            public SerializedProperty BindType;
+            public SerializedProperty CustomComponentName;
+            public SerializedProperty comment;
+            public SerializedProperty componentName;
+            
+            public Serialized(SerializedObject serializedObject)
+            {
+                BindType = serializedObject.FindProperty("BindType");
+                CustomComponentName = serializedObject.FindProperty("CustomComponentName");
+                comment = serializedObject.FindProperty("comment");
+                componentName = serializedObject.FindProperty("componentName");
+            }
+        }
+        
         /// <summary>
         /// 取当前物体上绑定的组件
         /// </summary>
@@ -51,7 +78,7 @@ namespace IFramework.Core
         [SuppressMessage("ReSharper", "Unity.PreferGenericMethodOverload")]
         private string GetDefaultComponentName()
         {
-            if (GetComponent("ViewController")) return GetComponent<ViewController>().GetType().FullName;
+            if (GetComponent("IFramework.Core.ViewController")) return GetComponent<ViewController>().GetType().FullName;
 
             // UGUI
             if (GetComponent("UnityEngine.UI.Button")) return "UnityEngine.UI.Button";

@@ -60,6 +60,7 @@ namespace IFramework.Core
         /// </summary>
         public class Serialized
         {
+           
             public SerializedProperty Namespace;
             public SerializedProperty ScriptName;
             public SerializedProperty ScriptPath;
