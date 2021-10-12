@@ -45,7 +45,7 @@ namespace IFramework.Engine
 			int entryIndex = zipFile.FindEntry(string.Format("assets/{0}", fileRelativePath), false);
 			return entryIndex != -1;
         #else
-            string absoluteFilePath = Path.Combine(Platform.StreamingAssets.Root, fileRelativePath);
+            string absoluteFilePath = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, fileRelativePath);
             return File.Exists(absoluteFilePath);
         #endif
         }
@@ -74,7 +74,7 @@ namespace IFramework.Engine
                 return zipFile.FindEntry(string.Format("assets/{0}", fileRelativePath), true) >= 0;
 			}
         #else
-            string filePathStandalone = Path.Combine(Platform.StreamingAssets.Root, fileRelativePath);
+            string filePathStandalone = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, fileRelativePath);
             return (filePathStandalone.NotEmpty() && File.Exists(filePathStandalone));
         #endif
         }
@@ -103,7 +103,7 @@ namespace IFramework.Engine
 			//Android 包内
 			return GetFileInZip(zipFile, fileName);
         #endif
-            return DirectoryUtils.GetFiles(Path.Combine(Platform.StreamingAssets.AssetBundlePath, Environment.Instance.RuntimePlatformName), fileName);
+            return DirectoryUtils.GetFiles(DirectoryUtils.CombinePath(Platform.StreamingAssets.AssetBundlePath, Environment.Instance.RuntimePlatformName), fileName);
         }
 
         public byte[] ReadSync(string fileRelativePath) {
@@ -159,7 +159,7 @@ namespace IFramework.Engine
             string filePath;
 
             for (int i = 0; i < searchDirList.Count; ++i) {
-                filePath = Path.Combine(searchDirList[i], file);
+                filePath = DirectoryUtils.CombinePath(searchDirList[i], file);
 
                 if (File.Exists(filePath)) {
                     return filePath;
@@ -186,7 +186,7 @@ namespace IFramework.Engine
         }
 
         private string FindFilePathInternal(string file) {
-            string filePath = Path.Combine(Platform.StreamingAssets.Root, file);
+            string filePath = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, file);
 
             if (File.Exists(filePath)) {
                 return filePath;

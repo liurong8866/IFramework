@@ -19,7 +19,7 @@ namespace IFramework.Engine
 
             if (resource != null) {
                 resource.AssetName = path;
-                resource.filePath = Path.Combine(Platform.PersistentData.VideoPath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");
+                resource.filePath = DirectoryUtils.CombinePath(Platform.PersistentData.VideoPath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");
                 resource.fileName = FileUtils.GetFileNameByPath(path);
 
                 // 如果缓存已下载，则直接从缓存获取

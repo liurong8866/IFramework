@@ -47,14 +47,6 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 合并两个路径
-        /// </summary>
-        public static string CombinePath(string first, string second)
-        {
-            return Path.Combine(first, second);
-        }
-
-        /// <summary>
         /// 拷贝文件夹及其子目录
         /// </summary>
         /// <param name="sourcePath">数据源</param>
@@ -81,7 +73,7 @@ namespace IFramework.Core
 
             foreach (FileInfo file in files) {
                 // 组合文件路径
-                string filePath = Path.Combine(destPath, file.Name);
+                string filePath = DirectoryUtils.CombinePath(destPath, file.Name);
 
                 // 复制文件到指定目录
                 file.CopyTo(filePath, false);
@@ -91,7 +83,7 @@ namespace IFramework.Core
             if (recursion) {
                 foreach (DirectoryInfo subdir in directories) {
                     // 组合文件夹路径
-                    string dirPath = Path.Combine(destPath, subdir.Name);
+                    string dirPath = DirectoryUtils.CombinePath(destPath, subdir.Name);
 
                     // 递归调用
                     Copy(subdir.FullName, dirPath, recursion);
@@ -163,6 +155,19 @@ namespace IFramework.Core
         }
 
         /// <summary>
+        /// 合并路径
+        /// </summary>
+        public static string CombinePath(string first, string second, params string[] paths)
+        {
+            string result = Path.Combine(first, second.TrimStart('/').TrimStart('\\'));
+
+            foreach (string path in paths) {
+                result = Path.Combine(result, path.TrimStart('/').TrimStart('\\'));
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 获取父目录
         /// </summary>
         /// <param name="path">文件、文件夹路径</param>
@@ -177,7 +182,7 @@ namespace IFramework.Core
             }
             return parentPath;
         }
-        
+
         /// <summary>
         /// 获取文件路径，不包含文件名
         /// </summary>
@@ -186,7 +191,7 @@ namespace IFramework.Core
             // 找到最后一个/
             return fullName.Substring(0, fullName.Replace(@"\", "/").LastIndexOf("/", StringComparison.Ordinal));
         }
-        
+
         /// <summary>
         /// 查找文件路径的最后一个文件夹名称
         /// </summary>

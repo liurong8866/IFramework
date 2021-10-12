@@ -46,12 +46,12 @@ namespace IFramework.Editor
         /// <summary>
         /// .cs 脚本全路径
         /// </summary>
-        public string ScriptAssetsClassName => Path.Combine(ScriptAssetsPath, ScriptName + ".cs");
+        public string ScriptAssetsClassName => DirectoryUtils.CombinePath(ScriptAssetsPath, ScriptName + ".cs");
 
         /// <summary>
         /// .designer.cs 脚本全路径
         /// </summary>
-        public string ScriptAssetsDesignerName => Path.Combine(ScriptAssetsPath, ScriptName + ".designer.cs");
+        public string ScriptAssetsDesignerName => DirectoryUtils.CombinePath(ScriptAssetsPath, ScriptName + ".designer.cs");
     }
 
     /// <summary>
@@ -72,12 +72,12 @@ namespace IFramework.Editor
         /// <summary>
         /// 脚本文件相对资源路径
         /// </summary>
-        public override string ScriptAssetsPath => Path.Combine("Assets", ScriptPath, AsScriptSubPath ? ScriptName : "");
+        public override string ScriptAssetsPath => DirectoryUtils.CombinePath("Assets", ScriptPath, AsScriptSubPath ? ScriptName : "");
 
         /// <summary>
         /// 预设文件相对资源路径
         /// </summary>
-        public override string PrefabAssetsPath => Path.Combine("Assets", PrefabPath, AsPrefabSubPath ? ScriptName : "");
+        public override string PrefabAssetsPath => DirectoryUtils.CombinePath("Assets", PrefabPath, AsPrefabSubPath ? ScriptName : "");
 
         public ViewControllerGenerateInfo(ViewController controller)
         {
@@ -99,11 +99,11 @@ namespace IFramework.Editor
         /// <summary>
         /// 脚本文件相对资源路径
         /// </summary>
-        public override string ScriptAssetsPath => Path.Combine("Assets", ScriptPath, ScriptName);
+        public override string ScriptAssetsPath => DirectoryUtils.CombinePath("Assets", ScriptPath, ScriptName);
 
         /// <summary>
         /// 预设文件相对资源路径
         /// </summary>
-        public override string PrefabAssetsPath => Path.Combine("Assets", PrefabPath, ScriptName);
+        public override string PrefabAssetsPath => DirectoryUtils.CombinePath("Assets", PrefabPath, ScriptName);
     }
 }

@@ -106,7 +106,7 @@ namespace IFramework.Core.Zip.Zip
                 // This may exceed windows length restrictions.
                 // Combine will throw a PathTooLongException in that case.
                 if (baseDirectory != null) {
-                    name = Path.Combine(baseDirectory, name);
+                    name = DirectoryUtils.CombinePath(baseDirectory, name);
                 }
             }
             else {

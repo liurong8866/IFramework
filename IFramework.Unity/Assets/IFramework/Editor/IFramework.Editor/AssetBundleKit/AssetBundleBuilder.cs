@@ -44,7 +44,7 @@ namespace IFramework.Editor
 
             // 划分默认包、子包
             AssetBundlePackage.SplitPackage(defaultPackage, subPackages);
-            string outputPath = Path.Combine(Constant.ASSET_BUNDLE_PATH, platformName);
+            string outputPath = DirectoryUtils.CombinePath(Constant.ASSET_BUNDLE_PATH, platformName);
             Log.Info("正在打包: [{0}]: {1}", platformName, outputPath);
             DateTime start = DateTime.Now;
 
@@ -53,7 +53,7 @@ namespace IFramework.Editor
 
             // 打包 - 子包
             foreach (AssetBundlePackage subPackage in subPackages) {
-                string path = Path.Combine(outputPath, subPackage.NameSpace, subPackage.Name);
+                string path = DirectoryUtils.CombinePath(outputPath, subPackage.NameSpace, subPackage.Name);
                 Log.Info("正在打包: [{0}]: {1}", platformName, path);
                 Build(path, subPackage, buildTarget);
             }
@@ -81,7 +81,7 @@ namespace IFramework.Editor
             BuildPipeline.BuildAssetBundles(outputPath, package.packages.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
 
             // streamingAssets 路径
-            string streamPath = Path.Combine(Application.streamingAssetsPath, outputPath);
+            string streamPath = DirectoryUtils.CombinePath(Application.streamingAssetsPath, outputPath);
 
             // 清空或创建目录
             DirectoryUtils.Clear(streamPath);
@@ -102,7 +102,7 @@ namespace IFramework.Editor
 
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);
-            string filePath = Path.Combine((outputPath ?? Platform.StreamingAssets.Root).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
+            string filePath = DirectoryUtils.CombinePath((outputPath ?? Platform.StreamingAssets.Root).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);
             assetBundleConfig.Save(filePath);
         }
 
@@ -112,7 +112,7 @@ namespace IFramework.Editor
         public static void ForceClearAssetBundles()
         {
             DirectoryUtils.Clear(Constant.ASSET_BUNDLE_PATH);
-            DirectoryUtils.Clear(Path.Combine(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_PATH));
+            DirectoryUtils.Clear(DirectoryUtils.CombinePath(Application.streamingAssetsPath, Constant.ASSET_BUNDLE_PATH));
             AssetDatabase.Refresh();
         }
     }

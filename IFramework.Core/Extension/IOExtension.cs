@@ -41,9 +41,9 @@ namespace IFramework.Core
         /// <summary>
         /// 合并两个路径
         /// </summary>
-        public static string CombinePath(this string self, string path)
+        public static string CombinePath(this string self, string second, params string[] paths)
         {
-            return DirectoryUtils.CombinePath(self, path);
+            return DirectoryUtils.CombinePath(self, second, paths);
         }
 
         /// <summary>

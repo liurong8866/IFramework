@@ -96,7 +96,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 完整路径名
         /// </summary>
-        protected string FullName => Path.Combine(FilePath, FileName);
+        protected string FullName => DirectoryUtils.CombinePath(FilePath, FileName);
 
         /// <summary>
         /// 析构函数，以备程序员忘记了显式调用Dispose方法

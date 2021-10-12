@@ -502,7 +502,7 @@ namespace IFramework.Core.Zip.Tar
                 name = name.Substring(Path.GetPathRoot(name).Length);
             }
             name = name.Replace('/', Path.DirectorySeparatorChar);
-            string destFile = Path.Combine(destDir, name);
+            string destFile = DirectoryUtils.CombinePath(destDir, name);
 
             if (entry.IsDirectory) {
                 EnsureDirectoryExists(destFile);

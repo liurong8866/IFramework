@@ -20,7 +20,7 @@ namespace IFramework.Editor
         {
             Log.Info("生成脚本: 开始！");
             // 生成文件路径
-            string path = Path.Combine(Application.dataPath, Constant.ENVIRONMENT_PATH, Constant.ASSET_BUNDLE_SCRIPT_FILE);
+            string path = DirectoryUtils.CombinePath(Application.dataPath, Constant.ENVIRONMENT_PATH, Constant.ASSET_BUNDLE_SCRIPT_FILE);
             // 完成组装
             Generate("IFramework.Engine", path);
             Log.Info("生成脚本: 完成！");

@@ -68,12 +68,12 @@ namespace IFramework.Core
         /// <summary>
         /// 运行时平台AssetBundle包路径，优先获取Persistent，其次获取Stream
         /// </summary>
-        public static string RuntimeAssetBundlePath => Path.Combine(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_PATH), RuntimePlatformName);
+        public static string RuntimeAssetBundlePath => DirectoryUtils.CombinePath(GetPersistentOrStreamPath(Constant.ASSET_BUNDLE_PATH), RuntimePlatformName);
 
         /// <summary>
         /// 运行时平台StreamAsset/AssetBundle/Platform包路径
         /// </summary>
-        public static string RuntimeStreamAssetBundlePath => Path.Combine(StreamingAssets.AssetBundlePath, RuntimePlatformName);
+        public static string RuntimeStreamAssetBundlePath => DirectoryUtils.CombinePath(StreamingAssets.AssetBundlePath, RuntimePlatformName);
 
         /// <summary>
         /// StreamingAssets目录类
@@ -88,7 +88,7 @@ namespace IFramework.Core
             /// <summary>
             /// StreamingAssets文件夹下到AssetBundle包
             /// </summary>
-            public static string AssetBundlePath => Path.Combine(Root, Constant.ASSET_BUNDLE_PATH);
+            public static string AssetBundlePath => DirectoryUtils.CombinePath(Root, Constant.ASSET_BUNDLE_PATH);
         }
 
         /// <summary>
@@ -196,8 +196,8 @@ namespace IFramework.Core
         public static string GetUrlByAssetBundleName(string name)
         {
             // 优先返回PersistentAsset路径
-            string url = Path.Combine(PersistentData.Root, name);
-            return File.Exists(url) ? url : Path.Combine(RuntimeStreamAssetBundlePath, name);
+            string url = DirectoryUtils.CombinePath(PersistentData.Root, name);
+            return File.Exists(url) ? url : DirectoryUtils.CombinePath(RuntimeStreamAssetBundlePath, name);
         }
 
         /*--------------------------- 私有方法、变量 ---------------------------*/
@@ -207,12 +207,12 @@ namespace IFramework.Core
         /// </summary>
         private static string GetPersistentOrStreamPath(string relativePath)
         {
-            string path = Path.Combine(PersistentData.Root, relativePath);
+            string path = DirectoryUtils.CombinePath(PersistentData.Root, relativePath);
 
             if (File.Exists(path)) {
                 return path;
             }
-            return Path.Combine(StreamingAssets.Root, relativePath);
+            return DirectoryUtils.CombinePath(StreamingAssets.Root, relativePath);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace IFramework.Core
         private static string ResourcePath(string path, string root, string folder)
         {
             if (path == null) {
-                path = Path.Combine(root, folder);
+                path = DirectoryUtils.CombinePath(root, folder);
                 DirectoryUtils.Create(path);
             }
             return path;

@@ -125,7 +125,7 @@ namespace IFramework.Engine
                 }
                 // 进行过热更新
                 else {
-                    string persistentPath = Path.Combine(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
+                    string persistentPath = DirectoryUtils.CombinePath(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
                 }
 
