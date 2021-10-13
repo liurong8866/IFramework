@@ -7,7 +7,6 @@ using IFramework.Engine;
 namespace IFramework.Example.UI
 {
 	public partial class Player	{
-        
 		[SerializeField] public UnityEngine.Transform UserName;
 		[SerializeField] public UnityEngine.Transform Password;
 
