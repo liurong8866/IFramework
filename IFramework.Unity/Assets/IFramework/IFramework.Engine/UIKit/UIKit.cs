@@ -26,6 +26,15 @@ namespace IFramework.Engine
         /// <summary>
         /// 打开Panel
         /// </summary>
+        /// <typeparam name="T">面板类型</typeparam>
+        public static T OpenPanel<T>() where T : UIPanel
+        {
+            return OpenPanel<T>(UILevel.Common, PanelOpenType.Single, null);
+        }
+
+        /// <summary>
+        /// 打开Panel
+        /// </summary>
         /// <param name="level">UI层级</param>
         /// <typeparam name="T">面板类型</typeparam>
         public static T OpenPanel<T>(UILevel level) where T : UIPanel
@@ -215,6 +224,75 @@ namespace IFramework.Engine
             rectTrans.anchorMin = Vector2.zero;
             rectTrans.anchorMax = Vector2.one;
             rectTrans.LocalScaleIdentity();
+        }
+
+        /// <summary>
+        /// 内部类 给脚本层用的
+        /// </summary>
+        internal static class ScriptUse
+        {
+            public static UIPanel OpenPanel(string panelName, UILevel level = UILevel.Common, string assetBundleName = null)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Level = level;
+                searcher.Keyword = panelName;
+                searcher.TypeName = panelName;
+                searcher.AssetBundleName = assetBundleName;
+                searcher.GameObjectName = panelName;
+                UIPanel panel = UIManager.Instance.OpenUI(searcher) as UIPanel;
+                searcher.Recycle();
+                return panel;
+            }
+
+            public static UIPanel GetPanel(string panelName)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = panelName;
+                searcher.TypeName = panelName;
+                UIPanel panel = UIManager.Instance.GetUI(searcher) as UIPanel;
+                searcher.Recycle();
+                return panel;
+            }
+
+            public static void ClosePanel(string panelName)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = panelName;
+                searcher.TypeName = panelName;
+                searcher.GameObjectName = panelName;
+                UIManager.Instance.CloseUI(searcher);
+                searcher.Recycle();
+            }
+
+            public static void ClosePanel(UIPanel panel)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Panel = panel;
+                searcher.Keyword = panel.GetType().FullName;
+                searcher.TypeName = panel.GetType().Name;
+                UIManager.Instance.CloseUI(searcher);
+                searcher.Recycle();
+            }
+
+            public static void ShowPanel(string panelName)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = panelName;
+                searcher.TypeName = panelName;
+                searcher.GameObjectName = panelName;
+                UIManager.Instance.ShowUI(searcher);
+                searcher.Recycle();
+            }
+
+            public static void HidePanel(string panelName)
+            {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = panelName;
+                searcher.TypeName = panelName;
+                searcher.GameObjectName = panelName;
+                UIManager.Instance.HideUI(searcher);
+                searcher.Recycle();
+            }
         }
     }
 }

@@ -83,17 +83,17 @@ namespace IFramework.Core
             if (GetComponent("IFramework.Core.ViewController")) return GetComponent<ViewController>().GetType().FullName;
 
             // UGUI
-            if (GetComponent("UnityEngine.UI.Button")) return "UnityEngine.UI.Button";
-            if (GetComponent("UnityEngine.UI.Text")) return "UnityEngine.UI.Text";
-            if (GetComponent("UnityEngine.UI.InputField") != null) return "UnityEngine.UI.InputField";
-            if (GetComponent("UnityEngine.UI.Image")) return "UnityEngine.UI.Image";
-            if (GetComponent("UnityEngine.UI.RawImage")) return "UnityEngine.UI.RawImage";
-            if (GetComponent("UnityEngine.UI.Dropdown")) return "UnityEngine.UI.Dropdown";
-            if (GetComponent("UnityEngine.UI.Toggle")) return "UnityEngine.UI.Toggle";
-            if (GetComponent("UnityEngine.UI.Slider")) return "UnityEngine.UI.Slider";
-            if (GetComponent("UnityEngine.UI.Scrollbar")) return "UnityEngine.UI.Scrollbar";
-            if (GetComponent("UnityEngine.UI.ToggleGroup")) return "UnityEngine.UI.ToggleGroup";
-            if (GetComponent("UnityEngine.UI.ScrollRect")) return "UnityEngine.UI.ScrollRect";
+            if (GetComponent("UnityEngine.UI.Button")) return "Button";
+            if (GetComponent("UnityEngine.UI.Text")) return "Text";
+            if (GetComponent("UnityEngine.UI.InputField") != null) return "InputField";
+            if (GetComponent("UnityEngine.UI.Image")) return "Image";
+            if (GetComponent("UnityEngine.UI.RawImage")) return "RawImage";
+            if (GetComponent("UnityEngine.UI.Dropdown")) return "Dropdown";
+            if (GetComponent("UnityEngine.UI.Toggle")) return "Toggle";
+            if (GetComponent("UnityEngine.UI.Slider")) return "Slider";
+            if (GetComponent("UnityEngine.UI.Scrollbar")) return "Scrollbar";
+            if (GetComponent("UnityEngine.UI.ToggleGroup")) return "ToggleGroup";
+            if (GetComponent("UnityEngine.UI.ScrollRect")) return "ScrollRect";
 
             // 富文本
             if (GetComponent("TMP.TextMeshProUGUI")) return "TMP.TextMeshProUGUI";

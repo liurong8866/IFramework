@@ -6,11 +6,11 @@ using IFramework.Engine;
 
 namespace IFramework.Example.UI
 {
-	public partial class Player
+	public partial class Enemy
 	{
-		[SerializeField] public PlayerWeapon Weapon;
+		[SerializeField] public EnemyWeapon Weapon;
 
-		public override string ComponentName => "Player";
+		public override string ComponentName => "Enemy";
 
 		public void OnDisable()
 		{

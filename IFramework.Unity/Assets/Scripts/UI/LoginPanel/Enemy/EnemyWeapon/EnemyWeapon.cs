@@ -7,7 +7,7 @@ using IFramework.Engine;
 
 namespace IFramework.Example.UI
 {
-	public partial class Player : UIElement
+	public partial class EnemyWeapon : UIElement
 	{
 		private void Awake() { }
 

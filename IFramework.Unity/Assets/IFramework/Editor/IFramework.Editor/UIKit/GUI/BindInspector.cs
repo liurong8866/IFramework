@@ -98,6 +98,7 @@ namespace IFramework.Editor
             // 记忆更新
             bind.SerializedFiled.BindType.intValue = bind.bindType.ToInt();
             bind.SerializedFiled.ComponentName.stringValue = bind.ComponentName;
+            bind.SerializedFiled.CustomComponentName.stringValue = bind.CustomComponentName;
             bind.SerializedFiled.Comment.stringValue = bind.Comment;
             serializedObject.ApplyModifiedProperties();
         }

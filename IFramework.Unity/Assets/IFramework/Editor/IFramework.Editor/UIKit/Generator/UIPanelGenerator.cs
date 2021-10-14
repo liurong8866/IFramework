@@ -70,15 +70,15 @@ namespace IFramework.Editor
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
 
-            // // 获取Prefab路径, 如果多个则用;分隔
-            // if (assetPath.NotEmpty()) {
-            //     if (generateUIPrefabPath.Value.Nothing()) {
-            //         generateUIPrefabPath.Value = assetPath;
-            //     }
-            //     else {
-            //         generateUIPrefabPath.Value += ";" + assetPath;
-            //     }
-            // }
+            // 获取Prefab路径, 如果多个则用;分隔
+            if (assetPath.NotEmpty()) {
+                if (generateUIPrefabPath.Value.Nothing()) {
+                    generateUIPrefabPath.Value = assetPath;
+                }
+                else {
+                    generateUIPrefabPath.Value += ";" + assetPath;
+                }
+            }
 
             //销毁刚实例化的对象
             Object.DestroyImmediate(clone);
@@ -164,17 +164,15 @@ namespace IFramework.Editor
                     GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
                     // 设置对象引用属性
                     SetObjectRefToProperty(go, assembly);
-                    //
+                    // 更新进度条
                     EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab " + go.name, (float)(i + 1) / paths.Length);
-                    //
-                    Log.Info("生成脚本: 已生成" + go.name);
+                    Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
                 }
             } finally {
                 EditorUtility.ClearProgressBar();
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);

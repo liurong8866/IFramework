@@ -23,26 +23,5 @@ namespace IFramework.Engine
             }
             return Enumerable.Empty<IPanel>();
         }
-
-        // public IEnumerable<IPanel> GetPanelList(PanelSearcher searcher)
-        // {
-        //     if (searcher.Keyword.NotEmpty() && (searcher.GameObjectName.NotEmpty() || searcher.Panel.NotEmpty())) {
-        //         return Get(searcher.Keyword)
-        //                .Where(p => p.Transform.name == searcher.GameObjectName || p == searcher.Panel);
-        //     }
-        //
-        //     if (searcher.Keyword.NotEmpty()) {
-        //         return Get(searcher.Keyword);
-        //     }
-        //
-        //     if (searcher.Panel.NotEmpty()) {
-        //         return Get(searcher.Panel.Transform.gameObject.name).Where(p => p == searcher.Panel);
-        //     }
-        //
-        //     if (searcher.GameObjectName.NotEmpty()) {
-        //         return Get(searcher.GameObjectName);
-        //     }
-        //     return Enumerable.Empty<IPanel>();
-        // }
     }
 }
