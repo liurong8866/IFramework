@@ -26,27 +26,23 @@ namespace IFramework.Editor
             sb.AppendLine();
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendFormat("\tpublic partial class " + generateInfo.ScriptName);
+            sb.AppendLine("\tpublic partial class " + generateInfo.ScriptName);
             sb.AppendLine("\t{");
 
             foreach (BindInfo markInfo in elementInfo.BindInfoList) {
                 string strUIType = markInfo.BindScript.ComponentName;
-                sb.AppendFormat("\t\t[SerializeField] public {0} {1};\r\n", strUIType, markInfo.Name);
+                sb.AppendLine($"\t\t[SerializeField] public {strUIType} {markInfo.Name};");
             }
             sb.AppendLine();
-            sb.Append("\t\t").AppendLine("public override string ComponentName");
-            sb.Append("\t\t").AppendLine("{");
-            sb.Append("\t\t\t");
-            sb.AppendLine("get { return \"" + elementInfo.BindInfo.BindScript.ComponentName + "\";}");
-            sb.Append("\t\t").AppendLine("}");
+            sb.AppendLine($"\t\tpublic override string ComponentName => \"{elementInfo.BindInfo.BindScript.ComponentName}\"");
             sb.AppendLine();
-            sb.Append("\t\t").AppendLine("public void OnDisable()");
-            sb.Append("\t\t").AppendLine("{");
+            sb.AppendLine("\t\tpublic void OnDisable()");
+            sb.AppendLine("\t\t{");
 
             foreach (BindInfo markInfo in elementInfo.BindInfoList) {
-                sb.AppendFormat("\t\t\t{0} = null;\r\n", markInfo.Name);
+                sb.AppendLine($"\t\t\t{markInfo.Name} = null;");
             }
-            sb.Append("\t\t").AppendLine("}");
+            sb.AppendLine("\t\t}");
             sb.AppendLine();
             sb.AppendLine("\t}");
             sb.AppendLine("}");

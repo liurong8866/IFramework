@@ -185,6 +185,8 @@ namespace IFramework.Editor
             AssetDatabase.Refresh();
             if (displayProgress) EditorUtility.ClearProgressBar();
 
+            Clear();
+            
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
