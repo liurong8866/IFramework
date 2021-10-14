@@ -68,19 +68,19 @@ namespace IFramework.Editor
 
             // 生成 UIPanel脚本
             GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
-
+            
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
 
-            // 获取Prefab路径, 如果多个则用;分隔
-            if (assetPath.NotEmpty()) {
-                if (generateUIPrefabPath.Value.Nothing()) {
-                    generateUIPrefabPath.Value = assetPath;
-                }
-                else {
-                    generateUIPrefabPath.Value += ";" + assetPath;
-                }
-            }
+            // // 获取Prefab路径, 如果多个则用;分隔
+            // if (assetPath.NotEmpty()) {
+            //     if (generateUIPrefabPath.Value.Nothing()) {
+            //         generateUIPrefabPath.Value = assetPath;
+            //     }
+            //     else {
+            //         generateUIPrefabPath.Value += ";" + assetPath;
+            //     }
+            // }
 
             //销毁刚实例化的对象
             Object.DestroyImmediate(clone);
@@ -142,7 +142,7 @@ namespace IFramework.Editor
 
             // 水平遍历，深度递归调用
             foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
-                string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, childElement.BindInfo.BindScript.ComponentName);
+                string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, panelGenerateInfo.ScriptName);
                 CreateUIElementCode(elementDir, childElement);
             }
         }
@@ -160,13 +160,10 @@ namespace IFramework.Editor
             // 获取路径
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
             string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-            // 显示进度条
-            EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab", 0);
             try {
+                EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab", 0);
                 for (int i = 0; i < paths.Length; i++) {
                     GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
-
                     // 设置对象引用属性
                     SetObjectRefToProperty(go, assembly);
                     //
@@ -186,6 +183,9 @@ namespace IFramework.Editor
             Clear();
         }
 
+        /// <summary>
+        /// 设置对象引用属性
+        /// </summary>
         private static void SetObjectRefToProperty(GameObject go, Assembly assembly)
         {
             Stack<Transform> elementStack = new Stack<Transform>();
