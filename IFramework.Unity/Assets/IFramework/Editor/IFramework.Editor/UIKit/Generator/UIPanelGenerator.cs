@@ -87,7 +87,7 @@ namespace IFramework.Editor
                     generateUIPrefabPath.Value += ";" + assetPath;
                 }
             }
-            
+
             //销毁刚实例化的对象
             Object.DestroyImmediate(clone);
         }
@@ -168,7 +168,7 @@ namespace IFramework.Editor
             // 获取路径
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
             string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            bool displayProgress = paths.Length > 3;
+            bool displayProgress = paths.Length > 0;
             // 显示进度条
             if (displayProgress) EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab", 0);
 
@@ -183,10 +183,21 @@ namespace IFramework.Editor
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            if (displayProgress) EditorUtility.ClearProgressBar();
 
+            for (int i = 0; i < paths.Length; i++) {
+                GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
+                // 设置对象引用属性
+                SetObjectRefToProperty(go, go.name, assembly);
+                //
+                if (displayProgress) EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab " + go.name, (float)(i + 1) / paths.Length);
+                //
+                Log.Info("生成脚本: 已生成" + go.name);
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            if (displayProgress) EditorUtility.ClearProgressBar();
             Clear();
-            
+
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
@@ -222,35 +233,34 @@ namespace IFramework.Editor
 
             // 反射类型
             Type t = assembly.GetType(className);
+            // 绑定组件
             Component component = go.GetComponent(t) ?? go.AddComponent(t);
+            // 获取序列化对象
             SerializedObject serialized = new SerializedObject(component);
+            // 查找该组件下所有IBind类型子组件
             IBind[] allBind = go.GetComponentsInChildren<IBind>(true);
-
+            
+            // 循环设置对象引用
             foreach (IBind elementBind in allBind) {
-                if (processedBindList.Contains(elementBind) || elementBind.BindType == BindType.DefaultElement) {
-                    continue;
-                }
-                processedBindList.Add(elementBind);
-                string propertyName = elementBind.Transform.gameObject.name;
+                // 如果没有处理过
+                if (processedBindList.Contains(elementBind)) continue;
+
+                // 取得属性名称
+                string propertyName = elementBind.Transform.name;
+                // 如果没有该属性，则跳出本次循环，执行下次循环
                 if (serialized.FindProperty(propertyName) == null) continue;
 
+                // 设置对象引用
                 serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
-                // 递归调用
-                SetObjectRefToProperty(elementBind.Transform.gameObject, elementBind.ComponentName, assembly, processedBindList);
-            }
-            
-            IBind[] marks = go.GetComponentsInChildren<IBind>(true);
-            
-            foreach (IBind elementBind in marks) {
-                if (processedBindList.Contains(elementBind)) {
-                    continue;
-                }
+                // 添加到处理列表
                 processedBindList.Add(elementBind);
-                string propertyName = elementBind.Transform.name;
-                if (serialized.FindProperty(propertyName) == null) continue;
-            
-                serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
+
+                // 如果是Element或者Component，则递归赋值
+                if (elementBind.BindType != BindType.DefaultElement) {
+                    SetObjectRefToProperty(elementBind.Transform.gameObject, elementBind.ComponentName, assembly, processedBindList);
+                }
             }
+            // 确认修改
             serialized.ApplyModifiedPropertiesWithoutUndo();
         }
 
