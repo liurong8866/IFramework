@@ -69,7 +69,6 @@ namespace IFramework.Engine
         public void SetPanelLevel(IPanel panel, UILevel level)
         {
             Canvas canvas = panel.Transform.GetComponent<Canvas>();
-
             if (canvas) {
                 panel.Transform.SetParent(CanvasPanel);
             }

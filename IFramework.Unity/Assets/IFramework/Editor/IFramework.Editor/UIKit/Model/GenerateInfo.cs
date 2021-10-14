@@ -1,4 +1,3 @@
-using System.IO;
 using IFramework.Core;
 
 namespace IFramework.Editor
@@ -81,13 +80,13 @@ namespace IFramework.Editor
 
         public ViewControllerGenerateInfo(ViewController controller)
         {
-            this.Namespace = controller.Namespace;
-            this.ScriptName = controller.ScriptName;
-            this.ScriptPath = controller.ScriptPath;
-            this.AsScriptSubPath = controller.AsScriptSubPath;
-            this.PrefabPath = controller.PrefabPath;
-            this.AsPrefabSubPath = controller.AsPrefabSubPath;
-            this.Comment = controller.Comment;
+            Namespace = controller.Namespace;
+            ScriptName = controller.ScriptName;
+            ScriptPath = controller.ScriptPath;
+            AsScriptSubPath = controller.AsScriptSubPath;
+            PrefabPath = controller.PrefabPath;
+            AsPrefabSubPath = controller.AsPrefabSubPath;
+            Comment = controller.Comment;
         }
     }
 

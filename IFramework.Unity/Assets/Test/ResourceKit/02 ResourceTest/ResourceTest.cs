@@ -23,7 +23,6 @@ namespace IFramework.Test.ResourceKit
         {
             Debug.Log("Before Waiting 2 seconds");
             yield return new WaitForSeconds(2);
-
             resource.Asset.Instantiate();
         }
     }

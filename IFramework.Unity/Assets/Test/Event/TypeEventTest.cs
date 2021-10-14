@@ -19,7 +19,6 @@ namespace IFramework.Test.Event
             // 要把事件发送给父类
             TypeEvent.Send<ISkillEvent>(new PlayerSkillAEvent());
             TypeEvent.Send<ISkillEvent>(new PlayerSkillBEvent());
-
             TypeEvent.Send(new GameOverEvent {
                 score = 100
             });

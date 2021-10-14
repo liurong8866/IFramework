@@ -38,7 +38,7 @@ namespace IFramework.Engine
         {
             UIRoot.Instance.SetPanelLevel(panel, level);
         }
-        
+
         /// <summary>
         /// 重置面板默认大小
         /// </summary>

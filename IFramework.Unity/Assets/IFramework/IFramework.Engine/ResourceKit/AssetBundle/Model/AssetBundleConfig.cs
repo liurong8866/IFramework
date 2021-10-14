@@ -58,10 +58,8 @@ namespace IFramework.Engine
         {
             string assetBundleName = Platform.GetUrlByAssetBundleName(url);
             string[] depends = null;
-
             foreach (AssetBundleInfo assetGroup in AssetBundleList) {
                 depends = assetGroup.GetAssetBundleDepends(assetBundleName);
-
                 if (depends != null) {
                     break;
                 }
@@ -77,7 +75,6 @@ namespace IFramework.Engine
             // 如果assetTable为空，则初始化AssetTable
             if (assetTable == null) {
                 assetTable = new AssetTable();
-
                 for (int i = AssetBundleList.Count - 1; i >= 0; --i) {
                     foreach (AssetInfo assetInfo in AssetBundleList[i].AssetInfos) {
                         assetTable.Add(assetInfo.AssetName, assetInfo);
@@ -97,7 +94,6 @@ namespace IFramework.Engine
             AssetBundleDatas data = new AssetBundleDatas {
                 AssetBundles = new AssetBundleData[AssetBundleList.Count]
             };
-
             for (int i = 0; i < AssetBundleList.Count; i++) {
                 data.AssetBundles[i] = AssetBundleList[i].GetSerializeData();
             }
@@ -129,7 +125,6 @@ namespace IFramework.Engine
             MemoryStream stream = new MemoryStream(webRequest.downloadHandler.data);
             AssetBundleDatas bundles = SerializeUtils.DeserializeFromStream<AssetBundleDatas>(stream);
             if (bundles == null) yield break;
-
             SetSerializeData(bundles);
         }
 

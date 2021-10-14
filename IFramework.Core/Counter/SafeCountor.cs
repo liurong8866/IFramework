@@ -48,7 +48,6 @@ namespace IFramework.Core
                 Log.Warning("没有找到要释放的对象");
                 return false;
             }
-
             if (Counter == 0) {
                 OnZero.InvokeSafe();
             }
@@ -62,7 +61,6 @@ namespace IFramework.Core
         public void Reset(bool invokeAction = false)
         {
             Owners.Clear();
-
             if (invokeAction) {
                 OnZero.InvokeSafe();
             }

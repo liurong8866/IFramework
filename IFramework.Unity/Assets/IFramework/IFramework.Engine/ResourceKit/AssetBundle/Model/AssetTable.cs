@@ -27,7 +27,6 @@ namespace IFramework.Engine
             // 过滤AssetType，
             if (searcher.AssetType.NotEmpty()) {
                 short code = searcher.AssetType.ToCode();
-
                 if (code != 0) {
                     List<AssetInfo> newInfo = assetInfoList.Where(info => info.AssetTypeCode == code).ToList();
 

@@ -69,7 +69,6 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.SerializedFiled.ScriptPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptPath.stringValue).Trim();
-
             if (controller.AsScriptSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
@@ -85,7 +84,6 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
             controller.SerializedFiled.PrefabPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.PrefabPath.stringValue).Trim();
-
             if (controller.AsPrefabSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
@@ -122,7 +120,6 @@ namespace IFramework.Editor
 
             // 操作按钮
             GUILayout.BeginHorizontal();
-
             if (GUILayout.Button("生成脚本")) {
                 ViewControllerGenerator.GenerateCode(overwrite1 && overwrite2 && overwrite3);
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
@@ -133,11 +130,9 @@ namespace IFramework.Editor
             if (File.Exists(generateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
                 MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(generateInfo.ScriptAssetsClassName);
-
                 if (GUILayout.Button("选择", GUILayout.Width(60))) {
                     Selection.objects = new Object[] { scriptObject };
                 }
-
                 if (GUILayout.Button("打开", GUILayout.Width(60))) {
                     AssetDatabase.OpenAsset(scriptObject);
                 }

@@ -31,20 +31,10 @@ namespace IFramework.Test.ActionKit
             repeatNode.Execute(this);
             RepeatNode repeatNode2 = new RepeatNode(DelayAction.Allocate(2, () => Log.Info("world")), 2);
             this.Execute(repeatNode2);
-
-            this.Repeat(3)
-                   .Delay(3f)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .DelayFrame(2)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .NextFrame()
-                   .Begin();
+            this.Repeat(3).Delay(3f).Event(() => Debug.Log("序列：" + Time.frameCount)).DelayFrame(2).Event(() => Debug.Log("序列：" + Time.frameCount)).NextFrame().Begin();
 
             // 不填写则无限循环
-            this.Repeat()
-                   .Delay(3f)
-                   .Event(() => Debug.Log("无限循环：" + Time.frameCount))
-                   .Begin();
+            this.Repeat().Delay(3f).Event(() => Debug.Log("无限循环：" + Time.frameCount)).Begin();
         }
     }
 }

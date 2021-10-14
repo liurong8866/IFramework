@@ -20,22 +20,7 @@ namespace IFramework.Test.ActionKit
             sequenceNode.Append(delayAction);
             sequenceNode.Append(DelayFrameAction.Allocate(1, () => { "DelayFrameAction".LogInfo(); }));
             sequenceNode.Append(EventAction.Allocate(() => { "EventAction".LogInfo(); }));
-
-            this.Sequence()
-                   .Delay(3f)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .DelayFrame(2)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .DelayFrame(4)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .DelayFrame(6)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .DelayFrame(8)
-                   .Event(() => Debug.Log("序列：" + Time.frameCount))
-                   .Append(sequenceNode)
-                   .NextFrame()
-                   .NextFrame()
-                   .Begin();
+            this.Sequence().Delay(3f).Event(() => Debug.Log("序列：" + Time.frameCount)).DelayFrame(2).Event(() => Debug.Log("序列：" + Time.frameCount)).DelayFrame(4).Event(() => Debug.Log("序列：" + Time.frameCount)).DelayFrame(6).Event(() => Debug.Log("序列：" + Time.frameCount)).DelayFrame(8).Event(() => Debug.Log("序列：" + Time.frameCount)).Append(sequenceNode).NextFrame().NextFrame().Begin();
             this.NextFrame(() => { Debug.Log(Time.frameCount); });
         }
 

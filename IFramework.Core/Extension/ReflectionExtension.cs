@@ -17,7 +17,6 @@ namespace IFramework.Core
         public static Assembly GetAssemblyCSharp()
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
             foreach (Assembly a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp,")) {
                     return a;
@@ -31,7 +30,6 @@ namespace IFramework.Core
         public static Assembly GetAssemblyCSharpEditor()
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
             foreach (Assembly a in assemblies) {
                 if (a.FullName.StartsWith("Assembly-CSharp-Editor,")) {
                     return a;
@@ -127,7 +125,6 @@ namespace IFramework.Core
         {
             T[] attrs = (T[])method.GetCustomAttributes(typeof(T), inherit);
             if (attrs.Length > 0) return attrs[0];
-
             return null;
         }
 
@@ -138,7 +135,6 @@ namespace IFramework.Core
         {
             T[] attrs = (T[])field.GetCustomAttributes(typeof(T), inherit);
             if (attrs.Length > 0) return attrs[0];
-
             return null;
         }
 
@@ -149,7 +145,6 @@ namespace IFramework.Core
         {
             T[] attrs = (T[])prop.GetCustomAttributes(typeof(T), inherit);
             if (attrs.Length > 0) return attrs[0];
-
             return null;
         }
 
@@ -160,7 +155,6 @@ namespace IFramework.Core
         {
             T[] attrs = (T[])type.GetCustomAttributes(typeof(T), inherit);
             if (attrs.Length > 0) return attrs[0];
-
             return null;
         }
     }

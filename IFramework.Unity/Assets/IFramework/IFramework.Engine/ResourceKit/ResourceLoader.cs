@@ -191,7 +191,6 @@ namespace IFramework.Engine
                 // 如果依赖资源加载完毕，则可以删除
                 if (resource.IsDependResourceLoaded()) {
                     waitForLoadList.Remove(currentNode);
-
                     if (resource.State != ResourceState.Ready) {
                         // 注册回调方法
                         resource.RegisterOnLoadedEvent(OnResourceLoaded);
@@ -214,7 +213,6 @@ namespace IFramework.Engine
         public void AddToLoad(List<string> list)
         {
             if (list == null) return;
-
             foreach (string assetName in list) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(assetName);
                 AddToLoad(searcher);
@@ -286,7 +284,6 @@ namespace IFramework.Engine
 
             // 获取依赖
             List<string> depends = resource.GetDependResourceList();
-
             if (depends != null) {
                 // 遍历所有依赖并加载
                 foreach (string depend in depends) {
@@ -350,7 +347,6 @@ namespace IFramework.Engine
 
             // 在这里使用了递归调用
             LoadAsyncMethod();
-
             if (loadingCount == 0) {
                 RemoveAllCallbacks(false);
                 currentCallback?.Invoke();
@@ -383,7 +379,6 @@ namespace IFramework.Engine
             // 清除待下载列表中的资源
             if (waitForLoadList.Remove(resource)) {
                 loadingCount--;
-
                 if (loadingCount == 0) {
                     currentCallback = null;
                 }
@@ -404,7 +399,6 @@ namespace IFramework.Engine
         public void ReleaseResource(string[] assetNames)
         {
             if (assetNames.Nothing()) return;
-
             foreach (string assetName in assetNames) {
                 ReleaseResource(assetName);
             }
@@ -426,17 +420,14 @@ namespace IFramework.Engine
                 }
                 spriteMap.Clear();
             }
-
             if (resourceList.Count > 0) {
                 //确保首先删除的是AB，这样能对Asset的卸载做优化
                 resourceList.Reverse();
-
                 foreach (IResource resource in resourceList) {
                     resource.UnRegisterOnLoadedEvent(OnResourceLoaded);
                     resource.Release();
                 }
                 resourceList.Clear();
-
                 if (!ResourceManager.IsApplicationQuit) {
                     ResourceManager.Instance.ClearOnUpdate();
                 }
@@ -475,7 +466,6 @@ namespace IFramework.Engine
                 while (currentNode != null) {
                     CallbackCleaner cleaner = currentNode.Value;
                     LinkedListNode<CallbackCleaner> nextNode = currentNode.Next;
-
                     if (cleaner.Is(resource)) {
                         if (release) cleaner.Release();
                     }
@@ -492,7 +482,6 @@ namespace IFramework.Engine
         {
             if (callbackCleanerList != null) {
                 int count = callbackCleanerList.Count;
-
                 for (int i = 0; i < count; i++) {
                     if (release) {
                         callbackCleanerList.Last.Value.Release();

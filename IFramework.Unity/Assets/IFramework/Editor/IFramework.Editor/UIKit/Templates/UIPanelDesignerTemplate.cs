@@ -30,13 +30,11 @@ namespace IFramework.Editor
             sb.AppendLine("using IFramework.Core;");
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
-
             if (generateInfo.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
                 sb.AppendLine("// 请在菜单 IFramework/UIKit Config 里设置默认命名空间");
             }
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-
             if (generateInfo.Comment.NotEmpty()) {
                 sb.AppendLine("\t/// <summary>");
                 sb.AppendLine("\t/// " + generateInfo.Comment);
@@ -49,7 +47,6 @@ namespace IFramework.Editor
             sb.AppendLine();
             sb.AppendLine($"\t\tprivate {generateInfo.ScriptName}Data {privateData} = null;");
             sb.AppendLine();
-            
             foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
@@ -57,10 +54,8 @@ namespace IFramework.Editor
                 sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName} {bindInfo.Name};");
                 sb.AppendLine();
             }
-            
             sb.AppendLine("\t\tprotected override void ClearUIComponents()");
             sb.AppendLine("\t\t{");
-
             foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 sb.AppendLine($"\t\t\t{bindInfo.Name} = null;");
             }

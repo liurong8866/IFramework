@@ -16,7 +16,6 @@ namespace IFramework.Engine
         public static NetImageResource Allocate(string path)
         {
             NetImageResource resource = ObjectPool<NetImageResource>.Instance.Allocate();
-
             if (resource != null) {
                 resource.AssetName = path;
                 resource.filePath = DirectoryUtils.CombinePath(Platform.PersistentData.ImagePath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");

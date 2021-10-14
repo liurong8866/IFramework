@@ -236,13 +236,7 @@ namespace IFramework.Core.Zip.Tar
         public const string GNU_TMAGIC = "ustar  ";
 
         private const long TIME_CONVERSION_FACTOR = 10000000L; // 1 tick == 100 nanoseconds
-        private static readonly DateTime dateTime1970 = new DateTime(1970,
-                                                                     1,
-                                                                     1,
-                                                                     0,
-                                                                     0,
-                                                                     0,
-                                                                     0);
+        private static readonly DateTime dateTime1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         #endregion
 
@@ -342,13 +336,7 @@ namespace IFramework.Core.Zip.Tar
                 if (value < dateTime1970) {
                     throw new ArgumentOutOfRangeException(nameof(value), "ModTime cannot be before Jan 1st 1970");
                 }
-
-                modTime = new DateTime(value.Year,
-                                       value.Month,
-                                       value.Day,
-                                       value.Hour,
-                                       value.Minute,
-                                       value.Second);
+                modTime = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
             }
         }
 
@@ -420,7 +408,6 @@ namespace IFramework.Core.Zip.Tar
                 }
                 else {
                     string currentUser = "user";
-
                     if (currentUser.Length > UNAMELEN) {
                         currentUser = currentUser.Substring(0, UNAMELEN);
                     }
@@ -503,7 +490,6 @@ namespace IFramework.Core.Zip.Tar
             offset += NAMELEN;
             Magic = ParseName(header, offset, MAGICLEN).ToString();
             offset += MAGICLEN;
-
             if (Magic == "ustar") {
                 Version = ParseName(header, offset, VERSIONLEN).ToString();
                 offset += VERSIONLEN;
@@ -538,27 +524,19 @@ namespace IFramework.Core.Zip.Tar
             offset = GetBinaryOrOctalBytes(Size, outBuffer, offset, SIZELEN);
             offset = GetOctalBytes(GetCTime(ModTime), outBuffer, offset, MODTIMELEN);
             int csOffset = offset;
-
             for (int c = 0; c < CHKSUMLEN; ++c) {
                 outBuffer[offset++] = (byte)' ';
             }
             outBuffer[offset++] = TypeFlag;
             offset = GetNameBytes(LinkName, outBuffer, offset, NAMELEN);
-
-            offset = GetAsciiBytes(Magic,
-                                   0,
-                                   outBuffer,
-                                   offset,
-                                   MAGICLEN);
+            offset = GetAsciiBytes(Magic, 0, outBuffer, offset, MAGICLEN);
             offset = GetNameBytes(Version, outBuffer, offset, VERSIONLEN);
             offset = GetNameBytes(UserName, outBuffer, offset, UNAMELEN);
             offset = GetNameBytes(GroupName, outBuffer, offset, GNAMELEN);
-
             if (TypeFlag == LF_CHR || TypeFlag == LF_BLK) {
                 offset = GetOctalBytes(DevMajor, outBuffer, offset, DEVLEN);
                 offset = GetOctalBytes(DevMinor, outBuffer, offset, DEVLEN);
             }
-
             for (; offset < outBuffer.Length;) {
                 outBuffer[offset++] = 0;
             }
@@ -585,23 +563,8 @@ namespace IFramework.Core.Zip.Tar
         {
             TarHeader localHeader = obj as TarHeader;
             bool result;
-
             if (localHeader != null) {
-                result = name == localHeader.name
-                     && Mode == localHeader.Mode
-                     && UserId == localHeader.UserId
-                     && GroupId == localHeader.GroupId
-                     && Size == localHeader.Size
-                     && ModTime == localHeader.ModTime
-                     && Checksum == localHeader.Checksum
-                     && TypeFlag == localHeader.TypeFlag
-                     && LinkName == localHeader.LinkName
-                     && Magic == localHeader.Magic
-                     && Version == localHeader.Version
-                     && UserName == localHeader.UserName
-                     && GroupName == localHeader.GroupName
-                     && DevMajor == localHeader.DevMajor
-                     && DevMinor == localHeader.DevMinor;
+                result = name == localHeader.name && Mode == localHeader.Mode && UserId == localHeader.UserId && GroupId == localHeader.GroupId && Size == localHeader.Size && ModTime == localHeader.ModTime && Checksum == localHeader.Checksum && TypeFlag == localHeader.TypeFlag && LinkName == localHeader.LinkName && Magic == localHeader.Magic && Version == localHeader.Version && UserName == localHeader.UserName && GroupName == localHeader.GroupName && DevMajor == localHeader.DevMajor && DevMinor == localHeader.DevMinor;
             }
             else {
                 result = false;
@@ -639,7 +602,6 @@ namespace IFramework.Core.Zip.Tar
             if (header[offset] >= 0x80) {
                 // File sizes over 8GB are stored in 8 right-justified bytes of binary indicated by setting the high-order bit of the leftmost byte of a numeric field.
                 long result = 0;
-
                 for (int pos = length - 8; pos < length; pos++) {
                     result = (result << 8) | header[offset + pos];
                 }
@@ -663,17 +625,14 @@ namespace IFramework.Core.Zip.Tar
             long result = 0;
             bool stillPadding = true;
             int end = offset + length;
-
             for (int i = offset; i < end; ++i) {
                 if (header[i] == 0) {
                     break;
                 }
-
                 if (header[i] == (byte)' ' || header[i] == '0') {
                     if (stillPadding) {
                         continue;
                     }
-
                     if (header[i] == (byte)' ') {
                         break;
                     }
@@ -704,20 +663,16 @@ namespace IFramework.Core.Zip.Tar
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
-
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be less than zero");
             }
-
             if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length), "Cannot be less than zero");
             }
-
             if (offset + length > header.Length) {
                 throw new ArgumentException("Exceeds header size", nameof(length));
             }
             StringBuilder result = new StringBuilder(length);
-
             for (int i = offset; i < offset + length; ++i) {
                 if (header[i] == 0) {
                     break;
@@ -741,16 +696,10 @@ namespace IFramework.Core.Zip.Tar
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
-            return GetNameBytes(name.ToString(),
-                                nameOffset,
-                                buffer,
-                                bufferOffset,
-                                length);
+            return GetNameBytes(name.ToString(), nameOffset, buffer, bufferOffset, length);
         }
 
         /// <summary>
@@ -767,16 +716,13 @@ namespace IFramework.Core.Zip.Tar
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
             int i;
-
             for (i = 0; i < length && nameOffset + i < name.Length; ++i) {
                 buffer[bufferOffset + i] = (byte)name[nameOffset + i];
             }
-
             for (; i < length; ++i) {
                 buffer[bufferOffset + i] = 0;
             }
@@ -806,16 +752,10 @@ namespace IFramework.Core.Zip.Tar
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
-            return GetNameBytes(name.ToString(),
-                                0,
-                                buffer,
-                                offset,
-                                length);
+            return GetNameBytes(name.ToString(), 0, buffer, offset, length);
         }
 
         /// <summary>
@@ -831,16 +771,10 @@ namespace IFramework.Core.Zip.Tar
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
-            return GetNameBytes(name,
-                                0,
-                                buffer,
-                                offset,
-                                length);
+            return GetNameBytes(name, 0, buffer, offset, length);
         }
 
         /// <summary>
@@ -857,12 +791,10 @@ namespace IFramework.Core.Zip.Tar
             if (toAdd == null) {
                 throw new ArgumentNullException(nameof(toAdd));
             }
-
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
             int i;
-
             for (i = 0; i < length && nameOffset + i < toAdd.Length; ++i) {
                 buffer[bufferOffset + i] = (byte)toAdd[nameOffset + i];
             }
@@ -900,14 +832,12 @@ namespace IFramework.Core.Zip.Tar
             // Either a space or null is valid here.  We use NULL as per GNUTar
             buffer[offset + localIndex] = 0;
             --localIndex;
-
             if (value > 0) {
                 for (long v = value; localIndex >= 0 && v > 0; --localIndex) {
                     buffer[offset + localIndex] = (byte)((byte)'0' + (byte)(v & 7));
                     v >>= 3;
                 }
             }
-
             for (; localIndex >= 0; --localIndex) {
                 buffer[offset + localIndex] = (byte)'0';
             }
@@ -963,7 +893,6 @@ namespace IFramework.Core.Zip.Tar
         private static int ComputeCheckSum(byte[] buffer)
         {
             int sum = 0;
-
             for (int i = 0; i < buffer.Length; ++i) {
                 sum += buffer[i];
             }
@@ -978,15 +907,12 @@ namespace IFramework.Core.Zip.Tar
         private static int MakeCheckSum(byte[] buffer)
         {
             int sum = 0;
-
             for (int i = 0; i < CHKSUMOFS; ++i) {
                 sum += buffer[i];
             }
-
             for (int i = 0; i < CHKSUMLEN; ++i) {
                 sum += (byte)' ';
             }
-
             for (int i = CHKSUMOFS + CHKSUMLEN; i < buffer.Length; ++i) {
                 sum += buffer[i];
             }
@@ -1001,7 +927,6 @@ namespace IFramework.Core.Zip.Tar
         private static DateTime GetDateTimeFromCTime(long ticks)
         {
             DateTime result;
-
             try {
                 result = new DateTime(dateTime1970.Ticks + ticks * TIME_CONVERSION_FACTOR);
             }

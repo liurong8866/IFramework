@@ -20,7 +20,6 @@ namespace IFramework.Editor
             foreach (Transform child in current) {
                 // 获得当前节点Bind组件
                 IBind bind = child.GetComponent<IBind>();
-
                 if (bind != null) {
                     // 如果父节点Bind不是Element类型
                     if (parentElementInfo == null) {

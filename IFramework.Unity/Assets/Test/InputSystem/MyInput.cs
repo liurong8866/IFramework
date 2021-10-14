@@ -225,7 +225,6 @@ namespace IFramework.Test.InputSystem
                     Move.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMove;
                 }
                 m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
-
                 if (instance != null) {
                     Jump.started += instance.OnJump;
                     Jump.performed += instance.OnJump;

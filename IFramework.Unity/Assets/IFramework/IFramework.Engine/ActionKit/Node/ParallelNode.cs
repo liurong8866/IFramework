@@ -14,7 +14,6 @@ namespace IFramework.Engine
         public ParallelNode(params AbstractAction[] nodes)
         {
             this.nodes.AddRange(nodes);
-
             foreach (AbstractAction node in nodes) {
                 node.OnEndEvent += IncreaseFinishCount;
             }
@@ -26,7 +25,6 @@ namespace IFramework.Engine
         public void Append(params AbstractAction[] nodes)
         {
             this.nodes.AddRange(nodes);
-
             foreach (AbstractAction node in nodes) {
                 node.OnEndEvent += IncreaseFinishCount;
             }
@@ -39,7 +37,6 @@ namespace IFramework.Engine
         {
             for (int i = nodes.Count - 1; i >= 0; i--) {
                 AbstractAction node = nodes[i];
-
                 if (!node.Finished && node.Execute()) {
                     Finished = nodes.Count == finishCount;
                 }

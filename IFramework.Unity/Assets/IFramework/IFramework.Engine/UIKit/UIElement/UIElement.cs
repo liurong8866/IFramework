@@ -10,9 +10,9 @@ namespace IFramework.Engine
         public virtual BindType BindType => BindType.Element;
 
         public abstract string ComponentName { get; }
-        
+
         public string Comment { get; set; }
-        
+
         public IManager Manager => UIManager.Instance;
 
         protected abstract void BeforeDestroy();

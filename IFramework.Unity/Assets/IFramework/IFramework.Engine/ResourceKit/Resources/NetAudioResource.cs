@@ -16,14 +16,12 @@ namespace IFramework.Engine
         public static NetAudioResource Allocate(string path)
         {
             NetAudioResource resource = ObjectPool<NetAudioResource>.Instance.Allocate();
-
             if (resource != null) {
                 resource.AssetName = path;
                 resource.filePath = DirectoryUtils.CombinePath(Platform.PersistentData.AudioPath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");
                 resource.fileName = FileUtils.GetFileNameByPath(path);
                 string netUrl = "";
                 AudioType audioType;
-
                 if (path.StartsWith(ResourcesUrlType.AUDIO_WAV)) {
                     audioType = AudioType.WAV;
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_WAV.Length);

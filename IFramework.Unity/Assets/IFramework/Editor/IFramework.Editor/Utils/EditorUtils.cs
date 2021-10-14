@@ -21,10 +21,8 @@ namespace IFramework.Editor
         public static string SelectedPath()
         {
             string path = string.Empty;
-
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
                 path = AssetDatabase.GetAssetPath(obj);
-
                 if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
                     return path;
                 }
@@ -121,7 +119,6 @@ namespace IFramework.Editor
                             hasMiss = true;
                         }
                     }
-
                     if (hasMiss) {
                         // 唤醒事件
                         onCleared.InvokeSafe(go);
@@ -147,12 +144,10 @@ namespace IFramework.Editor
         public static string GetBindBelongsTo(AbstractBind bind)
         {
             Transform trans = bind.Transform;
-
             while (trans.parent != null) {
                 if (trans.parent.IsViewController()) {
                     return trans.parent.name + "(" + trans.parent.GetComponent<ViewController>().ScriptName + ")";
                 }
-
                 if (trans.parent.IsUIPanel()) {
                     return "UIPanel" + "(" + trans.parent.GetComponent<UIPanel>().name + ")";
                 }
@@ -169,7 +164,6 @@ namespace IFramework.Editor
         public static GameObject GetBindBelongsToGameObject(AbstractBind bind)
         {
             Transform trans = bind.Transform;
-
             while (trans.parent != null) {
                 if (trans.parent.IsViewController() || trans.parent.IsUIPanel()) {
                     return trans.parent.gameObject;

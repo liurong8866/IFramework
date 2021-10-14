@@ -44,7 +44,7 @@ namespace IFramework.Engine
             gameObject.SetActive(false);
             State = PanelState.Hide;
         }
-        
+
         public virtual void Close(bool destroy = true)
         {
             Info.Data = data;
@@ -52,13 +52,12 @@ namespace IFramework.Engine
             State = PanelState.Closed;
             OnClose();
             // TODO
-            if(destroy) Destroy(gameObject);
+            if (destroy) Destroy(gameObject);
             this.As<IPanel>().Loader.Unload();
             this.As<IPanel>().Loader = null;
             // Data = null;
-
         }
-        
+
         /// <summary>
         /// 面板初始化事件，通常用于赋值、注册事件等
         /// </summary>
@@ -68,7 +67,7 @@ namespace IFramework.Engine
         /// 面板打开时事件
         /// </summary>
         protected virtual void OnOpen(IData data = null) { }
-        
+
         /// <summary>
         /// 面板显示时事件
         /// </summary>
@@ -88,6 +87,5 @@ namespace IFramework.Engine
         /// 清理UI组件
         /// </summary>
         protected abstract void ClearUIComponents();
-
     }
 }

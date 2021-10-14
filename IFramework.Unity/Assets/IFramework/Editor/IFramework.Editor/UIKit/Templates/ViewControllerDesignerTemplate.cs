@@ -29,7 +29,6 @@ namespace IFramework.Editor
             sb.AppendLine("using IFramework.Core;");
             sb.AppendLine("using IFramework.Engine;");
             sb.AppendLine();
-
             if (generateInfo.Namespace.Equals(Constant.UIKIT_DEFAULT_NAMESPACE)) {
                 sb.AppendLine("// 请在菜单：IFramework/UIKit Config 中设置默认命名空间");
             }

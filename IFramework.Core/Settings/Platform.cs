@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -208,7 +207,6 @@ namespace IFramework.Core
         private static string GetPersistentOrStreamPath(string relativePath)
         {
             string path = DirectoryUtils.CombinePath(PersistentData.Root, relativePath);
-
             if (File.Exists(path)) {
                 return path;
             }

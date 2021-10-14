@@ -77,7 +77,6 @@ namespace IFramework.Core.Zip.Zip
         public string TransformDirectory(string name)
         {
             name = TransformFile(name);
-
             if (name.Length > 0) {
                 while (name.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)) {
                     name = name.Remove(name.Length - 1, 1);
@@ -98,7 +97,6 @@ namespace IFramework.Core.Zip.Zip
         {
             if (name != null) {
                 name = MakeValidName(name, replacementChar);
-
                 if (TrimIncomingPaths) {
                     name = Path.GetFileName(name);
                 }
@@ -152,7 +150,6 @@ namespace IFramework.Core.Zip.Zip
 
             // Convert consecutive \\ characters to \
             int index = name.IndexOf(string.Format("{0}{0}", Path.DirectorySeparatorChar), StringComparison.Ordinal);
-
             while (index >= 0) {
                 name = name.Remove(index, 1);
                 index = name.IndexOf(string.Format("{0}{0}", Path.DirectorySeparatorChar), StringComparison.Ordinal);
@@ -160,13 +157,10 @@ namespace IFramework.Core.Zip.Zip
 
             // Convert any invalid characters using the replacement one.
             index = name.IndexOfAny(invalidEntryChars);
-
             if (index >= 0) {
                 StringBuilder builder = new StringBuilder(name);
-
                 while (index >= 0) {
                     builder[index] = replacement;
-
                     if (index >= name.Length) {
                         index = -1;
                     }
@@ -196,7 +190,6 @@ namespace IFramework.Core.Zip.Zip
                         throw new ArgumentException("invalid path character");
                     }
                 }
-
                 if (value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar) {
                     throw new ArgumentException("invalid replacement character");
                 }

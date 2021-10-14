@@ -83,7 +83,6 @@ namespace IFramework.Test.Extention
         private void TransformExtentiontest()
         {
             GameObject obj = new GameObject();
-
             obj.transform
                     // .Parent(transform.FindRecursion("AAA"))
                    .Name("Hello")

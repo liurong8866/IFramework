@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using IFramework.Core;
 using IFramework.Engine;
@@ -58,12 +57,7 @@ namespace IFramework.Editor
                 Build(path, subPackage, buildTarget);
             }
             AssetDatabase.Refresh();
-
-            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒",
-                     platformName,
-                     1,
-                     subPackages.Count,
-                     (DateTime.Now - start).TotalSeconds);
+            Log.Info("打包完毕: [{0}]: 共计{1}个主包，{2}个子包，耗时{3}秒", platformName, 1, subPackages.Count, (DateTime.Now - start).TotalSeconds);
         }
 
         /// <summary>
@@ -99,7 +93,6 @@ namespace IFramework.Editor
         private static void BuildAssetConfigFile(string[] assetBundleNames, string outputPath = null)
         {
             if (assetBundleNames.Nothing()) return;
-
             AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
             Environment.Instance.InitAssetBundleConfig(assetBundleConfig, assetBundleNames);
             string filePath = DirectoryUtils.CombinePath((outputPath ?? Platform.StreamingAssets.Root).Create(), Constant.ASSET_BUNDLE_CONFIG_FILE);

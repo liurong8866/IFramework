@@ -45,7 +45,6 @@ namespace IFramework.Engine
         protected override void OnExecute()
         {
             Finished = Time.frameCount - startFrame >= FrameCount;
-
             if (Finished) {
                 action.InvokeSafe();
             }

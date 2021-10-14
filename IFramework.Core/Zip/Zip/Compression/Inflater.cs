@@ -212,7 +212,6 @@ namespace IFramework.Core.Zip.Zip.Compression
         private bool DecodeHeader()
         {
             int header = input.PeekBits(16);
-
             if (header < 0) {
                 return false;
             }
@@ -220,15 +219,12 @@ namespace IFramework.Core.Zip.Zip.Compression
 
             // The header is written in "wrong" byte order
             header = ((header << 8) | (header >> 8)) & 0xffff;
-
             if (header % 31 != 0) {
                 throw new BaseZipException("Header checksum illegal");
             }
-
             if ((header & 0x0f00) != Deflater.DEFLATED << 8) {
                 throw new BaseZipException("Compression Method unknown");
             }
-
             /* Maximum size of the backwards window in bits.
             * We currently ignore this, but we could use it to make the
             * inflater window more space efficient. On the other hand the
@@ -256,7 +252,6 @@ namespace IFramework.Core.Zip.Zip.Compression
         {
             while (neededBits > 0) {
                 int dictByte = input.PeekBits(8);
-
                 if (dictByte < 0) {
                     return false;
                 }
@@ -280,21 +275,17 @@ namespace IFramework.Core.Zip.Zip.Compression
         private bool DecodeHuffman()
         {
             int free = outputWindow.GetFreeSpace();
-
             while (free >= 258) {
                 int symbol;
-
                 switch (mode) {
                     case DECODE_HUFFMAN:
                         // This is the inner loop so it is optimized a bit
                         while (((symbol = litlenTree.GetSymbol(input)) & ~0xff) == 0) {
                             outputWindow.Write(symbol);
-
                             if (--free < 258) {
                                 return true;
                             }
                         }
-
                         if (symbol < 257) {
                             if (symbol < 0) {
                                 return false;
@@ -306,7 +297,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                             mode = DECODE_BLOCKS;
                             return true;
                         }
-
                         try {
                             repLength = CPLENS[symbol - 257];
                             neededBits = CPLEXT[symbol - 257];
@@ -319,7 +309,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                         if (neededBits > 0) {
                             mode = DECODE_HUFFMAN_LENBITS;
                             int i = input.PeekBits(neededBits);
-
                             if (i < 0) {
                                 return false;
                             }
@@ -330,11 +319,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         goto case DECODE_HUFFMAN_DIST; // fall through
                     case DECODE_HUFFMAN_DIST:
                         symbol = distTree.GetSymbol(input);
-
                         if (symbol < 0) {
                             return false;
                         }
-
                         try {
                             repDist = CPDIST[symbol];
                             neededBits = CPDEXT[symbol];
@@ -347,7 +334,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                         if (neededBits > 0) {
                             mode = DECODE_HUFFMAN_DISTBITS;
                             int i = input.PeekBits(neededBits);
-
                             if (i < 0) {
                                 return false;
                             }
@@ -377,7 +363,6 @@ namespace IFramework.Core.Zip.Zip.Compression
         {
             while (neededBits > 0) {
                 int chkByte = input.PeekBits(8);
-
                 if (chkByte < 0) {
                     return false;
                 }
@@ -385,7 +370,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 readAdler = (readAdler << 8) | chkByte;
                 neededBits -= 8;
             }
-
             if ((int)adler.Value != readAdler) {
                 throw new BaseZipException("Adler chksum doesn't match: " + (int)adler.Value + " vs. " + readAdler);
             }
@@ -420,13 +404,11 @@ namespace IFramework.Core.Zip.Zip.Compression
                         return true;
                     }
                     int type = input.PeekBits(3);
-
                     if (type < 0) {
                         return false;
                     }
                     input.DropBits(3);
                     isLastBlock |= (type & 1) != 0;
-
                     switch (type >> 1) {
                         case DeflaterConstants.STORED_BLOCK:
                             input.SkipToByteBoundary();
@@ -454,12 +436,10 @@ namespace IFramework.Core.Zip.Zip.Compression
                     goto case DECODE_STORED_LEN2; // fall through
                 case DECODE_STORED_LEN2: {
                     int nlen = input.PeekBits(16);
-
                     if (nlen < 0) {
                         return false;
                     }
                     input.DropBits(16);
-
                     if (nlen != (uncomprLen ^ 0xffff)) {
                         throw new BaseZipException("broken uncompressed block");
                     }
@@ -469,7 +449,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 case DECODE_STORED: {
                     int more = outputWindow.CopyStored(input, uncomprLen);
                     uncomprLen -= more;
-
                     if (uncomprLen == 0) {
                         mode = DECODE_BLOCKS;
                         return true;
@@ -533,20 +512,16 @@ namespace IFramework.Core.Zip.Zip.Compression
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (index < 0) {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
-
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
-
             if (!IsNeedingDictionary) {
                 throw new InvalidOperationException("Dictionary is not needed");
             }
             adler.Update(buffer, index, count);
-
             if ((int)adler.Value != readAdler) {
                 throw new BaseZipException("Wrong adler checksum");
             }
@@ -651,15 +626,12 @@ namespace IFramework.Core.Zip.Zip.Compression
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "count cannot be negative");
             }
-
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "offset cannot be negative");
             }
-
             if (offset + count > buffer.Length) {
                 throw new ArgumentException("count exceeds buffer bounds");
             }
@@ -673,7 +645,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 return 0;
             }
             int bytesCopied = 0;
-
             do {
                 if (mode != DECODE_CHKSUM) {
                     /* Don't give away any output, if we are waiting for the
@@ -684,14 +655,12 @@ namespace IFramework.Core.Zip.Zip.Compression
                     *   implies more output can be produced.
                     */
                     int more = outputWindow.CopyOutput(buffer, offset, count);
-
                     if (more > 0) {
                         adler.Update(buffer, offset, more);
                         offset += more;
                         bytesCopied += more;
                         totalOut += more;
                         count -= more;
-
                         if (count == 0) {
                             return bytesCopied;
                         }

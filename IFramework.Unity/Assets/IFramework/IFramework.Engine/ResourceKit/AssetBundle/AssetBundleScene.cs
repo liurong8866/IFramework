@@ -10,7 +10,6 @@ namespace IFramework.Engine
         public static AssetBundleScene Allocate(string name)
         {
             AssetBundleScene res = ObjectPool<AssetBundleScene>.Instance.Allocate();
-
             if (res != null) {
                 res.AssetName = name;
                 res.InitAssetBundleName();
@@ -28,10 +27,8 @@ namespace IFramework.Engine
 
             // 如果配置文件没有对应的Asset，则退出
             if (assetBundleNameConfig.Nothing()) return false;
-
             ResourceSearcher searcher = ResourceSearcher.Allocate(assetBundleNameConfig);
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
-
             if (resource == null || resource.AssetBundle == null) {
                 if (Platform.IsSimulation) {
                     Log.Warning("AssetBundle资源加载失败，模拟模式不支持动态加载场景: " + resource);

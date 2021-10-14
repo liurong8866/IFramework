@@ -29,7 +29,6 @@ namespace IFramework.Core
         public void Init(int maxCount, int initCount)
         {
             Capacity = maxCount;
-
             if (maxCount > 0) {
                 // 按破水桶原则，初始化最小值
                 initCount = Math.Min(maxCount, initCount);

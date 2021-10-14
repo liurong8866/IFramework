@@ -31,7 +31,6 @@ namespace IFramework.Core
                 Log.Error("反序列化失败：需要序列化的字节数组为NULL");
                 return null;
             }
-
             using MemoryStream memory = new MemoryStream(bytes) {
                 Position = 0
             };
@@ -68,12 +67,10 @@ namespace IFramework.Core
                 Log.Error("反序列化失败：需要序列化的流为NULL");
                 return null;
             }
-
             if (!stream.CanRead) {
                 Log.Error("反序列化失败：需要序列化的流不可读");
                 return null;
             }
-
             using (stream) {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return formatter.Deserialize(stream) as T;
@@ -127,7 +124,6 @@ namespace IFramework.Core
                 Log.Error("反序列化失败：需要序列化的流为NULL");
                 return null;
             }
-
             if (!stream.CanRead) {
                 Log.Error("反序列化失败：需要序列化的流不可读");
                 return null;

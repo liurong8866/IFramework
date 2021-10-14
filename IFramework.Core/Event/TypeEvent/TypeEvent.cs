@@ -15,7 +15,6 @@ namespace IFramework.Core
         public IDisposable RegisterEvent<T>([NotNull] Action<T> action)
         {
             Type type = typeof(T);
-
             if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
                 if (register is EventRegister<T> reg) {
                     reg.actions += action;
@@ -26,7 +25,6 @@ namespace IFramework.Core
                 reg.actions = action;
                 typeEventDict.Add(type, reg);
             }
-
             return new EventUnregister<T> {
                 actions = action,
                 typeEvent = this
@@ -39,7 +37,6 @@ namespace IFramework.Core
         public void UnRegisterEvent<T>(Action<T> action)
         {
             Type type = typeof(T);
-
             if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
                 if (register is EventRegister<T> reg) {
                     // ReSharper disable once DelegateSubtraction
@@ -54,7 +51,6 @@ namespace IFramework.Core
         public void SendEvent<T>() where T : new()
         {
             Type type = typeof(T);
-
             if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
                 if (register is EventRegister<T> reg) {
                     reg.actions(new T());
@@ -68,7 +64,6 @@ namespace IFramework.Core
         public void SendEvent<T>(T param)
         {
             Type type = typeof(T);
-
             if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
                 if (register is EventRegister<T> reg) {
                     reg.actions(param);

@@ -14,7 +14,7 @@ namespace IFramework.Editor
 
         public readonly List<ElementInfo> ElementInfoList = new List<ElementInfo>();
     }
-    
+
     /// <summary>
     /// 用于记录根节点的信息
     /// </summary>

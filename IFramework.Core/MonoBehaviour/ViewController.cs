@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,13 +53,12 @@ namespace IFramework.Core
         /// </summary>
         [HideInInspector]
         public Serialized SerializedFiled;
-        
+
         /// <summary>
         /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
         /// </summary>
         public class Serialized
         {
-           
             public SerializedProperty Namespace;
             public SerializedProperty ScriptName;
             public SerializedProperty ScriptPath;
@@ -68,7 +66,7 @@ namespace IFramework.Core
             public SerializedProperty PrefabPath;
             public SerializedProperty AsPrefabSubPath;
             public SerializedProperty Comment;
-            
+
             public Serialized(SerializedObject serializedObject)
             {
                 Namespace = serializedObject.FindProperty("Namespace");
@@ -80,6 +78,5 @@ namespace IFramework.Core
                 Comment = serializedObject.FindProperty("Comment");
             }
         }
-        
     }
 }

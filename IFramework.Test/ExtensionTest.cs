@@ -37,37 +37,10 @@ namespace IFramework.Test
             DateTime a = DateTime.Now;
             DateTime b = DateTimeExtention.StarTime;
             DateTime c = new DateTime(1970, 1, 1);
-
-            DateTime d = new DateTime(1970,
-                                      1,
-                                      1,
-                                      0,
-                                      0,
-                                      0);
-
-            DateTime e = new DateTime(1970,
-                                      1,
-                                      1,
-                                      0,
-                                      0,
-                                      0,
-                                      DateTimeKind.Local);
-
-            DateTime f = new DateTime(1970,
-                                      1,
-                                      1,
-                                      0,
-                                      0,
-                                      0,
-                                      DateTimeKind.Utc);
-
-            DateTime g = new DateTime(1970,
-                                      1,
-                                      1,
-                                      0,
-                                      0,
-                                      0,
-                                      DateTimeKind.Unspecified);
+            DateTime d = new DateTime(1970, 1, 1, 0, 0, 0);
+            DateTime e = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
+            DateTime f = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime g = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
             DateTime c1 = c.ToLocalTime();
             DateTime d1 = d.ToLocalTime();
             DateTime e1 = e.ToLocalTime();
@@ -99,57 +72,15 @@ namespace IFramework.Test
             long a1 = a.ToUnixMilliseconds();
             long b1 = b.ToUnixMilliseconds();
             long c1 = c.ToUnixMilliseconds();
-
-            long a2 = (long)a.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0))
-                   .TotalMilliseconds;
-
-            long b2 = (long)b.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0))
-                   .TotalMilliseconds;
-
-            long c2 = (long)c.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0))
-                   .TotalMilliseconds;
+            long a2 = (long)a.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+            long b2 = (long)b.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+            long c2 = (long)c.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
             long a3 = (long)a.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
             long b3 = (long)b.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
             long c3 = (long)c.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
-
-            long a4 = (long)a.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0).ToLocalTime())
-                   .TotalMilliseconds;
-
-            long b4 = (long)b.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0).ToLocalTime())
-                   .TotalMilliseconds;
-
-            long c4 = (long)c.Subtract(new DateTime(1970,
-                                                    1,
-                                                    1,
-                                                    0,
-                                                    0,
-                                                    0).ToLocalTime())
-                   .TotalMilliseconds;
+            long a4 = (long)a.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).ToLocalTime()).TotalMilliseconds;
+            long b4 = (long)b.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).ToLocalTime()).TotalMilliseconds;
+            long c4 = (long)c.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).ToLocalTime()).TotalMilliseconds;
         }
     }
 }

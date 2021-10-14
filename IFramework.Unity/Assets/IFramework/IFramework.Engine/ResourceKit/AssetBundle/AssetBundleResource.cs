@@ -45,7 +45,6 @@ namespace IFramework.Engine
         public override bool Load()
         {
             if (!IsLoadable) return false;
-
             State = ResourceState.Loading;
 
             // 如果不是模拟模式
@@ -55,7 +54,6 @@ namespace IFramework.Engine
                 // 加载AssetBundle资源
                 AssetBundle = AssetBundle.LoadFromFile(url);
                 unloadFlag = true;
-
                 if (AssetBundle == null) {
                     Log.Error("AssetBundle资源加载失败: " + assetName);
                     OnResourceLoadFailed();
@@ -72,7 +70,6 @@ namespace IFramework.Engine
         public override void LoadASync()
         {
             if (!IsLoadable) return;
-
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -88,13 +85,11 @@ namespace IFramework.Engine
                 callback();
                 yield break;
             }
-
             if (Platform.IsSimulation) {
                 yield return null;
             }
             else {
                 string url = Platform.GetUrlByAssetBundleName(assetName);
-
                 if (Application.platform == RuntimePlatform.WebGLPlayer) {
                     // 加载AssetBundle资源
                     using UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(url);

@@ -1,5 +1,4 @@
 using System.Text;
-using IFramework.Core;
 
 namespace IFramework.Editor
 {
@@ -28,7 +27,6 @@ namespace IFramework.Editor
             sb.AppendLine("{");
             sb.AppendLine("\tpublic partial class " + generateInfo.ScriptName);
             sb.AppendLine("\t{");
-
             foreach (BindInfo markInfo in elementInfo.BindInfoList) {
                 string strUIType = markInfo.BindScript.ComponentName;
                 sb.AppendLine($"\t\t[SerializeField] public {strUIType} {markInfo.Name};");
@@ -38,7 +36,6 @@ namespace IFramework.Editor
             sb.AppendLine();
             sb.AppendLine("\t\tpublic void OnDisable()");
             sb.AppendLine("\t\t{");
-
             foreach (BindInfo markInfo in elementInfo.BindInfoList) {
                 sb.AppendLine($"\t\t\t{markInfo.Name} = null;");
             }

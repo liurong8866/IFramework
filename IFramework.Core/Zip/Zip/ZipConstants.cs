@@ -507,7 +507,6 @@ namespace IFramework.Core.Zip.Zip
             if (data == null) {
                 return string.Empty;
             }
-
             if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, count);
             }
@@ -529,7 +528,6 @@ namespace IFramework.Core.Zip.Zip
             if (data == null) {
                 return string.Empty;
             }
-
             if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetString(data, 0, data.Length);
             }
@@ -564,7 +562,6 @@ namespace IFramework.Core.Zip.Zip
             if (str == null) {
                 return new byte[0];
             }
-
             if ((flags & (int)GeneralBitFlags.UnicodeText) != 0) {
                 return Encoding.UTF8.GetBytes(str);
             }

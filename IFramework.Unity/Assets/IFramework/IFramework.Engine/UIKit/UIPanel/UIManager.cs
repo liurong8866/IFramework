@@ -6,7 +6,7 @@ namespace IFramework.Engine
     public class UIManager : ManagerBehaviour<UIManager>
     {
         protected UIManager() { }
-        
+
         /// <summary>
         /// 打开面板
         /// </summary>
@@ -53,7 +53,6 @@ namespace IFramework.Engine
         public void CloseUI(PanelSearcher searcher)
         {
             IPanel panel = GetUI(searcher);
-
             if (panel is UIPanel) {
                 panel.Close();
                 UIKit.Table.Remove(searcher.Keyword);

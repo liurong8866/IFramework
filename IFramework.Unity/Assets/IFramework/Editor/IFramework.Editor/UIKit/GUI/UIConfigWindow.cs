@@ -32,7 +32,6 @@ namespace IFramework.Editor
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(5);
             EditorGUILayout.HelpBox("UI脚本会分析 UIPrefab 所在的目录结构动态生成相对路径", MessageType.None, false);
-            
             GUILayout.Space(5);
             // UIPanel 预设路径
             EditorGUILayout.BeginHorizontal();
@@ -40,7 +39,6 @@ namespace IFramework.Editor
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
             Configure.UIPrefabPath.Value = EditorGUILayout.TextField(Configure.UIPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
-            
             GUILayout.Space(20);
 
             // ViewController 脚本路径
@@ -66,7 +64,6 @@ namespace IFramework.Editor
             // 恢复默认
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("");
-
             if (GUILayout.Button("      恢复默认      ")) {
                 // 取消 EditorGUILayout.TextField 焦点，否则不更新。 GUILayout.TextField没有这个问题
                 GUI.FocusControl(null);

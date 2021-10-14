@@ -20,7 +20,6 @@ namespace IFramework.Core
         public bool RegisterEvent<T>(T key, TEvent action) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
-
             if (!listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 listener = new EventListener<TEvent>();
                 listenerMap.Add(keyValue, listener);
@@ -44,7 +43,6 @@ namespace IFramework.Core
         public void UnRegisterEvent<T>(T key) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
-
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 listener?.Clear();
                 listener = null;
@@ -58,7 +56,6 @@ namespace IFramework.Core
         public bool SendEvent<T>(T key) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
-
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 if (listener != null) {
                     return listener.Invoke(keyValue);
@@ -73,7 +70,6 @@ namespace IFramework.Core
         public bool SendEvent<T>(T key, params object[] param) where T : IConvertible
         {
             int keyValue = key.ToInt32(null);
-
             if (listenerMap.TryGetValue(keyValue, out EventListener<TEvent> listener)) {
                 if (listener != null) {
                     return listener.Invoke(keyValue, param);
@@ -172,7 +168,6 @@ namespace IFramework.Core
         {
             eventList ??= new LinkedList<T>();
             if (eventList.Contains(listener)) return false;
-
             eventList.AddLast(listener);
             return true;
         }

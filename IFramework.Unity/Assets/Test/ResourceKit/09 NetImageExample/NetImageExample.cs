@@ -19,7 +19,6 @@ namespace IFramework.Test.AssetResourceKit
         private void Start()
         {
             Image image = transform.Find("Image").GetComponent<Image>();
-
             loader.AddToLoad<Texture2D>(ResourcesUrlType.IMAGE + "https://img.3dmgame.com/uploads/images/news/20210929/1632876123_323945.jpg",
                                         (b, res) => {
                                             if (b) {

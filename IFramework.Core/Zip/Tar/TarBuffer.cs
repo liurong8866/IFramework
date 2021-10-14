@@ -128,7 +128,6 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream == null) {
                 throw new ArgumentNullException(nameof(inputStream));
             }
-
             if (blockFactor <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative");
             }
@@ -163,7 +162,6 @@ namespace IFramework.Core.Zip.Tar
             if (outputStream == null) {
                 throw new ArgumentNullException(nameof(outputStream));
             }
-
             if (blockFactor <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(blockFactor), "Factor cannot be negative");
             }
@@ -182,7 +180,6 @@ namespace IFramework.Core.Zip.Tar
             BlockFactor = archiveBlockFactor;
             RecordSize = archiveBlockFactor * BLOCK_SIZE;
             recordBuffer = new byte[RecordSize];
-
             if (inputStream != null) {
                 CurrentRecord = -1;
                 CurrentBlock = BlockFactor;
@@ -208,11 +205,9 @@ namespace IFramework.Core.Zip.Tar
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
-
             if (block.Length != BLOCK_SIZE) {
                 throw new ArgumentException("block length is invalid");
             }
-
             for (int i = 0; i < BLOCK_SIZE; ++i) {
                 if (block[i] != 0) {
                     return false;
@@ -235,11 +230,9 @@ namespace IFramework.Core.Zip.Tar
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
-
             if (block.Length != BLOCK_SIZE) {
                 throw new ArgumentException("block length is invalid");
             }
-
             for (int i = 0; i < BLOCK_SIZE; ++i) {
                 if (block[i] != 0) {
                     return false;
@@ -256,7 +249,6 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream == null) {
                 throw new TarException("no input stream defined");
             }
-
             if (CurrentBlock >= BlockFactor) {
                 if (!ReadRecord()) {
                     throw new TarException("Failed to read a record");
@@ -276,19 +268,13 @@ namespace IFramework.Core.Zip.Tar
             if (inputStream == null) {
                 throw new TarException("TarBuffer.ReadBlock - no input stream defined");
             }
-
             if (CurrentBlock >= BlockFactor) {
                 if (!ReadRecord()) {
                     throw new TarException("Failed to read a record");
                 }
             }
             byte[] result = new byte[BLOCK_SIZE];
-
-            Array.Copy(recordBuffer,
-                       CurrentBlock * BLOCK_SIZE,
-                       result,
-                       0,
-                       BLOCK_SIZE);
+            Array.Copy(recordBuffer, CurrentBlock * BLOCK_SIZE, result, 0, BLOCK_SIZE);
             CurrentBlock++;
             return result;
         }
@@ -307,7 +293,6 @@ namespace IFramework.Core.Zip.Tar
             CurrentBlock = 0;
             int offset = 0;
             int bytesNeeded = RecordSize;
-
             while (bytesNeeded > 0) {
                 long numBytes = inputStream.Read(recordBuffer, offset, bytesNeeded);
 
@@ -394,25 +379,17 @@ namespace IFramework.Core.Zip.Tar
             if (block == null) {
                 throw new ArgumentNullException(nameof(block));
             }
-
             if (outputStream == null) {
                 throw new TarException("TarBuffer.WriteBlock - no output stream defined");
             }
-
             if (block.Length != BLOCK_SIZE) {
                 string errorText = string.Format("TarBuffer.WriteBlock - block to write has length '{0}' which is not the block size of '{1}'", block.Length, BLOCK_SIZE);
                 throw new TarException(errorText);
             }
-
             if (CurrentBlock >= BlockFactor) {
                 WriteRecord();
             }
-
-            Array.Copy(block,
-                       0,
-                       recordBuffer,
-                       CurrentBlock * BLOCK_SIZE,
-                       BLOCK_SIZE);
+            Array.Copy(block, 0, recordBuffer, CurrentBlock * BLOCK_SIZE, BLOCK_SIZE);
             CurrentBlock++;
         }
 
@@ -432,29 +409,20 @@ namespace IFramework.Core.Zip.Tar
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (outputStream == null) {
                 throw new TarException("TarBuffer.WriteBlock - no output stream stream defined");
             }
-
             if (offset < 0 || offset >= buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(offset));
             }
-
             if (offset + BLOCK_SIZE > buffer.Length) {
                 string errorText = string.Format("TarBuffer.WriteBlock - record has length '{0}' with offset '{1}' which is less than the record size of '{2}'", buffer.Length, offset, RecordSize);
                 throw new TarException(errorText);
             }
-
             if (CurrentBlock >= BlockFactor) {
                 WriteRecord();
             }
-
-            Array.Copy(buffer,
-                       offset,
-                       recordBuffer,
-                       CurrentBlock * BLOCK_SIZE,
-                       BLOCK_SIZE);
+            Array.Copy(buffer, offset, recordBuffer, CurrentBlock * BLOCK_SIZE, BLOCK_SIZE);
             CurrentBlock++;
         }
 
@@ -482,7 +450,6 @@ namespace IFramework.Core.Zip.Tar
             if (outputStream == null) {
                 throw new TarException("TarBuffer.WriteFinalRecord no output stream defined");
             }
-
             if (CurrentBlock > 0) {
                 int dataBytes = CurrentBlock * BLOCK_SIZE;
                 Array.Clear(recordBuffer, dataBytes, RecordSize - dataBytes);
@@ -499,7 +466,6 @@ namespace IFramework.Core.Zip.Tar
         {
             if (outputStream != null) {
                 WriteFinalRecord();
-
                 if (IsStreamOwner) {
                     outputStream.Dispose();
                 }

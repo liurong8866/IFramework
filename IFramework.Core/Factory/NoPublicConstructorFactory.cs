@@ -16,7 +16,6 @@ namespace IFramework.Core
 
             // 找到无参数的私有构造函数
             ConstructorInfo constructor = Array.Find(constructors, c => c.GetParameters().Length == 0);
-
             if (constructor == null) {
                 throw new Exception("未找到无参私有构造函数: " + typeof(T));
             }

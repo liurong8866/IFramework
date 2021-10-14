@@ -20,7 +20,6 @@ namespace IFramework.Core.Zip.GZip
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
-
             try {
                 using (GZipInputStream bzipInput = new GZipInputStream(inStream)) {
                     bzipInput.IsStreamOwner = isStreamOwner;
@@ -48,7 +47,6 @@ namespace IFramework.Core.Zip.GZip
             if (inStream == null || outStream == null) {
                 throw new Exception("Null Stream");
             }
-
             try {
                 using (GZipOutputStream bzipOutput = new GZipOutputStream(outStream, level)) {
                     bzipOutput.IsStreamOwner = isStreamOwner;

@@ -35,35 +35,27 @@ namespace IFramework.Engine
             if (type == GameObjectType) {
                 return GAME_OBJECT;
             }
-
             if (type == AudioClipType) {
                 return AUDIO_CLIP;
             }
-
             if (type == SpriteType) {
                 return SPRITE;
             }
-
             if (type == SceneType) {
                 return SCENE;
             }
-
             if (type == SpriteAtlasType) {
                 return SPRITE_ATLAS;
             }
-
             if (type == MeshType) {
                 return MESH;
             }
-
             if (type == Texture2DType) {
                 return TEXTURE_2D;
             }
-
             if (type == TextAssetType) {
                 return TEXT_ASSET;
             }
-
             if (type == AssetBundleType) {
                 return ASSET_BUNDLE;
             }
@@ -75,35 +67,27 @@ namespace IFramework.Engine
             if (code == GAME_OBJECT) {
                 return GameObjectType;
             }
-
             if (code == AUDIO_CLIP) {
                 return AudioClipType;
             }
-
             if (code == SPRITE) {
                 return SpriteType;
             }
-
             if (code == SCENE) {
                 return SceneType;
             }
-
             if (code == SPRITE_ATLAS) {
                 return SpriteAtlasType;
             }
-
             if (code == MESH) {
                 return MeshType;
             }
-
             if (code == TEXTURE_2D) {
                 return Texture2DType;
             }
-
             if (code == TEXT_ASSET) {
                 return TextAssetType;
             }
-
             if (code == ASSET_BUNDLE) {
                 return AssetBundleType;
             }

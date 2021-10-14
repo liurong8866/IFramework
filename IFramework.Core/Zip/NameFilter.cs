@@ -45,7 +45,6 @@ namespace IFramework.Core.Zip
         public static bool IsValidExpression(string expression)
         {
             bool result = true;
-
             try {
                 #pragma warning disable 0219
                 Regex exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -65,15 +64,12 @@ namespace IFramework.Core.Zip
         public static bool IsValidFilterExpression(string toTest)
         {
             bool result = true;
-
             try {
                 if (toTest != null) {
                     string[] items = SplitQuoted(toTest);
-
                     for (int i = 0; i < items.Length; ++i) {
                         if (items[i] != null && items[i].Length > 0) {
                             string toCompile;
-
                             if (items[i][0] == '+') {
                                 toCompile = items[i].Substring(1, items[i].Length - 1);
                             }
@@ -106,20 +102,16 @@ namespace IFramework.Core.Zip
             char escape = '\\';
             char[] separators = { ';' };
             List<string> result = new List<string>();
-
             if (!string.IsNullOrEmpty(original)) {
                 int endIndex = -1;
                 StringBuilder b = new StringBuilder();
-
                 while (endIndex < original.Length) {
                     endIndex += 1;
-
                     if (endIndex >= original.Length) {
                         result.Add(b.ToString());
                     }
                     else if (original[endIndex] == escape) {
                         endIndex += 1;
-
                         if (endIndex >= original.Length) {
                             throw new ArgumentException("Missing terminating escape character", nameof(original));
                         }
@@ -159,7 +151,6 @@ namespace IFramework.Core.Zip
         public bool IsIncluded(string name)
         {
             bool result = false;
-
             if (inclusions.Count == 0) {
                 result = true;
             }
@@ -182,7 +173,6 @@ namespace IFramework.Core.Zip
         public bool IsExcluded(string name)
         {
             bool result = false;
-
             foreach (Regex r in exclusions) {
                 if (r.IsMatch(name)) {
                     result = true;
@@ -217,12 +207,10 @@ namespace IFramework.Core.Zip
                 return;
             }
             string[] items = SplitQuoted(filter);
-
             for (int i = 0; i < items.Length; ++i) {
                 if (items[i] != null && items[i].Length > 0) {
                     bool include = items[i][0] != '-';
                     string toCompile;
-
                     if (items[i][0] == '+') {
                         toCompile = items[i].Substring(1, items[i].Length - 1);
                     }

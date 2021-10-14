@@ -34,7 +34,6 @@ namespace IFramework.Engine
                    .Select(creator => creator.Create(searcher))
                     // 如果有多个，取第一个
                    .FirstOrDefault();
-
             if (resource == null) {
                 Log.Error("未找到相关资源加载器，加载资源失败! {0}", searcher.ToString());
             }

@@ -31,12 +31,10 @@ namespace IFramework.Editor
             signedList = AssetDatabase.GetAllAssetBundleNames()
                    .SelectMany(asset => {
                         string[] result = AssetDatabase.GetAssetPathsFromAssetBundle(asset);
-
                         return result.Select(assetName => {
                                     if (AssetBundleMark.CheckMarked(assetName)) {
                                         return assetName;
                                     }
-
                                     if (AssetBundleMark.CheckMarked(Path.GetDirectoryName(assetName))) {
                                         return Path.GetDirectoryName(assetName);
                                     }
@@ -60,7 +58,6 @@ namespace IFramework.Editor
             // PersistentPath
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.TextField("PersistentPath:", Application.persistentDataPath);
-
             if (GUILayout.Button("打开目录", GUILayout.Width(100))) {
                 EditorUtility.RevealInFinder(Application.persistentDataPath);
             }
@@ -80,16 +77,13 @@ namespace IFramework.Editor
 
             // 操作按钮
             GUILayout.Space(10);
-
             if (GUILayout.Button("生成 AB 包")) {
                 AssetBundleBuilder.BuildAssetBundles();
             }
             GUILayout.BeginHorizontal();
-
             if (GUILayout.Button("生成 AB 常量")) {
                 AssetBundleScript.GenerateConstScript();
             }
-
             if (GUILayout.Button("清空已生成的 AB 包")) {
                 AssetBundleBuilder.ForceClearAssetBundles();
             }
@@ -98,15 +92,12 @@ namespace IFramework.Editor
             // 标记的资源
             GUILayout.Label("已标记的资源:");
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
-
             foreach (string assetsName in signedList) {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(assetsName);
-
                 if (GUILayout.Button("选中", GUILayout.Width(60))) {
                     Selection.objects = new[] { AssetDatabase.LoadAssetAtPath<Object>(assetsName) };
                 }
-
                 if (GUILayout.Button("取消标记", GUILayout.Width(60))) {
                     AssetBundleMark.MarkAssetBundle(assetsName);
                 }

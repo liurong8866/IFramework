@@ -43,7 +43,7 @@ namespace IFramework.Core
         [HideInInspector]
         [SerializeField]
         private string componentName = "";
-        
+
         [HideInInspector]
         [SerializeField]
         private string comment = "";
@@ -53,7 +53,7 @@ namespace IFramework.Core
         /// </summary>
         [HideInInspector]
         public Serialized SerializedFiled;
-        
+
         /// <summary>
         /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
         /// </summary>
@@ -63,7 +63,7 @@ namespace IFramework.Core
             public SerializedProperty CustomComponentName;
             public SerializedProperty Comment;
             public SerializedProperty ComponentName;
-            
+
             public Serialized(SerializedObject serializedObject)
             {
                 BindType = serializedObject.FindProperty("bindType");
@@ -72,7 +72,7 @@ namespace IFramework.Core
                 ComponentName = serializedObject.FindProperty("componentName");
             }
         }
-        
+
         /// <summary>
         /// 取当前物体上绑定的组件
         /// </summary>
@@ -117,7 +117,6 @@ namespace IFramework.Core
             if (GetComponent("RectTransform")) return "RectTransform";
             if (GetComponent("MeshRenderer")) return "MeshRenderer";
             if (GetComponent("SpriteRenderer")) return "SpriteRenderer";
-
             return "Transform";
         }
     }

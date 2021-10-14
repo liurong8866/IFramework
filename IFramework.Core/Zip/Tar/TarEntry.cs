@@ -123,7 +123,6 @@ namespace IFramework.Core.Zip.Tar
         public override bool Equals(object obj)
         {
             TarEntry localEntry = obj as TarEntry;
-
             if (localEntry != null) {
                 return Name.Equals(localEntry.Name);
             }
@@ -250,7 +249,6 @@ namespace IFramework.Core.Zip.Tar
                 if (file != null) {
                     return Directory.Exists(file);
                 }
-
                 if (header != null) {
                     if (header.TypeFlag == TarHeader.LF_DIR || Name.EndsWith("/", StringComparison.Ordinal)) {
                         return true;
@@ -274,7 +272,6 @@ namespace IFramework.Core.Zip.Tar
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
-
             if (file == null) {
                 throw new ArgumentNullException(nameof(file));
             }
@@ -314,11 +311,9 @@ namespace IFramework.Core.Zip.Tar
             }
             header.LinkName = string.Empty;
             header.Name = name;
-
             if (Directory.Exists(file)) {
                 header.Mode = 1003; // Magic number for security access for a UNIX filesystem
                 header.TypeFlag = TarHeader.LF_DIR;
-
                 if (header.Name.Length == 0 || header.Name[header.Name.Length - 1] != '/') {
                     header.Name = header.Name + "/";
                 }
@@ -348,7 +343,6 @@ namespace IFramework.Core.Zip.Tar
             }
             string[] list = Directory.GetFileSystemEntries(file);
             TarEntry[] result = new TarEntry[list.Length];
-
             for (int i = 0; i < list.Length; ++i) {
                 result[i] = CreateEntryFromFile(list[i]);
             }
@@ -395,7 +389,6 @@ namespace IFramework.Core.Zip.Tar
             if (header == null) {
                 throw new ArgumentNullException(nameof(header));
             }
-
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }

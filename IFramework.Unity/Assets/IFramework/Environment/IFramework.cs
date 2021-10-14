@@ -12,14 +12,14 @@ namespace IFramework.Engine
         /// 场景开始前初始化
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void InitBeforeSceneLoad(){
-            
+        public static void InitBeforeSceneLoad()
+        {
             // "初始化 PlatformEnvironment"
             PlatformEnvironment.Instance.Init(Environment.Instance);
 
             // 异步加载初始化 ResourceManager"
             ResourceManager.Instance.InitAsync();
-            
+
             // 初始化Bean
             BeanRegister();
         }

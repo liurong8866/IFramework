@@ -18,7 +18,6 @@ namespace IFramework.Core
         private void OnDisable()
         {
             if (!Application.isPlaying) return;
-
             foreach (IDisposable disposable in disposables) {
                 disposable.Dispose();
             }

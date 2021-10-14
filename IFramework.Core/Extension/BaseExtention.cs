@@ -67,7 +67,6 @@ namespace IFramework.Core
         public static string ToString(this object value)
         {
             string result = "";
-
             if (!value.Nothing()) {
                 result = value.ToString();
             }
@@ -80,7 +79,6 @@ namespace IFramework.Core
         public static string ToString(this object value, string defaultvalue)
         {
             string result = defaultvalue;
-
             if (!value.Nothing()) {
                 result = value.ToString();
             }
@@ -157,7 +155,6 @@ namespace IFramework.Core
         public static string ToSqlString(this object value)
         {
             string result;
-
             if (value == null) {
                 result = "";
             }
@@ -173,7 +170,6 @@ namespace IFramework.Core
         public static string ToSqlString2(this object value)
         {
             string result;
-
             if (value == null) {
                 result = "";
             }
@@ -205,7 +201,6 @@ namespace IFramework.Core
         public static bool IsNumeric(this object value)
         {
             if (!(value is byte || value is short || value is int || value is long || value is sbyte || value is ushort || value is uint || value is ulong || value is decimal || value is double || value is float)) return false;
-
             return true;
         }
 
@@ -215,7 +210,6 @@ namespace IFramework.Core
         public static T Between<T>(this T value, T min, T max) where T : struct, IComparable<T>
         {
             T result = value;
-
             if (value.CompareTo(min) < 0) {
                 result = min;
             }
@@ -231,7 +225,6 @@ namespace IFramework.Core
         public static T Between<T>(this T value, T min, T max, T defaultvalue) where T : struct, IComparable<T>
         {
             T result = value;
-
             if (value.CompareTo(min) < 0) {
                 result = defaultvalue;
             }

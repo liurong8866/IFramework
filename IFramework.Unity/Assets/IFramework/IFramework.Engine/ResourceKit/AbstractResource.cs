@@ -70,7 +70,6 @@ namespace IFramework.Engine
             get => state;
             set {
                 state = value;
-
                 if (state == ResourceState.Ready) {
                     // 通知资源加载完成
                     NotifyResourceLoaded(true);
@@ -168,11 +167,9 @@ namespace IFramework.Engine
             // 获取依赖资源
             List<string> depends = GetDependResourceList();
             if (depends.Nothing()) return true;
-
             foreach (string depend in depends) {
                 using ResourceSearcher searcher = ResourceSearcher.Allocate(depend, null, assetType);
                 IResource resource = ResourceManager.Instance.GetResource(searcher);
-
                 if (action.InvokeSafe(resource)) {
                     return false;
                 }
@@ -186,7 +183,6 @@ namespace IFramework.Engine
         public void RegisterOnLoadedEvent(Action<bool, IResource> listener)
         {
             if (listener == null) return;
-
             if (state == ResourceState.Ready) {
                 listener(true, this);
                 return;
@@ -201,7 +197,6 @@ namespace IFramework.Engine
         {
             if (listener == null) return;
             if (OnResourceLoaded == null) return;
-
             OnResourceLoaded -= listener;
         }
 
@@ -220,7 +215,6 @@ namespace IFramework.Engine
         private void NotifyResourceLoaded(bool result)
         {
             if (OnResourceLoaded == null) return;
-
             OnResourceLoaded(result, this);
             OnResourceLoaded = null;
         }
@@ -240,7 +234,6 @@ namespace IFramework.Engine
         protected virtual void OnEmpty()
         {
             if (state == ResourceState.Loading) return;
-
             Release();
         }
 

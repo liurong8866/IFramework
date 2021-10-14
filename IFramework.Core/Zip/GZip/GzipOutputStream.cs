@@ -121,7 +121,6 @@ namespace IFramework.Core.Zip.GZip
             if (state == OutputState.Header) {
                 WriteHeader();
             }
-
             if (state != OutputState.Footer) {
                 throw new InvalidOperationException("Write not permitted in current state");
             }
@@ -140,7 +139,6 @@ namespace IFramework.Core.Zip.GZip
             } finally {
                 if (state != OutputState.Closed) {
                     state = OutputState.Closed;
-
                     if (IsStreamOwner) {
                         baseOutputStream_.Dispose();
                     }
@@ -161,14 +159,12 @@ namespace IFramework.Core.Zip.GZip
             if (state == OutputState.Header) {
                 WriteHeader();
             }
-
             if (state == OutputState.Footer) {
                 state = OutputState.Finished;
                 base.Finish();
                 uint totalin = (uint)(deflater_.TotalIn & 0xffffffff);
                 uint crcval = (uint)(crc.Value & 0xffffffff);
                 byte[] gzipFooter;
-
                 unchecked {
                     gzipFooter = new[] { (byte)crcval, (byte)(crcval >> 8), (byte)(crcval >> 16), (byte)(crcval >> 24), (byte)totalin, (byte)(totalin >> 8), (byte)(totalin >> 16), (byte)(totalin >> 24) };
                 }
@@ -185,7 +181,6 @@ namespace IFramework.Core.Zip.GZip
             if (state == OutputState.Header) {
                 state = OutputState.Footer;
                 int modTime = (int)((DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks) / 10000000L); // Ticks give back 100ns intervals
-
                 byte[] gzipHeader = {
                     // The two magic bytes
                     GZipConstants.GZIP_MAGIC >> 8, GZipConstants.GZIP_MAGIC & 0xff,

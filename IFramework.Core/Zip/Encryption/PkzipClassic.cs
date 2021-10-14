@@ -21,12 +21,10 @@ namespace IFramework.Core.Zip.Encryption
             if (seed == null) {
                 throw new ArgumentNullException(nameof(seed));
             }
-
             if (seed.Length == 0) {
                 throw new ArgumentException("Length is zero", nameof(seed));
             }
             uint[] newKeys = { 0x12345678, 0x23456789, 0x34567890 };
-
             for (int i = 0; i < seed.Length; ++i) {
                 newKeys[0] = Crc32.ComputeCrc32(newKeys[0], seed[i]);
                 newKeys[1] = newKeys[1] + (byte)newKeys[0];
@@ -77,7 +75,6 @@ namespace IFramework.Core.Zip.Encryption
             if (keyData == null) {
                 throw new ArgumentNullException(nameof(keyData));
             }
-
             if (keyData.Length != 12) {
                 throw new InvalidOperationException("Key length is not valid");
             }
@@ -141,12 +138,7 @@ namespace IFramework.Core.Zip.Encryption
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
             byte[] result = new byte[inputCount];
-
-            TransformBlock(inputBuffer,
-                           inputOffset,
-                           inputCount,
-                           result,
-                           0);
+            TransformBlock(inputBuffer, inputOffset, inputCount, result, 0);
             return result;
         }
 
@@ -231,12 +223,7 @@ namespace IFramework.Core.Zip.Encryption
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
             byte[] result = new byte[inputCount];
-
-            TransformBlock(inputBuffer,
-                           inputOffset,
-                           inputCount,
-                           result,
-                           0);
+            TransformBlock(inputBuffer, inputOffset, inputCount, result, 0);
             return result;
         }
 
@@ -358,7 +345,6 @@ namespace IFramework.Core.Zip.Encryption
                 if (value == null) {
                     throw new ArgumentNullException(nameof(value));
                 }
-
                 if (value.Length != 12) {
                     throw new CryptographicException("Key size is illegal");
                 }

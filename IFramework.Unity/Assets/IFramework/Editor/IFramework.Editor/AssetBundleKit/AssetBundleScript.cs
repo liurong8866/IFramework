@@ -82,7 +82,6 @@ namespace IFramework.Editor
             }
             // 设置编译器
             CSharpCodeProvider provider = new CSharpCodeProvider();
-
             CodeGeneratorOptions options = new CodeGeneratorOptions {
                 BlankLinesBetweenMembers = false,
                 BracingStyle = "CS"
@@ -106,7 +105,6 @@ namespace IFramework.Editor
             // 初始化要生成到AssetBundle
             foreach (AssetBundleInfo assetGroup in assetBundleList) {
                 List<AssetDependence> depends = assetGroup.AssetDepends;
-
                 foreach (AssetDependence depend in depends) {
                     AssetBundleScriptModel model = new AssetBundleScriptModel(depend.AssetBundleName);
                     model.assets = assetGroup.AssetInfos.Where(info => info.AssetBundleName == depend.AssetBundleName).Select(info => info.AssetName).ToArray();
@@ -125,7 +123,6 @@ namespace IFramework.Editor
         {
             // 用于检查是否重复
             ISet<string> checkRepeatSet = new HashSet<string>();
-
             foreach (string asset in assetModle.assets) {
                 CodeMemberField assetField = new CodeMemberField {
                     Attributes = MemberAttributes.Public | MemberAttributes.Const

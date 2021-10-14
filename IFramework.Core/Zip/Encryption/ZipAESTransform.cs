@@ -21,11 +21,7 @@ namespace IFramework.Core.Zip.Encryption
 
             public void AppendData(byte[] buffer, int offset, int count)
             {
-                TransformBlock(buffer,
-                               offset,
-                               count,
-                               buffer,
-                               offset);
+                TransformBlock(buffer, offset, count, buffer, offset);
             }
 
             public byte[] GetHashAndReset()
@@ -110,29 +106,21 @@ namespace IFramework.Core.Zip.Encryption
 
             // Encrypt with AES in CTR mode. Regards to Dr Brian Gladman for this.
             int ix = 0;
-
             while (ix < inputCount) {
                 if (encrPos == ENCRYPT_BLOCK) {
                     /* increment encryption nonce   */
                     int j = 0;
-
                     while (++counterNonce[j] == 0) {
                         ++j;
                     }
-
                     /* encrypt the nonce to form next xor buffer    */
-                    encryptor.TransformBlock(counterNonce,
-                                             0,
-                                             InputBlockSize,
-                                             encryptBuffer,
-                                             0);
+                    encryptor.TransformBlock(counterNonce, 0, InputBlockSize, encryptBuffer, 0);
                     encrPos = 0;
                 }
                 outputBuffer[ix + outputOffset] = (byte)(inputBuffer[ix + inputOffset] ^ encryptBuffer[encrPos++]);
                 //
                 ix++;
             }
-
             if (writeMode) {
                 // This does not change the buffer.
                 hmacsha1.AppendData(outputBuffer, outputOffset, inputCount);

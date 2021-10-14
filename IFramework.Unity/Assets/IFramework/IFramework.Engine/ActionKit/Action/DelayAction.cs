@@ -42,7 +42,6 @@ namespace IFramework.Engine
             // 判断是否超时，过了时间视为延迟结束
             currentSeconds += delta;
             Finished = currentSeconds >= DelayTime;
-
             if (Finished) {
                 action.InvokeSafe();
             }

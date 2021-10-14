@@ -16,7 +16,6 @@ namespace IFramework.Editor
         private static void SelectionChanged()
         {
             string path = EditorUtils.SelectedPath();
-
             if (!string.IsNullOrEmpty(path)) {
                 // "Assets/I Kit - Mark AssetBundle";
                 Menu.SetChecked(MainMenu.CON_MENU_ASSET_MARK, CheckMarked(path));

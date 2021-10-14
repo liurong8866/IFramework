@@ -38,22 +38,12 @@ namespace IFramework.Core.Zip.Zip
             invalidPathChars = Path.GetInvalidPathChars();
             int howMany = invalidPathChars.Length + 2;
             invalidEntryCharsRelaxed = new char[howMany];
-
-            Array.Copy(invalidPathChars,
-                       0,
-                       invalidEntryCharsRelaxed,
-                       0,
-                       invalidPathChars.Length);
+            Array.Copy(invalidPathChars, 0, invalidEntryCharsRelaxed, 0, invalidPathChars.Length);
             invalidEntryCharsRelaxed[howMany - 1] = '*';
             invalidEntryCharsRelaxed[howMany - 2] = '?';
             howMany = invalidPathChars.Length + 4;
             invalidEntryChars = new char[howMany];
-
-            Array.Copy(invalidPathChars,
-                       0,
-                       invalidEntryChars,
-                       0,
-                       invalidPathChars.Length);
+            Array.Copy(invalidPathChars, 0, invalidEntryChars, 0, invalidPathChars.Length);
             invalidEntryChars[howMany - 1] = ':';
             invalidEntryChars[howMany - 2] = '\\';
             invalidEntryChars[howMany - 3] = '*';
@@ -68,7 +58,6 @@ namespace IFramework.Core.Zip.Zip
         public string TransformDirectory(string name)
         {
             name = TransformFile(name);
-
             if (name.Length > 0) {
                 if (!name.EndsWith("/", StringComparison.Ordinal)) {
                     name += "/";
@@ -89,7 +78,6 @@ namespace IFramework.Core.Zip.Zip
         {
             if (name != null) {
                 string lowerName = name.ToLowerInvariant();
-
                 if (trimPrefix != null && lowerName.IndexOf(trimPrefix, StringComparison.Ordinal) == 0) {
                     name = name.Substring(trimPrefix.Length);
                 }
@@ -108,7 +96,6 @@ namespace IFramework.Core.Zip.Zip
 
                 // Convert consecutive // characters to /
                 int index = name.IndexOf("//", StringComparison.Ordinal);
-
                 while (index >= 0) {
                     name = name.Remove(index, 1);
                     index = name.IndexOf("//", StringComparison.Ordinal);
@@ -130,7 +117,6 @@ namespace IFramework.Core.Zip.Zip
             get => trimPrefix;
             set {
                 trimPrefix = value;
-
                 if (trimPrefix != null) {
                     trimPrefix = trimPrefix.ToLowerInvariant();
                 }
@@ -146,13 +132,10 @@ namespace IFramework.Core.Zip.Zip
         private static string MakeValidName(string name, char replacement)
         {
             int index = name.IndexOfAny(invalidEntryChars);
-
             if (index >= 0) {
                 StringBuilder builder = new StringBuilder(name);
-
                 while (index >= 0) {
                     builder[index] = replacement;
-
                     if (index >= name.Length) {
                         index = -1;
                     }
@@ -162,7 +145,6 @@ namespace IFramework.Core.Zip.Zip
                 }
                 name = builder.ToString();
             }
-
             if (name.Length > 0xffff) {
                 throw new PathTooLongException();
             }
@@ -184,7 +166,6 @@ namespace IFramework.Core.Zip.Zip
         public static bool IsValidName(string name, bool relaxed)
         {
             bool result = name != null;
-
             if (result) {
                 if (relaxed) {
                     result = name.IndexOfAny(invalidEntryCharsRelaxed) < 0;

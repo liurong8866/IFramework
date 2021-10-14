@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using IFramework.Core;
 using UnityEngine;
@@ -29,7 +28,6 @@ namespace IFramework.Engine
         public static void Init()
         {
             if (isInit) return;
-
             isInit = true;
             InitPool();
 
@@ -51,7 +49,6 @@ namespace IFramework.Engine
         private static IEnumerator DoInitAsync()
         {
             if (isInit) yield break;
-
             isInit = true;
             InitPool();
 
@@ -95,7 +92,6 @@ namespace IFramework.Engine
                 else {
                     configFiles = DirectoryUtils.GetFiles(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
-
                 if (configFiles != null) {
                     foreach (string file in configFiles) {
                         AssetBundleConfig.ConfigFile.LoadFromFile(file);
@@ -128,7 +124,6 @@ namespace IFramework.Engine
                     string persistentPath = DirectoryUtils.CombinePath(Platform.PersistentData.Root, Constant.ASSET_BUNDLE_CONFIG_FILE);
                     configFiles.Add(Platform.FilePathPrefix + persistentPath);
                 }
-
                 foreach (string file in configFiles) {
                     yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
                 }
@@ -153,7 +148,6 @@ namespace IFramework.Engine
             // 如果资源为空，并需要创建资源，则创建并加入资源表
             if (create) {
                 resource = ResourceCreatorFactory.Create(searcher);
-
                 if (resource != null) {
                     resourceTable.Add(resource.AssetName, resource);
                 }
@@ -244,9 +238,7 @@ namespace IFramework.Engine
         private void RemoveUnusedResource()
         {
             if (!isResourceMapDirty) return;
-
             isResourceMapDirty = false;
-
             foreach (IResource resource in resourceTable.ToList()) {
                 if (resource.Counter <= 0 && resource.State != ResourceState.Loading) {
                     if (resource.Release()) {

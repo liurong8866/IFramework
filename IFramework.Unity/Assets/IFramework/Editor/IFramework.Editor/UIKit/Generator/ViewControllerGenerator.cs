@@ -27,7 +27,6 @@ namespace IFramework.Editor
             generateTime.Value = DateTime.Now;
             Log.Clear();
             GameObject go = Selection.objects.First() as GameObject;
-
             if (!go) {
                 Log.Warning("需要选择 GameObject");
                 return;
@@ -45,16 +44,14 @@ namespace IFramework.Editor
             // 生成脚本
             Log.Info("生成脚本: 开始");
             ViewController controller = go.GetComponent<ViewController>();
-
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
                 GameObjectName = controller.name
             };
 
             // 搜索所有绑定对象
             BindCollector.SearchBind(go.transform, "", rootControllerInfo);
-
             GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
-            
+
             // 生成Controller层
             ViewControllerTemplate.Instance.Generate(generateInfo, null, overwrite);
 
@@ -96,7 +93,6 @@ namespace IFramework.Editor
 
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(gameObjectName.Value);
-
             if (!go) {
                 Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(gameObjectName));
                 Clear();
@@ -113,7 +109,6 @@ namespace IFramework.Editor
 
             // ViewController的序列化对象
             SerializedObject serializedObject = new SerializedObject(component);
-
             RootViewControllerInfo rootViewController = new RootViewControllerInfo {
                 GameObjectName = gameObjectName.Value
             };
@@ -137,7 +132,6 @@ namespace IFramework.Editor
 
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
-
             if (controller) {
                 serializedObject.FindProperty("Namespace").stringValue = controller.Namespace;
                 serializedObject.FindProperty("ScriptName").stringValue = controller.ScriptName;
@@ -152,7 +146,6 @@ namespace IFramework.Editor
                 }
                 // Apply the changed properties without an undo.
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
-
                 GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
                 // 如果不存在，则生成文件夹
                 DirectoryUtils.Create(generateInfo.PrefabAssetsPath);

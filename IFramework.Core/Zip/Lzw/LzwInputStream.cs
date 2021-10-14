@@ -69,7 +69,6 @@ namespace IFramework.Core.Zip.Lzw
         {
             int b = Read(one, 0, 1);
             if (b == 1) return one[0] & 0xff;
-
             return -1;
         }
 
@@ -90,7 +89,6 @@ namespace IFramework.Core.Zip.Lzw
         {
             if (!headerParsed) ParseHeader();
             if (eof) return 0;
-
             int start = offset;
             /* Using local copies of various variables speeds things up by as
              * much as 30% in Java! Performance not tested in C#.
@@ -111,20 +109,13 @@ namespace IFramework.Core.Zip.Lzw
 
             // empty stack if stuff still left
             int sSize = lStack.Length - lStackP;
-
             if (sSize > 0) {
                 int num = sSize >= count ? count : sSize;
-
-                Array.Copy(lStack,
-                           lStackP,
-                           buffer,
-                           offset,
-                           num);
+                Array.Copy(lStack, lStackP, buffer, offset, num);
                 offset += num;
                 count -= num;
                 lStackP += num;
             }
-
             if (count == 0) {
                 stackP = lStackP;
                 return offset - start;
@@ -132,13 +123,11 @@ namespace IFramework.Core.Zip.Lzw
 
             // loop, filling local buffer until enough data has been decompressed
         MainLoop:
-
             do {
                 if (end < EXTRA) {
                     Fill();
                 }
                 int bitIn = got > 0 ? (end - end % lNBits) << 3 : (end << 3) - (lNBits - 1);
-
                 while (lBitPos < bitIn) {
                     #region A
 
@@ -179,7 +168,6 @@ namespace IFramework.Core.Zip.Lzw
                     // handle first iteration
                     if (lOldCode == -1) {
                         if (code >= 256) throw new LzwException("corrupt input: " + code + " > 255");
-
                         lFinChar = (byte)(lOldCode = code);
                         buffer[offset++] = lFinChar;
                         count--;
@@ -188,11 +176,7 @@ namespace IFramework.Core.Zip.Lzw
 
                     // handle CLEAR code
                     if (code == TBL_CLEAR && blockMode) {
-                        Array.Copy(zeros,
-                                   0,
-                                   lTabPrefix,
-                                   0,
-                                   zeros.Length);
+                        Array.Copy(zeros, 0, lTabPrefix, 0, zeros.Length);
                         lFreeEnt = TBL_FIRST - 1;
                         int nBytes = lNBits << 3;
                         lBitPos = lBitPos - 1 + nBytes - (lBitPos - 1 + nBytes) % nBytes;
@@ -234,12 +218,7 @@ namespace IFramework.Core.Zip.Lzw
                     // And put them out in forward order
                     sSize = lStack.Length - lStackP;
                     int num = sSize >= count ? count : sSize;
-
-                    Array.Copy(lStack,
-                               lStackP,
-                               buffer,
-                               offset,
-                               num);
+                    Array.Copy(lStack, lStackP, buffer, offset, num);
                     offset += num;
                     count -= num;
                     lStackP += num;
@@ -296,12 +275,7 @@ namespace IFramework.Core.Zip.Lzw
         private int ResetBuf(int bitPosition)
         {
             int pos = bitPosition >> 3;
-
-            Array.Copy(data,
-                       pos,
-                       data,
-                       0,
-                       end - pos);
+            Array.Copy(data, pos, data, 0, end - pos);
             end -= pos;
             return 0;
         }
@@ -309,7 +283,6 @@ namespace IFramework.Core.Zip.Lzw
         private void Fill()
         {
             got = baseInputStream.Read(data, end, data.Length - 1 - end);
-
             if (got > 0) {
                 end += got;
             }
@@ -323,7 +296,6 @@ namespace IFramework.Core.Zip.Lzw
 
             // Check the magic marker
             if (result < 0) throw new LzwException("Failed to read LZW header");
-
             if (hdr[0] != LzwConstants.MAGIC >> 8 || hdr[1] != (LzwConstants.MAGIC & 0xff)) {
                 throw new LzwException(string.Format("Wrong LZW header. Magic bytes don't match. 0x{0:x2} 0x{1:x2}", hdr[0], hdr[1]));
             }
@@ -331,11 +303,9 @@ namespace IFramework.Core.Zip.Lzw
             // Check the 3rd header byte
             blockMode = (hdr[2] & LzwConstants.BLOCK_MODE_MASK) > 0;
             maxBits = hdr[2] & LzwConstants.BIT_MASK;
-
             if (maxBits > LzwConstants.MAX_BITS) {
                 throw new LzwException("Stream compressed with " + maxBits + " bits, but decompression can only handle " + LzwConstants.MAX_BITS + " bits.");
             }
-
             if ((hdr[2] & LzwConstants.RESERVED_MASK) > 0) {
                 throw new LzwException("Unsupported bits set in the header.");
             }
@@ -448,7 +418,6 @@ namespace IFramework.Core.Zip.Lzw
         {
             if (!isClosed) {
                 isClosed = true;
-
                 if (IsStreamOwner) {
                     baseInputStream.Dispose();
                 }

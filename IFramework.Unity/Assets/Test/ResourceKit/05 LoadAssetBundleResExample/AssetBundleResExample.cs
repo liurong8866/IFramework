@@ -22,10 +22,7 @@ namespace IFramework.Test.AssetResourceKit
             image.sprite = loader.LoadSprite(ResourcesUrlType.RESOURCES + "sprite/sword");
             rawImage.texture = loader.Load(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_001") as Texture2D;
             rawImage2.texture = loader.Load<Texture2D>(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_002");
-
-            loader.AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); })
-                   .AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); })
-                   .LoadAsync();
+            loader.AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_003", (result, res) => { result.iif(() => rawImage3.texture = res.Asset as Texture2D); }).AddToLoad(ResourcesUrlType.RESOURCES + "sprite/CharCommunity_004", (result, res) => { result.iif(() => rawImage4.texture = res.Asset as Texture2D); }).LoadAsync();
 
             // AssetBundle
             // image.sprite = loader.LoadSprite("sword");

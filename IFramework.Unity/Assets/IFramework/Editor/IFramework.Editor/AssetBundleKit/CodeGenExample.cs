@@ -8,7 +8,7 @@ namespace IFramework.Editor
 {
     public class CodeGenExample
     {
-         /// <summary>
+        /// <summary>
         /// 代码生成示例
         /// </summary>
         private void GenerateCode()
@@ -67,7 +67,6 @@ namespace IFramework.Editor
 
             //生成代码
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-
             CodeGeneratorOptions options = new CodeGeneratorOptions {
                 BracingStyle = "C",
                 BlankLinesBetweenMembers = true

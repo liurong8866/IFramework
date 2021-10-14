@@ -190,11 +190,9 @@ namespace IFramework.Core.Zip.Zip
             if (name == null) {
                 throw new ArgumentNullException(nameof(name));
             }
-
             if (name.Length > 0xffff) {
                 throw new ArgumentException("Name is too long", nameof(name));
             }
-
             if (versionRequiredToExtract != 0 && versionRequiredToExtract < 10) {
                 throw new ArgumentOutOfRangeException(nameof(versionRequiredToExtract));
             }
@@ -232,15 +230,9 @@ namespace IFramework.Core.Zip.Zip
             ZipFileIndex = entry.ZipFileIndex;
             Offset = entry.Offset;
             forceZip64 = entry.forceZip64;
-
             if (entry.extra != null) {
                 extra = new byte[entry.extra.Length];
-
-                Array.Copy(entry.extra,
-                           0,
-                           extra,
-                           0,
-                           entry.extra.Length);
+                Array.Copy(entry.extra, 0, extra, 0, entry.extra.Length);
             }
         }
 
@@ -375,7 +367,6 @@ namespace IFramework.Core.Zip.Zip
         private bool HasDosAttributes(int attributes)
         {
             bool result = false;
-
             if ((known & Known.ExternalAttributes) != 0) {
                 result |= (HostSystem == (int)HostSystemId.Msdos || HostSystem == (int)HostSystemId.WindowsNt) && (ExternalFileAttributes & attributes) == attributes;
             }
@@ -464,7 +455,6 @@ namespace IFramework.Core.Zip.Zip
                     return versionToExtract & 0x00ff; // Only lower order byte. High order is O/S file system.
                 }
                 int result = 10;
-
                 if (AesKeySize > 0) {
                     result = ZipConstants.VERSION_AES; // Ver 5.1 = AES
                 }
@@ -519,10 +509,8 @@ namespace IFramework.Core.Zip.Zip
         public bool LocalHeaderRequiresZip64 {
             get {
                 bool result = forceZip64;
-
                 if (!result) {
                     ulong trueCompressedSize = compressedSize;
-
                     if (versionToExtract == 0 && IsCrypted) {
                         trueCompressedSize += ZipConstants.CRYPTO_HEADER_SIZE;
                     }
@@ -575,13 +563,7 @@ namespace IFramework.Core.Zip.Zip
                 uint mon = Math.Max(1, Math.Min(12, (dosTime >> 21) & 0xf));
                 uint year = ((dosTime >> 25) & 0x7f) + 1980;
                 int day = Math.Max(1, Math.Min(DateTime.DaysInMonth((int)year, (int)mon), (int)((dosTime >> 16) & 0x1f)));
-
-                return new DateTime((int)year,
-                                    (int)mon,
-                                    day,
-                                    (int)hrs,
-                                    (int)min,
-                                    (int)sec);
+                return new DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec);
             }
             set {
                 uint year = (uint)value.Year;
@@ -590,7 +572,6 @@ namespace IFramework.Core.Zip.Zip
                 uint hour = (uint)value.Hour;
                 uint minute = (uint)value.Minute;
                 uint second = (uint)value.Second;
-
                 if (year < 1980) {
                     year = 1980;
                     month = 1;
@@ -720,12 +701,7 @@ namespace IFramework.Core.Zip.Zip
                         throw new ArgumentOutOfRangeException(nameof(value));
                     }
                     extra = new byte[value.Length];
-
-                    Array.Copy(value,
-                               0,
-                               extra,
-                               0,
-                               value.Length);
+                    Array.Copy(value, 0, extra, 0, value.Length);
                 }
             }
         }
@@ -795,14 +771,12 @@ namespace IFramework.Core.Zip.Zip
         internal void ProcessExtraData(bool localHeader)
         {
             ZipExtraData extraData = new ZipExtraData(extra);
-
             if (extraData.Find(0x0001)) {
                 // Version required to extract is ignored here as some archivers dont set it correctly
                 // in theory it should be version 45 or higher
 
                 // The recorded size will change but remember that this is zip64.
                 forceZip64 = true;
-
                 if (extraData.ValueLength < 4) {
                     throw new ZipException("Extra data extended Zip64 information length is invalid");
                 }
@@ -834,11 +808,9 @@ namespace IFramework.Core.Zip.Zip
                 if (size == uint.MaxValue) {
                     size = (ulong)extraData.ReadLong();
                 }
-
                 if (compressedSize == uint.MaxValue) {
                     compressedSize = (ulong)extraData.ReadLong();
                 }
-
                 if (!localHeader && Offset == uint.MaxValue) {
                     Offset = extraData.ReadLong();
                 }
@@ -851,7 +823,6 @@ namespace IFramework.Core.Zip.Zip
                 }
             }
             DateTime = GetDateTime(extraData);
-
             if (method == CompressionMethod.WinZipAes) {
                 ProcessAesExtraData(extraData);
             }
@@ -869,15 +840,13 @@ namespace IFramework.Core.Zip.Zip
 
             // Check for Unix timestamp
             ExtendedUnixData unixData = extraData.GetData<ExtendedUnixData>();
-
             if (unixData != null
                   &&
                     // Only apply modification time, but require all other values to be present
                     // This is done to match InfoZIP's behaviour
                     (unixData.Include & ExtendedUnixData.Flags.ModificationTime) != 0
                  && (unixData.Include & ExtendedUnixData.Flags.AccessTime) != 0
-                 && (unixData.Include & ExtendedUnixData.Flags.CreateTime) != 0)
-                return unixData.ModificationTime;
+                 && (unixData.Include & ExtendedUnixData.Flags.CreateTime) != 0) return unixData.ModificationTime;
 
             // Fall back to DOS time
             uint sec = Math.Min(59, 2 * (dosTime & 0x1f));
@@ -886,14 +855,7 @@ namespace IFramework.Core.Zip.Zip
             uint mon = Math.Max(1, Math.Min(12, (dosTime >> 21) & 0xf));
             uint year = ((dosTime >> 25) & 0x7f) + 1980;
             int day = Math.Max(1, Math.Min(DateTime.DaysInMonth((int)year, (int)mon), (int)((dosTime >> 16) & 0x1f)));
-
-            return new DateTime((int)year,
-                                (int)mon,
-                                day,
-                                (int)hrs,
-                                (int)min,
-                                (int)sec,
-                                DateTimeKind.Utc);
+            return new DateTime((int)year, (int)mon, day, (int)hrs, (int)min, (int)sec, DateTimeKind.Utc);
         }
 
         // For AES the method in the entry is 99, and the real compression method is in the extradata
@@ -909,7 +871,6 @@ namespace IFramework.Core.Zip.Zip
                 // Unpack AES extra data field see http://www.winzip.com/aes_info.htm
                 int length = extraData.ValueLength; // Data size currently 7
                 if (length < 7) throw new ZipException("AES Extra Data Length " + length + " invalid.");
-
                 int ver = extraData.ReadShort(); // Version number (1=AE-1 2=AE-2)
                 #pragma warning disable 0219
                 int vendorId = extraData.ReadShort(); // 2-character vendor ID 0x4541 = "AE"
@@ -920,8 +881,7 @@ namespace IFramework.Core.Zip.Zip
                 aesEncryptionStrength = encrStrength;
                 method = (CompressionMethod)actualCompress;
             }
-            else
-                throw new ZipException("AES Extra Data missing");
+            else throw new ZipException("AES Extra Data missing");
         }
 
         /// <summary>
@@ -1003,12 +963,7 @@ namespace IFramework.Core.Zip.Zip
             // Ensure extra data is unique if it exists.
             if (extra != null) {
                 result.extra = new byte[extra.Length];
-
-                Array.Copy(extra,
-                           0,
-                           result.extra,
-                           0,
-                           extra.Length);
+                Array.Copy(extra, 0, result.extra, 0, extra.Length);
             }
             return result;
         }
@@ -1052,14 +1007,12 @@ namespace IFramework.Core.Zip.Zip
             if (name == null) {
                 return string.Empty;
             }
-
             if (Path.IsPathRooted(name)) {
                 // NOTE:
                 // for UNC names...  \\machine\share\zoom\beet.txt gives \zoom\beet.txt
                 name = name.Substring(Path.GetPathRoot(name).Length);
             }
             name = name.Replace(@"\", "/");
-
             while (name.Length > 0 && name[0] == '/') {
                 name = name.Remove(0, 1);
             }

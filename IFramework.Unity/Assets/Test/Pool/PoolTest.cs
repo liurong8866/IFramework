@@ -39,12 +39,10 @@ namespace IFramework.Test.Pool
             pool.Init(10, 15);
             Debug.Log(pool.Count);
             Bullet2[] bullet = new Bullet2[15];
-
             for (int i = 0; i < 15; i++) {
                 bullet[i] = pool.Allocate();
                 Debug.Log(pool.Count);
             }
-
             for (int i = 0; i < 15; i++) {
                 pool.Recycle(bullet[i]);
                 Debug.Log(pool.Count);

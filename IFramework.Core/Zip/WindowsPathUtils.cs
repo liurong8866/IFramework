@@ -19,7 +19,6 @@ namespace IFramework.Core.Zip
         public static string DropPathRoot(string path)
         {
             string result = path;
-
             if (!string.IsNullOrEmpty(path)) {
                 if (path[0] == '\\' || path[0] == '/') {
                     // UNC name ?
@@ -32,7 +31,6 @@ namespace IFramework.Core.Zip
                             index++;
                         }
                         index++;
-
                         if (index < path.Length) {
                             result = path.Substring(index);
                         }
@@ -43,7 +41,6 @@ namespace IFramework.Core.Zip
                 }
                 else if (path.Length > 1 && path[1] == ':') {
                     int dropCount = 2;
-
                     if (path.Length > 2 && (path[2] == '\\' || path[2] == '/')) {
                         dropCount = 3;
                     }

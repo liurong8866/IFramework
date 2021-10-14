@@ -20,14 +20,12 @@ namespace IFramework.Core
         public override bool Equals(object obj)
         {
             if (!(obj is Tuple<T1, T2> tuple)) return false;
-
             if (Item1 == null) {
                 if (tuple.Item1 != null) return false;
             }
             else {
                 if (tuple.Item1 == null || !Item1.Equals(tuple.Item1)) return false;
             }
-
             if (Item2 == null) {
                 if (tuple.Item2 != null) return false;
             }

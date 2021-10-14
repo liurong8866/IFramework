@@ -34,7 +34,6 @@ namespace IFramework.Core.Zip
         public virtual bool IsMatch(string name)
         {
             bool result = false;
-
             if (name != null) {
                 string cooked = name.Length > 0 ? Path.GetFullPath(name) : "";
                 result = nameFilter.IsMatch(cooked);
@@ -114,7 +113,6 @@ namespace IFramework.Core.Zip
         public override bool IsMatch(string name)
         {
             bool result = base.IsMatch(name);
-
             if (result) {
                 FileInfo fileInfo = new FileInfo(name);
                 result = MinSize <= fileInfo.Length && MaxSize >= fileInfo.Length && MinDate <= fileInfo.LastWriteTime && MaxDate >= fileInfo.LastWriteTime;
@@ -223,7 +221,6 @@ namespace IFramework.Core.Zip
         public override bool IsMatch(string name)
         {
             bool result = base.IsMatch(name);
-
             if (result) {
                 FileInfo fileInfo = new FileInfo(name);
                 long length = fileInfo.Length;

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using IFramework.Core;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
@@ -68,7 +66,7 @@ namespace IFramework.Editor
 
             // 生成 UIPanel脚本
             GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
-            
+
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
 
@@ -98,14 +96,14 @@ namespace IFramework.Editor
             scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
 
             // 组装生成信息
-            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
                 Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = obj.name,
                 ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
             };
 
             // 生成 .cs文件
-            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, false);
+            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo);
 
             // 生成 .designer.cs
             UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
@@ -128,7 +126,7 @@ namespace IFramework.Editor
         /// </summary>
         private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
         {
-            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo() {
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
                 Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
                 ScriptPath = generateDirPath

@@ -32,12 +32,10 @@ namespace IFramework.Engine
                 }
                 return;
             }
-
             if (node.Execute()) {
                 node.Reset();
                 currentRepeatCount++;
             }
-
             if (currentRepeatCount == RepeatCount) {
                 Finished = true;
             }

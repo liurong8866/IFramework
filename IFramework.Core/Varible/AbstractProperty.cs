@@ -49,7 +49,6 @@ namespace IFramework.Core
             if (ReferenceEquals(m, n)) {
                 return true;
             }
-
             if ((object)m == null || (object)n == null) {
                 return false;
             }
@@ -61,7 +60,6 @@ namespace IFramework.Core
             if (ReferenceEquals(m, n)) {
                 return true;
             }
-
             if ((object)m == null || n == null) {
                 return false;
             }
@@ -73,7 +71,6 @@ namespace IFramework.Core
             if (ReferenceEquals(m, n)) {
                 return true;
             }
-
             if (m == null || (object)n == null) {
                 return false;
             }
@@ -105,7 +102,6 @@ namespace IFramework.Core
             if (!ReferenceEquals(this, obj)) {
                 return false;
             }
-
             if (obj.GetType() == typeof(AbstractProperty<T>)) {
                 AbstractProperty<T> abstractProperty = obj as AbstractProperty<T>;
                 return Equals(abstractProperty);

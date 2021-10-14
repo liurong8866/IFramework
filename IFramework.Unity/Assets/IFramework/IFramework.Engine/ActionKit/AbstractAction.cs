@@ -25,17 +25,14 @@ namespace IFramework.Engine
             if (Finished) {
                 return Finished;
             }
-
             if (!isBegin) {
                 isBegin = true;
                 OnBegin();
                 OnBeginEvent.InvokeSafe();
             }
-
             if (!Finished) {
                 OnExecute();
             }
-
             if (Finished) {
                 OnEndEvent.InvokeSafe();
                 OnEnd();
@@ -58,7 +55,6 @@ namespace IFramework.Engine
         private IEnumerator ExecuteAsync()
         {
             if (Finished) Reset();
-
             while (!Execute()) {
                 yield return null;
             }

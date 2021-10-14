@@ -42,7 +42,6 @@ namespace IFramework.Core
 
             // 1、判断当前场景中是否存在T实例，有则返回
             instance = Object.FindObjectOfType(type) as T;
-
             if (instance != null) {
                 instance.OnInit();
                 return instance;
@@ -50,7 +49,6 @@ namespace IFramework.Core
 
             // 2、判断是否为自定义单例特性，获取T类型 自定义属性，并找到相关路径属性，利用该属性创建T实例
             object[] customAttributes = type.GetCustomAttributes(true);
-
             foreach (object customAttribute in customAttributes) {
                 if (customAttribute is MonoSingletonAttribute custom) {
                     instance = AttachComponent<T>(custom.PathInHierarchy, custom.DontDestroy);
@@ -84,7 +82,6 @@ namespace IFramework.Core
             // 如果没有找到路径的GameObject，那么就建一个
             if (gameObject == null) {
                 gameObject = new GameObject(typeof(T).Name + "[Singleton]");
-
                 if (dontDestroy) {
                     Object.DontDestroyOnLoad(gameObject);
                 }
@@ -104,15 +101,9 @@ namespace IFramework.Core
         {
             // 如果路径为空，返回NULL
             if (path.Nothing()) return null;
-
             string[] subPath = path.Split('/');
             if (subPath != null && subPath.Length == 0) return null;
-
-            return FindGameObject(null,
-                                  subPath,
-                                  0,
-                                  true,
-                                  dontDestroy);
+            return FindGameObject(null, subPath, 0, true, dontDestroy);
         }
 
         /// <summary>
@@ -140,7 +131,6 @@ namespace IFramework.Core
             // 如果是二级、三级等子路径，则在父路径下查找
             else {
                 Transform childe = root.transform.Find(subPath[index]);
-
                 if (childe != null) {
                     client = childe.gameObject;
                 }
@@ -169,11 +159,7 @@ namespace IFramework.Core
             }
 
             // 递归调用，当前节点作为父节点，查询
-            return FindGameObject(client,
-                                  subPath,
-                                  ++index,
-                                  build,
-                                  dontDestroy);
+            return FindGameObject(client, subPath, ++index, build, dontDestroy);
         }
     }
 }

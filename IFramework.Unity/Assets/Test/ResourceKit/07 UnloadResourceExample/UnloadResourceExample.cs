@@ -21,7 +21,6 @@ namespace IFramework.Test.AssetResourceKit
             // 添加关联的 Sprite
             resLoader.DestroyOnRecycle(sprite);
             yield return new WaitForSeconds(5);
-
             resLoader.Recycle();
             resLoader = null;
         }

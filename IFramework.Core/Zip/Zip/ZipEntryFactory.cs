@@ -186,11 +186,9 @@ namespace IFramework.Core.Zip.Zip
             int externalAttributes = 0;
             bool useAttributes = SetAttributes != 0;
             FileInfo fi = null;
-
             if (useFileSystem) {
                 fi = new FileInfo(fileName);
             }
-
             if (fi != null && fi.Exists) {
                 switch (Setting) {
                     case TimeSetting.CreateTime:
@@ -225,7 +223,6 @@ namespace IFramework.Core.Zip.Zip
                     result.DateTime = fixedDateTime;
                 }
             }
-
             if (useAttributes) {
                 externalAttributes |= SetAttributes;
                 result.ExternalFileAttributes = externalAttributes;
@@ -256,11 +253,9 @@ namespace IFramework.Core.Zip.Zip
             result.Size = 0;
             int externalAttributes = 0;
             DirectoryInfo di = null;
-
             if (useFileSystem) {
                 di = new DirectoryInfo(directoryName);
             }
-
             if (di != null && di.Exists) {
                 switch (Setting) {
                     case TimeSetting.CreateTime:

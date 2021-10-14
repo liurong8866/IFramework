@@ -66,7 +66,6 @@ namespace IFramework.Core
             InitializationTime = Time.time;
             DontDestroyOnLoad(gameObject);
             T[] list = FindObjectsOfType<T>();
-
             foreach (T obj in list) {
                 if (obj == this) continue;
 

@@ -1,4 +1,3 @@
-using System;
 using IFramework.Core;
 
 namespace IFramework.Engine
@@ -12,7 +11,7 @@ namespace IFramework.Engine
     public class PanelSearcher : IPoolable, IRecyclable
     {
         public string Keyword;
-        
+
         public string TypeName;
 
         public string AssetBundleName;
@@ -46,11 +45,7 @@ namespace IFramework.Engine
 
         public override string ToString()
         {
-            return $"PanelSearchKeys PanelType:{Keyword} "
-                  + $"AssetBundleName:{AssetBundleName} "
-                  + $"GameObjName:{GameObjectName} "
-                  + $"Level:{Level} "
-                  + $"UIData:{Data}";
+            return $"PanelSearchKeys PanelType:{Keyword} " + $"AssetBundleName:{AssetBundleName} " + $"GameObjName:{GameObjectName} " + $"Level:{Level} " + $"UIData:{Data}";
         }
 
         public void Recycle()

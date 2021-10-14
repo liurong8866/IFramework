@@ -65,7 +65,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public int GetBits(int bitCount)
         {
             int bits = PeekBits(bitCount);
-
             if (bits >= 0) {
                 DropBits(bitCount);
             }
@@ -132,13 +131,11 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (length < 0) {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
-
             if ((AvailableBits & 7) != 0) {
                 // bits_in_buffer may only be 0 or a multiple of 8
                 throw new InvalidOperationException("Bit buffer is not byte aligned!");
             }
             int count = 0;
-
             while (AvailableBits > 0 && length > 0) {
                 output[offset++] = (byte)buffer_;
                 buffer_ >>= 8;
@@ -146,23 +143,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 length--;
                 count++;
             }
-
             if (length == 0) {
                 return count;
             }
             int avail = windowEnd_ - windowStart_;
-
             if (length > avail) {
                 length = avail;
             }
-
-            Array.Copy(window_,
-                       windowStart_,
-                       output,
-                       offset,
-                       length);
+            Array.Copy(window_, windowStart_, output, offset, length);
             windowStart_ += length;
-
             if (((windowStart_ - windowEnd_) & 1) != 0) {
                 // We always want an even number of bytes in input, see peekBits
                 buffer_ = (uint)(window_[windowStart_++] & 0xff);
@@ -192,15 +181,12 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
             }
-
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
             }
-
             if (windowStart_ < windowEnd_) {
                 throw new InvalidOperationException("Old input was not completely processed");
             }
@@ -211,7 +197,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (offset > end || end > buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
-
             if ((count & 1) != 0) {
                 // We always want an even number of bytes in input, see PeekBits
                 buffer_ |= (uint)((buffer[offset++] & 0xff) << AvailableBits);

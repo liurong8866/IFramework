@@ -1,4 +1,3 @@
-using System;
 using IFramework.Core;
 using NUnit.Framework;
 
@@ -20,12 +19,10 @@ namespace IFramework.Test
             path = FileUtils.GetFileNameByPath("/1.png", false);
             path = FileUtils.GetFileNameByPath("/1.png.txt", false);
             path = FileUtils.GetFileNameByPath("/1.png/txt", false);
-            
             string path2 = "Settings/Environment/Environment.cs";
             string searcher = "/Environment";
             //
             path = DirectoryUtils.GetPathByFullName(path2);
-            
             path = DirectoryUtils.GetParentPath(path2);
             path = DirectoryUtils.GetLastDirectoryName(path2);
             path = DirectoryUtils.GetPathByFullName(path2);
@@ -50,7 +47,7 @@ namespace IFramework.Test
             path = path2.Left("", true);
             path = path2.Left("", false, true);
             path = path2.Left("", true, true);
-            
+
             //
             path = path2.Right(-1);
             path = path2.Right(0);
@@ -72,7 +69,6 @@ namespace IFramework.Test
             path = path2.Right("", true);
             path = path2.Right("", false, true);
             path = path2.Right("", true, true);
-            
         }
     }
 }

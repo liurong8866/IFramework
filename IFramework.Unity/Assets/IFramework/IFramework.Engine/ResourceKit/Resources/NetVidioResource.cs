@@ -16,7 +16,6 @@ namespace IFramework.Engine
         public static NetVideoResource Allocate(string path)
         {
             NetVideoResource resource = ObjectPool<NetVideoResource>.Instance.Allocate();
-
             if (resource != null) {
                 resource.AssetName = path;
                 resource.filePath = DirectoryUtils.CombinePath(Platform.PersistentData.VideoPath, Mathf.Abs(DirectoryUtils.GetPathByFullName(path).GetHashCode()) + "");

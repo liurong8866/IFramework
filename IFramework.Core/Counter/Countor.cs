@@ -43,7 +43,6 @@ namespace IFramework.Core
         public bool UnHold(object owner = null)
         {
             Counter--;
-
             if (Counter == 0) {
                 OnZero.InvokeSafe();
             }
@@ -57,7 +56,6 @@ namespace IFramework.Core
         public void Reset(bool invokeAction = false)
         {
             Counter = 0;
-
             if (invokeAction) {
                 OnZero.InvokeSafe();
             }

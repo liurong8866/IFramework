@@ -113,11 +113,9 @@ namespace IFramework.Core.Zip.Zip.Compression
             public void CheckEmpty()
             {
                 bool empty = true;
-
                 for (int i = 0; i < freqs.Length; i++) {
                     empty &= freqs[i] == 0;
                 }
-
                 if (!empty) {
                     throw new BaseZipException("!Empty");
                 }
@@ -164,7 +162,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             #endif
                 for (int i = 0; i < numCodes; i++) {
                     int bits = length[i];
-
                     if (bits > 0) {
                         //						if (DeflaterConstants.DEBUGGING) {
                         //								//Console.WriteLine("codes["+i+"] = rev(" + nextCode[bits-1]+"),
@@ -190,15 +187,12 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int[] heap = new int[numSymbols];
                 int heapLen = 0;
                 int maxCode = 0;
-
                 for (int n = 0; n < numSymbols; n++) {
                     int freq = freqs[n];
-
                     if (freq != 0) {
                         // Insert n into heap
                         int pos = heapLen++;
                         int ppos;
-
                         while (pos > 0 && freqs[heap[ppos = (pos - 1) / 2]] > freq) {
                             heap[pos] = heap[ppos];
                             pos = ppos;
@@ -207,7 +201,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                         maxCode = n;
                     }
                 }
-
                 /* We could encode a single literal with 0 bits but then we
                 * don't see the literals.  Therefore we force at least two
                 * literals to avoid this case.  We don't care about order in
@@ -222,7 +215,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int[] childs = new int[4 * heapLen - 2];
                 int[] values = new int[2 * heapLen - 1];
                 int numNodes = numLeafs;
-
                 for (int i = 0; i < heapLen; i++) {
                     int node = heap[i];
                     childs[2 * i] = node;
@@ -230,7 +222,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     values[i] = freqs[node] << 8;
                     heap[i] = i;
                 }
-
                 /* Construct the Huffman tree by repeatedly combining the least two
                 * frequent nodes.
                 */
@@ -241,7 +232,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     // Propagate the hole to the leafs of the heap
                     int ppos = 0;
                     int path = 1;
-
                     while (path < heapLen) {
                         if (path + 1 < heapLen && values[heap[path]] > values[heap[path + 1]]) {
                             path++;
@@ -254,7 +244,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     * it shouldn't go too deep.
                     */
                     int lastVal = values[last];
-
                     while ((path = ppos) > 0 && values[heap[ppos = (path - 1) / 2]] > lastVal) {
                         heap[path] = heap[ppos];
                     }
@@ -271,7 +260,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     // Again, propagate the hole to the leafs
                     ppos = 0;
                     path = 1;
-
                     while (path < heapLen) {
                         if (path + 1 < heapLen && values[heap[path]] > values[heap[path + 1]]) {
                             path++;
@@ -287,7 +275,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     }
                     heap[path] = last;
                 } while (heapLen > 1);
-
                 if (heap[0] != childs.Length / 2 - 1) {
                     throw new BaseZipException("Heap invariant violated");
                 }
@@ -301,7 +288,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             public int GetEncodedLength()
             {
                 int len = 0;
-
                 for (int i = 0; i < freqs.Length; i++) {
                     len += freqs[i] * length[i];
                 }
@@ -319,11 +305,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int count;       /* repeat count of the current code */
                 int curlen = -1; /* length of current code */
                 int i = 0;
-
                 while (i < numCodes) {
                     count = 1;
                     int nextlen = length[i];
-
                     if (nextlen == 0) {
                         max_count = 138;
                         min_count = 3;
@@ -331,7 +315,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     else {
                         max_count = 6;
                         min_count = 3;
-
                         if (curlen != nextlen) {
                             blTree.freqs[nextlen]++;
                             count = 0;
@@ -339,15 +322,12 @@ namespace IFramework.Core.Zip.Zip.Compression
                     }
                     curlen = nextlen;
                     i++;
-
                     while (i < numCodes && curlen == length[i]) {
                         i++;
-
                         if (++count >= max_count) {
                             break;
                         }
                     }
-
                     if (count < min_count) {
                         blTree.freqs[curlen] += (short)count;
                     }
@@ -374,11 +354,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int count;       // repeat count of the current code
                 int curlen = -1; // length of current code
                 int i = 0;
-
                 while (i < numCodes) {
                     count = 1;
                     int nextlen = length[i];
-
                     if (nextlen == 0) {
                         max_count = 138;
                         min_count = 3;
@@ -386,7 +364,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     else {
                         max_count = 6;
                         min_count = 3;
-
                         if (curlen != nextlen) {
                             blTree.WriteSymbol(nextlen);
                             count = 0;
@@ -394,15 +371,12 @@ namespace IFramework.Core.Zip.Zip.Compression
                     }
                     curlen = nextlen;
                     i++;
-
                     while (i < numCodes && curlen == length[i]) {
                         i++;
-
                         if (++count >= max_count) {
                             break;
                         }
                     }
-
                     if (count < min_count) {
                         while (count-- > 0) {
                             blTree.WriteSymbol(curlen);
@@ -429,7 +403,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 int numNodes = childs.Length / 2;
                 int numLeafs = (numNodes + 1) / 2;
                 int overflow = 0;
-
                 for (int i = 0; i < maxLength; i++) {
                     bl_counts[i] = 0;
                 }
@@ -437,11 +410,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                 // First calculate optimal bit lengths
                 int[] lengths = new int[numNodes];
                 lengths[numNodes - 1] = 0;
-
                 for (int i = numNodes - 1; i >= 0; i--) {
                     if (childs[2 * i + 1] != -1) {
                         int bitLength = lengths[i] + 1;
-
                         if (bitLength > maxLength) {
                             bitLength = maxLength;
                             overflow++;
@@ -467,7 +438,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     return;
                 }
                 int incrBitLen = maxLength - 1;
-
                 do {
                     // Find the first bit length which could increase:
                     while (bl_counts[--incrBitLen] == 0) { }
@@ -494,13 +464,10 @@ namespace IFramework.Core.Zip.Zip.Compression
                 * array.
                 */
                 int nodePtr = 2 * numLeafs;
-
                 for (int bits = maxLength; bits != 0; bits--) {
                     int n = bl_counts[bits - 1];
-
                     while (n > 0) {
                         int childPtr = 2 * childs[nodePtr++];
-
                         if (childs[childPtr + 1] == -1) {
                             // We found another leaf
                             length[childs[childPtr]] = (byte)bits;
@@ -545,22 +512,18 @@ namespace IFramework.Core.Zip.Zip.Compression
             staticLCodes = new short[LITERAL_NUM];
             staticLLength = new byte[LITERAL_NUM];
             int i = 0;
-
             while (i < 144) {
                 staticLCodes[i] = BitReverse((0x030 + i) << 8);
                 staticLLength[i++] = 8;
             }
-
             while (i < 256) {
                 staticLCodes[i] = BitReverse((0x190 - 144 + i) << 7);
                 staticLLength[i++] = 9;
             }
-
             while (i < 280) {
                 staticLCodes[i] = BitReverse((0x000 - 256 + i) << 9);
                 staticLLength[i++] = 7;
             }
-
             while (i < LITERAL_NUM) {
                 staticLCodes[i] = BitReverse((0x0c0 - 280 + i) << 8);
                 staticLLength[i++] = 8;
@@ -569,7 +532,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             // Distance codes
             staticDCodes = new short[DIST_NUM];
             staticDLength = new byte[DIST_NUM];
-
             for (i = 0; i < DIST_NUM; i++) {
                 staticDCodes[i] = BitReverse(i << 11);
                 staticDLength[i] = 5;
@@ -614,7 +576,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             pending.WriteBits(literalTree.numCodes - 257, 5);
             pending.WriteBits(distTree.numCodes - 1, 5);
             pending.WriteBits(blTreeCodes - 4, 4);
-
             for (int rank = 0; rank < blTreeCodes; rank++) {
                 pending.WriteBits(blTree.length[BL_ORDER[rank]], 3);
             }
@@ -635,7 +596,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             for (int i = 0; i < last_lit; i++) {
                 int litlen = l_buf[i] & 0xff;
                 int dist = d_buf[i];
-
                 if (dist-- != 0) {
                     //					if (DeflaterConstants.DEBUGGING) {
                     //						Console.Write("["+(dist+1)+","+(litlen+3)+"]: ");
@@ -643,14 +603,12 @@ namespace IFramework.Core.Zip.Zip.Compression
                     int lc = Lcode(litlen);
                     literalTree.WriteSymbol(lc);
                     int bits = (lc - 261) / 4;
-
                     if (bits > 0 && bits <= 5) {
                         pending.WriteBits(litlen & ((1 << bits) - 1), bits);
                     }
                     int dc = Dcode(dist);
                     distTree.WriteSymbol(dc);
                     bits = dc / 2 - 1;
-
                     if (bits > 0) {
                         pending.WriteBits(dist & ((1 << bits) - 1), bits);
                     }
@@ -724,7 +682,6 @@ namespace IFramework.Core.Zip.Zip.Compression
             // Build bitlen tree
             blTree.BuildTree();
             int blTreeCodes = 4;
-
             for (int i = 18; i > blTreeCodes; i--) {
                 if (blTree.length[BL_ORDER[i]] > 0) {
                     blTreeCodes = i + 1;
@@ -732,20 +689,16 @@ namespace IFramework.Core.Zip.Zip.Compression
             }
             int opt_len = 14 + blTreeCodes * 3 + blTree.GetEncodedLength() + literalTree.GetEncodedLength() + distTree.GetEncodedLength() + extra_bits;
             int static_len = extra_bits;
-
             for (int i = 0; i < LITERAL_NUM; i++) {
                 static_len += literalTree.freqs[i] * staticLLength[i];
             }
-
             for (int i = 0; i < DIST_NUM; i++) {
                 static_len += distTree.freqs[i] * staticDLength[i];
             }
-
             if (opt_len >= static_len) {
                 // Force static trees
                 opt_len = static_len;
             }
-
             if (storedOffset >= 0 && storedLength + 4 < opt_len >> 3) {
                 // Store Block
 
@@ -816,13 +769,11 @@ namespace IFramework.Core.Zip.Zip.Compression
             l_buf[last_lit++] = (byte)(length - 3);
             int lc = Lcode(length - 3);
             literalTree.freqs[lc]++;
-
             if (lc >= 265 && lc < 285) {
                 extra_bits += (lc - 261) / 4;
             }
             int dc = Dcode(distance - 1);
             distTree.freqs[dc]++;
-
             if (dc >= 4) {
                 extra_bits += dc / 2 - 1;
             }
@@ -845,7 +796,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                 return 285;
             }
             int code = 257;
-
             while (length >= 8) {
                 code += 4;
                 length >>= 1;
@@ -856,7 +806,6 @@ namespace IFramework.Core.Zip.Zip.Compression
         private static int Dcode(int distance)
         {
             int code = 0;
-
             while (distance >= 4) {
                 code += 2;
                 distance >>= 1;

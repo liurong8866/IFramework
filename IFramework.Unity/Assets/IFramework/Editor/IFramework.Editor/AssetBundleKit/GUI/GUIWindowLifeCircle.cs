@@ -60,12 +60,10 @@ namespace IFramework.Editor
         {
             //输入框控件
             text = EditorGUILayout.TextField("输入文字:", text);
-
             if (GUILayout.Button("打开通知", GUILayout.Width(200))) {
                 //打开一个通知栏
                 ShowNotification(new GUIContent("This is a Notification"));
             }
-
             if (GUILayout.Button("关闭通知", GUILayout.Width(200))) {
                 //关闭通知栏
                 RemoveNotification();
@@ -76,7 +74,6 @@ namespace IFramework.Editor
 
             //选择贴图
             texture = EditorGUILayout.ObjectField("添加贴图", texture, typeof(Texture), true) as Texture;
-
             if (GUILayout.Button("关闭窗口", GUILayout.Width(200))) {
                 //关闭窗口
                 Close();
@@ -130,11 +127,7 @@ namespace IFramework.Editor
             password = EditorGUI.PasswordField(new Rect(3, 760, position.width - 60, 20), "密码框:", password);
 
             //最大值和最小值滑块
-            EditorGUI.MinMaxSlider(new Rect(3, 790, position.width - 60, 20),
-                                   ref minVal,
-                                   ref maxVal,
-                                   minLimit,
-                                   maxLimit);
+            EditorGUI.MinMaxSlider(new Rect(3, 790, position.width - 60, 20), ref minVal, ref maxVal, minLimit, maxLimit);
         }
 
         //更新

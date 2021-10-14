@@ -32,7 +32,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public InflaterInputBuffer(Stream stream, int bufferSize)
         {
             inputStream = stream;
-
             if (bufferSize < 1024) {
                 bufferSize = 1024;
             }
@@ -87,23 +86,16 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             RawLength = 0;
             int toRead = RawData.Length;
-
             while (toRead > 0) {
                 int count = inputStream.Read(RawData, RawLength, toRead);
-
                 if (count <= 0) {
                     break;
                 }
                 RawLength += count;
                 toRead -= count;
             }
-
             if (cryptoTransform != null) {
-                ClearTextLength = cryptoTransform.TransformBlock(RawData,
-                                                                 0,
-                                                                 RawLength,
-                                                                 ClearText,
-                                                                 0);
+                ClearTextLength = cryptoTransform.TransformBlock(RawData, 0, RawLength, ClearText, 0);
             }
             else {
                 ClearTextLength = RawLength;
@@ -135,22 +127,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             }
             int currentOffset = offset;
             int currentLength = length;
-
             while (currentLength > 0) {
                 if (Available <= 0) {
                     Fill();
-
                     if (Available <= 0) {
                         return 0;
                     }
                 }
                 int toCopy = Math.Min(currentLength, Available);
-
-                Array.Copy(RawData,
-                           RawLength - Available,
-                           outBuffer,
-                           currentOffset,
-                           toCopy);
+                Array.Copy(RawData, RawLength - Available, outBuffer, currentOffset, toCopy);
                 currentOffset += toCopy;
                 currentLength -= toCopy;
                 Available -= toCopy;
@@ -172,22 +157,15 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             }
             int currentOffset = offset;
             int currentLength = length;
-
             while (currentLength > 0) {
                 if (Available <= 0) {
                     Fill();
-
                     if (Available <= 0) {
                         return 0;
                     }
                 }
                 int toCopy = Math.Min(currentLength, Available);
-
-                Array.Copy(ClearText,
-                           ClearTextLength - Available,
-                           outBuffer,
-                           currentOffset,
-                           toCopy);
+                Array.Copy(ClearText, ClearTextLength - Available, outBuffer, currentOffset, toCopy);
                 currentOffset += toCopy;
                 currentLength -= toCopy;
                 Available -= toCopy;
@@ -203,7 +181,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             if (Available <= 0) {
                 Fill();
-
                 if (Available <= 0) {
                     throw new ZipException("EOF in header");
                 }
@@ -247,7 +224,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         public ICryptoTransform CryptoTransform {
             set {
                 cryptoTransform = value;
-
                 if (cryptoTransform != null) {
                     if (RawData == ClearText) {
                         if (internalClearText == null) {
@@ -256,13 +232,8 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                         ClearText = internalClearText;
                     }
                     ClearTextLength = RawLength;
-
                     if (Available > 0) {
-                        cryptoTransform.TransformBlock(RawData,
-                                                       RawLength - Available,
-                                                       Available,
-                                                       ClearText,
-                                                       RawLength - Available);
+                        cryptoTransform.TransformBlock(RawData, RawLength - Available, Available, ClearText, RawLength - Available);
                     }
                 }
                 else {
@@ -334,11 +305,9 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             if (baseInputStream == null) {
                 throw new ArgumentNullException(nameof(baseInputStream));
             }
-
             if (inflater == null) {
                 throw new ArgumentNullException(nameof(inflater));
             }
-
             if (bufferSize <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
             }
@@ -381,14 +350,12 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 return count;
             }
             int length = 2048;
-
             if (count < length) {
                 length = (int)count;
             }
             byte[] tmp = new byte[length];
             int readCount = 1;
             long toSkip = count;
-
             while (toSkip > 0 && readCount > 0) {
                 if (toSkip < length) {
                     length = (int)toSkip;
@@ -424,7 +391,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
             // Protect against redundant calls
             if (inputBuffer.Available <= 0) {
                 inputBuffer.Fill();
-
                 if (inputBuffer.Available <= 0) {
                     throw new BaseZipException("Unexpected EOF");
                 }
@@ -530,7 +496,6 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
         {
             if (!isClosed) {
                 isClosed = true;
-
                 if (IsStreamOwner) {
                     baseInputStream.Dispose();
                 }
@@ -559,16 +524,13 @@ namespace IFramework.Core.Zip.Zip.Compression.Streams
                 throw new BaseZipException("Need a dictionary");
             }
             int remainingBytes = count;
-
             while (true) {
                 int bytesRead = inf.Inflate(buffer, offset, remainingBytes);
                 offset += bytesRead;
                 remainingBytes -= bytesRead;
-
                 if (remainingBytes == 0 || inf.IsFinished) {
                     break;
                 }
-
                 if (inf.IsNeedingInput) {
                     Fill();
                 }

@@ -42,7 +42,6 @@ namespace IFramework.Core
         {
             isApplicationQuit = true;
             if (instance == null) return;
-
             Destroy(instance.gameObject);
             instance = null;
         }

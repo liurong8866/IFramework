@@ -20,7 +20,6 @@ namespace IFramework.Core
         {
             // 如果数据源是空，或者截取长度<1，返回空
             if (value.Nothing() || length < 1) return "";
-
             string result = exacting ? "" : value;
 
             //如果大于截取长度则
@@ -44,7 +43,6 @@ namespace IFramework.Core
 
             // 如果查询条件为空，则
             if (before.Nothing()) return exacting ? "" : value;
-
             string result = exacting ? "" : value;
 
             // 找到索引位置
@@ -69,7 +67,6 @@ namespace IFramework.Core
         {
             // 如果数据源是空，或者截取长度<1，返回空
             if (value.Nothing() || length < 1) return "";
-
             string result = exacting ? "" : value;
 
             //如果大于截取长度则
@@ -93,7 +90,6 @@ namespace IFramework.Core
 
             // 如果查询条件为空，则
             if (after.Nothing()) return exacting ? "" : value;
-
             string result = exacting ? "" : value;
 
             // 找到索引位置
@@ -123,7 +119,6 @@ namespace IFramework.Core
 
             //如果开始位置不正确,返回 ""
             if (startIndex < 1 || startIndex > value.Length) return "";
-
             string result = exacting ? "" : value;
 
             //如果大于截取长度则
@@ -140,7 +135,6 @@ namespace IFramework.Core
         {
             value = value.TrimStart(separator).TrimEnd(separator).Replace(" ", "").Replace("　", "");
             if (value.Nothing()) return "";
-
             string[] array = value.Split(separator);
 
             // 首字母小写
@@ -163,13 +157,11 @@ namespace IFramework.Core
             string result = "";
             value = value.TrimStart(separator).TrimEnd(separator).Replace(" ", "").Replace("　", "");
             if (value.Nothing()) return result;
-
             string[] array = value.Split(separator);
 
             // 全部字母大写
             foreach (string word in array) {
                 if (word.Nothing()) continue;
-
                 result += word[0].ToString().ToUpperInvariant();
                 result += word.Length > 1 ? word.Substring(1) : "";
             }

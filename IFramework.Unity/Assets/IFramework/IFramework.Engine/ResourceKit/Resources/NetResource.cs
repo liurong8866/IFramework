@@ -26,7 +26,6 @@ namespace IFramework.Engine
         public override void LoadASync()
         {
             if (!IsLoadable || AssetName.Nothing() || Counter <= 0) return;
-
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -43,7 +42,6 @@ namespace IFramework.Engine
             }
             // request在子类中定义
             yield return request.SendWebRequest();
-
             if (!request.isDone) {
                 Log.Error("资源加载失败：" + assetName);
                 OnResourceLoadFailed();

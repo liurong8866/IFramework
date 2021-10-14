@@ -17,7 +17,6 @@ namespace IFramework.Editor
         private void OnEnable()
         {
             bind = target as AbstractBind;
-
             if (bind != null) {
                 bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
                 bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
@@ -27,18 +26,15 @@ namespace IFramework.Editor
             }
         }
 
-        
         private void GetElementTypeOptions(BindType element)
         {
-            if (bind != null) 
-            {
+            if (bind != null) {
                 if (element == BindType.DefaultElement) {
                     Component[] components = bind.GetComponents<Component>();
 
                     // 排除 AbstractBind 自身
                     elementTypeOptions = components.Where(c => c != null && !(c is AbstractBind)).Select(c => c.GetType().FullName).ToArray();
                     elementTypeIndex = elementTypeOptions.ToList().FindIndex(componentName => componentName.Contains(bind.ComponentName));
-
                     if (elementTypeIndex == -1 || elementTypeIndex >= elementTypeOptions.Length) {
                         elementTypeIndex = 0;
                     }
@@ -86,7 +82,7 @@ namespace IFramework.Editor
                 GUILayout.EndHorizontal();
                 GUILayout.Space(5);
             }
-            
+
             // 注释
             EditorGUILayout.PrefixLabel("字段注释");
             GUILayout.BeginHorizontal();

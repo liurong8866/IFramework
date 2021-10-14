@@ -181,12 +181,7 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime NoonOfDay(this DateTime date)
         {
-            return new DateTime(date.Year,
-                                date.Month,
-                                date.Day,
-                                12,
-                                0,
-                                0);
+            return new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
         }
 
         /// <summary>
@@ -194,13 +189,7 @@ namespace IFramework.Core
         /// </summary>
         public static DateTime EndTimeOfDay(this DateTime date)
         {
-            return new DateTime(date.Year,
-                                date.Month,
-                                date.Day,
-                                23,
-                                59,
-                                59,
-                                999);
+            return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, 999);
         }
 
         /// <summary>

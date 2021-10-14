@@ -27,7 +27,6 @@ namespace IFramework.Editor
                    .Where(path => path.EndsWith(".asset"))
                    .Select(path => {
                         Package package = AssetDatabase.LoadAssetAtPath<Package>(path);
-
                         if (package) {
                             return new AssetBundlePackage {
                                 Path = path,
@@ -50,7 +49,6 @@ namespace IFramework.Editor
         {
             // 获取所有标记的AssetBundle资源
             string[] assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
-
             foreach (string assetBundleName in assetBundleNames) {
                 // 生成资源信息
                 AssetBundleBuild assetBundleBuild = new AssetBundleBuild {

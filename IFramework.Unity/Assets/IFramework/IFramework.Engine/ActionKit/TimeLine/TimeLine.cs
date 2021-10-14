@@ -39,7 +39,6 @@ namespace IFramework.Engine.TimeLine
         {
             currentTime += delta;
             IEnumerable<TimeLinePair> list = queue.Where(pair => pair.Time < currentTime && !pair.Node.Finished);
-
             foreach (TimeLinePair pair in list) {
                 if (pair.Node.Execute()) {
                     Finished = queue.Count(timelinePair => !timelinePair.Node.Finished) == 0;
@@ -50,7 +49,6 @@ namespace IFramework.Engine.TimeLine
         protected override void OnReset()
         {
             currentTime = 0.0f;
-
             foreach (TimeLinePair timelinePair in queue) {
                 timelinePair.Node.Reset();
             }

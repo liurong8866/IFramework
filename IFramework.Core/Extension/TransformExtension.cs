@@ -426,7 +426,6 @@ namespace IFramework.Core
             if (self.name.Equals(findName, stringComparison)) {
                 return self;
             }
-
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(findName, stringComparison);
                 if (find) return find;
@@ -442,10 +441,8 @@ namespace IFramework.Core
             if (function(self)) {
                 return self;
             }
-
             foreach (Transform child in self) {
                 Transform find = child.FindRecursion(function);
-
                 if (find) {
                     return find;
                 }
@@ -459,7 +456,6 @@ namespace IFramework.Core
         public static void ActionRecursion(this Transform transform, Action<Transform> action)
         {
             action(transform);
-
             foreach (Transform child in transform) {
                 child.ActionRecursion(action);
             }
@@ -472,11 +468,9 @@ namespace IFramework.Core
         {
             StringBuilder sb = new StringBuilder();
             Transform tran = transform;
-
             while (true) {
                 sb.Insert(0, tran.name);
                 tran = tran.parent;
-
                 if (tran) {
                     sb.Insert(0, "/");
                 }
@@ -503,7 +497,6 @@ namespace IFramework.Core
         public static Transform DestroyChildren(this Transform self)
         {
             int childCount = self.childCount;
-
             for (int i = childCount - 1; i >= 0; i--) {
                 self.transform.GetChild(i).DestroySelf();
             }
@@ -516,7 +509,6 @@ namespace IFramework.Core
         public static T DestroyChildren<T>(this T self) where T : Component
         {
             int childCount = self.transform.childCount;
-
             for (int i = childCount - 1; i >= 0; i--) {
                 self.transform.GetChild(i).DestroySelf();
             }

@@ -75,7 +75,6 @@ namespace IFramework.Core.Zip
         public float PercentComplete {
             get {
                 float result;
-
                 if (Target <= 0) {
                     result = 0;
                 }
@@ -294,7 +293,6 @@ namespace IFramework.Core.Zip
         {
             DirectoryFailureHandler handler = directoryFailure;
             bool result = handler != null;
-
             if (result) {
                 ScanFailureEventArgs args = new ScanFailureEventArgs(directory, e);
                 handler(this, args);
@@ -312,7 +310,6 @@ namespace IFramework.Core.Zip
         {
             FileFailureHandler handler = fileFailure;
             bool result = handler != null;
-
             if (result) {
                 ScanFailureEventArgs args = new ScanFailureEventArgs(file, e);
                 fileFailure(this, args);
@@ -328,7 +325,6 @@ namespace IFramework.Core.Zip
         private void OnProcessFile(string file)
         {
             ProcessFileHandler handler = processFile;
-
             if (handler != null) {
                 ScanEventArgs args = new ScanEventArgs(file);
                 handler(this, args);
@@ -343,7 +339,6 @@ namespace IFramework.Core.Zip
         private void OnCompleteFile(string file)
         {
             CompletedFileHandler handler = completedFile;
-
             if (handler != null) {
                 ScanEventArgs args = new ScanEventArgs(file);
                 handler(this, args);
@@ -359,7 +354,6 @@ namespace IFramework.Core.Zip
         private void OnProcessDirectory(string directory, bool hasMatchingFiles)
         {
             EventHandler<DirectoryEventArgs> handler = ProcessDirectory;
-
             if (handler != null) {
                 DirectoryEventArgs args = new DirectoryEventArgs(directory, hasMatchingFiles);
                 handler(this, args);
@@ -383,7 +377,6 @@ namespace IFramework.Core.Zip
             try {
                 string[] names = Directory.GetFiles(directory);
                 bool hasMatch = false;
-
                 for (int fileIndex = 0; fileIndex < names.Length; ++fileIndex) {
                     if (!fileFilter.IsMatch(names[fileIndex])) {
                         names[fileIndex] = null;
@@ -393,13 +386,11 @@ namespace IFramework.Core.Zip
                     }
                 }
                 OnProcessDirectory(directory, hasMatch);
-
                 if (alive && hasMatch) {
                     foreach (string fileName in names) {
                         try {
                             if (fileName != null) {
                                 OnProcessFile(fileName);
-
                                 if (!alive) {
                                     break;
                                 }
@@ -418,15 +409,12 @@ namespace IFramework.Core.Zip
                     throw;
                 }
             }
-
             if (alive && recurse) {
                 try {
                     string[] names = Directory.GetDirectories(directory);
-
                     foreach (string fulldir in names) {
                         if (directoryFilter == null || directoryFilter.IsMatch(fulldir)) {
                             ScanDir(fulldir, true);
-
                             if (!alive) {
                                 break;
                             }

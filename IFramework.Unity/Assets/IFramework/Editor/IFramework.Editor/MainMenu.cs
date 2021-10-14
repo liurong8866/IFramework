@@ -44,7 +44,6 @@ namespace IFramework.Editor
             Log.Info("缓存数据清理 开始！");
             PlayerPrefs.DeleteAll();
             Directory.Delete(Application.persistentDataPath, true);
-
             if (EditorApplication.isPlaying) {
                 EditorApplication.isPlaying = false;
             }

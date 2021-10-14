@@ -27,7 +27,6 @@ namespace IFramework.Editor
         {
             // 取选中对象的第一个
             GameObject go = Selection.objects.First() as GameObject;
-
             if (go == null) {
                 Log.Warning("请选择 GameObject");
                 return;
@@ -65,7 +64,7 @@ namespace IFramework.Editor
         {
             UIPanelGenerator.GenerateCode();
         }
-        
+
         /// <summary>
         /// 恢复默认设置
         /// </summary>

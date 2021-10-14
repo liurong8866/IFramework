@@ -47,7 +47,6 @@ namespace IFramework.Engine
         {
             // 判断名称不相同则退出
             if (resource.AssetName != AssetName) return false;
-
             bool isMatch = true;
 
             // 如果设置了类型，则判断类型相符

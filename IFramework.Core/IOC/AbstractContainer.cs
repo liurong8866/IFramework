@@ -98,7 +98,6 @@ namespace IFramework.Core
         public virtual void RegisterInstance(Type baseType, object instance = null, string name = null, bool injectNow = true)
         {
             Instances[baseType, name] = instance;
-
             if (injectNow) {
                 Inject(instance);
             }
@@ -111,7 +110,6 @@ namespace IFramework.Core
         public void UnRegisterInstance<T>()
         {
             Tuple<Type, string> key = Instances.Keys.SingleOrDefault(k => k.Item1 == typeof(T));
-
             if (key != null) {
                 Instances.Remove(key);
             }
@@ -150,7 +148,6 @@ namespace IFramework.Core
         {
             // 在实例中查找
             object item = Instances[baseType, name];
-
             if (item != null) {
                 return item;
             }
@@ -194,7 +191,6 @@ namespace IFramework.Core
             foreach (KeyValuePair<Tuple<Type, string>, Type> entry in Mappings) {
                 // 如果名称不是空
                 bool condition = type.IsAssignableFrom(entry.Key.Item1);
-
                 if (condition) {
                     object item = Activator.CreateInstance(entry.Value);
                     Inject(item);
@@ -235,7 +231,6 @@ namespace IFramework.Core
             foreach (ConstructorInfo c in constructor) {
                 // 取构造方法的参数
                 ParameterInfo[] parameters = c.GetParameters();
-
                 if (parameters.Length > maxParameters.Length) {
                     maxParameters = parameters;
                 }

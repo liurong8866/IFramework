@@ -135,23 +135,18 @@ namespace IFramework.Core.Zip.Checksum
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "cannot be less than zero");
             }
-
             if (offset >= buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "not a valid index into buffer");
             }
-
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "cannot be less than zero");
             }
-
             if (offset + count > buffer.Length) {
                 throw new ArgumentOutOfRangeException(nameof(count), "exceeds buffer size");
             }
-
             for (int i = 0; i < count; ++i) {
                 Update(buffer[offset++]);
             }

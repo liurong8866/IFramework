@@ -18,7 +18,6 @@ namespace IFramework.Engine
         public static Resource Allocate(string name)
         {
             Resource resource = ObjectPool<Resource>.Instance.Allocate();
-
             if (resource != null) {
                 resource.AssetName = name;
                 resource.path = name.Substring(ResourcesUrlType.RESOURCES.Length);
@@ -32,10 +31,8 @@ namespace IFramework.Engine
         public override bool Load()
         {
             if (!IsLoadable || AssetName.Nothing()) return false;
-
             State = ResourceState.Loading;
             asset = AssetType != null ? Resources.Load(path, AssetType) : Resources.Load(path);
-
             if (asset == null) {
                 Log.Error("资源加载失败：" + path);
                 OnResourceLoadFailed();
@@ -51,7 +48,6 @@ namespace IFramework.Engine
         public override void LoadASync()
         {
             if (!IsLoadable || AssetName.Nothing()) return;
-
             State = ResourceState.Loading;
             ResourceManager.Instance.AddResourceLoadTask(this);
         }
@@ -63,7 +59,6 @@ namespace IFramework.Engine
         {
             ResourceRequest request = AssetType != null ? Resources.LoadAsync(path, AssetType) : Resources.LoadAsync(path);
             yield return request;
-
             if (!request.isDone) {
                 Log.Error("资源加载失败：" + assetName);
                 OnResourceLoadFailed();

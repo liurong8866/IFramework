@@ -137,17 +137,11 @@ namespace IFramework.Core.Zip.Zip
             if (crc == null) {
                 throw new InvalidOperationException("Closed.");
             }
-
             if (entry != null) {
                 CloseEntry();
             }
             int header = inputBuffer.ReadLeInt();
-
-            if (header == ZipConstants.CENTRAL_HEADER_SIGNATURE
-                 || header == ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE
-                 || header == ZipConstants.CENTRAL_HEADER_DIGITAL_SIGNATURE
-                 || header == ZipConstants.ARCHIVE_EXTRA_DATA_SIGNATURE
-                 || header == ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
+            if (header == ZipConstants.CENTRAL_HEADER_SIGNATURE || header == ZipConstants.END_OF_CENTRAL_DIRECTORY_SIGNATURE || header == ZipConstants.CENTRAL_HEADER_DIGITAL_SIGNATURE || header == ZipConstants.ARCHIVE_EXTRA_DATA_SIGNATURE || header == ZipConstants.ZIP64_CENTRAL_FILE_HEADER_SIGNATURE) {
                 // No more individual entries exist
                 Dispose();
                 return null;
@@ -158,7 +152,6 @@ namespace IFramework.Core.Zip.Zip
             if (header == ZipConstants.SPANNING_TEMP_SIGNATURE || header == ZipConstants.SPANNING_SIGNATURE) {
                 header = inputBuffer.ReadLeInt();
             }
-
             if (header != ZipConstants.LOCAL_HEADER_SIGNATURE) {
                 throw new ZipException("Wrong Local header signature: 0x" + string.Format("{0:X}", header));
             }
@@ -178,7 +171,6 @@ namespace IFramework.Core.Zip.Zip
             entry = new ZipEntry(name, versionRequiredToExtract);
             entry.Flags = flags;
             entry.CompressionMethod = (CompressionMethod)method;
-
             if ((flags & 8) == 0) {
                 entry.Crc = crc2 & 0xFFFFFFFFL;
                 entry.Size = size & 0xFFFFFFFFL;
@@ -191,11 +183,9 @@ namespace IFramework.Core.Zip.Zip
                 if (crc2 != 0) {
                     entry.Crc = crc2 & 0xFFFFFFFFL;
                 }
-
                 if (size != 0) {
                     entry.Size = size & 0xFFFFFFFFL;
                 }
-
                 if (csize != 0) {
                     entry.CompressedSize = csize & 0xFFFFFFFFL;
                 }
@@ -213,15 +203,12 @@ namespace IFramework.Core.Zip.Zip
                 entry.ExtraData = extra;
             }
             entry.ProcessExtraData(true);
-
             if (entry.CompressedSize >= 0) {
                 csize = entry.CompressedSize;
             }
-
             if (entry.Size >= 0) {
                 size = entry.Size;
             }
-
             if (method == (int)CompressionMethod.Stored && (!isCrypted && csize != size || isCrypted && csize - ZipConstants.CRYPTO_HEADER_SIZE != size)) {
                 throw new ZipException("Stored, but compressed != uncompressed");
             }
@@ -245,7 +232,6 @@ namespace IFramework.Core.Zip.Zip
                 throw new ZipException("Data descriptor signature not found");
             }
             entry.Crc = inputBuffer.ReadLeInt() & 0xFFFFFFFFL;
-
             if (entry.LocalHeaderRequiresZip64) {
                 csize = inputBuffer.ReadLeLong();
                 size = inputBuffer.ReadLeLong();
@@ -265,17 +251,14 @@ namespace IFramework.Core.Zip.Zip
         private void CompleteCloseEntry(bool testCrc)
         {
             StopDecrypting();
-
             if ((flags & 8) != 0) {
                 ReadDataDescriptor();
             }
             size = 0;
-
             if (testCrc && (crc.Value & 0xFFFFFFFFL) != entry.Crc && entry.Crc != -1) {
                 throw new ZipException("CRC mismatch");
             }
             crc.Reset();
-
             if (method == (int)CompressionMethod.Deflated) {
                 inf.Reset();
             }
@@ -296,11 +279,9 @@ namespace IFramework.Core.Zip.Zip
             if (crc == null) {
                 throw new InvalidOperationException("Closed");
             }
-
             if (entry == null) {
                 return;
             }
-
             if (method == (int)CompressionMethod.Deflated) {
                 if ((flags & 8) != 0) {
                     // We don't know how much we must skip, read until end.
@@ -313,17 +294,14 @@ namespace IFramework.Core.Zip.Zip
                 csize -= inf.TotalIn;
                 inputBuffer.Available += inf.RemainingInput;
             }
-
             if (inputBuffer.Available > csize && csize >= 0) {
                 inputBuffer.Available = (int)(inputBuffer.Available - csize);
             }
             else {
                 csize -= inputBuffer.Available;
                 inputBuffer.Available = 0;
-
                 while (csize != 0) {
                     long skipped = Skip(csize);
-
                     if (skipped <= 0) {
                         throw new ZipException("Zip archive ends early.");
                     }
@@ -365,7 +343,6 @@ namespace IFramework.Core.Zip.Zip
         public override int ReadByte()
         {
             byte[] b = new byte[1];
-
             if (Read(b, 0, 1) <= 0) {
                 return -1;
             }
@@ -418,11 +395,9 @@ namespace IFramework.Core.Zip.Zip
                 inputBuffer.CryptoTransform = managed.CreateDecryptor(key, null);
                 byte[] cryptbuffer = new byte[ZipConstants.CRYPTO_HEADER_SIZE];
                 inputBuffer.ReadClearTextBuffer(cryptbuffer, 0, ZipConstants.CRYPTO_HEADER_SIZE);
-
                 if (cryptbuffer[ZipConstants.CRYPTO_HEADER_SIZE - 1] != entry.CryptoCheckValue) {
                     throw new ZipException("Invalid password");
                 }
-
                 if (csize >= ZipConstants.CRYPTO_HEADER_SIZE) {
                     csize -= ZipConstants.CRYPTO_HEADER_SIZE;
                 }
@@ -433,7 +408,6 @@ namespace IFramework.Core.Zip.Zip
             else {
                 inputBuffer.CryptoTransform = null;
             }
-
             if (csize > 0 || (flags & (int)GeneralBitFlags.Descriptor) != 0) {
                 if (method == (int)CompressionMethod.Deflated && inputBuffer.Available > 0) {
                     inputBuffer.SetInflaterInput(inf);
@@ -458,15 +432,12 @@ namespace IFramework.Core.Zip.Zip
             if (buffer == null) {
                 throw new ArgumentNullException(nameof(buffer));
             }
-
             if (offset < 0) {
                 throw new ArgumentOutOfRangeException(nameof(offset), "Cannot be negative");
             }
-
             if (count < 0) {
                 throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
             }
-
             if (buffer.Length - offset < count) {
                 throw new ArgumentException("Invalid offset/count combination");
             }
@@ -493,20 +464,16 @@ namespace IFramework.Core.Zip.Zip
             if (crc == null) {
                 throw new InvalidOperationException("Closed");
             }
-
             if (entry == null || count <= 0) {
                 return 0;
             }
-
             if (offset + count > buffer.Length) {
                 throw new ArgumentException("Offset + count exceeds buffer size");
             }
             bool finished = false;
-
             switch (method) {
                 case (int)CompressionMethod.Deflated:
                     count = base.Read(buffer, offset, count);
-
                     if (count <= 0) {
                         if (!inf.IsFinished) {
                             throw new ZipException("Inflater not finished!");
@@ -525,16 +492,13 @@ namespace IFramework.Core.Zip.Zip
                     if (count > csize && csize >= 0) {
                         count = (int)csize;
                     }
-
                     if (count > 0) {
                         count = inputBuffer.ReadClearTextBuffer(buffer, offset, count);
-
                         if (count > 0) {
                             csize -= count;
                             size -= count;
                         }
                     }
-
                     if (csize == 0) {
                         finished = true;
                     }
@@ -545,11 +509,9 @@ namespace IFramework.Core.Zip.Zip
                     }
                     break;
             }
-
             if (count > 0) {
                 crc.Update(buffer, offset, count);
             }
-
             if (finished) {
                 CompleteCloseEntry(true);
             }

@@ -29,12 +29,10 @@ namespace IFramework.Core.Zip.Zip.Compression
         public bool Decode(StreamManipulator input)
         {
         decode_loop:
-
             for (;;) {
                 switch (mode) {
                     case LNUM:
                         lnum = input.PeekBits(5);
-
                         if (lnum < 0) {
                             return false;
                         }
@@ -45,7 +43,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                         goto case DNUM; // fall through
                     case DNUM:
                         dnum = input.PeekBits(5);
-
                         if (dnum < 0) {
                             return false;
                         }
@@ -58,7 +55,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                         goto case BLNUM; // fall through
                     case BLNUM:
                         blnum = input.PeekBits(4);
-
                         if (blnum < 0) {
                             return false;
                         }
@@ -72,7 +68,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     case BLLENS:
                         while (ptr < blnum) {
                             int len = input.PeekBits(3);
-
                             if (len < 0) {
                                 return false;
                             }
@@ -88,24 +83,20 @@ namespace IFramework.Core.Zip.Zip.Compression
                         goto case LENS; // fall through
                     case LENS: {
                         int symbol;
-
                         while (((symbol = blTree.GetSymbol(input)) & ~15) == 0) {
                             /* Normal case: symbol in [0..15] */
 
                             //  		  System.err.println("litdistLens["+ptr+"]: "+symbol);
                             litdistLens[ptr++] = lastLen = (byte)symbol;
-
                             if (ptr == num) {
                                 /* Finished */
                                 return true;
                             }
                         }
-
                         /* need more input ? */
                         if (symbol < 0) {
                             return false;
                         }
-
                         /* otherwise repeat code */
                         if (symbol >= 17) {
                             /* repeat zero */
@@ -124,7 +115,6 @@ namespace IFramework.Core.Zip.Zip.Compression
                     case REPS: {
                         int bits = repBits[repSymbol];
                         int count = input.PeekBits(bits);
-
                         if (count < 0) {
                             return false;
                         }
@@ -135,11 +125,9 @@ namespace IFramework.Core.Zip.Zip.Compression
                         if (ptr + count > num) {
                             throw new BaseZipException();
                         }
-
                         while (count-- > 0) {
                             litdistLens[ptr++] = lastLen;
                         }
-
                         if (ptr == num) {
                             /* Finished */
                             return true;
@@ -154,24 +142,14 @@ namespace IFramework.Core.Zip.Zip.Compression
         public InflaterHuffmanTree BuildLitLenTree()
         {
             byte[] litlenLens = new byte[lnum];
-
-            Array.Copy(litdistLens,
-                       0,
-                       litlenLens,
-                       0,
-                       lnum);
+            Array.Copy(litdistLens, 0, litlenLens, 0, lnum);
             return new InflaterHuffmanTree(litlenLens);
         }
 
         public InflaterHuffmanTree BuildDistTree()
         {
             byte[] distLens = new byte[dnum];
-
-            Array.Copy(litdistLens,
-                       lnum,
-                       distLens,
-                       0,
-                       dnum);
+            Array.Copy(litdistLens, lnum, distLens, 0, dnum);
             return new InflaterHuffmanTree(distLens);
         }
 

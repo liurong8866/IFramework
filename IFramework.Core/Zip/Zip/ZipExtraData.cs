@@ -64,12 +64,7 @@ namespace IFramework.Core.Zip.Zip
                 throw new ArgumentNullException(nameof(data));
             }
             Data = new byte[count];
-
-            Array.Copy(data,
-                       offset,
-                       Data,
-                       0,
-                       count);
+            Array.Copy(data, offset, Data, 0, count);
         }
 
         /// <summary>
@@ -147,62 +142,20 @@ namespace IFramework.Core.Zip.Zip
                     // bit 1           if set, access time is present
                     // bit 2           if set, creation time is present
                     Include = (Flags)helperStream.ReadByte();
-
                     if ((Include & Flags.ModificationTime) != 0) {
                         int iTime = helperStream.ReadLeInt();
-
-                        modificationTime = new DateTime(1970,
-                                                        1,
-                                                        1,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        DateTimeKind.Utc)
-                              + new TimeSpan(0,
-                                             0,
-                                             0,
-                                             iTime,
-                                             0);
+                        modificationTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) + new TimeSpan(0, 0, 0, iTime, 0);
 
                         // Central-header version is truncated after modification time
                         if (count <= 5) return;
                     }
-
                     if ((Include & Flags.AccessTime) != 0) {
                         int iTime = helperStream.ReadLeInt();
-
-                        lastAccessTime = new DateTime(1970,
-                                                      1,
-                                                      1,
-                                                      0,
-                                                      0,
-                                                      0,
-                                                      0,
-                                                      DateTimeKind.Utc)
-                              + new TimeSpan(0,
-                                             0,
-                                             0,
-                                             iTime,
-                                             0);
+                        lastAccessTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) + new TimeSpan(0, 0, 0, iTime, 0);
                     }
-
                     if ((Include & Flags.CreateTime) != 0) {
                         int iTime = helperStream.ReadLeInt();
-
-                        createTime = new DateTime(1970,
-                                                  1,
-                                                  1,
-                                                  0,
-                                                  0,
-                                                  0,
-                                                  0,
-                                                  DateTimeKind.Utc)
-                              + new TimeSpan(0,
-                                             0,
-                                             0,
-                                             iTime,
-                                             0);
+                        createTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) + new TimeSpan(0, 0, 0, iTime, 0);
                     }
                 }
         }
@@ -217,45 +170,18 @@ namespace IFramework.Core.Zip.Zip
                 using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                     helperStream.IsStreamOwner = false;
                     helperStream.WriteByte((byte)Include); // Flags
-
                     if ((Include & Flags.ModificationTime) != 0) {
-                        TimeSpan span = modificationTime
-                              - new DateTime(1970,
-                                             1,
-                                             1,
-                                             0,
-                                             0,
-                                             0,
-                                             0,
-                                             DateTimeKind.Utc);
+                        TimeSpan span = modificationTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                         int seconds = (int)span.TotalSeconds;
                         helperStream.WriteLeInt(seconds);
                     }
-
                     if ((Include & Flags.AccessTime) != 0) {
-                        TimeSpan span = lastAccessTime
-                              - new DateTime(1970,
-                                             1,
-                                             1,
-                                             0,
-                                             0,
-                                             0,
-                                             0,
-                                             DateTimeKind.Utc);
+                        TimeSpan span = lastAccessTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                         int seconds = (int)span.TotalSeconds;
                         helperStream.WriteLeInt(seconds);
                     }
-
                     if ((Include & Flags.CreateTime) != 0) {
-                        TimeSpan span = createTime
-                              - new DateTime(1970,
-                                             1,
-                                             1,
-                                             0,
-                                             0,
-                                             0,
-                                             0,
-                                             DateTimeKind.Utc);
+                        TimeSpan span = createTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                         int seconds = (int)span.TotalSeconds;
                         helperStream.WriteLeInt(seconds);
                     }
@@ -278,20 +204,7 @@ namespace IFramework.Core.Zip.Zip
         /// </remarks>
         public static bool IsValidValue(DateTime value)
         {
-            return value
-                 >= new DateTime(1901,
-                                 12,
-                                 13,
-                                 20,
-                                 45,
-                                 52)
-                 || value
-                 <= new DateTime(2038,
-                                 1,
-                                 19,
-                                 03,
-                                 14,
-                                 07);
+            return value >= new DateTime(1901, 12, 13, 20, 45, 52) || value <= new DateTime(2038, 1, 19, 03, 14, 07);
         }
 
         /// <summary>
@@ -377,11 +290,9 @@ namespace IFramework.Core.Zip.Zip
             using (MemoryStream ms = new MemoryStream(data, index, count, false))
                 using (ZipHelperStream helperStream = new ZipHelperStream(ms)) {
                     helperStream.ReadLeInt(); // Reserved
-
                     while (helperStream.Position < helperStream.Length) {
                         int ntfsTag = helperStream.ReadLeShort();
                         int ntfsLength = helperStream.ReadLeShort();
-
                         if (ntfsTag == 1) {
                             if (ntfsLength >= 24) {
                                 long lastModificationTicks = helperStream.ReadLeLong();
@@ -433,7 +344,6 @@ namespace IFramework.Core.Zip.Zip
         public static bool IsValidValue(DateTime value)
         {
             bool result = true;
-
             try {
                 value.ToFileTimeUtc();
             }
@@ -581,7 +491,6 @@ namespace IFramework.Core.Zip.Zip
         public Stream GetStreamForTag(int tag)
         {
             Stream result = null;
-
             if (Find(tag)) {
                 result = new MemoryStream(data, CurrentReadIndex, ValueLength, false);
             }
@@ -596,7 +505,6 @@ namespace IFramework.Core.Zip.Zip
         public T GetData<T>() where T : class, ITaggedData, new()
         {
             T result = new T();
-
             if (Find(result.TagId)) {
                 result.SetData(data, readValueStart, ValueLength);
                 return result;
@@ -648,13 +556,11 @@ namespace IFramework.Core.Zip.Zip
             while (localTag != headerId && CurrentReadIndex < data.Length - 3) {
                 localTag = ReadShortInternal();
                 localLength = ReadShortInternal();
-
                 if (localTag != headerId) {
                     CurrentReadIndex += localLength;
                 }
             }
             bool result = localTag == headerId && CurrentReadIndex + localLength <= data.Length;
-
             if (result) {
                 readValueStart = CurrentReadIndex;
                 ValueLength = localLength;
@@ -686,18 +592,15 @@ namespace IFramework.Core.Zip.Zip
                 throw new ArgumentOutOfRangeException(nameof(headerId));
             }
             int addLength = fieldData == null ? 0 : fieldData.Length;
-
             if (addLength > ushort.MaxValue) {
                 throw new ArgumentOutOfRangeException(nameof(fieldData), "exceeds maximum length");
             }
 
             // Test for new length before adjusting data.
             int newLength = data.Length + addLength + 4;
-
             if (Find(headerId)) {
                 newLength -= ValueLength + 4;
             }
-
             if (newLength > ushort.MaxValue) {
                 throw new ZipException("Data exceeds maximum length");
             }
@@ -708,7 +611,6 @@ namespace IFramework.Core.Zip.Zip
             data = newData;
             SetShort(ref index, headerId);
             SetShort(ref index, addLength);
-
             if (fieldData != null) {
                 fieldData.CopyTo(newData, index);
             }
@@ -806,24 +708,13 @@ namespace IFramework.Core.Zip.Zip
         public bool Delete(int headerId)
         {
             bool result = false;
-
             if (Find(headerId)) {
                 result = true;
                 int trueStart = readValueStart - 4;
                 byte[] newData = new byte[data.Length - (ValueLength + 4)];
-
-                Array.Copy(data,
-                           0,
-                           newData,
-                           0,
-                           trueStart);
+                Array.Copy(data, 0, newData, 0, trueStart);
                 int trueEnd = trueStart + ValueLength + 4;
-
-                Array.Copy(data,
-                           trueEnd,
-                           newData,
-                           trueStart,
-                           data.Length - trueEnd);
+                Array.Copy(data, trueEnd, newData, trueStart, data.Length - trueEnd);
                 data = newData;
             }
             return result;
@@ -872,7 +763,6 @@ namespace IFramework.Core.Zip.Zip
         public int ReadByte()
         {
             int result = -1;
-
             if (CurrentReadIndex < data.Length && readValueStart + ValueLength > CurrentReadIndex) {
                 result = data[CurrentReadIndex];
                 CurrentReadIndex += 1;
@@ -895,11 +785,9 @@ namespace IFramework.Core.Zip.Zip
             if (readValueStart > data.Length || readValueStart < 4) {
                 throw new ZipException("Find must be called before calling a Read method");
             }
-
             if (CurrentReadIndex > readValueStart + ValueLength - length) {
                 throw new ZipException("End of extra data");
             }
-
             if (CurrentReadIndex + length < 4) {
                 throw new ZipException("Cannot read before start of tag");
             }
