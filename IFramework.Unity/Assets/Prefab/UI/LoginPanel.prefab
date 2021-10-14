@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3932136301439032097}
-  - component: {fileID: -2539370984141898517}
+  - component: {fileID: -5689165037741784288}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2539370984141898517
+--- !u!114 &-5689165037741784288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370445485319873293}
-  - component: {fileID: 6560683014472516296}
+  - component: {fileID: -7071922455163923017}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -268,7 +268,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6560683014472516296
+--- !u!114 &-7071922455163923017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8086960043592510772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7962f1f9f21e947308bfcc2c051746ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 32711226c319f465b8a99d31cbb05a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UserName: {fileID: 4460592351565382720}
@@ -291,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5570365604578895395}
-  - component: {fileID: -752915164979833372}
+  - component: {fileID: 6519383154705710906}
   m_Layer: 0
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -315,7 +315,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-752915164979833372
+--- !u!114 &6519383154705710906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,5 +327,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e16716e23bd5499e9a587387d75b161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  Enemy: {fileID: 0}
+  Player: {fileID: -7071922455163923017}
+  Enemy: {fileID: -5689165037741784288}

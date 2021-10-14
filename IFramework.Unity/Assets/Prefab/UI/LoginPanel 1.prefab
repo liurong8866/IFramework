@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CustomComponentName: Player
-  bindType: 2
+  bindType: 1
   componentName: Player
   comment: "\u7528\u6237"
 --- !u!1 &8769092761080081089
@@ -296,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5570365604578895395}
   m_Layer: 0
-  m_Name: LoginPanel
+  m_Name: LoginPanel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

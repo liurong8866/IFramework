@@ -34,7 +34,7 @@ namespace IFramework.Editor
                 sb.AppendLine($"\t\t[SerializeField] public {strUIType} {markInfo.Name};");
             }
             sb.AppendLine();
-            sb.AppendLine($"\t\tpublic override string ComponentName => \"{elementInfo.BindInfo.BindScript.ComponentName}\"");
+            sb.AppendLine($"\t\tpublic override string ComponentName => \"{elementInfo.BindInfo.BindScript.ComponentName}\";");
             sb.AppendLine();
             sb.AppendLine("\t\tpublic void OnDisable()");
             sb.AppendLine("\t\t{");

@@ -9,12 +9,7 @@ namespace IFramework.Example.UI
 {
 	public partial class Enemy : UIElement
 	{
-		private void Awake()
-		{
-		}
+		private void Awake() { }
 
-		protected override void BeforeDestroy()
-		{
-		}
-	}
+		protected override void BeforeDestroy() { }	}
 }

@@ -238,8 +238,9 @@ namespace IFramework.Editor
                 // 递归调用
                 SetObjectRefToProperty(elementBind.Transform.gameObject, elementBind.ComponentName, assembly, processedBindList);
             }
+            
             IBind[] marks = go.GetComponentsInChildren<IBind>(true);
-
+            
             foreach (IBind elementBind in marks) {
                 if (processedBindList.Contains(elementBind)) {
                     continue;
@@ -247,7 +248,7 @@ namespace IFramework.Editor
                 processedBindList.Add(elementBind);
                 string propertyName = elementBind.Transform.name;
                 if (serialized.FindProperty(propertyName) == null) continue;
-
+            
                 serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
             }
             serialized.ApplyModifiedPropertiesWithoutUndo();

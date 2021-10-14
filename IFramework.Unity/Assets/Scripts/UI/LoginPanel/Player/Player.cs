@@ -7,14 +7,9 @@ using IFramework.Engine;
 
 namespace IFramework.Example.UI
 {
-	public partial class Player : UIComponent
+	public partial class Player : UIElement
 	{
-		private void Awake()
-		{
-		}
+		private void Awake() { }
 
-		protected override void BeforeDestroy()
-		{
-		}
-	}
+		protected override void BeforeDestroy() { }	}
 }
