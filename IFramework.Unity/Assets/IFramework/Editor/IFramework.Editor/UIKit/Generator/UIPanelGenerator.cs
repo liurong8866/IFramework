@@ -33,21 +33,16 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode(Object[] objects)
         {
-            bool displayProgress = objects.Length > 1;
-
-            if (displayProgress) {
+            try {
                 EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
-            }
-
-            for (int i = 0; i < objects.Length; i++) {
-                GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]));
-
-                if (displayProgress) {
+                for (int i = 0; i < objects.Length; i++) {
+                    GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]));
                     EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
                 }
+                AssetDatabase.Refresh();
+            } finally {
+                EditorUtility.ClearProgressBar();
             }
-            AssetDatabase.Refresh();
-            if (displayProgress) EditorUtility.ClearProgressBar();
         }
 
         /// <summary>
@@ -64,7 +59,6 @@ namespace IFramework.Editor
             // 实例化Prefab
             GameObject clone = PrefabUtility.InstantiatePrefab(obj) as GameObject;
             if (clone == null) return;
-
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
                 GameObjectName = clone.name.Replace("(clone)", string.Empty)
             };
@@ -119,7 +113,6 @@ namespace IFramework.Editor
             // 生成UIElement组件
             foreach (ElementInfo elementInfo in rootPanelInfo.ElementInfoList) {
                 string elementPath = "";
-
                 if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
                     elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name);
                 }
@@ -162,66 +155,97 @@ namespace IFramework.Editor
         {
             string pathStr = generateUIPrefabPath.Value;
             if (pathStr.Nothing()) return;
-
             Log.Info("生成脚本: 正在编译");
 
             // 获取路径
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
             string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            bool displayProgress = paths.Length > 0;
+
             // 显示进度条
-            if (displayProgress) EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab", 0);
+            EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab", 0);
+            try {
+                for (int i = 0; i < paths.Length; i++) {
+                    GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
 
-            for (int i = 0; i < paths.Length; i++) {
-                GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
-                // 设置对象引用属性
-                SetObjectRefToProperty(go, go.name, assembly);
-                //
-                if (displayProgress) EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab " + go.name, (float)(i + 1) / paths.Length);
-                //
-                Log.Info("生成脚本: 已生成" + go.name);
+                    // 设置对象引用属性
+                    SetObjectRefToProperty(go, assembly);
+                    //
+                    EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab " + go.name, (float)(i + 1) / paths.Length);
+                    //
+                    Log.Info("生成脚本: 已生成" + go.name);
+                }
+            } finally {
+                EditorUtility.ClearProgressBar();
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
-            for (int i = 0; i < paths.Length; i++) {
-                GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(paths[i]);
-                // 设置对象引用属性
-                SetObjectRefToProperty(go, go.name, assembly);
-                //
-                if (displayProgress) EditorUtility.DisplayProgressBar("", "生成脚本: 正在序列化 UIPrefab " + go.name, (float)(i + 1) / paths.Length);
-                //
-                Log.Info("生成脚本: 已生成" + go.name);
-            }
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            if (displayProgress) EditorUtility.ClearProgressBar();
-            Clear();
 
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
-            generateTime.Clear();
+            Clear();
+        }
+
+        private static void SetObjectRefToProperty(GameObject go, Assembly assembly)
+        {
+            Stack<Transform> elementStack = new Stack<Transform>();
+
+            // 绑定Root节点组件
+            BindComponent(go.transform, go.name, assembly);
+
+            // 添加Root节点
+            elementStack.Push(go.transform);
+
+            // 生成从下到上的Element栈
+            GetElementStack(go.transform, elementStack);
+            while (elementStack.Count > 0) {
+                // 待处理节点
+                Transform elementTran = elementStack.Pop();
+
+                // 取得该节点下所有IBind组件
+                SetObjectRefToProperty(elementTran, elementTran.name, assembly);
+            }
         }
 
         /// <summary>
         /// 设置对象引用属性
         /// </summary>
-        private static void SetObjectRefToProperty(GameObject go, string prefabName, Assembly assembly, List<IBind> processedBindList = null)
+        private static void SetObjectRefToProperty(Transform tran, string prefabName, Assembly assembly)
         {
-            processedBindList ??= new List<IBind>();
-            IBind bind = go.GetComponent<IBind>();
+            Component component = BindComponent(tran, prefabName, assembly);
+            // 获取序列化对象
+            SerializedObject serialized = new SerializedObject(component);
+            // 查找该组件下所有IBind类型子组件
+            IBind[] allBind = tran.GetComponentsInChildren<IBind>(true);
+
+            // 循环设置对象引用
+            foreach (IBind elementBind in allBind) {
+                // 取得属性名称
+                string propertyName = elementBind.Transform.name;
+                // 如果没有该属性，则跳出本次循环，执行下次循环
+                if (serialized.FindProperty(propertyName) == null) continue;
+                // 设置对象引用
+                serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
+            }
+            // 确认修改
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        /// <summary>
+        /// 绑定组件并返回
+        /// </summary>
+        private static Component BindComponent(Transform tran, string prefabName, Assembly assembly)
+        {
+            IBind bind = tran.GetComponent<IBind>();
             string className = "";
 
             // 获取className，如果有组件，则取组件名称，否则取Prefab文件名
             if (bind.NotEmpty()) {
                 className = Configure.DefaultNameSpace + "." + bind.ComponentName;
 
-                // 如果不是DefaultElement
+                // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
                 if (bind.BindType != BindType.DefaultElement) {
-                    AbstractBind abstractBind = go.GetComponent<AbstractBind>();
-
-                    // 销毁组件
+                    AbstractBind abstractBind = tran.GetComponent<AbstractBind>();
                     if (abstractBind.NotEmpty()) {
                         Object.DestroyImmediate(abstractBind, true);
                     }
@@ -234,39 +258,38 @@ namespace IFramework.Editor
             // 反射类型
             Type t = assembly.GetType(className);
             // 绑定组件
-            Component component = go.GetComponent(t) ?? go.AddComponent(t);
-            // 获取序列化对象
-            SerializedObject serialized = new SerializedObject(component);
-            // 查找该组件下所有IBind类型子组件
-            IBind[] allBind = go.GetComponentsInChildren<IBind>(true);
-            
-            // 循环设置对象引用
-            foreach (IBind elementBind in allBind) {
-                // 如果没有处理过
-                if (processedBindList.Contains(elementBind)) continue;
+            Component component = tran.GetComponent(t) ?? tran.gameObject.AddComponent(t);
+            return component;
+        }
 
-                // 取得属性名称
-                string propertyName = elementBind.Transform.name;
-                // 如果没有该属性，则跳出本次循环，执行下次循环
-                if (serialized.FindProperty(propertyName) == null) continue;
+        /// <summary>
+        /// 获取Element栈，从底层到上层
+        /// </summary>
+        public static void GetElementStack(Transform tran, Stack<Transform> elementStack)
+        {
+            elementStack ??= new Stack<Transform>();
 
-                // 设置对象引用
-                serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
-                // 添加到处理列表
-                processedBindList.Add(elementBind);
-
-                // 如果是Element或者Component，则递归赋值
-                if (elementBind.BindType != BindType.DefaultElement) {
-                    SetObjectRefToProperty(elementBind.Transform.gameObject, elementBind.ComponentName, assembly, processedBindList);
+            // 遇到DefaultElement 则返回
+            IBind component = tran.GetComponent<IBind>();
+            if (component != null) {
+                // 如果是组件，则入栈
+                if (component.BindType == BindType.Element || component.BindType == BindType.Component) {
+                    if (!elementStack.Contains(tran)) {
+                        elementStack.Push(tran);
+                    }
                 }
             }
-            // 确认修改
-            serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            // 遍历所有元素，并向下递归
+            foreach (Transform child in tran) {
+                GetElementStack(child, elementStack);
+            }
         }
 
         // 清理缓存数据
         private static void Clear()
         {
+            generateTime.Clear();
             generateUIPrefabPath.Clear();
         }
     }

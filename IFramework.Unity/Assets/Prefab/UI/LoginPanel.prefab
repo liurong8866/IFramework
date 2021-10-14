@@ -1,5 +1,148 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &811139319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 811139320}
+  - component: {fileID: 811139321}
+  m_Layer: 0
+  m_Name: WeaponName
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &811139320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811139319}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589456896}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &811139321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811139319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomComponentName: WeaponName
+  bindType: 0
+  componentName: UnityEngine.Transform
+  comment: 
+--- !u!1 &1387275200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1387275201}
+  - component: {fileID: 1387275202}
+  m_Layer: 0
+  m_Name: CostMoney
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1387275201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387275200}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589456896}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387275202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387275200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomComponentName: CostMoney
+  bindType: 0
+  componentName: UnityEngine.Transform
+  comment: 
+--- !u!1 &1589456895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1589456896}
+  - component: {fileID: 1589456897}
+  m_Layer: 0
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1589456896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589456895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 811139320}
+  - {fileID: 1387275201}
+  m_Father: {fileID: 370445485319873293}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1589456897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589456895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomComponentName: Weapon
+  bindType: 1
+  componentName: Weapon
+  comment: "\u6B66\u5668"
 --- !u!1 &178009844037512349
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3932136301439032097}
-  - component: {fileID: 2685401736097975713}
+  - component: {fileID: 4526222827128572141}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -33,7 +176,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2685401736097975713
+--- !u!114 &4526222827128572141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,11 +185,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 178009844037512349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da0f7d70f77b421a91964389bd4dd94, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserName: {fileID: 6552011219284935917}
-  Password: {fileID: 469534227620336188}
+  CustomComponentName: Enemy
+  bindType: 1
+  componentName: Enemy
+  comment: "\u654C\u4EBA"
 --- !u!1 &1288904899685016867
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370445485319873293}
-  - component: {fileID: -4470866507311191289}
+  - component: {fileID: 7784011664609542055}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -265,10 +410,11 @@ Transform:
   m_Children:
   - {fileID: 4460592351565382720}
   - {fileID: 6305483788753368397}
+  - {fileID: 1589456896}
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4470866507311191289
+--- !u!114 &7784011664609542055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,11 +423,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8086960043592510772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32711226c319f465b8a99d31cbb05a89, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserName: {fileID: 4460592351565382720}
-  Password: {fileID: 6305483788753368397}
+  CustomComponentName: Player
+  bindType: 1
+  componentName: Player
+  comment: "\u7528\u6237"
 --- !u!1 &8769092761080081089
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +439,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5570365604578895395}
-  - component: {fileID: -1153762383227513039}
   m_Layer: 0
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -315,17 +462,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1153762383227513039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769092761080081089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e16716e23bd5499e9a587387d75b161, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: -4470866507311191289}
-  Enemy: {fileID: 2685401736097975713}
