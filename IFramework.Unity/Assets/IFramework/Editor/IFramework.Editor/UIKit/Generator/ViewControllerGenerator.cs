@@ -33,14 +33,14 @@ namespace IFramework.Editor
             }
 
             // 如果当前是Bind类型，并且不包含ViewController，则认为是子节点，向上查找
-            if (go.GetComponent<AbstractBind>() && !go.GetComponent<ViewController>()) {
-                ViewController parentController = go.GetComponentInParent<ViewController>();
-
-                // 如果找到ViewController，则
-                if (parentController) {
-                    go = parentController.gameObject;
-                }
-            }
+            // if (go.GetComponent<AbstractBind>() && !go.GetComponent<ViewController>()) {
+            //     ViewController parentController = go.GetComponentInParent<ViewController>();
+            //
+            //     // 如果找到ViewController，则
+            //     if (parentController) {
+            //         go = parentController.gameObject;
+            //     }
+            // }
             // 生成脚本
             Log.Info("生成脚本: 开始");
             ViewController controller = go.GetComponent<ViewController>();

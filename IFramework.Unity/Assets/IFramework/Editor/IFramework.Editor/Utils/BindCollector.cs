@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 using UnityEngine;
@@ -87,6 +88,30 @@ namespace IFramework.Editor
                     // 递归下一层
                     SearchBind(child, fullName + child.name + "/", rootNodeInfo, parentElementInfo);
                 }
+            }
+        }
+        
+        /// <summary>
+        /// 获取Element栈，从底层到上层
+        /// </summary>
+        public static void GetElementStack(Transform tran, Stack<Transform> elementStack)
+        {
+            elementStack ??= new Stack<Transform>();
+
+            // 遇到DefaultElement 则返回
+            IBind component = tran.GetComponent<IBind>();
+            if (component != null) {
+                // 如果是组件，则入栈
+                if (component.BindType == BindType.Element || component.BindType == BindType.Component) {
+                    if (!elementStack.Contains(tran)) {
+                        elementStack.Push(tran);
+                    }
+                }
+            }
+
+            // 遍历所有元素，并向下递归
+            foreach (Transform child in tran) {
+                GetElementStack(child, elementStack);
             }
         }
     }

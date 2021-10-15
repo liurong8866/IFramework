@@ -195,7 +195,7 @@ namespace IFramework.Editor
             elementStack.Push(go.transform);
 
             // 生成从下到上的Element栈
-            GetElementStack(go.transform, elementStack);
+            BindCollector.GetElementStack(go.transform, elementStack);
             while (elementStack.Count > 0) {
                 // 待处理节点
                 Transform elementTran = elementStack.Pop();
@@ -258,30 +258,6 @@ namespace IFramework.Editor
             // 绑定组件
             Component component = tran.GetComponent(t) ?? tran.gameObject.AddComponent(t);
             return component;
-        }
-
-        /// <summary>
-        /// 获取Element栈，从底层到上层
-        /// </summary>
-        public static void GetElementStack(Transform tran, Stack<Transform> elementStack)
-        {
-            elementStack ??= new Stack<Transform>();
-
-            // 遇到DefaultElement 则返回
-            IBind component = tran.GetComponent<IBind>();
-            if (component != null) {
-                // 如果是组件，则入栈
-                if (component.BindType == BindType.Element || component.BindType == BindType.Component) {
-                    if (!elementStack.Contains(tran)) {
-                        elementStack.Push(tran);
-                    }
-                }
-            }
-
-            // 遍历所有元素，并向下递归
-            foreach (Transform child in tran) {
-                GetElementStack(child, elementStack);
-            }
         }
 
         // 清理缓存数据

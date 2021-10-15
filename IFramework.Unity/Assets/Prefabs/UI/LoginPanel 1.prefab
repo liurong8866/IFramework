@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1589456896}
-  - component: {fileID: -1826205652529695232}
+  - component: {fileID: 1589456897}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Transform:
   m_Father: {fileID: 370445485319873293}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1826205652529695232
+--- !u!114 &1589456897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,11 +136,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1589456895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc641aea64ff4416910102167b35ae7, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponName: {fileID: 811139320}
-  CostMoney: {fileID: 1387275201}
+  CustomComponentName: PlayerWeapon
+  bindType: 1
+  componentName: PlayerWeapon
+  comment: "\u6B66\u5668"
 --- !u!1 &3170895206100737791
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5580970620194526642}
-  - component: {fileID: -8401179647697166026}
+  - component: {fileID: 1185028700789087684}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -174,7 +176,7 @@ Transform:
   m_Father: {fileID: 6882203394743208486}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8401179647697166026
+--- !u!114 &1185028700789087684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,11 +185,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3170895206100737791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27d738f5236e844db81772e02bb4f152, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponName: {fileID: 8102858642845324278}
-  CostMoney: {fileID: 5435662310388237523}
+  CustomComponentName: EnemyWeapon
+  bindType: 1
+  componentName: EnemyWeapon
+  comment: "\u6B66\u5668"
 --- !u!1 &4444089260530571138
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6882203394743208486}
-  - component: {fileID: -4891147644838948625}
+  - component: {fileID: 7312828486223361468}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -267,7 +271,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4891147644838948625
+--- !u!114 &7312828486223361468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,10 +280,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5747062521819486465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06292c16462534783b60f2bf50b1070d, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: {fileID: -8401179647697166026}
+  CustomComponentName: Enemy
+  bindType: 1
+  componentName: Enemy
+  comment: "\u654C\u4EBA"
 --- !u!1 &8086960043592510772
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370445485319873293}
-  - component: {fileID: -7224420465584020905}
+  - component: {fileID: 7784011664609542055}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -312,7 +319,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7224420465584020905
+--- !u!114 &7784011664609542055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,10 +328,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8086960043592510772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6eb3f95c46d4efa9f8592e4713733e, type: 3}
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: {fileID: -1826205652529695232}
+  CustomComponentName: Player
+  bindType: 1
+  componentName: Player
+  comment: "\u7528\u6237"
 --- !u!1 &8518255418672893146
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +391,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5570365604578895395}
-  - component: {fileID: -3837664378935511159}
   m_Layer: 0
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -405,17 +414,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3837664378935511159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769092761080081089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3833c9f5c46624d999e96723d89897ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: -7224420465584020905}
-  Enemy: {fileID: -4891147644838948625}

@@ -78,6 +78,8 @@ namespace IFramework.Editor
         /// </summary>
         public override string PrefabAssetsPath => DirectoryUtils.CombinePath("Assets", PrefabPath, AsPrefabSubPath ? ScriptName : "");
 
+        public ViewControllerGenerateInfo() { }
+        
         public ViewControllerGenerateInfo(ViewController controller)
         {
             Namespace = controller.Namespace;
