@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using IFramework.Example.UI;
 using UnityEngine;
 
 namespace IFramework.Engine
