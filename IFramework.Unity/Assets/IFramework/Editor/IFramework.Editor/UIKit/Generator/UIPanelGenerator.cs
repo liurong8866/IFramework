@@ -22,6 +22,8 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode()
         {
+            generateTime.Value = DateTime.Now;
+            Log.Clear();
             Object[] objects = Selection.GetFiltered(typeof(GameObject), SelectionMode.Assets | SelectionMode.TopLevel);
             GenerateCode(objects);
         }
