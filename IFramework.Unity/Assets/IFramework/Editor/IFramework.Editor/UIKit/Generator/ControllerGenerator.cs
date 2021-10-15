@@ -127,6 +127,8 @@ namespace IFramework.Editor
             SetObjectRefToProperty(go, assembly);
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
+            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+            
             // ViewController的序列化对象
             SerializedObject serializedObject = new SerializedObject(controller);
             if (controller) {
@@ -135,17 +137,17 @@ namespace IFramework.Editor
                 serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
                 serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
                 serializedObject.FindProperty("Comment").stringValue = controller.Comment;
+                
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+
                 string typeName = generateNamespace + "." + generateClassName;
                 Type type = assembly.GetType(typeName);
-
-                // // 销毁ViewController
-                // if (controller.GetType() != type) {
-                //     // 立即销毁，不允许Asset被销毁
-                //     Object.DestroyImmediate(controller, false);
-                // }
-                // Apply the changed properties without an undo.
-                serializedObject.ApplyModifiedPropertiesWithoutUndo();
-                GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+                // 销毁ViewController
+                if (controller.GetType() != type) {
+                    // 立即销毁，不允许Asset被销毁
+                    Object.DestroyImmediate(controller, true);
+                }
+                
                 // 如果不存在，则生成文件夹
                 DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
 

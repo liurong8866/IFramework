@@ -67,7 +67,7 @@ namespace IFramework.Editor
             AssetDatabase.Refresh();
         }
 
-        [DidReloadScripts]
+        // [DidReloadScripts]
         private static void AddComponentToGameObject()
         {
             if (generateClassName.Value.Nothing()) {

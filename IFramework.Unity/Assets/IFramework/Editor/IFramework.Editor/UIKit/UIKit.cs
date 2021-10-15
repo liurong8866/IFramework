@@ -19,7 +19,23 @@ namespace IFramework.Editor
                 }
             }
         }
-
+        
+        /// <summary>
+        /// 绑定Bind脚本验证
+        /// </summary>
+        public static bool AddBindScriptValidate()
+        {
+            foreach (GameObject go in Selection.objects.OfType<GameObject>()) {
+                if (go != null ) {
+                    IBind bind = go.GetComponent<IBind>();
+                    if (bind != null) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
         /// <summary>
         /// 绑定ViewController
         /// </summary>
@@ -85,6 +101,7 @@ namespace IFramework.Editor
             // ViewController Prefab 生成路径
             Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_UI_VC_PREFAB_PATH;
         }
+
         
     }
 }

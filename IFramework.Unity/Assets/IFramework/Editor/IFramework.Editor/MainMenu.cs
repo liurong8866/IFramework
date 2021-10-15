@@ -52,19 +52,26 @@ namespace IFramework.Editor
 
         /*----------------------------- GameObject 右键菜单 -----------------------------*/
 
-        public const string CON_MENU_BIND = "GameObject/I Kit - Bind &b";
+        public const string CON_MENU_BIND = "GameObject/IFramework Kit - Bind &b";
 
-        [MenuItem("GameObject/-------------------------------", false, 30)]
-        // [MenuItem("GameObject/- - - - - - - - - - - - - - - -", false, 30)]
-        private static void UIKitTop() { }
-
+        // [MenuItem("GameObject/-------------------------------", false, 30)]
+        // private static void UIKitTop() { }
+        
+        
         [MenuItem(CON_MENU_BIND, false, 31)]
         private static void UIKitBind()
         {
             UIKit.AddBindScript();
         }
+        
+        [MenuItem(CON_MENU_BIND, true)]
+        private static bool UIKitBindValidate()
+        {
+            return UIKit.AddBindScriptValidate();
+        }
 
-        public const string CON_MENU_VIEW = "GameObject/I Kit - View Controller &v";
+
+        public const string CON_MENU_VIEW = "GameObject/IFramework Kit - View Controller &v";
 
         [MenuItem(CON_MENU_VIEW, false, 32)]
         private static void UIKitAddView()
@@ -72,6 +79,12 @@ namespace IFramework.Editor
             UIKit.AddViewScript();
         }
 
+        [MenuItem(CON_MENU_VIEW, true)]
+        private static bool UIKitAddViewValidate()
+        {
+            return UIKit.AddBindScriptValidate();
+        }
+        
         // public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
         //
         // [MenuItem(CON_MENU_GENCODE, false, 33)]
@@ -82,7 +95,7 @@ namespace IFramework.Editor
 
         /*----------------------------- Asset 右键菜单 -----------------------------*/
 
-        public const string CON_MENU_ASSET_MARK = "Assets/I Kit - Mark AssetBundle";
+        public const string CON_MENU_ASSET_MARK = "Assets/IFramework Kit - Mark AssetBundle";
 
         [MenuItem(CON_MENU_ASSET_MARK, false, 120)]
         private static void MarkAssetBundle()
@@ -90,7 +103,7 @@ namespace IFramework.Editor
             AssetBundleKit.MarkAssetBundle();
         }
 
-        public const string CON_MENU_ASSET_GENCODE = "Assets/I Kit - Generate Code";
+        public const string CON_MENU_ASSET_GENCODE = "Assets/IFramework Kit - Generate Code";
 
         [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
         private static void AssetCreateCode()
