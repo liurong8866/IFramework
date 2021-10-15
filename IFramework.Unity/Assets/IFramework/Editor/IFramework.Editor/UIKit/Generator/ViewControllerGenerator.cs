@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using IFramework.Core;
@@ -10,14 +11,14 @@ using Object = UnityEngine.Object;
 namespace IFramework.Editor
 {
     /// <summary>
-    /// ViewController 代码生成器
+    /// UIPanel 代码生成器
     /// </summary>
     public class ViewControllerGenerator
     {
         private static readonly ConfigDateTime generateTime = new ConfigDateTime("GENERATE_TIME");
         private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
         private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
-        private static readonly ConfigString gameObjectName = new ConfigString("GAME_OBJECT_NAME");
+        private static readonly ConfigString generateObjectName = new ConfigString("GENERATE_ROOT_OBJECT_NAME");
 
         /// <summary>
         /// 生成脚本
@@ -26,127 +27,127 @@ namespace IFramework.Editor
         {
             generateTime.Value = DateTime.Now;
             Log.Clear();
-            GameObject go = Selection.objects.First() as GameObject;
-            if (!go) {
-                Log.Warning("需要选择 GameObject");
-                return;
-            }
+            GenerateCode(Selection.activeGameObject);
+        }
 
-            // 如果当前是Bind类型，并且不包含ViewController，则认为是子节点，向上查找
-            // if (go.GetComponent<AbstractBind>() && !go.GetComponent<ViewController>()) {
-            //     ViewController parentController = go.GetComponentInParent<ViewController>();
-            //
-            //     // 如果找到ViewController，则
-            //     if (parentController) {
-            //         go = parentController.gameObject;
-            //     }
-            // }
-            // 生成脚本
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        private static void GenerateCode(GameObject obj)
+        {
+            if (obj == null) return;
             Log.Info("生成脚本: 开始");
-            ViewController controller = go.GetComponent<ViewController>();
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
-                GameObjectName = controller.name
+                GameObjectName = obj.name
             };
-
             // 搜索所有绑定对象
-            BindCollector.SearchBind(go.transform, "", rootControllerInfo);
-            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
-
-            // 生成Controller层
-            ViewControllerTemplate.Instance.Generate(generateInfo, null, overwrite);
-
-            // 生成Model层
-            ViewControllerDesignerTemplate.Instance.Generate(generateInfo, rootControllerInfo, true);
-
-            // 保存信息
-            generateNamespace.Value = generateInfo.Namespace;
-            generateClassName.Value = generateInfo.ScriptName;
-            gameObjectName.Value = go.name;
-
+            BindCollector.SearchBind(obj.transform, "", rootControllerInfo);
+            // 生成 UIPanel脚本
+            GenerateUIPanelCode(obj, rootControllerInfo);
             // 刷新项目资源
             AssetDatabase.Refresh();
         }
 
-        // [DidReloadScripts]
+        /// <summary>
+        /// 生成UIPanelCode
+        /// </summary>
+        private static void GenerateUIPanelCode(GameObject obj, RootViewControllerInfo rootControllerInfo)
+        {
+            ViewController controller = obj.GetComponent<ViewController>();
+            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+
+            // 生成Controller层
+            ViewControllerTemplate.Instance.Generate(generateInfo, rootControllerInfo, false);
+
+            // 生成Model层
+            ViewControllerDesignerTemplate.Instance.Generate(generateInfo, rootControllerInfo, true);
+
+            // 生成UIElement组件
+            foreach (ElementInfo elementInfo in rootControllerInfo.ElementInfoList) {
+                string elementPath = "";
+                if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
+                    elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName);
+                }
+                else {
+                    elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName, "Components");
+                }
+                CreateUIElementCode(elementPath, elementInfo);
+            }
+            // 保存信息
+            generateNamespace.Value = generateInfo.Namespace;
+            generateClassName.Value = generateInfo.ScriptName;
+            generateObjectName.Value = obj.name;
+        }
+
+        /// <summary>
+        /// 生成UIElement
+        /// </summary>
+        private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
+        {
+            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
+                Namespace = Configure.DefaultNameSpace.Value,
+                ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
+                ScriptPath = generateDirPath
+            };
+
+            // 生成.cs
+            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
+
+            // 生成.designer.cs
+            UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
+
+            // 水平遍历，深度递归调用
+            foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
+                string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, panelGenerateInfo.ScriptName);
+                CreateUIElementCode(elementDir, childElement);
+            }
+        }
+
+        /// <summary>
+        /// 替换组件
+        /// </summary>
+        [DidReloadScripts]
         private static void AddComponentToGameObject()
         {
             if (generateClassName.Value.Nothing()) {
                 Clear();
-                // 自动修复
-                // FixComponentLost();
                 return;
             }
             Log.Info("生成脚本: 正在编译");
 
-            // 通过反射获得生成的类
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            Assembly defaultAssembly = assemblies.First(assembly => assembly.GetName().Name == "Assembly-CSharp");
-            string typeName = generateNamespace + "." + generateClassName;
-            Type type = defaultAssembly.GetType(typeName);
-
-            // 如果类型为空，代表着获取失败，生成的类有问题
-            if (type == null) {
-                Log.Warning("生成脚本: 编译失败，请检查生成设置是否正确");
-                Clear();
-                return;
-            }
-
             // 获取ViewController所在对象
-            GameObject go = GameObject.Find(gameObjectName.Value);
+            GameObject go = GameObject.Find(generateObjectName.Value);
             if (!go) {
-                Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(gameObjectName));
+                Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(generateObjectName.Value));
                 Clear();
                 return;
             }
-
-            // 给对象添加组件
-            Component component = go.GetComponent(type);
-
-            // 如果没有当前类的组件，则挂上
-            if (!component) {
-                component = go.AddComponent(type);
-            }
-
-            // ViewController的序列化对象
-            SerializedObject serializedObject = new SerializedObject(component);
-            RootViewControllerInfo rootViewController = new RootViewControllerInfo {
-                GameObjectName = gameObjectName.Value
-            };
-
-            // 搜索所有绑定
-            BindCollector.SearchBind(go.transform, "", rootViewController);
-
-            // 循环设置Bind
-            foreach (BindInfo bindInfo in rootViewController.BindInfoList) {
-                string name = bindInfo.Name;
-                string componentName = bindInfo.BindScript.ComponentName.Split('.').Last();
-
-                // 添加Bind对象的引用
-                try {
-                    serializedObject.FindProperty(name).objectReferenceValue = go.transform.Find(bindInfo.PathToElement).GetComponent(componentName);
-                }
-                catch (Exception e) {
-                    Log.Warning(e);
-                }
-            }
-
+            Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
+            // 替换脚本
+            SetObjectRefToProperty(go, assembly);
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
+            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+            
+            // ViewController的序列化对象
+            SerializedObject serializedObject = new SerializedObject(controller);
             if (controller) {
                 serializedObject.FindProperty("Namespace").stringValue = controller.Namespace;
                 serializedObject.FindProperty("ScriptName").stringValue = controller.ScriptName;
                 serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
                 serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
                 serializedObject.FindProperty("Comment").stringValue = controller.Comment;
+                
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
-                // 销毁ViewController组件，因为前面已绑定新生成的类，第二次操作时，因为是自己，就不要销毁类
+                string typeName = generateNamespace + "." + generateClassName;
+                Type type = assembly.GetType(typeName);
+                // 销毁ViewController
                 if (controller.GetType() != type) {
                     // 立即销毁，不允许Asset被销毁
-                    Object.DestroyImmediate(controller, false);
+                    Object.DestroyImmediate(controller, true);
                 }
-                // Apply the changed properties without an undo.
-                serializedObject.ApplyModifiedPropertiesWithoutUndo();
-                GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+                
                 // 如果不存在，则生成文件夹
                 DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
 
@@ -165,34 +166,99 @@ namespace IFramework.Editor
                 // Apply the changed properties without an undo.
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
             }
-
-            // 清理缓存数据
-            Clear();
+            // 保存资源
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
 
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
-            generateTime.Clear();
+            Clear();
         }
 
         /// <summary>
-        /// 修复因删除组件导致不可用
+        /// 设置对象引用属性
         /// </summary>
-        private static void FixComponentLost()
+        private static void SetObjectRefToProperty(GameObject go, Assembly assembly)
         {
-            EditorUtils.ClearMissing(EditorUtils.GetRootGameObjects(),
-                                     go => {
-                                         go.AddComponentSafe<ViewController>();
-                                         Log.Warning($"生成脚本: 对象 {go.name} 发现Missing脚本，已修复为: ViewController组件，请确认。");
-                                     });
+            Stack<Transform> elementStack = new Stack<Transform>();
+            // 绑定Root节点组件
+            BindComponent(go.transform, generateClassName.Value, assembly);
+            // 添加Root节点
+            elementStack.Push(go.transform);
+            // 生成从下到上的Element栈
+            BindCollector.GetElementStack(go.transform, elementStack);
+            while (elementStack.Count > 0) {
+                // 待处理节点
+                Transform elementTran = elementStack.Pop();
+                
+                IBind bind = elementTran.GetComponent<IBind>();
+                // 取得该节点下所有IBind组件
+                SetObjectRefToProperty(elementTran, bind.ComponentName, assembly);
+            }
+        }
+
+        /// <summary>
+        /// 设置对象引用属性
+        /// </summary>
+        private static void SetObjectRefToProperty(Transform tran, string scriptName, Assembly assembly)
+        {
+            Component component = BindComponent(tran, scriptName, assembly);
+            // 获取序列化对象
+            SerializedObject serialized = new SerializedObject(component);
+            // 查找该组件下所有IBind类型子组件
+            IBind[] allBind = tran.GetComponentsInChildren<IBind>(true);
+
+            // 循环设置对象引用
+            foreach (IBind elementBind in allBind) {
+                // 取得属性名称
+                string propertyName = elementBind.Transform.name;
+                // 如果没有该属性，则跳出本次循环，执行下次循环
+                if (serialized.FindProperty(propertyName) == null) continue;
+                // 设置对象引用
+                serialized.FindProperty(propertyName).objectReferenceValue = elementBind.Transform.gameObject;
+            }
+            // 确认修改
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        /// <summary>
+        /// 绑定组件并返回
+        /// </summary>
+        private static Component BindComponent(Transform tran, string scriptName, Assembly assembly)
+        {
+            IBind bind = tran.GetComponent<IBind>();
+            string className = "";
+
+            // 获取className，如果有组件，则取组件名称，否则取Prefab文件名
+            if (bind.NotEmpty()) {
+                className = Configure.DefaultNameSpace + "." + bind.ComponentName;
+
+                // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
+                if (bind.BindType != BindType.DefaultElement) {
+                    AbstractBind abstractBind = tran.GetComponent<AbstractBind>();
+                    if (abstractBind.NotEmpty()) {
+                        Object.DestroyImmediate(abstractBind, true);
+                    }
+                }
+            }
+            else {
+                className = Configure.DefaultNameSpace + "." + scriptName;
+            }
+            // 反射类型
+            Type t = assembly.GetType(className);
+            // 绑定组件
+            Component component = tran.GetComponent(t) ?? tran.gameObject.AddComponent(t);
+            return component;
         }
 
         // 清理缓存数据
         private static void Clear()
         {
+            generateTime.Clear();
             generateClassName.Clear();
             generateNamespace.Clear();
-            gameObjectName.Clear();
+            generateObjectName.Clear();
         }
     }
 }

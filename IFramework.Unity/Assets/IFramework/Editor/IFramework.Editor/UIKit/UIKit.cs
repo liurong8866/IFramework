@@ -65,13 +65,13 @@ namespace IFramework.Editor
             UIConfigWindow.Open();
         }
 
-        /// <summary>
-        /// 生成ViewController代码
-        /// </summary>
-        public static void ViewControllerGenerate()
-        {
-            ViewControllerGenerator.GenerateCode(false);
-        }
+        // /// <summary>
+        // /// 生成ViewController代码
+        // /// </summary>
+        // public static void ViewControllerGenerate()
+        // {
+        //     ViewControllerGenerator.GenerateCode(false);
+        // }
 
         /// <summary>
         /// 生成UIPanel代码
