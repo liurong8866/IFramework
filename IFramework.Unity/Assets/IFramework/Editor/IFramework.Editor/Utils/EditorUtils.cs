@@ -138,23 +138,23 @@ namespace IFramework.Editor
             return name.Replace(" ", "").Replace("　", "");
         }
 
-        /// <summary>
-        /// 查找Bind所属的ViewController
-        /// </summary>
-        public static string GetBindBelongsTo(AbstractBind bind)
-        {
-            Transform trans = bind.Transform;
-            while (trans.parent != null) {
-                if (trans.parent.IsViewController()) {
-                    return trans.parent.name + "(" + trans.parent.GetComponent<ViewController>().ScriptName + ")";
-                }
-                if (trans.parent.IsUIPanel()) {
-                    return "UIPanel" + "(" + trans.parent.GetComponent<UIPanel>().name + ")";
-                }
-                trans = trans.parent;
-            }
-            return trans.name;
-        }
+        // /// <summary>
+        // /// 查找Bind所属的ViewController
+        // /// </summary>
+        // public static string GetBindBelongsTo(AbstractBind bind)
+        // {
+        //     Transform trans = bind.Transform;
+        //     while (trans.parent != null) {
+        //         if (trans.parent.IsViewController()) {
+        //             return trans.parent.name + "(" + trans.parent.GetComponent<ViewController>().ScriptName + ")";
+        //         }
+        //         if (trans.parent.IsUIPanel()) {
+        //             return "UIPanel" + "(" + trans.parent.GetComponent<UIPanel>().name + ")";
+        //         }
+        //         trans = trans.parent;
+        //     }
+        //     return trans.name;
+        // }
 
         /// <summary>
         /// 查找Bind所属的ViewController的GameObject对象
@@ -164,6 +164,22 @@ namespace IFramework.Editor
         public static GameObject GetBindBelongsToGameObject(AbstractBind bind)
         {
             Transform trans = bind.Transform;
+            while (trans.parent != null) {
+                if (trans.parent.IsViewController() || trans.parent.IsUIPanel()) {
+                    return trans.parent.gameObject;
+                }
+                trans = trans.parent;
+            }
+            return bind.gameObject;
+        }
+        
+        
+        /// <summary>
+        /// 查找当前Bind所属的Element或者ViewController
+        /// </summary>
+        public static GameObject GetBindBelongsTo(AbstractBind bind) {
+            Transform trans = bind.Transform;
+
             while (trans.parent != null) {
                 if (trans.parent.IsViewController() || trans.parent.IsUIPanel()) {
                     return trans.parent.gameObject;

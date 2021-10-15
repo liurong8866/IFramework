@@ -10,6 +10,7 @@ namespace IFramework.Editor
     public class BindInspector : UnityEditor.Editor
     {
         private AbstractBind bind;
+        private GameObject bindBelongsTo;
         private int elementTypeIndex;
         public Bindable<BindType> bindTypeMonitor = new Bindable<BindType>();
         private string[] elementTypeOptions = Array.Empty<string>();
@@ -23,6 +24,7 @@ namespace IFramework.Editor
                 bind.SerializedFiled = new AbstractBind.Serialized(serializedObject);
                 bindTypeMonitor.OnChange += GetElementTypeOptions;
                 GetElementTypeOptions(0);
+                bindBelongsTo = EditorUtils.GetBindBelongsTo(target as AbstractBind);
             }
         }
 
@@ -57,12 +59,23 @@ namespace IFramework.Editor
 
             // 组件
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("绑定类型");
+            EditorGUILayout.PrefixLabel("类型");
             bind.bindType = (BindType)EditorGUILayout.EnumPopup(bind.BindType);
             bindTypeMonitor.Value = bind.BindType;
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+            // 组件
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("所属");
+            GUILayout.Label(bindBelongsTo.name);
+            if(GUILayout.Button("选择",GUILayout.Width(60)))
+            {
+                Selection.objects = new[] { bindBelongsTo };
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+            
             // 类型
             if (bind.BindType == BindType.DefaultElement && elementTypeIndex < elementTypeOptions.Length) {
                 GUILayout.BeginHorizontal();

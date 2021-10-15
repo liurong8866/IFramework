@@ -54,7 +54,8 @@ namespace IFramework.Editor
 
         public const string CON_MENU_BIND = "GameObject/I Kit - Bind &b";
 
-        [MenuItem("GameObject/- - - - - - - - - - - - - - - -", false, 30)]
+        [MenuItem("GameObject/-------------------------------", false, 30)]
+        // [MenuItem("GameObject/- - - - - - - - - - - - - - - -", false, 30)]
         private static void UIKitTop() { }
 
         [MenuItem(CON_MENU_BIND, false, 31)]
@@ -71,13 +72,13 @@ namespace IFramework.Editor
             UIKit.AddViewScript();
         }
 
-        public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
-
-        [MenuItem(CON_MENU_GENCODE, false, 33)]
-        private static void UIKitCreateCode()
-        {
-            UIKit.ViewControllerGenerate();
-        }
+        // public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
+        //
+        // [MenuItem(CON_MENU_GENCODE, false, 33)]
+        // private static void UIKitCreateCode()
+        // {
+        //     UIKit.ViewControllerGenerate();
+        // }
 
         /*----------------------------- Asset 右键菜单 -----------------------------*/
 

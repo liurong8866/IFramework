@@ -85,5 +85,6 @@ namespace IFramework.Editor
             // ViewController Prefab 生成路径
             Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_UI_VC_PREFAB_PATH;
         }
+        
     }
 }
