@@ -11,7 +11,7 @@ namespace IFramework.Core
         /// <summary>
         /// 绑定类型
         /// </summary>
-        public BindType BindType => bindType;
+        public virtual BindType BindType => bindType;
 
         /// <summary>
         /// 组件名称
@@ -30,12 +30,12 @@ namespace IFramework.Core
         /// <summary>
         /// 注释
         /// </summary>
-        public string Comment { get => comment; set => comment = value; }
+        public virtual string Comment { get => comment; set => comment = value; }
 
         /// <summary>
         /// 自定义名称
         /// </summary>
-        public string CustomComponentName;
+        public  string CustomComponentName;
 
         [HideInInspector]
         public BindType bindType;

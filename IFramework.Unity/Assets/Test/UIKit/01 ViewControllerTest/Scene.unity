@@ -405,3 +405,76 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ceae50670dbd4de4a498e8e27490278, type: 3}
+--- !u!1001 &1591546190123594863
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 823988134196997716, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: Namespace
+      value: IFramework.Example.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 823988134196997716, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: PrefabPath
+      value: Prefab/Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 823988134196997716, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: ScriptName
+      value: LoginPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 823988134196997716, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: ScriptPath
+      value: Scripts/Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.79719985
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.68724227
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.0459247
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204404567378883336, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2614655093850767338, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}
+      propertyPath: m_Name
+      value: LoginPanel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0d8a8c3f3d724590baf8a63b5fa5b43, type: 3}

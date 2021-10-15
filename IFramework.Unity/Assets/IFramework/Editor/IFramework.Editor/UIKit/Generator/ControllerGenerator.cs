@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using IFramework.Core;
 using UnityEditor;
@@ -12,115 +13,70 @@ namespace IFramework.Editor
     /// <summary>
     /// UIPanel 代码生成器
     /// </summary>
-    public class UIPanelGenerator
+    public class ControllerGenerator
     {
         private static readonly ConfigDateTime generateTime = new ConfigDateTime("GENERATE_TIME");
-        private static readonly ConfigString generateUIPrefabPath = new ConfigString("GENERATE_UI_PREFAB_PATH");
+        private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
+        private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
+        private static readonly ConfigString generateObjectName = new ConfigString("GENERATE_ROOT_OBJECT_NAME");
 
         /// <summary>
         /// 生成脚本
         /// </summary>
-        public static void GenerateCode()
+        public static void GenerateCode(bool overwrite)
         {
             generateTime.Value = DateTime.Now;
             Log.Clear();
-            Object[] objects = Selection.GetFiltered(typeof(GameObject), SelectionMode.Assets | SelectionMode.TopLevel);
-            GenerateCode(objects);
+            GenerateCode(Selection.activeGameObject);
         }
 
         /// <summary>
         /// 生成代码
         /// </summary>
-        public static void GenerateCode(Object[] objects)
-        {
-            try {
-                EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
-                for (int i = 0; i < objects.Length; i++) {
-                    GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]));
-                    EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
-                }
-                AssetDatabase.Refresh();
-            } finally {
-                EditorUtility.ClearProgressBar();
-            }
-        }
-
-        /// <summary>
-        /// 生成代码
-        /// </summary>
-        private static void GenerateCode(GameObject obj, string prefabPath)
+        private static void GenerateCode(GameObject obj)
         {
             if (obj == null) return;
-
-            // 如果不是Prefab，则退出
-            PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
-            if (prefabType == PrefabAssetType.NotAPrefab) return;
-
-            // 实例化Prefab
-            GameObject clone = PrefabUtility.InstantiatePrefab(obj) as GameObject;
-            if (clone == null) return;
-            RootPanelInfo rootPanelInfo = new RootPanelInfo {
-                GameObjectName = clone.name.Replace("(clone)", string.Empty)
+            Log.Info("生成脚本: 开始");
+            RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
+                GameObjectName = obj.name
             };
-
-            // 查询所有Bind
-            BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
-
+            // 搜索所有绑定对象
+            BindCollector.SearchBind(obj.transform, "", rootControllerInfo);
             // 生成 UIPanel脚本
-            GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
-
-            // 获取PrefabPath
-            string assetPath = AssetDatabase.GetAssetPath(obj);
-
-            // 获取Prefab路径, 如果多个则用;分隔
-            if (assetPath.NotEmpty()) {
-                if (generateUIPrefabPath.Value.Nothing()) {
-                    generateUIPrefabPath.Value = assetPath;
-                }
-                else {
-                    generateUIPrefabPath.Value += ";" + assetPath;
-                }
-            }
-
-            //销毁刚实例化的对象
-            Object.DestroyImmediate(clone);
+            GenerateUIPanelCode(obj, rootControllerInfo);
+            // 刷新项目资源
+            AssetDatabase.Refresh();
         }
 
         /// <summary>
         /// 生成UIPanelCode
         /// </summary>
-        public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo)
+        private static void GenerateUIPanelCode(GameObject obj, RootViewControllerInfo rootControllerInfo)
         {
-            // 根据Prefab路径获取Script生成路径
-            string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
+            ViewController controller = obj.GetComponent<ViewController>();
+            GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
 
-            // 取UIPrefab默认路径右侧路径
-            scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+            // 生成Controller层
+            ViewControllerTemplate.Instance.Generate(generateInfo, rootControllerInfo, false);
 
-            // 组装生成信息
-            UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
-                Namespace = Configure.DefaultNameSpace.Value,
-                ScriptName = obj.name,
-                ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
-            };
-
-            // 生成 .cs文件
-            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo);
-
-            // 生成 .designer.cs
-            UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
+            // 生成Model层
+            ViewControllerDesignerTemplate.Instance.Generate(generateInfo, rootControllerInfo, true);
 
             // 生成UIElement组件
-            foreach (ElementInfo elementInfo in rootPanelInfo.ElementInfoList) {
+            foreach (ElementInfo elementInfo in rootControllerInfo.ElementInfoList) {
                 string elementPath = "";
                 if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
-                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name);
+                    elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName);
                 }
                 else {
-                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name, "Components");
+                    elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName, "Components");
                 }
                 CreateUIElementCode(elementPath, elementInfo);
             }
+            // 保存信息
+            generateNamespace.Value = generateInfo.Namespace;
+            generateClassName.Value = generateInfo.ScriptName;
+            generateObjectName.Value = obj.name;
         }
 
         /// <summary>
@@ -153,25 +109,65 @@ namespace IFramework.Editor
         [DidReloadScripts]
         private static void AddComponentToGameObject()
         {
-            string pathStr = generateUIPrefabPath.Value;
-            if (pathStr.Nothing()) {
+            if (generateClassName.Value.Nothing()) {
                 Clear();
                 return;
             }
             Log.Info("生成脚本: 正在编译");
 
-            // 获取路径
-            Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
-            string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string path in paths) {
-                GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                // 设置对象引用属性
-                SetObjectRefToProperty(go, assembly);
-                // 更新进度条
-                Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
+            // 获取ViewController所在对象
+            GameObject go = GameObject.Find(generateObjectName.Value);
+            if (!go) {
+                Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(generateObjectName.Value));
+                Clear();
+                return;
             }
+            Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
+            // 替换脚本
+            SetObjectRefToProperty(go, assembly);
+            // 生成Prefab, 初始化字段
+            ViewController controller = go.GetComponent<ViewController>();
+            // ViewController的序列化对象
+            SerializedObject serializedObject = new SerializedObject(controller);
+            if (controller) {
+                serializedObject.FindProperty("Namespace").stringValue = controller.Namespace;
+                serializedObject.FindProperty("ScriptName").stringValue = controller.ScriptName;
+                serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
+                serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
+                serializedObject.FindProperty("Comment").stringValue = controller.Comment;
+                string typeName = generateNamespace + "." + generateClassName;
+                Type type = assembly.GetType(typeName);
+
+                // // 销毁ViewController
+                // if (controller.GetType() != type) {
+                //     // 立即销毁，不允许Asset被销毁
+                //     Object.DestroyImmediate(controller, false);
+                // }
+                // Apply the changed properties without an undo.
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+                GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
+                // 如果不存在，则生成文件夹
+                DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
+
+                // 当根节点，或者其父节点也是prefab，则不保存
+                if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
+                    string path = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
+                    Log.Info("生成脚本: 正在生成预设 " + path);
+                    EditorUtils.SavePrefab(go, path);
+                }
+                else {
+                    Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
+                }
+            }
+            else {
+                serializedObject.FindProperty("ScriptPath").stringValue = "Assets/Scripts";
+                // Apply the changed properties without an undo.
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            }
+            // 保存资源
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
@@ -184,30 +180,28 @@ namespace IFramework.Editor
         private static void SetObjectRefToProperty(GameObject go, Assembly assembly)
         {
             Stack<Transform> elementStack = new Stack<Transform>();
-
             // 绑定Root节点组件
-            BindComponent(go.transform, go.name, assembly);
-
+            BindComponent(go.transform, generateClassName.Value, assembly);
             // 添加Root节点
             elementStack.Push(go.transform);
-
             // 生成从下到上的Element栈
             BindCollector.GetElementStack(go.transform, elementStack);
             while (elementStack.Count > 0) {
                 // 待处理节点
                 Transform elementTran = elementStack.Pop();
-
+                
+                IBind bind = elementTran.GetComponent<IBind>();
                 // 取得该节点下所有IBind组件
-                SetObjectRefToProperty(elementTran, elementTran.name, assembly);
+                SetObjectRefToProperty(elementTran, bind.ComponentName, assembly);
             }
         }
 
         /// <summary>
         /// 设置对象引用属性
         /// </summary>
-        private static void SetObjectRefToProperty(Transform tran, string prefabName, Assembly assembly)
+        private static void SetObjectRefToProperty(Transform tran, string scriptName, Assembly assembly)
         {
-            Component component = BindComponent(tran, prefabName, assembly);
+            Component component = BindComponent(tran, scriptName, assembly);
             // 获取序列化对象
             SerializedObject serialized = new SerializedObject(component);
             // 查找该组件下所有IBind类型子组件
@@ -229,7 +223,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 绑定组件并返回
         /// </summary>
-        private static Component BindComponent(Transform tran, string prefabName, Assembly assembly)
+        private static Component BindComponent(Transform tran, string scriptName, Assembly assembly)
         {
             IBind bind = tran.GetComponent<IBind>();
             string className = "";
@@ -247,9 +241,8 @@ namespace IFramework.Editor
                 }
             }
             else {
-                className = Configure.DefaultNameSpace + "." + prefabName;
+                className = Configure.DefaultNameSpace + "." + scriptName;
             }
-
             // 反射类型
             Type t = assembly.GetType(className);
             // 绑定组件
@@ -261,7 +254,9 @@ namespace IFramework.Editor
         private static void Clear()
         {
             generateTime.Clear();
-            generateUIPrefabPath.Clear();
+            generateClassName.Clear();
+            generateNamespace.Clear();
+            generateObjectName.Clear();
         }
     }
 }

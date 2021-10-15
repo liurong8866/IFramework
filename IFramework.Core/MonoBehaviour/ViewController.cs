@@ -4,7 +4,7 @@ using UnityEngine;
 namespace IFramework.Core
 {
     [AddComponentMenu("IFramework/ViewController")]
-    public class ViewController : MonoBehaviour
+    public class ViewController : MonoBehaviour, IBind
     {
         /// <summary>
         /// 命名空间
@@ -78,5 +78,13 @@ namespace IFramework.Core
                 Comment = serializedObject.FindProperty("Comment");
             }
         }
+
+        /// <summary>
+        /// 实现IBind接口
+        /// </summary>
+        public Transform Transform => transform;
+        public BindType BindType => BindType.Element;
+        public string ComponentName => ScriptName;
+        string IBind.Comment => this.Comment;
     }
 }
