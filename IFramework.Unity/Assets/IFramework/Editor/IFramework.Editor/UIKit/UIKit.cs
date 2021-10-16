@@ -28,12 +28,12 @@ namespace IFramework.Editor
             foreach (GameObject go in Selection.objects.OfType<GameObject>()) {
                 if (go != null ) {
                     IBind bind = go.GetComponent<IBind>();
-                    if (bind != null) {
-                        return false;
+                    if (bind == null) {
+                        return true;
                     }
                 }
             }
-            return true;
+            return false;
         }
         
         /// <summary>

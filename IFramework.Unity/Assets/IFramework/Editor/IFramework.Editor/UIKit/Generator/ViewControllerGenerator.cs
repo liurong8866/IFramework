@@ -36,6 +36,7 @@ namespace IFramework.Editor
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
+            EditorUtility.DisplayProgressBar("正在生成脚本...", String.Empty, 0);
             Log.Info("生成脚本: 开始");
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
                 GameObjectName = obj.name
@@ -141,6 +142,7 @@ namespace IFramework.Editor
             catch (Exception e) {
                 Log.Error(e.Message);
                 Clear();
+                EditorUtility.ClearProgressBar();
                 return;
             }
             // 生成Prefab, 初始化字段
@@ -191,6 +193,7 @@ namespace IFramework.Editor
             //销毁刚实例化的对象
             if (isTemp) go.DestroySelfImmediate();
             Clear();
+            EditorUtility.ClearProgressBar();
         }
 
         /// <summary>

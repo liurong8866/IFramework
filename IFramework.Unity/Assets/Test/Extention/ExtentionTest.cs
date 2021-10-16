@@ -11,6 +11,7 @@ namespace IFramework.Test.Extention
     {
         private void Start()
         {
+            
             ObjectExtentionTest();
 
             // GameObjectExtentionTest();

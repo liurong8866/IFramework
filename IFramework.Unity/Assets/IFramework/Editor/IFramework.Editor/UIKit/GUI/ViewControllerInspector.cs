@@ -38,13 +38,12 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
             serializedObject.Update();
             // 避免混用布局遮挡
             EditorGUILayout.GetControlRect();
             // 开始布局
             GUILayout.BeginVertical();
-            
+
             // 命名空间
             GUILayout.BeginHorizontal();
             // EditorGUILayout.PrefixLabel("命名空间");
@@ -121,12 +120,12 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("生成脚本")) {
                 ViewControllerGenerator.GenerateCode(overwrite1 && overwrite2 && overwrite3);
-                overwrite1 =  overwrite2 = overwrite3 = false;
-               
+                overwrite1 = overwrite2 = overwrite3 = false;
+
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
                 GUIUtility.ExitGUI();
             }
-            
+
             // 如果文件存在则显示
             if (FileUtils.Exists(generateInfo.ScriptAssetsClassName)) {
                 // 加载类资源

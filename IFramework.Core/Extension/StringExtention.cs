@@ -191,7 +191,7 @@ namespace IFramework.Core
         {
             return string.Format(value, args);
         }
-
+        
         /// <summary>
         /// 是否存在中文字符
         /// </summary>

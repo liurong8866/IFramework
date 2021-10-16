@@ -160,9 +160,9 @@ namespace IFramework.Editor
         /// <summary>
         /// 清除空格
         /// </summary>
-        public static string FormatName(this string name)
+        public static string FormatName(this string value)
         {
-            return name.Replace(" ", "").Replace("　", "").Replace("-", "_");
+            return value.Replace(" ", "").Replace("　", "").Replace("-", "");
         }
 
         /// <summary>

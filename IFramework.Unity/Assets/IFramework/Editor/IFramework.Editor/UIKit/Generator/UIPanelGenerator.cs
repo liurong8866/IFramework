@@ -42,7 +42,7 @@ namespace IFramework.Editor
                 }
                 AssetDatabase.Refresh();
             } finally {
-                EditorUtility.ClearProgressBar();
+                // EditorUtility.ClearProgressBar();
             }
         }
 
@@ -52,19 +52,19 @@ namespace IFramework.Editor
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
-            
+
             // 是否临时实例
             bool needDestroy = false;
             // 实例化Prefab
             GameObject instance;
-            
+
             // 如果不是Prefab，则退出
             PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
             if (prefabType == PrefabAssetType.NotAPrefab) return;
 
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
-            
+
             // 如果是对象
             if (assetPath.Nothing()) {
                 instance = obj;
@@ -85,9 +85,8 @@ namespace IFramework.Editor
                     return;
                 };
             }
-            
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
-                GameObjectName = instance.name.Replace("(clone)", string.Empty)
+                GameObjectName = EditorUtils.FormatName(instance.name).Replace("(clone)", string.Empty)
             };
 
             // 查询所有Bind
@@ -190,8 +189,9 @@ namespace IFramework.Editor
                 }
             }
             catch (Exception e) {
-                Log.Error(e.Message);
+                Log.Error("生成脚本: 编译失败，" + e.Message);
                 Clear();
+                EditorUtility.ClearProgressBar();
                 return;
             }
             AssetDatabase.SaveAssets();
@@ -200,6 +200,7 @@ namespace IFramework.Editor
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
             Clear();
+            EditorUtility.ClearProgressBar();
         }
 
         /// <summary>
