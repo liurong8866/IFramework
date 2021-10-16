@@ -40,10 +40,9 @@ namespace IFramework.Editor
             // 循环设置字段
             foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
-                    // 添加注释
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
-                sb.AppendLine($"\t\tpublic {bindInfo.BindScript.ComponentName} {bindInfo.Name};");
+                sb.AppendLine($"\t\tpublic {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.","").Replace("UnityEngine.","")} {bindInfo.Name};");
                 sb.AppendLine();
             }
             sb.AppendLine("\t}");

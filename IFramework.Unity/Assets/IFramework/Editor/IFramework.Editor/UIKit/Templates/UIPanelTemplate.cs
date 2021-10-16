@@ -43,7 +43,7 @@ namespace IFramework.Editor
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tprotected override void OnInit(IData data = null)");
             sb.AppendLine("\t\t{");
-            sb.AppendLine($"\t\t\tthis.data = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
+            sb.AppendLine($"\t\t\tData = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
             sb.AppendLine("\t\t}");
             sb.AppendLine();
             sb.AppendLine("\t\tprotected override void OnOpen(IData data = null) { }");

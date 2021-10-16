@@ -1,4 +1,4 @@
-namespace IFramework.Engine.TimeLine
+namespace IFramework.Engine
 {
     public class TimeLinePair
     {

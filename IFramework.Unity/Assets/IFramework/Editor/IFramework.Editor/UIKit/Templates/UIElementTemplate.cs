@@ -27,7 +27,7 @@ namespace IFramework.Editor
             sb.AppendLine();
             sb.AppendLine("namespace " + generateInfo.Namespace);
             sb.AppendLine("{");
-            sb.AppendLine("\tpublic partial class {0} : {1}".Format(generateInfo.ScriptName, elementInfo.BindInfo.BindScript.BindType == BindType.Component ? "UIComponent" : "UIElement"));
+            sb.AppendLine("\tpublic partial class {0} : {1}".Format(generateInfo.ScriptName.Replace("UnityEngine.UI.","").Replace("UnityEngine.",""), elementInfo.BindInfo.BindScript.BindType == BindType.Component ? "UIComponent" : "UIElement"));
             sb.AppendLine("\t{");
             sb.AppendLine("\t\tprivate void Awake() { }");
             sb.AppendLine();

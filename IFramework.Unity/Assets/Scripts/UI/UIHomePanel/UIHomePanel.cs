@@ -3,20 +3,32 @@ using UnityEngine.UI;
 using IFramework.Core;
 using IFramework.Engine;
 
-// 1.请在菜单 IFramework/UIKit Config 里设置默认命名空间
-// 2.用户逻辑代码不会被覆盖，如需重新生成，请手动删除当前代码文件
-namespace IFramework.Example
+namespace IFramework.Test
 {
-	public class UIHomePanelData : UIPanelData { }
+    public class UIHomePanelData : UIPanelData
+    {
+        public int Coin;
+    }
 
 	public partial class UIHomePanel : UIPanel
 	{
 		protected override void OnInit(IData data = null)
 		{
-			this.data = data as UIHomePanelData ?? new UIHomePanelData();
-        }
+			Data = data as UIHomePanelData ?? new UIHomePanelData();
+            ButtonStart.onClick.AddListener(() => {
+                Log.Info("开始游戏" + Data.Coin);
+            });
+            
+            ButtonEnd.onClick.AddListener(() => {
+                Log.Info("结束游戏");
+            });
+		}
 
-		protected override void OnOpen(IData data = null) { }
+        protected override void OnOpen(IData data = null)
+        {
+            // 每次 OpenPanel 的时候使用
+            Debug.Log((data as UIHomePanelData).Coin);
+        }
 
 		protected override void OnShow() { }
 

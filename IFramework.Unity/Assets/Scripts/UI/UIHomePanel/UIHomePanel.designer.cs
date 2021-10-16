@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-16 21:13:09 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-16 22:39:53 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -6,30 +6,29 @@ using UnityEngine.UI;
 using IFramework.Core;
 using IFramework.Engine;
 
-// 请在菜单 IFramework/UIKit Config 里设置默认命名空间
-namespace IFramework.Example
+namespace IFramework.Test
 {
 	public partial class UIHomePanel
 	{
 		public const string Name = "UIHomePanel";
 
-		private UIHomePanelData uIHomePanelData = null;
+		private UIHomePanelData panelData = null;
 
-		[SerializeField] public UnityEngine.Transform GameStart;
+		[SerializeField] public Button ButtonStart;
 
-		[SerializeField] public UnityEngine.Transform GameEnd;
+		[SerializeField] public Button ButtonEnd;
 
 		protected override void ClearUIComponents()
 		{
-			GameStart = null;
-			GameEnd = null;
+			ButtonStart = null;
+			ButtonEnd = null;
 			Data = null;
 		}
 
 		public UIHomePanelData Data
 		{
-			get { return uIHomePanelData ??= new UIHomePanelData(); }
-			set { uIHomePanelData = value; data = value; }
+			get { return panelData ??= new UIHomePanelData(); }
+			set { panelData = value; data = value; }
 		}
 	}
 }

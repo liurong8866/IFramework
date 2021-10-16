@@ -24,7 +24,6 @@ namespace IFramework.Editor
                 if (!EditorUtils.IsPrefab(obj)) {
                     obj = PrefabUtility.GetCorrespondingObjectFromSource(obj);
                     if (obj.Nothing()) {
-                        Log.Error("生成脚本：脚本生成失败，未找到对象的Prefab");
                         return;
                     }
                 }

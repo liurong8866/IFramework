@@ -218,12 +218,17 @@ namespace IFramework.Engine
         public static void ResetPanelSize(IPanel panel)
         {
             RectTransform rectTrans = panel.Transform.As<RectTransform>();
-            rectTrans.offsetMin = Vector2.zero;
-            rectTrans.offsetMax = Vector2.zero;
-            rectTrans.anchoredPosition3D = Vector3.zero;
-            rectTrans.anchorMin = Vector2.zero;
-            rectTrans.anchorMax = Vector2.one;
-            rectTrans.LocalScaleIdentity();
+            if (rectTrans != null) {
+                rectTrans.offsetMin = Vector2.zero;
+                rectTrans.offsetMax = Vector2.zero;
+                rectTrans.anchoredPosition3D = Vector3.zero;
+                rectTrans.anchorMin = Vector2.zero;
+                rectTrans.anchorMax = Vector2.one;
+                rectTrans.LocalScaleIdentity();
+            }
+            else {
+                Log.Warning("要加载的{0}未找到RectTransform，请确认格式是否正确".Format(panel.Info.PanelName));
+            }
         }
 
         /// <summary>
