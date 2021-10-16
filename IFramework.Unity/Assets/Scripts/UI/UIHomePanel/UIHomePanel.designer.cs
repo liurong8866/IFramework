@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-16 22:39:53 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-16 23:57:35 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -18,10 +18,13 @@ namespace IFramework.Test
 
 		[SerializeField] public Button ButtonEnd;
 
+		[SerializeField] public Login Login;
+
 		protected override void ClearUIComponents()
 		{
 			ButtonStart = null;
 			ButtonEnd = null;
+			Login = null;
 			Data = null;
 		}
 

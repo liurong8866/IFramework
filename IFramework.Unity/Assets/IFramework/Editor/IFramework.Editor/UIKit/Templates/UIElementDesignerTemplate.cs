@@ -28,8 +28,7 @@ namespace IFramework.Editor
             sb.AppendLine("\tpublic partial class " + generateInfo.ScriptName);
             sb.AppendLine("\t{");
             foreach (BindInfo markInfo in elementInfo.BindInfoList) {
-                string strUIType = markInfo.BindScript.ComponentName;
-                sb.AppendLine($"\t\t[SerializeField] public {strUIType} {markInfo.Name};");
+                sb.AppendLine($"\t\t[SerializeField] public {markInfo.BindScript.ComponentName.Replace("UnityEngine.UI.","").Replace("UnityEngine.","")} {markInfo.Name};");
             }
             sb.AppendLine();
             sb.AppendLine($"\t\tpublic override string ComponentName => \"{elementInfo.BindInfo.BindScript.ComponentName}\";");
