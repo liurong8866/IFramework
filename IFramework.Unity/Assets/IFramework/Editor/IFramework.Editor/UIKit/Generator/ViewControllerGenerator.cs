@@ -124,7 +124,7 @@ namespace IFramework.Editor
                 // 实例化Prefab
                 go = PrefabUtility.InstantiatePrefab(goAsset) as GameObject;
                 if (go == null || !go.GetComponent<ViewController>()) {
-                    Log.Warning("生成脚本: 未找到ViewController组件:{0}".Format(generateObjectName.Value));
+                    Log.Error("生成脚本: 未找到对象:{0}".Format(generateObjectName.Value));
                     Clear();
                     return;
                 }
