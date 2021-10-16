@@ -43,7 +43,7 @@ namespace IFramework.Editor
             base.OnInspectorGUI();
             serializedObject.Update();
             
-            if (panelGenerateInfo.Nothing()) return;
+            // if (panelGenerateInfo.Nothing()) return;
 
             // 避免混用布局遮挡
             EditorGUILayout.GetControlRect();
@@ -70,7 +70,7 @@ namespace IFramework.Editor
                 GUIUtility.ExitGUI();
             }
             // 如果文件存在则显示
-            if (FileUtils.Exists(panelGenerateInfo.ScriptAssetsClassName)) {
+            if (panelGenerateInfo != null && FileUtils.Exists(panelGenerateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
                 MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(panelGenerateInfo.ScriptAssetsClassName);
                 if (GUILayout.Button("选择", GUILayout.Width(60))) {

@@ -108,6 +108,13 @@ namespace IFramework.Editor
             return component.GetComponent<UIPanel>();
         }
 
+        public static bool IsPrefab(this GameObject gameObject)
+        {
+            // 如果找到资源路径，说明是Prefab
+            string assetPath = AssetDatabase.GetAssetPath(gameObject);
+            return assetPath.NotEmpty();
+        }
+
         /// <summary>
         /// 清空Missing脚本
         /// </summary>

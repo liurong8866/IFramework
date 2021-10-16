@@ -37,7 +37,7 @@ namespace IFramework.Editor
             try {
                 EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
                 for (int i = 0; i < objects.Length; i++) {
-                    GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]), overwrite);
+                    GenerateCode(objects[i] as GameObject, overwrite);
                     EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
                 }
                 AssetDatabase.Refresh();
@@ -49,7 +49,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成代码
         /// </summary>
-        private static void GenerateCode(GameObject obj, string prefabPath, bool overwrite)
+        private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
 
@@ -61,12 +61,16 @@ namespace IFramework.Editor
             bool isTemp = false;
             // 实例化Prefab
             GameObject clone;
-
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
             // 如果AssetPath路径是空，说明当前不是Prefab，而是其实例
             if (assetPath.Nothing()) {
                 clone = obj;
+                GameObject prefabObj = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+                if (prefabObj.Nothing()) {
+                    Log.Error("生成脚本：脚本生成失败，未找到对象的Prefab");
+                }
+                assetPath = AssetDatabase.GetAssetPath(prefabObj);
             }
             else {
                 isTemp = true;
@@ -81,7 +85,7 @@ namespace IFramework.Editor
             BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
 
             // 生成 UIPanel脚本
-            GenerateUIPanelCode(obj, prefabPath, rootPanelInfo, overwrite);
+            GenerateUIPanelCode(clone, assetPath, rootPanelInfo, overwrite);
 
             // 获取Prefab路径, 如果多个则用;分隔
             if (assetPath.NotEmpty()) {
