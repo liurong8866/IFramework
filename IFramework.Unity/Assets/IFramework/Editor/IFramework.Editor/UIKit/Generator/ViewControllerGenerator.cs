@@ -71,7 +71,7 @@ namespace IFramework.Editor
                 else {
                     elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName, "Components");
                 }
-                CreateUIElementCode(elementPath, elementInfo);
+                CreateElementCode(elementPath, elementInfo);
             }
             // 保存信息
             generateNamespace.Value = generateInfo.Namespace;
@@ -82,7 +82,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成UIElement
         /// </summary>
-        private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
+        private static void CreateElementCode(string generateDirPath, ElementInfo elementInfo)
         {
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
                 Namespace = Configure.DefaultNameSpace.Value,
@@ -90,16 +90,22 @@ namespace IFramework.Editor
                 ScriptPath = generateDirPath
             };
 
+            // 生成Controller层
+            // ViewControllerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, false);
+            //
+            // // 生成Model层
+            // ViewControllerDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
+
             // 生成.cs
             UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
-
+            
             // 生成.designer.cs
             UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
 
             // 水平遍历，深度递归调用
             foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
                 string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, panelGenerateInfo.ScriptName);
-                CreateUIElementCode(elementDir, childElement);
+                CreateElementCode(elementDir, childElement);
             }
         }
 
@@ -129,8 +135,16 @@ namespace IFramework.Editor
                 }
             }
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
-            // 替换脚本
-            SetObjectRefToProperty(go, assembly);
+            try {
+                // 替换脚本
+                SetObjectRefToProperty(go, assembly);
+            }
+            catch (Exception e) {
+                Log.Error(e.Message);
+                Clear();
+                return;
+            }
+            
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
             GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);

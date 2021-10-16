@@ -1,3 +1,4 @@
+using System;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
@@ -11,6 +12,14 @@ namespace IFramework.Editor
             //创建窗口
             UIConfigWindow window = GetWindow<UIConfigWindow>(false, "UIKit 参数设置");
             window.Show();
+        }
+
+        private void OnEnable()
+        {
+            Configure.DefaultNameSpace.Value.IfNothing(() => Configure.DefaultNameSpace.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.UIScriptPath.Value.IfNothing(() => Configure.UIScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.ViewControllerScriptPath.Value.IfNothing(() => Configure.ViewControllerScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.ViewControllerPrefabPath.Value.IfNothing(() => Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
         }
 
         //绘制窗口时调用

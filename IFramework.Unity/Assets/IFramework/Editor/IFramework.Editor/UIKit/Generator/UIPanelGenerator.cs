@@ -163,13 +163,21 @@ namespace IFramework.Editor
             // 获取路径
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
             string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string path in paths) {
-                GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                // 设置对象引用属性
-                SetObjectRefToProperty(go, assembly);
-                // 更新进度条
-                Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
+            try {
+                foreach (string path in paths) {
+                    GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    // 设置对象引用属性
+                    SetObjectRefToProperty(go, assembly);
+                    // 更新进度条
+                    Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
+                }
+            }catch(Exception e)
+            {
+                Log.Error(e.Message);
+                Clear();
+                return;
             }
+            
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             // 标记场景未保存

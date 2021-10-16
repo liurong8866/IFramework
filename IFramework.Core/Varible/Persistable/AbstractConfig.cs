@@ -21,7 +21,7 @@ namespace IFramework.Core
         protected override void SetValue(T value)
         {
             if (IsValueChanged(value)) {
-                this.value = value;
+                // this.value = value; 
                 Save(value);
                 setted = true;
             }

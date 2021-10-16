@@ -15,10 +15,10 @@ namespace IFramework.Core
         public const string ASSET_BUNDLE_PATH = "AssetBundle";
 
         // Resources/Images
-        public const string RESOURCE_IMAGE_PATH = "Resources/Images";
+        public const string RESOURCE_IMAGE_PATH = "Resources/Image";
 
         // Resources/Images/Photo
-        public const string RESOURCE_PHOTO_PATH = "Resources/Images/Photo";
+        public const string RESOURCE_PHOTO_PATH = "Resources/Image/Photo";
 
         // Resources/Video
         public const string RESOURCE_VIDEO_PATH = "Resources/Video";
@@ -47,12 +47,12 @@ namespace IFramework.Core
         public const string UIKIT_UI_SCRIPT_PATH = "Scripts/UI";
 
         // UI Prefab 路径
-        public const string UIKIT_UI_PREFAB_PATH = "Prefab/UI";
+        public const string UIKIT_UI_PREFAB_PATH = "Prefabs/UI";
 
         // ViewController 脚本路径
         public const string UIKIT_UI_VC_SCRIPT_PATH = "Scripts/Game";
 
         // UI Prefab 路径
-        public const string UIKIT_UI_VC_PREFAB_PATH = "Prefab/Game";
+        public const string UIKIT_UI_VC_PREFAB_PATH = "Prefabs/Game";
     }
 }

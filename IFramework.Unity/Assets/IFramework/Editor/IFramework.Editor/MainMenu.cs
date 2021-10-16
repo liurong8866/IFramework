@@ -69,8 +69,7 @@ namespace IFramework.Editor
         {
             return UIKit.AddBindScriptValidate();
         }
-
-
+        
         public const string CON_MENU_VIEW = "GameObject/IFramework - View Controller &v";
 
         [MenuItem(CON_MENU_VIEW, false, 32)]
@@ -103,7 +102,7 @@ namespace IFramework.Editor
             AssetBundleKit.MarkAssetBundle();
         }
 
-        public const string CON_MENU_ASSET_GENCODE = "Assets/IFramework - Generate Code";
+        public const string CON_MENU_ASSET_GENCODE = "Assets/IFramework - Generate UI Code";
 
         [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
         private static void AssetCreateCode()

@@ -120,12 +120,12 @@ namespace IFramework.Editor
 
             // 操作按钮
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("生成脚本")) {
+            if (GUILayout.Button("生成ViewController脚本")) {
                 ViewControllerGenerator.GenerateCode(overwrite1 && overwrite2 && overwrite3);
                 // 结束GUI绘制，解决编辑器扩展运行报错EndLayoutGroup: BeginLayoutGroup must be called first
                 GUIUtility.ExitGUI();
             }
-
+            
             // 如果文件存在则显示
             if (File.Exists(generateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
