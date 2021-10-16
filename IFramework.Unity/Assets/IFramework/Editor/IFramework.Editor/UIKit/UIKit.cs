@@ -78,6 +78,12 @@ namespace IFramework.Editor
         /// </summary>
         public static void UIPanelGenerate()
         {
+            string path = EditorUtils.SelectedPath();
+            // 如果没有标记AssetBundle，先标记
+            if (!AssetBundleMark.CheckMarked(path)) {
+                AssetBundleMark.MarkAssetBundle(path);
+            }
+            
             UIPanelGenerator.GenerateCode();
         }
 

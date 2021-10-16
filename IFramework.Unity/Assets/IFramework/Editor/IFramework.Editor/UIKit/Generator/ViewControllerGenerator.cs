@@ -114,13 +114,19 @@ namespace IFramework.Editor
                 return;
             }
             Log.Info("生成脚本: 正在编译");
-            Clear();
-
+            bool initTemp = false;
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(generateObjectName.Value);
             if (!go) {
-                Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(generateObjectName.Value));
-                return;
+                initTemp = true;
+                GameObject goAsset = AssetDatabase.LoadAssetAtPath<GameObject>(EditorUtils.SelectedPath());
+                // 实例化Prefab
+                go = PrefabUtility.InstantiatePrefab(goAsset) as GameObject;
+                if (go == null || !go.GetComponent<ViewController>()) {
+                    Log.Warning("生成脚本: 未找到ViewController组件:{0}".Format(generateObjectName.Value));
+                    Clear();
+                    return;
+                }
             }
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
             // 替换脚本
@@ -171,6 +177,10 @@ namespace IFramework.Editor
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
+
+            //销毁刚实例化的对象
+            if (initTemp) go.DestroySelfImmediate();
+            Clear();
         }
 
         /// <summary>

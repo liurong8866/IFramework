@@ -158,7 +158,6 @@ namespace IFramework.Editor
                 Clear();
                 return;
             }
-            Clear();
             Log.Info("生成脚本: 正在编译");
 
             // 获取路径
@@ -176,6 +175,7 @@ namespace IFramework.Editor
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
+            Clear();
         }
 
         /// <summary>

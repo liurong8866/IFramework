@@ -111,13 +111,6 @@ namespace IFramework.Editor
             UIKit.UIPanelGenerate();
         }
 
-        // // 控制是否可用
-        // [MenuItem(CON_MENU_ASSET_GENCODE, false, 121)]
-        // private static bool AssetCreateCodeValidate()
-        // {
-        //     return true;
-        // }
-
         // [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
         // private static void OpguiWindowLifeCircle()
         // {

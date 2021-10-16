@@ -50,7 +50,7 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
             // EditorGUILayout.PrefixLabel("命名空间");
             EditorGUILayout.LabelField("命名空间", GUILayout.Width(70));
-            controller.SerializedFiled.Namespace.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.Namespace.stringValue).Trim();
+            controller.SerializedFiled.Namespace.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.Namespace.stringValue).FormatName();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -59,7 +59,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本名称");
             EditorGUILayout.LabelField("脚本名称", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.ScriptName.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptName.stringValue).Trim();
+            controller.SerializedFiled.ScriptName.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptName.stringValue).FormatName();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -68,7 +68,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本路径");
             EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.ScriptPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptPath.stringValue).Trim();
+            controller.SerializedFiled.ScriptPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptPath.stringValue).FormatName();
             if (controller.AsScriptSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
@@ -83,7 +83,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("预设路径");
             EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.PrefabPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.PrefabPath.stringValue).Trim();
+            controller.SerializedFiled.PrefabPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.PrefabPath.stringValue).FormatName();
             if (controller.AsPrefabSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
