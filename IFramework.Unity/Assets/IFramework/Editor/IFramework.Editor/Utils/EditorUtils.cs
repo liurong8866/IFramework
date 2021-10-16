@@ -13,15 +13,23 @@ namespace IFramework.Editor
 {
     public static class EditorUtils
     {
+        // /// <summary>
+        // /// 获取鼠标选择的路径
+        // /// </summary>
+        // public static string SelectedPath()
+        // {
+        //     return Selection.activeObject
+        // }
+        //
         /// <summary>
         /// 获取鼠标选择的路径
         /// </summary>
-        public static string SelectedPath()
+        public static string SelectedAssetsPath()
         {
             string path = string.Empty;
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
                 path = AssetDatabase.GetAssetPath(obj);
-                if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
+                if (path.NotEmpty() && FileUtils.Exists(path)) {
                     return path;
                 }
             }

@@ -19,6 +19,7 @@ namespace IFramework.Editor
         private static readonly ConfigString generateNamespace = new ConfigString("GENERATE_NAMESPACE");
         private static readonly ConfigString generateClassName = new ConfigString("GENERATE_CLASS_NAME");
         private static readonly ConfigString generateObjectName = new ConfigString("GENERATE_ROOT_OBJECT_NAME");
+        private static readonly ConfigString generatePrefabFullName = new ConfigString("GENERATE_PREFAB_FULL_NAME");
 
         /// <summary>
         /// 生成脚本
@@ -77,6 +78,7 @@ namespace IFramework.Editor
             generateNamespace.Value = generateInfo.Namespace;
             generateClassName.Value = generateInfo.ScriptName;
             generateObjectName.Value = obj.name;
+            generatePrefabFullName.Value = generateInfo.PrefabAssetsPath  + "/{0}.prefab".Format(obj.name);
         }
 
         /// <summary>
@@ -113,12 +115,12 @@ namespace IFramework.Editor
                 return;
             }
             Log.Info("生成脚本: 正在编译");
-            bool initTemp = false;
+            bool isTemp = false;
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(generateObjectName.Value);
             if (!go) {
-                initTemp = true;
-                GameObject goAsset = AssetDatabase.LoadAssetAtPath<GameObject>(EditorUtils.SelectedPath());
+                isTemp = true;
+                GameObject goAsset = AssetDatabase.LoadAssetAtPath<GameObject>(generatePrefabFullName.Value);
                 // 实例化Prefab
                 go = PrefabUtility.InstantiatePrefab(goAsset) as GameObject;
                 if (go == null || !go.GetComponent<ViewController>()) {
@@ -151,6 +153,7 @@ namespace IFramework.Editor
                 serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
                 serializedObject.FindProperty("Comment").stringValue = controller.Comment;
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
+                
                 string typeName = generateNamespace + "." + generateClassName;
                 Type type = assembly.GetType(typeName);
                 // 销毁ViewController
@@ -164,9 +167,9 @@ namespace IFramework.Editor
 
                 // 当根节点，或者其父节点也是prefab，则不保存
                 if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
-                    string path = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
-                    Log.Info("生成脚本: 正在生成预设 " + path);
-                    EditorUtils.SavePrefab(go, path);
+                    // string path = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
+                    Log.Info("生成脚本: 正在生成预设 " + generatePrefabFullName.Value);
+                    EditorUtils.SavePrefab(go, generatePrefabFullName.Value);
                 }
                 else {
                     Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
@@ -186,7 +189,7 @@ namespace IFramework.Editor
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
 
             //销毁刚实例化的对象
-            if (initTemp) go.DestroySelfImmediate();
+            if (isTemp) go.DestroySelfImmediate();
             Clear();
         }
 

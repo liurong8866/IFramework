@@ -22,7 +22,7 @@ namespace IFramework.Engine
                 resource.fileName = FileUtils.GetFileNameByPath(path);
 
                 // 如果缓存已下载，则直接从缓存获取
-                string requestUrl = File.Exists(resource.FullName) ? Platform.FilePathPrefix + resource.FullName : path.Substring(ResourcesUrlType.VIDEO.Length);
+                string requestUrl = FileUtils.Exists(resource.FullName) ? Platform.FilePathPrefix + resource.FullName : path.Substring(ResourcesUrlType.VIDEO.Length);
                 resource.request = UnityWebRequest.Get(requestUrl);
             }
             return resource;

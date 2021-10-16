@@ -46,7 +46,7 @@ namespace IFramework.Engine
 			return entryIndex != -1;
         #else
             string absoluteFilePath = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, fileRelativePath);
-            return File.Exists(absoluteFilePath);
+            return FileUtils.Exists(absoluteFilePath);
         #endif
         }
 
@@ -57,13 +57,13 @@ namespace IFramework.Engine
         public bool FileExists(string fileRelativePath) {
         #if UNITY_IPHONE && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePath(fileRelativePath);
-			return (absoluteFilePath.NotEmpty() && File.Exists(absoluteFilePath));
+			return (absoluteFilePath.NotEmpty() && FileUtils.Exists(absoluteFilePath));
         #elif UNITY_ANDROID && !UNITY_EDITOR
 			string absoluteFilePath = FindFilePathInExteral(fileRelativePath);
 			//先到外存去找
 			if (absoluteFilePath.NotEmpty())
 			{
-			    return File.Exists(absoluteFilePath);
+			    return FileUtils.Exists(absoluteFilePath);
 			}
 			else
 			{
@@ -75,7 +75,7 @@ namespace IFramework.Engine
 			}
         #else
             string filePathStandalone = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, fileRelativePath);
-            return (filePathStandalone.NotEmpty() && File.Exists(filePathStandalone));
+            return (filePathStandalone.NotEmpty() && FileUtils.Exists(filePathStandalone));
         #endif
         }
 
@@ -116,7 +116,7 @@ namespace IFramework.Engine
         }
 
         public byte[] ReadSyncByAbsoluteFilePath(string absoluteFilePath) {
-            if (File.Exists(absoluteFilePath)) {
+            if (FileUtils.Exists(absoluteFilePath)) {
                 FileInfo fileInfo = new FileInfo(absoluteFilePath);
                 return ReadFile(fileInfo);
             }
@@ -161,7 +161,7 @@ namespace IFramework.Engine
             for (int i = 0; i < searchDirList.Count; ++i) {
                 filePath = DirectoryUtils.CombinePath(searchDirList[i], file);
 
-                if (File.Exists(filePath)) {
+                if (FileUtils.Exists(filePath)) {
                     return filePath;
                 }
             }
@@ -188,7 +188,7 @@ namespace IFramework.Engine
         private string FindFilePathInternal(string file) {
             string filePath = DirectoryUtils.CombinePath(Platform.StreamingAssets.Root, file);
 
-            if (File.Exists(filePath)) {
+            if (FileUtils.Exists(filePath)) {
                 return filePath;
             }
             return null;

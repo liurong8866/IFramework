@@ -179,6 +179,8 @@ namespace IFramework.Core
         /// </summary>
         public static string GetPathByFullName(string fullName)
         {
+            if (fullName.Nothing()) return fullName;
+            
             // 找到最后一个/
             return fullName.Substring(0, fullName.Replace(@"\", "/").LastIndexOf("/", StringComparison.Ordinal));
         }
@@ -189,6 +191,8 @@ namespace IFramework.Core
         /// <param name="fullName">文件全路径</param>
         public static string GetLastDirectoryName(string fullName)
         {
+            if (fullName.Nothing()) return fullName;
+
             string[] dirs = fullName.Replace(@"\", "/").Split('/');
             if (dirs.Length < 2) {
                 throw new ArgumentException("文件路径格式不正确！" + fullName);

@@ -36,7 +36,7 @@ namespace IFramework.Engine
                     netUrl = path.Substring(ResourcesUrlType.AUDIO_MP3.Length);
                 }
                 // 如果缓存已下载，则直接从缓存获取
-                string requestUrl = File.Exists(resource.FullName) ? Platform.FilePathPrefix + resource.FullName : netUrl;
+                string requestUrl = FileUtils.Exists(resource.FullName) ? Platform.FilePathPrefix + resource.FullName : netUrl;
                 resource.request = UnityWebRequestMultimedia.GetAudioClip(requestUrl, audioType);
             }
             return resource;

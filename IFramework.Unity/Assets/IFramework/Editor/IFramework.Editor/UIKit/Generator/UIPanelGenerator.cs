@@ -4,6 +4,7 @@ using System.Reflection;
 using IFramework.Core;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -20,22 +21,14 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成脚本
         /// </summary>
-        public static void GenerateCode()
-        {
-            GenerateCode(false);
-        }
-
-        /// <summary>
-        /// 生成脚本
-        /// </summary>
-        public static void GenerateCode(bool overwrite)
+        public static void GenerateCode(bool overwrite = false)
         {
             generateTime.Value = DateTime.Now;
             Log.Clear();
             Object[] objects = Selection.GetFiltered(typeof(GameObject), SelectionMode.Assets | SelectionMode.TopLevel);
             GenerateCode(objects, overwrite);
         }
-        
+
         /// <summary>
         /// 生成代码
         /// </summary>
@@ -63,10 +56,23 @@ namespace IFramework.Editor
             // 如果不是Prefab，则退出
             PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
             if (prefabType == PrefabAssetType.NotAPrefab) return;
-
+            
+            // 是否临时实例
+            bool isTemp = false;
             // 实例化Prefab
-            GameObject clone = PrefabUtility.InstantiatePrefab(obj) as GameObject;
-            if (clone == null) return;
+            GameObject clone;
+
+            // 获取PrefabPath
+            string assetPath = AssetDatabase.GetAssetPath(obj);
+            // 如果AssetPath路径是空，说明当前不是Prefab，而是其实例
+            if (assetPath.Nothing()) {
+                clone = obj;
+            }
+            else {
+                isTemp = true;
+                clone = PrefabUtility.InstantiatePrefab(obj) as GameObject;
+                if (clone == null) return;
+            }
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
                 GameObjectName = clone.name.Replace("(clone)", string.Empty)
             };
@@ -76,9 +82,6 @@ namespace IFramework.Editor
 
             // 生成 UIPanel脚本
             GenerateUIPanelCode(obj, prefabPath, rootPanelInfo, overwrite);
-
-            // 获取PrefabPath
-            string assetPath = AssetDatabase.GetAssetPath(obj);
 
             // 获取Prefab路径, 如果多个则用;分隔
             if (assetPath.NotEmpty()) {
@@ -91,7 +94,7 @@ namespace IFramework.Editor
             }
 
             //销毁刚实例化的对象
-            Object.DestroyImmediate(clone);
+            if (isTemp) Object.DestroyImmediate(clone);
         }
 
         /// <summary>
@@ -177,13 +180,12 @@ namespace IFramework.Editor
                     // 更新进度条
                     Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
                 }
-            }catch(Exception e)
-            {
+            }
+            catch (Exception e) {
                 Log.Error(e.Message);
                 Clear();
                 return;
             }
-            
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             // 标记场景未保存

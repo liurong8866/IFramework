@@ -65,7 +65,7 @@ namespace IFramework.Engine
         private void SaveData()
         {
             // 如果文件不存在，则保存
-            if (!File.Exists(FullName)) {
+            if (!FileUtils.Exists(FullName)) {
                 try {
                     DirectoryUtils.Create(FilePath);
                     FileUtils.Write(FullName, request.downloadHandler.data);
