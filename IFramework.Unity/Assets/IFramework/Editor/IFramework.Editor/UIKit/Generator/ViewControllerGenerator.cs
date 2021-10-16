@@ -27,13 +27,13 @@ namespace IFramework.Editor
         {
             generateTime.Value = DateTime.Now;
             Log.Clear();
-            GenerateCode(Selection.activeGameObject);
+            GenerateCode(Selection.activeGameObject, overwrite);
         }
 
         /// <summary>
         /// 生成代码
         /// </summary>
-        private static void GenerateCode(GameObject obj)
+        private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
             Log.Info("生成脚本: 开始");
@@ -43,7 +43,7 @@ namespace IFramework.Editor
             // 搜索所有绑定对象
             BindCollector.SearchBind(obj.transform, "", rootControllerInfo);
             // 生成 UIPanel脚本
-            GenerateUIPanelCode(obj, rootControllerInfo);
+            GenerateUIPanelCode(obj, rootControllerInfo, overwrite);
             // 刷新项目资源
             AssetDatabase.Refresh();
         }
@@ -51,13 +51,13 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成UIPanelCode
         /// </summary>
-        private static void GenerateUIPanelCode(GameObject obj, RootViewControllerInfo rootControllerInfo)
+        private static void GenerateUIPanelCode(GameObject obj, RootViewControllerInfo rootControllerInfo, bool overwrite)
         {
             ViewController controller = obj.GetComponent<ViewController>();
             GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
 
             // 生成Controller层
-            ViewControllerTemplate.Instance.Generate(generateInfo, rootControllerInfo, false);
+            ViewControllerTemplate.Instance.Generate(generateInfo, rootControllerInfo, overwrite);
 
             // 生成Model层
             ViewControllerDesignerTemplate.Instance.Generate(generateInfo, rootControllerInfo, true);
@@ -71,7 +71,7 @@ namespace IFramework.Editor
                 else {
                     elementPath = DirectoryUtils.CombinePath(generateInfo.ScriptPath, generateInfo.ScriptName, "Components");
                 }
-                CreateElementCode(elementPath, elementInfo);
+                CreateElementCode(elementPath, elementInfo, overwrite);
             }
             // 保存信息
             generateNamespace.Value = generateInfo.Namespace;
@@ -82,22 +82,15 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成UIElement
         /// </summary>
-        private static void CreateElementCode(string generateDirPath, ElementInfo elementInfo)
+        private static void CreateElementCode(string generateDirPath, ElementInfo elementInfo, bool overwrite)
         {
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
-                Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
                 ScriptPath = generateDirPath
             };
 
-            // 生成Controller层
-            // ViewControllerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, false);
-            //
-            // // 生成Model层
-            // ViewControllerDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
-
             // 生成.cs
-            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
+            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo, overwrite);
             
             // 生成.designer.cs
             UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
@@ -105,7 +98,7 @@ namespace IFramework.Editor
             // 水平遍历，深度递归调用
             foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
                 string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, panelGenerateInfo.ScriptName);
-                CreateElementCode(elementDir, childElement);
+                CreateElementCode(elementDir, childElement, overwrite);
             }
         }
 

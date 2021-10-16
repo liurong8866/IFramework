@@ -13,8 +13,6 @@ namespace IFramework.Editor
 {
     public static class EditorUtils
     {
-        public static string CurrentSelectPath => Selection.activeObject == null ? null : AssetDatabase.GetAssetPath(Selection.activeObject);
-
         /// <summary>
         /// 获取鼠标选择的路径
         /// </summary>

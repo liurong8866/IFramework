@@ -1,4 +1,5 @@
 using IFramework.Core;
+using IFramework.Engine;
 
 namespace IFramework.Editor
 {
@@ -106,5 +107,11 @@ namespace IFramework.Editor
         /// 预设文件相对资源路径
         /// </summary>
         public override string PrefabAssetsPath => DirectoryUtils.CombinePath("Assets", PrefabPath, ScriptName);
+
+        public UIPanelGenerateInfo()
+        {
+            Namespace = Configure.DefaultNameSpace.Value;
+        }
+        
     }
 }

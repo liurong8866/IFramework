@@ -22,21 +22,29 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode()
         {
-            generateTime.Value = DateTime.Now;
-            Log.Clear();
-            Object[] objects = Selection.GetFiltered(typeof(GameObject), SelectionMode.Assets | SelectionMode.TopLevel);
-            GenerateCode(objects);
+            GenerateCode(false);
         }
 
         /// <summary>
+        /// 生成脚本
+        /// </summary>
+        public static void GenerateCode(bool overwrite)
+        {
+            generateTime.Value = DateTime.Now;
+            Log.Clear();
+            Object[] objects = Selection.GetFiltered(typeof(GameObject), SelectionMode.Assets | SelectionMode.TopLevel);
+            GenerateCode(objects, overwrite);
+        }
+        
+        /// <summary>
         /// 生成代码
         /// </summary>
-        public static void GenerateCode(Object[] objects)
+        public static void GenerateCode(Object[] objects, bool overwrite)
         {
             try {
                 EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
                 for (int i = 0; i < objects.Length; i++) {
-                    GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]));
+                    GenerateCode(objects[i] as GameObject, AssetDatabase.GetAssetPath(objects[i]), overwrite);
                     EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
                 }
                 AssetDatabase.Refresh();
@@ -48,7 +56,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成代码
         /// </summary>
-        private static void GenerateCode(GameObject obj, string prefabPath)
+        private static void GenerateCode(GameObject obj, string prefabPath, bool overwrite)
         {
             if (obj == null) return;
 
@@ -67,7 +75,7 @@ namespace IFramework.Editor
             BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
 
             // 生成 UIPanel脚本
-            GenerateUIPanelCode(obj, prefabPath, rootPanelInfo);
+            GenerateUIPanelCode(obj, prefabPath, rootPanelInfo, overwrite);
 
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
@@ -89,7 +97,7 @@ namespace IFramework.Editor
         /// <summary>
         /// 生成UIPanelCode
         /// </summary>
-        public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo)
+        public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo, bool overwrite)
         {
             // 根据Prefab路径获取Script生成路径
             string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
@@ -99,13 +107,12 @@ namespace IFramework.Editor
 
             // 组装生成信息
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
-                Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = obj.name,
                 ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
             };
 
             // 生成 .cs文件
-            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo);
+            UIPanelTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, overwrite);
 
             // 生成 .designer.cs
             UIPanelDesignerTemplate.Instance.Generate(panelGenerateInfo, rootPanelInfo, true);
@@ -119,23 +126,22 @@ namespace IFramework.Editor
                 else {
                     elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name, "Components");
                 }
-                CreateUIElementCode(elementPath, elementInfo);
+                CreateUIElementCode(elementPath, elementInfo, overwrite);
             }
         }
 
         /// <summary>
         /// 生成UIElement
         /// </summary>
-        private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo)
+        private static void CreateUIElementCode(string generateDirPath, ElementInfo elementInfo, bool overwrite)
         {
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
-                Namespace = Configure.DefaultNameSpace.Value,
                 ScriptName = elementInfo.BindInfo.BindScript.ComponentName,
                 ScriptPath = generateDirPath
             };
 
             // 生成.cs
-            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo);
+            UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo, overwrite);
 
             // 生成.designer.cs
             UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
@@ -143,7 +149,7 @@ namespace IFramework.Editor
             // 水平遍历，深度递归调用
             foreach (ElementInfo childElement in elementInfo.ElementInfoList) {
                 string elementDir = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, panelGenerateInfo.ScriptName);
-                CreateUIElementCode(elementDir, childElement);
+                CreateUIElementCode(elementDir, childElement, overwrite);
             }
         }
 

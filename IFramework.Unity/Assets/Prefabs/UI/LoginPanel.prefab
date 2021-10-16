@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1589456896}
-  - component: {fileID: 6771494926073948487}
+  - component: {fileID: -5394148419208121050}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Transform:
   m_Father: {fileID: 370445485319873293}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6771494926073948487
+--- !u!114 &-5394148419208121050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5580970620194526642}
-  - component: {fileID: -8526606881241870571}
+  - component: {fileID: 6233797468716740790}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -174,7 +174,7 @@ Transform:
   m_Father: {fileID: 6882203394743208486}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8526606881241870571
+--- !u!114 &6233797468716740790
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6882203394743208486}
-  - component: {fileID: 196023623407735142}
+  - component: {fileID: 1974076914634170763}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -267,7 +267,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &196023623407735142
+--- !u!114 &1974076914634170763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0754df0bf62324d51bed33724cc22012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: {fileID: -8526606881241870571}
+  Weapon: {fileID: 6233797468716740790}
 --- !u!1 &8086960043592510772
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370445485319873293}
-  - component: {fileID: -8733934773134711757}
+  - component: {fileID: 3217121649706991097}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -312,7 +312,7 @@ Transform:
   m_Father: {fileID: 5570365604578895395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8733934773134711757
+--- !u!114 &3217121649706991097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06108145acdc44ccc9515fdd08d51edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: {fileID: 6771494926073948487}
+  Weapon: {fileID: -5394148419208121050}
 --- !u!1 &8518255418672893146
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5570365604578895395}
-  - component: {fileID: -6252588054548590198}
+  - component: {fileID: -2187793384898590587}
   m_Layer: 0
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -405,7 +405,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6252588054548590198
+--- !u!114 &-2187793384898590587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -417,5 +417,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a0779820564a698ed25d13b970d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: -8733934773134711757}
-  Enemy: {fileID: 196023623407735142}
+  Player: {fileID: 3217121649706991097}
+  Enemy: {fileID: 1974076914634170763}

@@ -52,6 +52,7 @@ namespace IFramework.Editor
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             // base.OnInspectorGUI();
             // // 解决混用Layout重叠问题
             EditorGUILayout.GetControlRect();
