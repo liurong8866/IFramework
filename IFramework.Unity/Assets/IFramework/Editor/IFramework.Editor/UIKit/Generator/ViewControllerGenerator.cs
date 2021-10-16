@@ -39,7 +39,7 @@ namespace IFramework.Editor
             EditorUtility.DisplayProgressBar("正在生成脚本...", String.Empty, 0);
             Log.Info("生成脚本: 开始");
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
-                GameObjectName = obj.name
+                GameObjectName = obj.name.FormatName()
             };
             // 搜索所有绑定对象
             BindCollector.SearchBind(obj.transform, "", rootControllerInfo);
@@ -77,8 +77,8 @@ namespace IFramework.Editor
             // 保存信息
             generateNamespace.Value = generateInfo.Namespace;
             generateClassName.Value = generateInfo.ScriptName;
-            generateObjectName.Value = obj.name;
-            generatePrefabFullName.Value = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(obj.name);
+            generateObjectName.Value = obj.name.FormatName();
+            generatePrefabFullName.Value = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(obj.name.FormatName());
         }
 
         /// <summary>
@@ -117,13 +117,13 @@ namespace IFramework.Editor
             Log.Info("生成脚本: 正在编译");
 
             // 用于记录是否临时生成的实例
-            bool isTemp = false;
+            bool needDestroy = false;
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(generateObjectName.Value);
             // 如果是从Prefab
             if (!go) {
                 // 用于记录是否临时生成的实例
-                isTemp = true;
+                needDestroy = true;
                 // 用于记录是否临时生成的实例
                 GameObject goAsset = AssetDatabase.LoadAssetAtPath<GameObject>(generatePrefabFullName.Value);
                 // 实例化Prefab
@@ -174,7 +174,7 @@ namespace IFramework.Editor
                     EditorUtils.SavePrefab(go, generatePrefabFullName.Value);
                 }
                 else {
-                    Log.Warning($"生成脚本: 未保存游戏对象 {go.name} 的预设，因为该对象属于其他Prefab的一部分。");
+                    Log.Warning($"生成脚本: 未保存游戏对象 {go.name.FormatName()} 的预设，因为该对象属于其他Prefab的一部分。");
                 }
             }
             else {
@@ -186,12 +186,12 @@ namespace IFramework.Editor
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
+            //销毁刚实例化的对象
+            if (needDestroy) go.DestroySelfImmediate();
+
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
-
-            //销毁刚实例化的对象
-            if (isTemp) go.DestroySelfImmediate();
             Clear();
             EditorUtility.ClearProgressBar();
         }

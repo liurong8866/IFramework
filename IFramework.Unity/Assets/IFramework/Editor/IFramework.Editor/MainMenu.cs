@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace IFramework.Editor
 {
-    public class MainMenu
+    public static class MainMenu
     {
         // 快捷键的设置
         // % - CTRL on Windows / CMD on OSX

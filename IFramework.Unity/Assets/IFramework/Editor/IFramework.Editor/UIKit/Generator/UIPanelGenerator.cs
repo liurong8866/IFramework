@@ -4,7 +4,6 @@ using System.Reflection;
 using IFramework.Core;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,7 +12,7 @@ namespace IFramework.Editor
     /// <summary>
     /// UIPanel 代码生成器
     /// </summary>
-    public class UIPanelGenerator
+    public static class UIPanelGenerator
     {
         private static readonly ConfigDateTime generateTime = new ConfigDateTime("GENERATE_TIME");
         private static readonly ConfigString generateUIPrefabPath = new ConfigString("GENERATE_UI_PREFAB_PATH");
@@ -34,16 +33,12 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateCode(Object[] objects, bool overwrite)
         {
-            try {
-                EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
-                for (int i = 0; i < objects.Length; i++) {
-                    GenerateCode(objects[i] as GameObject, overwrite);
-                    EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
-                }
-                AssetDatabase.Refresh();
-            } finally {
-                // EditorUtility.ClearProgressBar();
+            EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
+            for (int i = 0; i < objects.Length; i++) {
+                GenerateCode(objects[i] as GameObject, overwrite);
+                EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
             }
+            AssetDatabase.Refresh();
         }
 
         /// <summary>
@@ -52,16 +47,17 @@ namespace IFramework.Editor
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
-
+            
+            string objectName = obj.name.FormatName();
+            
             // 是否临时实例
             bool needDestroy = false;
             // 实例化Prefab
             GameObject instance;
-
-            // 如果不是Prefab，则退出
+            // 获取Prefab类型
             PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
+            // 如果不是Prefab，则退出
             if (prefabType == PrefabAssetType.NotAPrefab) return;
-
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
 
@@ -81,12 +77,13 @@ namespace IFramework.Editor
                 needDestroy = true;
                 instance = PrefabUtility.InstantiatePrefab(obj) as GameObject;
                 if (instance == null) {
-                    Log.Error("生成脚本：实例化对象失败：" + obj.name);
+                    Log.Error("生成脚本：实例化对象失败：" + objectName);
                     return;
-                };
+                }
+                ;
             }
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
-                GameObjectName = EditorUtils.FormatName(instance.name).Replace("(clone)", string.Empty)
+                GameObjectName = instance.name.FormatName().Replace("(clone)", string.Empty)
             };
 
             // 查询所有Bind
@@ -109,6 +106,9 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo, bool overwrite)
         {
+            
+            string objectName = obj.name.FormatName();
+
             // 根据Prefab路径获取Script生成路径
             string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
 
@@ -117,7 +117,7 @@ namespace IFramework.Editor
 
             // 组装生成信息
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
-                ScriptName = obj.name,
+                ScriptName = objectName,
                 ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
             };
 
@@ -130,12 +130,9 @@ namespace IFramework.Editor
             // 生成UIElement组件
             foreach (ElementInfo elementInfo in rootPanelInfo.ElementInfoList) {
                 string elementPath = "";
-                if (elementInfo.BindInfo.BindScript.BindType == BindType.Element) {
-                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name);
-                }
-                else {
-                    elementPath = DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, obj.name, "Components");
-                }
+                elementPath = elementInfo.BindInfo.BindScript.BindType == BindType.Element //
+                        ? DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, objectName)
+                        : DirectoryUtils.CombinePath(panelGenerateInfo.ScriptPath, objectName, "Components");
                 CreateUIElementCode(elementPath, elementInfo, overwrite);
             }
         }
@@ -185,7 +182,7 @@ namespace IFramework.Editor
                     // 设置对象引用属性
                     SetObjectRefToProperty(go, assembly);
                     // 更新进度条
-                    Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name);
+                    Log.Info("生成脚本: 正在序列化 UIPrefab " + go.name.FormatName());
                 }
             }
             catch (Exception e) {
@@ -211,7 +208,7 @@ namespace IFramework.Editor
             Stack<Transform> elementStack = new Stack<Transform>();
 
             // 绑定Root节点组件
-            BindComponent(go.transform, go.name, assembly);
+            BindComponent(go.transform, go.name.FormatName(), assembly);
 
             // 添加Root节点
             elementStack.Push(go.transform);
@@ -223,7 +220,7 @@ namespace IFramework.Editor
                 Transform elementTran = elementStack.Pop();
 
                 // 取得该节点下所有IBind组件
-                SetObjectRefToProperty(elementTran, elementTran.name, assembly);
+                SetObjectRefToProperty(elementTran, elementTran.name.FormatName(), assembly);
             }
         }
 
@@ -241,7 +238,7 @@ namespace IFramework.Editor
             // 循环设置对象引用
             foreach (IBind elementBind in allBind) {
                 // 取得属性名称
-                string propertyName = elementBind.Transform.name;
+                string propertyName = elementBind.Transform.name.FormatName();
                 // 如果没有该属性，则跳出本次循环，执行下次循环
                 if (serialized.FindProperty(propertyName) == null) continue;
                 // 设置对象引用

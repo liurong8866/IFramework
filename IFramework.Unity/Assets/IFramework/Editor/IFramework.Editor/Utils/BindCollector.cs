@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace IFramework.Editor
 {
-    public class BindCollector
+    public static class BindCollector
     {
         /// <summary>
         /// 递归查找当前ViewController下的所有Bind
