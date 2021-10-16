@@ -52,53 +52,57 @@ namespace IFramework.Editor
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
-
+            
+            // 是否临时实例
+            bool needDestroy = false;
+            // 实例化Prefab
+            GameObject instance;
+            
             // 如果不是Prefab，则退出
             PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
             if (prefabType == PrefabAssetType.NotAPrefab) return;
 
-            // 是否临时实例
-            bool isTemp = false;
-            // 实例化Prefab
-            GameObject clone;
             // 获取PrefabPath
             string assetPath = AssetDatabase.GetAssetPath(obj);
-            // 如果AssetPath路径是空，说明当前不是Prefab，而是其实例
+            
+            // 如果是对象
             if (assetPath.Nothing()) {
-                clone = obj;
+                instance = obj;
+                // 根据实例获取Prefab
                 GameObject prefabObj = PrefabUtility.GetCorrespondingObjectFromSource(obj);
                 if (prefabObj.Nothing()) {
-                    Log.Error("生成脚本：脚本生成失败，未找到对象的Prefab");
+                    Log.Error("生成脚本：未找到对象的Prefab文件");
+                    return;
                 }
                 assetPath = AssetDatabase.GetAssetPath(prefabObj);
             }
+            // 如果是Prefab
             else {
-                isTemp = true;
-                clone = PrefabUtility.InstantiatePrefab(obj) as GameObject;
-                if (clone == null) return;
+                needDestroy = true;
+                instance = PrefabUtility.InstantiatePrefab(obj) as GameObject;
+                if (instance == null) {
+                    Log.Error("生成脚本：实例化对象失败：" + obj.name);
+                    return;
+                };
             }
+            
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
-                GameObjectName = clone.name.Replace("(clone)", string.Empty)
+                GameObjectName = instance.name.Replace("(clone)", string.Empty)
             };
 
             // 查询所有Bind
-            BindCollector.SearchBind(clone.transform, "", rootPanelInfo);
+            BindCollector.SearchBind(instance.transform, "", rootPanelInfo);
 
             // 生成 UIPanel脚本
-            GenerateUIPanelCode(clone, assetPath, rootPanelInfo, overwrite);
+            GenerateUIPanelCode(instance, assetPath, rootPanelInfo, overwrite);
 
             // 获取Prefab路径, 如果多个则用;分隔
             if (assetPath.NotEmpty()) {
-                if (generateUIPrefabPath.Value.Nothing()) {
-                    generateUIPrefabPath.Value = assetPath;
-                }
-                else {
-                    generateUIPrefabPath.Value += ";" + assetPath;
-                }
+                generateUIPrefabPath.Value = (generateUIPrefabPath.Value.Nothing() ? "" : ";") + assetPath;
             }
 
             //销毁刚实例化的对象
-            if (isTemp) Object.DestroyImmediate(clone);
+            if (needDestroy) Object.DestroyImmediate(instance);
         }
 
         /// <summary>
