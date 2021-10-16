@@ -13,8 +13,8 @@ namespace IFramework.Example
 	{
 		protected override void OnInit(IData data = null)
 		{
-		this.data = data as UIHomePanelData ?? new UIHomePanelData();
-		}
+			this.data = data as UIHomePanelData ?? new UIHomePanelData();
+        }
 
 		protected override void OnOpen(IData data = null) { }
 

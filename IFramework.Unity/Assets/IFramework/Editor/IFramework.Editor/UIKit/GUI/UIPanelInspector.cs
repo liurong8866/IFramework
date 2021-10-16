@@ -57,11 +57,11 @@ namespace IFramework.Editor
 
             // Prefab路径
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("覆盖.cs文件");
+            EditorGUILayout.PrefixLabel(" ");
             overwrite1 = EditorGUILayout.Toggle(overwrite1, GUILayout.Width(20));
             overwrite2 = EditorGUILayout.Toggle(overwrite2, GUILayout.Width(20));
             overwrite3 = EditorGUILayout.Toggle(overwrite3, GUILayout.Width(20));
-            EditorGUILayout.LabelField("危险操作，请选三次!!!");
+            EditorGUILayout.LabelField("覆盖.cs文件，请选三次!");
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
