@@ -56,7 +56,7 @@ namespace IFramework.Editor
             // 如果不是Prefab，则退出
             PrefabAssetType prefabType = PrefabUtility.GetPrefabAssetType(obj);
             if (prefabType == PrefabAssetType.NotAPrefab) return;
-            
+
             // 是否临时实例
             bool isTemp = false;
             // 实例化Prefab

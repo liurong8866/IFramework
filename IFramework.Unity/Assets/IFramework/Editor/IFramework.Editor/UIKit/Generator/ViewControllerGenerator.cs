@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using IFramework.Core;
 using UnityEditor;
@@ -78,7 +77,7 @@ namespace IFramework.Editor
             generateNamespace.Value = generateInfo.Namespace;
             generateClassName.Value = generateInfo.ScriptName;
             generateObjectName.Value = obj.name;
-            generatePrefabFullName.Value = generateInfo.PrefabAssetsPath  + "/{0}.prefab".Format(obj.name);
+            generatePrefabFullName.Value = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(obj.name);
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace IFramework.Editor
 
             // 生成.cs
             UIElementTemplate.Instance.Generate(panelGenerateInfo, elementInfo, overwrite);
-            
+
             // 生成.designer.cs
             UIElementDesignerTemplate.Instance.Generate(panelGenerateInfo, elementInfo, true);
 
@@ -115,11 +114,16 @@ namespace IFramework.Editor
                 return;
             }
             Log.Info("生成脚本: 正在编译");
+
+            // 用于记录是否临时生成的实例
             bool isTemp = false;
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(generateObjectName.Value);
+            // 如果是从Prefab
             if (!go) {
+                // 用于记录是否临时生成的实例
                 isTemp = true;
+                // 用于记录是否临时生成的实例
                 GameObject goAsset = AssetDatabase.LoadAssetAtPath<GameObject>(generatePrefabFullName.Value);
                 // 实例化Prefab
                 go = PrefabUtility.InstantiatePrefab(goAsset) as GameObject;
@@ -139,7 +143,6 @@ namespace IFramework.Editor
                 Clear();
                 return;
             }
-            
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
             GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
@@ -153,7 +156,6 @@ namespace IFramework.Editor
                 serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
                 serializedObject.FindProperty("Comment").stringValue = controller.Comment;
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
-                
                 string typeName = generateNamespace + "." + generateClassName;
                 Type type = assembly.GetType(typeName);
                 // 销毁ViewController
@@ -161,10 +163,8 @@ namespace IFramework.Editor
                     // 立即销毁，不允许Asset被销毁
                     Object.DestroyImmediate(controller, true);
                 }
-
                 // 如果不存在，则生成文件夹
                 DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
-
                 // 当根节点，或者其父节点也是prefab，则不保存
                 if (go.transform.parent == null || go.transform.parent != null && !PrefabUtility.IsPartOfPrefabInstance(go.transform.parent)) {
                     // string path = generateInfo.PrefabAssetsPath + "/{0}.prefab".Format(go.name);
