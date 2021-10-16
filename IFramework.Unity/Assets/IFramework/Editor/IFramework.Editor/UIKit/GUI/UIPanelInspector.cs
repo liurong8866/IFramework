@@ -12,7 +12,7 @@ namespace IFramework.Editor
     {
         private UIPanel panel => target as UIPanel;
 
-        private string prefabPath;
+        private UIPanelGenerateInfo panelGenerateInfo;
 
         private bool overwrite1;
         private bool overwrite2;
@@ -20,14 +20,30 @@ namespace IFramework.Editor
 
         private void OnEnable()
         {
-            prefabPath = EditorUtils.SelectedAssetsPath();
+            Object obj = EditorUtils.SelectedAssetsObject();
+            if (obj != null) {
+                string prefabPath = AssetDatabase.GetAssetPath(obj);
+            
+                // 根据Prefab路径获取Script生成路径
+                string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
+
+                // 取UIPrefab默认路径右侧路径
+                scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+
+                // 组装生成信息
+                panelGenerateInfo = new UIPanelGenerateInfo {
+                    ScriptName = obj.name,
+                    ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
+                };
+            }
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             serializedObject.Update();
-            if (prefabPath.Nothing()) return;
+            
+            if (panelGenerateInfo.Nothing()) return;
 
             // 避免混用布局遮挡
             EditorGUILayout.GetControlRect();
@@ -54,9 +70,9 @@ namespace IFramework.Editor
                 GUIUtility.ExitGUI();
             }
             // 如果文件存在则显示
-            if (FileUtils.Exists(prefabPath)) {
+            if (FileUtils.Exists(panelGenerateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
-                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(prefabPath);
+                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(panelGenerateInfo.ScriptAssetsClassName);
                 if (GUILayout.Button("选择", GUILayout.Width(60))) {
                     Selection.objects = new Object[] { scriptObject };
                 }

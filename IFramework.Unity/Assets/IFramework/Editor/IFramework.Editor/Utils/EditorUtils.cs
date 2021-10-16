@@ -13,14 +13,6 @@ namespace IFramework.Editor
 {
     public static class EditorUtils
     {
-        // /// <summary>
-        // /// 获取鼠标选择的路径
-        // /// </summary>
-        // public static string SelectedPath()
-        // {
-        //     return Selection.activeObject
-        // }
-        //
         /// <summary>
         /// 获取鼠标选择的路径
         /// </summary>
@@ -36,6 +28,20 @@ namespace IFramework.Editor
             return path;
         }
 
+        /// <summary>
+        /// 获取鼠标选择的资源
+        /// </summary>
+        public static Object SelectedAssetsObject()
+        {
+            foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
+                string path = AssetDatabase.GetAssetPath(obj);
+                if (path.NotEmpty() && FileUtils.Exists(path)) {
+                    return obj;
+                }
+            }
+            return null;
+        }
+        
         /// <summary>
         /// 获取父节点到当前节点的相对路径
         /// </summary>
