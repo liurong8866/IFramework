@@ -43,6 +43,14 @@ namespace IFramework.Editor
         }
         
         /// <summary>
+        /// 获取鼠标选择的路径
+        /// </summary>
+        public static Object SelectedObject()
+        {
+            return Selection.activeObject;
+        }
+
+        /// <summary>
         /// 获取父节点到当前节点的相对路径
         /// </summary>
         public static string PathToParent(Transform trans, string parentName)

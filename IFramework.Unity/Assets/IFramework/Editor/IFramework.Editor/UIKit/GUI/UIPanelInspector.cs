@@ -11,7 +11,6 @@ namespace IFramework.Editor
     public class UIPanelInspector : UnityEditor.Editor
     {
         private UIPanel panel => target as UIPanel;
-
         private UIPanelGenerateInfo panelGenerateInfo;
 
         private bool overwrite1;
@@ -20,10 +19,17 @@ namespace IFramework.Editor
 
         private void OnEnable()
         {
-            Object obj = EditorUtils.SelectedAssetsObject();
+            GameObject obj = EditorUtils.SelectedObject() as GameObject;
             if (obj != null) {
+                if (!EditorUtils.IsPrefab(obj)) {
+                    obj = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+                    if (obj.Nothing()) {
+                        Log.Error("生成脚本：脚本生成失败，未找到对象的Prefab");
+                        return;
+                    }
+                }
                 string prefabPath = AssetDatabase.GetAssetPath(obj);
-            
+
                 // 根据Prefab路径获取Script生成路径
                 string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
 
@@ -42,8 +48,6 @@ namespace IFramework.Editor
         {
             base.OnInspectorGUI();
             serializedObject.Update();
-            
-            // if (panelGenerateInfo.Nothing()) return;
 
             // 避免混用布局遮挡
             EditorGUILayout.GetControlRect();
@@ -70,13 +74,14 @@ namespace IFramework.Editor
                 GUIUtility.ExitGUI();
             }
             // 如果文件存在则显示
-            if (panelGenerateInfo != null && FileUtils.Exists(panelGenerateInfo.ScriptAssetsClassName)) {
+            if (panelGenerateInfo.NotEmpty() && FileUtils.Exists(panelGenerateInfo.ScriptAssetsClassName)) {
                 // 加载类资源
-                MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(panelGenerateInfo.ScriptAssetsClassName);
                 if (GUILayout.Button("选择", GUILayout.Width(60))) {
+                    MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(panelGenerateInfo.ScriptAssetsClassName);
                     Selection.objects = new Object[] { scriptObject };
                 }
                 if (GUILayout.Button("打开", GUILayout.Width(60))) {
+                    MonoScript scriptObject = AssetDatabase.LoadAssetAtPath<MonoScript>(panelGenerateInfo.ScriptAssetsClassName);
                     AssetDatabase.OpenAsset(scriptObject);
                 }
             }

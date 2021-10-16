@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-16 18:20:11 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-16 18:40:24 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -15,10 +15,8 @@ namespace IFramework.Example
 
 		private LoginPanelData loginPanelData = null;
 
-		// 用户
 		[SerializeField] public Player Player;
 
-		// 敌人
 		[SerializeField] public Enemy Enemy;
 
 		protected override void ClearUIComponents()
