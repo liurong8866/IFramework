@@ -77,6 +77,28 @@ namespace IFramework.Engine
         /// 打开Panel
         /// </summary>
         /// <param name="level">UI层级</param>
+        /// <param name="data">数据</param>
+        /// <typeparam name="T">面板类型</typeparam>
+        public static T OpenPanel<T>(UILevel level, IData data) where T : UIPanel
+        {
+            return OpenPanel<T>(level, PanelOpenType.Single, data);
+        }
+        
+        /// <summary>
+        /// 打开Panel
+        /// </summary>
+        /// <param name="openType">单例模式/原型模式</param>
+        /// <param name="data">数据</param>
+        /// <typeparam name="T">面板类型</typeparam>
+        public static T OpenPanel<T>(PanelOpenType openType, IData data) where T : UIPanel
+        {
+            return OpenPanel<T>(UILevel.Common, openType, data);
+        }
+
+        /// <summary>
+        /// 打开Panel
+        /// </summary>
+        /// <param name="level">UI层级</param>
         /// <param name="openType">单例模式/原型模式</param>
         /// <param name="data">数据</param>
         /// <param name="assetBundleName">AssetBundle资源名称</param>
@@ -227,7 +249,7 @@ namespace IFramework.Engine
                 rectTrans.LocalScaleIdentity();
             }
             else {
-                Log.Warning("要加载的{0}未找到RectTransform，请确认格式是否正确".Format(panel.Info.PanelName));
+                Log.Warning("要加载的{0}未找到RectTransform，请确认格式是否正确".Format(panel.Info?.PanelName));
             }
         }
 

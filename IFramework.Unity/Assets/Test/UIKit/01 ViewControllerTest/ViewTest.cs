@@ -13,11 +13,12 @@ namespace IFramework.Test
             // 在 Forward 层级打开
             // UIKit.OpenPanel<UIHomePanel>(UILevel.Popup);
             
-            // // 传递初始数据给 UIHomePanel
-            // UIKit.OpenPanel<UIHomePanel>(new UIHomePanelData()
-            // {
-            //     Coin = 10
-            // });
+            // 传递初始数据给 UIHomePanel
+            UIKit.OpenPanel<UIHomePanel>(UILevel.Popup,  new UIHomePanelData()
+            {
+                Coin = 10
+            });
+            
             
         }
 
