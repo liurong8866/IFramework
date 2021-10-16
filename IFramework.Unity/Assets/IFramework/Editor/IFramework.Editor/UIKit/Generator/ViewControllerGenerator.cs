@@ -114,12 +114,12 @@ namespace IFramework.Editor
                 return;
             }
             Log.Info("生成脚本: 正在编译");
+            Clear();
 
             // 获取ViewController所在对象
             GameObject go = GameObject.Find(generateObjectName.Value);
             if (!go) {
                 Log.Warning("生成脚本: ViewController脚本丢失:{0}".Format(generateObjectName.Value));
-                Clear();
                 return;
             }
             Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
@@ -128,7 +128,7 @@ namespace IFramework.Editor
             // 生成Prefab, 初始化字段
             ViewController controller = go.GetComponent<ViewController>();
             GenerateInfo generateInfo = new ViewControllerGenerateInfo(controller);
-            
+
             // ViewController的序列化对象
             SerializedObject serializedObject = new SerializedObject(controller);
             if (controller) {
@@ -137,9 +137,7 @@ namespace IFramework.Editor
                 serializedObject.FindProperty("ScriptPath").stringValue = controller.ScriptPath;
                 serializedObject.FindProperty("PrefabPath").stringValue = controller.PrefabPath;
                 serializedObject.FindProperty("Comment").stringValue = controller.Comment;
-                
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
-
                 string typeName = generateNamespace + "." + generateClassName;
                 Type type = assembly.GetType(typeName);
                 // 销毁ViewController
@@ -147,7 +145,7 @@ namespace IFramework.Editor
                     // 立即销毁，不允许Asset被销毁
                     Object.DestroyImmediate(controller, true);
                 }
-                
+
                 // 如果不存在，则生成文件夹
                 DirectoryUtils.Create(generateInfo.PrefabAssetsPath);
 
@@ -173,7 +171,6 @@ namespace IFramework.Editor
             // 标记场景未保存
             EditorUtils.MarkCurrentSceneDirty();
             Log.Info("生成脚本: 生成完毕，耗时{0}秒", generateTime.DeltaSeconds);
-            Clear();
         }
 
         /// <summary>
@@ -191,7 +188,6 @@ namespace IFramework.Editor
             while (elementStack.Count > 0) {
                 // 待处理节点
                 Transform elementTran = elementStack.Pop();
-                
                 IBind bind = elementTran.GetComponent<IBind>();
                 // 取得该节点下所有IBind组件
                 SetObjectRefToProperty(elementTran, bind.ComponentName, assembly);
