@@ -26,14 +26,14 @@ namespace IFramework.Test
             });
             ButtonEnd.onClick.AddListener(() => {
                 Log.Info("结束游戏");
-                // UIKit.ClosePanel<GamePad>();
+                UIKit.ClosePanel<GamePad>();
+                // UIKit.CloseAllPanel();
+                // UIKit.HideAllPanel();
                 
-                UIKit.CloseAllPanel();
                 // if (mUIMultiPanel && GUILayout.Button("关闭当前")) {
                 //     UIKit.ClosePanel(mUIMultiPanel);
                 //     mUIMultiPanel = null;
                 // }
-                //
             });
         }
 

@@ -45,24 +45,25 @@ namespace IFramework.Engine
         /// </summary>
         public void HideUI(PanelSearcher searcher)
         {
+            IPanel panel = GetUI(searcher);
+            if (panel.Nothing()) return;
+
             // 清除缓存 如果是单例窗口，直接删除
-            if (searcher.OpenType == PanelOpenType.Single) {
-                IPanel panel = GetUI(searcher);
-                panel?.Hide();
+            if (panel.Info.OpenType == PanelOpenType.Single) {
+                panel.Hide();
             }
             // 如果是多窗口
             else {
                 // 如果没有窗口ID则，关闭所有窗口
                 if (searcher.PanelId.Nothing()) {
                     IEnumerable<IPanel> panelList = UIKit.Table.GetPanelList(searcher);
-                    foreach (IPanel panel in panelList) {
-                        panel?.Hide();
+                    foreach (IPanel item in panelList) {
+                        item.Hide();
                     }
                 }
                 // 有ID则删除对应ID的窗口
                 else {
-                    IPanel panel = GetUI(searcher);
-                    panel?.Hide();
+                    panel.Hide();
                 }
             }
         }
@@ -72,10 +73,9 @@ namespace IFramework.Engine
         /// </summary>
         public void HideAllUI()
         {
-            foreach (IPanel panel in UIKit.Table) {
-                PanelSearcher searcher = new PanelSearcher {
-                    Keyword = panel.Info.Key
-                };
+            foreach (List<IPanel> panel in UIKit.Table) {
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = panel[0].Info.Key;
                 HideUI(searcher);
             }
         }
@@ -86,8 +86,10 @@ namespace IFramework.Engine
         public void CloseUI(PanelSearcher searcher)
         {
             IPanel panel = GetUI(searcher);
+            if (panel.Nothing()) return;
+
             // 清除缓存 如果是单例窗口，直接删除
-            if (searcher.OpenType == PanelOpenType.Single) {
+            if (panel.Info.OpenType == PanelOpenType.Single) {
                 if (panel is UIPanel) {
                     // 关闭面板
                     panel.Close();
@@ -101,11 +103,11 @@ namespace IFramework.Engine
                 // 如果没有窗口ID则，关闭所有窗口
                 if (searcher.PanelId.Nothing()) {
                     IEnumerable<IPanel> panelList = UIKit.Table.GetPanelList(searcher);
-                    foreach (IPanel panel2 in panelList) {
+                    foreach (IPanel item in panelList) {
                         // 关闭面板
-                        panel2.Close();
-                        panel2.Info.Recycle();
-                        panel2.Info = null;
+                        item.Close();
+                        item.Info.Recycle();
+                        item.Info = null;
                     }
                     UIKit.Table.Remove(searcher.Keyword);
                 }
@@ -129,9 +131,8 @@ namespace IFramework.Engine
         {
             List<string> keys = UIKit.Table.GetKeys();
             foreach (string key in keys) {
-                PanelSearcher searcher = new PanelSearcher {
-                    Keyword = key
-                };
+                PanelSearcher searcher = PanelSearcher.Allocate();
+                searcher.Keyword = key;
                 CloseUI(searcher);
             }
             UIKit.Table.Clear();

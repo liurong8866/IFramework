@@ -14,14 +14,13 @@ namespace IFramework.Engine
         /// <summary>
         /// 入栈，代表UI界面从屏幕消除
         /// </summary>
-        /// <param name="view"></param>
-        public void Push(IPanel view)
+        public void Push(IPanel panel)
         {
-            if (view != null) {
-                stack.Push(view.Info);
-                view.Close();
+            if (panel != null) {
+                stack.Push(panel.Info);
+                panel.Close();
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.GameObjectName = view.Transform.name;
+                searcher.GameObjectName = panel.Transform.name;
                 UIManager.Instance.RemoveUI(searcher);
                 searcher.Recycle();
             }

@@ -35,7 +35,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 打开类型
         /// </summary>
-        PanelOpenType OpenType { get; set; }
+        public PanelOpenType OpenType { get; set; }
         
         /// <summary>
         /// 面板扩展数据
