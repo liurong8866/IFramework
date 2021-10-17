@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-16 23:41:11 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-17 13:07:20 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -16,9 +16,12 @@ namespace IFramework.Test
 
 		[SerializeField] public Text GamePadText;
 
+		[SerializeField] public Button ButtonClose;
+
 		protected override void ClearUIComponents()
 		{
 			GamePadText = null;
+			ButtonClose = null;
 			Data = null;
 		}
 

@@ -10,8 +10,13 @@ namespace IFramework.Engine
         /// <summary>
         /// 唯一标识
         /// </summary>
-        public string Id { get; set; }
-
+        public string Key { get; set; }
+        
+        /// <summary>
+        /// 面板ID
+        /// </summary>
+        public string PanelId { get; set; }
+        
         /// <summary>
         /// 类名称(短)
         /// </summary>
@@ -40,16 +45,17 @@ namespace IFramework.Engine
         /// <summary>
         /// 从缓冲池申请对象
         /// </summary>
-        /// <param name="id">唯一标识</param>
+        /// <param name="key">唯一标识</param>
         /// <param name="panelName">面板名称</param>
         /// <param name="gameObjectName">游戏对象名称</param>
         /// <param name="level">面板层级</param>
         /// <param name="data">面板数据</param>
         /// <param name="assetBundleName">AssetBundle资源名称</param>
-        public static PanelInfo Allocate(string id, string panelName, string gameObjectName, UILevel level, IData data, string assetBundleName)
+        public static PanelInfo Allocate(string key, string panelId, string panelName, string gameObjectName, UILevel level, IData data, string assetBundleName)
         {
             PanelInfo panelInfo = ObjectPool<PanelInfo>.Instance.Allocate();
-            panelInfo.Id = id;
+            panelInfo.Key = key;
+            panelInfo.PanelId = panelId;
             panelInfo.PanelName = panelName;
             panelInfo.GameObjectName = gameObjectName;
             panelInfo.Level = level;
@@ -60,7 +66,7 @@ namespace IFramework.Engine
 
         public void OnRecycled()
         {
-            Id = null;
+            Key = null;
             PanelName = null;
             GameObjectName = null;
             AssetBundleName = null;

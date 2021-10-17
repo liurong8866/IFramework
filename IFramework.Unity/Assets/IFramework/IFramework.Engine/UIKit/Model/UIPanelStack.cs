@@ -38,7 +38,7 @@ namespace IFramework.Engine
             searcher.Level = previousPanelInfo.Level;
             searcher.Data = previousPanelInfo.Data;
             searcher.AssetBundleName = previousPanelInfo.AssetBundleName;
-            searcher.Keyword = previousPanelInfo.Id;
+            searcher.Keyword = previousPanelInfo.Key;
             searcher.TypeName = previousPanelInfo.PanelName;
             UIManager.Instance.OpenUI(searcher);
             searcher.Recycle();

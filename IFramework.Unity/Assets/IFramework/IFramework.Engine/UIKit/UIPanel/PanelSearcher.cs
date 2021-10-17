@@ -12,6 +12,8 @@ namespace IFramework.Engine
     {
         public string Keyword;
 
+        public string PanelId;
+        
         public string TypeName;
 
         public string AssetBundleName;
@@ -34,6 +36,7 @@ namespace IFramework.Engine
         public void OnRecycled()
         {
             Keyword = null;
+            PanelId = null;
             TypeName = null;
             AssetBundleName = null;
             GameObjectName = null;
@@ -45,7 +48,7 @@ namespace IFramework.Engine
 
         public override string ToString()
         {
-            return $"PanelSearchKeys PanelType:{Keyword} " + $"AssetBundleName:{AssetBundleName} " + $"GameObjName:{GameObjectName} " + $"Level:{Level} " + $"UIData:{Data}";
+            return $"PanelSearchKeys Keyword:{Keyword} " + $"PanelId:{PanelId} " + $"TypeName:{TypeName} "  + $"AssetBundleName:{AssetBundleName} " + $"GameObjName:{GameObjectName} " + $"Level:{Level} " + $"UIData:{Data}";
         }
 
         public void Recycle()

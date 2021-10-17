@@ -19,6 +19,22 @@ namespace IFramework.Core
         }
 
         /// <summary>
+        /// 获取Key值数据的第一条
+        /// </summary>
+        public T GetFirst(string key)
+        {
+            return dictionary.TryGetValue(key, out List<T> list) ? list[0]: default(T);
+        }
+        
+        /// <summary>
+        /// 获取Key值数据的第一条
+        /// </summary>
+        public T GetLast(string key)
+        {
+            return dictionary.TryGetValue(key, out List<T> list) ? list[list.Count-1]: default(T);
+        }
+        
+        /// <summary>
         /// 添加数据
         /// </summary>
         public void Add(string key, T data)
@@ -54,7 +70,55 @@ namespace IFramework.Core
         {
             dictionary.Remove(key);
         }
+        
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <param name="condition">条件函数</param>
+        public void Remove(string key, Func<T, bool> condition)
+        {
+            List<T> list = Get(key);
 
+            for (int i = list.Count - 1; i >= 0; i--) {
+                if (condition(list[i])) {
+                    list.Remove(list[i]);
+                }
+            }
+            // 如果key值为空，则删除key
+            if (list?.Count == 0) {
+                Remove(key);
+            }
+        }
+        
+        /// <summary>
+        /// 删除Key值数据的第一条
+        /// </summary>
+        public void RemoveFirst(string key)
+        {
+            List<T> list = Get(key);
+            list?.RemoveAt(0);
+            
+            // 如果key值为空，则删除key
+            if (list?.Count == 0) {
+                Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 删除Key值数据的最后一条
+        /// </summary>
+        public void RemoveLast(string key)
+        {
+            List<T> list = Get(key);
+            list?.RemoveAt(list.Count-1);
+            
+            // 如果key值为空，则删除key
+            if (list?.Count == 0) {
+                Remove(key);
+            }
+        }
+        
         /// <summary>
         /// 删除数据
         /// </summary>

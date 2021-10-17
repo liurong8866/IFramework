@@ -6,22 +6,35 @@ namespace IFramework.Engine
 {
     public class UIPanelTable : Table<IPanel>
     {
+        /// <summary>
+        /// 查找PanelList
+        /// </summary>
         public IEnumerable<IPanel> GetPanelList(PanelSearcher searcher)
         {
-            // 关键字相同 + GameObject名称相同/Panel是同一个对象
-            if (searcher.Keyword.NotEmpty() && (searcher.GameObjectName.NotEmpty() || searcher.Panel.NotEmpty())) {
-                return Get(searcher.Keyword).Where(p => p.Transform.name == searcher.GameObjectName || p == searcher.Panel);
+            // 根据Key查找
+            IEnumerable<IPanel> panelList = Get(searcher.Keyword);
+
+            // 如果有PanelId，则继续查找
+            if (searcher.PanelId.NotEmpty()) {
+                panelList = panelList.Where(panel => panel.Info.PanelId == searcher.PanelId);
             }
-            if (searcher.Keyword.NotEmpty()) {
-                return Get(searcher.Keyword);
-            }
-            if (searcher.Panel.NotEmpty()) {
-                return Get(searcher.Panel.Transform.gameObject.name).Where(p => p == searcher.Panel);
-            }
-            if (searcher.GameObjectName.NotEmpty()) {
-                return Get(searcher.GameObjectName);
-            }
-            return Enumerable.Empty<IPanel>();
+            return panelList;
+        }
+        
+        /// <summary>
+        /// 查找第一个Panel
+        /// </summary>
+        public IPanel GetPanelFirst(PanelSearcher searcher)
+        {
+            return GetPanelList(searcher).FirstOrDefault();
+        }
+        
+        /// <summary>
+        /// 查找最后一个Panel
+        /// </summary>
+        public IPanel GetPanelLast(PanelSearcher searcher)
+        {
+            return GetPanelList(searcher).LastOrDefault();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace IFramework.Test
                 UIKit.OpenPanel<GamePad>(UILevel.Common,
                                          PanelOpenType.Multiple,
                                          new GamePadData() {
-                                             Index = count
+                                             Index = ++count
                                          });
             });
             ButtonEnd.onClick.AddListener(() => {

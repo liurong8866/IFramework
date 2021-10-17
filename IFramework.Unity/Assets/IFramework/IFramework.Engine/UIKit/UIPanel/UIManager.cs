@@ -1,5 +1,6 @@
 using System.Linq;
 using IFramework.Core;
+using UnityEditor;
 
 namespace IFramework.Engine
 {
@@ -54,8 +55,23 @@ namespace IFramework.Engine
         {
             IPanel panel = GetUI(searcher);
             if (panel is UIPanel) {
+                // 关闭面板
                 panel.Close();
-                UIKit.Table.Remove(searcher.Keyword);
+                // 清除缓存 如果是单例窗口，直接删除
+                if (searcher.OpenType == PanelOpenType.Single) {
+                    UIKit.Table.Remove(searcher.Keyword);
+                }
+                // 如果是多窗口
+                else {
+                    // 如果没有窗口ID则从第一个删除。
+                    if (searcher.PanelId.Nothing()) {
+                        UIKit.Table.RemoveFirst(searcher.Keyword);
+                    }
+                    // 有ID则删除对应ID的
+                    else {
+                        UIKit.Table.Remove(searcher.Keyword, panel => panel.Info.PanelId == searcher.PanelId);
+                    }
+                }
                 panel.Info.Recycle();
                 panel.Info = null;
             }
@@ -74,6 +90,7 @@ namespace IFramework.Engine
         /// </summary>
         public void HideAllUI()
         {
+            // TODO 这里需要遍历内部List
             foreach (IPanel panel in UIKit.Table) {
                 panel.Hide();
             }
@@ -84,6 +101,7 @@ namespace IFramework.Engine
         /// </summary>
         public void CloseAllUI()
         {
+            // TODO 这里需要遍历内部List
             foreach (IPanel panel in UIKit.Table) {
                 panel.Close();
                 panel.Info.Recycle();
@@ -97,7 +115,7 @@ namespace IFramework.Engine
         /// </summary>
         public IPanel GetUI(PanelSearcher searcher)
         {
-            return UIKit.Table.GetPanelList(searcher).FirstOrDefault();
+            return UIKit.Table.GetPanelFirst(searcher);
         }
 
         /// <summary>
@@ -116,7 +134,7 @@ namespace IFramework.Engine
 
             // 设置GameObject名字，空则取面板类名称
             panel.Transform.gameObject.name = searcher.GameObjectName.NotEmpty() ? searcher.GameObjectName : searcher.TypeName;
-            panel.Info = PanelInfo.Allocate(searcher.Keyword, searcher.TypeName, searcher.GameObjectName, searcher.Level, searcher.Data, searcher.AssetBundleName);
+            panel.Info = PanelInfo.Allocate(searcher.Keyword, GUID.Generate().ToString(), searcher.TypeName, searcher.GameObjectName, searcher.Level, searcher.Data, searcher.AssetBundleName);
 
             // 使用searcher关键字作为键值缓存
             UIKit.Table.Add(searcher.Keyword, panel);
