@@ -239,11 +239,13 @@ namespace IFramework.Engine
         {
             if (!isResourceMapDirty) return;
             isResourceMapDirty = false;
-            foreach (IResource resource in resourceTable.ToList()) {
-                if (resource.Counter <= 0 && resource.State != ResourceState.Loading) {
-                    if (resource.Release()) {
-                        resourceTable.Remove(resource.AssetName.ToLowerInvariant());
-                        resource.Recycle();
+            foreach (List<IResource> resources in resourceTable) {
+                foreach (IResource resource in resources) {
+                    if (resource.Counter <= 0 && resource.State != ResourceState.Loading) {
+                        if (resource.Release()) {
+                            resourceTable.Remove(resource.AssetName.ToLowerInvariant());
+                            resource.Recycle();
+                        }
                     }
                 }
             }

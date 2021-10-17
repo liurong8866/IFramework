@@ -58,7 +58,6 @@ namespace IFramework.Engine
             OnClose();
             if (destroy) Destroy(gameObject);
             this.As<IPanel>().Loader.Unload();
-            this.As<IPanel>().Loader = null;
         }
 
         /// <summary>
