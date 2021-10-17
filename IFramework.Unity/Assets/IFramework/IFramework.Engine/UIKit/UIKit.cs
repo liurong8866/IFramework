@@ -105,7 +105,7 @@ namespace IFramework.Engine
         /// <param name="assetBundleName">AssetBundle资源名称</param>
         /// <param name="prefabName">Prefab名称</param>
         /// <typeparam name="T">面板类型</typeparam>
-        public static T OpenPanel<T>(UILevel level, PanelOpenType openType, IData data, string assetBundleName = null, string prefabName = null) where T : UIPanel
+        public static T OpenPanel<T>(UILevel level, PanelOpenType openType, IData data, string assetBundleName = null) where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
             searcher.Level = level;

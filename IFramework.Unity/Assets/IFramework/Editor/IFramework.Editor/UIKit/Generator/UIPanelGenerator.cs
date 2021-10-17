@@ -94,7 +94,7 @@ namespace IFramework.Editor
 
             // 获取Prefab路径, 如果多个则用;分隔
             if (assetPath.NotEmpty()) {
-                generateUIPrefabPath.Value = (generateUIPrefabPath.Value.Nothing() ? "" : ";") + assetPath;
+                generateUIPrefabPath.Value = (generateUIPrefabPath.Value.Nothing() ? "" : generateUIPrefabPath.Value + ";") + assetPath;
             }
 
             //销毁刚实例化的对象

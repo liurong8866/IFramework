@@ -36,7 +36,7 @@ namespace IFramework.Editor
             UIKit.OpenUIConfigWindow();
         }
 
-        public const string CON_MENU_TOOL_CLEAR = "IFramework/Clear Cache";
+        public const string CON_MENU_TOOL_CLEAR = "IFramework/Tools/Clear Cache";
 
         [MenuItem(CON_MENU_TOOL_CLEAR, false, 51)]
         private static void Clear()
@@ -48,6 +48,13 @@ namespace IFramework.Editor
                 EditorApplication.isPlaying = false;
             }
             Log.Info("缓存数据清理 完成！");
+        }
+        
+        public const string CON_MENU_ASSET_REMOVE_MISS = "IFramework/Tools/Clear Missing";
+        [MenuItem(CON_MENU_ASSET_REMOVE_MISS, false, 52)]
+        private static void AssetRemoveMiss1()
+        {
+            UIKit.AssetRemoveMiss();
         }
 
         /*----------------------------- GameObject 右键菜单 -----------------------------*/
@@ -66,10 +73,6 @@ namespace IFramework.Editor
         {
             return UIKit.AddUIRootScriptValidate();
         }
-        
-        // [MenuItem("GameObject/-------------------------------", false, 30)]
-        // private static void UIKitTop() { }
-        
         
         public const string CON_MENU_BIND = "GameObject/IFramework - Bind &b";
 
@@ -99,6 +102,7 @@ namespace IFramework.Editor
             return UIKit.AddBindScriptValidate();
         }
         
+        
         // public const string CON_MENU_GENCODE = "GameObject/I Kit - Generate Code";
         //
         // [MenuItem(CON_MENU_GENCODE, false, 33)]
@@ -125,6 +129,12 @@ namespace IFramework.Editor
             UIKit.UIPanelGenerate();
         }
 
+        // [MenuItem(CON_MENU_ASSET_REMOVE_MISS, false, 122)]
+        // private static void AssetRemoveMiss()
+        // {
+        //     UIKit.AssetRemoveMiss();
+        // }
+        
         // [MenuItem("Assets/I Kit - EditorWindow 生命周期", true, 123)]
         // private static void OpguiWindowLifeCircle()
         // {

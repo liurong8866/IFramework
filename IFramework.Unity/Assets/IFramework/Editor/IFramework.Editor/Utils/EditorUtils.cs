@@ -135,23 +135,23 @@ namespace IFramework.Editor
                     Component[] components = trans.gameObject.GetComponents<Component>();
 
                     // 创建SerializedObject对象，用于修改Component
-                    SerializedObject serializedObject = new SerializedObject(go);
+                    SerializedObject serializedObject = new SerializedObject(trans);
                     bool hasMiss = false;
 
                     // 循环所有组件
                     for (int i = components.Length - 1; i >= 0; i--) {
                         // 丢失脚本
                         if (components[i] == null) {
-                            GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+                            GameObjectUtility.RemoveMonoBehavioursWithMissingScript(trans.gameObject);
                             hasMiss = true;
                         }
                     }
                     if (hasMiss) {
                         // 唤醒事件
-                        onCleared.InvokeSafe(go);
+                        onCleared.InvokeSafe(trans);
                         // 提交修改
                         serializedObject.ApplyModifiedProperties();
-                        EditorUtility.SetDirty(go);
+                        EditorUtility.SetDirty(trans);
                     }
                 });
             }

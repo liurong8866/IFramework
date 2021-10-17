@@ -79,6 +79,14 @@ namespace IFramework.Editor
             UIConfigWindow.Open();
         }
 
+        /// <summary>
+        /// 清除Miss
+        /// </summary>
+        public static void AssetRemoveMiss()
+        {
+            EditorUtils.ClearMissing(Selection.gameObjects);
+        }
+        
         // /// <summary>
         // /// 生成ViewController代码
         // /// </summary>

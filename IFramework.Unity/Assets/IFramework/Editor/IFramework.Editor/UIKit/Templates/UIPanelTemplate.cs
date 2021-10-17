@@ -45,7 +45,7 @@ namespace IFramework.Editor
             sb.AppendLine("\t\t{");
             sb.AppendLine("\t\t}");
             sb.AppendLine();
-            sb.AppendLine("\t\tprotected override void OnOpen(IData data = null) { }");
+            sb.AppendLine("\t\tprotected override void OnOpen(IData data) { }");
             sb.AppendLine();
             sb.AppendLine("\t\tprotected override void OnShow() { }");
             sb.AppendLine();
