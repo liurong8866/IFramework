@@ -18,14 +18,14 @@ namespace IFramework.Core
         private void Awake()
         {
             container = IocContainer.Instance;
-            Init();
+            OnAwake();
             container.Inject(this);
         }
 
         /// <summary>
         /// 等同于Awake，如果需要，请在这里注册IOC
         /// </summary>
-        protected virtual void Init() { }
+        protected virtual void OnAwake() { }
 
         /// <summary>
         /// 只销毁对象，不销毁IocContainer

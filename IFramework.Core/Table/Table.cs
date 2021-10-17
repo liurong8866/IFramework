@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace IFramework.Core
 {
-    public class Table<T> : IEnumerable<T>, IDisposable
+    public class Table<T> : IEnumerable<List<T>>, IDisposable
     {
         // 定义一个数据字典列表
         private Dictionary<string, List<T>> dictionary = new Dictionary<string, List<T>>();
@@ -34,6 +34,14 @@ namespace IFramework.Core
             return dictionary.TryGetValue(key, out List<T> list) ? list[list.Count-1]: default(T);
         }
         
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        public List<string> GetKeys()
+        {
+            return dictionary.Keys.ToList();
+        }
+
         /// <summary>
         /// 添加数据
         /// </summary>
@@ -158,9 +166,9 @@ namespace IFramework.Core
         /// <summary>
         /// 实现迭代器
         /// </summary>
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<List<T>> GetEnumerator()
         {
-            return dictionary.SelectMany(d => d.Value).GetEnumerator();
+            return dictionary.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

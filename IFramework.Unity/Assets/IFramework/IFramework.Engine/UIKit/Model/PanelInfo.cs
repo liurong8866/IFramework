@@ -23,11 +23,6 @@ namespace IFramework.Engine
         public string PanelName { get; set; }
 
         /// <summary>
-        /// 游戏对象名称
-        /// </summary>
-        public string GameObjectName { get; set; }
-
-        /// <summary>
         /// AssetBundle名称
         /// </summary>
         public string AssetBundleName { get; set; }
@@ -36,41 +31,39 @@ namespace IFramework.Engine
         /// 面板级别
         /// </summary>
         public UILevel Level { get; set; } = UILevel.Common;
-
+        
         /// <summary>
-        /// 数据
+        /// 打开类型
+        /// </summary>
+        PanelOpenType OpenType { get; set; }
+        
+        /// <summary>
+        /// 面板扩展数据
         /// </summary>
         public IData Data { get; set; }
-
+        
         /// <summary>
         /// 从缓冲池申请对象
         /// </summary>
-        /// <param name="key">唯一标识</param>
-        /// <param name="panelName">面板名称</param>
-        /// <param name="gameObjectName">游戏对象名称</param>
-        /// <param name="level">面板层级</param>
-        /// <param name="data">面板数据</param>
-        /// <param name="assetBundleName">AssetBundle资源名称</param>
-        public static PanelInfo Allocate(string key, string panelId, string panelName, string gameObjectName, UILevel level, IData data, string assetBundleName)
+        public static PanelInfo Allocate(PanelSearcher searcher)
         {
             PanelInfo panelInfo = ObjectPool<PanelInfo>.Instance.Allocate();
-            panelInfo.Key = key;
-            panelInfo.PanelId = panelId;
-            panelInfo.PanelName = panelName;
-            panelInfo.GameObjectName = gameObjectName;
-            panelInfo.Level = level;
-            panelInfo.Data = data;
-            panelInfo.AssetBundleName = assetBundleName;
+            panelInfo.Key = searcher.Keyword;
+            panelInfo.PanelId = searcher.PanelId;
+            panelInfo.PanelName = searcher.TypeName;
+            panelInfo.Level = searcher.Level;
+            panelInfo.AssetBundleName = searcher.AssetBundleName;
+            panelInfo.OpenType = searcher.OpenType;
+            panelInfo.Data = searcher.Data;
             return panelInfo;
         }
 
         public void OnRecycled()
         {
             Key = null;
+            PanelId = null;
             PanelName = null;
-            GameObjectName = null;
             AssetBundleName = null;
-            Data = null;
             AssetBundleName = null;
         }
 

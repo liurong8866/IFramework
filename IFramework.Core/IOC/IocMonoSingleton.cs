@@ -33,7 +33,7 @@ namespace IFramework.Core
         /// <summary>
         /// 单例初始化
         /// </summary>
-        public virtual void OnInit() { }
+        void ISingleton.OnInit() { }
 
         /// <summary>
         /// 应用程序退出：释放当前对象并销毁相关GameObject

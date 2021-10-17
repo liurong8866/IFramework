@@ -18,7 +18,12 @@ namespace IFramework.Test
 
 		[SerializeField] public Button ButtonClose;
 
-		protected override void ClearUIComponents()
+        protected override void OnInitData(IData data)
+        {
+            Data = data as GamePadData ?? new GamePadData();
+        }
+
+        protected override void ClearUIComponents()
 		{
 			GamePadText = null;
 			ButtonClose = null;

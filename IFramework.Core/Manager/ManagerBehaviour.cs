@@ -11,9 +11,9 @@ namespace IFramework.Core
         [Autowired]
         private ITypeEvent typeEvent;
 
-        protected override void Init()
+        protected override void OnAwake()
         {
-            base.Init();
+            base.OnAwake();
             typeEvent = new TypeEvent();
         }
 

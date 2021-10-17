@@ -15,7 +15,7 @@ namespace IFramework.Engine
         PanelInfo Info { get; set; }
 
         PanelState State { get; set; }
-
+        
         void Init(IData data = null);
 
         void Open(IData data = null);
@@ -32,8 +32,6 @@ namespace IFramework.Engine
         /// <summary>
         /// 设置Panel层级
         /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="level"></param>
         public static void PanelLevel(this IPanel panel, UILevel level)
         {
             UIRoot.Instance.SetPanelLevel(panel, level);

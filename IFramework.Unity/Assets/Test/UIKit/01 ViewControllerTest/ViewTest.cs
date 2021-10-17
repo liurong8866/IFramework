@@ -14,7 +14,7 @@ namespace IFramework.Test
             // UIKit.OpenPanel<UIHomePanel>(UILevel.Popup);
             
             // 传递初始数据给 UIHomePanel
-            UIKit.OpenPanel<UIHomePanel>(UILevel.Background,  new UIHomePanelData()
+            UIKit.OpenPanel<UIHomePanel>(UILevel.Popup,  new UIHomePanelData()
             {
                 Coin = 10
             });

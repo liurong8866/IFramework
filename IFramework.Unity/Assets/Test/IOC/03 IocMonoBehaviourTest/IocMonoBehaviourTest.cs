@@ -15,7 +15,7 @@ namespace IFramework.Test.IOC
         [Autowired] private Xiaoxuesheng xiaoxuesheng3 { get; set; }
         [Autowired("Xiaoxuesheng")] private Xiaoxuesheng xiaoxuesheng4 { get; set; }
 
-        protected override void Init()
+        protected override void OnAwake()
         {
             // Register<IPerson, Teacher>("Teacher");
             // Register<IPerson, Student>("Student");

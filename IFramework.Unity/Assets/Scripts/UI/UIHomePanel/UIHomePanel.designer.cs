@@ -20,7 +20,12 @@ namespace IFramework.Test
 
 		[SerializeField] public Login Login;
 
-		protected override void ClearUIComponents()
+        protected override void OnInitData(IData data)
+        {
+            Data = data as UIHomePanelData ?? new UIHomePanelData();
+        }
+
+        protected override void ClearUIComponents()
 		{
 			ButtonStart = null;
 			ButtonEnd = null;

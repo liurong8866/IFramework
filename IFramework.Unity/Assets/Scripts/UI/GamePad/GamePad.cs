@@ -12,9 +12,8 @@ namespace IFramework.Test
 
 	public partial class GamePad : UIPanel
 	{
-		protected override void OnInit(IData data = null)
+		protected override void OnInit()
 		{
-			Data = data as GamePadData ?? new GamePadData();
             GamePadText.text = Data.Index.ToString();
             ButtonClose.onClick.AddListener(() => {
                 UIKit.ClosePanel(this);

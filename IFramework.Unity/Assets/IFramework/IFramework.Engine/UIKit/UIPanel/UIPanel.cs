@@ -16,14 +16,20 @@ namespace IFramework.Engine
 
         public PanelState State { get; set; }
 
-        protected IData data;
+        protected IData data {
+            get => Info?.Data;
+            set {
+                Info ??= new PanelInfo();
+                Info.Data = value;
+            }
+        }
 
         public IManager Manager => UIManager.Instance;
 
         public void Init(IData data = null)
         {
-            this.data = data;
-            OnInit(data);
+            OnInitData(data);
+            OnInit();
         }
 
         public void Open(IData data = null)
@@ -45,28 +51,30 @@ namespace IFramework.Engine
             State = PanelState.Hide;
         }
 
-        public virtual void Close(bool destroy = true)
+        void IPanel.Close(bool destroy = true)
         {
-            Info.Data = data;
             Hide();
             State = PanelState.Closed;
             OnClose();
-            // TODO
             if (destroy) Destroy(gameObject);
             this.As<IPanel>().Loader.Unload();
             this.As<IPanel>().Loader = null;
-            // Data = null;
         }
 
         /// <summary>
         /// 面板初始化事件，通常用于赋值、注册事件等
         /// </summary>
-        protected virtual void OnInit(IData data = null) { }
+        protected virtual void OnInit() { }
 
+        /// <summary>
+        /// 面板初始化事件，通常用于赋值、注册事件等
+        /// </summary>
+        protected abstract void OnInitData(IData data);
+        
         /// <summary>
         /// 面板打开时事件
         /// </summary>
-        protected virtual void OnOpen(IData data = null) { }
+        protected virtual void OnOpen(IData data) { }
 
         /// <summary>
         /// 面板显示时事件

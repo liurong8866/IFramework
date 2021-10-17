@@ -13,11 +13,12 @@ namespace IFramework.Engine
         {
             // 根据Key查找
             IEnumerable<IPanel> panelList = Get(searcher.Keyword);
-
+            
             // 如果有PanelId，则继续查找
             if (searcher.PanelId.NotEmpty()) {
                 panelList = panelList.Where(panel => panel.Info.PanelId == searcher.PanelId);
             }
+            
             return panelList;
         }
         

@@ -14,9 +14,8 @@ namespace IFramework.Test
     {
         private int count = 0;
 
-        protected override void OnInit(IData data = null)
+        protected override void OnInit()
         {
-            Data = data as UIHomePanelData ?? new UIHomePanelData();
             ButtonStart.onClick.AddListener(() => {
                 Log.Info("开始游戏" + Data.Coin);
                 UIKit.OpenPanel<GamePad>(UILevel.Common,
@@ -26,10 +25,10 @@ namespace IFramework.Test
                                          });
             });
             ButtonEnd.onClick.AddListener(() => {
-                Log.Info("结束游戏"); 
+                Log.Info("结束游戏");
+                // UIKit.ClosePanel<GamePad>();
                 
-                UIKit.ClosePanel<GamePad>();
-
+                UIKit.CloseAllPanel();
                 // if (mUIMultiPanel && GUILayout.Button("关闭当前")) {
                 //     UIKit.ClosePanel(mUIMultiPanel);
                 //     mUIMultiPanel = null;

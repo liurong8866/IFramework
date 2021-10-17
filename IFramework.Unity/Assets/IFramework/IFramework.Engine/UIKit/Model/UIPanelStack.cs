@@ -34,9 +34,7 @@ namespace IFramework.Engine
         {
             PanelInfo previousPanelInfo = stack.Pop();
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.GameObjectName = previousPanelInfo.GameObjectName;
             searcher.Level = previousPanelInfo.Level;
-            searcher.Data = previousPanelInfo.Data;
             searcher.AssetBundleName = previousPanelInfo.AssetBundleName;
             searcher.Keyword = previousPanelInfo.Key;
             searcher.TypeName = previousPanelInfo.PanelName;
