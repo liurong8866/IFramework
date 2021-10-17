@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using IFramework.Core;
 using IFramework.Editor.Settings;
@@ -31,7 +32,10 @@ namespace IFramework.Editor
         /// </summary>
         public static void MarkAssetBundle()
         {
-            MarkAssetBundle(EditorUtils.SelectedAssetsPath());
+            List<string> paths = EditorUtils.SelectedAssetsPaths();
+            foreach (string path in paths) {
+                MarkAssetBundle(path);
+            }
         }
 
         /// <summary>

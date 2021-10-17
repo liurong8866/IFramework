@@ -11,6 +11,12 @@ namespace IFramework.Test
 	{
 		protected override void OnInit()
 		{
+            SettingBtn.onClick.AddListener(() => { UIKit.OpenPanel<UISettingPanel>(UILevel.Popup); });
+
+            BackBtn.onClick.AddListener(() => {
+                CloseSelf();
+                UIKit.OpenPanel<UIMenuPanel>(UILevel.Common);
+            });
 		}
 
 		protected override void OnOpen(IData data) { }

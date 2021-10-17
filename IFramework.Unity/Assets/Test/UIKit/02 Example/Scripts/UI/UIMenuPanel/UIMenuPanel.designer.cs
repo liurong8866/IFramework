@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-17 23:38:42 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-17 23:56:54 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -14,10 +14,9 @@ namespace IFramework.Test
 
 		private UIMenuPanelData panelData = null;
 
+		[SerializeField] public Image ImageBg;
 		[SerializeField] public Button BtnPlay;
-
 		[SerializeField] public Button BtnSetting;
-
 		protected override void OnInitData(IData data)
 		{
 			Data = data as UIMenuPanelData ?? new UIMenuPanelData();
@@ -25,6 +24,7 @@ namespace IFramework.Test
 
 		protected override void ClearUIComponents()
 		{
+			ImageBg = null;
 			BtnPlay = null;
 			BtnSetting = null;
 			Data = null;

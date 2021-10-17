@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.20358793, g: 0.8867924, b: 0.18823427, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8cfac0d91f2427c9212b0a294503ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImageBg: {fileID: 114899871401572904}
   BtnPlay: {fileID: 114244091657257920}
   BtnSetting: {fileID: 114371378993814438}
 --- !u!1 &1479148545117520
@@ -538,6 +539,7 @@ GameObject:
   - component: {fileID: 224963490139557256}
   - component: {fileID: 222125929157567200}
   - component: {fileID: 114899871401572904}
+  - component: {fileID: 849144650276366490}
   m_Layer: 5
   m_Name: ImageBg
   m_TagString: Untagged
@@ -585,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8207547, g: 0.127759, b: 0.127759, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -602,3 +604,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &849144650276366490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963736144180828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomComponentName: ImageBg
+  bindType: 0
+  componentName: UnityEngine.UI.Image
+  comment: 

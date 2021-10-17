@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: cbfe69a5d330346228589775e7ca83c8
-timeCreated: 1520949966
-licenseType: Free
-NativeFormatImporter:
+PrefabImporter:
+  externalObjects: {}
   userData: 
-  assetBundleName: 
+  assetBundleName: uisectionpanel-prefab
   assetBundleVariant: 

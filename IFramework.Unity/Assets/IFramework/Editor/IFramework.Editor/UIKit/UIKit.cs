@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
 using IFramework.Engine;
@@ -100,12 +101,13 @@ namespace IFramework.Editor
         /// </summary>
         public static void UIPanelGenerate()
         {
-            string path = EditorUtils.SelectedAssetsPath();
-            // 如果没有标记AssetBundle，先标记
-            if (!AssetBundleMark.CheckMarked(path)) {
-                AssetBundleMark.MarkAssetBundle(path);
+            List<string> paths = EditorUtils.SelectedAssetsPaths();
+            foreach (string path in paths) {
+                // 如果没有标记AssetBundle，先标记
+                if (!AssetBundleMark.CheckMarked(path)) {
+                    AssetBundleMark.MarkAssetBundle(path);
+                }
             }
-            
             UIPanelGenerator.GenerateCode();
         }
 

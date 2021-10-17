@@ -51,7 +51,9 @@ namespace IFramework.Editor
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
                 sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.", "").Replace("UnityEngine.", "")} {bindInfo.Name};");
-                sb.AppendLine();
+                if (bindInfo.BindScript.Comment.NotEmpty()) {
+                    sb.AppendLine();
+                }
             }
             sb.AppendLine($"\t\tprotected override void OnInitData(IData data)");
             sb.AppendLine("\t\t{");

@@ -60,6 +60,10 @@ namespace IFramework.Engine
             this.As<IPanel>().Loader.Unload();
         }
 
+        protected void CloseSelf() {
+            UIKit.ClosePanel(this);
+        }
+        
         /// <summary>
         /// 面板初始化事件，通常用于赋值、注册事件等
         /// </summary>

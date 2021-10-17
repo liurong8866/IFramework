@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-17 23:38:50 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-17 23:56:54 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -15,9 +15,7 @@ namespace IFramework.Test
 		private UISectionPanelData panelData = null;
 
 		[SerializeField] public Button BackBtn;
-
 		[SerializeField] public Button SettingBtn;
-
 		protected override void OnInitData(IData data)
 		{
 			Data = data as UISectionPanelData ?? new UISectionPanelData();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using IFramework.Core;
@@ -26,6 +27,18 @@ namespace IFramework.Editor
                 }
             }
             return path;
+        }
+        
+        public static List<string> SelectedAssetsPaths()
+        {
+            List<string> pathList = new List<string>();
+            foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
+                string path = AssetDatabase.GetAssetPath(obj);
+                if (path.NotEmpty() && FileUtils.Exists(path)) {
+                    pathList.Add(path);
+                }
+            }
+            return pathList;
         }
 
         /// <summary>

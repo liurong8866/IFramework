@@ -11,6 +11,25 @@ namespace IFramework.Test
 	{
 		protected override void OnInit()
 		{
+            EventBtn.onClick.AddListener(() => {
+                TypeEvent.Send<UIMenuPanelEvent>(new UIMenuPanelEvent {
+                    EventType = "ffffff"
+                });
+            });
+            BackBtn.onClick.AddListener(() => { CloseSelf(); });
+            
+            
+            
+            
+            // this.SendMsg(new AudioMusicMsg(
+            //                                "GameBg",
+            //                                loop: false,
+            //                                allowMusicOff: false,
+            //                                onMusicBeganCallback: () => { Debug.Log("Music Start"); },
+            //                                onMusicEndedCallback: () => { Debug.Log("MusicEnd"); })
+            //             );
+            // this.SendMsg(new AudioMusicMsg("HomeBg"));
+            //
 		}
 
 		protected override void OnOpen(IData data) { }
