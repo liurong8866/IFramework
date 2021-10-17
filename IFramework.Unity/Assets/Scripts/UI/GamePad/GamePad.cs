@@ -14,11 +14,7 @@ namespace IFramework.Test
 	{
 		protected override void OnInit()
 		{
-            GamePadText.text = Data.Index.ToString();
-            ButtonClose.onClick.AddListener(() => {
-                UIKit.ClosePanel(this);
-            });
-        }
+		}
 
 		protected override void OnOpen(IData data = null) { }
 

@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-16 23:57:35 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-17 21:32:49 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -20,12 +20,12 @@ namespace IFramework.Test
 
 		[SerializeField] public Login Login;
 
-        protected override void OnInitData(IData data)
-        {
-            Data = data as UIHomePanelData ?? new UIHomePanelData();
-        }
+		protected override void OnInitData(IData data)
+		{
+			Data = data as UIHomePanelData ?? new UIHomePanelData();
+		}
 
-        protected override void ClearUIComponents()
+		protected override void ClearUIComponents()
 		{
 			ButtonStart = null;
 			ButtonEnd = null;

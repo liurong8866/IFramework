@@ -41,9 +41,8 @@ namespace IFramework.Editor
             }
             sb.AppendLine($"\tpublic partial class {generateInfo.ScriptName} : UIPanel");
             sb.AppendLine("\t{");
-            sb.AppendLine("\t\tprotected override void OnInit(IData data = null)");
+            sb.AppendLine("\t\tprotected override void OnInit()");
             sb.AppendLine("\t\t{");
-            sb.AppendLine($"\t\t\tData = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
             sb.AppendLine("\t\t}");
             sb.AppendLine();
             sb.AppendLine("\t\tprotected override void OnOpen(IData data = null) { }");

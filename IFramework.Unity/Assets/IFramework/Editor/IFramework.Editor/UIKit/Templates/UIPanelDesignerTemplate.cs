@@ -50,9 +50,14 @@ namespace IFramework.Editor
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
-                sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.","").Replace("UnityEngine.","")} {bindInfo.Name};");
+                sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.", "").Replace("UnityEngine.", "")} {bindInfo.Name};");
                 sb.AppendLine();
             }
+            sb.AppendLine($"\t\tprotected override void OnInitData(IData data)");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine($"\t\t\tData = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
+            sb.AppendLine("\t\t}");
+            sb.AppendLine();
             sb.AppendLine("\t\tprotected override void ClearUIComponents()");
             sb.AppendLine("\t\t{");
             foreach (BindInfo bindInfo in elementInfo.BindInfoList) {

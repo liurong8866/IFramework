@@ -10,12 +10,12 @@ namespace IFramework.Test
         public int Coin;
     }
 
-    public partial class UIHomePanel : UIPanel
+	public partial class UIHomePanel : UIPanel
     {
         private int count = 0;
-
-        protected override void OnInit()
-        {
+        
+		protected override void OnInit()
+		{
             ButtonStart.onClick.AddListener(() => {
                 Log.Info("开始游戏" + Data.Coin);
                 UIKit.OpenPanel<GamePad>(UILevel.Common,
@@ -35,18 +35,14 @@ namespace IFramework.Test
                 //     mUIMultiPanel = null;
                 // }
             });
-        }
+		}
 
-        protected override void OnOpen(IData data = null)
-        {
-            // 每次 OpenPanel 的时候使用
-            Debug.Log((data as UIHomePanelData)?.Coin);
-        }
+		protected override void OnOpen(IData data) { }
 
-        protected override void OnShow() { }
+		protected override void OnShow() { }
 
-        protected override void OnHide() { }
+		protected override void OnHide() { }
 
-        protected override void OnClose() { }
-    }
+		protected override void OnClose() { }
+	}
 }

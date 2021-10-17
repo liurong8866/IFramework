@@ -9,14 +9,7 @@ namespace IFramework.Test
 {
 	public partial class Login : UIElement
 	{
-        private void Awake()
-        {
-            ButtonLogin.onClick.AddListener(() => {
-                Log.Info("登录");
-                Log.Info(UserName.text);
-                Log.Info(Password.text);
-            });
-        }
+		private void Awake() { }
 
 		protected override void BeforeDestroy() { }	}
 }

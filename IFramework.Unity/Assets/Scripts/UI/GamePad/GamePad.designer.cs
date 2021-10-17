@@ -1,4 +1,4 @@
-/* 脚本自动生成于：2021-10-17 13:07:20 ，请勿修改！*/
+/* 脚本自动生成于：2021-10-17 21:27:46 ，请勿修改！*/
 
 using System;
 using UnityEngine;
@@ -18,12 +18,12 @@ namespace IFramework.Test
 
 		[SerializeField] public Button ButtonClose;
 
-        protected override void OnInitData(IData data)
-        {
-            Data = data as GamePadData ?? new GamePadData();
-        }
+		protected override void OnInitData(IData data)
+		{
+			Data = data as GamePadData ?? new GamePadData();
+		}
 
-        protected override void ClearUIComponents()
+		protected override void ClearUIComponents()
 		{
 			GamePadText = null;
 			ButtonClose = null;

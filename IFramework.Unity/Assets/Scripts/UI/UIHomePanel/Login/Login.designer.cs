@@ -20,5 +20,6 @@ namespace IFramework.Test
 			Password = null;
 			ButtonLogin = null;
 		}
+
 	}
 }

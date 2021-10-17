@@ -26,13 +26,13 @@ namespace IFramework.Engine
 
         public IManager Manager => UIManager.Instance;
 
-        public void Init(IData data = null)
+        public void Init(IData data)
         {
             OnInitData(data);
             OnInit();
         }
 
-        public void Open(IData data = null)
+        public void Open(IData data)
         {
             State = PanelState.Opening;
             OnOpen(data);
@@ -51,7 +51,7 @@ namespace IFramework.Engine
             State = PanelState.Hide;
         }
 
-        void IPanel.Close(bool destroy = true)
+        void IPanel.Close(bool destroy)
         {
             Hide();
             State = PanelState.Closed;

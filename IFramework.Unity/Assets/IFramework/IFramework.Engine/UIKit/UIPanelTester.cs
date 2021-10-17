@@ -32,13 +32,13 @@ namespace IFramework.Engine
         public UILevel Level;
 
         [SerializeField]
-        private List<UIPanelTesterInfo> mOtherPanels;
+        private List<UIPanelTesterInfo> otherPanels =  new List<UIPanelTesterInfo>();
 
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.2f);
             UIKit.ScriptUse.OpenPanel(PanelName, Level);
-            mOtherPanels.ForEach(panelTesterInfo => { UIKit.ScriptUse.OpenPanel(panelTesterInfo.PanelName, panelTesterInfo.Level); });
+            otherPanels.ForEach(panelTesterInfo => { UIKit.ScriptUse.OpenPanel(panelTesterInfo.PanelName, panelTesterInfo.Level); });
         }
     }
 }
