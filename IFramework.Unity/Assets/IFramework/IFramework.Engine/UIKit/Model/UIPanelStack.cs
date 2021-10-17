@@ -20,7 +20,8 @@ namespace IFramework.Engine
                 stack.Push(panel.Info);
                 panel.Close();
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.GameObjectName = panel.Transform.name;
+                searcher.Key = panel.Info.Key;
+                searcher.PanelId = panel.Info.PanelId;
                 UIManager.Instance.RemoveUI(searcher);
                 searcher.Recycle();
             }
@@ -35,8 +36,8 @@ namespace IFramework.Engine
             PanelSearcher searcher = PanelSearcher.Allocate();
             searcher.Level = previousPanelInfo.Level;
             searcher.AssetBundleName = previousPanelInfo.AssetBundleName;
-            searcher.Keyword = previousPanelInfo.Key;
-            searcher.TypeName = previousPanelInfo.PanelName;
+            searcher.Key = previousPanelInfo.Key;
+            searcher.PanelName = previousPanelInfo.PanelName;
             UIManager.Instance.OpenUI(searcher);
             searcher.Recycle();
         }

@@ -12,7 +12,7 @@ namespace IFramework.Engine
         public IEnumerable<IPanel> GetPanelList(PanelSearcher searcher)
         {
             // 根据Key查找
-            IEnumerable<IPanel> panelList = Get(searcher.Keyword);
+            IEnumerable<IPanel> panelList = Get(searcher.Key);
             
             // 如果有PanelId，则继续查找
             if (searcher.PanelId.NotEmpty()) {

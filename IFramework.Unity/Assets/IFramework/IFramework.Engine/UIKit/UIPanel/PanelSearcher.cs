@@ -10,15 +10,13 @@ namespace IFramework.Engine
 
     public class PanelSearcher : IPoolable, IRecyclable
     {
-        public string Keyword;
+        public string Key;
 
         public string PanelId;
         
-        public string TypeName;
+        public string PanelName;
 
         public string AssetBundleName;
-
-        public string GameObjectName;
 
         public UILevel Level = UILevel.Common;
 
@@ -35,11 +33,10 @@ namespace IFramework.Engine
 
         public void OnRecycled()
         {
-            Keyword = null;
+            Key = null;
             PanelId = null;
-            TypeName = null;
+            PanelName = null;
             AssetBundleName = null;
-            GameObjectName = null;
             Data = null;
             Panel = null;
         }
@@ -48,7 +45,7 @@ namespace IFramework.Engine
 
         public override string ToString()
         {
-            return $"PanelSearchKeys Keyword:{Keyword} " + $"PanelId:{PanelId} " + $"TypeName:{TypeName} "  + $"AssetBundleName:{AssetBundleName} " + $"GameObjName:{GameObjectName} " + $"Level:{Level} " + $"UIData:{Data}";
+            return $"PanelSearchKeys Key:{Key} " + $"PanelId:{PanelId} " + $"TypeName:{PanelName} "  + $"AssetBundleName:{AssetBundleName} " + $"Level:{Level} " + $"UIData:{Data}";
         }
 
         public void Recycle()

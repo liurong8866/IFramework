@@ -48,9 +48,9 @@ namespace IFramework.Engine
         public static PanelInfo Allocate(PanelSearcher searcher)
         {
             PanelInfo panelInfo = ObjectPool<PanelInfo>.Instance.Allocate();
-            panelInfo.Key = searcher.Keyword;
+            panelInfo.Key = searcher.Key;
             panelInfo.PanelId = searcher.PanelId;
-            panelInfo.PanelName = searcher.TypeName;
+            panelInfo.PanelName = searcher.PanelName;
             panelInfo.Level = searcher.Level;
             panelInfo.AssetBundleName = searcher.AssetBundleName;
             panelInfo.OpenType = searcher.OpenType;

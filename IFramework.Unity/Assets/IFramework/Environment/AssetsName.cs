@@ -25,6 +25,10 @@ namespace IFramework.Engine {
             public const string ASSET_BUNDLE_NAME = "code-png";
             public const string CODE = "code";
         }
+        public class GamepadPrefab {
+            public const string ASSET_BUNDLE_NAME = "gamepad-prefab";
+            public const string GAMEPAD = "gamepad";
+        }
         public class LiliyPrefab {
             public const string ASSET_BUNDLE_NAME = "liliy-prefab";
             public const string LILIY = "liliy";
@@ -61,6 +65,14 @@ namespace IFramework.Engine {
         public class SpriteatlasvSpriteatlasv2 {
             public const string ASSET_BUNDLE_NAME = "spriteatlasv-spriteatlasv2";
             public const string SPRITEATLASV = "spriteatlasv";
+        }
+        public class Ui {
+            public const string ASSET_BUNDLE_NAME = "ui";
+            public const string UIHOMEPANEL1 = "uihomepanel 1";
+        }
+        public class UihomepanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uihomepanel-prefab";
+            public const string UIHOMEPANEL = "uihomepanel";
         }
     }
 }

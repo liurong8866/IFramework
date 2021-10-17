@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
@@ -75,7 +76,7 @@ namespace IFramework.Engine
         {
             foreach (List<IPanel> panel in UIKit.Table) {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = panel[0].Info.Key;
+                searcher.Key = panel[0].Info.Key;
                 HideUI(searcher);
             }
         }
@@ -95,7 +96,7 @@ namespace IFramework.Engine
                     panel.Close();
                     panel.Info.Recycle();
                     panel.Info = null;
-                    UIKit.Table.Remove(searcher.Keyword);
+                    UIKit.Table.Remove(searcher.Key);
                 }
             }
             // 如果是多窗口
@@ -109,14 +110,14 @@ namespace IFramework.Engine
                         item.Info.Recycle();
                         item.Info = null;
                     }
-                    UIKit.Table.Remove(searcher.Keyword);
+                    UIKit.Table.Remove(searcher.Key);
                 }
                 // 有ID则删除对应ID的窗口
                 else {
                     if (panel is UIPanel) {
                         // 关闭面板
                         panel.Close();
-                        UIKit.Table.Remove(searcher.Keyword, p => p.Info.PanelId == searcher.PanelId);
+                        UIKit.Table.Remove(searcher.Key, p => p.Info.PanelId == searcher.PanelId);
                         panel.Info.Recycle();
                         panel.Info = null;
                     }
@@ -132,7 +133,7 @@ namespace IFramework.Engine
             List<string> keys = UIKit.Table.GetKeys();
             foreach (string key in keys) {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = key;
+                searcher.Key = key;
                 CloseUI(searcher);
             }
             UIKit.Table.Clear();
@@ -143,7 +144,7 @@ namespace IFramework.Engine
         /// </summary>
         public void RemoveUI(PanelSearcher searcher)
         {
-            UIKit.Table.Remove(searcher.Keyword);
+            UIKit.Table.Remove(searcher.Key);
         }
 
         /// <summary>
@@ -169,13 +170,13 @@ namespace IFramework.Engine
             panel.ResetPanelSize();
 
             // 设置GameObject名字，空则取面板类名称
-            panel.Transform.gameObject.name = searcher.GameObjectName.NotEmpty() ? searcher.GameObjectName : searcher.TypeName;
-            searcher.PanelId = GUID.Generate().ToString();
+            panel.Transform.gameObject.name = searcher.PanelName;
+            searcher.PanelId = Guid.NewGuid().ToString();
             panel.Info = PanelInfo.Allocate(searcher);
             panel.Init(searcher.Data);
 
             // 使用searcher关键字作为键值缓存
-            UIKit.Table.Add(searcher.Keyword, panel);
+            UIKit.Table.Add(searcher.Key, panel);
             return panel;
         }
     }

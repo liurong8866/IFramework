@@ -14,7 +14,7 @@ namespace IFramework.Engine
         {
             PanelLoader panelLoader = new PanelLoader();
             // 加载PanelPrefab
-            GameObject panelPrefab = panelLoader.LoadPrefab(searcher.TypeName, searcher.AssetBundleName);
+            GameObject panelPrefab = panelLoader.LoadPrefab(searcher.PanelName, searcher.AssetBundleName);
             // 实例化Prefab
             GameObject obj = Object.Instantiate(panelPrefab);
             // 获取UIPanel组件

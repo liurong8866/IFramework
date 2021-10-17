@@ -1,7 +1,9 @@
 using System.Linq;
 using IFramework.Core;
+using IFramework.Engine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace IFramework.Editor
@@ -57,6 +59,18 @@ namespace IFramework.Editor
             EditorSceneManager.MarkSceneDirty(go.scene);
         }
 
+        public static void AddUIRootScript()
+        {
+            GameObject asset = Resources.Load<GameObject>("UIRoot");
+            PrefabUtility.InstantiatePrefab(asset);
+        }
+
+        public static bool AddUIRootScriptValidate()
+        {
+            UIRoot uiRoot = GameObject.FindObjectOfType<UIRoot>();
+            return uiRoot == null;
+        }
+        
         /// <summary>
         /// 打开UIKit设置窗口
         /// </summary>

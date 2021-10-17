@@ -60,7 +60,7 @@ namespace IFramework.Editor
                 if (bundleName[0].IsNumeric()) continue;
 
                 // 定义类名称
-                string className = assetModle.Name.Replace("/", "_").Replace("@", "_").Replace("!", "_").Replace("-", "_").ToPascal('_');
+                string className = assetModle.Name.FormatName().ToPascal('_');
 
                 //准备要生成的类的定义
                 CodeTypeDeclaration classCode = new CodeTypeDeclaration(className);
@@ -128,7 +128,7 @@ namespace IFramework.Editor
                     Attributes = MemberAttributes.Public | MemberAttributes.Const
                 };
                 string content = FileUtils.GetFileNameByPath(asset, false);
-                assetField.Name = content.ToUpperInvariant().Replace("@", "_").Replace("!", "_").Replace("-", "_");
+                assetField.Name = content.ToUpperInvariant().FormatName();
                 assetField.Type = new CodeTypeReference(typeof(string));
 
                 // 如果不是[开头，并且不重复

@@ -52,13 +52,28 @@ namespace IFramework.Editor
 
         /*----------------------------- GameObject 右键菜单 -----------------------------*/
 
-        public const string CON_MENU_BIND = "GameObject/IFramework - Bind &b";
+        
+        public const string CON_MENU_UIROOT = "GameObject/IFramework - UIRoot &r";
 
+        [MenuItem(CON_MENU_UIROOT, false, 31)]
+        private static void UIKitAddUIRoot()
+        {
+            UIKit.AddUIRootScript();
+        }
+
+        [MenuItem(CON_MENU_UIROOT, true)]
+        private static bool UIKitAddUIRootValidate()
+        {
+            return UIKit.AddUIRootScriptValidate();
+        }
+        
         // [MenuItem("GameObject/-------------------------------", false, 30)]
         // private static void UIKitTop() { }
         
         
-        [MenuItem(CON_MENU_BIND, false, 31)]
+        public const string CON_MENU_BIND = "GameObject/IFramework - Bind &b";
+
+        [MenuItem(CON_MENU_BIND, false, 32)]
         private static void UIKitBind()
         {
             UIKit.AddBindScript();
@@ -72,7 +87,7 @@ namespace IFramework.Editor
         
         public const string CON_MENU_VIEW = "GameObject/IFramework - View Controller &v";
 
-        [MenuItem(CON_MENU_VIEW, false, 32)]
+        [MenuItem(CON_MENU_VIEW, false, 33)]
         private static void UIKitAddView()
         {
             UIKit.AddViewScript();

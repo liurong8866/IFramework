@@ -111,10 +111,9 @@ namespace IFramework.Engine
             searcher.Level = level;
             searcher.OpenType = openType;
             searcher.Data = data;
-            searcher.Keyword = typeof(T).FullName;
-            searcher.TypeName = typeof(T).Name;
+            searcher.Key = typeof(T).FullName;
+            searcher.PanelName = typeof(T).Name;
             searcher.AssetBundleName = assetBundleName;
-            searcher.GameObjectName = prefabName;
 
             // 打开UI
             T panel = UIManager.Instance.OpenUI(searcher) as T;
@@ -128,8 +127,8 @@ namespace IFramework.Engine
         public static T GetPanel<T>() where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
-            searcher.TypeName = typeof(T).Name;
+            searcher.Key = typeof(T).FullName;
+            searcher.PanelName = typeof(T).Name;
             IPanel panel = UIManager.Instance.GetUI(searcher);
             searcher.Recycle();
             return panel as T;
@@ -141,7 +140,7 @@ namespace IFramework.Engine
         public static void ShowPanel<T>() where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
+            searcher.Key = typeof(T).FullName;
             UIManager.Instance.ShowUI(searcher);
             searcher.Recycle();
         }
@@ -152,7 +151,7 @@ namespace IFramework.Engine
         public static void HidePanel<T>() where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
+            searcher.Key = typeof(T).FullName;
             UIManager.Instance.HideUI(searcher);
             searcher.Recycle();
         }
@@ -171,7 +170,7 @@ namespace IFramework.Engine
         public static void ClosePanel<T>() where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
+            searcher.Key = typeof(T).FullName;
             UIManager.Instance.CloseUI(searcher);
             searcher.Recycle();
         }
@@ -182,7 +181,7 @@ namespace IFramework.Engine
         public static void ClosePanel<T>(string paneId) where T : UIPanel
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
+            searcher.Key = typeof(T).FullName;
             searcher.PanelId = paneId;
             UIManager.Instance.CloseUI(searcher);
             searcher.Recycle();
@@ -195,7 +194,7 @@ namespace IFramework.Engine
         {
             Type T = panel.GetType();
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = T.FullName;
+            searcher.Key = T.FullName;
             searcher.PanelId = panel.Info.PanelId;
             UIManager.Instance.CloseUI(searcher);
             searcher.Recycle();
@@ -217,9 +216,8 @@ namespace IFramework.Engine
         {
             if (currentPanelName.NotEmpty()) {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = currentPanelName;
-                searcher.TypeName = currentPanelName;
-                searcher.GameObjectName = currentPanelName;
+                searcher.Key = currentPanelName;
+                searcher.PanelName = currentPanelName;
                 UIManager.Instance.CloseUI(searcher);
                 searcher.Recycle();
             }
@@ -234,9 +232,8 @@ namespace IFramework.Engine
         {
             if (currentPanel.NotEmpty()) {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = currentPanel.GetType().FullName;
-                searcher.TypeName = currentPanel.GetType().Name;
-                searcher.GameObjectName = currentPanel.name;
+                searcher.Key = currentPanel.GetType().FullName;
+                searcher.PanelName = currentPanel.GetType().Name;
                 UIManager.Instance.CloseUI(searcher);
                 searcher.Recycle();
             }
@@ -250,8 +247,8 @@ namespace IFramework.Engine
         public static void Back<T>()
         {
             PanelSearcher searcher = PanelSearcher.Allocate();
-            searcher.Keyword = typeof(T).FullName;
-            searcher.TypeName = typeof(T).Name;
+            searcher.Key = typeof(T).FullName;
+            searcher.PanelName = typeof(T).Name;
             UIManager.Instance.CloseUI(searcher);
             searcher.Recycle();
             Stack.Pop();
@@ -285,10 +282,9 @@ namespace IFramework.Engine
             {
                 PanelSearcher searcher = PanelSearcher.Allocate();
                 searcher.Level = level;
-                searcher.Keyword = panelName;
-                searcher.TypeName = panelName;
+                searcher.Key = panelName;
+                searcher.PanelName = panelName;
                 searcher.AssetBundleName = assetBundleName;
-                searcher.GameObjectName = panelName;
                 UIPanel panel = UIManager.Instance.OpenUI(searcher) as UIPanel;
                 searcher.Recycle();
                 return panel;
@@ -297,7 +293,7 @@ namespace IFramework.Engine
             public static UIPanel GetPanel(string panelName)
             {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = panelName;
+                searcher.Key = panelName;
                 UIPanel panel = UIManager.Instance.GetUI(searcher) as UIPanel;
                 searcher.Recycle();
                 return panel;
@@ -306,7 +302,7 @@ namespace IFramework.Engine
             public static void ShowPanel(string panelName)
             {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = panelName;
+                searcher.Key = panelName;
                 UIManager.Instance.ShowUI(searcher);
                 searcher.Recycle();
             }
@@ -314,7 +310,7 @@ namespace IFramework.Engine
             public static void HidePanel(string panelName)
             {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = panelName;
+                searcher.Key = panelName;
                 UIManager.Instance.HideUI(searcher);
                 searcher.Recycle();
             }
@@ -322,7 +318,7 @@ namespace IFramework.Engine
             public static void ClosePanel(string panelName)
             {
                 PanelSearcher searcher = PanelSearcher.Allocate();
-                searcher.Keyword = panelName;
+                searcher.Key = panelName;
                 UIManager.Instance.CloseUI(searcher);
                 searcher.Recycle();
             }

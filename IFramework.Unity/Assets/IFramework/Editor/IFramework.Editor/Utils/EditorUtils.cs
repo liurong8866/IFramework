@@ -162,7 +162,7 @@ namespace IFramework.Editor
         /// </summary>
         public static string FormatName(this string value)
         {
-            return value.Replace(" ", "").Replace("　", "").Replace("-", "");
+            return value.Replace(" ", "").Replace("　", "").Replace("/", "_").Replace("@", "_").Replace("!", "_").Replace("-", "_");
         }
 
         /// <summary>
