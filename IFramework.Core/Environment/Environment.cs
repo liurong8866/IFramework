@@ -65,9 +65,9 @@ namespace IFramework.Engine
         /// </summary>
         public bool IsSimulation {
         #if UNITY_EDITOR
-            get { return Configure.IsSimulation.Value; }
+            get { return Configure.ResourceKit.IsSimulation.Value; }
             // ReSharper disable once ValueParameterNotUsed
-            set { Configure.IsSimulation.Value = true; }
+            set { Configure.ResourceKit.IsSimulation.Value = true; }
         #else
             get { return false; }
             set { }

@@ -33,12 +33,12 @@ namespace IFramework.Editor
                 string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
 
                 // 取UIPrefab默认路径右侧路径
-                scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+                scriptPath = scriptPath.Right(Configure.UIKit.UIPrefabPath.Value, false, true);
 
                 // 组装生成信息
                 panelGenerateInfo = new UIPanelGenerateInfo {
                     ScriptName = obj.name,
-                    ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
+                    ScriptPath = DirectoryUtils.CombinePath(Configure.UIKit.UIScriptPath.Value, scriptPath)
                 };
             }
         }

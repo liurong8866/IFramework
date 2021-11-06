@@ -16,10 +16,10 @@ namespace IFramework.Editor
 
         private void OnEnable()
         {
-            Configure.DefaultNameSpace.Value.IfNothing(() => Configure.DefaultNameSpace.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
-            Configure.UIScriptPath.Value.IfNothing(() => Configure.UIScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
-            Configure.ViewControllerScriptPath.Value.IfNothing(() => Configure.ViewControllerScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
-            Configure.ViewControllerPrefabPath.Value.IfNothing(() => Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.UIKit.DefaultNameSpace.Value.IfNothing(() => Configure.UIKit.DefaultNameSpace.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.UIKit.UIScriptPath.Value.IfNothing(() => Configure.UIKit.UIScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.UIKit.ViewControllerScriptPath.Value.IfNothing(() => Configure.UIKit.ViewControllerScriptPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
+            Configure.UIKit.ViewControllerPrefabPath.Value.IfNothing(() => Configure.UIKit.ViewControllerPrefabPath.Value = Constant.UIKIT_DEFAULT_NAMESPACE);
         }
 
         //绘制窗口时调用
@@ -29,7 +29,7 @@ namespace IFramework.Editor
 
             // 脚本默认命名空间
             EditorGUILayout.BeginHorizontal();
-            Configure.DefaultNameSpace.Value = EditorGUILayout.TextField("默认命名空间: ", Configure.DefaultNameSpace.Value);
+            Configure.UIKit.DefaultNameSpace.Value = EditorGUILayout.TextField("默认命名空间: ", Configure.UIKit.DefaultNameSpace.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(20);
 
@@ -37,7 +37,7 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("UIPanel 脚本: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
-            Configure.UIScriptPath.Value = EditorGUILayout.TextField(Configure.UIScriptPath.Value);
+            Configure.UIKit.UIScriptPath.Value = EditorGUILayout.TextField(Configure.UIKit.UIScriptPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(5);
             EditorGUILayout.HelpBox("UI脚本会分析 UIPrefab 所在的目录结构动态生成相对路径", MessageType.None, false);
@@ -46,7 +46,7 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("UIPanel Prefab: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
-            Configure.UIPrefabPath.Value = EditorGUILayout.TextField(Configure.UIPrefabPath.Value);
+            Configure.UIKit.UIPrefabPath.Value = EditorGUILayout.TextField(Configure.UIKit.UIPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(20);
 
@@ -54,7 +54,7 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("ViewController 脚本: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
-            Configure.ViewControllerScriptPath.Value = EditorGUILayout.TextField(Configure.ViewControllerScriptPath.Value);
+            Configure.UIKit.ViewControllerScriptPath.Value = EditorGUILayout.TextField(Configure.UIKit.ViewControllerScriptPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -62,7 +62,7 @@ namespace IFramework.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("ViewController Prefab: ");
             EditorGUILayout.LabelField("Assets/", GUILayout.Width(44));
-            Configure.ViewControllerPrefabPath.Value = EditorGUILayout.TextField(Configure.ViewControllerPrefabPath.Value);
+            Configure.UIKit.ViewControllerPrefabPath.Value = EditorGUILayout.TextField(Configure.UIKit.ViewControllerPrefabPath.Value);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(20);
 

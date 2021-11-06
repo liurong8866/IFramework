@@ -11,87 +11,83 @@ namespace IFramework.Engine
         private string name;
         private bool isLoop;
         private bool isPause = false;
-        private bool usedCache = true;
-        private bool isCache = false;
+        private float volume = 1.0f;
         
         private ResourceLoader loader;
         private AudioSource audioSource;
         private AudioClip audioClip;
         
-        private Action<AudioPlayer> onStartListener;
-        private Action<AudioPlayer> onFinishListener;
+        public Action<AudioPlayer> OnStartListener;
+        public Action<AudioPlayer> OnFinishListener;
         
-        public void SetOnStartListener(Action<AudioPlayer> action)
-        {
-            onStartListener = action;
-        }
-
-        public void SetOnFinishListener(Action<AudioPlayer> action)
-        {
-            onFinishListener = action;
-        }
-
-        public string Name => name;
-        public AudioSource AudioSource => audioSource;
-
         public static AudioPlayer Allocate()
         {
             return ObjectPool<AudioPlayer>.Instance.Allocate();
         }
 
-        public bool UsedCache { get => usedCache; set => usedCache = false; }
+        public string Name => name;
+        
+        public AudioSource AudioSource => audioSource;
+        
+        public bool IsRecycled { get; set; }
 
-        public bool IsRecycled { get => isCache; set => isCache = false; }
-
-        public void SetAudioExt(GameObject root, AudioClip clip, string name, bool loop)
+        /// <summary>
+        /// 播放音乐
+        /// </summary>
+        /// <param name="root">AudioManager</param>
+        /// <param name="name">名称</param>
+        /// <param name="loop">是否循环</param>
+        /// <param name="volume">音量</param>
+        public void Play(GameObject root, string name, bool loop, float volume)
         {
-            if (clip == null || this.name == name) {
-                return;
-            }
-            if (audioSource == null) {
-                audioSource = root.AddComponent<AudioSource>();
-            }
-            CleanResources();
-            isLoop = loop;
-            this.name = name;
-            audioClip = clip;
-            PlayAudioClip();
-        }
-
-        public void SetAudio(GameObject root, string name, bool loop)
-        {
+            // 没有指定名称则退出
             if (string.IsNullOrEmpty(name)) {
                 return;
             }
+            // 如果播放的是当前音乐则立即播放
             if (this.name == name) {
+                PlayAudioClip();
                 return;
             }
+            // 指定AudioSource
             if (audioSource == null) {
                 audioSource = root.AddComponent<AudioSource>();
             }
-
-            //防止卸载后立马加载的情况
-            ResourceLoader preLoader = this.loader;
-            this.loader = null;
-            CleanResources();
+            // 异步加载资源
             this.loader = ResourceLoader.Allocate();
             this.isLoop = loop;
             this.name = name;
+            this.volume = volume;
             this.loader.AddToLoad(name, OnResourceLoadFinish);
-            if (preLoader != null) {
-                preLoader.Recycle();
-                preLoader = null;
+            this.loader.LoadAsync();
+        }
+        
+        // 播放音乐
+        private void PlayAudioClip()
+        {
+            if (audioSource == null || audioClip == null) {
+                Release();
+                return;
             }
-            if (this.loader != null) {
-                this.loader.LoadAsync();
-            }
+            audioSource.clip = audioClip;
+            audioSource.loop = isLoop;
+            audioSource.volume = volume;
+            // 播放前事件
+            OnStartListener.InvokeSafe(this);
+            audioSource.Play();
         }
 
+        /// <summary>
+        /// 停止播放
+        /// </summary>
         public void Stop()
         {
             Release();
         }
 
+        /// <summary>
+        /// 暂停播放
+        /// </summary>
         public void Pause()
         {
             if (isPause) {
@@ -101,6 +97,9 @@ namespace IFramework.Engine
             audioSource.Pause();
         }
 
+        /// <summary>
+        /// 恢复播放
+        /// </summary>
         public void Resume()
         {
             if (!isPause) {
@@ -110,6 +109,9 @@ namespace IFramework.Engine
             audioSource.Play();
         }
 
+        /// <summary>
+        /// 设置播放声音
+        /// </summary>
         public void SetVolume(float volume)
         {
             if (audioSource != null) {
@@ -117,6 +119,9 @@ namespace IFramework.Engine
             }
         }
 
+        /// <summary>
+        /// 加载资源完毕后回调函数
+        /// </summary>
         private void OnResourceLoadFinish(bool result, IResource resource)
         {
             if (!result) {
@@ -125,33 +130,16 @@ namespace IFramework.Engine
             }
             audioClip = resource.Asset as AudioClip;
             if (audioClip == null) {
-                Log.Error("音频资源错误:" + name);
+                Log.Error("音频资源加载失败:" + name);
                 Release();
                 return;
             }
             PlayAudioClip();
         }
 
-        private void PlayAudioClip()
-        {
-            if (audioSource == null || audioClip == null) {
-                Release();
-                return;
-            }
-            audioSource.clip = audioClip;
-            audioSource.loop = isLoop;
-            audioSource.volume = 1.0f;
-            if (onStartListener != null) {
-                onStartListener(this);
-            }
-            audioSource.Play();
-        }
-
         private void OnSoundPlayFinish(int count)
         {
-            if (onFinishListener != null) {
-                onFinishListener(this);
-            }
+            OnFinishListener.InvokeSafe(this);
             if (!isLoop) {
                 Release();
             }
@@ -159,17 +147,14 @@ namespace IFramework.Engine
 
         private void Release()
         {
-            CleanResources();
-            if (usedCache) {
-                Recycle();
-            }
+            Recycle();
         }
 
         private void CleanResources()
         {
             name = null;
             isPause = false;
-            onFinishListener = null;
+            OnFinishListener = null;
             if (audioSource != null) {
                 if (audioSource.clip == audioClip) {
                     audioSource.Stop();

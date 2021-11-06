@@ -113,12 +113,12 @@ namespace IFramework.Editor
             string scriptPath = DirectoryUtils.GetPathByFullName(prefabPath);
 
             // 取UIPrefab默认路径右侧路径
-            scriptPath = scriptPath.Right(Configure.UIPrefabPath.Value, false, true);
+            scriptPath = scriptPath.Right(Configure.UIKit.UIPrefabPath.Value, false, true);
 
             // 组装生成信息
             UIPanelGenerateInfo panelGenerateInfo = new UIPanelGenerateInfo {
                 ScriptName = objectName,
-                ScriptPath = DirectoryUtils.CombinePath(Configure.UIScriptPath.Value, scriptPath)
+                ScriptPath = DirectoryUtils.CombinePath(Configure.UIKit.UIScriptPath.Value, scriptPath)
             };
 
             // 生成 .cs文件
@@ -258,7 +258,7 @@ namespace IFramework.Editor
 
             // 获取className，如果有组件，则取组件名称，否则取Prefab文件名
             if (bind.NotEmpty()) {
-                className = Configure.DefaultNameSpace + "." + bind.ComponentName;
+                className = Configure.UIKit.DefaultNameSpace + "." + bind.ComponentName;
 
                 // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
                 if (bind.BindType != BindType.DefaultElement) {
@@ -269,7 +269,7 @@ namespace IFramework.Editor
                 }
             }
             else {
-                className = Configure.DefaultNameSpace + "." + prefabName;
+                className = Configure.UIKit.DefaultNameSpace + "." + prefabName;
             }
 
             // 反射类型

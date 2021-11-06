@@ -39,7 +39,7 @@ namespace IFramework.Engine
             //     MusicPlayer.SetOnStartListener(null);
             // });
             
-            MusicPlayer.SetAudio(AudioManager.Instance.gameObject, musicName, loop);
+            MusicPlayer.Play(AudioManager.Instance.gameObject, musicName, loop, Configure.AudioKit.MusicVolume.Value);
             
             // MusicPlayer.SetOnFinishListener(player => {
             //     onEndCallback.InvokeSafe();

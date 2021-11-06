@@ -22,13 +22,13 @@ namespace IFramework.Editor
         private void InitController()
         {
             // 命名空间
-            controller.Namespace.IfNothing(() => { controller.Namespace = Configure.DefaultNameSpace.Value; });
+            controller.Namespace.IfNothing(() => { controller.Namespace = Configure.UIKit.DefaultNameSpace.Value; });
             // 脚本名称取当前对象名
             controller.ScriptName.IfNothing(() => { controller.ScriptName = controller.name; });
             // 脚本路径
-            controller.ScriptPath.IfNothing(() => { controller.ScriptPath = Configure.ViewControllerScriptPath.Value; });
+            controller.ScriptPath.IfNothing(() => { controller.ScriptPath = Configure.UIKit.ViewControllerScriptPath.Value; });
             // Prefab路径
-            controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.ViewControllerPrefabPath.Value; });
+            controller.PrefabPath.IfNothing(() => { controller.PrefabPath = Configure.UIKit.ViewControllerPrefabPath.Value; });
             // 生成信息
             generateInfo = new ViewControllerGenerateInfo(controller);
             // 初始化序列化字段

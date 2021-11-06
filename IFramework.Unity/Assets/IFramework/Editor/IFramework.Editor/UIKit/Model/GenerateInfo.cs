@@ -110,7 +110,7 @@ namespace IFramework.Editor
 
         public UIPanelGenerateInfo()
         {
-            Namespace = Configure.DefaultNameSpace.Value;
+            Namespace = Configure.UIKit.DefaultNameSpace.Value;
         }
         
     }

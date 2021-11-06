@@ -117,19 +117,19 @@ namespace IFramework.Editor
         public static void ResetConfig()
         {
             // 生成脚本默认命名空间
-            Configure.DefaultNameSpace.Value = Constant.UIKIT_DEFAULT_NAMESPACE;
+            Configure.UIKit.DefaultNameSpace.Value = Constant.UIKIT_DEFAULT_NAMESPACE;
 
             // UI脚本生成路径
-            Configure.UIScriptPath.Value = Constant.UIKIT_UI_SCRIPT_PATH;
+            Configure.UIKit.UIScriptPath.Value = Constant.UIKIT_UI_SCRIPT_PATH;
 
             // UI Prefab 生成路径
-            Configure.UIPrefabPath.Value = Constant.UIKIT_UI_PREFAB_PATH;
+            Configure.UIKit.UIPrefabPath.Value = Constant.UIKIT_UI_PREFAB_PATH;
 
             // ViewController 脚本生成路径
-            Configure.ViewControllerScriptPath.Value = Constant.UIKIT_UI_VC_SCRIPT_PATH;
+            Configure.UIKit.ViewControllerScriptPath.Value = Constant.UIKIT_UI_VC_SCRIPT_PATH;
 
             // ViewController Prefab 生成路径
-            Configure.ViewControllerPrefabPath.Value = Constant.UIKIT_UI_VC_PREFAB_PATH;
+            Configure.UIKit.ViewControllerPrefabPath.Value = Constant.UIKIT_UI_VC_PREFAB_PATH;
         }
 
         

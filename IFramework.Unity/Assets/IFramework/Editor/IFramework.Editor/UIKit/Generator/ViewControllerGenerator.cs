@@ -251,7 +251,7 @@ namespace IFramework.Editor
 
             // 获取className，如果有组件，则取组件名称，否则取Prefab文件名
             if (bind.NotEmpty()) {
-                className = Configure.DefaultNameSpace + "." + bind.ComponentName;
+                className = Configure.UIKit.DefaultNameSpace + "." + bind.ComponentName;
 
                 // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
                 if (bind.BindType != BindType.DefaultElement) {
@@ -262,7 +262,7 @@ namespace IFramework.Editor
                 }
             }
             else {
-                className = Configure.DefaultNameSpace + "." + scriptName;
+                className = Configure.UIKit.DefaultNameSpace + "." + scriptName;
             }
             // 反射类型
             Type t = assembly.GetType(className);

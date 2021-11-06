@@ -69,11 +69,11 @@ namespace IFramework.Editor
             GUILayout.Space(10);
 
             // 是否自动生成常量
-            Configure.AutoGenerateName.Value = GUILayout.Toggle(Configure.AutoGenerateName.Value, "打 AB 包时，自动生成资源名常量代码");
+            Configure.ResourceKit.AutoGenerateName.Value = GUILayout.Toggle(Configure.ResourceKit.AutoGenerateName.Value, "打 AB 包时，自动生成资源名常量代码");
             GUILayout.Space(10);
 
             // 模拟模式
-            Configure.IsSimulation.Value = GUILayout.Toggle(Configure.IsSimulation.Value, "模拟模式（勾选后每当资源修改时无需再打 AB 包，开发阶段建议勾选，打真机包时取消勾选并打一次 AB 包）");
+            Configure.ResourceKit.IsSimulation.Value = GUILayout.Toggle(Configure.ResourceKit.IsSimulation.Value, "模拟模式（勾选后每当资源修改时无需再打 AB 包，开发阶段建议勾选，打真机包时取消勾选并打一次 AB 包）");
 
             // 操作按钮
             GUILayout.Space(10);

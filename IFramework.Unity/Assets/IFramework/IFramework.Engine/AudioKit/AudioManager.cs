@@ -32,20 +32,18 @@ namespace IFramework.Engine
             
             ObjectPool<AudioPlayer>.Instance.Init(10,1);
             MusicPlayer = AudioPlayer.Allocate();
-            MusicPlayer.UsedCache = false;
             VoicePlayer = AudioPlayer.Allocate();
-            VoicePlayer.UsedCache = false;
             
             CheckAudioListener();
             
             gameObject.transform.position = Vector3.zero;
             
             // 音乐音量调节
-            Configure.AudioConfig.MusicVolume.OnChange += (volume => { MusicPlayer.SetVolume(volume); });
-            Configure.AudioConfig.MusicVolume.DisposeWhenGameObjectDestroyed(this);
+            Configure.AudioKit.MusicVolume.OnChange += (volume => { MusicPlayer.SetVolume(volume); });
+            Configure.AudioKit.MusicVolume.DisposeWhenGameObjectDestroyed(this);
             
             // 音乐开关
-            Configure.AudioConfig.IsMusicOn.OnChange += (musicOn => {
+            Configure.AudioKit.IsMusicOn.OnChange += (musicOn => {
                 if (musicOn) {
                     if (CurrentMusicName.NotEmpty()) {
                         AudioKit.PlayMusic(CurrentMusicName);
@@ -55,7 +53,7 @@ namespace IFramework.Engine
                     MusicPlayer.Stop();
                 }
             });
-            Configure.AudioConfig.IsMusicOn.DisposeWhenGameObjectDestroyed(this);
+            Configure.AudioKit.IsMusicOn.DisposeWhenGameObjectDestroyed(this);
             
             // // 人物声音开关
             

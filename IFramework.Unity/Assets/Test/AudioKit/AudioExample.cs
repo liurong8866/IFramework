@@ -32,14 +32,14 @@ namespace IFramework.Test
             // btnPlayVoiceA.onClick.AddListener(() => { AudioKit.PlayVoice("resources://game_bg"); });
             // btnSoundOn.onClick.AddListener(() => { AudioKit.Settings.IsSoundOn.Value = true; });
             // btnSoundOff.onClick.AddListener(() => { AudioKit.Settings.IsSoundOn.Value = false; });
-            btnMusicOn.onClick.AddListener(() => { Configure.AudioConfig.IsMusicOn.Value = true; });
-            btnMusicOff.onClick.AddListener(() => { Configure.AudioConfig.IsMusicOn.Value = false; });
+            btnMusicOn.onClick.AddListener(() => { Configure.AudioKit.IsMusicOn.Value = true; });
+            btnMusicOff.onClick.AddListener(() => { Configure.AudioKit.IsMusicOn.Value = false; });
             // btnVoiceOn.onClick.AddListener(() => { AudioKit.Settings.IsVoiceOn.Value = true; });
             // btnVoiceOff.onClick.AddListener(() => { AudioKit.Settings.IsVoiceOn.Value = false; });
             // AudioConfig.settings.MusicVolume.BindWithInitialValue(v => musicVolumeSlider.value = v);
             // AudioKit.Settings.VoiceVolume.BindWithInitialValue(v => voiceVolumeSlider.value = v);
             // AudioKit.Settings.SoundVolume.BindWithInitialValue(v => soundVolumeSlider.value = v);
-            musicVolumeSlider.onValueChanged.AddListener(v => { Configure.AudioConfig.MusicVolume.Value = v; });
+            musicVolumeSlider.onValueChanged.AddListener(v => { Configure.AudioKit.MusicVolume.Value = v; });
             // voiceVolumeSlider.onValueChanged.AddListener(v => { AudioKit.Settings.VoiceVolume.Value = v; });
             // soundVolumeSlider.onValueChanged.AddListener(v => { AudioKit.Settings.SoundVolume.Value = v; });
         }

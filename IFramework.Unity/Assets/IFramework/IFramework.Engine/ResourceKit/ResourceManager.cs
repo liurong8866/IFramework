@@ -84,7 +84,7 @@ namespace IFramework.Engine
                 List<string> configFiles;
 
                 // 未进行过热更新
-                if (Configure.LoadAssetFromStream) {
+                if (Configure.ResourceKit.LoadAssetFromStream) {
                     Zip zip = new Zip();
                     configFiles = zip.GetFileInInner(Constant.ASSET_BUNDLE_CONFIG_FILE);
                 }
@@ -116,7 +116,7 @@ namespace IFramework.Engine
                 List<string> configFiles = new List<string>();
 
                 // 未进行过热更新
-                if (Configure.LoadAssetFromStream) {
+                if (Configure.ResourceKit.LoadAssetFromStream) {
                     configFiles.Add(Platform.FilePathPrefix + Platform.RuntimeStreamAssetBundlePath);
                 }
                 // 进行过热更新
