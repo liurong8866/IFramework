@@ -50,5 +50,18 @@ namespace IFramework.Core
         /// ViewController Prefab 生成路径
         /// </summary>
         public static readonly ConfigString ViewControllerPrefabPath = new ConfigString("ViewControllerPrefabPath", Constant.UIKIT_UI_VC_PREFAB_PATH);
+        
+        /*----------------------------- Audio Kit -----------------------------*/
+        public static class AudioConfig
+        {
+            public static readonly ConfigBool IsOn = new ConfigBool("KEY_AUDIO__ON", true);
+            public static readonly ConfigBool IsMusicOn = new ConfigBool("KEY_AUDIO_MUSIC_ON", true);
+            public static readonly ConfigBool IsVoiceOn = new ConfigBool("KEY_AUDIO_VOICE_ON", true);
+            public static readonly ConfigBool IsSoundOn = new ConfigBool("KEY_AUDIO_SOUND_ON", true);
+
+            public static readonly ConfigFloat MusicVolume = new ConfigFloat("KEY_AUDIO_VOICE_VOLUME", 1.0f);
+            public static readonly ConfigFloat VoiceVolume = new ConfigFloat("KEY_AUDIO_MUSIC_VOLUME", 1.0f);
+            public static readonly ConfigFloat SoundVolume = new ConfigFloat("KEY_AUDIO_SOUND_VOLUME", 1.0f);
+        }
     }
 }
