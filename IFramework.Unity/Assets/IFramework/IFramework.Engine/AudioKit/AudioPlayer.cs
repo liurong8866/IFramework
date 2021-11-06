@@ -6,12 +6,20 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
+    public enum AudioPlayerState
+    {
+        None,
+        Playing,
+        Pause,
+        Stopped
+    }
+    
     public class AudioPlayer : IPoolable, IRecyclable
     {
         private string name;
         private bool isLoop;
-        private bool isPause = false;
         private float volume = 1.0f;
+        private AudioPlayerState state = AudioPlayerState.None;
         
         private ResourceLoader loader;
         private AudioSource audioSource;
@@ -40,6 +48,8 @@ namespace IFramework.Engine
         /// <param name="volume">音量</param>
         public void Play(GameObject root, string name, bool loop, float volume)
         {
+            state = AudioPlayerState.Playing;
+            
             // 没有指定名称则退出
             if (string.IsNullOrEmpty(name)) {
                 return;
@@ -62,7 +72,9 @@ namespace IFramework.Engine
             this.loader.LoadAsync();
         }
         
-        // 播放音乐
+        /// <summary>
+        /// 播放音乐
+        /// </summary>
         private void PlayAudioClip()
         {
             if (audioSource == null || audioClip == null) {
@@ -74,6 +86,8 @@ namespace IFramework.Engine
             audioSource.volume = volume;
             // 播放前事件
             OnStartListener.InvokeSafe(this);
+            OnStartListener = null;
+            // 播放
             audioSource.Play();
         }
 
@@ -82,7 +96,11 @@ namespace IFramework.Engine
         /// </summary>
         public void Stop()
         {
-            Release();
+            if (state == AudioPlayerState.Stopped) {
+                return;
+            }
+            state = AudioPlayerState.Stopped;
+            audioSource.Stop();
         }
 
         /// <summary>
@@ -90,10 +108,10 @@ namespace IFramework.Engine
         /// </summary>
         public void Pause()
         {
-            if (isPause) {
+            if (state == AudioPlayerState.Pause) {
                 return;
             }
-            isPause = true;
+            state = AudioPlayerState.Pause;
             audioSource.Pause();
         }
 
@@ -102,10 +120,10 @@ namespace IFramework.Engine
         /// </summary>
         public void Resume()
         {
-            if (!isPause) {
+            if (state != AudioPlayerState.Pause) {
                 return;
             }
-            isPause = false;
+            state = AudioPlayerState.Playing;
             audioSource.Play();
         }
 
@@ -145,15 +163,16 @@ namespace IFramework.Engine
             }
         }
 
-        private void Release()
+        public void Release()
         {
+            CleanResources();
             Recycle();
         }
 
         private void CleanResources()
         {
             name = null;
-            isPause = false;
+            state = AudioPlayerState.None;
             OnFinishListener = null;
             if (audioSource != null) {
                 if (audioSource.clip == audioClip) {

@@ -11,56 +11,97 @@ namespace IFramework.Engine
         /// 播放背景音乐
         /// </summary>
         /// <param name="musicName"></param>
-        /// <param name="onBeganCallback"></param>
-        /// <param name="onEndCallback"></param>
         /// <param name="loop"></param>
-        /// <param name="allowMusicOff"></param>
         /// <param name="volume"></param>
-        public static void PlayMusic(string musicName, bool loop = true, float volume = -1f, bool allowMusicOff = true, Action onBeganCallback = null, Action onEndCallback = null)
+        /// <param name="allowMusicOff"></param>
+        /// <param name="onBeganCallback"></param>
+        /// <param name="onFinishCallback"></param>
+        public static void PlayMusic(string musicName, bool loop = true, float volume = -1f, bool allowMusicOff = true, Action onBeganCallback = null, Action onFinishCallback = null)
         {
-            // AudioManager.Instance.CurrentMusicName = musicName;
-            // if (!Configure.AudioConfig.IsMusicOn.Value && allowMusicOff) {
-            //     onBeganCallback.InvokeSafe();
-            //     onEndCallback.InvokeSafe();
-            //     return;
-            // }
-            //
-            // // TODO: 需要按照这个顺序去 之后查一下原因
-            // // 需要先注册事件，然后再play
-            // MusicPlayer.SetOnStartListener(musicUnit => {
-            //     onBeganCallback.InvokeSafe();
-            //     if (volume < 0) {
-            //         MusicPlayer.SetVolume(Configure.AudioConfig.MusicVolume.Value);
-            //     }
-            //     else {
-            //         MusicPlayer.SetVolume(volume);
-            //     }
-            //     // 调用完就置为null，否则应用层每注册一个而没有注销，都会调用
-            //     MusicPlayer.SetOnStartListener(null);
-            // });
-            
-            MusicPlayer.Play(AudioManager.Instance.gameObject, musicName, loop, Configure.AudioKit.MusicVolume.Value);
-            
-            // MusicPlayer.SetOnFinishListener(player => {
-            //     onEndCallback.InvokeSafe();
-            //     // 调用完就置为null，否则应用层每注册一个而没有注销，都会调用
-            //     player.SetOnFinishListener(null);
-            // });
+            AudioManager.Instance.CurrentMusicName = musicName;
+            if (!Configure.AudioKit.IsMusicOn.Value && allowMusicOff) {
+                onBeganCallback.InvokeSafe();
+                onFinishCallback.InvokeSafe();
+                return;
+            }
+            MusicPlayer.OnStartListener = player => { onBeganCallback.InvokeSafe(); };
+            MusicPlayer.Play(AudioManager.Instance.gameObject, musicName, loop, volume < 0 ? Configure.AudioKit.MusicVolume.Value : volume);
+            MusicPlayer.OnFinishListener = player => { onFinishCallback.InvokeSafe(); };
         }
 
+        /// <summary>
+        /// 结束播放
+        /// </summary>
         public static void StopMusic()
         {
-            AudioManager.Instance.MusicPlayer.Stop();
+            MusicPlayer.Stop();
         }
 
+        /// <summary>
+        /// 暂停播放
+        /// </summary>
         public static void PauseMusic()
         {
-            AudioManager.Instance.MusicPlayer.Pause();
+            MusicPlayer.Pause();
         }
 
+        /// <summary>
+        /// 恢复播放
+        /// </summary>
         public static void ResumeMusic()
         {
-            AudioManager.Instance.MusicPlayer.Resume();
+            MusicPlayer.Resume();
+        }
+
+        public static AudioPlayer VoicePlayer { get { return AudioManager.Instance.VoicePlayer; } }
+
+        /// <summary>
+        /// 播放人物声音
+        /// </summary>
+        /// <param name="voiceName"></param>
+        /// <param name="loop"></param>
+        /// <param name="onBeganCallback"></param>
+        /// <param name="onFinishCallback"></param>
+        public static void PlayVoice(string voiceName, bool loop = false, System.Action onBeganCallback = null, System.Action onFinishCallback = null)
+        {
+            AudioManager.Instance.CurrentVoiceName = voiceName;
+            if (!Configure.AudioKit.IsVoiceOn.Value) {
+                onBeganCallback.InvokeSafe();
+                onFinishCallback.InvokeSafe();
+                return;
+            }
+            VoicePlayer.OnStartListener = player => { onBeganCallback.InvokeSafe(); };
+            VoicePlayer.Play(AudioManager.Instance.gameObject, voiceName, loop, Configure.AudioKit.VoiceVolume.Value);
+            VoicePlayer.OnFinishListener = player => { onFinishCallback.InvokeSafe(); };
+        }
+
+        public static void PauseVoice()
+        {
+            VoicePlayer.Pause();
+        }
+
+        public static void ResumeVoice()
+        {
+            VoicePlayer.Resume();
+        }
+
+        public static void StopVoice()
+        {
+            VoicePlayer.Stop();
+        }
+
+        public static AudioPlayer PlaySound(string soundName, bool loop = false, Action<AudioPlayer> callBack = null)
+        {
+            if (!Configure.AudioKit.IsSoundOn.Value) return null;
+            AudioPlayer soundPlayer = ObjectPool<AudioPlayer>.Instance.Allocate();
+            soundPlayer.Play(AudioManager.Instance.gameObject, soundName, loop, Configure.AudioKit.SoundVolume.Value);
+            return soundPlayer;
+        }
+
+        public static void StopAllSound()
+        {
+            AudioManager.Instance.ForEachAllSound(player => player.Stop());
+            // AudioManager.Instance.ClearAllPlayingSound();
         }
     }
 }

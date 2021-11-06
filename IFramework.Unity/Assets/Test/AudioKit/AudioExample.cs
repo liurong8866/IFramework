@@ -28,20 +28,26 @@ namespace IFramework.Test
                 Log.LogInfo("开始播放");
             }); });
             btnPlayGame.onClick.AddListener(() => { AudioKit.PlayMusic(ResourcesUrlType.RESOURCES + "game_bg"); });
-            // btnPlaySound.onClick.AddListener(() => { AudioKit.PlaySound("resources://game_bg"); });
-            // btnPlayVoiceA.onClick.AddListener(() => { AudioKit.PlayVoice("resources://game_bg"); });
-            // btnSoundOn.onClick.AddListener(() => { AudioKit.Settings.IsSoundOn.Value = true; });
-            // btnSoundOff.onClick.AddListener(() => { AudioKit.Settings.IsSoundOn.Value = false; });
+            btnPlaySound.onClick.AddListener(() => { AudioKit.PlaySound(ResourcesUrlType.RESOURCES + "button_clicked"); });
+            btnPlayVoiceA.onClick.AddListener(() => { AudioKit.PlayVoice(ResourcesUrlType.RESOURCES + "hero_hurt"); });
+            btnSoundOn.onClick.AddListener(() => { Configure.AudioKit.IsSoundOn.Value = true; });
+            btnSoundOff.onClick.AddListener(() => { Configure.AudioKit.IsSoundOn.Value = false; });
+            
             btnMusicOn.onClick.AddListener(() => { Configure.AudioKit.IsMusicOn.Value = true; });
             btnMusicOff.onClick.AddListener(() => { Configure.AudioKit.IsMusicOn.Value = false; });
-            // btnVoiceOn.onClick.AddListener(() => { AudioKit.Settings.IsVoiceOn.Value = true; });
-            // btnVoiceOff.onClick.AddListener(() => { AudioKit.Settings.IsVoiceOn.Value = false; });
-            // AudioConfig.settings.MusicVolume.BindWithInitialValue(v => musicVolumeSlider.value = v);
-            // AudioKit.Settings.VoiceVolume.BindWithInitialValue(v => voiceVolumeSlider.value = v);
-            // AudioKit.Settings.SoundVolume.BindWithInitialValue(v => soundVolumeSlider.value = v);
+            // btnMusicOn.onClick.AddListener(() => { Configure.AudioKit.IsMusicOn.Value = true; AudioKit.PauseMusic();});
+            // btnMusicOff.onClick.AddListener(() => {  AudioKit.StopMusic();});
+            
+            btnVoiceOn.onClick.AddListener(() => { Configure.AudioKit.IsVoiceOn.Value = true; });
+            btnVoiceOff.onClick.AddListener(() => { Configure.AudioKit.IsVoiceOn.Value = false; });
+            
+            musicVolumeSlider.value = Configure.AudioKit.MusicVolume.Value;
+            voiceVolumeSlider.value = Configure.AudioKit.VoiceVolume.Value;
+            soundVolumeSlider.value = Configure.AudioKit.SoundVolume.Value;
+            
             musicVolumeSlider.onValueChanged.AddListener(v => { Configure.AudioKit.MusicVolume.Value = v; });
-            // voiceVolumeSlider.onValueChanged.AddListener(v => { AudioKit.Settings.VoiceVolume.Value = v; });
-            // soundVolumeSlider.onValueChanged.AddListener(v => { AudioKit.Settings.SoundVolume.Value = v; });
+            voiceVolumeSlider.onValueChanged.AddListener(v => { Configure.AudioKit.VoiceVolume.Value = v; });
+            soundVolumeSlider.onValueChanged.AddListener(v => { Configure.AudioKit.SoundVolume.Value = v; });
         }
     }
 }
