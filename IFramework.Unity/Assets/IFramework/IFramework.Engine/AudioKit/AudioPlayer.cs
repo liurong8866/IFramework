@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using IFramework.Core;
 using IFramework.Engine;
@@ -14,30 +15,33 @@ namespace IFramework.Engine
         Pause,
         Stopped
     }
-    
+
     public class AudioPlayer : IPoolable, IRecyclable
     {
         private string name;
         private bool isLoop;
         private float volume = 1.0f;
+        private bool useCache;
         private AudioPlayerState state = AudioPlayerState.None;
-        
+
         private ResourceLoader loader;
         private AudioSource audioSource;
         private AudioClip audioClip;
-        
+
         public Action<AudioPlayer> OnStartListener;
         public Action<AudioPlayer> OnFinishListener;
-        
-        public static AudioPlayer Allocate()
+
+        public static AudioPlayer Allocate(bool useCache = true)
         {
-            return ObjectPool<AudioPlayer>.Instance.Allocate();
+            AudioPlayer audioPlayer = ObjectPool<AudioPlayer>.Instance.Allocate();
+            audioPlayer.useCache = useCache;
+            return audioPlayer;
         }
 
         public string Name => name;
-        
+
         public AudioSource AudioSource => audioSource;
-        
+
         public bool IsRecycled { get; set; }
 
         /// <summary>
@@ -50,14 +54,14 @@ namespace IFramework.Engine
         public void Play(GameObject root, string name, bool loop, float volume)
         {
             state = AudioPlayerState.Playing;
-            
+
             // 没有指定名称则退出
             if (string.IsNullOrEmpty(name)) {
                 return;
             }
             // 如果播放的是当前音乐则立即播放
             if (this.name == name) {
-                PlayAudioClip();
+                AudioManager.Instance.StartCoroutine(PlayAudioClip());
                 return;
             }
             // 指定AudioSource
@@ -72,26 +76,34 @@ namespace IFramework.Engine
             this.loader.AddToLoad(name, OnResourceLoadFinish);
             this.loader.LoadAsync();
         }
-        
+
         /// <summary>
         /// 播放音乐
         /// </summary>
-        private void PlayAudioClip()
+        public IEnumerator PlayAudioClip()
         {
             if (audioSource == null || audioClip == null) {
                 Release();
-                return;
+                yield break;
             }
             audioSource.clip = audioClip;
             audioSource.loop = isLoop;
             audioSource.volume = volume;
+
             // 播放前事件
             OnStartListener.InvokeSafe(this);
             OnStartListener = null;
+
             // 播放
             audioSource.Play();
+
+            // 播放完毕后回调
+            if (!isLoop) {
+                yield return new WaitForSeconds(audioClip.length);
+                OnFinishListener.InvokeSafe(this);
+            }
         }
-        
+
         /// <summary>
         /// 停止播放
         /// </summary>
@@ -129,7 +141,6 @@ namespace IFramework.Engine
                 return;
             }
             state = AudioPlayerState.Playing;
-            
             if (audioSource != null) {
                 audioSource.Play();
             }
@@ -160,21 +171,21 @@ namespace IFramework.Engine
                 Release();
                 return;
             }
-            PlayAudioClip();
-        }
-
-        private void OnSoundPlayFinish(int count)
-        {
-            OnFinishListener.InvokeSafe(this);
-            if (!isLoop) {
-                Release();
-            }
+            AudioManager.Instance.StartCoroutine(PlayAudioClip());
         }
 
         public void Release()
         {
             CleanResources();
-            Recycle();
+            if (useCache) {
+                Recycle();
+            }
+            else {
+                if (audioSource != null) {
+                    GameObject.Destroy(audioSource);
+                    audioSource = null;
+                }
+            }
         }
 
         private void CleanResources()

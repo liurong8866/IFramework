@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace IFramework.Core
 {
@@ -17,6 +19,11 @@ namespace IFramework.Core
             typeEvent = new TypeEvent();
         }
 
+        // public void StartCoroutine(IEnumerator enumerator, params object[] param)
+        // {
+        //     StartCoroutine(enumerator.ToString(), param);
+        // }
+        
         #region 代理实现
 
         public IDisposable RegisterEvent<T1>(Action<T1> action)

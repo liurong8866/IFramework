@@ -22,8 +22,6 @@ namespace IFramework.Core
                     return a;
                 }
             }
-
-            //            Log.E(">>>>>>>Error: Can\'t find Assembly-CSharp.dll");
             return null;
         }
 
@@ -35,8 +33,6 @@ namespace IFramework.Core
                     return a;
                 }
             }
-
-            //            Log.E(">>>>>>>Error: Can\'t find Assembly-CSharp-Editor.dll");
             return null;
         }
 

@@ -11,7 +11,7 @@ namespace IFramework.Engine
     public class AudioManager : ManagerBehaviour<AudioManager>
     {
         // 音效
-        private static Dictionary<string, List<AudioPlayer>> soundPlayerInPlaying = DictionaryPool<string, List<AudioPlayer>>.Allocate();
+        private static Dictionary<string, List<AudioPlayer>> soundPlayer= DictionaryPool<string, List<AudioPlayer>>.Allocate();
 
         protected AudioManager() { }
 
@@ -23,14 +23,6 @@ namespace IFramework.Engine
 
         public string CurrentVoiceName { get; set; }
 
-        public void CheckAudioListener()
-        {
-            // 确保有一个AudioListener
-            if (FindObjectOfType<AudioListener>() == null) {
-                gameObject.AddComponent<AudioListener>();
-            }
-        }
-
         protected override void OnAwake()
         {
             base.OnAwake();
@@ -41,30 +33,41 @@ namespace IFramework.Engine
             gameObject.transform.position = Vector3.zero;
 
             // 音乐开关
-            Configure.AudioKit.IsMusicOn.OnChange += (musicOn => { musicOn.iif(() => CheckAudioListener(), () => MusicPlayer.Stop()); });
+            Configure.AudioKit.IsMusicOn.OnChange += (musicOn => { musicOn.iif(() => CheckAudioListener(), () => MusicPlayer.Release()); });
             Configure.AudioKit.IsMusicOn.DisposeWhenGameObjectDestroyed(this);
             // 音乐音量调节
             Configure.AudioKit.MusicVolume.OnChange += (volume => { MusicPlayer.SetVolume(volume); });
             Configure.AudioKit.MusicVolume.DisposeWhenGameObjectDestroyed(this);
             
             // 人物声音开关
-            Configure.AudioKit.IsVoiceOn.OnChange += (voiceOn => { voiceOn.iif(() => CheckAudioListener(), () => VoicePlayer.Stop()); });
+            Configure.AudioKit.IsVoiceOn.OnChange += (voiceOn => { voiceOn.iif(() => CheckAudioListener(), () => VoicePlayer.Release()); });
             Configure.AudioKit.IsVoiceOn.DisposeWhenGameObjectDestroyed(this);
             // 人物音量调节
             Configure.AudioKit.VoiceVolume.OnChange += (volume => { VoicePlayer.SetVolume(volume); });
             Configure.AudioKit.VoiceVolume.DisposeWhenGameObjectDestroyed(this);
 
             // 音效开关
-            Configure.AudioKit.IsSoundOn.OnChange += (soundOn => { soundOn.iif(() => CheckAudioListener(), () => ForEachAllSound(player => player.Stop())); });
+            Configure.AudioKit.IsSoundOn.OnChange += (soundOn => { soundOn.iif(null, () => ForEachAllSound(player => player.Release())); });
             Configure.AudioKit.IsSoundOn.DisposeWhenGameObjectDestroyed(this);
             // 音效开关
             Configure.AudioKit.SoundVolume.OnChange += volume => ForEachAllSound(player => player.SetVolume(volume));
             Configure.AudioKit.SoundVolume.DisposeWhenGameObjectDestroyed(this);
         }
 
+        /// <summary>
+        /// 检查AudioListener，如果没有则添加
+        /// </summary>
+        public void CheckAudioListener()
+        {
+            // 确保有一个AudioListener
+            if (FindObjectOfType<AudioListener>() == null) {
+                gameObject.AddComponent<AudioListener>();
+            }
+        }
+        
         public void ForEachAllSound(Action<AudioPlayer> operation)
         {
-            foreach (AudioPlayer audioPlayer in soundPlayerInPlaying.SelectMany(keyValuePair => keyValuePair.Value)) {
+            foreach (AudioPlayer audioPlayer in soundPlayer.SelectMany(keyValuePair => keyValuePair.Value)) {
                 operation(audioPlayer);
             }
         }

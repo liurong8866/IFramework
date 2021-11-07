@@ -62,7 +62,7 @@ namespace IFramework.Engine
         /// <param name="loop"></param>
         /// <param name="onBeganCallback"></param>
         /// <param name="onFinishCallback"></param>
-        public static void PlayVoice(string voiceName, bool loop = false, System.Action onBeganCallback = null, System.Action onFinishCallback = null)
+        public static void PlayVoice(string voiceName, bool loop = false, Action onBeganCallback = null, Action onFinishCallback = null)
         {
             AudioManager.Instance.CurrentVoiceName = voiceName;
             if (!Configure.AudioKit.IsVoiceOn.Value) {
@@ -93,7 +93,10 @@ namespace IFramework.Engine
         public static AudioPlayer PlaySound(string soundName, bool loop = false, Action<AudioPlayer> callBack = null)
         {
             if (!Configure.AudioKit.IsSoundOn.Value) return null;
-            AudioPlayer soundPlayer = ObjectPool<AudioPlayer>.Instance.Allocate();
+            AudioPlayer soundPlayer = AudioPlayer.Allocate(false);
+            soundPlayer.OnFinishListener = (player) => {
+                player.Release();
+            };
             soundPlayer.Play(AudioManager.Instance.gameObject, soundName, loop, Configure.AudioKit.SoundVolume.Value);
             return soundPlayer;
         }
