@@ -100,11 +100,5 @@ namespace IFramework.Engine
             soundPlayer.Play(AudioManager.Instance.gameObject, soundName, loop, Configure.AudioKit.SoundVolume.Value);
             return soundPlayer;
         }
-
-        public static void StopAllSound()
-        {
-            AudioManager.Instance.ForEachAllSound(player => player.Stop());
-            // AudioManager.Instance.ClearAllPlayingSound();
-        }
     }
 }

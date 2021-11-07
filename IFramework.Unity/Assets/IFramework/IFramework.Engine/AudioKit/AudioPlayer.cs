@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using IFramework.Core;
@@ -16,7 +17,7 @@ namespace IFramework.Engine
         Stopped
     }
 
-    public class AudioPlayer : IPoolable, IRecyclable
+    public class AudioPlayer : IPoolable, IRecyclable, IDisposable
     {
         private string name;
         private bool isLoop;
@@ -31,6 +32,8 @@ namespace IFramework.Engine
         public Action<AudioPlayer> OnStartListener;
         public Action<AudioPlayer> OnFinishListener;
 
+        public static readonly Dictionary<string, AudioClip> audioClipDic = new Dictionary<string, AudioClip>();
+        
         public static AudioPlayer Allocate(bool useCache = true)
         {
             AudioPlayer audioPlayer = ObjectPool<AudioPlayer>.Instance.Allocate();
@@ -59,20 +62,23 @@ namespace IFramework.Engine
             if (string.IsNullOrEmpty(name)) {
                 return;
             }
-            // 如果播放的是当前音乐则立即播放
-            if (this.name == name) {
-                AudioManager.Instance.StartCoroutine(PlayAudioClip());
-                return;
-            }
+            
+            this.isLoop = loop;
+            this.name = name;
+            this.volume = volume;
+            
             // 指定AudioSource
             if (audioSource == null) {
                 audioSource = root.AddComponent<AudioSource>();
             }
+            // 如果播放的已缓存
+            if (audioClipDic.ContainsKey(name)) {
+                audioClip = audioClipDic[name];
+                AudioManager.Instance.StartCoroutine(PlayAudioClip());
+                return;
+            }
             // 异步加载资源
             this.loader = ResourceLoader.Allocate();
-            this.isLoop = loop;
-            this.name = name;
-            this.volume = volume;
             this.loader.AddToLoad(name, OnResourceLoadFinish);
             this.loader.LoadAsync();
         }
@@ -171,12 +177,17 @@ namespace IFramework.Engine
                 Release();
                 return;
             }
+            // if (useCache) {
+                // 记录缓存
+                audioClipDic[name] = audioClip;
+            // }
             AudioManager.Instance.StartCoroutine(PlayAudioClip());
         }
 
         public void Release()
         {
             CleanResources();
+            
             if (useCache) {
                 Recycle();
             }
@@ -219,6 +230,12 @@ namespace IFramework.Engine
                     audioSource = null;
                 }
             }
+        }
+        
+        public void Dispose()
+        {
+            Release();
+            audioClipDic.Clear();
         }
     }
 }

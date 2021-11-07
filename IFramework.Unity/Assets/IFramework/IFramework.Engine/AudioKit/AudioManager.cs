@@ -46,12 +46,12 @@ namespace IFramework.Engine
             Configure.AudioKit.VoiceVolume.OnChange += (volume => { VoicePlayer.SetVolume(volume); });
             Configure.AudioKit.VoiceVolume.DisposeWhenGameObjectDestroyed(this);
 
-            // 音效开关
-            Configure.AudioKit.IsSoundOn.OnChange += (soundOn => { soundOn.iif(null, () => ForEachAllSound(player => player.Release())); });
-            Configure.AudioKit.IsSoundOn.DisposeWhenGameObjectDestroyed(this);
-            // 音效开关
-            Configure.AudioKit.SoundVolume.OnChange += volume => ForEachAllSound(player => player.SetVolume(volume));
-            Configure.AudioKit.SoundVolume.DisposeWhenGameObjectDestroyed(this);
+            // // 音效开关
+            // Configure.AudioKit.IsSoundOn.OnChange += (soundOn => { soundOn.iif(null, () => ForEachAllSound(player => player.Release())); });
+            // Configure.AudioKit.IsSoundOn.DisposeWhenGameObjectDestroyed(this);
+            // // 音效开关
+            // Configure.AudioKit.SoundVolume.OnChange += volume => ForEachAllSound(player => player.SetVolume(volume));
+            // Configure.AudioKit.SoundVolume.DisposeWhenGameObjectDestroyed(this);
         }
 
         /// <summary>
@@ -65,11 +65,11 @@ namespace IFramework.Engine
             }
         }
         
-        public void ForEachAllSound(Action<AudioPlayer> operation)
-        {
-            foreach (AudioPlayer audioPlayer in soundPlayer.SelectMany(keyValuePair => keyValuePair.Value)) {
-                operation(audioPlayer);
-            }
-        }
+        // public void ForEachAllSound(Action<AudioPlayer> operation)
+        // {
+        //     foreach (AudioPlayer audioPlayer in soundPlayer.SelectMany(keyValuePair => keyValuePair.Value)) {
+        //         operation(audioPlayer);
+        //     }
+        // }
     }
 }
