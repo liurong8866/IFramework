@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 1009848466946319401}
   - component: {fileID: 904986522984446743}
   - component: {fileID: 904430182076635137}
-  - component: {fileID: 943544731761564900}
+  - component: {fileID: 6584429887600638520}
   m_Layer: 5
   m_Name: UIRoot
   m_TagString: Untagged
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &943544731761564900
+--- !u!114 &6584429887600638520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 944534839937920483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78776e9a5c9045cf8ffb767c3735a0fc, type: 3}
+  m_Script: {fileID: 1791616989, guid: be27fa5c37aec4b12a89788568b5783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UICamera: {fileID: 963533956268043315}
