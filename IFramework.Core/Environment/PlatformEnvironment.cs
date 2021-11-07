@@ -30,10 +30,10 @@ namespace IFramework.Core
 
         public string FilePathPrefix => environment.FilePathPrefix;
 
-        // public string GetPlatformName(BuildTarget target)
-        // {
-        //     return environment.GetPlatformName(target);
-        // }
+        public string GetPlatformName(int target)
+        {
+            return environment.GetPlatformName(target);
+        }
 
         public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName)
         {

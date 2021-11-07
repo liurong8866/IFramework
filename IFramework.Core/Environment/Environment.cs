@@ -21,18 +21,19 @@ namespace IFramework.Engine
         /// </summary>
         public string RuntimePlatformName {
         #if UNITY_EDITOR
-            get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
+            get => GetPlatformName((int)EditorUserBuildSettings.activeBuildTarget);
         #else
             get => Platform.GetPlatformName(Application.platform);
         #endif
         }
 
-    #if UNITY_EDITOR
+
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target) {
-            switch (target) {
+        public string GetPlatformName(int target) {
+        #if UNITY_EDITOR
+            switch ((BuildTarget)target) {
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
@@ -57,9 +58,11 @@ namespace IFramework.Engine
                 default:
                     return null;
             }
+        #else
+            return null;
+        #endif
         }
-    #endif
-
+        
         /// <summary>
         /// 是否模拟模式
         /// </summary>

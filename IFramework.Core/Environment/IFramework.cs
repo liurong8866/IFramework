@@ -1,4 +1,5 @@
 using IFramework.Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace IFramework.Engine
@@ -8,6 +9,15 @@ namespace IFramework.Engine
     /// </summary>
     public class IFramework
     {
+        #if UNITY_EDITOR
+        [InitializeOnLoadMethod()]
+        public static void InitBeforeEditorLoad()
+        {
+            // "初始化 PlatformEnvironment"
+            PlatformEnvironment.Instance.Init(Environment.Instance, new Zip());
+        }
+        #endif
+        
         /// <summary>
         /// 场景开始前初始化
         /// </summary>

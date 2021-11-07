@@ -21,18 +21,19 @@ namespace IFramework.Engine
         /// </summary>
         public string RuntimePlatformName {
         #if UNITY_EDITOR
-            get => GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
+            get => GetPlatformName((int)EditorUserBuildSettings.activeBuildTarget);
         #else
             get => Platform.GetPlatformName(Application.platform);
         #endif
         }
 
-    #if UNITY_EDITOR
+
         /// <summary>
         /// 编辑器模式下
         /// </summary>
-        public string GetPlatformName(BuildTarget target) {
-            switch (target) {
+        public string GetPlatformName(int target) {
+        #if UNITY_EDITOR
+            switch ((BuildTarget)target) {
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
@@ -57,9 +58,11 @@ namespace IFramework.Engine
                 default:
                     return null;
             }
+        #else
+            return null;
+        #endif
         }
-    #endif
-
+        
         /// <summary>
         /// 是否模拟模式
         /// </summary>
@@ -139,9 +142,7 @@ namespace IFramework.Engine
 
                 // 添加AssetBundleName信息到缓存
                 int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out IAssetBundleInfo @assetBundleInfo);
-
                 AssetBundleInfo @assetBundleInfo2 = assetBundleInfo as AssetBundleInfo;
-                
                 if (index < 0) {
                     continue;
                 }
@@ -159,8 +160,8 @@ namespace IFramework.Engine
 
                     // 添加资源到缓存
                     @assetBundleInfo2.AddAssetInfo(asset.EndsWith(".unity")
-                                                           ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
-                                                           : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
+                                                            ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
+                                                            : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
                 }
             }
         #endif

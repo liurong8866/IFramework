@@ -14,10 +14,9 @@ namespace IFramework.Core
         string FilePathPrefix { get; }
 
         bool IsSimulation { get; }
+
+        public string GetPlatformName(int target);
         
-    // #if UNITY_EDITOR
-    //     public string GetPlatformName(BuildTarget target);
-    // #endif 
         public string[] GetAssetPathsFromAssetBundleAndAssetName(string assetName, string assetBundleName);
 
         public Object LoadAssetAtPath(string assetPath, Type assetType);
