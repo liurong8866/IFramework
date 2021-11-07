@@ -70,9 +70,29 @@ namespace IFramework.Engine {
             public const string ASSET_BUNDLE_NAME = "ui";
             public const string UIHOMEPANEL1 = "uihomepanel 1";
         }
+        public class UiabcpanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uiabcpanel-prefab";
+            public const string UIABCPANEL = "uiabcpanel";
+        }
+        public class UigamepanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uigamepanel-prefab";
+            public const string UIGAMEPANEL = "uigamepanel";
+        }
         public class UihomepanelPrefab {
             public const string ASSET_BUNDLE_NAME = "uihomepanel-prefab";
             public const string UIHOMEPANEL = "uihomepanel";
+        }
+        public class UimenupanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uimenupanel-prefab";
+            public const string UIMENUPANEL = "uimenupanel";
+        }
+        public class UisectionpanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uisectionpanel-prefab";
+            public const string UISECTIONPANEL = "uisectionpanel";
+        }
+        public class UisettingpanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "uisettingpanel-prefab";
+            public const string UISETTINGPANEL = "uisettingpanel";
         }
     }
 }

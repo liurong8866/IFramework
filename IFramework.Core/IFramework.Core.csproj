@@ -43,9 +43,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Compile Remove="Environment\Environment.cs" />
-        <Content Include="Environment\Environment.cs">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <Content Include="Environment\Environment.cs" />
     </ItemGroup>
 
 </Project>

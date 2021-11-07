@@ -46,10 +46,10 @@ cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.pdb "$framework"
 # cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$framework"
 # cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$framework"
 
-# echo '拷贝 IFramework.Engine'
-# echo -e "\033[32m 拷贝 IFramework.Engine \033[0m"
-# cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll "$framework"
-# cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
+echo '拷贝 IFramework.Engine'
+echo -e "\033[32m 拷贝 IFramework.Engine \033[0m"
+cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll "$framework"
+cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
 
 echo -e "\033[36m 拷贝 Settings/Environment/IFramework.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/IFramework.cs "$environment"

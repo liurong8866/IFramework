@@ -6,7 +6,7 @@ using IFramework.Core.Zip.Zip;
 
 namespace IFramework.Engine
 {
-    public class Zip
+    public class Zip : IZip
     {
         private List<string> searchDirList = new List<string>();
 

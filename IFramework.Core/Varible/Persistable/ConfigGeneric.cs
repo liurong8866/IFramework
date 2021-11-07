@@ -8,10 +8,6 @@ namespace IFramework.Core
     /// </summary>
     public class ConfigGeneric<T> : AbstractConfig<T>
     {
-        private Func<T> mValueGetter = null;
-
-        private Action<T> mValueSetter = null;
-
         public ConfigGeneric(string key, T value) : base(key, value) { }
 
         public override T Get()

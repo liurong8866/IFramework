@@ -125,7 +125,7 @@ namespace IFramework.Engine
         /// </summary>
         /// <param name="assetBundleConfig"></param>
         /// <param name="assetBundleNames"></param>
-        public void InitAssetBundleConfig(AssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
+        public void InitAssetBundleConfig(IAssetBundleConfig assetBundleConfig, string[] assetBundleNames = null) {
         #if UNITY_EDITOR
             AssetDatabase.RemoveUnusedAssetBundleNames();
 
@@ -138,8 +138,10 @@ namespace IFramework.Engine
                 string[] depends = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
 
                 // 添加AssetBundleName信息到缓存
-                int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out AssetBundleInfo @assetBundleInfo);
+                int index = assetBundleConfig.AddAssetBundleInfo(assetBundleName, depends, out IAssetBundleInfo @assetBundleInfo);
 
+                AssetBundleInfo @assetBundleInfo2 = assetBundleInfo as AssetBundleInfo;
+                
                 if (index < 0) {
                     continue;
                 }
@@ -156,9 +158,9 @@ namespace IFramework.Engine
                     string assetName = FileUtils.GetFileNameByPath(asset, false).ToLowerInvariant();
 
                     // 添加资源到缓存
-                    @assetBundleInfo.AddAssetInfo(asset.EndsWith(".unity")
-                          ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
-                          : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
+                    @assetBundleInfo2.AddAssetInfo(asset.EndsWith(".unity")
+                                                           ? new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_SCENE, code)
+                                                           : new AssetInfo(assetName, assetBundleName, index, ResourceLoadType.ASSET_BUNDLE_ASSET, code));
                 }
             }
         #endif

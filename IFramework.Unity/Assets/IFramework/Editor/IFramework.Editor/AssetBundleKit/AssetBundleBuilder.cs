@@ -31,6 +31,7 @@ namespace IFramework.Editor
         public static void BuildAssetBundles(BuildTarget buildTarget)
         {
             string platformName = Environment.Instance.GetPlatformName(buildTarget);
+            // string platformName = "MacOS";
             Log.Info("开始打包: [{0}]: 开始", platformName);
             AssetDatabase.RemoveUnusedAssetBundleNames();
             AssetDatabase.Refresh();

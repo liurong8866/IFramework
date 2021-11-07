@@ -15,7 +15,7 @@ namespace IFramework.Engine
         public static void InitBeforeSceneLoad(){
             
             // "初始化 PlatformEnvironment"
-            PlatformEnvironment.Instance.Init(Environment.Instance);
+            PlatformEnvironment.Instance.Init(Environment.Instance, new Zip());
 
             // 异步加载初始化 ResourceManager"
             ResourceManager.Instance.InitAsync();
