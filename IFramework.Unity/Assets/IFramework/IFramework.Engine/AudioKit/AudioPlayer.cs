@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.Remoting.Messaging;
 using IFramework.Core;
 using IFramework.Engine;
@@ -90,7 +91,7 @@ namespace IFramework.Engine
             // 播放
             audioSource.Play();
         }
-
+        
         /// <summary>
         /// 停止播放
         /// </summary>
@@ -100,7 +101,9 @@ namespace IFramework.Engine
                 return;
             }
             state = AudioPlayerState.Stopped;
-            audioSource.Stop();
+            if (audioSource != null && audioSource.isPlaying) {
+                audioSource.Stop();
+            }
         }
 
         /// <summary>
@@ -112,7 +115,9 @@ namespace IFramework.Engine
                 return;
             }
             state = AudioPlayerState.Pause;
-            audioSource.Pause();
+            if (audioSource != null && audioSource.isPlaying) {
+                audioSource.Pause();
+            }
         }
 
         /// <summary>
@@ -124,7 +129,10 @@ namespace IFramework.Engine
                 return;
             }
             state = AudioPlayerState.Playing;
-            audioSource.Play();
+            
+            if (audioSource != null) {
+                audioSource.Play();
+            }
         }
 
         /// <summary>
