@@ -126,7 +126,7 @@ namespace IFramework.Editor
                     scaleProperty.vector3Value = Vector3.one * scale;
                 }
                 
-                if (GUILayout.Button(".", GUILayout.Width(30f))) {
+                if (GUILayout.Button(".", GUILayout.Width(20f))) {
                     Undo.RecordObjects(targets, "Round");
                     for (int i = 0; i < targets.Length; i++) {
                         Transform o = targets[i] as Transform;
@@ -137,7 +137,7 @@ namespace IFramework.Editor
                     GUI.FocusControl(null);
                 }
                 
-                if (GUILayout.Button(".0", GUILayout.Width(30f))) {
+                if (GUILayout.Button(".0", GUILayout.Width(22f))) {
                     Undo.RecordObjects(targets, "Round");
                     for (int i = 0; i < targets.Length; i++) {
                         Transform o = targets[i] as Transform;
@@ -160,7 +160,7 @@ namespace IFramework.Editor
                 }
                 
                 InspectorFieldColor.Instance.Default();
-                if (GUILayout.Button("Reset", GUILayout.Width(50f))) {
+                if (GUILayout.Button("Reset", GUILayout.Width(42f))) {
                     positionProperty.vector3Value = Vector3.zero;
                     rotationProperty.quaternionValue = Quaternion.identity;
                     scaleProperty.vector3Value = Vector3.one;
@@ -168,7 +168,7 @@ namespace IFramework.Editor
                 }
                 
                 InspectorFieldColor.Instance.Yellow();
-                if (GUILayout.Button("Copy", GUILayout.Width(50f))) {
+                if (GUILayout.Button("Copy", GUILayout.Width(42f))) {
                     copyPosition = positionProperty.vector3Value;
                     copyScale = scaleProperty.vector3Value;
                     copyRotation = rotationProperty.quaternionValue;
@@ -176,7 +176,7 @@ namespace IFramework.Editor
                 }
                 
                 InspectorFieldColor.Instance.Red();
-                if (GUILayout.Button("Past", GUILayout.Width(50f))) {
+                if (GUILayout.Button("Past", GUILayout.Width(42f))) {
                     PastePosition();
                     PasteRotation();
                     PasteScale();

@@ -3,6 +3,7 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+
 // using UnityEngine.UI;
 
 namespace IFramework.Editor
@@ -39,17 +40,15 @@ namespace IFramework.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
             serializedObject.Update();
-            
             if (stylePivotSetup == null) {
                 stylePivotSetup = new GUIStyle("PreButton") {
-                    normal = new GUIStyle("CN Box").normal,
-                    active = new GUIStyle("AppToolbar").normal,
+                    // normal = new GUIStyle("CN Box").normal,
+                    // active = new GUIStyle("AppToolbar").normal,
                     overflow = new RectOffset(),
                     padding = new RectOffset(0, 0, 0, 0),
-                    fixedWidth = 16,
-                    fixedHeight = 16
+                    fixedWidth = 14,
+                    fixedHeight = 14
                 };
                 styleMove = new GUIStyle(stylePivotSetup) {
                     padding = new RectOffset(0, 0, -2, 0)
@@ -59,21 +58,21 @@ namespace IFramework.Editor
             {
                 GUILayout.BeginVertical();
                 {
-                    #region Pivot
-                    EditorGUILayout.LabelField("Pivot",GUILayout.Width(50f)); 
+                    EditorGUILayout.LabelField("Pivot", GUILayout.Width(50f));
                     GUILayout.BeginHorizontal();
                     {
                         ActivePivotColor(new Vector2(0, 1));
-                        if (GUILayout.Button("◤", stylePivotSetup)) {
+                        // if (GUILayout.Button("◤", stylePivotSetup)) {
+                        if (GUILayout.Button("", stylePivotSetup)) {
                             spPivot.vector2Value = new Vector2(0, 1);
                         }
-                        
                         ActivePivotColor(new Vector2(0.5f, 1));
                         if (GUILayout.Button("", stylePivotSetup)) {
                             spPivot.vector2Value = new Vector2(0.5f, 1);
                         }
                         ActivePivotColor(new Vector2(1, 1));
-                        if (GUILayout.Button("◥", stylePivotSetup)) {
+                        // if (GUILayout.Button("◥", stylePivotSetup)) {
+                        if (GUILayout.Button("", stylePivotSetup)) {
                             spPivot.vector2Value = new Vector2(1, 1);
                         }
                     }
@@ -97,7 +96,8 @@ namespace IFramework.Editor
                     GUILayout.BeginHorizontal();
                     {
                         ActivePivotColor(new Vector2(0, 0));
-                        if (GUILayout.Button("◣", stylePivotSetup)) {
+                        // if (GUILayout.Button("◣", stylePivotSetup)) {
+                        if (GUILayout.Button("", stylePivotSetup)) {
                             spPivot.vector2Value = new Vector2(0, 0);
                         }
                         ActivePivotColor(new Vector2(0.5f, 0));
@@ -105,14 +105,14 @@ namespace IFramework.Editor
                             spPivot.vector2Value = new Vector2(0.5f, 0);
                         }
                         ActivePivotColor(new Vector2(1, 0));
-                        if (GUILayout.Button("◢", stylePivotSetup)) {
+                        // if (GUILayout.Button("◢", stylePivotSetup)) {
+                        if (GUILayout.Button("", stylePivotSetup)) {
                             spPivot.vector2Value = new Vector2(1, 0);
                         }
-                        ActivePivotColor(new Vector2(2,2));
+                        ActivePivotColor(new Vector2(2, 2));
                     }
                     GUILayout.EndHorizontal();
                 }
-                #endregion
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
                 {
@@ -125,7 +125,6 @@ namespace IFramework.Editor
                             scaleAll = newScale;
                             spLocalScale.vector3Value = Vector3.one * scaleAll;
                         }
-                        
                         if (GUILayout.Button(".", GUILayout.Width(30f))) {
                             Undo.RecordObjects(targets, "Round");
                             spAnchoredPosition.vector2Value = EditorUtils.Round(spAnchoredPosition.vector2Value, 0);
@@ -152,65 +151,32 @@ namespace IFramework.Editor
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     {
-                        if (GUILayout.Button("Reset")) {
-                            // spSizeDelta.vector2Value = Vector2.zero;
-                            // rectTransform.LocalPositionIdentity();
-                            // rectTransform.LocalScaleIdentity();
-                            // rectTransform.LocalRotationIdentity();
-                            // rectTransform.sizeDelta = Vector2.zero;
+                        if (GUILayout.Button("Reset",GUILayout.MinWidth(50f))) {
                             rectTransform.LocalIdentity();
                             scaleAll = spLocalScale.vector3Value.x;
                             GUI.FocusControl(null);
                         }
-                        if (GUILayout.Button("Position")) {
-                            // foreach (Object item in targets) {
-                            //     RectTransform rtf = item as RectTransform;
-                            //     rtf.LocalPositionIdentity();
-                            // }
+                        if (GUILayout.Button("Position",GUILayout.MinWidth(50f))) {
                             rectTransform.LocalPositionIdentity();
                             GUI.FocusControl(null);
                         }
-                        if (GUILayout.Button("Size")) {
+                        if (GUILayout.Button("Size",GUILayout.MinWidth(50f))) {
                             rectTransform.SizeDeltaIdentity();
                             GUI.FocusControl(null);
                         }
-                        if (GUILayout.Button("Rotation")) {
-                            
-                            // Undo.RecordObjects(targets, "rotationContent");
-                            // MethodInfo method = typeof(Transform).GetMethod("SetLocalEulerAngles", BindingFlags.Instance | BindingFlags.NonPublic);
-                            // object[] clear = { Vector3.zero, 0 };
-                            // for (int i = 0; i < targets.Length; i++) {
-                            //     method.Invoke(targets[i], clear);
-                            // }
-                            // Event.current.type = EventType.Used;
+                        if (GUILayout.Button("Rotation",GUILayout.MinWidth(50f))) {
                             rectTransform.LocalRotationIdentity();
                             GUI.FocusControl(null);
                         }
-                        if (GUILayout.Button("Scale")) {
-                            // spLocalScale.vector3Value = Vector3.one;
+                        if (GUILayout.Button("Scale",GUILayout.MinWidth(50f))) {
                             rectTransform.LocalScaleIdentity();
                             scaleAll = spLocalScale.FindPropertyRelative("x").floatValue;
                             GUI.FocusControl(null);
                         }
                     }
                     GUILayout.EndHorizontal();
-                    
                     GUILayout.BeginHorizontal();
-                    InspectorFieldColor.Instance.Yellow();
-                    if (GUILayout.Button("Copy")) {
-                        ComponentUtility.CopyComponent(target as RectTransform);
-                        GUI.FocusControl(null);
-                    }
-                    InspectorFieldColor.Instance.Red();
-                    if (GUILayout.Button("Paste")) {
-                        foreach (Object item in targets) {
-                            ComponentUtility.PasteComponentValues(item as RectTransform);
-                        }
-                        GUI.FocusControl(null);
-                    }
-                    InspectorFieldColor.Instance.Blue();
-                    
-                    if (GUILayout.Button("Fill")) {
+                    if (GUILayout.Button("Fill",GUILayout.MinWidth(50f))) {
                         Undo.RecordObjects(targets, "F");
                         foreach (Object item in targets) {
                             RectTransform rtf = item as RectTransform;
@@ -221,7 +187,7 @@ namespace IFramework.Editor
                         }
                         GUI.FocusControl(null);
                     }
-                    if (GUILayout.Button("Normal")) {
+                    if (GUILayout.Button("Normal",GUILayout.MinWidth(50f))) {
                         Undo.RecordObjects(targets, "N");
                         foreach (Object item in targets) {
                             RectTransform rtf = item as RectTransform;
@@ -232,8 +198,20 @@ namespace IFramework.Editor
                         }
                         GUI.FocusControl(null);
                     }
-                    GUILayout.EndHorizontal();
+                    InspectorFieldColor.Instance.Yellow();
+                    if (GUILayout.Button("Copy",GUILayout.MinWidth(50f))) {
+                        ComponentUtility.CopyComponent(target as RectTransform);
+                        GUI.FocusControl(null);
+                    }
+                    InspectorFieldColor.Instance.Red();
+                    if (GUILayout.Button("Paste",GUILayout.MinWidth(50f))) {
+                        foreach (Object item in targets) {
+                            ComponentUtility.PasteComponentValues(item as RectTransform);
+                        }
+                        GUI.FocusControl(null);
+                    }
                     InspectorFieldColor.Instance.Default();
+                    GUILayout.EndHorizontal();
                 }
                 GUILayout.EndVertical();
             }
@@ -241,6 +219,10 @@ namespace IFramework.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
+        /// <summary>
+        /// 激活Pivot的颜色
+        /// </summary>
+        /// <param name="vector2"></param>
         private void ActivePivotColor(Vector2 vector2)
         {
             if (spPivot.vector2Value == vector2) {
