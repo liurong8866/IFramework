@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using UnityEngine;
 using UnityEditor;
 
@@ -26,6 +28,7 @@ namespace IFramework.Editor
             scaleProperty = serializedObject.FindProperty("m_LocalScale");
             if (rotationGUI == null) rotationGUI = new TransformRotationGUI();
             rotationGUI.Initialize(rotationProperty, new GUIContent());
+            
         }
 
         public override void OnInspectorGUI()
