@@ -119,20 +119,20 @@ namespace IFramework.Editor
                     GUILayout.BeginHorizontal();
                     {
                         InspectorFieldColor.Instance.Green();
-                        EditorGUIUtility.labelWidth = 10;
-                        float newScale = EditorGUILayout.FloatField("A", scaleAll);
+                        EditorGUIUtility.labelWidth = 20;
+                        float newScale = EditorGUILayout.FloatField("▲", scaleAll);
                         if (!Mathf.Approximately(scaleAll, newScale)) {
                             scaleAll = newScale;
                             spLocalScale.vector3Value = Vector3.one * scaleAll;
                         }
-                        if (GUILayout.Button(".", GUILayout.Width(30f))) {
+                        if (GUILayout.Button(".", GUILayout.Width(20f))) {
                             Undo.RecordObjects(targets, "Round");
                             spAnchoredPosition.vector2Value = EditorUtils.Round(spAnchoredPosition.vector2Value, 0);
                             spSizeDelta.vector2Value = EditorUtils.Round(spSizeDelta.vector2Value, 0);
                             spLocalScale.vector3Value = EditorUtils.Round(spLocalScale.vector3Value, 0);
                             GUI.FocusControl(null);
                         }
-                        if (GUILayout.Button(".0", GUILayout.Width(30f))) {
+                        if (GUILayout.Button(".0", GUILayout.Width(22f))) {
                             Undo.RecordObjects(targets, "Round");
                             spAnchoredPosition.vector2Value = EditorUtils.Round(spAnchoredPosition.vector2Value, 1);
                             spSizeDelta.vector2Value = EditorUtils.Round(spSizeDelta.vector2Value, 1);
