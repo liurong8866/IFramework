@@ -192,5 +192,38 @@ namespace IFramework.Editor
             }
             return bind.gameObject;
         }
+        
+        /// <summary>
+        /// 保留N位小数
+        /// </summary>
+        public static Vector2 Round(Vector2 value, int decimalPoint = 0)
+        {
+            Vector2 value1 = new Vector2(value.x, value.y);
+            
+            int scale = 1;
+            for (int i = 0; i < decimalPoint; i++) {
+                scale *= 10;
+            }
+            value1 *= scale;
+            value1.x = Mathf.RoundToInt(value1.x);
+            value1.y = Mathf.RoundToInt(value1.y);
+            return value1 / scale;
+        }
+        
+        /// <summary>
+        /// 保留N位小数
+        /// </summary>
+        public static Vector3 Round(Vector3 value, int decimalPoint = 0)
+        {
+            int scale = 1;
+            for (int i = 0; i < decimalPoint; i++) {
+                scale *= 10;
+            }
+            value *= scale;
+            value.x = Mathf.RoundToInt(value.x);
+            value.y = Mathf.RoundToInt(value.y);
+            value.z = Mathf.RoundToInt(value.z);
+            return value / scale;
+        }
     }
 }

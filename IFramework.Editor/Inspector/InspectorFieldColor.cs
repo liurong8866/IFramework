@@ -32,6 +32,11 @@ namespace IFramework.Editor
         {
             GUI.color = new Color(0.5f, 1f, 0.5f, 1f);
         }
+        
+        public void Blue()
+        {
+            GUI.color = new Color(0.5f,0.5f,1.0f,1f);
+        }
     }
 
 }

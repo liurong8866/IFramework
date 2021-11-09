@@ -1,9 +1,5 @@
-using System;
 using UnityEngine;
-using System.Collections;
-using IFramework.Core;
 using UnityEditor;
-using System.Reflection;
 
 namespace IFramework.Editor
 {
@@ -40,7 +36,7 @@ namespace IFramework.Editor
             DrawPosition();
             DrawRotation();
             DrawScale();
-            DrawBottom();
+            DrawTools();
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -53,17 +49,12 @@ namespace IFramework.Editor
                 EditorGUILayout.PropertyField(positionProperty.FindPropertyRelative("y"));
                 EditorGUILayout.PropertyField(positionProperty.FindPropertyRelative("z"));
                 bool reset = GUILayout.Button("R", GUILayout.Width(20f));
-                InspectorFieldColor.Instance.Yellow();
-                bool copy = GUILayout.Button("C", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Red();
                 bool paste = GUILayout.Button("P", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Default();
                 if (reset) {
                     positionProperty.vector3Value = Vector3.zero;
                     GUI.FocusControl(null);
-                }
-                if (copy) {
-                    CopyPosition();
                 }
                 if (paste) {
                     PastePosition();
@@ -82,8 +73,6 @@ namespace IFramework.Editor
                 EditorGUILayout.PropertyField(scaleProperty.FindPropertyRelative("y"));
                 EditorGUILayout.PropertyField(scaleProperty.FindPropertyRelative("z"));
                 bool reset = GUILayout.Button("R", GUILayout.Width(20f));
-                InspectorFieldColor.Instance.Yellow();
-                bool copy = GUILayout.Button("C", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Red();
                 bool paste = GUILayout.Button("P", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Default();
@@ -91,9 +80,6 @@ namespace IFramework.Editor
                     scaleProperty.vector3Value = Vector3.one;
                     scale = 1;
                     GUI.FocusControl(null);
-                }
-                if (copy) {
-                    CopyScale();
                 }
                 if (paste) {
                     PasteScale();
@@ -106,22 +92,17 @@ namespace IFramework.Editor
         void DrawRotation()
         {
             // 需要设置最小宽度，与其Position Scale保持一致
-            GUILayout.BeginHorizontal(GUILayout.MinWidth(323f), GUILayout.MaxWidth(float.MaxValue));
+            GUILayout.BeginHorizontal(GUILayout.MinWidth(302f), GUILayout.MaxWidth(float.MaxValue));
             {
                 EditorGUILayout.LabelField("Rotation", GUILayout.Width(50f));
                 rotationGUI.Draw();
                 bool reset = GUILayout.Button("R", GUILayout.Width(20f));
-                InspectorFieldColor.Instance.Yellow();
-                bool copy = GUILayout.Button("C", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Red();
                 bool paste = GUILayout.Button("P", GUILayout.Width(20f));
                 InspectorFieldColor.Instance.Default();
                 if (reset) {
-                    rotationGUI.Reset();
+                    rotationProperty.quaternionValue = Quaternion.identity;
                     GUI.FocusControl(null);
-                }
-                if (copy) {
-                    CopyRotation();
                 }
                 if (paste) {
                     PasteRotation();
@@ -131,88 +112,85 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
         }
 
-    void DrawBottom()
-    {
-        EditorGUILayout.BeginHorizontal();
+        void DrawTools()
         {
-            EditorGUILayout.LabelField("Scale", GUILayout.Width(50f));
-            EditorGUIUtility.labelWidth = 10f;
-            
-            InspectorFieldColor.Instance.Green();
-            float newScale = EditorGUILayout.FloatField("A", scale);
-            if (!Mathf.Approximately(scale, newScale))
+            EditorGUILayout.BeginHorizontal();
             {
-                scale = newScale;
-                scaleProperty.vector3Value = Vector3.one * scale;
-            }
-
-            if (GUILayout.Button(".", GUILayout.Width(30f)))
-            {
-                Undo.RecordObjects(targets, "Round");
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    Transform o = targets[i] as Transform;
-                    o.localPosition = Round(o.localPosition);
-                    o.localScale = Round(o.localScale);
-                    scale = o.localScale.x;
+                EditorGUILayout.LabelField("Scale", GUILayout.Width(50f));
+                EditorGUIUtility.labelWidth = 10f;
+                InspectorFieldColor.Instance.Green();
+                float newScale = EditorGUILayout.FloatField("A", scale);
+                
+                if (!Mathf.Approximately(scale, newScale)) {
+                    scale = newScale;
+                    scaleProperty.vector3Value = Vector3.one * scale;
                 }
-            }
-
-            if (GUILayout.Button(".0", GUILayout.Width(30f)))
-            {
-                Undo.RecordObjects(targets, "Round");
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    Transform o = targets[i] as Transform;
-                    o.localPosition = Round(o.localPosition, 1);
-                    o.localScale = Round(o.localScale, 1);
-                    scale = o.localScale.x;
+                
+                if (GUILayout.Button(".", GUILayout.Width(30f))) {
+                    Undo.RecordObjects(targets, "Round");
+                    for (int i = 0; i < targets.Length; i++) {
+                        Transform o = targets[i] as Transform;
+                        o.localPosition = EditorUtils.Round(o.localPosition);
+                        o.localScale = EditorUtils.Round(o.localScale);
+                        scale = o.localScale.x;
+                    }
+                    GUI.FocusControl(null);
                 }
-            }
-
-            if (GUILayout.Button(".00", GUILayout.Width(30f)))
-            {
-                Undo.RecordObjects(targets, "Round");
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    Transform o = targets[i] as Transform;
-                    o.localPosition = Round(o.localPosition, 2);
-                    o.localScale = Round(o.localScale, 2);
-                    scale = o.localScale.x;
+                
+                if (GUILayout.Button(".0", GUILayout.Width(30f))) {
+                    Undo.RecordObjects(targets, "Round");
+                    for (int i = 0; i < targets.Length; i++) {
+                        Transform o = targets[i] as Transform;
+                        o.localPosition = EditorUtils.Round(o.localPosition, 1);
+                        o.localScale = EditorUtils.Round(o.localScale, 1);
+                        scale = o.localScale.x;
+                    }
+                    GUI.FocusControl(null);
                 }
+                
+                if (GUILayout.Button(".00", GUILayout.Width(30f))) {
+                    Undo.RecordObjects(targets, "Round");
+                    for (int i = 0; i < targets.Length; i++) {
+                        Transform o = targets[i] as Transform;
+                        o.localPosition = EditorUtils.Round(o.localPosition, 2);
+                        o.localScale = EditorUtils.Round(o.localScale, 2);
+                        scale = o.localScale.x;
+                    }
+                    GUI.FocusControl(null);
+                }
+                
+                InspectorFieldColor.Instance.Default();
+                if (GUILayout.Button("Reset", GUILayout.Width(50f))) {
+                    positionProperty.vector3Value = Vector3.zero;
+                    rotationProperty.quaternionValue = Quaternion.identity;
+                    scaleProperty.vector3Value = Vector3.one;
+                    GUI.FocusControl(null);
+                }
+                
+                InspectorFieldColor.Instance.Yellow();
+                if (GUILayout.Button("Copy", GUILayout.Width(50f))) {
+                    copyPosition = positionProperty.vector3Value;
+                    copyScale = scaleProperty.vector3Value;
+                    copyRotation = rotationProperty.quaternionValue;
+                    GUI.FocusControl(null);
+                }
+                
+                InspectorFieldColor.Instance.Red();
+                if (GUILayout.Button("Past", GUILayout.Width(50f))) {
+                    PastePosition();
+                    PasteRotation();
+                    PasteScale();
+                    GUI.FocusControl(null);
+                }
+                
+                InspectorFieldColor.Instance.Default();
             }
-            InspectorFieldColor.Instance.Yellow();
-            if (GUILayout.Button("Copy", GUILayout.Width(50f))) {
-                CopyPosition();
-                CopyRotation();
-                CopyScale();
-            }
-            
-            InspectorFieldColor.Instance.Red();
-            if (GUILayout.Button("Past", GUILayout.Width(50f))) {
-                PastePosition();
-                PasteRotation();
-                PasteScale();
-            }
-            
-            InspectorFieldColor.Instance.Default();
-        }
-        EditorGUILayout.EndHorizontal();
-    }
-
-        void CopyPosition()
-        {
-            copyPosition = positionProperty.vector3Value;
+            EditorGUILayout.EndHorizontal();
         }
 
         void PastePosition()
         {
             positionProperty.vector3Value = copyPosition;
-        }
-
-        void CopyScale()
-        {
-            copyScale = scaleProperty.vector3Value;
         }
 
         void PasteScale()
@@ -221,27 +199,10 @@ namespace IFramework.Editor
             scale = copyScale.x;
         }
 
-        void CopyRotation()
-        {
-            copyRotation = rotationProperty.quaternionValue;
-        }
-
         void PasteRotation()
         {
             rotationProperty.quaternionValue = copyRotation;
         }
 
-        private static Vector3 Round(Vector3 v3Value, int nDecimalPoint = 0)
-        {
-            int nScale = 1;
-            for (int i = 0; i < nDecimalPoint; i++) {
-                nScale *= 10;
-            }
-            v3Value *= nScale;
-            v3Value.x = Mathf.RoundToInt(v3Value.x);
-            v3Value.y = Mathf.RoundToInt(v3Value.y);
-            v3Value.z = Mathf.RoundToInt(v3Value.z);
-            return v3Value / nScale;
-        }
     }
 }

@@ -48,5 +48,23 @@ namespace IFramework.Core
         {
             return RectTransformUtility.CalculateRelativeRectTransformBounds(selfRectTrans).size;
         }
+
+        /*----------------------------*/
+        /* SizeDeltaIdentity          */
+        /*----------------------------*/
+        public static RectTransform LocalIdentity(this RectTransform self)
+        {
+            self.transform.localPosition = Vector3.zero;
+            self.transform.localRotation = Quaternion.identity;
+            self.transform.localScale = Vector3.one;
+            self.sizeDelta = Vector2.zero;
+            return self;
+        }
+        
+        public static RectTransform SizeDeltaIdentity(this RectTransform self)
+        {
+            self.sizeDelta = Vector2.zero;
+            return self;
+        }
     }
 }
