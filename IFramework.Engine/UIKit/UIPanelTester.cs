@@ -19,6 +19,7 @@ namespace IFramework.Engine
         public UILevel Level;
     }
 
+    [AddComponentMenu("IFramework/UITester")]
     public class UIPanelTester : MonoBehaviour
     {
         /// <summary>

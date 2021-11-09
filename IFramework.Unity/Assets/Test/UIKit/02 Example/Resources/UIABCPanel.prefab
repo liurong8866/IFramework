@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 224145281395046404}
   - component: {fileID: 222005706746047272}
   - component: {fileID: 114561854525103696}
-  - component: {fileID: 1885448915779557238}
+  - component: {fileID: 8389158235888532393}
   m_Layer: 5
   m_Name: UIABCPanel
   m_TagString: Untagged
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1885448915779557238
+--- !u!114 &8389158235888532393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1995586544873324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f064b90a4254430bbacc41924cdc582, type: 3}
+  m_Script: {fileID: 11500000, guid: cd1a326d5b16e4a8c9a2f8aaae476047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 114432405086612354}

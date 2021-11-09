@@ -14,7 +14,27 @@ echo -e "\033[36m 开始构建解决方案 \033[0m"
 #            n[ormal]、d[etailed] 和 diag[nostic]。(缩写: -v)
 
 echo -e "\033[36m 正在构建项目: IFramework.Core \033[0m"
-msbuild "IFramework.Core/IFramework.Core.csproj" -t:rebuild -p:Configuration=Debug -v:n
+msbuild "IFramework.Core/IFramework.Core.csproj" -t:rebuild -p:Configuration=Debug -v:m
+
+buildResult=$?
+
+# 如果构建失败，退出
+if [ ${buildResult} != 0 ]; then
+    exit
+fi
+
+echo -e "\033[36m 正在构建项目: IFramework.Engine \033[0m"
+msbuild "IFramework.Engine/IFramework.Engine.csproj" -t:rebuild -p:Configuration=Debug -v:m
+
+buildResult=$?
+
+# 如果构建失败，退出
+if [ ${buildResult} != 0 ]; then
+    exit
+fi
+
+echo -e "\033[36m 正在构建项目: IFramework.Engine \033[0m"
+msbuild "IFramework.Editor/IFramework.Editor.csproj" -t:rebuild -p:Configuration=Debug -v:m
 
 buildResult=$?
 
@@ -41,15 +61,17 @@ cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.dll "$framework"
 echo -e "\033[36m 拷贝 IFramework.Core.pdb \033[0m"
 cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.pdb "$framework"
 
-echo '拷贝 IFramework.Editor'
-echo -e "\033[32m 拷贝 IFramework.Editor \033[0m"
-cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$framework"
-cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$framework"
-
 echo '拷贝 IFramework.Engine'
-echo -e "\033[32m 拷贝 IFramework.Engine \033[0m"
+echo -e "\033[32m 拷贝 IFramework.Engine.dll \033[0m"
 cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll "$framework"
+echo -e "\033[32m 拷贝 IFramework.Engine.pdb \033[0m"
 cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
+
+echo '拷贝 IFramework.Editor'
+echo -e "\033[32m 拷贝 IFramework.Editor.dll \033[0m"
+cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$framework"
+echo -e "\033[32m 拷贝 IFramework.Editor.pdb \033[0m"
+cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$framework"
 
 echo -e "\033[36m 拷贝 Settings/Environment/IFramework.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/IFramework.cs "$environment"

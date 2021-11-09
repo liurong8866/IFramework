@@ -34,6 +34,20 @@ namespace IFramework.Editor
         public static void GenerateCode(Object[] objects, bool overwrite)
         {
             EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", 0);
+
+            // 单独判断是否有IBind组件，没有则退出
+            foreach (Object o in objects) {
+                GameObject obj = o as GameObject;
+                if (obj == null) return;
+                
+                IBind bind = obj.GetComponent<IBind>();
+                if (bind != null) {
+                    Log.Error("不能在根节点绑定Bind组件，请检查文件是否正确！" + obj.name);
+                    EditorUtility.ClearProgressBar();
+                    return;
+                }
+            }
+            
             for (int i = 0; i < objects.Length; i++) {
                 GenerateCode(objects[i] as GameObject, overwrite);
                 EditorUtility.DisplayProgressBar("", "正在生成 UI Code ...", (float)(i + 1) / objects.Length);
@@ -46,7 +60,6 @@ namespace IFramework.Editor
         /// </summary>
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
-            if (obj == null) return;
             
             string objectName = obj.name.FormatName();
             
@@ -186,7 +199,7 @@ namespace IFramework.Editor
                 }
             }
             catch (Exception e) {
-                Log.Error("生成脚本: 编译失败，" + e.Message);
+                Log.Error("生成失败," + e.Message);
                 Clear();
                 EditorUtility.ClearProgressBar();
                 return;
@@ -259,7 +272,6 @@ namespace IFramework.Editor
             // 获取className，如果有组件，则取组件名称，否则取Prefab文件名
             if (bind.NotEmpty()) {
                 className = Configure.UIKit.DefaultNameSpace + "." + bind.ComponentName;
-
                 // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
                 if (bind.BindType != BindType.DefaultElement) {
                     AbstractBind abstractBind = tran.GetComponent<AbstractBind>();
@@ -274,6 +286,9 @@ namespace IFramework.Editor
 
             // 反射类型
             Type t = assembly.GetType(className);
+            if (t == null) {
+                throw new Exception("未找到要绑定的类:"+ className);
+            }
             // 绑定组件
             Component component = tran.GetComponent(t) ?? tran.gameObject.AddComponent(t);
             return component;

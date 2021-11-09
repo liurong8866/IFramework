@@ -36,6 +36,13 @@ namespace IFramework.Editor
         private static void GenerateCode(GameObject obj, bool overwrite)
         {
             if (obj == null) return;
+            
+            IBind bind = obj.GetComponent<IBind>();
+            if (bind != null) {
+                Log.Error("不能在根节点绑定Bind组件，请检查文件是否正确！" + obj.name);
+                return;
+            }
+            
             EditorUtility.DisplayProgressBar("正在生成脚本...", String.Empty, 0);
             Log.Info("生成脚本: 开始");
             RootViewControllerInfo rootControllerInfo = new RootViewControllerInfo {
@@ -140,7 +147,7 @@ namespace IFramework.Editor
                 SetObjectRefToProperty(go, assembly);
             }
             catch (Exception e) {
-                Log.Error(e.Message);
+                Log.Error("生成失败," + e.Message);
                 Clear();
                 EditorUtility.ClearProgressBar();
                 return;
@@ -266,6 +273,9 @@ namespace IFramework.Editor
             }
             // 反射类型
             Type t = assembly.GetType(className);
+            if (t == null) {
+                throw new Exception("未找到要绑定的类:"+ className);
+            }
             // 绑定组件
             Component component = tran.GetComponent(t) ?? tran.gameObject.AddComponent(t);
             return component;

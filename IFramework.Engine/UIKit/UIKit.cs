@@ -276,7 +276,7 @@ namespace IFramework.Engine
         /// <summary>
         /// 内部类 给脚本层用的
         /// </summary>
-        internal static class ScriptUse
+        public static class ScriptUse
         {
             public static UIPanel OpenPanel(string panelName, UILevel level = UILevel.Common, string assetBundleName = null)
             {

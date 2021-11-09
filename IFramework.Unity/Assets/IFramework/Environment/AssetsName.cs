@@ -45,6 +45,10 @@ namespace IFramework.Engine {
             public const string ASSET_BUNDLE_NAME = "pack2";
             public const string ASSETOBJ = "assetobj";
         }
+        public class PanelPrefab {
+            public const string ASSET_BUNDLE_NAME = "panel-prefab";
+            public const string PANEL = "panel";
+        }
         public class SceneUnity {
             public const string ASSET_BUNDLE_NAME = "scene-unity";
             public const string BASICUSAGETEST = "basicusagetest";
