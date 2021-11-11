@@ -69,7 +69,7 @@ namespace IFramework.Engine
         }
 
         /// <summary>
-        /// 初始化Manager自身（异步）
+        /// 初始化Manager自身（同步）
         /// </summary>
         private void InitResourceManager()
         {

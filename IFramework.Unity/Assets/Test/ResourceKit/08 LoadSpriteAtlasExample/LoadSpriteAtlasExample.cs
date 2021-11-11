@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading;
 using IFramework.Engine;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -32,9 +33,12 @@ namespace IFramework.Test.AssetResourceKit
 
         private void Start()
         {
+            
             ResourceLoader loader = ResourceLoader.Allocate();
             SpriteAtlas spriteAtlas = loader.Load<SpriteAtlas>("spriteatlasV");
-
+            mImage.sprite = spriteAtlas.GetSprite("CharCommunity_010");
+            
+            
             // Include in Build 勾选时到逻辑
             //        Sprite square = spriteAtlas.GetSprite("CharCommunity_010");
             //        Log.Info(spriteAtlas.spriteCount);

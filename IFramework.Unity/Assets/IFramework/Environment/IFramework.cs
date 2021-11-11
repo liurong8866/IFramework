@@ -28,8 +28,7 @@ namespace IFramework.Engine
             PlatformEnvironment.Instance.Init(Environment.Instance, new Zip());
 
             // 异步加载初始化 ResourceManager"
-            // ResourceManager.Instance.InitAsync();
-            ResourceManager.Init();
+            ResourceManager.Instance.InitAsync();
             
             // 初始化Bean
             BeanRegister();

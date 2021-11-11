@@ -27,7 +27,7 @@ namespace IFramework.Editor
                         // 如果不包含当前节点的对象名称
                         if (!rootNodeInfo.BindInfoList.Any(bindInfo => bindInfo.Name.Equals(bind.Transform.name))) {
                             rootNodeInfo.BindInfoList.Add(new BindInfo {
-                                Name = bind.Transform.name,
+                                Name = bind.Transform.name.FormatName(),
                                 BindScript = bind,
                                 PathToElement = EditorUtils.PathToParent(child, rootNodeInfo.GameObjectName)
                             });
@@ -42,7 +42,7 @@ namespace IFramework.Editor
                         // 如果不包含当前节点的对象名称
                         if (!parentElementInfo.BindInfoList.Any(bindInfo => bindInfo.Name.Equals(bind.Transform.name))) {
                             parentElementInfo.BindInfoList.Add(new BindInfo {
-                                Name = bind.Transform.name,
+                                Name = bind.Transform.name.FormatName(),
                                 BindScript = bind,
                                 PathToElement = EditorUtils.PathToParent(child, parentElementInfo.GameObjectName)
                             });
