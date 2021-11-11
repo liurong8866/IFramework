@@ -27,16 +27,16 @@ namespace IFramework.Editor
             sb.AppendLine("{");
             sb.AppendLine("\tpublic partial class " + generateInfo.ScriptName);
             sb.AppendLine("\t{");
-            foreach (BindInfo markInfo in elementInfo.BindInfoList) {
-                sb.AppendLine($"\t\t[SerializeField] public {markInfo.BindScript.ComponentName.Replace("UnityEngine.UI.","").Replace("UnityEngine.","")} {markInfo.Name};");
+            foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
+                sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.","").Replace("UnityEngine.","")} {bindInfo.Name};");
             }
             sb.AppendLine();
             sb.AppendLine($"\t\tpublic override string ComponentName => \"{elementInfo.BindInfo.BindScript.ComponentName}\";");
             sb.AppendLine();
             sb.AppendLine("\t\tpublic void OnDisable()");
             sb.AppendLine("\t\t{");
-            foreach (BindInfo markInfo in elementInfo.BindInfoList) {
-                sb.AppendLine($"\t\t\t{markInfo.Name} = null;");
+            foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
+                sb.AppendLine($"\t\t\t{bindInfo.Name} = null;");
             }
             sb.AppendLine("\t\t}");
             sb.AppendLine();

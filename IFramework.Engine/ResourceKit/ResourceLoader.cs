@@ -273,6 +273,8 @@ namespace IFramework.Engine
             // 如果没有缓存资源，则加载
             resource.IfNothing(() => resource = ResourceManager.Instance.GetResource(searcher, true));
 
+            if(resource == null) return;
+            
             // 如果有回调，则注册回到方法
             if (callback != null) {
                 callbackCleanerList.IfNothing(() => callbackCleanerList = new LinkedList<CallbackCleaner>());

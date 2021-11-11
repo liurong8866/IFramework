@@ -40,6 +40,7 @@ namespace IFramework.Editor
             DrawRotation();
             DrawScale();
             DrawTools();
+            // 触发变更Prefab
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -67,6 +68,29 @@ namespace IFramework.Editor
             GUILayout.EndHorizontal();
         }
 
+        void DrawRotation()
+        {
+            // 需要设置最小宽度，与其Position Scale保持一致
+            GUILayout.BeginHorizontal(GUILayout.MinWidth(302f), GUILayout.MaxWidth(float.MaxValue));
+            {
+                EditorGUILayout.LabelField("Rotation", GUILayout.Width(50f));
+                rotationGUI.Draw();
+                bool reset = GUILayout.Button("R", GUILayout.Width(20f));
+                InspectorFieldColor.Instance.Red();
+                bool paste = GUILayout.Button("P", GUILayout.Width(20f));
+                InspectorFieldColor.Instance.Default();
+                if (reset) {
+                    rotationProperty.quaternionValue = Quaternion.identity;
+                    GUI.FocusControl(null);
+                }
+                if (paste) {
+                    PasteRotation();
+                    GUI.FocusControl(null);
+                }
+            }
+            GUILayout.EndHorizontal();
+        }
+
         void DrawScale()
         {
             GUILayout.BeginHorizontal();
@@ -86,29 +110,6 @@ namespace IFramework.Editor
                 }
                 if (paste) {
                     PasteScale();
-                    GUI.FocusControl(null);
-                }
-            }
-            GUILayout.EndHorizontal();
-        }
-
-        void DrawRotation()
-        {
-            // 需要设置最小宽度，与其Position Scale保持一致
-            GUILayout.BeginHorizontal(GUILayout.MinWidth(302f), GUILayout.MaxWidth(float.MaxValue));
-            {
-                EditorGUILayout.LabelField("Rotation", GUILayout.Width(50f));
-                rotationGUI.Draw();
-                bool reset = GUILayout.Button("R", GUILayout.Width(20f));
-                InspectorFieldColor.Instance.Red();
-                bool paste = GUILayout.Button("P", GUILayout.Width(20f));
-                InspectorFieldColor.Instance.Default();
-                if (reset) {
-                    rotationProperty.quaternionValue = Quaternion.identity;
-                    GUI.FocusControl(null);
-                }
-                if (paste) {
-                    PasteRotation();
                     GUI.FocusControl(null);
                 }
             }
