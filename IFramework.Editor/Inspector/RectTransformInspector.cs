@@ -15,7 +15,6 @@ namespace IFramework.Editor
         private RectTransform rectTransform;
         private static GUIStyle styleMove;
         private static GUIStyle stylePivotSetup;
-        private bool autoSetNativeSize;
 
         private float buttonWidth = 56f;
         private float scaleAll = 1;

@@ -34,7 +34,7 @@
 //             }
 //
 //             // 如果当前是Bind类型，并且不包含ViewController，则认为是子节点，向上查找
-//             // if (go.GetComponent<AbstractBind>() && !go.GetComponent<ViewController>()) {
+//             // if (go.GetComponent<Bind>() && !go.GetComponent<ViewController>()) {
 //             //     ViewController parentController = go.GetComponentInParent<ViewController>();
 //             //
 //             //     // 如果找到ViewController，则

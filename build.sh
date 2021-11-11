@@ -45,6 +45,7 @@ fi
 
 framework="IFramework.Unity/Assets/IFramework/"
 environment="${framework}Environment/"
+editor="${framework}Editor/"
 
 if [ ! -d "$framework" ]; then
     echo -e "\033[36m Create Directory IFramework \033[0m"
@@ -55,6 +56,12 @@ if [ ! -d "$environment" ]; then
     echo -e "\033[36m Create Directory environment \033[0m"
     mkdir $environment
 fi
+
+if [ ! -d "$editor" ]; then
+    echo -e "\033[36m Create Directory editor \033[0m"
+    mkdir $editor
+fi
+
 
 echo -e "\033[36m 拷贝 IFramework.Core.dll \033[0m"
 cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.dll "$framework"
@@ -69,9 +76,9 @@ cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
 
 echo '拷贝 IFramework.Editor'
 echo -e "\033[32m 拷贝 IFramework.Editor.dll \033[0m"
-cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$framework"
+cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$editor"
 echo -e "\033[32m 拷贝 IFramework.Editor.pdb \033[0m"
-cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$framework"
+cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$editor"
 
 echo -e "\033[36m 拷贝 Settings/Environment/IFramework.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/IFramework.cs "$environment"

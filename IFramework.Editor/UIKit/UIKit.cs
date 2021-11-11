@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IFramework.Core;
@@ -56,6 +57,7 @@ namespace IFramework.Editor
         private static void AddScript<T>(GameObject go) where T : Component
         {
             go.AddComponentSafe<T>();
+            
             EditorUtility.SetDirty(go);
             EditorSceneManager.MarkSceneDirty(go.scene);
         }

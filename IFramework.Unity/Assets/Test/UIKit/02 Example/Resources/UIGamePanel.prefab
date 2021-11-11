@@ -382,7 +382,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433395319923190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CustomComponentName: backBtn
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1946475442265626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CustomComponentName: gameText

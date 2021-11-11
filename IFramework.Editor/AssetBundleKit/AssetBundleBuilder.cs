@@ -14,7 +14,7 @@ namespace IFramework.Editor
             Log.Clear();
 
             // 打包AssetBundle
-            BuildAssetBundles(Platform.CurrentBuildPlatform);
+            BuildAssetBundles(EditorUtils.CurrentBuildPlatform);
 
             // 自动生成包名常量
             if (Configure.ResourceKit.AutoGenerateName) {

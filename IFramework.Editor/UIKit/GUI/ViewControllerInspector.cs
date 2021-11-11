@@ -7,6 +7,8 @@ namespace IFramework.Editor
     [CustomEditor(typeof(ViewController), true)]
     public class ViewControllerInspector : UnityEditor.Editor
     {
+        // 序列化的字段
+        public SerializedViewController serializedViewController;
         private ViewController controller => target as ViewController;
         private GenerateInfo generateInfo;
 
@@ -32,7 +34,7 @@ namespace IFramework.Editor
             // 生成信息
             generateInfo = new ViewControllerGenerateInfo(controller);
             // 初始化序列化字段
-            controller.SerializedFiled = new ViewController.Serialized(serializedObject);
+            serializedViewController = new SerializedViewController(serializedObject);
         }
 
         public override void OnInspectorGUI()
@@ -48,7 +50,7 @@ namespace IFramework.Editor
             GUILayout.BeginHorizontal();
             // EditorGUILayout.PrefixLabel("命名空间");
             EditorGUILayout.LabelField("命名空间", GUILayout.Width(70));
-            controller.SerializedFiled.Namespace.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.Namespace.stringValue).FormatName();
+            serializedViewController.Namespace.stringValue = EditorGUILayout.TextField(serializedViewController.Namespace.stringValue).FormatName();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -57,7 +59,7 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本名称");
             EditorGUILayout.LabelField("脚本名称", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.ScriptName.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptName.stringValue).FormatName();
+            serializedViewController.ScriptName.stringValue = EditorGUILayout.TextField(serializedViewController.ScriptName.stringValue).FormatName();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -66,11 +68,11 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("脚本路径");
             EditorGUILayout.LabelField("脚本路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.ScriptPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.ScriptPath.stringValue).FormatName();
+            serializedViewController.ScriptPath.stringValue = EditorGUILayout.TextField(serializedViewController.ScriptPath.stringValue).FormatName();
             if (controller.AsScriptSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
-            controller.SerializedFiled.AsScriptSubPath.boolValue = EditorGUILayout.Toggle(controller.SerializedFiled.AsScriptSubPath.boolValue, GUILayout.Width(20));
+            serializedViewController.AsScriptSubPath.boolValue = EditorGUILayout.Toggle(serializedViewController.AsScriptSubPath.boolValue, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             // GUILayout.Space(5);
             // EditorGUILayout.HelpBox("勾选后，脚本名称作为子路径", MessageType.None, false);
@@ -81,11 +83,11 @@ namespace IFramework.Editor
             // EditorGUILayout.PrefixLabel("预设路径");
             EditorGUILayout.LabelField("预设路径", GUILayout.Width(70));
             GUILayout.Label("Assets/", GUILayout.Width(44));
-            controller.SerializedFiled.PrefabPath.stringValue = EditorGUILayout.TextField(controller.SerializedFiled.PrefabPath.stringValue).FormatName();
+            serializedViewController.PrefabPath.stringValue = EditorGUILayout.TextField(serializedViewController.PrefabPath.stringValue).FormatName();
             if (controller.AsPrefabSubPath) {
                 GUILayout.Label($"/{controller.ScriptName}/");
             }
-            controller.SerializedFiled.AsPrefabSubPath.boolValue = EditorGUILayout.Toggle(controller.SerializedFiled.AsPrefabSubPath.boolValue, GUILayout.Width(20));
+            serializedViewController.AsPrefabSubPath.boolValue = EditorGUILayout.Toggle(serializedViewController.AsPrefabSubPath.boolValue, GUILayout.Width(20));
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
             // EditorGUILayout.HelpBox("勾选后，路径将包含脚本名称", MessageType.None, false);
@@ -105,7 +107,7 @@ namespace IFramework.Editor
             EditorGUILayout.PrefixLabel("类注释");
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
-            controller.SerializedFiled.Comment.stringValue = EditorGUILayout.TextArea(controller.SerializedFiled.Comment.stringValue, GUILayout.Height(40));
+            serializedViewController.Comment.stringValue = EditorGUILayout.TextArea(serializedViewController.Comment.stringValue, GUILayout.Height(40));
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
@@ -146,6 +148,31 @@ namespace IFramework.Editor
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+        }
+    }
+
+    /// <summary>
+    /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
+    /// </summary>
+    public class SerializedViewController
+    {
+        public SerializedProperty Namespace;
+        public SerializedProperty ScriptName;
+        public SerializedProperty ScriptPath;
+        public SerializedProperty AsScriptSubPath;
+        public SerializedProperty PrefabPath;
+        public SerializedProperty AsPrefabSubPath;
+        public SerializedProperty Comment;
+
+        public SerializedViewController(SerializedObject serializedObject)
+        {
+            Namespace = serializedObject.FindProperty("Namespace");
+            ScriptName = serializedObject.FindProperty("ScriptName");
+            ScriptPath = serializedObject.FindProperty("ScriptPath");
+            AsScriptSubPath = serializedObject.FindProperty("AsScriptSubPath");
+            PrefabPath = serializedObject.FindProperty("PrefabPath");
+            AsPrefabSubPath = serializedObject.FindProperty("AsPrefabSubPath");
+            Comment = serializedObject.FindProperty("Comment");
         }
     }
 }

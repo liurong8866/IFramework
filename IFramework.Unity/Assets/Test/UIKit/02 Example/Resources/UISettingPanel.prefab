@@ -131,12 +131,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1035515419902178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CustomComponentName: 
+  CustomComponentName: EventBtn
   bindType: 0
-  componentName: 
+  componentName: UnityEngine.UI.Button
   comment: 
 --- !u!1 &1080051574009228
 GameObject:
@@ -269,12 +269,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1080051574009228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CustomComponentName: 
+  CustomComponentName: BackBtn
   bindType: 0
-  componentName: 
+  componentName: UnityEngine.UI.Button
   comment: 
 --- !u!1 &1370634827271596
 GameObject:

@@ -262,7 +262,7 @@ namespace IFramework.Editor
 
                 // 如果不是DefaultElement组件，则先立即销毁组件，接下来会再次添加到
                 if (bind.BindType != BindType.DefaultElement) {
-                    AbstractBind abstractBind = tran.GetComponent<AbstractBind>();
+                    Bind abstractBind = tran.GetComponent<Bind>();
                     if (abstractBind.NotEmpty()) {
                         Object.DestroyImmediate(abstractBind, true);
                     }

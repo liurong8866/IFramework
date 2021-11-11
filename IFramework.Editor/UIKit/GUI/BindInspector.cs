@@ -6,10 +6,15 @@ using UnityEngine;
 
 namespace IFramework.Editor
 {
-    [CustomEditor(typeof(AbstractBind), true)]
+    [CustomEditor(typeof(Bind), true)]
     public class BindInspector : UnityEditor.Editor
     {
-        private AbstractBind bind;
+        /// <summary>
+        /// 序列化的字段
+        /// </summary>
+        public BindSerialized bindSerialized;
+        
+        private Bind bind;
         private GameObject bindBelongsTo;
         private int elementTypeIndex;
         public Bindable<BindType> bindTypeMonitor = new Bindable<BindType>();
@@ -17,14 +22,14 @@ namespace IFramework.Editor
 
         private void OnEnable()
         {
-            bind = target as AbstractBind;
+            bind = target as Bind;
             if (bind != null) {
                 bind.ComponentName.IfNothing(() => bind.ComponentName = bind.name.FormatName());
                 bind.CustomComponentName.IfNothing(() => bind.CustomComponentName = bind.name.FormatName());
-                bind.SerializedFiled = new AbstractBind.Serialized(serializedObject);
+                bindSerialized = new BindSerialized(serializedObject);
                 bindTypeMonitor.OnChange += GetElementTypeOptions;
                 GetElementTypeOptions(0);
-                bindBelongsTo = EditorUtils.GetBindBelongsTo(target as AbstractBind);
+                bindBelongsTo = EditorUtils.GetBindBelongsTo(target as Bind);
             }
         }
 
@@ -34,8 +39,8 @@ namespace IFramework.Editor
                 if (element == BindType.DefaultElement) {
                     Component[] components = bind.GetComponents<Component>();
 
-                    // 排除 AbstractBind 自身
-                    elementTypeOptions = components.Where(c => c != null && !(c is AbstractBind)).Select(c => c.GetType().FullName).ToArray();
+                    // 排除 Bind 自身
+                    elementTypeOptions = components.Where(c => c != null && !(c is Bind)).Select(c => c.GetType().FullName).ToArray();
                     elementTypeIndex = elementTypeOptions.ToList().FindIndex(componentName => componentName.Contains(bind.ComponentName));
                     if (elementTypeIndex == -1 || elementTypeIndex >= elementTypeOptions.Length) {
                         elementTypeIndex = 0;
@@ -110,11 +115,31 @@ namespace IFramework.Editor
             EditorGUILayout.GetControlRect();
 
             // 记忆更新
-            bind.SerializedFiled.BindType.intValue = bind.bindType.ToInt();
-            bind.SerializedFiled.ComponentName.stringValue = bind.ComponentName;
-            bind.SerializedFiled.CustomComponentName.stringValue = bind.CustomComponentName;
-            bind.SerializedFiled.Comment.stringValue = bind.Comment;
+            bindSerialized.BindType.intValue = bind.bindType.ToInt();
+            bindSerialized.ComponentName.stringValue = bind.ComponentName;
+            bindSerialized.CustomComponentName.stringValue = bind.CustomComponentName;
+            bindSerialized.Comment.stringValue = bind.Comment;
             serializedObject.ApplyModifiedProperties();
+        }
+    }
+    
+    
+    /// <summary>
+    /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
+    /// </summary>
+    public class BindSerialized
+    {
+        public SerializedProperty BindType;
+        public SerializedProperty CustomComponentName;
+        public SerializedProperty Comment;
+        public SerializedProperty ComponentName;
+    
+        public BindSerialized(SerializedObject serializedObject)
+        {
+            BindType = serializedObject.FindProperty("bindType");
+            CustomComponentName = serializedObject.FindProperty("CustomComponentName");
+            Comment = serializedObject.FindProperty("comment");
+            ComponentName = serializedObject.FindProperty("componentName");
         }
     }
 }

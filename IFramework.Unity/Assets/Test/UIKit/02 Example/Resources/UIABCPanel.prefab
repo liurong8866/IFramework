@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1446171420741638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -977957907, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CustomComponentName: Button
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 224145281395046404}
   - component: {fileID: 222005706746047272}
   - component: {fileID: 114561854525103696}
-  - component: {fileID: 8389158235888532393}
+  - component: {fileID: 2803193941827025065}
   m_Layer: 5
   m_Name: UIABCPanel
   m_TagString: Untagged
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8389158235888532393
+--- !u!114 &2803193941827025065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +303,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1995586544873324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd1a326d5b16e4a8c9a2f8aaae476047, type: 3}
+  m_Script: {fileID: -1904301815, guid: 70b33dc8ae8e04f2493c2d749ddf0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 114432405086612354}
+  CustomComponentName: UIABCPanel
+  bindType: 0
+  componentName: UnityEngine.UI.Image
+  comment: 

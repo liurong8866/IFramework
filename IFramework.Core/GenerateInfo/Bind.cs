@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Core
+namespace IFramework.Editor
 {
-    public abstract class AbstractBind : MonoBehaviour, IBind
+    [AddComponentMenu("IFramework/Bind")]
+    public class Bind : MonoBehaviour, IBind
     {
         public Transform Transform => transform;
 
@@ -48,31 +50,31 @@ namespace IFramework.Core
         [SerializeField]
         private string comment = "";
 
-        /// <summary>
-        /// 序列化的字段
-        /// </summary>
-        [HideInInspector]
-        public Serialized SerializedFiled;
-
-        /// <summary>
-        /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
-        /// </summary>
-        public class Serialized
-        {
-            public SerializedProperty BindType;
-            public SerializedProperty CustomComponentName;
-            public SerializedProperty Comment;
-            public SerializedProperty ComponentName;
-
-            public Serialized(SerializedObject serializedObject)
-            {
-                BindType = serializedObject.FindProperty("bindType");
-                CustomComponentName = serializedObject.FindProperty("CustomComponentName");
-                Comment = serializedObject.FindProperty("comment");
-                ComponentName = serializedObject.FindProperty("componentName");
-            }
-        }
-
+        // /// <summary>
+        // /// 序列化的字段
+        // /// </summary>
+        // [HideInInspector]
+        // public Serialized SerializedFiled;
+        //
+        // /// <summary>
+        // /// 用于在Inspector自定义面板中更改时触发修改，保存Prefab
+        // /// </summary>
+        // public class Serialized
+        // {
+        //     public SerializedProperty BindType;
+        //     public SerializedProperty CustomComponentName;
+        //     public SerializedProperty Comment;
+        //     public SerializedProperty ComponentName;
+        //
+        //     public Serialized(SerializedObject serializedObject)
+        //     {
+        //         BindType = serializedObject.FindProperty("bindType");
+        //         CustomComponentName = serializedObject.FindProperty("CustomComponentName");
+        //         Comment = serializedObject.FindProperty("comment");
+        //         ComponentName = serializedObject.FindProperty("componentName");
+        //     }
+        // }
+        
         /// <summary>
         /// 取当前物体上绑定的组件
         /// </summary>

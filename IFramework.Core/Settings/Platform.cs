@@ -22,25 +22,6 @@ namespace IFramework.Core
         public static bool IsSimulation => PlatformEnvironment.Instance.IsSimulation;
 
         /// <summary>
-        /// 根据当前配置列表获取打包平台
-        /// </summary>
-        public static BuildTarget CurrentBuildPlatform {
-            get {
-                switch (Configure.CurrentPlatform.Value) {
-                    case 0: return BuildTarget.StandaloneWindows;
-                    case 1: return BuildTarget.StandaloneOSX;
-                    case 2: return BuildTarget.iOS;
-                    case 3: return BuildTarget.Android;
-                    case 4: return BuildTarget.WebGL;
-                    case 5: return BuildTarget.PS4;
-                    case 6: return BuildTarget.PS5;
-                    case 7: return BuildTarget.XboxOne;
-                    default: return BuildTarget.StandaloneWindows;
-                }
-            }
-        }
-
-        /// <summary>
         /// 运行时平台名称
         /// </summary>
         public static string GetPlatformName(RuntimePlatform platform)
