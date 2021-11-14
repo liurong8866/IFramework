@@ -32,7 +32,7 @@ namespace IFramework.Core
         }
 
         /// <summary>
-        /// 注销事件
+        /// 注销某类型的某事件
         /// </summary>
         public void UnRegisterEvent<T>(Action<T> action)
         {
@@ -42,14 +42,29 @@ namespace IFramework.Core
                     // ReSharper disable once DelegateSubtraction
                     reg.actions -= action;
 
-                    // 避免NullException
+                    // 如果该类型已经没有事件，则注销该类型 避免NullException
                     if (reg.actions == null) {
-                        reg.actions = obj => { };
+                        // reg.actions = obj => { };
+                        typeEventDict.Remove(type);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// 注销某类型事件
+        /// </summary>
+        public void UnRegisterEvent<T>()
+        {
+            Type type = typeof(T);
+            if (typeEventDict.TryGetValue(type, out IEventRegister register)) {
+                if (register is EventRegister<T> reg) {
+                    reg.Dispose();
+                }
+            }
+            typeEventDict.Remove(type);
+        }
+        
         /// <summary>
         /// 发送事件
         /// </summary>
@@ -79,7 +94,7 @@ namespace IFramework.Core
         /// <summary>
         /// 清空事件
         /// </summary>
-        public void Clear()
+        public void ClearEvent()
         {
             foreach (KeyValuePair<Type, IEventRegister> keyValue in typeEventDict) {
                 keyValue.Value.Dispose();
@@ -90,7 +105,10 @@ namespace IFramework.Core
         /// <summary>
         /// 回收方法
         /// </summary>
-        public void Dispose() { }
+        public void Dispose()
+        {
+            ClearEvent();
+        }
 
         /*----------------------------*/
         /* 静态方法调用单例方法           */
@@ -100,21 +118,30 @@ namespace IFramework.Core
         private static readonly ITypeEvent typeEvent = new TypeEvent();
 
         /// <summary>
-        /// 注册事件
+        /// 注销某类型的某事件
         /// </summary>
         public static IDisposable Register<T>(Action<T> action)
         {
-            return typeEvent.RegisterEvent(action);
+            return typeEvent.RegisterEvent<T>(action);
         }
 
         /// <summary>
-        /// 注销事件
+        /// 注销某类型事件
         /// </summary>
         public static void UnRegister<T>(Action<T> action)
         {
-            typeEvent.UnRegisterEvent(action);
+            typeEvent.UnRegisterEvent<T>(action);
+        }
+        
+        /// <summary>
+        /// 注销事件
+        /// </summary>
+        public static void UnRegister<T>()
+        {
+            typeEvent.UnRegisterEvent<T>();
         }
 
+        
         /// <summary>
         /// 发送事件
         /// </summary>
@@ -129,6 +156,14 @@ namespace IFramework.Core
         public static void Send<T>(T param)
         {
             typeEvent.SendEvent(param);
+        }
+
+        /// <summary>
+        /// 清空事件
+        /// </summary>
+        public static void Clear()
+        {
+            typeEvent.ClearEvent();
         }
     }
 }

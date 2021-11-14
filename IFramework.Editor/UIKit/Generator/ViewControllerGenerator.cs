@@ -141,7 +141,7 @@ namespace IFramework.Editor
                     return;
                 }
             }
-            Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
+            Assembly assembly = ReflectionUtility.GetAssemblyCSharp();
             try {
                 // 替换脚本
                 SetObjectRefToProperty(go, assembly);

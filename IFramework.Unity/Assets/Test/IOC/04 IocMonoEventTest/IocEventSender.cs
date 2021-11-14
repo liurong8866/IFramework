@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace IFramework.Test.IOC
 {
-    public class IocEventSender : IocMonoBehaviour
+    public class IocEventSender : IocMonoSingleton<IocEventSender>
     {
         private void Start()
         {

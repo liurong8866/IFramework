@@ -7,16 +7,21 @@ namespace IFramework.Test.IOC
     {
         public string Name { get; set; }
     }
-    public class IocMonoEventTest : IocMonoBehaviour
+    public class IocMonoEventTest : IocMonoSingleton<IocMonoEventTest>
     {
         protected override void OnAwake()
         {
             base.OnAwake();
 
+            TypeEvent.Clear();
             // TypeEvent.Register<IocMonoEventTestData>((data) => {
             //     data.Name.LogInfo();
             // });
             RegisterEvent<IocMonoEventTestData>(AA);
+            
+            RegisterEvent<IocMonoEventTestData>(obj => {
+                Log.Info("这里是匿名函数");
+            });
         }
 
         public void AA(IocMonoEventTestData data)
@@ -26,7 +31,8 @@ namespace IFramework.Test.IOC
 
         private void OnDisable()
         {
-            UnRegisterEvent<IocMonoEventTestData>(AA);
+            // UnRegisterEvent<IocMonoEventTestData>();
+            Dispose();
         }
     }
 }

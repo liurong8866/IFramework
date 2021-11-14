@@ -13,10 +13,15 @@ namespace IFramework.Core
         IDisposable RegisterEvent<T>(Action<T> action);
 
         /// <summary>
-        /// 注销事件
+        /// 注销某类型的某事件
         /// </summary>
         void UnRegisterEvent<T>(Action<T> action);
 
+        /// <summary>
+        /// 注销某类型事件
+        /// </summary>
+        void UnRegisterEvent<T>();
+        
         /// <summary>
         /// 发送事件
         /// </summary>
@@ -30,6 +35,6 @@ namespace IFramework.Core
         /// <summary>
         /// 清空事件
         /// </summary>
-        void Clear();
+        void ClearEvent();
     }
 }

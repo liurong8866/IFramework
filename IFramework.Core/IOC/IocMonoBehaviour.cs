@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Security.AccessControl;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -9,6 +11,8 @@ namespace IFramework.Core
     /// </summary>
     public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
+        private List<Type> actions;
+        
         // 通过代理类集成Ioc
         private IContainer container;
 
@@ -17,6 +21,7 @@ namespace IFramework.Core
         /// </summary>
         private void Awake()
         {
+            actions = new List<Type>();
             container = IocContainer.Instance;
             OnAwake();
             container.Inject(this);
@@ -112,23 +117,45 @@ namespace IFramework.Core
         #endregion
         
         #region 代理实现事件
-
-        public IDisposable RegisterEvent<T1>(Action<T1> action)
+        
+        /// <summary>
+        /// 注册事件
+        /// </summary>
+        public IDisposable RegisterEvent<T>(Action<T> action)
         {
+            actions.Add(typeof(T));
             return TypeEvent.Register(action);
         }
 
-        public void UnRegisterEvent<T1>(Action<T1> action)
+        /// <summary>
+        /// 注销某类型的某事件
+        /// </summary>
+        public void UnRegisterEvent<T>(Action<T> action)
         {
             TypeEvent.UnRegister(action);
         }
         
-        public void SendEvent<T1>() where T1 : new()
+        /// <summary>
+        /// 注销某类型事件
+        /// </summary>
+        public void UnRegisterEvent<T>()
         {
-            TypeEvent.Send<T1>();
+            actions.Remove(typeof(T));
+            TypeEvent.UnRegister<T>();
+        }
+        
+        /// <summary>
+        /// 发送事件
+        /// </summary>
+        public void SendEvent<T>() where T : new()
+        {
+            TypeEvent.Send<T>();
         }
 
-        public void SendEvent<T1>(T1 param)
+        /// <summary>
+        /// 发送事件
+        /// </summary>
+        public void SendEvent<T>(T param)
         {
             TypeEvent.Send(param);
         }
@@ -140,7 +167,25 @@ namespace IFramework.Core
         /// </summary>
         public void Dispose()
         {
+            DisposeEvent();
             Destroy(gameObject);
+        }
+
+        private void DisposeEvent()
+        {
+            foreach (Type action in actions) {
+                
+                // 反射调用静态方法
+                ReflectionUtility.Invoke(typeof(TypeEvent), null, null, "UnRegister", new Type[] {action}, new Type[] {}, null);
+                // MethodInfo staticMethod = sampleClassType.GetMethod("UnRegister");
+                // staticMethod.Invoke(null, null); // 静态方法调用不需要类实例，第一个参数为null
+                // // 反射调用非静态方法
+                // MethodInfo nonstaticMethod = sampleClassType.GetMethod("NonstaticMethod");
+                // ConstructorInfo constructor = sampleClassType.GetConstructor(Type.EmptyTypes);
+                // object obj = constructor.Invoke(null); // 构造SampleClass<>的实例
+                // nonstaticMethod.Invoke(obj, null);     // 非静态方法调用需要类实例
+                
+            }
         }
     }
 }

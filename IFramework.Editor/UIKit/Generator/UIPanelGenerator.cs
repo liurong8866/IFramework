@@ -187,7 +187,7 @@ namespace IFramework.Editor
             Log.Info("生成脚本: 正在编译");
 
             // 获取路径
-            Assembly assembly = ReflectionExtension.GetAssemblyCSharp();
+            Assembly assembly = ReflectionUtility.GetAssemblyCSharp();
             string[] paths = pathStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             try {
                 foreach (string path in paths) {
