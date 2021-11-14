@@ -7,7 +7,7 @@ using UnityEditor;
 namespace IFramework.Engine
 {
     [MonoSingleton("UIRoot/Manager")]
-    public class UIManager : ManagerBehaviour<UIManager>
+    public class UIManager : IocMonoSingleton<UIManager>
     {
         protected UIManager() { }
 

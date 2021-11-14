@@ -17,7 +17,7 @@ namespace IFramework.Core
 
         public void Dispose()
         {
-            actions = null;
+            actions = obj => { };
         }
     }
 }

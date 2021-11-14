@@ -13,7 +13,7 @@ namespace IFramework.Engine
 
         public string Comment { get; set; }
 
-        public IManager Manager => UIManager.Instance;
+        // public IManager Manager => UIManager.Instance;
 
         protected abstract void BeforeDestroy();
     }

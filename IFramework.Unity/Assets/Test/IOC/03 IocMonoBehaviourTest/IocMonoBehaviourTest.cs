@@ -17,8 +17,10 @@ namespace IFramework.Test.IOC
 
         protected override void OnAwake()
         {
+            // 这两个已经在Person.cs中全局注册
             // Register<IPerson, Teacher>("Teacher");
             // Register<IPerson, Student>("Student");
+            
             RegisterInstance<IPerson>(new Xiaoxuesheng());
             RegisterInstance<IPerson>(new Xiaoxuesheng(), "Xiaoxuesheng");
             RegisterInstance(new Xiaoxuesheng());

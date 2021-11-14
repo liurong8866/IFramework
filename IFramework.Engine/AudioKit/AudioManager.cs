@@ -8,7 +8,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     [MonoSingleton("[Audio]/AudioManager")]
-    public class AudioManager : ManagerBehaviour<AudioManager>
+    public class AudioManager : IocMonoSingleton<AudioManager>
     {
         // 音效
         private static Dictionary<string, List<AudioPlayer>> soundPlayer= DictionaryPool<string, List<AudioPlayer>>.Allocate();

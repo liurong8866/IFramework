@@ -24,7 +24,7 @@ namespace IFramework.Engine
             }
         }
 
-        public IManager Manager => UIManager.Instance;
+        // public IManager Manager => UIManager.Instance;
 
         public void Init(IData data)
         {

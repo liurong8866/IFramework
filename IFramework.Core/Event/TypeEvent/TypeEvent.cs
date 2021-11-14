@@ -41,6 +41,11 @@ namespace IFramework.Core
                 if (register is EventRegister<T> reg) {
                     // ReSharper disable once DelegateSubtraction
                     reg.actions -= action;
+
+                    // 避免NullException
+                    if (reg.actions == null) {
+                        reg.actions = obj => { };
+                    }
                 }
             }
         }

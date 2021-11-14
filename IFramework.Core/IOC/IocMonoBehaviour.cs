@@ -9,7 +9,7 @@ namespace IFramework.Core
     /// </summary>
     public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
-        // 通过代理类实现Ioc
+        // 通过代理类集成Ioc
         private IContainer container;
 
         /// <summary>
@@ -27,15 +27,7 @@ namespace IFramework.Core
         /// </summary>
         protected virtual void OnAwake() { }
 
-        /// <summary>
-        /// 只销毁对象，不销毁IocContainer
-        /// </summary>
-        public void Dispose()
-        {
-            Destroy(gameObject);
-        }
-
-        #region 代理方法
+        #region 代理方法实现IOC
 
         public void Register<T>(string name = null)
         {
@@ -118,5 +110,37 @@ namespace IFramework.Core
         }
 
         #endregion
+        
+        #region 代理实现事件
+
+        public IDisposable RegisterEvent<T1>(Action<T1> action)
+        {
+            return TypeEvent.Register(action);
+        }
+
+        public void UnRegisterEvent<T1>(Action<T1> action)
+        {
+            TypeEvent.UnRegister(action);
+        }
+        
+        public void SendEvent<T1>() where T1 : new()
+        {
+            TypeEvent.Send<T1>();
+        }
+
+        public void SendEvent<T1>(T1 param)
+        {
+            TypeEvent.Send(param);
+        }
+        
+        #endregion
+        
+        /// <summary>
+        /// 只销毁对象，不销毁IocContainer
+        /// </summary>
+        public void Dispose()
+        {
+            Destroy(gameObject);
+        }
     }
 }
