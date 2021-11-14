@@ -144,6 +144,14 @@ namespace IFramework.Core
             TypeEvent.UnRegister<T>();
         }
         
+        public void UnRegisterAllEvent()
+        {
+            foreach (Type action in actions) {
+                // 反射调用静态方法
+                ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {action});
+            }
+        }
+        
         /// <summary>
         /// 发送事件
         /// </summary>
@@ -161,31 +169,19 @@ namespace IFramework.Core
         }
         
         #endregion
+
+        private void OnDestroy()
+        {
+            UnRegisterAllEvent();
+        }
         
         /// <summary>
         /// 只销毁对象，不销毁IocContainer
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
-            DisposeEvent();
+            UnRegisterAllEvent();
             Destroy(gameObject);
-        }
-
-        private void DisposeEvent()
-        {
-            foreach (Type action in actions) {
-                
-                // 反射调用静态方法
-                ReflectionUtility.Invoke(typeof(TypeEvent), null, null, "UnRegister", new Type[] {action}, new Type[] {}, null);
-                // MethodInfo staticMethod = sampleClassType.GetMethod("UnRegister");
-                // staticMethod.Invoke(null, null); // 静态方法调用不需要类实例，第一个参数为null
-                // // 反射调用非静态方法
-                // MethodInfo nonstaticMethod = sampleClassType.GetMethod("NonstaticMethod");
-                // ConstructorInfo constructor = sampleClassType.GetConstructor(Type.EmptyTypes);
-                // object obj = constructor.Invoke(null); // 构造SampleClass<>的实例
-                // nonstaticMethod.Invoke(obj, null);     // 非静态方法调用需要类实例
-                
-            }
         }
     }
 }

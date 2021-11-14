@@ -1,3 +1,5 @@
+using System;
+
 namespace IFramework.Core
 {
     /// <summary>
@@ -45,12 +47,13 @@ namespace IFramework.Core
             Destroy(instance.gameObject);
             instance = null;
         }
-
+        
         /// <summary>
         /// 释放当前对象
         /// </summary>
-        protected virtual void OnDestroy()
+        private void OnDestroy()
         {
+            base.Dispose();
             instance = null;
         }
 

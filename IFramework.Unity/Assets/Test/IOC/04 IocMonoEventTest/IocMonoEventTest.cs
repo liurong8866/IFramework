@@ -29,10 +29,10 @@ namespace IFramework.Test.IOC
             data.Name.LogInfo();
         }
 
-        private void OnDisable()
-        {
-            // UnRegisterEvent<IocMonoEventTestData>();
-            Dispose();
-        }
+        // private void OnDisable()
+        // {
+        //     // UnRegisterEvent<IocMonoEventTestData>();
+        //     UnRegisterAllEvent();
+        // }
     }
 }
