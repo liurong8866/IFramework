@@ -296,8 +296,9 @@ namespace IFramework.Core
                     bool isMatched = true;
                     // 判断参数匹配
                     for (int i = 0; i < parameterInfos.Length; i++) {
-                        // 如果参数类型不同，则判断不同，退出
-                        if (parameterInfos[i].ParameterType.FullName != methodArgType[i].FullName) {
+                        // 如果参数类型不同，则判断不同，退出。 出现 Action<T> 时，会有 System.Action`1的形式，FullName会有差异
+                        // if (parameterInfos[i].ParameterType.FullName != methodArgType[i].FullName) {
+                        if (parameterInfos[i].ParameterType.Name != methodArgType[i].Name) {
                             isMatched = false;
                             break;
                         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.AccessControl;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace IFramework.Core
@@ -12,7 +13,10 @@ namespace IFramework.Core
     public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
         private List<Type> actions;
+        [ItemCanBeNull]
+        private Dictionary<Type, Delegate> dictionary;
         
+
         // 通过代理类集成Ioc
         private IContainer container;
 
@@ -22,6 +26,7 @@ namespace IFramework.Core
         private void Awake()
         {
             actions = new List<Type>();
+            dictionary = new Dictionary<Type, Delegate>();
             container = IocContainer.Instance;
             OnAwake();
             container.Inject(this);
@@ -123,8 +128,18 @@ namespace IFramework.Core
         /// </summary>
         public IDisposable RegisterEvent<T>(Action<T> action)
         {
-            actions.Add(typeof(T));
-            return TypeEvent.Register(action);
+            Type type = typeof(T);
+            if (dictionary.TryGetValue(type, out Delegate dValue)) {
+                if (dValue is Action<T> actionValue) {
+                    actionValue += action;
+                }
+            }
+            else {
+                dictionary.Add(typeof(T), action);
+            }
+            
+            // actions.Add(typeof(T));
+            return TypeEvent.Register<T>(action);
         }
 
         /// <summary>
@@ -132,6 +147,19 @@ namespace IFramework.Core
         /// </summary>
         public void UnRegisterEvent<T>(Action<T> action)
         {
+            Type type = typeof(T);
+            if (dictionary.TryGetValue(type, out Delegate dValue)) {
+                if (dValue is Action<T> actionValue) {
+                    actionValue -= action;
+                }
+                if (dValue == null) {
+                    dictionary.Remove(type);
+                }
+            }
+            else {
+                dictionary.Add(typeof(T), action);
+            }
+            
             TypeEvent.UnRegister(action);
         }
         
@@ -146,9 +174,13 @@ namespace IFramework.Core
         
         public void UnRegisterAllEvent()
         {
-            foreach (Type action in actions) {
-                // 反射调用静态方法
-                ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {action});
+            // foreach (Type action in actions) {
+            //     // 反射调用静态方法
+            //     ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {action});
+            // }
+
+            foreach (KeyValuePair<Type,Delegate> keyValuePair in dictionary) {
+                ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {keyValuePair.Key}, new Type[] { typeof(Action<>) }, new object[]{keyValuePair.Value});
             }
         }
         
@@ -170,7 +202,7 @@ namespace IFramework.Core
         
         #endregion
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             UnRegisterAllEvent();
         }

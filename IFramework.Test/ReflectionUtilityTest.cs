@@ -119,6 +119,12 @@ namespace IFramework.Test
             
             ReflectionUtility.Invoke(typeof(GenericB), "PrintD", new Type []{typeof(int)}, new object[]{100});
             
+            Action<int> action = i => {
+                int a = 1;
+            };
+            ReflectionUtility.Invoke(typeof(GenericB), "PrintE", new Type []{typeof(int)}, new Type []{typeof(Action<int>)}, new object[] {action});
+
+                    
             // ReflectionUtility.Invoke(typeof(TypeEvent), null, null, "UnRegister", new Type[] {action}, new Type[] {}, null);
             
             // Invoke(Type type, Type[] classT, object[] constructorArgs, string method, Type[] methodT, Type[] methodArgType, object[] methodArgs)
@@ -248,6 +254,11 @@ namespace IFramework.Test
         }
 
         public static void PrintD(int b)
+        {
+            int a = 1;
+        }
+
+        public void PrintE<T>(Action<T> action)
         {
             int a = 1;
         }

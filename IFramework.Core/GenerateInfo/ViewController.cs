@@ -2,7 +2,7 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor
+namespace IFramework.Core
 {
     [AddComponentMenu("IFramework/ViewController")]
     public class ViewController : MonoBehaviour, IBind

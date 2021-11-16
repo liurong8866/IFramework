@@ -1,6 +1,8 @@
+using System;
 using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IFramework.Editor
 {
@@ -21,6 +23,11 @@ namespace IFramework.Editor
             InitController();
         }
 
+        private void Reset()
+        {
+            InitController();
+        }
+        
         private void InitController()
         {
             // 命名空间

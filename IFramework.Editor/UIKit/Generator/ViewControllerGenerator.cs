@@ -37,7 +37,7 @@ namespace IFramework.Editor
         {
             if (obj == null) return;
             
-            IBind bind = obj.GetComponent<IBind>();
+            Bind bind = obj.GetComponent<Bind>();
             if (bind != null) {
                 Log.Error("不能在根节点绑定Bind组件，请检查文件是否正确！" + obj.name);
                 return;

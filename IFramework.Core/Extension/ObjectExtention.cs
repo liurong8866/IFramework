@@ -66,6 +66,16 @@ namespace IFramework.Core
         {
             return Object.Instantiate(self);
         }
+        
+        public static T Instantiate<T>(this T self, Transform transform) where T : Object
+        {
+            return Object.Instantiate(self, transform);
+        }
+        
+        public static T Instantiate<T>(this T self, Vector3 position, Quaternion quaternion) where T : Object
+        {
+            return Object.Instantiate(self, position, quaternion);
+        }
 
         /*----------------------------*/
         /* Invoke                     */

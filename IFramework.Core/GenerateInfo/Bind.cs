@@ -3,7 +3,7 @@ using IFramework.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace IFramework.Editor
+namespace IFramework.Core
 {
     [AddComponentMenu("IFramework/Bind")]
     public class Bind : MonoBehaviour, IBind
