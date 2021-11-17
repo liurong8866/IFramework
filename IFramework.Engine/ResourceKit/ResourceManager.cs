@@ -11,6 +11,8 @@ namespace IFramework.Engine
     {
         // 是否被初始化
         private static bool isInit;
+        private bool isReady;
+        
         // 当前协程数量
         [SerializeField]
         private int currentCoroutineCount;
@@ -23,6 +25,7 @@ namespace IFramework.Engine
         // Resource在ResourceManager中 删除的问题，定时收集列表中的Resource然后删除
         private bool isResourceMapDirty;
 
+        public bool IsReady => isReady;
         /*----------------------------- 初始化Manager 自动加载 -----------------------------*/
 
         public static void Init()
@@ -78,6 +81,7 @@ namespace IFramework.Engine
                 AssetBundleConfig config = new AssetBundleConfig();
                 PlatformEnvironment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
+                isReady = true;
             }
             else {
                 AssetBundleConfig.ConfigFile.Reset();
@@ -96,6 +100,7 @@ namespace IFramework.Engine
                         AssetBundleConfig.ConfigFile.LoadFromFile(file);
                     }
                 }
+                isReady = true;
             }
         }
 
@@ -108,6 +113,7 @@ namespace IFramework.Engine
                 AssetBundleConfig config = new AssetBundleConfig();
                 PlatformEnvironment.Instance.InitAssetBundleConfig(config);
                 AssetBundleConfig.ConfigFile = config;
+                isReady = true;
                 yield return null;
             }
             else {
@@ -130,6 +136,7 @@ namespace IFramework.Engine
                 foreach (string file in configFiles) {
                     yield return AssetBundleConfig.ConfigFile.LoadFromFileAsync(file);
                 }
+                isReady = true;
                 yield return null;
             }
         }

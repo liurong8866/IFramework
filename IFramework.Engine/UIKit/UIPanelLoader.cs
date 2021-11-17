@@ -6,7 +6,7 @@ using UnityEngine;
 namespace IFramework.Engine
 {
     [Serializable]
-    public class UIPanelTesterInfo
+    public class UIPanelLoadInfo
     {
         /// <summary>
         /// 页面的名字
@@ -19,8 +19,8 @@ namespace IFramework.Engine
         public UILevel Level;
     }
 
-    [AddComponentMenu("IFramework/UITester")]
-    public class UIPanelTester : MonoBehaviour
+    [AddComponentMenu("IFramework/UIPanelLoader")]
+    public class UIPanelLoader : MonoBehaviour
     {
         /// <summary>
         /// 页面的名字
@@ -33,7 +33,7 @@ namespace IFramework.Engine
         public UILevel Level;
 
         [SerializeField]
-        private List<UIPanelTesterInfo> otherPanels =  new List<UIPanelTesterInfo>();
+        private List<UIPanelLoadInfo> otherPanels =  new List<UIPanelLoadInfo>();
 
         private IEnumerator Start()
         {

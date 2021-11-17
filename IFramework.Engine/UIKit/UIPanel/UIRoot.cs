@@ -36,7 +36,7 @@ namespace IFramework.Engine
                     Instantiate(Resources.Load<GameObject>("UIRoot"));
                     instance = MonoSingletonProperty<UIRoot>.Instance;
                     instance.name = "UIRoot";
-                    DontDestroyOnLoad(instance);
+                    // DontDestroyOnLoad(instance);
                 }
                 return instance;
             }
