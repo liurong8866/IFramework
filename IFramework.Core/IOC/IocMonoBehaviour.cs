@@ -12,11 +12,8 @@ namespace IFramework.Core
     /// </summary>
     public abstract class IocMonoBehaviour : MonoBehaviour, IContainer
     {
-        private List<Type> actions;
-        [ItemCanBeNull]
         private Dictionary<Type, Delegate> dictionary;
         
-
         // 通过代理类集成Ioc
         private IContainer container;
 
@@ -25,7 +22,6 @@ namespace IFramework.Core
         /// </summary>
         private void Awake()
         {
-            actions = new List<Type>();
             dictionary = new Dictionary<Type, Delegate>();
             container = IocContainer.Instance;
             OnAwake();
@@ -137,8 +133,6 @@ namespace IFramework.Core
             else {
                 dictionary.Add(typeof(T), action);
             }
-            
-            // actions.Add(typeof(T));
             return TypeEvent.Register<T>(action);
         }
 
@@ -168,17 +162,12 @@ namespace IFramework.Core
         /// </summary>
         public void UnRegisterEvent<T>()
         {
-            actions.Remove(typeof(T));
             TypeEvent.UnRegister<T>();
+            dictionary.Remove(typeof(T));
         }
         
         public void UnRegisterAllEvent()
         {
-            // foreach (Type action in actions) {
-            //     // 反射调用静态方法
-            //     ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {action});
-            // }
-
             foreach (KeyValuePair<Type,Delegate> keyValuePair in dictionary) {
                 ReflectionUtility.Invoke(typeof(TypeEvent), "UnRegister", new Type[] {keyValuePair.Key}, new Type[] { typeof(Action<>) }, new object[]{keyValuePair.Value});
             }

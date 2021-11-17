@@ -93,8 +93,8 @@ namespace IFramework.Editor
                     Log.Error("生成脚本：实例化对象失败：" + objectName);
                     return;
                 }
-                ;
             }
+            
             RootPanelInfo rootPanelInfo = new RootPanelInfo {
                 GameObjectName = instance.name.FormatName().Replace("(clone)", string.Empty)
             };
