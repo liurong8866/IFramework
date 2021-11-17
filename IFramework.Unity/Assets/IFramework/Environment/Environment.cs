@@ -89,6 +89,17 @@ namespace IFramework.Engine
             #endif
             }
         }
+        
+        // public static readonly string PathURL =
+        //             #if UNITY_ANDROID
+        //     "jar:file://" + Application.dataPath + "!/assets/";
+        //             #elif UNITY_IPHONE
+        //     Application.dataPath + "/Raw/";
+        //             #elif UNITY_STANDALONE_WIN || UNITY_EDITOR
+        //                 "file://" + Application.dataPath + "/StreamingAssets/";
+        //     #else
+        //     string.Empty;
+        //     #endif
 
         /// <summary>
         /// 根据资源名、包名获取的所有路径

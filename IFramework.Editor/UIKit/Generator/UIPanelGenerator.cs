@@ -119,7 +119,6 @@ namespace IFramework.Editor
         /// </summary>
         public static void GenerateUIPanelCode(GameObject obj, string prefabPath, RootPanelInfo rootPanelInfo, bool overwrite)
         {
-            
             string objectName = obj.name.FormatName();
 
             // 根据Prefab路径获取Script生成路径

@@ -31,12 +31,14 @@ namespace IFramework.Engine
             AssetBundleResource resource = ResourceManager.Instance.GetResource<AssetBundleResource>(searcher);
             if (resource == null || resource.AssetBundle == null) {
                 if (Platform.IsSimulation) {
-                    Log.Warning("AssetBundle资源加载失败，模拟模式不支持动态加载场景: " + resource);
+                    Log.Warning("模拟模式不支持动态加载场景，请在Build Settings 中加入需要加载的场景，记得正式打包时清除Build Settings。");
+                    State = ResourceState.Ready;
+                    return true;
                 }
                 else {
                     Log.Error("AssetBundle资源加载失败: " + resource);
+                    return false;
                 }
-                return false;
             }
             State = ResourceState.Ready;
             return true;
