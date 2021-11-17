@@ -51,9 +51,9 @@ namespace IFramework.Core
         /// <summary>
         /// 释放当前对象
         /// </summary>
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            base.Dispose();
+            base.OnDestroy();
             instance = null;
         }
 

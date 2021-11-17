@@ -161,6 +161,38 @@ namespace IFramework.Engine
         /// <summary>
         /// 异步加载资源
         /// </summary>
+        public void LoadAsync(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        {
+            AddToLoad(assetName, callback, last).LoadAsync();
+        }
+
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        public void LoadAsync<T>(string assetName, Action<bool, IResource> callback = null, bool last = true)
+        {
+            AddToLoad<T>(assetName, callback, last).LoadAsync();
+        }
+        
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        public void LoadAsync(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        {
+            AddToLoad(assetName, bundleName, callback, last).LoadAsync();
+        }
+        
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        public void LoadAsync<T>(string assetName, string bundleName, Action<bool, IResource> callback = null, bool last = true)
+        {
+            AddToLoad<T>(assetName, bundleName, callback, last).LoadAsync();
+        }
+        
+        /// <summary>
+        /// 异步加载资源，与AddToLoad配合使用
+        /// </summary>
         public void LoadAsync(Action callback = null)
         {
             currentCallback = callback;
@@ -238,7 +270,7 @@ namespace IFramework.Engine
             AddToLoad(searcher, callback, last);
             return this;
         }
-
+        
         /// <summary>
         /// 添加资源到任务列表
         /// </summary>
