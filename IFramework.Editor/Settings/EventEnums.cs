@@ -1,6 +1,6 @@
 using IFramework.Core;
 
-namespace IFramework.Editor.Settings
+namespace IFramework.Editor
 {
     public enum EventEnums
     {

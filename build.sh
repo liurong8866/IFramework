@@ -43,7 +43,13 @@ if [ ${buildResult} != 0 ]; then
     exit
 fi
 
-framework="IFramework.Unity/Assets/IFramework/"
+
+if [ "$1" = "sword" ]; then
+    framework="/Volumes/Gamespace/Workspace/Sword/Assets/IFramework/"
+else 
+    framework="IFramework.Unity/Assets/IFramework/"
+fi
+
 environment="${framework}Environment/"
 editor="${framework}Editor/"
 
@@ -68,18 +74,19 @@ cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.dll "$framework"
 echo -e "\033[36m 拷贝 IFramework.Core.pdb \033[0m"
 cp -f IFramework.Core/obj/Debug/net48/IFramework.Core.pdb "$framework"
 
-echo '拷贝 IFramework.Engine'
+echo '拷贝 IFramework.Engine -> ' "$framework" 
 echo -e "\033[32m 拷贝 IFramework.Engine.dll \033[0m"
 cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.dll "$framework"
 echo -e "\033[32m 拷贝 IFramework.Engine.pdb \033[0m"
 cp -f IFramework.Engine/obj/Debug/net48/IFramework.Engine.pdb "$framework"
 
-echo '拷贝 IFramework.Editor'
+echo '拷贝 IFramework.Editor -> ' "$editor" 
 echo -e "\033[32m 拷贝 IFramework.Editor.dll \033[0m"
 cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.dll "$editor"
 echo -e "\033[32m 拷贝 IFramework.Editor.pdb \033[0m"
 cp -f IFramework.Editor/obj/Debug/net48/IFramework.Editor.pdb "$editor"
 
+echo '拷贝 Environment 文件 -> ' "$environment" 
 echo -e "\033[36m 拷贝 Settings/Environment/IFramework.cs \033[0m"
 cp -f IFramework.Core/bin/Debug/net48/Environment/IFramework.cs "$environment"
 

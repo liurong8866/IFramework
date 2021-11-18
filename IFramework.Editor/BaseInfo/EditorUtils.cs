@@ -55,7 +55,7 @@ namespace IFramework.Editor
             List<string> pathList = new List<string>();
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.Assets)) {
                 string path = AssetDatabase.GetAssetPath(obj);
-                if (path.NotEmpty() && FileUtils.Exists(path)) {
+                if (path.NotEmpty()) {
                     pathList.Add(path);
                 }
             }

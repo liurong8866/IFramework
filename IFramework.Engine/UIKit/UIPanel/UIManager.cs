@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace IFramework.Engine
 {
-    [MonoSingleton("UIRoot/Manager")]
+    [MonoSingleton("[IFramework]/UIManager")]
     public class UIManager : IocMonoSingleton<UIManager>
     {
         protected UIManager() { }

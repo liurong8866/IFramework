@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 namespace IFramework.Engine
 {
-    [MonoSingleton("UIRoot")]
+    [MonoSingleton("[IFramework]/UIRoot")]
     public class UIRoot : MonoSingleton<UIRoot>
     {
         public Camera UICamera;
         public Canvas Canvas;
-        public UnityEngine.UI.CanvasScaler CanvasScaler;
+        public CanvasScaler CanvasScaler;
         public GraphicRaycaster GraphicRaycaster;
 
         // 面板对象
@@ -18,6 +18,7 @@ namespace IFramework.Engine
         public RectTransform Common;
         public RectTransform Popup;
         public RectTransform CanvasPanel;
+        public bool dontDestroy = true;
 
         private new static UIRoot instance;
 
@@ -36,7 +37,7 @@ namespace IFramework.Engine
                     Instantiate(Resources.Load<GameObject>("UIRoot"));
                     instance = MonoSingletonProperty<UIRoot>.Instance;
                     instance.name = "UIRoot";
-                    // DontDestroyOnLoad(instance);
+                    if(instance.dontDestroy) DontDestroyOnLoad(instance);
                 }
                 return instance;
             }

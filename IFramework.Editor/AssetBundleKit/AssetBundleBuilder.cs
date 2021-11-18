@@ -30,9 +30,11 @@ namespace IFramework.Editor
         {
             string platformName = PlatformEnvironment.Instance.GetPlatformName((int)buildTarget);
             Log.Info("开始打包: [{0}]: 开始", platformName);
+            // 清除无效标记
             AssetDatabase.RemoveUnusedAssetBundleNames();
             AssetDatabase.Refresh();
-
+            KeyEvent.Send(EventEnums.AssetBundleMark);
+            
             // 默认包
             AssetBundlePackage defaultPackage = new AssetBundlePackage();
 
@@ -70,7 +72,7 @@ namespace IFramework.Editor
             DirectoryUtils.Create(outputPath);
 
             // 打包 - 默认包
-            BuildPipeline.BuildAssetBundles(outputPath, package.packages.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+            BuildPipeline.BuildAssetBundles(outputPath, package.packages.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, buildTarget);
 
             // streamingAssets 路径
             string streamPath = DirectoryUtils.CombinePath(Application.streamingAssetsPath, outputPath);

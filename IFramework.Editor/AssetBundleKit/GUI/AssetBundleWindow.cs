@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IFramework.Core;
-using IFramework.Editor.Settings;
 using UnityEditor;
 using UnityEngine;
 

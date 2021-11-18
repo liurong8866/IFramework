@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace IFramework.Engine
 {
-    [MonoSingleton("[Framework]/ResourceManager")]
+    [MonoSingleton("[IFramework]/ResourceManager")]
     public sealed class ResourceManager : MonoSingleton<ResourceManager>
     {
         // 是否被初始化
