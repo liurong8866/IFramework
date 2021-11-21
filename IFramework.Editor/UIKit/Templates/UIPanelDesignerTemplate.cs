@@ -45,16 +45,15 @@ namespace IFramework.Editor
             sb.AppendLine($"\t\tpublic const string Name = \"{generateInfo.ScriptName}\";");
             sb.AppendLine();
             sb.AppendLine($"\t\tprivate {generateInfo.ScriptName}Data panelData = null;");
-            sb.AppendLine();
+            
             foreach (BindInfo bindInfo in elementInfo.BindInfoList) {
+                sb.AppendLine();
                 if (bindInfo.BindScript.Comment.NotEmpty()) {
                     sb.AppendLine("\t\t// " + bindInfo.BindScript.Comment);
                 }
                 sb.AppendLine($"\t\t[SerializeField] public {bindInfo.BindScript.ComponentName.Replace("UnityEngine.UI.", "").Replace("UnityEngine.", "")} {bindInfo.Name};");
-                if (bindInfo.BindScript.Comment.NotEmpty()) {
-                    sb.AppendLine();
-                }
             }
+            sb.AppendLine();
             sb.AppendLine($"\t\tprotected override void OnInitData(IData data)");
             sb.AppendLine("\t\t{");
             sb.AppendLine($"\t\t\tData = data as {generateInfo.ScriptName}Data ?? new {generateInfo.ScriptName}Data();");
